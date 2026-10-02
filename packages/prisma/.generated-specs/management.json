@@ -18,6 +18,128 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.prisma#GetAgentApprovalRequest": {
+      "type": "structure",
+      "members": {
+        "approvalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.prisma#GetAgentApprovalResponseStatus": {
+      "type": "enum",
+      "members": {
+        "PENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "pending"
+          }
+        },
+        "APPROVED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved"
+          }
+        },
+        "APPROVED_WINDOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "approved_window"
+          }
+        },
+        "DENIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "denied"
+          }
+        },
+        "EXPIRED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "expired"
+          }
+        },
+        "CONSUMED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "consumed"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.prisma#GetAgentApprovalResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.prisma#GetAgentApprovalResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "expiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "windowExpiresAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "decidedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "hint": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.prisma#GetAgentApproval": {
+      "type": "operation",
+      "input": {
+        "target": "com.prisma#GetAgentApprovalRequest"
+      },
+      "output": {
+        "target": "com.prisma#GetAgentApprovalResponse"
+      },
+      "errors": [
+        {
+          "target": "com.prisma#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1/agent-approvals/{approvalId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Poll an approval\n\nReports where an approval stands, so an agent holding an approval_required response can wait for the sponsor's decision and retry. Only the agent the approval belongs to can read it."
+      }
+    },
     "com.prisma#GetServicesRequest": {
       "type": "structure",
       "members": {
@@ -37,6 +159,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "projectId"
+          }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "logicalId"
           }
         },
         "branchId": {
@@ -137,6 +265,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
           }
         }
       },
@@ -289,6 +424,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+          }
         }
       },
       "traits": {
@@ -377,6 +518,13 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -423,7 +571,7 @@
           "uri": "/v1/services",
           "code": 200
         },
-        "smithy.api#documentation": "Create service\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nCreates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` with the existing service's id, name, and branch if a service with the same name already exists on the resolved branch."
+        "smithy.api#documentation": "Create service\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nCreates a new service under the specified project. The `projectId` is required in the request body. The service is placed in the given region, or the project's default region if omitted (falling back to us-east-1). Returns `409 Conflict` when a service already occupies the slot on the resolved branch, either by name or by `logicalId`; the body includes the existing service's id, name, branch, and logical id, and `conflict` says which attribute clashed. The name is checked first. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead."
       }
     },
     "com.prisma#GetServiceRequest": {
@@ -523,6 +671,13 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -578,6 +733,12 @@
         },
         "displayName": {
           "target": "smithy.api#String"
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+          }
         },
         "branchId": {
           "target": "smithy.api#String",
@@ -678,6 +839,13 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -712,6 +880,9 @@
           "target": "com.prisma#NotFound"
         },
         {
+          "target": "com.prisma#Conflict"
+        },
+        {
           "target": "com.prisma#UnprocessableEntity"
         }
       ],
@@ -721,7 +892,7 @@
           "uri": "/v1/services/{serviceId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update service\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nUpdates the display name of a service."
+        "smithy.api#documentation": "Update service\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nUpdates the display name, logical id, or branch of a service. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the service first, then set its `logicalId`."
       }
     },
     "com.prisma#DeleteServiceRequest": {
@@ -2541,6 +2712,12 @@
             "smithy.api#httpQuery": "projectId"
           }
         },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "logicalId"
+          }
+        },
         "branchId": {
           "target": "smithy.api#String",
           "traits": {
@@ -2634,6 +2811,13 @@
           }
         },
         "branchId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
@@ -2735,6 +2919,12 @@
           "traits": {
             "smithy.api#documentation": "Git name of the branch to associate the bucket with. Mutually exclusive with branchId."
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+          }
         }
       },
       "traits": {
@@ -2822,6 +3012,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -2857,6 +3054,9 @@
         },
         {
           "target": "com.prisma#NotFound"
+        },
+        {
+          "target": "com.prisma#Conflict"
         }
       ],
       "traits": {
@@ -2964,6 +3164,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -3002,6 +3209,179 @@
           "code": 200
         },
         "smithy.api#documentation": "Get bucket\n\nReturns the bucket with the given ID."
+      }
+    },
+    "com.prisma#UpdateBucketRequest": {
+      "type": "structure",
+      "members": {
+        "bucketId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "New display name for the bucket. A label only: the provider bucket name does not change."
+          }
+        },
+        "branchId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the branch to move the bucket to. Mutually exclusive with branchGitName."
+          }
+        },
+        "branchGitName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Git name of the branch to move the bucket to; the branch is created when it does not exist. Mutually exclusive with branchId."
+          }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.prisma#UpdateBucketResponseDataProject": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.prisma#UpdateBucketResponseData": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "providerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "project": {
+          "target": "com.prisma#UpdateBucketResponseDataProject",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "branchId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.prisma#UpdateBucketResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.prisma#UpdateBucketResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.prisma#UpdateBucket": {
+      "type": "operation",
+      "input": {
+        "target": "com.prisma#UpdateBucketRequest"
+      },
+      "output": {
+        "target": "com.prisma#UpdateBucketResponse"
+      },
+      "errors": [
+        {
+          "target": "com.prisma#NotFound"
+        },
+        {
+          "target": "com.prisma#Conflict"
+        },
+        {
+          "target": "com.prisma#UnprocessableEntity"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1/buckets/{bucketId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update bucket\n\nUpdates the display name, logical id, or branch of the bucket with the given ID. The display name is a label only: the provider bucket name, the objects, and the access keys do not change. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the bucket first, then set its `logicalId`."
       }
     },
     "com.prisma#DeleteBucketRequest": {
@@ -4633,25 +5013,25 @@
         "projectId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Project the build targets. Fill-only: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed."
+            "smithy.api#documentation": "Project the build targets. Can be set once and never changed: a reporter that learns the project partway through a deploy may set it, but a value already recorded cannot be changed."
           }
         },
         "branchId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Branch the build targets. Fill-only, like `projectId`."
+            "smithy.api#documentation": "Branch the build targets. Can be set once and never changed, like `projectId`."
           }
         },
         "deployedUrl": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Where the deployed app can be reached. Fill-only, like the anchors."
+            "smithy.api#documentation": "Where the deployed app can be reached. Can be set once and never changed, like `projectId`."
           }
         },
         "applicationTopologyContentHash": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Fill-only, like the anchors."
+            "smithy.api#documentation": "Content hash of the application topology this run deploys, as submitted to the application-topology endpoint. A value match, never a reference: equal hashes identify the same graph. Can be set once and never changed, like `projectId`."
           }
         }
       },
@@ -4914,7 +5294,7 @@
           "uri": "/v1/builds/{buildId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update a build\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nRecords progress on a build. Any holder of the workspace token may patch any field — the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock.\n\n`projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` are fill-only: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. An anchor must belong to the caller's workspace and agree with the anchors the build already carries, so a branch from another project is refused."
+        "smithy.api#documentation": "Update a build\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nRecords progress on a build. Any holder of the workspace token may patch any field — the webhook, the CI run and Composer each report the part of a deploy they can see, and the token is the boundary. Reaching `running` stamps `startedAt` and reaching a terminal state stamps `finishedAt`, both only if unset, so re-reporting the same state does not move the clock. Once a build has finished, its state no longer changes: a later report updates the other fields and leaves the state as the finishing report set it.\n\n`projectId`, `branchId`, `deployedUrl` and `applicationTopologyContentHash` can each be set once and never changed: a reporter that resolves them partway through a deploy sets them here, but a value already recorded cannot be changed and the attempt is a conflict. Sending the value already recorded is accepted and changes nothing. `projectId` and `branchId` must belong to the caller's workspace, and a branch must belong to the build's project, so a branch from another project is refused."
       }
     },
     "com.prisma#PutBuildResourceRequestResourceType": {
@@ -6910,6 +7290,12 @@
             "smithy.api#httpQuery": "projectId"
           }
         },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "logicalId"
+          }
+        },
         "branchId": {
           "target": "smithy.api#String",
           "traits": {
@@ -7358,6 +7744,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -7479,7 +7872,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Region for the database. Use \"inherit\" to use the project default database region."
+        "smithy.api#documentation": "Use \"inherit\" to use the project's default region (falls back to the default database's region for projects without one)."
       }
     },
     "com.prisma#CreateDatabaseRequestSourceCase0": {
@@ -7569,7 +7962,7 @@
         "region": {
           "target": "com.prisma#CreateDatabaseRequestRegion",
           "traits": {
-            "smithy.api#documentation": "Region for the database. Use \"inherit\" to use the project default database region."
+            "smithy.api#documentation": "Use \"inherit\" to use the project's default region (falls back to the default database's region for projects without one)."
           }
         },
         "name": {
@@ -7602,6 +7995,12 @@
           "traits": {
             "smithy.api#documentation": "Git name of the Branch to attach the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Omit to attach to the project's default Branch. Every database belongs to a Branch, so null is rejected.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
           }
         }
       },
@@ -8058,6 +8457,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -8107,7 +8513,7 @@
           "uri": "/v1/databases",
           "code": 200
         },
-        "smithy.api#documentation": "Create database\n\nCreates a new database in the specified project."
+        "smithy.api#documentation": "Create database\n\nCreates a new database in the specified project. `logicalId` cannot be combined with `branchGitName`; pass `branchId` instead."
       }
     },
     "com.prisma#GetDatabaseRequest": {
@@ -8556,6 +8962,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -8630,6 +9043,12 @@
           "traits": {
             "smithy.api#documentation": "Git name of the Branch to move the database to; the Branch is created when it does not exist. Mutually exclusive with branchId. Every database belongs to a Branch, so null (detach) is rejected.",
             "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Declared identity of the resource, unique within its branch. Set by the tool that declares the resource."
           }
         }
       },
@@ -9068,6 +9487,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -9102,6 +9528,9 @@
           "target": "com.prisma#NotFound"
         },
         {
+          "target": "com.prisma#Conflict"
+        },
+        {
           "target": "com.prisma#UnprocessableEntity"
         }
       ],
@@ -9111,7 +9540,7 @@
           "uri": "/v1/databases/{databaseId}",
           "code": 200
         },
-        "smithy.api#documentation": "Update database\n\nUpdates the database with the given ID."
+        "smithy.api#documentation": "Update database\n\nUpdates the database with the given ID. `logicalId` cannot be combined with `branchId` or `branchGitName` in one request; move the database first, then set its `logicalId`."
       }
     },
     "com.prisma#DeleteDatabaseRequest": {
@@ -9806,9 +10235,7 @@
           }
         }
       },
-      "traits": {
-        "smithy.api#documentation": "Type of backup"
-      }
+      "traits": {}
     },
     "com.prisma#GetDatabaseBackupsResponseDataItemStatus": {
       "type": "enum",
@@ -9838,9 +10265,7 @@
           }
         }
       },
-      "traits": {
-        "smithy.api#documentation": "Status of backup instance"
-      }
+      "traits": {}
     },
     "com.prisma#GetDatabaseBackupsResponseDataItem": {
       "type": "structure",
@@ -9848,34 +10273,27 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The unique identifier for this backup",
             "smithy.api#required": {}
           }
         },
         "backupType": {
           "target": "com.prisma#GetDatabaseBackupsResponseDataItemBackupType",
           "traits": {
-            "smithy.api#documentation": "Type of backup",
             "smithy.api#required": {}
           }
         },
         "createdAt": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Timestamp when the backup was created",
             "smithy.api#required": {}
           }
         },
         "size": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#documentation": "Total file size (in MiB) of gzipped backup files"
-          }
+          "target": "smithy.api#Double"
         },
         "status": {
           "target": "com.prisma#GetDatabaseBackupsResponseDataItemStatus",
           "traits": {
-            "smithy.api#documentation": "Status of backup instance",
             "smithy.api#required": {}
           }
         },
@@ -10400,6 +10818,13 @@
           }
         },
         "branchId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
@@ -11201,6 +11626,9 @@
         },
         "logicalId": {
           "target": "smithy.api#String"
+        },
+        "workspaceId": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -11843,6 +12271,13 @@
           }
         },
         "branchId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
@@ -14813,6 +15248,13 @@
             "smithy.api#required": {},
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "logicalId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -14936,7 +15378,9 @@
           }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#documentation": "Use \"inherit\" to use the project's default region (falls back to the default database's region for projects without one)."
+      }
     },
     "com.prisma#CreateProjectDatabaseRequestFromDatabase": {
       "type": "structure",
@@ -14948,10 +15392,7 @@
           }
         },
         "backupId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The unique identifier for this backup"
-          }
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -15041,7 +15482,10 @@
           }
         },
         "region": {
-          "target": "com.prisma#CreateProjectDatabaseRequestRegion"
+          "target": "com.prisma#CreateProjectDatabaseRequestRegion",
+          "traits": {
+            "smithy.api#documentation": "Use \"inherit\" to use the project's default region (falls back to the default database's region for projects without one)."
+          }
         },
         "name": {
           "target": "smithy.api#String"
@@ -15705,6 +16149,13 @@
           }
         },
         "branchId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "logicalId": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {},
@@ -16959,35 +17410,11 @@
       },
       "traits": {}
     },
-    "com.prisma#GetMeResponseDataCredentialType": {
-      "type": "enum",
-      "members": {
-        "OAUTH": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "oauth"
-          }
-        },
-        "SERVICE_TOKEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "service_token"
-          }
-        },
-        "MANAGEMENT_TOKEN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "management_token"
-          }
-        }
-      },
-      "traits": {}
-    },
     "com.prisma#GetMeResponseDataCredential": {
       "type": "structure",
       "members": {
         "type": {
-          "target": "com.prisma#GetMeResponseDataCredentialType",
+          "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
           }
@@ -17998,6 +18425,12 @@
             "smithy.api#httpQuery": "workspaceId",
             "smithy.api#required": {}
           }
+        },
+        "repository": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "repository"
+          }
         }
       },
       "traits": {
@@ -18150,6 +18583,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "hint": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -18199,6 +18635,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "repository": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -18243,6 +18682,15 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "alreadyLinked": {
+          "target": "smithy.api#Boolean"
+        },
+        "accountLogin": {
+          "target": "smithy.api#String"
+        },
+        "hint": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {}
@@ -18286,7 +18734,7 @@
           "uri": "/v1/scm-installations/install-intents",
           "code": 200
         },
-        "smithy.api#documentation": "Create an SCM App installation intent\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nCreates an installation intent for the given workspace and returns a provider-specific URL that the user opens to install the SCM app. Currently only `github` is supported."
+        "smithy.api#documentation": "Create an SCM App installation intent\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nCreates an installation intent for the given workspace. If an existing installation can be proven to belong to the caller it is linked immediately (`alreadyLinked`); otherwise the response carries a URL the user opens to install the SCM app. Pass `repository` (owner/name) so an installation that already covers it but cannot be linked automatically is detected and explained in `hint`. Currently only `github` is supported."
       }
     },
     "com.prisma#GetScmInstallationRepositoriesRequest": {
@@ -18788,6 +19236,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "hint": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -18962,6 +19413,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "hint": {
+          "target": "smithy.api#String"
         }
       },
       "traits": {
@@ -19148,6 +19602,89 @@
         "smithy.api#documentation": "Get list of workspaces\n\nReturns the list of workspaces the current token can access."
       }
     },
+    "com.prisma#CreateWorkspaceRequest": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.prisma#CreateWorkspaceResponseData": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.prisma#CreateWorkspaceResponse": {
+      "type": "structure",
+      "members": {
+        "data": {
+          "target": "com.prisma#CreateWorkspaceResponseData",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.prisma#CreateWorkspace": {
+      "type": "operation",
+      "input": {
+        "target": "com.prisma#CreateWorkspaceRequest"
+      },
+      "output": {
+        "target": "com.prisma#CreateWorkspaceResponse"
+      },
+      "errors": [
+        {
+          "target": "com.prisma#Forbidden"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1/workspaces",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a workspace\n\n⚠️ Experimental endpoint: this API is in active development and may change at any time without notice. ⚠️\n\nCreates a new free-plan workspace owned by the authenticated user. For agent tokens the workspace is created for the agent's sponsor, and the agent's permission policy treats this as an admin action — under the default policy the sponsor approves it first."
+      }
+    },
     "com.prisma#GetWorkspaceRequest": {
       "type": "structure",
       "members": {
@@ -19313,19 +19850,6 @@
         "smithy.api#documentation": "Get workspace subscription\n\nReturns subscription information for the workspace with the given ID."
       }
     },
-    "com.prisma#Forbidden": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 403,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 403
-          }
-        ]
-      }
-    },
     "com.prisma#NotFound": {
       "type": "structure",
       "members": {},
@@ -19335,6 +19859,19 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 404
+          }
+        ]
+      }
+    },
+    "com.prisma#Forbidden": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
           }
         ]
       }
@@ -19382,6 +19919,9 @@
       "type": "service",
       "version": "v1",
       "operations": [
+        {
+          "target": "com.prisma#GetAgentApproval"
+        },
         {
           "target": "com.prisma#GetServices"
         },
@@ -19438,6 +19978,9 @@
         },
         {
           "target": "com.prisma#GetBucket"
+        },
+        {
+          "target": "com.prisma#UpdateBucket"
         },
         {
           "target": "com.prisma#DeleteBucket"
@@ -19687,6 +20230,9 @@
         },
         {
           "target": "com.prisma#GetWorkspaces"
+        },
+        {
+          "target": "com.prisma#CreateWorkspace"
         },
         {
           "target": "com.prisma#GetWorkspace"
