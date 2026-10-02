@@ -313,6 +313,34 @@ export class PrincipalNotFound extends Schema.TaggedError<PrincipalNotFound>()(
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned when a role definition does not exist at the scope.
+ * Azure error code: `RoleDefinitionDoesNotExist`
+ */
+export class RoleDefinitionNotFound extends Schema.TaggedError<RoleDefinitionNotFound>()(
+  "RoleDefinitionNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when a built-in or custom role with the same `roleName` already
+ * exists in the directory (role names are tenant-unique).
+ * Azure error code: `RoleDefinitionWithSameNameExists`
+ */
+export class RoleDefinitionWithSameNameExists extends Schema.TaggedError<RoleDefinitionWithSameNameExists>()(
+  "RoleDefinitionWithSameNameExists",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned when deleting a custom role that still has role assignments.
+ * Azure error code: `RoleDefinitionHasAssignments`
+ */
+export class RoleDefinitionHasAssignments extends Schema.TaggedError<RoleDefinitionHasAssignments>()(
+  "RoleDefinitionHasAssignments",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned when a blob container does not exist.
  * Azure error code: `ContainerNotFound`
  */
@@ -532,6 +560,117 @@ export class EventHubApplicationGroupNotSupported extends Schema.TaggedError<Eve
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
+/**
+ * Returned by Microsoft.Automation when the subscription already holds its
+ * one Automation account in the region — free-trial subscriptions allow one
+ * per region and count soft-deleted accounts for 30 days. HTTP 400
+ * `BadRequest` "Only one account is allowed for your subscription per
+ * Region" (matched by message).
+ */
+export class AutomationAccountRegionLimit extends Schema.TaggedError<AutomationAccountRegionLimit>()(
+  "AutomationAccountRegionLimit",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Automation when a free-trial or student subscription
+ * creates an account outside the allowed regions. HTTP 400 `BadRequest`
+ * "Free Trial and Student subscriptions cannot create accounts in this
+ * location" (matched by message).
+ */
+export class AutomationLocationNotAllowed extends Schema.TaggedError<AutomationLocationNotAllowed>()(
+  "AutomationLocationNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.ContainerRegistry when ACR Tasks are disabled for
+ * the subscription (free-trial / free-credit subscriptions). Azure error
+ * code: `TasksOperationsNotAllowed` (HTTP 400).
+ */
+export class TasksOperationsNotAllowed extends Schema.TaggedError<TasksOperationsNotAllowed>()(
+  "TasksOperationsNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Compute when the requested VM size has no capacity
+ * (or is restricted for the subscription) in the location/zone. Azure
+ * error code: `SkuNotAvailable` (HTTP 409, "...see
+ * https://aka.ms/azureskunotavailable").
+ */
+export class SkuNotAvailable extends Schema.TaggedError<SkuNotAvailable>()(
+  "SkuNotAvailable",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.Search when deleting a shared private link resource
+ * that is still provisioning. Azure error code: `BadRequest` (HTTP 400,
+ * "...as it is still being provisioned. Try again later.").
+ */
+export class SearchSharedPrivateLinkBusy extends Schema.TaggedError<SearchSharedPrivateLinkBusy>()(
+  "SearchSharedPrivateLinkBusy",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.ManagedIdentity when two federated identity
+ * credential writes target the same identity at once. Retryable. Azure
+ * error code: `ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity`
+ * (HTTP 409).
+ */
+export class FederatedIdentityCredentialWriteConflict extends Schema.TaggedError<FederatedIdentityCredentialWriteConflict>()(
+  "FederatedIdentityCredentialWriteConflict",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.CognitiveServices when another write to the parent
+ * account (or its projects, RAI policies, blocklists, ...) is still in
+ * progress; retry once it finishes.
+ * Azure error code: `RequestConflict`
+ */
+export class CognitiveServicesRequestConflict extends Schema.TaggedError<CognitiveServicesRequestConflict>()(
+  "CognitiveServicesRequestConflict",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.RecoveryServices (Azure Backup) when the vault's
+ * soft delete or storage redundancy settings were set through the vault
+ * API (every vault created with current API versions) and can no longer be
+ * changed through the legacy `backupconfig` / `backupstorageconfig` APIs.
+ * Azure error codes: `BMSUserErrorSoftDeleteUseVaultApi`,
+ * `BMSUserErrorRedundancySettingsUseVaultApi`
+ */
+export class BackupConfigManagedByVaultApi extends Schema.TaggedError<BackupConfigManagedByVaultApi>()(
+  "BackupConfigManagedByVaultApi",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.RecoveryServices while a vault is still applying
+ * another update (e.g. an identity or network change); retry once it
+ * finishes.
+ * Azure error code: `RSVaultUpdateErrorConflictingOperationInProgress`
+ */
+export class RecoveryServicesVaultOperationInProgress extends Schema.TaggedError<RecoveryServicesVaultOperationInProgress>()(
+  "RecoveryServicesVaultOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.CognitiveServices when encryption scopes are not
+ * available for the account's kind or region. Azure error code:
+ * `BadRequest` with "Encryption scope is not supported" (matched by
+ * message).
+ */
+export class CognitiveServicesEncryptionScopeNotSupported extends Schema.TaggedError<CognitiveServicesEncryptionScopeNotSupported>()(
+  "CognitiveServicesEncryptionScopeNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
 // ---------------------------------------------------------------------------
 // Azure error code → typed error class mapping
 // ---------------------------------------------------------------------------
@@ -592,6 +731,9 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     RoleAssignmentNotFound: RoleAssignmentNotFound,
     RoleAssignmentExists: RoleAssignmentExists,
     PrincipalNotFound: PrincipalNotFound,
+    RoleDefinitionDoesNotExist: RoleDefinitionNotFound,
+    RoleDefinitionWithSameNameExists: RoleDefinitionWithSameNameExists,
+    RoleDefinitionHasAssignments: RoleDefinitionHasAssignments,
     ContainerNotFound: ContainerNotFound,
     ShareNotFound: ShareNotFound,
     QueueNotFound: QueueNotFound,
@@ -617,6 +759,15 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     CannotDeleteResource: CannotDeleteResource,
     ServiceNotFound: ApiManagementServiceNotFound,
     ApplicationGroupInvalidSku: EventHubApplicationGroupNotSupported,
+    RequestConflict: CognitiveServicesRequestConflict,
+    RSVaultUpdateErrorConflictingOperationInProgress:
+      RecoveryServicesVaultOperationInProgress,
+    BMSUserErrorSoftDeleteUseVaultApi: BackupConfigManagedByVaultApi,
+    BMSUserErrorRedundancySettingsUseVaultApi: BackupConfigManagedByVaultApi,
+    SkuNotAvailable: SkuNotAvailable,
+    TasksOperationsNotAllowed: TasksOperationsNotAllowed,
+    ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity:
+      FederatedIdentityCredentialWriteConflict,
   };
 
 /**
@@ -654,6 +805,75 @@ export class WebAppSlotsNotSupported extends Schema.TaggedError<WebAppSlotsNotSu
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.OperationalInsights when a linked storage account is
+ * rejected as "faulted" — right after the account is created, before the
+ * service can see it, or when its region differs from the workspace's.
+ * Error code: `InvalidParameter` with "might be considered faulted"
+ * (matched by message).
+ */
+export class LinkedStorageAccountFaulted extends Schema.TaggedError<LinkedStorageAccountFaulted>()(
+  "LinkedStorageAccountFaulted",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.MachineLearningServices when a `Default` workspace
+ * is created without one of its required dependent resources (storage
+ * account, Key Vault, or Application Insights). Azure returns HTTP 400
+ * with "Missing dependent resources in workspace json" (matched by
+ * message).
+ */
+export class MachineLearningWorkspaceMissingDependencies extends Schema.TaggedError<MachineLearningWorkspaceMissingDependencies>()(
+  "MachineLearningWorkspaceMissingDependencies",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.MachineLearningServices when deleting an AI hub
+ * workspace that still has project workspaces (including projects whose
+ * deletion is still in progress). Azure returns HTTP 400 with "AI hub
+ * still has associated AI projects" (matched by message).
+ */
+export class MachineLearningHubHasProjects extends Schema.TaggedError<MachineLearningHubHasProjects>()(
+  "MachineLearningHubHasProjects",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
+ * Returned by Microsoft.Monitor for an Azure Monitor workspace's metrics
+ * container while the workspace's backing metrics account is still being
+ * wired up after creation (HTTP 500 "Unauthorized to access Geneva Metrics
+ * account", matched by message); retry until it settles.
+ */
+export class MetricsContainerNotReady extends Schema.TaggedError<MetricsContainerNotReady>()(
+  "MetricsContainerNotReady",
+  AzureErrorFields,
+).pipe(Category.withServerError) {}
+
+/**
+ * Returned when a resource's `extendedLocation` names an Arc custom
+ * location that does not exist (e.g. Microsoft.Monitor pipeline groups).
+ * Azure returns HTTP 400 with "The custom location was not found"
+ * (matched by message).
+ */
+export class CustomLocationNotFound extends Schema.TaggedError<CustomLocationNotFound>()(
+  "CustomLocationNotFound",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Sql when a write to a server/database setting
+ * (security alert policy, auditing, threat protection, ...) arrives while
+ * the previous asynchronous write is still running. Azure returns HTTP 409
+ * "... is already in progress. Use Azure-AsyncOperation request to track
+ * your operation" (matched by message); retry until it settles.
+ */
+export class SqlOperationInProgress extends Schema.TaggedError<SqlOperationInProgress>()(
+  "SqlOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
  * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
  * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
@@ -676,9 +896,34 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     includes: "App Service Plan Create operation is throttled",
     error: AppServicePlanCreateThrottled,
   },
+  // Microsoft.Network: "Rule Collection Group X can not be updated because
+  // Parent Firewall Policy Y is in Updating state from previous operation".
+  {
+    includes: "in Updating state from previous operation",
+    error: NetworkOperationInProgress,
+  },
+  // Microsoft.Network: "Cannot create more than 3 public IP addresses for
+  // this subscription in this region." (also returned for IPv4 prefixes).
+  {
+    includes: "public IP addresses for this subscription in this region",
+    error: QuotaExceeded,
+  },
   {
     includes: "Application Group available only for Dedicated and Premium",
     error: EventHubApplicationGroupNotSupported,
+  },
+  {
+    includes: "Only one account is allowed for your subscription per Region",
+    error: AutomationAccountRegionLimit,
+  },
+  {
+    includes: "subscriptions cannot create accounts in this location",
+    error: AutomationLocationNotAllowed,
+  },
+  {
+    code: "BadRequest",
+    includes: "as it is still being provisioned",
+    error: SearchSharedPrivateLinkBusy,
   },
   {
     includes: "record pointing from",
@@ -687,6 +932,48 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "does not support slots",
     error: WebAppSlotsNotSupported,
+  },
+  {
+    includes: "Encryption scope is not supported",
+    error: CognitiveServicesEncryptionScopeNotSupported,
+  },
+  {
+    includes: "Missing dependent resources in workspace json",
+    error: MachineLearningWorkspaceMissingDependencies,
+  },
+  {
+    includes: "AI hub still has associated AI projects",
+    error: MachineLearningHubHasProjects,
+  },
+  // Microsoft.Sql: "Set server security alert policy is already in
+  // progress. Use Azure-AsyncOperation request to track your operation".
+  {
+    includes: "already in progress. Use Azure-AsyncOperation",
+    error: SqlOperationInProgress,
+  },
+  {
+    includes: "aka.ms/azureskunotavailable",
+    error: SkuNotAvailable,
+  },
+  // Microsoft.Compute: "Operation could not be completed as it results in
+  // exceeding approved {family} quota" (vCPU, dedicated host, ...).
+  {
+    code: "OperationNotAllowed",
+    includes: "exceeding approved",
+    error: QuotaExceeded,
+  },
+  {
+    code: "InvalidParameter",
+    includes: "might be considered faulted",
+    error: LinkedStorageAccountFaulted,
+  },
+  {
+    includes: "Unauthorized to access Geneva Metrics account",
+    error: MetricsContainerNotReady,
+  },
+  {
+    includes: "The custom location was not found",
+    error: CustomLocationNotFound,
   },
 ];
 
@@ -726,6 +1013,7 @@ export class AzureParseError extends Schema.TaggedError<AzureParseError>()(
 
 /** Union of every ARM-code-mapped typed error class. */
 export type AzureApiError =
+  | FederatedIdentityCredentialWriteConflict
   | ResourceNotFound
   | ResourceGroupNotFound
   | SubscriptionNotFound
@@ -751,6 +1039,9 @@ export type AzureApiError =
   | RoleAssignmentNotFound
   | RoleAssignmentExists
   | PrincipalNotFound
+  | RoleDefinitionNotFound
+  | RoleDefinitionWithSameNameExists
+  | RoleDefinitionHasAssignments
   | ContainerNotFound
   | ShareNotFound
   | QueueNotFound
@@ -775,4 +1066,19 @@ export type AzureApiError =
   | AppServicePlanCreateThrottled
   | HostNameVerificationFailed
   | WebAppSlotsNotSupported
-  | EventHubApplicationGroupNotSupported;
+  | EventHubApplicationGroupNotSupported
+  | AutomationAccountRegionLimit
+  | AutomationLocationNotAllowed
+  | CognitiveServicesRequestConflict
+  | CognitiveServicesEncryptionScopeNotSupported
+  | RecoveryServicesVaultOperationInProgress
+  | BackupConfigManagedByVaultApi
+  | MachineLearningWorkspaceMissingDependencies
+  | MachineLearningHubHasProjects
+  | SkuNotAvailable
+  | SearchSharedPrivateLinkBusy
+  | TasksOperationsNotAllowed
+  | MetricsContainerNotReady
+  | CustomLocationNotFound
+  | SqlOperationInProgress
+  | LinkedStorageAccountFaulted;

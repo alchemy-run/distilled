@@ -361,6 +361,73 @@ export const AdminRuleCollectionsCreateOrUpdateResponse =
 export type AdminRulesCreateOrUpdateRequestKind = "Custom" | "Default";
 export const AdminRulesCreateOrUpdateRequestKind = S.String;
 
+/** Address prefix type. */
+export type AddressPrefixItemAddressPrefixType =
+  | "IPPrefix"
+  | "ServiceTag"
+  | "NetworkGroup";
+export const AddressPrefixItemAddressPrefixType = S.String;
+
+/** Address prefix item. */
+export interface AddressPrefixItem {
+  /** Address prefix. */
+  addressPrefix?: string;
+  /** Address prefix type. */
+  addressPrefixType?: AddressPrefixItemAddressPrefixType | (string & {});
+}
+export const AddressPrefixItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    addressPrefix: S.optional(S.String),
+    addressPrefixType: S.optional(AddressPrefixItemAddressPrefixType),
+  }),
+).annotate({
+  identifier: "AddressPrefixItem",
+}) as any as S.Schema<AddressPrefixItem>;
+
+export type AdminRuleAddressPrefixItemList = Array<AddressPrefixItem>;
+export const AdminRuleAddressPrefixItemList = /*@__PURE__*/ S.Array(
+  AddressPrefixItem,
+) as any as S.Schema<AdminRuleAddressPrefixItemList>;
+
+export type AdminRuleStringList = Array<string>;
+export const AdminRuleStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AdminRuleStringList>;
+
+/** Properties of a Custom (properties) or Default (flag) security admin rule. */
+export interface AdminRulePropertiesFormat {
+  description?: string;
+  flag?: string;
+  protocol?: string;
+  access?: string;
+  direction?: string;
+  priority?: number;
+  sources?: AdminRuleAddressPrefixItemList;
+  destinations?: AdminRuleAddressPrefixItemList;
+  sourcePortRanges?: AdminRuleStringList;
+  destinationPortRanges?: AdminRuleStringList;
+  provisioningState?: string;
+  resourceGuid?: string;
+}
+export const AdminRulePropertiesFormat = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    description: S.optional(S.String),
+    flag: S.optional(S.String),
+    protocol: S.optional(S.String),
+    access: S.optional(S.String),
+    direction: S.optional(S.String),
+    priority: S.optional(S.Number),
+    sources: S.optional(AdminRuleAddressPrefixItemList),
+    destinations: S.optional(AdminRuleAddressPrefixItemList),
+    sourcePortRanges: S.optional(AdminRuleStringList),
+    destinationPortRanges: S.optional(AdminRuleStringList),
+    provisioningState: S.optional(S.String),
+    resourceGuid: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AdminRulePropertiesFormat",
+}) as any as S.Schema<AdminRulePropertiesFormat>;
+
 export interface AdminRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -376,6 +443,7 @@ export interface AdminRulesCreateOrUpdateRequest {
   ruleName: string;
   /** Whether the rule is custom or default. */
   kind: AdminRulesCreateOrUpdateRequestKind | (string & {});
+  properties?: AdminRulePropertiesFormat;
 }
 export const AdminRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -386,6 +454,7 @@ export const AdminRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     ruleCollectionName: S.String.pipe(T.Label()),
     ruleName: S.String.pipe(T.Label()),
     kind: AdminRulesCreateOrUpdateRequestKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -465,6 +534,7 @@ export interface AdminRulesCreateOrUpdateResponse {
   systemData?: AdminRulesCreateOrUpdateResponseSystemData;
   /** Whether the rule is custom or default. */
   kind: AdminRulesCreateOrUpdateResponseKind;
+  properties?: AdminRulePropertiesFormat;
 }
 export const AdminRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -474,6 +544,7 @@ export const AdminRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     systemData: S.optional(AdminRulesCreateOrUpdateResponseSystemData),
     kind: AdminRulesCreateOrUpdateResponseKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }),
 ).annotate({
   identifier: "AdminRulesCreateOrUpdateResponse",
@@ -29207,6 +29278,116 @@ export type FirewallPolicyRuleCollectionRuleCollectionType =
   | "FirewallPolicyFilterRuleCollection";
 export const FirewallPolicyRuleCollectionRuleCollectionType = S.String;
 
+export interface FirewallPolicyRuleCollectionAction {
+  type?: string;
+}
+export const FirewallPolicyRuleCollectionAction = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FirewallPolicyRuleCollectionAction",
+}) as any as S.Schema<FirewallPolicyRuleCollectionAction>;
+
+export type FirewallPolicyRuleStringList = Array<string>;
+export const FirewallPolicyRuleStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<FirewallPolicyRuleStringList>;
+
+export interface FirewallPolicyRuleApplicationProtocol {
+  protocolType?: string;
+  port?: number;
+}
+export const FirewallPolicyRuleApplicationProtocol = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      protocolType: S.optional(S.String),
+      port: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "FirewallPolicyRuleApplicationProtocol",
+}) as any as S.Schema<FirewallPolicyRuleApplicationProtocol>;
+
+export type FirewallPolicyRuleApplicationProtocolList =
+  Array<FirewallPolicyRuleApplicationProtocol>;
+export const FirewallPolicyRuleApplicationProtocolList = /*@__PURE__*/ S.Array(
+  FirewallPolicyRuleApplicationProtocol,
+) as any as S.Schema<FirewallPolicyRuleApplicationProtocolList>;
+
+export interface FirewallPolicyHttpHeaderToInsert {
+  headerName?: string;
+  headerValue?: string;
+}
+export const FirewallPolicyHttpHeaderToInsert = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    headerName: S.optional(S.String),
+    headerValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FirewallPolicyHttpHeaderToInsert",
+}) as any as S.Schema<FirewallPolicyHttpHeaderToInsert>;
+
+export type FirewallPolicyHttpHeaderToInsertList =
+  Array<FirewallPolicyHttpHeaderToInsert>;
+export const FirewallPolicyHttpHeaderToInsertList = /*@__PURE__*/ S.Array(
+  FirewallPolicyHttpHeaderToInsert,
+) as any as S.Schema<FirewallPolicyHttpHeaderToInsertList>;
+
+/** A firewall policy rule (application, network, or NAT; discriminated by ruleType). */
+export interface FirewallPolicyRule {
+  ruleType: string;
+  name?: string;
+  description?: string;
+  ipProtocols?: FirewallPolicyRuleStringList;
+  sourceAddresses?: FirewallPolicyRuleStringList;
+  destinationAddresses?: FirewallPolicyRuleStringList;
+  destinationPorts?: FirewallPolicyRuleStringList;
+  sourceIpGroups?: FirewallPolicyRuleStringList;
+  destinationIpGroups?: FirewallPolicyRuleStringList;
+  destinationFqdns?: FirewallPolicyRuleStringList;
+  translatedAddress?: string;
+  translatedPort?: string;
+  translatedFqdn?: string;
+  protocols?: FirewallPolicyRuleApplicationProtocolList;
+  targetFqdns?: FirewallPolicyRuleStringList;
+  targetUrls?: FirewallPolicyRuleStringList;
+  fqdnTags?: FirewallPolicyRuleStringList;
+  webCategories?: FirewallPolicyRuleStringList;
+  terminateTLS?: boolean;
+  httpHeadersToInsert?: FirewallPolicyHttpHeaderToInsertList;
+}
+export const FirewallPolicyRule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ruleType: S.String,
+    name: S.optional(S.String),
+    description: S.optional(S.String),
+    ipProtocols: S.optional(FirewallPolicyRuleStringList),
+    sourceAddresses: S.optional(FirewallPolicyRuleStringList),
+    destinationAddresses: S.optional(FirewallPolicyRuleStringList),
+    destinationPorts: S.optional(FirewallPolicyRuleStringList),
+    sourceIpGroups: S.optional(FirewallPolicyRuleStringList),
+    destinationIpGroups: S.optional(FirewallPolicyRuleStringList),
+    destinationFqdns: S.optional(FirewallPolicyRuleStringList),
+    translatedAddress: S.optional(S.String),
+    translatedPort: S.optional(S.String),
+    translatedFqdn: S.optional(S.String),
+    protocols: S.optional(FirewallPolicyRuleApplicationProtocolList),
+    targetFqdns: S.optional(FirewallPolicyRuleStringList),
+    targetUrls: S.optional(FirewallPolicyRuleStringList),
+    fqdnTags: S.optional(FirewallPolicyRuleStringList),
+    webCategories: S.optional(FirewallPolicyRuleStringList),
+    terminateTLS: S.optional(S.Boolean),
+    httpHeadersToInsert: S.optional(FirewallPolicyHttpHeaderToInsertList),
+  }),
+).annotate({
+  identifier: "FirewallPolicyRule",
+}) as any as S.Schema<FirewallPolicyRule>;
+
+export type FirewallPolicyRuleList = Array<FirewallPolicyRule>;
+export const FirewallPolicyRuleList = /*@__PURE__*/ S.Array(
+  FirewallPolicyRule,
+) as any as S.Schema<FirewallPolicyRuleList>;
+
 /** Properties of the rule collection. */
 export interface FirewallPolicyRuleCollection {
   /** The type of the rule collection. */
@@ -29217,12 +29398,16 @@ export interface FirewallPolicyRuleCollection {
   name?: string;
   /** Priority of the Firewall Policy Rule Collection resource. */
   priority?: number;
+  action?: FirewallPolicyRuleCollectionAction;
+  rules?: FirewallPolicyRuleList;
 }
 export const FirewallPolicyRuleCollection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleCollectionType: FirewallPolicyRuleCollectionRuleCollectionType,
     name: S.optional(S.String),
     priority: S.optional(S.Number),
+    action: S.optional(FirewallPolicyRuleCollectionAction),
+    rules: S.optional(FirewallPolicyRuleList),
   }),
 ).annotate({
   identifier: "FirewallPolicyRuleCollection",
@@ -30443,6 +30628,7 @@ export interface GetAdminRuleResponse {
   systemData?: GetAdminRuleResponseSystemData;
   /** Whether the rule is custom or default. */
   kind: GetAdminRuleResponseKind;
+  properties?: AdminRulePropertiesFormat;
 }
 export const GetAdminRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30452,6 +30638,7 @@ export const GetAdminRuleResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     systemData: S.optional(GetAdminRuleResponseSystemData),
     kind: GetAdminRuleResponseKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }),
 ).annotate({
   identifier: "GetAdminRuleResponse",
@@ -48491,29 +48678,6 @@ export type SecurityUserRulePropertiesFormatProtocol =
   | "Any"
   | "Ah";
 export const SecurityUserRulePropertiesFormatProtocol = S.String;
-
-/** Address prefix type. */
-export type AddressPrefixItemAddressPrefixType =
-  | "IPPrefix"
-  | "ServiceTag"
-  | "NetworkGroup";
-export const AddressPrefixItemAddressPrefixType = S.String;
-
-/** Address prefix item. */
-export interface AddressPrefixItem {
-  /** Address prefix. */
-  addressPrefix?: string;
-  /** Address prefix type. */
-  addressPrefixType?: AddressPrefixItemAddressPrefixType | (string & {});
-}
-export const AddressPrefixItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    addressPrefix: S.optional(S.String),
-    addressPrefixType: S.optional(AddressPrefixItemAddressPrefixType),
-  }),
-).annotate({
-  identifier: "AddressPrefixItem",
-}) as any as S.Schema<AddressPrefixItem>;
 
 /** The CIDR or source IP ranges. */
 export type SecurityUserRulePropertiesFormatSourcesList =
@@ -73829,6 +73993,7 @@ export interface BaseAdminRule {
   systemData?: BaseAdminRuleSystemData;
   /** Whether the rule is custom or default. */
   kind: BaseAdminRuleKind;
+  properties?: AdminRulePropertiesFormat;
 }
 export const BaseAdminRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -73838,6 +74003,7 @@ export const BaseAdminRule = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     systemData: S.optional(BaseAdminRuleSystemData),
     kind: BaseAdminRuleKind,
+    properties: S.optional(AdminRulePropertiesFormat),
   }),
 ).annotate({ identifier: "BaseAdminRule" }) as any as S.Schema<BaseAdminRule>;
 

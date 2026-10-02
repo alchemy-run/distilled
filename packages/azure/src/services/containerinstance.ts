@@ -2302,7 +2302,7 @@ export const DeleteNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -2734,7 +2734,7 @@ export const GetNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4090,7 +4090,7 @@ export const ListNGroupByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4179,7 +4179,7 @@ export const ListNGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/ngroups",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4452,7 +4452,7 @@ export const NGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4560,7 +4560,7 @@ export const RestartNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/restart",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4747,7 +4747,7 @@ export const StartNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/start",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4811,7 +4811,7 @@ export const StopNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/stop",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -5053,7 +5053,7 @@ export const UpdateNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({

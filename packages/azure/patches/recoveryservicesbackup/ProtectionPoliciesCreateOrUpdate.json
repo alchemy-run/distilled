@@ -1,0 +1,135 @@
+{
+  "description": "ProtectionPolicy is polymorphic on backupManagementType (AzureIaasVMProtectionPolicy, AzureFileShareProtectionPolicy, AzureVmWorkloadProtectionPolicy); the converted model keeps only base members, so S.Struct strips schedule/retention on encode and decode and a policy cannot be created. Add the subtype members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/workLoadType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Workload type (AzureFileShare / AzureStorage and AzureWorkload policies)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/schedulePolicy",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Backup schedule (polymorphic on `schedulePolicyType`: SimpleSchedulePolicy, SimpleSchedulePolicyV2, LongTermSchedulePolicy, LogSchedulePolicy)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/retentionPolicy",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Retention policy (polymorphic on `retentionPolicyType`: LongTermRetentionPolicy, SimpleRetentionPolicy)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/vaultRetentionPolicy",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Vaulted backup retention (AzureFileShare vault-tier policies)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/timeZone",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Time zone of the schedule, e.g. `UTC`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/instantRpRetentionRangeInDays",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "Instant recovery point retention in days (AzureIaasVM)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/instantRPDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Instant recovery point resource group settings (AzureIaasVM)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/policyType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "IaaS VM policy type: `V1` (standard) or `V2` (enhanced)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/tieringPolicy",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Archive tiering policy keyed by tier (AzureIaasVM)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/snapshotConsistencyType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Snapshot consistency type (AzureIaasVM)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/settings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Workload settings such as time zone and compression (AzureWorkload)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/subProtectionPolicy",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Sub-policies per backup type (AzureWorkload)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionPolicy/members/makePolicyConsistent",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "Fix a policy that is inconsistent with its sub-policies (AzureWorkload)."
+        }
+      }
+    }
+  ]
+}

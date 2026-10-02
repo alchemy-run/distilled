@@ -1,0 +1,25 @@
+{
+  "description": "ARM serves `raiExternalSafetyProviders` only on preview api-versions; 2026-07-01 fails with InvalidResourceType. Pin these operations to 2026-07-15-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#GetRaiExternalSafetyProvider/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#RaiExternalSafetyProviderCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#DeleteRaiExternalSafetyProvider/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#ListRaiExternalSafetyProviders/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    }
+  ]
+}

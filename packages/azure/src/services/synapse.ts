@@ -645,11 +645,20 @@ export interface IntegrationRuntime {
   type: IntegrationRuntimeType | (string & {});
   /** Integration runtime description. */
   description?: string;
+  /** Type-specific integration runtime properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Managed Virtual Network reference (Managed integration runtimes). */
+  managedVirtualNetwork?: unknown;
+  /** Integration runtime state (read-only, Managed integration runtimes). */
+  state?: string;
 }
 export const IntegrationRuntime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: IntegrationRuntimeType,
     description: S.optional(S.String),
+    typeProperties: S.optional(S.Unknown),
+    managedVirtualNetwork: S.optional(S.Unknown),
+    state: S.optional(S.String),
   }),
 ).annotate({
   identifier: "IntegrationRuntime",

@@ -1229,14 +1229,30 @@ export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
 export type IdentityProviderType = "MicrosoftEntraID";
 export const IdentityProviderType = S.String;
 
+/** Microsoft Entra ID provider properties. */
+export interface EntraIdentityProviderProperties {
+  /** The principal type of the user: `user` or `servicePrincipal`. */
+  principalType: string;
+}
+export const EntraIdentityProviderProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalType: S.String,
+  }),
+).annotate({
+  identifier: "EntraIdentityProviderProperties",
+}) as any as S.Schema<EntraIdentityProviderProperties>;
+
 /** Defines a user's identity provider definition. */
 export interface IdentityProvider {
   /** The type of identity provider that the user belongs to. */
   type: IdentityProviderType | (string & {});
+  /** MicrosoftEntraID: the Entra identity properties for the user. */
+  properties?: EntraIdentityProviderProperties;
 }
 export const IdentityProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: IdentityProviderType,
+    properties: S.optional(EntraIdentityProviderProperties),
   }),
 ).annotate({
   identifier: "IdentityProvider",

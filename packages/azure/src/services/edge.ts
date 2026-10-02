@@ -1670,7 +1670,7 @@ export const DeleteDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -1810,7 +1810,7 @@ export const DeleteDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -1848,7 +1848,7 @@ export const DeleteDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -2023,7 +2023,7 @@ export const DeleteSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -2514,7 +2514,7 @@ export const DiagnosticsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -3095,7 +3095,7 @@ export const DynamicSchemasCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -3180,7 +3180,7 @@ export const DynamicSchemaVersionsCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
   ).annotate({
@@ -3949,7 +3949,7 @@ export const GetDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -4197,7 +4197,7 @@ export const GetDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -4255,7 +4255,7 @@ export const GetDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -5471,7 +5471,7 @@ export const GetSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -8030,7 +8030,7 @@ export const ListDiagnosticByResourceGroupRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
 ).annotate({
@@ -8115,7 +8115,7 @@ export const ListDiagnosticBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/diagnostics",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -8463,7 +8463,7 @@ export const ListDynamicSchemaBySchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -8540,7 +8540,7 @@ export const ListDynamicSchemaVersionByDynamicSchemaRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
   ).annotate({
@@ -9415,7 +9415,7 @@ export const ListSchemaReferenceByResourceGroupRequest =
         method: "GET",
         uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
   ).annotate({
@@ -10838,7 +10838,7 @@ export const SchemaReferencesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
 ).annotate({
@@ -12629,7 +12629,7 @@ export const UpdateDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -12991,7 +12991,7 @@ export const UpdateDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -13065,7 +13065,7 @@ export const UpdateDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -13414,7 +13414,7 @@ export const UpdateSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({

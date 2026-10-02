@@ -101,6 +101,10 @@ export interface AutomationAccountCreateOrUpdateProperties {
   publicNetworkAccess?: boolean;
   /** Indicates whether requests using non-AAD authentication are blocked */
   disableLocalAuth?: boolean;
+  /** Set to `Recover` to restore a soft-deleted account with the same name. */
+  createMode?: string;
+  /** Automation account ID (GUID) of the soft-deleted account to recover; required with `createMode: Recover`. */
+  automationAccountId?: string;
 }
 export const AutomationAccountCreateOrUpdateProperties =
   /*@__PURE__*/ S.suspend(() =>
@@ -109,6 +113,8 @@ export const AutomationAccountCreateOrUpdateProperties =
       encryption: S.optional(EncryptionProperties),
       publicNetworkAccess: S.optional(S.Boolean),
       disableLocalAuth: S.optional(S.Boolean),
+      createMode: S.optional(S.String),
+      automationAccountId: S.optional(S.String),
     }),
   ).annotate({
     identifier: "AutomationAccountCreateOrUpdateProperties",
@@ -8005,10 +8011,14 @@ export interface DeletedAutomationAccountProperties {
 }
 export const DeletedAutomationAccountProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    automationAccountResourceId: S.optional(S.String),
-    automationAccountId: S.optional(S.String),
-    location: S.optional(S.String),
-    deletionTime: S.optional(S.String),
+    automationAccountResourceId: S.optional(
+      S.String.pipe(T.Body("AutomationAccountResourceId")),
+    ),
+    automationAccountId: S.optional(
+      S.String.pipe(T.Body("AutomationAccountId")),
+    ),
+    location: S.optional(S.String.pipe(T.Body("Location"))),
+    deletionTime: S.optional(S.String.pipe(T.Body("DeletedTime"))),
   }),
 ).annotate({
   identifier: "DeletedAutomationAccountProperties",
@@ -8029,11 +8039,13 @@ export interface DeletedAutomationAccount {
 }
 export const DeletedAutomationAccount = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    properties: S.optional(DeletedAutomationAccountProperties),
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    location: S.optional(S.String),
+    properties: S.optional(
+      DeletedAutomationAccountProperties.pipe(T.Body("Properties")),
+    ),
+    id: S.optional(S.String.pipe(T.Body("Id"))),
+    name: S.optional(S.String.pipe(T.Body("Name"))),
+    type: S.optional(S.String.pipe(T.Body("Type"))),
+    location: S.optional(S.String.pipe(T.Body("Location"))),
   }),
 ).annotate({
   identifier: "DeletedAutomationAccount",
@@ -12036,10 +12048,26 @@ export const SuspendTestJobResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SuspendTestJobResponse>;
 
 /** The parameters supplied to the update account properties. */
-export type AutomationAccountUpdateProperties =
-  AutomationAccountCreateOrUpdateProperties;
-export const AutomationAccountUpdateProperties =
-  AutomationAccountCreateOrUpdateProperties;
+export interface AutomationAccountUpdateProperties {
+  /** Gets or sets account SKU. */
+  sku?: Sku;
+  /** Set the encryption properties for the automation account */
+  encryption?: EncryptionProperties;
+  /** Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet */
+  publicNetworkAccess?: boolean;
+  /** Indicates whether requests using non-AAD authentication are blocked */
+  disableLocalAuth?: boolean;
+}
+export const AutomationAccountUpdateProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sku: S.optional(Sku),
+    encryption: S.optional(EncryptionProperties),
+    publicNetworkAccess: S.optional(S.Boolean),
+    disableLocalAuth: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "AutomationAccountUpdateProperties",
+}) as any as S.Schema<AutomationAccountUpdateProperties>;
 
 /** Gets or sets the tags attached to the resource. */
 export type UpdateAutomationAccountRequestTagsMap = {
@@ -12058,7 +12086,7 @@ export interface UpdateAutomationAccountRequest {
   /** The name of the automation account. */
   automationAccountName: string;
   /** Gets or sets account update properties. */
-  properties?: AutomationAccountCreateOrUpdateProperties;
+  properties?: AutomationAccountUpdateProperties;
   /** Gets or sets the name of the resource. */
   name?: string;
   /** Gets or sets the location of the resource. */
@@ -12073,7 +12101,7 @@ export const UpdateAutomationAccountRequest = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     automationAccountName: S.String.pipe(T.Label()),
-    properties: S.optional(AutomationAccountCreateOrUpdateProperties),
+    properties: S.optional(AutomationAccountUpdateProperties),
     name: S.optional(S.String),
     location: S.optional(S.String),
     identity: S.optional(IdentityInput),
