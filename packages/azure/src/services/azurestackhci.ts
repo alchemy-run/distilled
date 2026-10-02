@@ -4671,6 +4671,85 @@ export const EdgeDeviceJobsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 export type DeviceKind = "HCI";
 export const DeviceKind = S.String;
 
+export type HciEdgeDeviceStringList = Array<string>;
+export const HciEdgeDeviceStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<HciEdgeDeviceStringList>;
+
+/** NIC Details of device */
+export interface HciEdgeDeviceNicDetail {
+  /** Adapter Name of NIC */
+  adapterName: string;
+  /** Interface Description of NIC */
+  interfaceDescription?: string;
+  /** Component Id of NIC */
+  componentId?: string;
+  /** Driver Version of NIC */
+  driverVersion?: string;
+  /** IPv4 address of NIC */
+  ip4Address?: string;
+  /** Subnet Mask of NIC */
+  subnetMask?: string;
+  /** Default Gateway of NIC */
+  defaultGateway?: string;
+  /** DNS Servers for NIC */
+  dnsServers?: HciEdgeDeviceStringList;
+  /** Default Isolation of Management NIC */
+  defaultIsolationId?: string;
+}
+export const HciEdgeDeviceNicDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    adapterName: S.String,
+    interfaceDescription: S.optional(S.String),
+    componentId: S.optional(S.String),
+    driverVersion: S.optional(S.String),
+    ip4Address: S.optional(S.String),
+    subnetMask: S.optional(S.String),
+    defaultGateway: S.optional(S.String),
+    dnsServers: S.optional(HciEdgeDeviceStringList),
+    defaultIsolationId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HciEdgeDeviceNicDetail",
+}) as any as S.Schema<HciEdgeDeviceNicDetail>;
+
+export type HciEdgeDeviceNicDetailList = Array<HciEdgeDeviceNicDetail>;
+export const HciEdgeDeviceNicDetailList = /*@__PURE__*/ S.Array(
+  HciEdgeDeviceNicDetail,
+) as any as S.Schema<HciEdgeDeviceNicDetailList>;
+
+/** The device Configuration of an edge device. */
+export interface HciEdgeDeviceConfiguration {
+  /** NIC Details of device */
+  nicDetails?: HciEdgeDeviceNicDetailList;
+  /** Device metadata details. */
+  deviceMetadata?: string;
+}
+export const HciEdgeDeviceConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nicDetails: S.optional(HciEdgeDeviceNicDetailList),
+    deviceMetadata: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HciEdgeDeviceConfiguration",
+}) as any as S.Schema<HciEdgeDeviceConfiguration>;
+
+/** Properties of an HCI edge device. */
+export interface HciEdgeDeviceProperties {
+  /** Device Configuration */
+  deviceConfiguration?: HciEdgeDeviceConfiguration;
+  /** Provisioning state of edgeDevice resource */
+  provisioningState?: string;
+}
+export const HciEdgeDeviceProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deviceConfiguration: S.optional(HciEdgeDeviceConfiguration),
+    provisioningState: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "HciEdgeDeviceProperties",
+}) as any as S.Schema<HciEdgeDeviceProperties>;
+
 export interface EdgeDevicesCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
@@ -4678,12 +4757,15 @@ export interface EdgeDevicesCreateOrUpdateRequest {
   edgeDeviceName: string;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DeviceKind | (string & {});
+  /** properties for Arc-enabled edge device with HCI OS. */
+  properties?: HciEdgeDeviceProperties;
 }
 export const EdgeDevicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceUri: S.String.pipe(T.Label()),
     edgeDeviceName: S.String.pipe(T.Label()),
     kind: DeviceKind,
+    properties: S.optional(HciEdgeDeviceProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -4707,6 +4789,8 @@ export interface EdgeDevicesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DeviceKind;
+  /** properties for Arc-enabled edge device with HCI OS. */
+  properties?: HciEdgeDeviceProperties;
 }
 export const EdgeDevicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4715,6 +4799,7 @@ export const EdgeDevicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     kind: DeviceKind,
+    properties: S.optional(HciEdgeDeviceProperties),
   }),
 ).annotate({
   identifier: "EdgeDevicesCreateOrUpdateResponse",
@@ -8773,6 +8858,8 @@ export interface GetEdgeDeviceResponse {
   systemData?: SystemData;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DeviceKind;
+  /** properties for Arc-enabled edge device with HCI OS. */
+  properties?: HciEdgeDeviceProperties;
 }
 export const GetEdgeDeviceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8781,6 +8868,7 @@ export const GetEdgeDeviceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     kind: DeviceKind,
+    properties: S.optional(HciEdgeDeviceProperties),
   }),
 ).annotate({
   identifier: "GetEdgeDeviceResponse",
@@ -13518,6 +13606,8 @@ export interface EdgeDevice {
   systemData?: SystemData;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
   kind: DeviceKind;
+  /** properties for Arc-enabled edge device with HCI OS. */
+  properties?: HciEdgeDeviceProperties;
 }
 export const EdgeDevice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13526,6 +13616,7 @@ export const EdgeDevice = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     kind: DeviceKind,
+    properties: S.optional(HciEdgeDeviceProperties),
   }),
 ).annotate({ identifier: "EdgeDevice" }) as any as S.Schema<EdgeDevice>;
 

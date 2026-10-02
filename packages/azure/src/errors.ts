@@ -539,6 +539,26 @@ export class CannotDeleteResource extends Schema.TaggedError<CannotDeleteResourc
 ).pipe(Category.withDependencyViolationError) {}
 
 /**
+ * Returned when an operation needs a subscription preview feature that is
+ * not registered (e.g. Azure Virtual Network Manager security user rules:
+ * "The subscription: X is not registered for feature: AllowAVNMPreviewJuly2022").
+ */
+export class SubscriptionFeatureNotRegistered extends Schema.TaggedError<SubscriptionFeatureNotRegistered>()(
+  "SubscriptionFeatureNotRegistered",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned when a Microsoft.Network feature is not available to the
+ * subscription (e.g. "DSCP Configuration is currently not supported", or
+ * an application security group allowing "more than 0 address prefix sets").
+ */
+export class NetworkFeatureNotSupported extends Schema.TaggedError<NetworkFeatureNotSupported>()(
+  "NetworkFeatureNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned when an API Management service (e.g. a soft-deleted service
  * under `locations/{location}/deletedservices`) does not exist.
  * Azure error code: `ServiceNotFound`
@@ -547,6 +567,16 @@ export class ApiManagementServiceNotFound extends Schema.TaggedError<ApiManageme
   "ApiManagementServiceNotFound",
   AzureErrorFields,
 ).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned while an API Management service is activating, updating, or
+ * being deleted: "The API Service {name} is transitioning at this time.
+ * Please try the request again later." Retry after a delay.
+ */
+export class ApiManagementServiceTransitioning extends Schema.TaggedError<ApiManagementServiceTransitioning>()(
+  "ApiManagementServiceTransitioning",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.EventHub application-group operations on a Basic or
@@ -580,6 +610,16 @@ export class AutomationAccountRegionLimit extends Schema.TaggedError<AutomationA
  */
 export class AutomationLocationNotAllowed extends Schema.TaggedError<AutomationLocationNotAllowed>()(
   "AutomationLocationNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Automation when a source control's security token
+ * cannot read the repository. HTTP 400 `BadRequest` "SourceControl
+ * securityToken is invalid." (matched by message).
+ */
+export class AutomationSourceControlTokenInvalid extends Schema.TaggedError<AutomationSourceControlTokenInvalid>()(
+  "AutomationSourceControlTokenInvalid",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
@@ -862,6 +902,18 @@ export class CustomLocationNotFound extends Schema.TaggedError<CustomLocationNot
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.AzureStackHCI when an edge machine or edge device
+ * references no Arc-enabled server, or one whose agent has not reported a
+ * supported Azure Local OS SKU (only real, connected Azure Local nodes
+ * qualify). Azure returns HTTP 400 without an error code (matched by
+ * message).
+ */
+export class AzureLocalArcMachineRequired extends Schema.TaggedError<AzureLocalArcMachineRequired>()(
+  "AzureLocalArcMachineRequired",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.Sql when a write to a server/database setting
  * (security alert policy, auditing, threat protection, ...) arrives while
  * the previous asynchronous write is still running. Azure returns HTTP 409
@@ -874,6 +926,73 @@ export class SqlOperationInProgress extends Schema.TaggedError<SqlOperationInPro
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned by Microsoft.App when the tenant or subscription is not enrolled
+ * in the Azure SRE Agent preview (agent spaces). Azure returns HTTP 400
+ * with "Operations on Agent Space are not allowed for tenant" (matched by
+ * message).
+ */
+export class AgentSpaceNotAllowed extends Schema.TaggedError<AgentSpaceNotAllowed>()(
+  "AgentSpaceNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Edge when a site is created on a scope (resource
+ * group or subscription) that already holds one; also briefly after the
+ * previous site was deleted. Azure returns HTTP 400 "Site already present
+ * on the same scope" without an error code (matched by message).
+ */
+export class EdgeSiteScopeTaken extends Schema.TaggedError<EdgeSiteScopeTaken>()(
+  "EdgeSiteScopeTaken",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.MachineLearningServices when a serverless endpoint
+ * names a catalog model that is not offered to the subscription in the
+ * workspace's region. Azure returns HTTP 400 with "The requested model
+ * ... is not available." (matched by message).
+ */
+export class MachineLearningModelNotAvailable extends Schema.TaggedError<MachineLearningModelNotAvailable>()(
+  "MachineLearningModelNotAvailable",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Sql when a server key name is not
+ * `<vault>_<key>_<version>` (HTTP 400 "An invalid value was given for the
+ * server key name", matched by message). Such a key cannot exist.
+ */
+export class SqlServerKeyNameInvalid extends Schema.TaggedError<SqlServerKeyNameInvalid>()(
+  "SqlServerKeyNameInvalid",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Edge when a workload orchestration context is
+ * created while the subscription already holds one (one context per
+ * subscription); also briefly after the previous context was deleted.
+ * Azure returns HTTP 400 "Validation failed: Context ... already exists."
+ * without an error code (matched by message).
+ */
+export class EdgeContextAlreadyExists extends Schema.TaggedError<EdgeContextAlreadyExists>()(
+  "EdgeContextAlreadyExists",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Edge when a solution template names capabilities
+ * the subscription's context does not declare; also briefly after the
+ * context gained them. Azure returns HTTP 400 "Validation failed :
+ * Capabilities ... are missing in context resource" without an error code
+ * (matched by message).
+ */
+export class EdgeContextCapabilityMissing extends Schema.TaggedError<EdgeContextCapabilityMissing>()(
+  "EdgeContextCapabilityMissing",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
  * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
  * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
@@ -884,6 +1003,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly includes: string;
   readonly error: new (props: any) => unknown;
 }> = [
+  {
+    includes: "is transitioning at this time",
+    error: ApiManagementServiceTransitioning,
+  },
   // Microsoft.Web: "Operation cannot be completed without additional quota.
   // Current Limit (F1 VMs): 0" — the plan SKU has no quota in the region.
   {
@@ -898,6 +1021,24 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   },
   // Microsoft.Network: "Rule Collection Group X can not be updated because
   // Parent Firewall Policy Y is in Updating state from previous operation".
+  {
+    includes: "DSCP Configuration is currently not supported",
+    error: NetworkFeatureNotSupported,
+  },
+  {
+    includes: "cannot contain more than 0 address prefix sets",
+    error: NetworkFeatureNotSupported,
+  },
+  {
+    includes: "is not registered for feature:",
+    error: SubscriptionFeatureNotRegistered,
+  },
+  // Microsoft.Network perimeter logging: "... tenant is not whitelisted and
+  // EnableServiceTagsInNsp AFEC flag is not registered for the subscription."
+  {
+    includes: "AFEC flag is not registered",
+    error: SubscriptionFeatureNotRegistered,
+  },
   {
     includes: "in Updating state from previous operation",
     error: NetworkOperationInProgress,
@@ -919,6 +1060,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "subscriptions cannot create accounts in this location",
     error: AutomationLocationNotAllowed,
+  },
+  {
+    includes: "SourceControl securityToken is invalid",
+    error: AutomationSourceControlTokenInvalid,
   },
   {
     code: "BadRequest",
@@ -945,11 +1090,19 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     includes: "AI hub still has associated AI projects",
     error: MachineLearningHubHasProjects,
   },
+  {
+    includes: "The requested model azureml://",
+    error: MachineLearningModelNotAvailable,
+  },
   // Microsoft.Sql: "Set server security alert policy is already in
   // progress. Use Azure-AsyncOperation request to track your operation".
   {
     includes: "already in progress. Use Azure-AsyncOperation",
     error: SqlOperationInProgress,
+  },
+  {
+    includes: "An invalid value was given for the server key name",
+    error: SqlServerKeyNameInvalid,
   },
   {
     includes: "aka.ms/azureskunotavailable",
@@ -974,6 +1127,37 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "The custom location was not found",
     error: CustomLocationNotFound,
+  },
+  {
+    includes: "Site already present on the same scope",
+    error: EdgeSiteScopeTaken,
+  },
+  {
+    includes: "Validation failed: Context /subscriptions/",
+    error: EdgeContextAlreadyExists,
+  },
+  {
+    includes: "are missing in context resource",
+    error: EdgeContextCapabilityMissing,
+  },
+  {
+    includes: "Operations on Agent Space are not allowed for tenant",
+    error: AgentSpaceNotAllowed,
+  },
+  // Microsoft.AzureStackHCI (Arc VM instances): "The custom location '...'
+  // does not exist or returned an invalid response."
+  {
+    code: "InvalidExtendedLocation",
+    includes: "does not exist",
+    error: CustomLocationNotFound,
+  },
+  {
+    includes: "Arc Machine id is null cannot validate OS Sku",
+    error: AzureLocalArcMachineRequired,
+  },
+  {
+    includes: "which is not supported for deployment.Supported SKUs",
+    error: AzureLocalArcMachineRequired,
   },
 ];
 
@@ -1062,23 +1246,34 @@ export type AzureApiError =
   | NatGatewayInUse
   | NetworkInterfaceInUse
   | CannotDeleteResource
+  | SubscriptionFeatureNotRegistered
+  | NetworkFeatureNotSupported
   | ApiManagementServiceNotFound
+  | ApiManagementServiceTransitioning
   | AppServicePlanCreateThrottled
   | HostNameVerificationFailed
   | WebAppSlotsNotSupported
   | EventHubApplicationGroupNotSupported
   | AutomationAccountRegionLimit
   | AutomationLocationNotAllowed
+  | AutomationSourceControlTokenInvalid
   | CognitiveServicesRequestConflict
   | CognitiveServicesEncryptionScopeNotSupported
   | RecoveryServicesVaultOperationInProgress
   | BackupConfigManagedByVaultApi
   | MachineLearningWorkspaceMissingDependencies
   | MachineLearningHubHasProjects
+  | MachineLearningModelNotAvailable
   | SkuNotAvailable
   | SearchSharedPrivateLinkBusy
   | TasksOperationsNotAllowed
   | MetricsContainerNotReady
   | CustomLocationNotFound
+  | EdgeSiteScopeTaken
+  | EdgeContextAlreadyExists
+  | EdgeContextCapabilityMissing
+  | AgentSpaceNotAllowed
+  | AzureLocalArcMachineRequired
   | SqlOperationInProgress
+  | SqlServerKeyNameInvalid
   | LinkedStorageAccountFaulted;

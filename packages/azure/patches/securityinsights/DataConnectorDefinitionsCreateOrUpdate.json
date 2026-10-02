@@ -1,0 +1,35 @@
+{
+  "description": "DataConnectorDefinition is polymorphic on `kind`; add the dropped subtype `properties` bag as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#DataConnectorDefinitionsCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Data connector definition properties (polymorphic on `kind`, e.g. Customizable)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#DataConnectorDefinitionsCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Data connector definition properties (polymorphic on `kind`, e.g. Customizable)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#GetDataConnectorDefinitionResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Data connector definition properties (polymorphic on `kind`, e.g. Customizable)."
+        }
+      }
+    }
+  ]
+}

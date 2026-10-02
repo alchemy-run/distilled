@@ -1577,7 +1577,7 @@ export const DeleteConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({

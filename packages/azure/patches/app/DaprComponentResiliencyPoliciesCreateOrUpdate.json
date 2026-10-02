@@ -1,0 +1,45 @@
+{
+  "description": "Microsoft.App does not serve `managedEnvironments/daprComponents/resiliencyPolicies` on the stable 2026-07-01 api-version (\"No registered resource provider found ... supported api-versions are ... 2026-03-02-preview\"); pin these operations to the latest preview that does.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#DaprComponentResiliencyPoliciesCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#GetDaprComponentResiliencyPolicy/traits/smithy.api#http/apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#GetDaprComponentResiliencyPolicy/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#DeleteDaprComponentResiliencyPolicy/traits/smithy.api#http/apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#DeleteDaprComponentResiliencyPolicy/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#ListDaprComponentResiliencyPolicies/traits/smithy.api#http/apiVersion",
+      "value": "2026-03-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.app#ListDaprComponentResiliencyPolicies/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-03-02-preview"
+    }
+  ]
+}

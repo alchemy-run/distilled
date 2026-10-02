@@ -1,0 +1,35 @@
+{
+  "description": "AlertRule is polymorphic on `kind`; the converted model keeps only the base members, so S.Struct strips the subtype `properties` bag on encode and decode. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#AlertRulesCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#AlertRulesCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.securityinsights#GetAlertRuleResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...)."
+        }
+      }
+    }
+  ]
+}
