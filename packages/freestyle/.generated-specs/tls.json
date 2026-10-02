@@ -1,0 +1,1602 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.freestyle.tls#ListTlsRulesRequest": {
+      "type": "structure",
+      "members": {
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vmId",
+            "smithy.api#documentation": "Rules that apply to this VM: those naming it, plus those naming a private\nnetwork it is attached to. Its id, or your slug for it."
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "vpcId",
+            "smithy.api#documentation": "Rules naming this private network. Its id, or your slug for it."
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "domain",
+            "smithy.api#documentation": "Rules for exactly this domain, as written on the rule (e.g.\n`app.acme.com` or `*.acme.com`)."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#ListTlsRulesResponse": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.freestyle.tls#ListTlsRulesResponseRulesList",
+          "traits": {
+            "smithy.api#documentation": "Newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#TlsRule": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.tls#TlsAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dependencies": {
+          "target": "com.freestyle.tls#TlsRuleDependenciesList",
+          "traits": {
+            "smithy.api#documentation": "What this rule depends on. Deleting any of them deletes this rule, so no\nrule is ever left pointing at something that no longer exists."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.tls#TlsEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name the session is addressed to: exact, `*.suffix`, or `*`.",
+            "smithy.api#required": {}
+          }
+        },
+        "forwardAuth": {
+          "target": "com.freestyle.tls#TlsForwardAuthReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "match": {
+          "target": "com.freestyle.tls#HttpRequestMatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.tls#TlsProtocolDocumented",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "redacted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether any transform secret was redacted out of `transform`, so you know\nthe shape you see is not the whole story."
+          }
+        },
+        "source": {
+          "target": "com.freestyle.tls#TlsEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "transform": {
+          "target": "com.freestyle.tls#TlsRuleTransformList",
+          "traits": {
+            "smithy.api#documentation": "The rewrites this rule applies, with every secret replaced by `\"***\"`."
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An allowed named session over a domain, as intent: a session addressed to\n`domain`, from `source`, to `destination`, with any in-flight `transform`."
+      }
+    },
+    "com.freestyle.tls#TlsAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What a rule does with the named session it matches.\n\nOnly `allow` exists today, and it is required on every rule rather than\ndefaulted: a default would mean that the day `deny` arrives, every rule\nwritten before it silently acquires an action it never stated."
+      }
+    },
+    "com.freestyle.tls#TlsDependency": {
+      "type": "structure",
+      "members": {
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your label for the named resource, under the same rules as `slug`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource's id.",
+            "smithy.api#required": {}
+          }
+        },
+        "kind": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`vm` or `vpc` today. New selectors add new kinds.",
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your handle for the named resource, when it has one — so a rule says\nwhat it points at without a lookup per id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A resource a rule cannot outlive: deleting it deletes the rule."
+      }
+    },
+    "com.freestyle.tls#TlsRuleDependenciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#TlsDependency"
+      },
+      "traits": {
+        "smithy.api#documentation": "What this rule depends on. Deleting any of them deletes this rule, so no\nrule is ever left pointing at something that no longer exists."
+      }
+    },
+    "com.freestyle.tls#TlsEndpoint": {
+      "type": "structure",
+      "members": {
+        "host": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "**Destination only.** Pin the session to this host instead of resolving\nthe domain, while still presenting `domain` as the SNI.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "**Destination only.** The port the session lands on. Required with a\n`vmId` or `host` destination; defaults to 443 for a `public` origin.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "On a source, every publicly routable client — the open Internet dials the\nname. On a destination, the domain's own public origin. Only `true` is\nmeaningful; omit the field otherwise.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single VM, by id or by your slug for it. On a source, the VM that may\nopen the session; on a destination, the VM it lands on. Answers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Everything on one private network, by id or by your slug for it. **Source\nonly** — a landing is one place, so a network cannot be a destination.\nAnswers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One end of a rule: which session this side matches.\n\nA `source` says *who* may open the session (`vmId`/`vpcId`/`public: true`); a\n`destination` says *where it lands* (`vmId`+`port`, `host`+`port`, or\n`public: true` for the domain's own origin). Unknown fields are rejected\nrather than ignored: a rule is a security statement, and a typo that quietly\nwidened it is the wrong failure."
+      }
+    },
+    "com.freestyle.tls#TlsForwardAuthReference": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The configuration id returned by `POST /v5/tls/forward-auth`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A reusable authorization check attached to public HTTP ingress."
+      }
+    },
+    "com.freestyle.tls#HttpRequestMatch": {
+      "type": "structure",
+      "members": {
+        "method": {
+          "target": "com.freestyle.tls#HttpRequestMatchMethodList",
+          "traits": {
+            "smithy.api#documentation": "Case-sensitive HTTP method tokens. Omitted matches any; an empty list matches none.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "path": {
+          "target": "com.freestyle.tls#HttpPathMatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Select which HTTP egress requests receive a rule's transforms.\nIncluded dimensions are ANDed; methods are ORed. An empty object matches all.\nA non-match skips every transform, without denying access to the origin.\nSee <https://vercel.com/docs/sandbox/concepts/firewall#matchers>."
+      }
+    },
+    "com.freestyle.tls#HttpRequestMatchMethodList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Case-sensitive HTTP method tokens. Omitted matches any; an empty list matches none."
+      }
+    },
+    "com.freestyle.tls#HttpPathMatch": {
+      "type": "structure",
+      "members": {
+        "exact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Exact request path. Prefix and regex matching are not supported yet."
+      }
+    },
+    "com.freestyle.tls#TlsProtocolDocumented": {
+      "type": "enum",
+      "members": {
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "http"
+          }
+        },
+        "POSTGRES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "postgres"
+          }
+        },
+        "MINECRAFT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minecraft"
+          }
+        },
+        "IMAP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "imap"
+          }
+        },
+        "IMAPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "imaps"
+          }
+        },
+        "SOCKS5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "socks5"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "How the edge treats the session's bytes, and therefore which of its front\ndoors serves the rule.\n\n`http` (443) and `postgres` (5432) terminate the session, so each pairs with\nthe transform kind that speaks it and each needs a certificate for the name.\n`minecraft` (25565) routes on the server address in the client's handshake\nand then splices — no TLS, so no certificate and no transform.\n\nThe other two doors carry a terminating protocol and a splicing one at once,\nand a rule picks which it is. `tcp` shares 443 with `http`: match on SNI,\nsplice the bytes, terminate nothing, so your VM's own certificate answers the\nhandshake. `imap` and `imaps` share 993 for mail clients — `imap` terminates\non a certificate issued for the name and forwards plain IMAP to the port your\nserver listens on (143 by default), `imaps` splices to a server holding its\nown certificate on 993. All three splicing shapes are public ingress only.\n\n`socks5` (1080) goes the other way and is the only egress-only protocol. Your\nVM opens SOCKS5 to the platform edge with no authentication, names its own\ndestination inside the request, and the edge opens the session onward through\nyour proxy provider using the credentials a `socks5` transform carries — so\nthe workload can use the subscription without ever holding it. Nothing is\nterminated: your TLS runs end to end to the real origin. The rule's `domain`\nis an allow-list of destinations rather than a name anything resolves, which\nis why `*` is allowed here and refused everywhere else."
+      }
+    },
+    "com.freestyle.tls#TlsTransformDocumented": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.freestyle.tls#TlsTransformDocumentedCase0"
+        },
+        "Case1": {
+          "target": "com.freestyle.tls#TlsTransformDocumentedCase1"
+        },
+        "Case2": {
+          "target": "com.freestyle.tls#TlsTransformDocumentedCase2"
+        },
+        "Case3": {
+          "target": "com.freestyle.tls#TlsTransformDocumentedCase3"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The rewrites a rule applies, in order."
+      }
+    },
+    "com.freestyle.tls#TlsTransformDocumentedCase0HeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Set request headers on an `http` session. Header names are preserved\n(they are not secret); values are write-only."
+      }
+    },
+    "com.freestyle.tls#TlsTransformDocumentedCase0": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.freestyle.tls#TlsTransformDocumentedCase0HeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Set request headers on an `http` session. Header names are preserved\n(they are not secret); values are write-only.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set request headers on an `http` session. Header names are preserved\n(they are not secret); values are write-only."
+      }
+    },
+    "com.freestyle.tls#JsonPatch": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#PatchOperation"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ordered RFC 6902 operations. Values are write-only and read back as `\"***\"`.\nA rule accepts one patch, with at most 128 operations and 64 KiB of configuration."
+      }
+    },
+    "com.freestyle.tls#PatchOperation": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.freestyle.tls#PatchOperationCase0"
+        },
+        "Case1": {
+          "target": "com.freestyle.tls#PatchOperationCase1"
+        },
+        "Case2": {
+          "target": "com.freestyle.tls#PatchOperationCase2"
+        },
+        "Case3": {
+          "target": "com.freestyle.tls#PatchOperationCase3"
+        },
+        "Case4": {
+          "target": "com.freestyle.tls#PatchOperationCase4"
+        },
+        "Case5": {
+          "target": "com.freestyle.tls#PatchOperationCase5"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "JSON Patch single patch operation"
+      }
+    },
+    "com.freestyle.tls#PatchOperationCase0Op": {
+      "type": "enum",
+      "members": {
+        "ADD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "add"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#PatchOperationCase0": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value to add to the target location.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.tls#PatchOperationCase0Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'add' operation"
+      }
+    },
+    "com.freestyle.tls#PatchOperationCase1Op": {
+      "type": "enum",
+      "members": {
+        "REMOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "remove"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#PatchOperationCase1": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.tls#PatchOperationCase1Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'remove' operation"
+      }
+    },
+    "com.freestyle.tls#PatchOperationCase2Op": {
+      "type": "enum",
+      "members": {
+        "REPLACE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "replace"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#PatchOperationCase2": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value to replace with.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.tls#PatchOperationCase2Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'replace' operation"
+      }
+    },
+    "com.freestyle.tls#PatchOperationCase3Op": {
+      "type": "enum",
+      "members": {
+        "MOVE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "move"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#PatchOperationCase3": {
+      "type": "structure",
+      "members": {
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nto move value from.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.tls#PatchOperationCase3Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'move' operation"
+      }
+    },
+    "com.freestyle.tls#PatchOperationCase4Op": {
+      "type": "enum",
+      "members": {
+        "COPY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "copy"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#PatchOperationCase4": {
+      "type": "structure",
+      "members": {
+        "from": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nto copy value from.",
+            "smithy.api#required": {}
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.tls#PatchOperationCase4Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'copy' operation"
+      }
+    },
+    "com.freestyle.tls#PatchOperationCase5Op": {
+      "type": "enum",
+      "members": {
+        "TEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "test"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#PatchOperationCase5": {
+      "type": "structure",
+      "members": {
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-Pointer value [RFC6901](https://tools.ietf.org/html/rfc6901) that references a location\nwithin the target document where the operation is performed.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Value to test against.",
+            "smithy.api#required": {}
+          }
+        },
+        "op": {
+          "target": "com.freestyle.tls#PatchOperationCase5Op",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "'test' operation"
+      }
+    },
+    "com.freestyle.tls#TlsTransformDocumentedCase1": {
+      "type": "structure",
+      "members": {
+        "jsonPatch": {
+          "target": "com.freestyle.tls#JsonPatch",
+          "traits": {
+            "smithy.api#documentation": "Apply RFC 6902 operations to JSON HTTP egress request bodies.\nValues are write-only; operation names and JSON Pointer paths remain visible.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Apply RFC 6902 operations to JSON HTTP egress request bodies.\nValues are write-only; operation names and JSON Pointer paths remain visible."
+      }
+    },
+    "com.freestyle.tls#PostgresTransform": {
+      "type": "structure",
+      "members": {
+        "database": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The database to select. Optional: omitted leaves the guest's choice.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The upstream password. Write-only: sealed at rest, read back as `\"***\"`.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The upstream role to authenticate as.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials injected into a Postgres startup handshake. The guest connects\nwith no password; the edge completes the real handshake upstream."
+      }
+    },
+    "com.freestyle.tls#TlsTransformDocumentedCase2": {
+      "type": "structure",
+      "members": {
+        "postgres": {
+          "target": "com.freestyle.tls#PostgresTransform",
+          "traits": {
+            "smithy.api#documentation": "Inject credentials into a `postgres` handshake.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Inject credentials into a `postgres` handshake."
+      }
+    },
+    "com.freestyle.tls#Socks5Transform": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The password to present to the upstream proxy. Write-only: sealed at\nrest, read back as `\"***\"`.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "username": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The username to present to the upstream proxy.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Credentials presented to an upstream SOCKS5 proxy. Your VM connects to the\nplatform's SOCKS5 front with no authentication at all; the edge authenticates\nto your provider on its behalf, so the subscription is never inside the VM."
+      }
+    },
+    "com.freestyle.tls#TlsTransformDocumentedCase3": {
+      "type": "structure",
+      "members": {
+        "socks5": {
+          "target": "com.freestyle.tls#Socks5Transform",
+          "traits": {
+            "smithy.api#documentation": "Authenticate a `socks5` session to your upstream proxy provider.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Authenticate a `socks5` session to your upstream proxy provider."
+      }
+    },
+    "com.freestyle.tls#TlsRuleTransformList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#TlsTransformDocumented"
+      },
+      "traits": {
+        "smithy.api#documentation": "The rewrites this rule applies, with every secret replaced by `\"***\"`."
+      }
+    },
+    "com.freestyle.tls#ListTlsRulesResponseRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#TlsRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Newest first."
+      }
+    },
+    "com.freestyle.tls#ListTlsRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#ListTlsRulesRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#ListTlsRulesResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/tls",
+          "code": 200
+        },
+        "smithy.api#documentation": "List your TLS rules, newest first. Filter by `vmId` to get the rules that apply to one VM — those naming it, plus those naming a private network it is attached to — by `vpcId` for the rules naming a private network, or by `domain` for the rules written on exactly that name.",
+        "smithy.api#paginated": {
+          "inputToken": "offset",
+          "outputToken": "totalCount",
+          "items": "rules",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.freestyle.tls#CreateTlsRuleRequestTransformList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#TlsTransformDocumented"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rewrites applied in flight, in order. Secrets here are write-only."
+      }
+    },
+    "com.freestyle.tls#CreateTlsRuleRequest": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.tls#TlsAction",
+          "traits": {
+            "smithy.api#documentation": "Required, and `allow` is the only accepted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form note, up to 1024 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.tls#TlsEndpoint"
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name the session is addressed to: exact, `*.suffix`, or `*`.",
+            "smithy.api#required": {}
+          }
+        },
+        "forwardAuth": {
+          "target": "com.freestyle.tls#TlsForwardAuthReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "match": {
+          "target": "com.freestyle.tls#HttpRequestMatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.tls#TlsProtocolDocumented",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.tls#TlsEndpoint"
+        },
+        "transform": {
+          "target": "com.freestyle.tls#CreateTlsRuleRequestTransformList",
+          "traits": {
+            "smithy.api#documentation": "Rewrites applied in flight, in order. Secrets here are write-only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#CreateTlsRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#CreateTlsRuleRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#TlsRule"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#BadRequest"
+        },
+        {
+          "target": "com.freestyle.tls#NotFound"
+        },
+        {
+          "target": "com.freestyle.tls#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/tls",
+          "code": 200
+        },
+        "smithy.api#documentation": "Allow a named session over a domain: a session addressed to `domain`, from `source`, to `destination`. A `source` says who may open it (`vmId`/`vpcId`/`public: true`); a `destination` says where it lands (`vmId`+`port`, `host`+`port`, or `public: true` for the domain's own origin). A `transform` rewrites the session in flight — setting a header, or completing a Postgres handshake with credentials the guest never holds; its secrets are write-only and read back as `\"***\"`. A rule naming a VM or private network is deleted automatically when that resource is."
+      }
+    },
+    "com.freestyle.tls#ListTlsForwardAuthResponse": {
+      "type": "structure",
+      "members": {
+        "configs": {
+          "target": "com.freestyle.tls#ListTlsForwardAuthResponseConfigsList",
+          "traits": {
+            "smithy.api#documentation": "Newest first.",
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#TlsForwardAuth": {
+      "type": "structure",
+      "members": {
+        "accountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "authResponseHeaders": {
+          "target": "com.freestyle.tls#TlsForwardAuthAuthResponseHeadersList"
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "com.freestyle.tls#TlsForwardAuthHeadersMap"
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "protectedCookies": {
+          "target": "com.freestyle.tls#TlsForwardAuthProtectedCookiesList"
+        },
+        "redacted": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "timeoutMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A stored forward-auth configuration. Static header values are redacted."
+      }
+    },
+    "com.freestyle.tls#TlsForwardAuthAuthResponseHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#TlsForwardAuthHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#TlsForwardAuthProtectedCookiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.freestyle.tls#ListTlsForwardAuthResponseConfigsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#TlsForwardAuth"
+      },
+      "traits": {
+        "smithy.api#documentation": "Newest first."
+      }
+    },
+    "com.freestyle.tls#ListTlsForwardAuth": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.freestyle.tls#ListTlsForwardAuthResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/tls/forward-auth",
+          "code": 200
+        },
+        "smithy.api#documentation": "List your reusable HTTP authorization checks, newest first."
+      }
+    },
+    "com.freestyle.tls#CreateTlsForwardAuthRequestAuthResponseHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers copied from a successful check onto the VM request."
+      }
+    },
+    "com.freestyle.tls#CreateTlsForwardAuthRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Static headers added to the check. Values are write-only."
+      }
+    },
+    "com.freestyle.tls#CreateTlsForwardAuthRequestProtectedCookiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Cookie names visible to the check but withheld from the VM."
+      }
+    },
+    "com.freestyle.tls#CreateTlsForwardAuthRequest": {
+      "type": "structure",
+      "members": {
+        "authResponseHeaders": {
+          "target": "com.freestyle.tls#CreateTlsForwardAuthRequestAuthResponseHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Headers copied from a successful check onto the VM request."
+          }
+        },
+        "headers": {
+          "target": "com.freestyle.tls#CreateTlsForwardAuthRequestHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Static headers added to the check. Values are write-only."
+          }
+        },
+        "protectedCookies": {
+          "target": "com.freestyle.tls#CreateTlsForwardAuthRequestProtectedCookiesList",
+          "traits": {
+            "smithy.api#documentation": "Cookie names visible to the check but withheld from the VM."
+          }
+        },
+        "timeoutMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Per-check deadline in milliseconds. Defaults to 1500; range 100-5000.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute HTTPS endpoint receiving a bodyless GET before the VM request.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#CreateTlsForwardAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#CreateTlsForwardAuthRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#TlsForwardAuth"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#BadRequest"
+        },
+        {
+          "target": "com.freestyle.tls#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/tls/forward-auth",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a reusable authorization check for public HTTP ingress. Freestyle sends a bodyless GET to the HTTPS endpoint before waking or forwarding to the VM. Static header values are write-only and sealed at rest."
+      }
+    },
+    "com.freestyle.tls#GetTlsForwardAuthRequest": {
+      "type": "structure",
+      "members": {
+        "forwardAuthId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "forwardAuth configuration id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#GetTlsForwardAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#GetTlsForwardAuthRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#TlsForwardAuth"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/tls/forward-auth/{forwardAuthId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch one reusable authorization check. Static header values read back as `\"***\"`."
+      }
+    },
+    "com.freestyle.tls#UpdateTlsForwardAuthRequestAuthResponseHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Headers copied from a successful check onto the VM request."
+      }
+    },
+    "com.freestyle.tls#UpdateTlsForwardAuthRequestHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Static headers added to the check. Values are write-only."
+      }
+    },
+    "com.freestyle.tls#UpdateTlsForwardAuthRequestProtectedCookiesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Cookie names visible to the check but withheld from the VM."
+      }
+    },
+    "com.freestyle.tls#UpdateTlsForwardAuthRequest": {
+      "type": "structure",
+      "members": {
+        "forwardAuthId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "forwardAuth configuration id"
+          }
+        },
+        "authResponseHeaders": {
+          "target": "com.freestyle.tls#UpdateTlsForwardAuthRequestAuthResponseHeadersList",
+          "traits": {
+            "smithy.api#documentation": "Headers copied from a successful check onto the VM request."
+          }
+        },
+        "headers": {
+          "target": "com.freestyle.tls#UpdateTlsForwardAuthRequestHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Static headers added to the check. Values are write-only."
+          }
+        },
+        "protectedCookies": {
+          "target": "com.freestyle.tls#UpdateTlsForwardAuthRequestProtectedCookiesList",
+          "traits": {
+            "smithy.api#documentation": "Cookie names visible to the check but withheld from the VM."
+          }
+        },
+        "timeoutMs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Per-check deadline in milliseconds. Defaults to 1500; range 100-5000.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Absolute HTTPS endpoint receiving a bodyless GET before the VM request.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#UpdateTlsForwardAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#UpdateTlsForwardAuthRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#TlsForwardAuth"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#BadRequest"
+        },
+        {
+          "target": "com.freestyle.tls#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v5/tls/forward-auth/{forwardAuthId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a reusable authorization check in place, including rotating its static headers. Rules keep referencing the same id."
+      }
+    },
+    "com.freestyle.tls#DeleteTlsForwardAuthRequest": {
+      "type": "structure",
+      "members": {
+        "forwardAuthId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "forwardAuth configuration id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#DeleteTlsForwardAuth": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#DeleteTlsForwardAuthRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#NotFound"
+        },
+        {
+          "target": "com.freestyle.tls#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v5/tls/forward-auth/{forwardAuthId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete an unused authorization check. A configuration referenced by a TLS rule cannot be deleted."
+      }
+    },
+    "com.freestyle.tls#GetTlsRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "TLS rule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#GetTlsRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#GetTlsRuleRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#TlsRule"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/tls/{ruleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch one TLS rule. Transform secrets read back as `\"***\"`."
+      }
+    },
+    "com.freestyle.tls#UpdateTlsRuleRequestTransformList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.tls#TlsTransformDocumented"
+      },
+      "traits": {
+        "smithy.api#documentation": "Rewrites applied in flight, in order. Secrets here are write-only."
+      }
+    },
+    "com.freestyle.tls#UpdateTlsRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "TLS rule id"
+          }
+        },
+        "action": {
+          "target": "com.freestyle.tls#TlsAction",
+          "traits": {
+            "smithy.api#documentation": "Required, and `allow` is the only accepted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form note, up to 1024 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.tls#TlsEndpoint"
+        },
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name the session is addressed to: exact, `*.suffix`, or `*`.",
+            "smithy.api#required": {}
+          }
+        },
+        "forwardAuth": {
+          "target": "com.freestyle.tls#TlsForwardAuthReference",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "match": {
+          "target": "com.freestyle.tls#HttpRequestMatch",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.tls#TlsProtocolDocumented",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.tls#TlsEndpoint"
+        },
+        "transform": {
+          "target": "com.freestyle.tls#UpdateTlsRuleRequestTransformList",
+          "traits": {
+            "smithy.api#documentation": "Rewrites applied in flight, in order. Secrets here are write-only."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#UpdateTlsRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#UpdateTlsRuleRequest"
+      },
+      "output": {
+        "target": "com.freestyle.tls#TlsRule"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#BadRequest"
+        },
+        {
+          "target": "com.freestyle.tls#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/v5/tls/{ruleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replace a TLS rule in place — the one mutation this API allows, so a rotating secret can change without dropping traffic. The body is a whole rule, exactly as create takes it."
+      }
+    },
+    "com.freestyle.tls#DeleteTlsRuleRequest": {
+      "type": "structure",
+      "members": {
+        "ruleId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "TLS rule id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.tls#DeleteTlsRule": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.tls#DeleteTlsRuleRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.tls#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v5/tls/{ruleId}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a TLS rule. The resources it named are untouched — the dependency runs one way."
+      }
+    },
+    "com.freestyle.tls#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.freestyle.tls#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.freestyle.tls#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.freestyle.tls#Tls": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.freestyle.tls#ListTlsRules"
+        },
+        {
+          "target": "com.freestyle.tls#CreateTlsRule"
+        },
+        {
+          "target": "com.freestyle.tls#ListTlsForwardAuth"
+        },
+        {
+          "target": "com.freestyle.tls#CreateTlsForwardAuth"
+        },
+        {
+          "target": "com.freestyle.tls#GetTlsForwardAuth"
+        },
+        {
+          "target": "com.freestyle.tls#UpdateTlsForwardAuth"
+        },
+        {
+          "target": "com.freestyle.tls#DeleteTlsForwardAuth"
+        },
+        {
+          "target": "com.freestyle.tls#GetTlsRule"
+        },
+        {
+          "target": "com.freestyle.tls#UpdateTlsRule"
+        },
+        {
+          "target": "com.freestyle.tls#DeleteTlsRule"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Freestyle",
+        "smithy.api#documentation": "# Powerful Virtual Machines\n\nDocumentation: [freestyle.sh/docs](https://freestyle.sh/docs)\n\nFreestyle VMs are full Linux virtual machines designed for long running, complex tasks.\n\n## Key Features\n\n- **Instant Startup**: Freestyle VMs provision in milliseconds, with p99s under 400ms.\n- **Persistence**: Freestyle VMs can run forever, they can be hibernated with their exact memory in place and come back to life weeks later instantly, in that exact state.\n- **Powerful**: Freestyle VMs go up to 64GB of RAM for public tiers and much further for enterprise. Freestyle does high quality hardware virtualization supporting nested virtualization, FUSE, eBPF, full Linux networking and more. If it can run in an EC2, it can run in a Freestyle VM.\n- **Cheaply Snapshottable and Branchable**: Freestyle VMs are instantly and cheaply snapshottable (sub 1ms interruption, sub 50ms to snapshot ready). These snapshots can be used to create new VMs in the exact state of the original VM (memory and disk). This enables powerful workflows like branching, cloning, and rapid recovery from failures.\n\n## When to use Freestyle\n\n- **Long Running Agent Tasks**: When you have tasks that take hours, days, weeks or months to run, Freestyle VMs provide a persistent and powerful environment that your agent can work in to completion.\n- **Failure Prone/Experimental Exploration**: When your tasks involve branching, cloning or need time travel Freestyle VMs are ideal because of their cheap snapshottability and power that makes them great for experiments.\n- **Complex Coding Problems**: When you are tackling advanced coding problems in research or production codebases, poor virtualization and small sandboxes will not cut it. Freestyle VMs provide the necessary resources and environment to handle these challenges effectively.\n- **Multi Tenant Usage Patterns**: Freestyle VMs are intentionally built to be used by agent builders with multiple customers. The slug system allows for keying VMs by their user, the identity system allows for granular acccess control and permissioning, and the VPC system allows for multi-tenant network isolation. \n\n## When not to use it\n\n- **\"Run AI Code\"**: If your exclusively executing short lived Python scripts or other ephemeral tasks the benefits above aren't relevant. Freestyle VMs should still be benchmarked but there may be alternatives better suited.\n- **CPU Intensive CI/CD**: Freestyle VMs run on bare metal on data center CPUs. We also oversubscribe host resources. For workloads that require sustained high CPU usage like building the Linux Kernel or mining crypto prefer cloud providers that offer consumer CPU performance.\n- **Short Lived Tasks**: If your tasks are extremely short lived and do not benefit from persistence or powerful hardware. If your average task takes less than 15 minutes to complete then they are likely cheaply retryable and don't require the reliability and persistence that Freestyle VMs provide.\n- **Sole Application Hosting**: Freestyle VMs are designed as workbenches for development, experimentation and task execution. Not for hosting production applications. Hosting a minecraft server for some friends will work great on Freestyle, but we do not offer autoscaling, load balancers or CDNs and we don't plan to.\n\n## Emerging Use Cases\n\n- **RL Environments**: Freestyle VMs are well-suited for running reinforcement learning environments that require persistent state and complex setups. The ability to snapshot and branch VMs allows researchers to experiment with different strategies and record environment states efficiently.\n- **Auto Research Climbing**: Freestyle VMs are great for auto research as the snapshotting and fan out allows research agents to explore multiple strategies, review past results and iterate efficiently without ever losing progress.\n- **Environments for Development, Testing, Security and Pentesting**: Freestyle VMs are the only sandbox provider that offers full private VPC and networking which allows simulating full applications in production like staging environments. This can be used for testing, iteration, security assesments and penetration testing in a controlled and isolated environment.\n- **Connecting Agents to Production VPCs**: Freestyle VMs VPC system allows for connections to private production VPCs through secure Wireguard tunnels. If you want sandboxed agents to work on your/your users production infrastructure and they have requirements about not going through the public internet, Freestyle VMs provide a secure and compliant solution.\n\n## Private Offers (Enterprise)\n\n- **GPU Sandboxes**: Freestyle offers private GPU sandboxes for enterprise customers, providing direct access to frontier GPU hardware for high performance computing, machine learning and generally the above **Emerging Use Cases**.\n- **Colocated Bare Metal**: For users wanting sandboxes that work with especially weird requirements Freestyle can offer space in our racks for your dedicated bare metal servers. This can be useful for custom GPUs, video processing, or any other specialized hardware needs.\n- **Custom Pricing**: Freestyle can offer spot access, CPU Time billing, node based pricing and more. These deals can be tailored to the specific needs and usage patterns of enterprise customers.\n- **Custom Sandboxing**: Freestyle builds and maintains its own custom virtualization solutions which allows us to virtualize and sandbox workloads in ways that are not possible with standard options. This enables highly specialized and optimized environments for enterprise customers.\n- **Dedicated Support**: Enterprise customers can receive dedicated support from the Freestyle team, ensuring that any issues or custom requirements are addressed promptly and effectively.\n\nFor more information on Enterprise offerings contact our [sales team](https://cal.com/freestyle/enterprise-onboarding?overlayCalendar=true)\n\n### Relevant Links\n\n- [Freestyle Documentation](https://freestyle.sh/docs)\n- [Freestyle Dashboard](https://dash.freestyle.sh) — manage your account and API keys.\n\nAI agents can create their own API key with `npx -y freestyle@latest tokens create \"agent work\" --output json` using an existing CLI login. Run `npx -y freestyle@latest login` first if needed, then use the returned `token` as `FREESTYLE_API_KEY`."
+      }
+    }
+  }
+}

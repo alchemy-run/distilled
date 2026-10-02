@@ -1,0 +1,921 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.freestyle.vpcs#ListVpcsRequest": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "offset": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "offset"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#ListVpcsResponse": {
+      "type": "structure",
+      "members": {
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "vpcs": {
+          "target": "com.freestyle.vpcs#ListVpcsResponseVpcsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#Vpc": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's IPv4 CIDR block, when it has one. Networks are\nIPv6-first; IPv4 is opt-in at create.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cidrV6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's IPv6 CIDR block — always present.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A private network. Its VXLAN id is a cluster internal and is not published."
+      }
+    },
+    "com.freestyle.vpcs#ListVpcsResponseVpcsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vpcs#Vpc"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#ListVpcs": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#ListVpcsRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vpcs#ListVpcsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vpcs",
+          "code": 200
+        },
+        "smithy.api#documentation": "List your private networks, newest first.",
+        "smithy.api#paginated": {
+          "inputToken": "offset",
+          "outputToken": "totalCount",
+          "items": "vpcs",
+          "pageSize": "limit"
+        }
+      }
+    },
+    "com.freestyle.vpcs#FirewallSpec": {
+      "type": "structure",
+      "members": {
+        "rules": {
+          "target": "com.freestyle.vpcs#FirewallSpecRulesList"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The `firewall` block of a create: rules created with the resource and\ndeleted with it. Inside it, an endpoint with no identity means the resource\nbeing created — which is how a rule names something whose id does not exist\nyet."
+      }
+    },
+    "com.freestyle.vpcs#CreateFirewallRuleRequest": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.freestyle.vpcs#FirewallAction",
+          "traits": {
+            "smithy.api#documentation": "Required, and `allow` is the only accepted value.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A free-form note, up to 1024 characters.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "destination": {
+          "target": "com.freestyle.vpcs#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.freestyle.vpcs#FirewallEndpoint",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#FirewallAction": {
+      "type": "enum",
+      "members": {
+        "ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "allow"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "What a rule does with the traffic it matches.\n\nOnly `allow` exists today, and it is required on every rule rather than\ndefaulted: a default would mean that the day `deny` arrives, every rule\nwritten before it silently acquires an action it never stated."
+      }
+    },
+    "com.freestyle.vpcs#FirewallEndpoint": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An address range, IPv4 or IPv6, in canonical `network/prefix` form.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A single port, 1–65535. Requires `protocol`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "protocol": {
+          "target": "com.freestyle.vpcs#FirewallProtocol",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "public": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Every publicly routable address, whoever owns it — including another\nFreestyle VM reached at its public address. Only `true` is meaningful;\nomit the field otherwise. Not combined with `vmId` or `vpcId`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tunnelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Whatever is on the far side of one tunnel — the client that dials it,\nand any remote range routed over it. Tunnels have no slug, so this is a\ntunnel id: `tun-…`, or `wg-…` for one carried over from the per-VPC VPN\nrecords tunnels replaced.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vmId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A single VM, by id or by your slug for it. Answers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Everything on one private network, by id or by your slug for it.\nAnswers hold its id.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One end of a rule: which traffic this side matches.\n\nFields intersect — `{ vpcId, port, protocol }` is \"traffic in that network,\non that port, over that protocol\". `vmId`/`vpcId`/`tunnelId` select by\nidentity (the VM however it is addressed); `cidr`/`public` select by\naddress. Unknown fields\nare rejected rather than ignored: a matcher is a security statement, and a\ntypo'd `porrt: 22` that quietly became \"every port\" is the wrong failure."
+      }
+    },
+    "com.freestyle.vpcs#FirewallProtocol": {
+      "type": "enum",
+      "members": {
+        "TCP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tcp"
+          }
+        },
+        "UDP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "udp"
+          }
+        },
+        "ICMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "icmp"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The transport a matcher is restricted to."
+      }
+    },
+    "com.freestyle.vpcs#FirewallSpecRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vpcs#CreateFirewallRuleRequest"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#CreateVpcRequest": {
+      "type": "structure",
+      "members": {
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's IPv4 CIDR. Networks are dual-stack; a `/24` out of\n`10.0.0.0/8` is derived for you when omitted. Name one to choose the\nrange yourself — worth doing when the network has to reach an existing\nestate over a tunnel and must not overlap it, or when it needs more\nthan 254 IPv4 members.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "cidrV6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The network's IPv6 CIDR; a unique-local /64 is derived for you when\nomitted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "firewall": {
+          "target": "com.freestyle.vpcs#FirewallSpec",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#CreateVpc": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#CreateVpcRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vpcs#Vpc"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vpcs#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vpcs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v5/vpcs",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a private network."
+      }
+    },
+    "com.freestyle.vpcs#GetVpcRequest": {
+      "type": "structure",
+      "members": {
+        "vpcIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VPC id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#GetVpc": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#GetVpcRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vpcs#Vpc"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vpcs#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vpcs/{vpcIdOrSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetch a private network by its id or its slug."
+      }
+    },
+    "com.freestyle.vpcs#UpdateVpcRequest": {
+      "type": "structure",
+      "members": {
+        "vpcIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VPC id, or your slug for it"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An empty string clears it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An empty string clears it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#UpdateVpc": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#UpdateVpcRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vpcs#Vpc"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vpcs#BadRequest"
+        },
+        {
+          "target": "com.freestyle.vpcs#NotFound"
+        },
+        {
+          "target": "com.freestyle.vpcs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v5/vpcs/{vpcIdOrSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Rename a private network or change its slug."
+      }
+    },
+    "com.freestyle.vpcs#DeleteVpcRequest": {
+      "type": "structure",
+      "members": {
+        "vpcIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VPC id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#DeleteVpc": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#DeleteVpcRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vpcs#NotFound"
+        },
+        {
+          "target": "com.freestyle.vpcs#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v5/vpcs/{vpcIdOrSlug}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a private network."
+      }
+    },
+    "com.freestyle.vpcs#ListVpcIpsRequest": {
+      "type": "structure",
+      "members": {
+        "vpcIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VPC id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#ListVpcIpsResponse": {
+      "type": "structure",
+      "members": {
+        "ips": {
+          "target": "com.freestyle.vpcs#ListVpcIpsResponseIpsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#VpcIpReservation": {
+      "type": "structure",
+      "members": {
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "owner": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Who holds the address: a VM id, or `wireguard:{attachmentId}` for a\ntunnel attachment's address.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One reserved address inside a private network."
+      }
+    },
+    "com.freestyle.vpcs#ListVpcIpsResponseIpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vpcs#VpcIpReservation"
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#ListVpcIps": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#ListVpcIpsRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vpcs#ListVpcIpsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vpcs#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vpcs/{vpcIdOrSlug}/ips",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the addresses currently reserved in a private network: each attached VM's address, plus one per VPN."
+      }
+    },
+    "com.freestyle.vpcs#ListVpcTunnelsRequest": {
+      "type": "structure",
+      "members": {
+        "vpcIdOrSlug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "VPC id, or your slug for it"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.freestyle.vpcs#ListTunnelsResponse": {
+      "type": "structure",
+      "members": {
+        "totalCount": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tunnels": {
+          "target": "com.freestyle.vpcs#ListTunnelsResponseTunnelsList",
+          "traits": {
+            "smithy.api#documentation": "Newest first. Listings never carry a private key; the config returned\nhere has `PrivateKey` blanked.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.freestyle.vpcs#Tunnel": {
+      "type": "structure",
+      "members": {
+        "attachments": {
+          "target": "com.freestyle.vpcs#TunnelAttachmentsList",
+          "traits": {
+            "smithy.api#documentation": "The private networks on the far side, oldest attachment first.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientAddressV4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your fixed addresses inside the tunnel. Only the gateway ever sees\nthem: each attached network sees an address inside its own subnet\ninstead (`attachments[].address`).",
+            "smithy.api#required": {}
+          }
+        },
+        "clientAddressV6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "clientConfig": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A complete WireGuard config file, fixed for the life of the tunnel:\nattaching and detaching networks never changes it, so bring it up once\nand manage what it reaches through the API. `PrivateKey` is blank\nexcept on create and rotate-key, the only two responses that mint a\nkeypair.",
+            "smithy.api#required": {}
+          }
+        },
+        "clientPublicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your label for this tunnel, if you gave it one.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "endpointHost": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Host to dial.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "endpointPort": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: the tunnel's id under its old name. Read `tunnelId`.",
+            "smithy.api#required": {}
+          }
+        },
+        "routes": {
+          "target": "com.freestyle.vpcs#TunnelRoutesList",
+          "traits": {
+            "smithy.api#documentation": "The ranges your client routes through the tunnel — its `AllowedIPs`,\nfixed at create. A network can only be attached if its CIDRs fall\ninside these.",
+            "smithy.api#required": {}
+          }
+        },
+        "serverPublicKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The one `[Peer]` public key in your config.",
+            "smithy.api#required": {}
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your handle for this tunnel, if you gave it one. Usable anywhere the id\nis, in place of it.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "tunnelId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The tunnel's id, under the name the rest of the API uses for it — a\nfirewall rule says `tunnelId`, so the tunnel does too.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "updatedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A tunnel: your WireGuard identity on the platform. It exists until you\ndelete it: connect, disconnect and reconnect as often as you like — a\nsession is set up on the handshake that needs it, so an idle tunnel costs\nnothing and never expires. A tunnel routes nowhere until you attach a\nprivate network to it; attach several and one WireGuard interface reaches\nthem all."
+      }
+    },
+    "com.freestyle.vpcs#TunnelAttachment": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: the primary address, whichever family. Read `ipv4`/`ipv6`.",
+            "smithy.api#required": {}
+          }
+        },
+        "allowedIps": {
+          "target": "com.freestyle.vpcs#TunnelAttachmentAllowedIpsList",
+          "traits": {
+            "smithy.api#documentation": "The CIDRs the gateway routes to this network.",
+            "smithy.api#required": {}
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "exit": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this attachment is a network exit: your client forwards for\ndestinations that are not its own address, and members route through\nit with an ordinary route via the attachment's address. Omitted when\nfalse."
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your IPv4 address inside the private network, absent on a v6-only\nattachment. It belongs to this tunnel for as long as the network stays\nattached, so you can write it into configs and rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ipv6": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Your IPv6 address inside the private network, under the same rules.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "remoteCidrs": {
+          "target": "com.freestyle.vpcs#TunnelAttachmentRemoteCidrsList",
+          "traits": {
+            "smithy.api#documentation": "Ranges behind your client that this network routes through the tunnel\n(a site-to-site grant). VMs reach them with an ordinary route via\n`address`. Omitted when the attachment has none."
+          }
+        },
+        "secondaryAddress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deprecated: the second-family address. Read `ipv4`/`ipv6`.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "vpcCidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "vpcId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "One private network on the far side of a tunnel: the network, your address\ninside it, and the `[Peer]` key that carries it."
+      }
+    },
+    "com.freestyle.vpcs#TunnelAttachmentAllowedIpsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The CIDRs the gateway routes to this network."
+      }
+    },
+    "com.freestyle.vpcs#TunnelAttachmentRemoteCidrsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Ranges behind your client that this network routes through the tunnel\n(a site-to-site grant). VMs reach them with an ordinary route via\n`address`. Omitted when the attachment has none."
+      }
+    },
+    "com.freestyle.vpcs#TunnelAttachmentsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vpcs#TunnelAttachment"
+      },
+      "traits": {
+        "smithy.api#documentation": "The private networks on the far side, oldest attachment first."
+      }
+    },
+    "com.freestyle.vpcs#TunnelRoutesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "The ranges your client routes through the tunnel — its `AllowedIPs`,\nfixed at create. A network can only be attached if its CIDRs fall\ninside these."
+      }
+    },
+    "com.freestyle.vpcs#ListTunnelsResponseTunnelsList": {
+      "type": "list",
+      "member": {
+        "target": "com.freestyle.vpcs#Tunnel"
+      },
+      "traits": {
+        "smithy.api#documentation": "Newest first. Listings never carry a private key; the config returned\nhere has `PrivateKey` blanked."
+      }
+    },
+    "com.freestyle.vpcs#ListVpcTunnels": {
+      "type": "operation",
+      "input": {
+        "target": "com.freestyle.vpcs#ListVpcTunnelsRequest"
+      },
+      "output": {
+        "target": "com.freestyle.vpcs#ListTunnelsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.freestyle.vpcs#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v5/vpcs/{vpcIdOrSlug}/tunnels",
+          "code": 200
+        },
+        "smithy.api#documentation": "List the tunnels attached to a private network, newest first. Listings never include a private key: one is returned only by create and rotate-key."
+      }
+    },
+    "com.freestyle.vpcs#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.freestyle.vpcs#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.freestyle.vpcs#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.freestyle.vpcs#Vpcs": {
+      "type": "service",
+      "version": "0.1.0",
+      "operations": [
+        {
+          "target": "com.freestyle.vpcs#ListVpcs"
+        },
+        {
+          "target": "com.freestyle.vpcs#CreateVpc"
+        },
+        {
+          "target": "com.freestyle.vpcs#GetVpc"
+        },
+        {
+          "target": "com.freestyle.vpcs#UpdateVpc"
+        },
+        {
+          "target": "com.freestyle.vpcs#DeleteVpc"
+        },
+        {
+          "target": "com.freestyle.vpcs#ListVpcIps"
+        },
+        {
+          "target": "com.freestyle.vpcs#ListVpcTunnels"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Freestyle",
+        "smithy.api#documentation": "# Powerful Virtual Machines\n\nDocumentation: [freestyle.sh/docs](https://freestyle.sh/docs)\n\nFreestyle VMs are full Linux virtual machines designed for long running, complex tasks.\n\n## Key Features\n\n- **Instant Startup**: Freestyle VMs provision in milliseconds, with p99s under 400ms.\n- **Persistence**: Freestyle VMs can run forever, they can be hibernated with their exact memory in place and come back to life weeks later instantly, in that exact state.\n- **Powerful**: Freestyle VMs go up to 64GB of RAM for public tiers and much further for enterprise. Freestyle does high quality hardware virtualization supporting nested virtualization, FUSE, eBPF, full Linux networking and more. If it can run in an EC2, it can run in a Freestyle VM.\n- **Cheaply Snapshottable and Branchable**: Freestyle VMs are instantly and cheaply snapshottable (sub 1ms interruption, sub 50ms to snapshot ready). These snapshots can be used to create new VMs in the exact state of the original VM (memory and disk). This enables powerful workflows like branching, cloning, and rapid recovery from failures.\n\n## When to use Freestyle\n\n- **Long Running Agent Tasks**: When you have tasks that take hours, days, weeks or months to run, Freestyle VMs provide a persistent and powerful environment that your agent can work in to completion.\n- **Failure Prone/Experimental Exploration**: When your tasks involve branching, cloning or need time travel Freestyle VMs are ideal because of their cheap snapshottability and power that makes them great for experiments.\n- **Complex Coding Problems**: When you are tackling advanced coding problems in research or production codebases, poor virtualization and small sandboxes will not cut it. Freestyle VMs provide the necessary resources and environment to handle these challenges effectively.\n- **Multi Tenant Usage Patterns**: Freestyle VMs are intentionally built to be used by agent builders with multiple customers. The slug system allows for keying VMs by their user, the identity system allows for granular acccess control and permissioning, and the VPC system allows for multi-tenant network isolation. \n\n## When not to use it\n\n- **\"Run AI Code\"**: If your exclusively executing short lived Python scripts or other ephemeral tasks the benefits above aren't relevant. Freestyle VMs should still be benchmarked but there may be alternatives better suited.\n- **CPU Intensive CI/CD**: Freestyle VMs run on bare metal on data center CPUs. We also oversubscribe host resources. For workloads that require sustained high CPU usage like building the Linux Kernel or mining crypto prefer cloud providers that offer consumer CPU performance.\n- **Short Lived Tasks**: If your tasks are extremely short lived and do not benefit from persistence or powerful hardware. If your average task takes less than 15 minutes to complete then they are likely cheaply retryable and don't require the reliability and persistence that Freestyle VMs provide.\n- **Sole Application Hosting**: Freestyle VMs are designed as workbenches for development, experimentation and task execution. Not for hosting production applications. Hosting a minecraft server for some friends will work great on Freestyle, but we do not offer autoscaling, load balancers or CDNs and we don't plan to.\n\n## Emerging Use Cases\n\n- **RL Environments**: Freestyle VMs are well-suited for running reinforcement learning environments that require persistent state and complex setups. The ability to snapshot and branch VMs allows researchers to experiment with different strategies and record environment states efficiently.\n- **Auto Research Climbing**: Freestyle VMs are great for auto research as the snapshotting and fan out allows research agents to explore multiple strategies, review past results and iterate efficiently without ever losing progress.\n- **Environments for Development, Testing, Security and Pentesting**: Freestyle VMs are the only sandbox provider that offers full private VPC and networking which allows simulating full applications in production like staging environments. This can be used for testing, iteration, security assesments and penetration testing in a controlled and isolated environment.\n- **Connecting Agents to Production VPCs**: Freestyle VMs VPC system allows for connections to private production VPCs through secure Wireguard tunnels. If you want sandboxed agents to work on your/your users production infrastructure and they have requirements about not going through the public internet, Freestyle VMs provide a secure and compliant solution.\n\n## Private Offers (Enterprise)\n\n- **GPU Sandboxes**: Freestyle offers private GPU sandboxes for enterprise customers, providing direct access to frontier GPU hardware for high performance computing, machine learning and generally the above **Emerging Use Cases**.\n- **Colocated Bare Metal**: For users wanting sandboxes that work with especially weird requirements Freestyle can offer space in our racks for your dedicated bare metal servers. This can be useful for custom GPUs, video processing, or any other specialized hardware needs.\n- **Custom Pricing**: Freestyle can offer spot access, CPU Time billing, node based pricing and more. These deals can be tailored to the specific needs and usage patterns of enterprise customers.\n- **Custom Sandboxing**: Freestyle builds and maintains its own custom virtualization solutions which allows us to virtualize and sandbox workloads in ways that are not possible with standard options. This enables highly specialized and optimized environments for enterprise customers.\n- **Dedicated Support**: Enterprise customers can receive dedicated support from the Freestyle team, ensuring that any issues or custom requirements are addressed promptly and effectively.\n\nFor more information on Enterprise offerings contact our [sales team](https://cal.com/freestyle/enterprise-onboarding?overlayCalendar=true)\n\n### Relevant Links\n\n- [Freestyle Documentation](https://freestyle.sh/docs)\n- [Freestyle Dashboard](https://dash.freestyle.sh) — manage your account and API keys.\n\nAI agents can create their own API key with `npx -y freestyle@latest tokens create \"agent work\" --output json` using an existing CLI login. Run `npx -y freestyle@latest login` first if needed, then use the returned `token` as `FREESTYLE_API_KEY`."
+      }
+    }
+  }
+}
