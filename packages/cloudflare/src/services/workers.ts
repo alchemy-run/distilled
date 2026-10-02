@@ -11279,11 +11279,23 @@ export const PutScriptObservabilityTraces = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutScriptObservabilityTraces",
 }) as any as S.Schema<PutScriptObservabilityTraces>;
 
+export interface PutScriptObservabilityIssues {
+  enabled?: boolean;
+}
+export const PutScriptObservabilityIssues = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "PutScriptObservabilityIssues",
+}) as any as S.Schema<PutScriptObservabilityIssues>;
+
 export interface PutScriptMetadataObservability {
   enabled: boolean;
   headSamplingRate?: number | null;
   logs?: PutScriptObservabilityLogs | null;
   traces?: PutScriptObservabilityTraces | null;
+  issues?: PutScriptObservabilityIssues | null;
 }
 export const PutScriptMetadataObservability = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11293,6 +11305,7 @@ export const PutScriptMetadataObservability = /*@__PURE__*/ S.suspend(() =>
     ),
     logs: S.optional(S.NullOr(PutScriptObservabilityLogs)),
     traces: S.optional(S.NullOr(PutScriptObservabilityTraces)),
+    issues: S.optional(S.NullOr(PutScriptObservabilityIssues)),
   }),
 ).annotate({
   identifier: "PutScriptMetadataObservability",

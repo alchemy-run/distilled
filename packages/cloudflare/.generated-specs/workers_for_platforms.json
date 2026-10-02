@@ -24309,77 +24309,6 @@
         "target": "smithy.api#String"
       }
     },
-    "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadata": {
-      "type": "structure",
-      "members": {
-        "annotations": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataAnnotations"
-        },
-        "assets": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataAssets"
-        },
-        "bindings": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataBindingsList"
-        },
-        "body_part": {
-          "target": "smithy.api#String"
-        },
-        "compatibility_date": {
-          "target": "smithy.api#String"
-        },
-        "compatibility_flags": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList"
-        },
-        "containers": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataContainersList"
-        },
-        "keep_assets": {
-          "target": "smithy.api#Boolean"
-        },
-        "keep_bindings": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList"
-        },
-        "limits": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataLimits"
-        },
-        "logpush": {
-          "target": "smithy.api#Boolean"
-        },
-        "main_module": {
-          "target": "smithy.api#String"
-        },
-        "migrations": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataMigrations"
-        },
-        "observability": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataObservability"
-        },
-        "placement": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataPlacement"
-        },
-        "tags": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList"
-        },
-        "tail_consumers": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataTailConsumersList",
-          "traits": {
-            "com.cloudflare.protocols#nullable": {}
-          }
-        },
-        "usage_model": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataUsageModel"
-        },
-        "cache_options": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataCache"
-        },
-        "streaming_tail_consumers": {
-          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStreamingTailConsumersList",
-          "traits": {
-            "com.cloudflare.protocols#nullable": {}
-          }
-        }
-      }
-    },
     "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataAnnotations": {
       "type": "structure",
       "members": {
@@ -26298,6 +26227,14 @@
         }
       }
     },
+    "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptObservabilityIssues": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
     "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataObservability": {
       "type": "structure",
       "members": {
@@ -26321,6 +26258,12 @@
         },
         "traces": {
           "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptObservabilityTraces",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {}
+          }
+        },
+        "issues": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptObservabilityIssues",
           "traits": {
             "com.cloudflare.protocols#nullable": {}
           }
@@ -26630,6 +26573,77 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "unbound"
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadata": {
+      "type": "structure",
+      "members": {
+        "annotations": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataAnnotations"
+        },
+        "assets": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataAssets"
+        },
+        "bindings": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataBindingsList"
+        },
+        "body_part": {
+          "target": "smithy.api#String"
+        },
+        "compatibility_date": {
+          "target": "smithy.api#String"
+        },
+        "compatibility_flags": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList"
+        },
+        "containers": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataContainersList"
+        },
+        "keep_assets": {
+          "target": "smithy.api#Boolean"
+        },
+        "keep_bindings": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList"
+        },
+        "limits": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataLimits"
+        },
+        "logpush": {
+          "target": "smithy.api#Boolean"
+        },
+        "main_module": {
+          "target": "smithy.api#String"
+        },
+        "migrations": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataMigrations"
+        },
+        "observability": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataObservability"
+        },
+        "placement": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataPlacement"
+        },
+        "tags": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStringList"
+        },
+        "tail_consumers": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataTailConsumersList",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {}
+          }
+        },
+        "usage_model": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataUsageModel"
+        },
+        "cache_options": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataCache"
+        },
+        "streaming_tail_consumers": {
+          "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataStreamingTailConsumersList",
+          "traits": {
+            "com.cloudflare.protocols#nullable": {}
           }
         }
       }
