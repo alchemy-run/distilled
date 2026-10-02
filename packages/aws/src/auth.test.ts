@@ -399,3 +399,39 @@ describe("SSO role credentials cache (#565)", () => {
     ).toBe(sha1(`${START_URL}\n111111111111\nAdministratorAccess`));
   });
 });
+
+describe("AWS_CONFIG_FILE", () => {
+  let home: string;
+  let originalHome: string | undefined;
+  let originalConfigFile: string | undefined;
+
+  beforeEach(() => {
+    home = mkdtempSync(join(tmpdir(), "distilled-aws-auth-"));
+    originalHome = process.env.HOME;
+    originalConfigFile = process.env.AWS_CONFIG_FILE;
+    process.env.HOME = home;
+  });
+
+  afterEach(() => {
+    process.env.HOME = originalHome;
+    if (originalConfigFile === undefined) delete process.env.AWS_CONFIG_FILE;
+    else process.env.AWS_CONFIG_FILE = originalConfigFile;
+    rmSync(home, { recursive: true, force: true });
+  });
+
+  test("resolves sso-session sections from AWS_CONFIG_FILE", async () => {
+    const configFile = join(home, "project", "aws-config");
+    mkdirSync(join(home, "project"), { recursive: true });
+    writeFileSync(configFile, config);
+    process.env.AWS_CONFIG_FILE = configFile;
+
+    const h = harness(home);
+    h.files.delete(join(home, ".aws", "config"));
+    h.files.set(configFile, config);
+
+    const dev = await h.load("dev");
+    expect(Redacted.value(dev.accessKeyId)).toBe(
+      "AKIA-111111111111-AdministratorAccess",
+    );
+  });
+});
