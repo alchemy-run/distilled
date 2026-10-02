@@ -1,0 +1,21 @@
+{
+  "description": "Declare the non-2xx statuses Discord actually returns on operations the spec types only as `4XX`. Discord's OpenAPI gives every operation a `429` and a `4XX` catch-all, so the converter lifts nothing per status and callers could not `catchTag` a `NotFound`. Each entry below was observed live on 2026-10-02 with a bot token: GET /guilds/{guild_id} → 404 `{ \"message\": \"Unknown Guild\", \"code\": 10004 }` for both a nonexistent id and a guild the bot is not a member of; GET /channels/{channel_id} → 404 `{ \"message\": \"Unknown Channel\", \"code\": 10003 }`. Add an operation here only with the request and response written down; a status guessed from the docs gives callers a type they trust for a failure that may never happen.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1guilds~1{guild_id}/get/responses/404",
+      "value": {
+        "description": "Unknown Guild (code 10004): no such guild, or the bot is not a member",
+        "$ref": "#/components/responses/ClientErrorResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/paths/~1channels~1{channel_id}/get/responses/404",
+      "value": {
+        "description": "Unknown Channel (code 10003)",
+        "$ref": "#/components/responses/ClientErrorResponse"
+      }
+    }
+  ]
+}
