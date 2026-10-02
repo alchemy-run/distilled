@@ -118,6 +118,27 @@
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1777,6 +1798,27 @@
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1980,6 +2022,27 @@
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2083,7 +2146,7 @@
         "target": "com.azure.billingbenefits#DeleteMaccRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billingbenefits#DeleteMaccResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2094,6 +2157,35 @@
         },
         "smithy.api#documentation": "Delete MACC.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.billingbenefits#DeleteMaccResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billingbenefits#DeleteMaccRequest": {
@@ -2227,6 +2319,27 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2525,6 +2638,20 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3280,7 +3407,7 @@
         "target": "com.azure.billingbenefits#DeleteFreeServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billingbenefits#DeleteFreeServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3291,6 +3418,35 @@
         },
         "smithy.api#documentation": "This operation deletes free services from the subscription. Only free services that are in an expired or cancelled states can be deleted.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.billingbenefits#DeleteFreeServiceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billingbenefits#DeleteFreeServiceRequest": {
@@ -3424,6 +3580,27 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3777,6 +3954,20 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4536,6 +4727,27 @@
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -4816,7 +5028,7 @@
         "target": "com.azure.billingbenefits#DeleteDiscountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billingbenefits#DeleteDiscountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4827,6 +5039,35 @@
         },
         "smithy.api#documentation": "Delete discount. Clears the metadata from the user's view.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.billingbenefits#DeleteDiscountResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billingbenefits#DeleteDiscountRequest": {
@@ -4960,6 +5201,27 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5154,6 +5416,20 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7044,7 +7320,7 @@
         "target": "com.azure.billingbenefits#CreditsChangeSponsorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billingbenefits#CreditsChangeSponsorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7055,6 +7331,28 @@
         },
         "smithy.api#documentation": "Change the sponsor of a credit.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.billingbenefits#CreditsChangeSponsorResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billingbenefits#CreditsChangeSponsorRequest": {
@@ -7194,6 +7492,20 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
           }
         }
       },
@@ -7663,7 +7975,7 @@
         "target": "com.azure.billingbenefits#DeleteCreditRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billingbenefits#DeleteCreditResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7674,6 +7986,35 @@
         },
         "smithy.api#documentation": "Delete a credit.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.billingbenefits#DeleteCreditResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billingbenefits#DeleteCreditRequest": {
@@ -7807,6 +8148,27 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8063,6 +8425,27 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9708,6 +10091,27 @@
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -9904,7 +10308,7 @@
         "target": "com.azure.billingbenefits#DeleteConditionalCreditRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billingbenefits#DeleteConditionalCreditResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9915,6 +10319,35 @@
         },
         "smithy.api#documentation": "Delete a conditional credit.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.billingbenefits#DeleteConditionalCreditResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billingbenefits#DeleteConditionalCreditRequest": {
@@ -10048,6 +10481,27 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10386,6 +10840,20 @@
           "target": "com.azure.billingbenefits#Plan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -12957,6 +13425,13 @@
             "smithy.api#documentation": "Savings plan SKU",
             "smithy.api#required": {}
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -13687,6 +14162,20 @@
           "traits": {
             "smithy.api#documentation": "Resource provider kind"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -14001,6 +14490,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The Azure Region where the reserved resource lives."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

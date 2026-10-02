@@ -143,6 +143,8 @@ export interface BgpPeersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: BgpPeerProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BgpPeersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -151,6 +153,7 @@ export const BgpPeersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(BgpPeerProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "BgpPeersCreateOrUpdateResponse",
@@ -265,9 +268,17 @@ export const DeleteStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStorageClassRequest",
 }) as any as S.Schema<DeleteStorageClassRequest>;
 
-export interface DeleteStorageClassResponse {}
+export interface DeleteStorageClassResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStorageClassResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteStorageClassResponse",
 }) as any as S.Schema<DeleteStorageClassResponse>;
@@ -1061,6 +1072,8 @@ export interface LoadBalancersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: LoadBalancerProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const LoadBalancersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1069,6 +1082,7 @@ export const LoadBalancersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(LoadBalancerProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "LoadBalancersCreateOrUpdateResponse",
@@ -1231,6 +1245,8 @@ export interface StorageClassCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: StorageClassProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StorageClassCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1239,6 +1255,7 @@ export const StorageClassCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(StorageClassProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StorageClassCreateOrUpdateResponse",
@@ -1390,6 +1407,10 @@ export interface UpdateStorageClassResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: StorageClassProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateStorageClassResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1398,6 +1419,8 @@ export const UpdateStorageClassResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(StorageClassProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateStorageClassResponse",

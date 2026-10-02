@@ -442,9 +442,17 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkspaceRequest",
 }) as any as S.Schema<DeleteWorkspaceRequest>;
 
-export interface DeleteWorkspaceResponse {}
+export interface DeleteWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWorkspaceResponse",
 }) as any as S.Schema<DeleteWorkspaceResponse>;

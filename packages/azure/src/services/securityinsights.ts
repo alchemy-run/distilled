@@ -2789,9 +2789,19 @@ export const DeleteWatchlistRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWatchlistRequest",
 }) as any as S.Schema<DeleteWatchlistRequest>;
 
-export interface DeleteWatchlistResponse {}
+export interface DeleteWatchlistResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteWatchlistResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteWatchlistResponse",
 }) as any as S.Schema<DeleteWatchlistResponse>;
@@ -8982,6 +8992,8 @@ export interface WatchlistsCreateOrUpdateResponse {
   properties?: WatchlistProperties;
   /** Etag of the azure resource */
   etag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
 export const WatchlistsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8991,6 +9003,9 @@ export const WatchlistsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WatchlistProperties),
     etag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "WatchlistsCreateOrUpdateResponse",

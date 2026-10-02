@@ -783,9 +783,14 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccountRequest",
 }) as any as S.Schema<DeleteAccountRequest>;
 
-export interface DeleteAccountResponse {}
+export interface DeleteAccountResponse {
+  /** Operation Status Location URI */
+  location?: string;
+}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteAccountResponse",
 }) as any as S.Schema<DeleteAccountResponse>;
@@ -818,9 +823,14 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteInstanceRequest",
 }) as any as S.Schema<DeleteInstanceRequest>;
 
-export interface DeleteInstanceResponse {}
+export interface DeleteInstanceResponse {
+  /** Operation Status Location URI */
+  location?: string;
+}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteInstanceResponse",
 }) as any as S.Schema<DeleteInstanceResponse>;
@@ -854,9 +864,15 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** Operation Status Location URI */
+  location?: string;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -890,9 +906,16 @@ export const DeletePrivateEndpointConnectionProxyRequest =
     identifier: "DeletePrivateEndpointConnectionProxyRequest",
   }) as any as S.Schema<DeletePrivateEndpointConnectionProxyRequest>;
 
-export interface DeletePrivateEndpointConnectionProxyResponse {}
+export interface DeletePrivateEndpointConnectionProxyResponse {
+  /** Operation Status Location URI */
+  location?: string;
+}
 export const DeletePrivateEndpointConnectionProxyResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeletePrivateEndpointConnectionProxyResponse",
   }) as any as S.Schema<DeletePrivateEndpointConnectionProxyResponse>;
 

@@ -91,9 +91,17 @@ export const DeleteFabricCapacityRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFabricCapacityRequest",
 }) as any as S.Schema<DeleteFabricCapacityRequest>;
 
-export interface DeleteFabricCapacityResponse {}
+export interface DeleteFabricCapacityResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFabricCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFabricCapacityResponse",
 }) as any as S.Schema<DeleteFabricCapacityResponse>;
@@ -310,6 +318,10 @@ export interface FabricCapacitiesCreateOrUpdateResponse {
   properties: FabricCapacityProperties;
   /** The SKU details */
   sku: RpSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FabricCapacitiesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -322,6 +334,10 @@ export const FabricCapacitiesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: FabricCapacityProperties,
       sku: RpSku,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "FabricCapacitiesCreateOrUpdateResponse",
@@ -747,9 +763,17 @@ export const ResumeFabricCapacityRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResumeFabricCapacityRequest",
 }) as any as S.Schema<ResumeFabricCapacityRequest>;
 
-export interface ResumeFabricCapacityResponse {}
+export interface ResumeFabricCapacityResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ResumeFabricCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ResumeFabricCapacityResponse",
 }) as any as S.Schema<ResumeFabricCapacityResponse>;
@@ -779,9 +803,17 @@ export const SuspendFabricCapacityRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SuspendFabricCapacityRequest",
 }) as any as S.Schema<SuspendFabricCapacityRequest>;
 
-export interface SuspendFabricCapacityResponse {}
+export interface SuspendFabricCapacityResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const SuspendFabricCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "SuspendFabricCapacityResponse",
 }) as any as S.Schema<SuspendFabricCapacityResponse>;
@@ -868,6 +900,10 @@ export interface UpdateFabricCapacityResponse {
   properties: FabricCapacityProperties;
   /** The SKU details */
   sku: RpSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFabricCapacityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -879,6 +915,8 @@ export const UpdateFabricCapacityResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: FabricCapacityProperties,
     sku: RpSku,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFabricCapacityResponse",

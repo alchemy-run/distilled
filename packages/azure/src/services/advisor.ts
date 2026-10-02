@@ -405,9 +405,17 @@ export const GenerateRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GenerateRecommendationRequest",
 }) as any as S.Schema<GenerateRecommendationRequest>;
 
-export interface GenerateRecommendationResponse {}
+export interface GenerateRecommendationResponse {
+  /** The URL where the status of the asynchronous operation can be checked. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: string;
+}
 export const GenerateRecommendationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.String.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "GenerateRecommendationResponse",
 }) as any as S.Schema<GenerateRecommendationResponse>;

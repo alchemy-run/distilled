@@ -819,7 +819,7 @@
         "target": "com.azure.eventhub#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.eventhub#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -830,6 +830,28 @@
         },
         "smithy.api#documentation": "Deletes an existing namespace. This operation also removes all associated resources under the namespace.",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.eventhub#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.eventhub#DeletePrivateEndpointConnectionRequest": {
@@ -1351,7 +1373,7 @@
         "target": "com.azure.eventhub#NetworkSecurityPerimeterConfigurationsCreateOrUpdateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.eventhub#NetworkSecurityPerimeterConfigurationsCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1362,6 +1384,28 @@
         },
         "smithy.api#documentation": "Refreshes any information about the association.",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.eventhub#NetworkSecurityPerimeterConfigurationsCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.eventhub#NetworkSecurityPerimeterConfigurationsCreateOrUpdateRequest": {
@@ -2575,7 +2619,7 @@
         "target": "com.azure.eventhub#NamespacesFailoverRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.eventhub#NamespacesFailoverResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2586,6 +2630,35 @@
         },
         "smithy.api#documentation": "GeoDR Failover",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.eventhub#NamespacesFailoverResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.eventhub#NamespacesFailoverRequest": {
@@ -6589,7 +6662,7 @@
         "target": "com.azure.eventhub#DeleteNamespaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.eventhub#DeleteNamespaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6600,6 +6673,28 @@
         },
         "smithy.api#documentation": "Deletes an existing namespace. This operation also removes all associated resources under the namespace.",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.eventhub#DeleteNamespaceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.eventhub#DeleteNamespaceRequest": {
@@ -7707,6 +7802,27 @@
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -8311,7 +8427,7 @@
         "target": "com.azure.eventhub#DeleteClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.eventhub#DeleteClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8322,6 +8438,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Event Hubs Cluster. This operation is idempotent.",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.eventhub#DeleteClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.eventhub#DeleteClusterRequest": {
@@ -8424,6 +8562,20 @@
           "target": "com.azure.eventhub#UpdateClusterResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -8746,6 +8898,20 @@
           "target": "com.azure.eventhub#ClustersCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },

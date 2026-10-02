@@ -68,9 +68,17 @@ export const BMSTriggerDataMoveRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "BMSTriggerDataMoveRequest",
 }) as any as S.Schema<BMSTriggerDataMoveRequest>;
 
-export interface BMSTriggerDataMoveResponse {}
+export interface BMSTriggerDataMoveResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const BMSTriggerDataMoveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "BMSTriggerDataMoveResponse",
 }) as any as S.Schema<BMSTriggerDataMoveResponse>;
@@ -104,9 +112,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -218,9 +235,17 @@ export const DeleteProtectionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProtectionPolicyRequest",
 }) as any as S.Schema<DeleteProtectionPolicyRequest>;
 
-export interface DeleteProtectionPolicyResponse {}
+export interface DeleteProtectionPolicyResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteProtectionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteProtectionPolicyResponse",
 }) as any as S.Schema<DeleteProtectionPolicyResponse>;
@@ -339,7 +364,7 @@ export const OperationStatusExtendedInfo = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OperationStatusExtendedInfo>;
 
 /** Operation status. */
-export interface OperationStatus {
+export interface ExecuteConfigureSourceScanResponse {
   /** ID of the operation. */
   id?: string;
   /** Name of the operation. */
@@ -354,8 +379,14 @@ export interface OperationStatus {
   error?: OperationStatusError;
   /** Additional information associated with this operation. */
   properties?: OperationStatusExtendedInfo;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
+export const ExecuteConfigureSourceScanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -364,10 +395,15 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     error: S.optional(OperationStatusError),
     properties: S.optional(OperationStatusExtendedInfo),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+  identifier: "ExecuteConfigureSourceScanResponse",
+}) as any as S.Schema<ExecuteConfigureSourceScanResponse>;
 
 export interface ExportJobRequest {
   /** The ID of the target subscription. */
@@ -687,6 +723,37 @@ export const GetBackupOperationStatusRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetBackupOperationStatusRequest",
 }) as any as S.Schema<GetBackupOperationStatusRequest>;
+
+/** Operation status. */
+export interface OperationStatus {
+  /** ID of the operation. */
+  id?: string;
+  /** Name of the operation. */
+  name?: string;
+  /** Operation status. */
+  status?: OperationStatusValues;
+  /** Operation start time. Format: ISO-8601. */
+  startTime?: string;
+  /** Operation end time. Format: ISO-8601. */
+  endTime?: string;
+  /** Error information related to this operation. */
+  error?: OperationStatusError;
+  /** Additional information associated with this operation. */
+  properties?: OperationStatusExtendedInfo;
+}
+export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    status: S.optional(OperationStatusValues),
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    error: S.optional(OperationStatusError),
+    properties: S.optional(OperationStatusExtendedInfo),
+  }),
+).annotate({
+  identifier: "OperationStatus",
+}) as any as S.Schema<OperationStatus>;
 
 export interface GetBackupResourceEncryptionConfigRequest {
   /** The ID of the target subscription. */
@@ -4684,9 +4751,17 @@ export const MoveBMSPrepareDataRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MoveBMSPrepareDataRequest",
 }) as any as S.Schema<MoveBMSPrepareDataRequest>;
 
-export interface MoveBMSPrepareDataResponse {}
+export interface MoveBMSPrepareDataResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const MoveBMSPrepareDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "MoveBMSPrepareDataResponse",
 }) as any as S.Schema<MoveBMSPrepareDataResponse>;
@@ -4745,9 +4820,17 @@ export const MoveRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MoveRecoveryPointRequest",
 }) as any as S.Schema<MoveRecoveryPointRequest>;
 
-export interface MoveRecoveryPointResponse {}
+export interface MoveRecoveryPointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const MoveRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "MoveRecoveryPointResponse",
 }) as any as S.Schema<MoveRecoveryPointResponse>;
@@ -4839,6 +4922,25 @@ export const PostFetchTieringCostRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PostFetchTieringCostRequest",
 }) as any as S.Schema<PostFetchTieringCostRequest>;
+
+/** Base class for tiering cost response */
+export interface PostFetchTieringCostResponse {
+  /** This property will be used as the discriminator for deciding the specific types in the polymorphic chain of types. */
+  objectType: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const PostFetchTieringCostResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectType: S.String,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
+).annotate({
+  identifier: "PostFetchTieringCostResponse",
+}) as any as S.Schema<PostFetchTieringCostResponse>;
 
 /** ResourceGuardOperationRequests on which LAC check will be performed */
 export type ProtectedItemInputResourceGuardOperationRequestsList =
@@ -4994,6 +5096,10 @@ export interface ProtectedItemsCreateOrUpdateResponse {
   location?: string;
   /** Optional ETag. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ProtectedItemsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -5006,6 +5112,8 @@ export const ProtectedItemsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(ProtectedItemsCreateOrUpdateResponseTagsMap),
       location: S.optional(S.String),
       eTag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ProtectedItemsCreateOrUpdateResponse",
@@ -5483,6 +5591,10 @@ export interface PutPrivateEndpointConnectionResponse {
   location?: string;
   /** Optional ETag. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -5495,6 +5607,8 @@ export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(PutPrivateEndpointConnectionResponseTagsMap),
       location: S.optional(S.String),
       eTag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PutPrivateEndpointConnectionResponse",
@@ -5735,6 +5849,10 @@ export interface RegisterProtectionContainerResponse {
   location?: string;
   /** Optional ETag. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const RegisterProtectionContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5746,6 +5864,8 @@ export const RegisterProtectionContainerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(RegisterProtectionContainerResponseTagsMap),
     location: S.optional(S.String),
     eTag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "RegisterProtectionContainerResponse",
@@ -6029,9 +6149,17 @@ export const TriggerRestoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggerRestoreRequest",
 }) as any as S.Schema<TriggerRestoreRequest>;
 
-export interface TriggerRestoreResponse {}
+export interface TriggerRestoreResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const TriggerRestoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "TriggerRestoreResponse",
 }) as any as S.Schema<TriggerRestoreResponse>;
@@ -6071,9 +6199,17 @@ export const TriggerValidateOperationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggerValidateOperationRequest",
 }) as any as S.Schema<TriggerValidateOperationRequest>;
 
-export interface TriggerValidateOperationResponse {}
+export interface TriggerValidateOperationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const TriggerValidateOperationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "TriggerValidateOperationResponse",
 }) as any as S.Schema<TriggerValidateOperationResponse>;
@@ -6616,12 +6752,12 @@ export type ExecuteConfigureSourceScanError = AzureOpError;
 /** Configures source scan for a protected item. This is an asynchronous operation. To know the status of the operation, call GetProtectedItemOperationResult API. */
 export const ExecuteConfigureSourceScan: API.OperationMethod<
   ExecuteConfigureSourceScanRequest,
-  OperationStatus,
+  ExecuteConfigureSourceScanResponse,
   ExecuteConfigureSourceScanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteConfigureSourceScanRequest,
-  output: OperationStatus,
+  output: ExecuteConfigureSourceScanResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -7398,12 +7534,12 @@ export type PostFetchTieringCostError = AzureOpError;
 /** Provides the details of the tiering related sizes and cost. Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API. */
 export const PostFetchTieringCost: API.OperationMethod<
   PostFetchTieringCostRequest,
-  TieringCostInfo,
+  PostFetchTieringCostResponse,
   PostFetchTieringCostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: PostFetchTieringCostRequest,
-  output: TieringCostInfo,
+  output: PostFetchTieringCostResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

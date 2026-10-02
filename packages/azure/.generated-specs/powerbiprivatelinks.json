@@ -24,7 +24,7 @@
         "target": "com.azure.powerbiprivatelinks#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.powerbiprivatelinks#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,21 @@
         },
         "smithy.api#documentation": "Asynchronous API to delete a private endpoint connection for Power BI by private endpoint name.\n\nDeletes a private endpoint connection for Power BI by private endpoint name.",
         "com.distilled.openapi#apiVersion": "2020-06-01"
+      }
+    },
+    "com.azure.powerbiprivatelinks#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "The Azure async operation id to poll on result."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.powerbiprivatelinks#DeletePrivateEndpointConnectionRequest": {

@@ -24,7 +24,7 @@
         "target": "com.azure.alertsmanagement#DeleteAlertProcessingRuleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.alertsmanagement#DeleteAlertProcessingRuleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,21 @@
         },
         "smithy.api#documentation": "Delete an alert processing rule.",
         "com.distilled.openapi#apiVersion": "2021-08-08"
+      }
+    },
+    "com.azure.alertsmanagement#DeleteAlertProcessingRuleResponse": {
+      "type": "structure",
+      "members": {
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.alertsmanagement#DeleteAlertProcessingRuleRequest": {
@@ -126,6 +141,13 @@
           "target": "com.azure.alertsmanagement#AlertProcessingRuleProperties",
           "traits": {
             "smithy.api#documentation": "Alert processing rule properties."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
           }
         }
       },
@@ -616,6 +638,13 @@
           "traits": {
             "smithy.api#documentation": "Alert processing rule properties."
           }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
+          }
         }
       },
       "traits": {
@@ -755,6 +784,13 @@
           "traits": {
             "smithy.api#documentation": "Alert processing rule properties."
           }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
+          }
         }
       },
       "traits": {
@@ -838,6 +874,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The link to the next page of items"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
           }
         }
       },

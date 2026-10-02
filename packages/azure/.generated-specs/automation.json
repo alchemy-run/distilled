@@ -8586,7 +8586,7 @@
         "target": "com.azure.automation#PublishRunbookRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.automation#PublishRunbookResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8597,6 +8597,28 @@
         },
         "smithy.api#documentation": "Publish runbook draft.",
         "com.distilled.openapi#apiVersion": "2024-10-23"
+      }
+    },
+    "com.azure.automation#PublishRunbookResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.automation#PublishRunbookRequest": {
@@ -9710,7 +9732,7 @@
         "target": "com.azure.automation#ReplaceRunbookDraftContentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.automation#ReplaceRunbookDraftContentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9721,6 +9743,34 @@
         },
         "smithy.api#documentation": "Replaces the runbook draft content.",
         "com.distilled.openapi#apiVersion": "2024-10-23"
+      }
+    },
+    "com.azure.automation#ReplaceRunbookDraftContentResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.automation#ReplaceRunbookDraftContentRequest": {
@@ -12596,7 +12646,7 @@
         "target": "com.azure.automation#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.automation#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12607,6 +12657,28 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection with a given name.",
         "com.distilled.openapi#apiVersion": "2024-10-23"
+      }
+    },
+    "com.azure.automation#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.automation#DeletePrivateEndpointConnectionRequest": {
@@ -12699,6 +12771,20 @@
           "target": "com.azure.automation#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -14521,7 +14607,7 @@
         "target": "com.azure.automation#DscNodeConfigurationCreateOrUpdateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.automation#DscNodeConfigurationCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14532,6 +14618,28 @@
         },
         "smithy.api#documentation": "Create the node configuration identified by node configuration name.",
         "com.distilled.openapi#apiVersion": "2024-10-23"
+      }
+    },
+    "com.azure.automation#DscNodeConfigurationCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.automation#DscNodeConfigurationCreateOrUpdateRequest": {

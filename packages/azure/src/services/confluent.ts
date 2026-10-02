@@ -1016,6 +1016,10 @@ export interface CreateOrganizationResponse {
   location: string;
   /** Organization resource properties */
   properties: OrganizationResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1026,6 +1030,10 @@ export const CreateOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateOrganizationResponseTagsMap),
     location: S.String,
     properties: OrganizationResourceProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateOrganizationResponse",
@@ -1388,9 +1396,17 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteClusterRequest",
 }) as any as S.Schema<DeleteClusterRequest>;
 
-export interface DeleteClusterResponse {}
+export interface DeleteClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteClusterResponse",
 }) as any as S.Schema<DeleteClusterResponse>;
@@ -1429,9 +1445,17 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectorRequest",
 }) as any as S.Schema<DeleteConnectorRequest>;
 
-export interface DeleteConnectorResponse {}
+export interface DeleteConnectorResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConnectorResponse",
 }) as any as S.Schema<DeleteConnectorResponse>;
@@ -1464,9 +1488,17 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEnvironmentRequest",
 }) as any as S.Schema<DeleteEnvironmentRequest>;
 
-export interface DeleteEnvironmentResponse {}
+export interface DeleteEnvironmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteEnvironmentResponse",
 }) as any as S.Schema<DeleteEnvironmentResponse>;
@@ -1496,9 +1528,17 @@ export const DeleteOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOrganizationRequest",
 }) as any as S.Schema<DeleteOrganizationRequest>;
 
-export interface DeleteOrganizationResponse {}
+export interface DeleteOrganizationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteOrganizationResponse",
 }) as any as S.Schema<DeleteOrganizationResponse>;
@@ -1573,9 +1613,17 @@ export const DeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTopicRequest",
 }) as any as S.Schema<DeleteTopicRequest>;
 
-export interface DeleteTopicResponse {}
+export interface DeleteTopicResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteTopicResponse",
 }) as any as S.Schema<DeleteTopicResponse>;

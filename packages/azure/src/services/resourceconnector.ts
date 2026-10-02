@@ -271,6 +271,10 @@ export interface AppliancesCreateOrUpdateResponse {
   properties?: ApplianceProperties;
   /** Identity for the resource. */
   identity?: Identity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AppliancesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -282,6 +286,10 @@ export const AppliancesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ApplianceProperties),
     identity: S.optional(Identity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "AppliancesCreateOrUpdateResponse",
@@ -312,9 +320,19 @@ export const DeleteApplianceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplianceRequest",
 }) as any as S.Schema<DeleteApplianceRequest>;
 
-export interface DeleteApplianceResponse {}
+export interface DeleteApplianceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteApplianceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteApplianceResponse",
 }) as any as S.Schema<DeleteApplianceResponse>;

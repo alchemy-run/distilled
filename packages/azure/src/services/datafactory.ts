@@ -1137,11 +1137,17 @@ export interface CreateDataFlowDebugSessionResponse {
   status?: string;
   /** The ID of data flow debug session. */
   sessionId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateDataFlowDebugSessionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
     sessionId: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateDataFlowDebugSessionResponse",
@@ -2117,6 +2123,12 @@ export interface DisableIntegrationRuntimeInteractiveQueryResponse {
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DisableIntegrationRuntimeInteractiveQueryResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2127,6 +2139,11 @@ export const DisableIntegrationRuntimeInteractiveQueryResponse =
       systemData: S.optional(SystemData),
       properties: IntegrationRuntime,
       etag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DisableIntegrationRuntimeInteractiveQueryResponse",
@@ -2177,6 +2194,12 @@ export interface EnableIntegrationRuntimeInteractiveQueryResponse {
   properties: IntegrationRuntime;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const EnableIntegrationRuntimeInteractiveQueryResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2187,6 +2210,11 @@ export const EnableIntegrationRuntimeInteractiveQueryResponse =
       systemData: S.optional(SystemData),
       properties: IntegrationRuntime,
       etag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "EnableIntegrationRuntimeInteractiveQueryResponse",
@@ -2268,11 +2296,17 @@ export interface DataFlowDebugCommandResponse {
   status?: string;
   /** The result data of data preview, statistics or expression preview. */
   data?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DataFlowDebugCommandResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
     data: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DataFlowDebugCommandResponse",
@@ -6944,6 +6978,10 @@ export interface SsisObjectMetadataStatusResponse {
   properties?: string;
   /** The operation error message. */
   error?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SsisObjectMetadataStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6951,6 +6989,8 @@ export const SsisObjectMetadataStatusResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(S.String),
     error: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SsisObjectMetadataStatusResponse",
@@ -7219,6 +7259,28 @@ export const StartIntegrationRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartIntegrationRuntimeRequest",
 }) as any as S.Schema<StartIntegrationRuntimeRequest>;
 
+/** Integration runtime status response. */
+export interface StartIntegrationRuntimeResponse {
+  /** The integration runtime name. */
+  name?: string;
+  /** Integration runtime properties. */
+  properties: IntegrationRuntimeStatus;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const StartIntegrationRuntimeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    properties: IntegrationRuntimeStatus,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
+).annotate({
+  identifier: "StartIntegrationRuntimeResponse",
+}) as any as S.Schema<StartIntegrationRuntimeResponse>;
+
 export interface StartTriggerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -7247,9 +7309,14 @@ export const StartTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartTriggerRequest",
 }) as any as S.Schema<StartTriggerRequest>;
 
-export interface StartTriggerResponse {}
+export interface StartTriggerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const StartTriggerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "StartTriggerResponse",
 }) as any as S.Schema<StartTriggerResponse>;
@@ -7317,9 +7384,17 @@ export const StopIntegrationRuntimeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopIntegrationRuntimeRequest",
 }) as any as S.Schema<StopIntegrationRuntimeRequest>;
 
-export interface StopIntegrationRuntimeResponse {}
+export interface StopIntegrationRuntimeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StopIntegrationRuntimeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StopIntegrationRuntimeResponse",
 }) as any as S.Schema<StopIntegrationRuntimeResponse>;
@@ -7352,9 +7427,14 @@ export const StopTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopTriggerRequest",
 }) as any as S.Schema<StopTriggerRequest>;
 
-export interface StopTriggerResponse {}
+export interface StopTriggerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const StopTriggerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "StopTriggerResponse",
 }) as any as S.Schema<StopTriggerResponse>;
@@ -7386,6 +7466,28 @@ export const SubscribeTriggerToEventsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SubscribeTriggerToEventsRequest",
 }) as any as S.Schema<SubscribeTriggerToEventsRequest>;
+
+/** Defines the response of a trigger subscription operation. */
+export interface SubscribeTriggerToEventsResponse {
+  /** Trigger name. */
+  triggerName?: string;
+  /** Event Subscription Status. */
+  status?: EventSubscriptionStatus;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const SubscribeTriggerToEventsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    triggerName: S.optional(S.String),
+    status: S.optional(EventSubscriptionStatus),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
+).annotate({
+  identifier: "SubscribeTriggerToEventsResponse",
+}) as any as S.Schema<SubscribeTriggerToEventsResponse>;
 
 export interface SyncIntegrationRuntimeCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7747,6 +7849,29 @@ export const UnsubscribeTriggerFromEventsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UnsubscribeTriggerFromEventsRequest",
 }) as any as S.Schema<UnsubscribeTriggerFromEventsRequest>;
+
+/** Defines the response of a trigger subscription operation. */
+export interface UnsubscribeTriggerFromEventsResponse {
+  /** Trigger name. */
+  triggerName?: string;
+  /** Event Subscription Status. */
+  status?: EventSubscriptionStatus;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const UnsubscribeTriggerFromEventsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      triggerName: S.optional(S.String),
+      status: S.optional(EventSubscriptionStatus),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+).annotate({
+  identifier: "UnsubscribeTriggerFromEventsResponse",
+}) as any as S.Schema<UnsubscribeTriggerFromEventsResponse>;
 
 /** The resource tags. */
 export type UpdateFactoryRequestTagsMap = { [key: string]: string | undefined };
@@ -9285,12 +9410,12 @@ export type StartIntegrationRuntimeError = AzureOpError;
 /** Starts a ManagedReserved type integration runtime. */
 export const StartIntegrationRuntime: API.OperationMethod<
   StartIntegrationRuntimeRequest,
-  IntegrationRuntimeStatusResponse,
+  StartIntegrationRuntimeResponse,
   StartIntegrationRuntimeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: StartIntegrationRuntimeRequest,
-  output: IntegrationRuntimeStatusResponse,
+  output: StartIntegrationRuntimeResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9360,12 +9485,12 @@ export type SubscribeTriggerToEventsError = AzureOpError;
 /** Subscribe event trigger to events. */
 export const SubscribeTriggerToEvents: API.OperationMethod<
   SubscribeTriggerToEventsRequest,
-  TriggerSubscriptionOperationStatus,
+  SubscribeTriggerToEventsResponse,
   SubscribeTriggerToEventsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: SubscribeTriggerToEventsRequest,
-  output: TriggerSubscriptionOperationStatus,
+  output: SubscribeTriggerToEventsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9450,12 +9575,12 @@ export type UnsubscribeTriggerFromEventsError = AzureOpError;
 /** Unsubscribe event trigger from events. */
 export const UnsubscribeTriggerFromEvents: API.OperationMethod<
   UnsubscribeTriggerFromEventsRequest,
-  TriggerSubscriptionOperationStatus,
+  UnsubscribeTriggerFromEventsResponse,
   UnsubscribeTriggerFromEventsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: UnsubscribeTriggerFromEventsRequest,
-  output: TriggerSubscriptionOperationStatus,
+  output: UnsubscribeTriggerFromEventsResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -210,6 +210,10 @@ export interface AccessConnectorsCreateOrUpdateResponse {
   properties?: AccessConnectorProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: AccessConnectorsCreateOrUpdateResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AccessConnectorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -221,6 +225,8 @@ export const AccessConnectorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(AccessConnectorProperties),
       identity: S.optional(AccessConnectorsCreateOrUpdateResponseIdentity),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "AccessConnectorsCreateOrUpdateResponse",
@@ -379,6 +385,10 @@ export interface CreatePrivateEndpointConnectionResponse {
   type?: string;
   /** The private endpoint connection properties. */
   properties: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -387,6 +397,8 @@ export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: PrivateEndpointConnectionProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreatePrivateEndpointConnectionResponse",
@@ -417,9 +429,17 @@ export const DeleteAccessConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessConnectorRequest",
 }) as any as S.Schema<DeleteAccessConnectorRequest>;
 
-export interface DeleteAccessConnectorResponse {}
+export interface DeleteAccessConnectorResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAccessConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAccessConnectorResponse",
 }) as any as S.Schema<DeleteAccessConnectorResponse>;
@@ -453,9 +473,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -488,9 +517,17 @@ export const DeleteVNetPeeringRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVNetPeeringRequest",
 }) as any as S.Schema<DeleteVNetPeeringRequest>;
 
-export interface DeleteVNetPeeringResponse {}
+export interface DeleteVNetPeeringResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVNetPeeringResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVNetPeeringResponse",
 }) as any as S.Schema<DeleteVNetPeeringResponse>;
@@ -523,9 +560,17 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkspaceRequest",
 }) as any as S.Schema<DeleteWorkspaceRequest>;
 
-export interface DeleteWorkspaceResponse {}
+export interface DeleteWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWorkspaceResponse",
 }) as any as S.Schema<DeleteWorkspaceResponse>;
@@ -2194,6 +2239,10 @@ export interface UpdateAccessConnectorResponse {
   properties?: AccessConnectorProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: AccessConnectorsCreateOrUpdateResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateAccessConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2204,6 +2253,8 @@ export const UpdateAccessConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AccessConnectorProperties),
     identity: S.optional(AccessConnectorsCreateOrUpdateResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateAccessConnectorResponse",
@@ -2270,6 +2321,10 @@ export interface UpdateWorkspaceResponse {
   properties: WorkspaceProperties;
   /** The SKU of the resource. */
   sku?: Sku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2280,6 +2335,8 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: WorkspaceProperties,
     sku: S.optional(Sku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceResponse",
@@ -2325,6 +2382,10 @@ export interface VNetPeeringCreateOrUpdateResponse {
   type?: string;
   /** List of properties for vNet Peering */
   properties: VirtualNetworkPeeringPropertiesFormat;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VNetPeeringCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2332,6 +2393,8 @@ export const VNetPeeringCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: VirtualNetworkPeeringPropertiesFormat,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "VNetPeeringCreateOrUpdateResponse",
@@ -2482,6 +2545,10 @@ export interface WorkspacesCreateOrUpdateResponse {
   properties: WorkspaceProperties;
   /** The SKU of the resource. */
   sku?: Sku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2492,6 +2559,8 @@ export const WorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: WorkspaceProperties,
     sku: S.optional(Sku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "WorkspacesCreateOrUpdateResponse",

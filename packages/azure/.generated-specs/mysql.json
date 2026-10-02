@@ -186,7 +186,7 @@
         "target": "com.azure.mysql#UpdateConfigurationBatchRequest"
       },
       "output": {
-        "target": "com.azure.mysql#ConfigurationListResult"
+        "target": "com.azure.mysql#UpdateConfigurationBatchResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -199,7 +199,7 @@
         "com.distilled.openapi#apiVersion": "2024-12-30"
       }
     },
-    "com.azure.mysql#ConfigurationListResult": {
+    "com.azure.mysql#UpdateConfigurationBatchResponse": {
       "type": "structure",
       "members": {
         "value": {
@@ -213,10 +213,25 @@
           "traits": {
             "smithy.api#documentation": "The link to the next page of items"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The response of a Configuration list operation."
+        "smithy.api#documentation": "The response of a Configuration list operation.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#ConfigurationListResultValueList": {
@@ -647,7 +662,7 @@
         "target": "com.azure.mysql#StopServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#StopServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -658,6 +673,28 @@
         },
         "smithy.api#documentation": "Stops a server.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#StopServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#StopServerRequest": {
@@ -698,7 +735,7 @@
         "target": "com.azure.mysql#StartServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#StartServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -709,6 +746,28 @@
         },
         "smithy.api#documentation": "Starts a server.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#StartServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#StartServerRequest": {
@@ -749,7 +808,7 @@
         "target": "com.azure.mysql#RestartServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#RestartServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -760,6 +819,28 @@
         },
         "smithy.api#documentation": "Restarts a server.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#RestartServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#RestartServerRequest": {
@@ -832,7 +913,7 @@
         "target": "com.azure.mysql#ResetServerGtidRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#ResetServerGtidResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -843,6 +924,28 @@
         },
         "smithy.api#documentation": "Resets GTID on a server.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#ResetServerGtidResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#ResetServerGtidRequest": {
@@ -2379,7 +2482,7 @@
         "target": "com.azure.mysql#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2390,6 +2493,28 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection with a given name.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#DeletePrivateEndpointConnectionRequest": {
@@ -2482,6 +2607,20 @@
           "target": "com.azure.mysql#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -2830,6 +2969,20 @@
           "traits": {
             "smithy.api#documentation": "The properties of a maintenance",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3458,7 +3611,7 @@
         "target": "com.azure.mysql#DeleteFirewallRuleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#DeleteFirewallRuleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3469,6 +3622,28 @@
         },
         "smithy.api#documentation": "Deletes a firewall rule.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#DeleteFirewallRuleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#DeleteFirewallRuleRequest": {
@@ -3562,6 +3737,20 @@
           "traits": {
             "smithy.api#documentation": "The properties of a firewall rule.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3861,7 +4050,7 @@
         "target": "com.azure.mysql#ServersFailoverRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#ServersFailoverResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3872,6 +4061,28 @@
         },
         "smithy.api#documentation": "Manual failover a server.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#ServersFailoverResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#ServersFailoverRequest": {
@@ -3982,6 +4193,20 @@
           "traits": {
             "smithy.api#documentation": "The SKU (pricing tier) of the server."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -4044,7 +4269,7 @@
         "target": "com.azure.mysql#DeleteDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#DeleteDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4055,6 +4280,28 @@
         },
         "smithy.api#documentation": "Deletes a database.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#DeleteDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#DeleteDatabaseRequest": {
@@ -4147,6 +4394,20 @@
           "target": "com.azure.mysql#DatabaseProperties",
           "traits": {
             "smithy.api#documentation": "The properties of a database."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4511,6 +4772,20 @@
           "traits": {
             "smithy.api#documentation": "The SKU (pricing tier) of the server."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -4611,6 +4886,20 @@
           "target": "com.azure.mysql#ConfigurationProperties",
           "traits": {
             "smithy.api#documentation": "The properties of a configuration."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4740,6 +5029,20 @@
           "target": "com.azure.mysql#ConfigurationProperties",
           "traits": {
             "smithy.api#documentation": "The properties of a configuration."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4909,6 +5212,26 @@
         "com.distilled.openapi#apiVersion": "2024-12-30"
       }
     },
+    "com.azure.mysql#ConfigurationListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.mysql#ConfigurationListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The Configuration items on this page"
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The response of a Configuration list operation."
+      }
+    },
     "com.azure.mysql#ListConfigurationByServerRequest": {
       "type": "structure",
       "members": {
@@ -5019,6 +5342,20 @@
           "target": "com.azure.mysql#ServerBackupPropertiesV2",
           "traits": {
             "smithy.api#documentation": "The properties of a server backup."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -5792,6 +6129,20 @@
           "traits": {
             "smithy.api#documentation": "Operation progress (0-100)."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -6153,6 +6504,20 @@
           "traits": {
             "smithy.api#documentation": "Resource properties."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -6360,6 +6725,20 @@
           "target": "com.azure.mysql#AdvancedThreatProtectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6672,7 +7051,7 @@
         "target": "com.azure.mysql#DeleteAzureADAdministratorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#DeleteAzureADAdministratorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6683,6 +7062,28 @@
         },
         "smithy.api#documentation": "Deletes an Azure AD Administrator.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#DeleteAzureADAdministratorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#DeleteAzureADAdministratorRequest": {
@@ -6787,6 +7188,20 @@
           "target": "com.azure.mysql#AdministratorProperties",
           "traits": {
             "smithy.api#documentation": "The properties of an administrator."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7137,7 +7552,7 @@
         "target": "com.azure.mysql#DeleteServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.mysql#DeleteServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7148,6 +7563,28 @@
         },
         "smithy.api#documentation": "Deletes a server.",
         "com.distilled.openapi#apiVersion": "2024-12-30"
+      }
+    },
+    "com.azure.mysql#DeleteServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.mysql#DeleteServerRequest": {
@@ -7257,6 +7694,20 @@
           "target": "com.azure.mysql#MySQLServerSku",
           "traits": {
             "smithy.api#documentation": "The SKU (pricing tier) of the server."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7697,6 +8148,20 @@
           "target": "com.azure.mysql#MySQLServerSku",
           "traits": {
             "smithy.api#documentation": "The SKU (pricing tier) of the server."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

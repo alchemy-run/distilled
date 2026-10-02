@@ -160,6 +160,27 @@
         },
         "properties": {
           "target": "com.azure.quota#SubscriptionQuotaAllocationsListProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -962,7 +983,7 @@
         "target": "com.azure.quota#DeleteGroupQuotaSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.quota#DeleteGroupQuotaSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -973,6 +994,35 @@
         },
         "smithy.api#documentation": "Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.",
         "com.distilled.openapi#apiVersion": "2025-09-01"
+      }
+    },
+    "com.azure.quota#DeleteGroupQuotaSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.quota#DeleteGroupQuotaSubscriptionRequest": {
@@ -1055,6 +1105,27 @@
         },
         "properties": {
           "target": "com.azure.quota#GroupQuotaSubscriptionIdProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1159,6 +1230,27 @@
         },
         "properties": {
           "target": "com.azure.quota#GroupQuotaSubscriptionIdProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1836,6 +1928,27 @@
         },
         "properties": {
           "target": "com.azure.quota#GroupQuotasEnforcementStatusProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2001,6 +2114,27 @@
         },
         "properties": {
           "target": "com.azure.quota#GroupQuotasEnforcementStatusProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2407,6 +2541,27 @@
         },
         "properties": {
           "target": "com.azure.quota#GroupQuotaLimitListProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2863,7 +3018,7 @@
         "target": "com.azure.quota#DeleteGroupQuotasRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.quota#DeleteGroupQuotasResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2874,6 +3029,35 @@
         },
         "smithy.api#documentation": "Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost.",
         "com.distilled.openapi#apiVersion": "2025-09-01"
+      }
+    },
+    "com.azure.quota#DeleteGroupQuotasResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.quota#DeleteGroupQuotasRequest": {
@@ -2950,6 +3134,27 @@
           "target": "com.azure.quota#GroupQuotasEntityBase",
           "traits": {
             "smithy.api#documentation": "Properties"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3097,6 +3302,27 @@
           "target": "com.azure.quota#GroupQuotasEntityBase",
           "traits": {
             "smithy.api#documentation": "Properties"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3383,6 +3609,13 @@
           "traits": {
             "smithy.api#documentation": "Usage properties for the specified resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -3558,6 +3791,13 @@
           "traits": {
             "smithy.api#documentation": "The link to the next page of items"
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -3677,6 +3917,13 @@
           "target": "com.azure.quota#QuotaProperties",
           "traits": {
             "smithy.api#documentation": "Quota properties for the specified resource, based on the API called, Quotas or Usages."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
           }
         }
       },
@@ -3890,6 +4137,20 @@
           "traits": {
             "smithy.api#documentation": "Quota properties for the specified resource, based on the API called, Quotas or Usages."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3977,6 +4238,13 @@
           "traits": {
             "smithy.api#documentation": "Quota properties for the specified resource, based on the API called, Quotas or Usages."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -4040,6 +4308,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The link to the next page of items"
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },

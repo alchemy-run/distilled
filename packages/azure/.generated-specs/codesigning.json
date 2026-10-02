@@ -117,7 +117,7 @@
         "target": "com.azure.codesigning#DeleteCertificateProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.codesigning#DeleteCertificateProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -128,6 +128,28 @@
         },
         "smithy.api#documentation": "Delete a certificate profile.",
         "com.distilled.openapi#apiVersion": "2025-10-13"
+      }
+    },
+    "com.azure.codesigning#DeleteCertificateProfileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.codesigning#DeleteCertificateProfileRequest": {
@@ -220,6 +242,13 @@
           "target": "com.azure.codesigning#CertificateProfileProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -994,7 +1023,7 @@
         "target": "com.azure.codesigning#DeleteCodeSigningAccountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.codesigning#DeleteCodeSigningAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1005,6 +1034,28 @@
         },
         "smithy.api#documentation": "Delete an artifact signing account.",
         "com.distilled.openapi#apiVersion": "2025-10-13"
+      }
+    },
+    "com.azure.codesigning#DeleteCodeSigningAccountResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.codesigning#DeleteCodeSigningAccountRequest": {
@@ -1102,6 +1153,20 @@
           "target": "com.azure.codesigning#CodeSigningAccountProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1329,6 +1394,13 @@
           "target": "com.azure.codesigning#CodeSigningAccountProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

@@ -673,7 +673,7 @@
         "target": "com.azure.cpim#DeleteB2CTenantRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cpim#DeleteB2CTenantResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -684,6 +684,28 @@
         },
         "smithy.api#documentation": "Initiates an async operation to delete the Azure AD B2C tenant and Azure resource. The resource deletion can only happen as the last step in [the tenant deletion process](https://aka.ms/deleteB2Ctenant).",
         "com.distilled.openapi#apiVersion": "2021-04-01"
+      }
+    },
+    "com.azure.cpim#DeleteB2CTenantResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Contains the URL/location which can return the deletion status."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "Contains the number of seconds to wait before checking the deletion status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cpim#DeleteB2CTenantRequest": {
@@ -1165,7 +1187,7 @@
         "target": "com.azure.cpim#CreateB2CTenantRequest"
       },
       "output": {
-        "target": "com.azure.cpim#B2CTenantResource"
+        "target": "com.azure.cpim#CreateB2CTenantResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1176,6 +1198,77 @@
         },
         "smithy.api#documentation": "Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription.",
         "com.distilled.openapi#apiVersion": "2021-04-01"
+      }
+    },
+    "com.azure.cpim#CreateB2CTenantResponse": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.azure.cpim#B2CTenantResourceType",
+          "traits": {
+            "smithy.api#documentation": "The type of the B2C tenant resource."
+          }
+        },
+        "sku": {
+          "target": "com.azure.cpim#B2CResourceSKU",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "properties": {
+          "target": "com.azure.cpim#B2CTenantResourceProperties",
+          "traits": {
+            "smithy.api#documentation": "The Azure AD B2C tenant resource properties"
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An identifier that represents the Azure AD B2C tenant resource."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the Azure AD B2C tenant resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.azure.cpim#B2CTenantResourceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Resource Tags"
+          }
+        },
+        "systemData": {
+          "target": "com.azure.cpim#B2CTenantResourceSystemData",
+          "traits": {
+            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "Contains the number of seconds to wait before polling the location."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cpim#CreateB2CTenantRequest": {

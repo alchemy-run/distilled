@@ -1745,7 +1745,7 @@
         "target": "com.azure.databox#DeleteJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databox#DeleteJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1756,6 +1756,28 @@
         },
         "smithy.api#documentation": "Deletes a job.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.databox#DeleteJobResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databox#DeleteJobRequest": {
@@ -1867,6 +1889,20 @@
           "target": "com.azure.databox#ResourceIdentity",
           "traits": {
             "smithy.api#documentation": "Msi identity of the resource"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4657,6 +4693,20 @@
           "target": "com.azure.databox#ResourceIdentity",
           "traits": {
             "smithy.api#documentation": "Msi identity of the resource"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

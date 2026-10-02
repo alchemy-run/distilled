@@ -358,6 +358,8 @@ export interface CreateAksAssessmentOperationResponse {
   properties?: AKSAssessmentProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateAksAssessmentOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -368,6 +370,7 @@ export const CreateAksAssessmentOperationResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(AKSAssessmentProperties),
       eTag: S.optional(S.String),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateAksAssessmentOperationResponse",
@@ -643,6 +646,8 @@ export interface CreateAssessmentProjectsOperationResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: ProjectProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateAssessmentProjectsOperationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -654,6 +659,7 @@ export const CreateAssessmentProjectsOperationResponse =
       tags: S.optional(CreateAssessmentProjectsOperationResponseTagsMap),
       location: S.String,
       properties: S.optional(ProjectProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateAssessmentProjectsOperationResponse",
@@ -1202,6 +1208,8 @@ export interface CreateAssessmentsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: MachineAssessmentProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateAssessmentsOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1210,6 +1218,7 @@ export const CreateAssessmentsOperationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(MachineAssessmentProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateAssessmentsOperationResponse",
@@ -1814,6 +1823,8 @@ export interface CreateAvsAssessmentsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: AvsAssessmentProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateAvsAssessmentsOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1823,6 +1834,7 @@ export const CreateAvsAssessmentsOperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(AvsAssessmentProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateAvsAssessmentsOperationResponse",
@@ -1960,6 +1972,8 @@ export interface CreateGroupsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: GroupProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateGroupsOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1968,6 +1982,7 @@ export const CreateGroupsOperationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(GroupProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateGroupsOperationResponse",
@@ -2179,6 +2194,8 @@ export interface CreateHypervClusterControllerClusterResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: HypervClusterProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateHypervClusterControllerClusterResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2188,6 +2205,7 @@ export const CreateHypervClusterControllerClusterResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(HypervClusterProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateHypervClusterControllerClusterResponse",
@@ -2328,6 +2346,8 @@ export interface CreateHypervCollectorsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: CollectorPropertiesBaseWithAgent;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateHypervCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2337,6 +2357,7 @@ export const CreateHypervCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CollectorPropertiesBaseWithAgent),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateHypervCollectorsOperationResponse",
@@ -2440,6 +2461,8 @@ export interface CreateHypervHostControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: HypervHostProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateHypervHostControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2448,6 +2471,7 @@ export const CreateHypervHostControllerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(HypervHostProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateHypervHostControllerResponse",
@@ -2644,6 +2668,8 @@ export interface CreateHypervSitesControllerResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateHypervSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2654,6 +2680,7 @@ export const CreateHypervSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateHypervSitesControllerResponseTagsMap),
     location: S.String,
     properties: S.optional(SiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateHypervSitesControllerResponse",
@@ -2740,6 +2767,8 @@ export interface CreateImportCollectorsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: CollectorPropertiesBase;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateImportCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2749,6 +2778,7 @@ export const CreateImportCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CollectorPropertiesBase),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateImportCollectorsOperationResponse",
@@ -2860,6 +2890,8 @@ export interface CreateImportSitesControllerResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: ImportSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateImportSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2870,6 +2902,7 @@ export const CreateImportSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateImportSitesControllerResponseTagsMap),
     location: S.String,
     properties: S.optional(ImportSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateImportSitesControllerResponse",
@@ -3126,6 +3159,8 @@ export interface CreateMasterSitesControllerResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: MasterSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateMasterSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3136,6 +3171,7 @@ export const CreateMasterSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateMasterSitesControllerResponseTagsMap),
     location: S.String,
     properties: S.optional(MasterSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateMasterSitesControllerResponse",
@@ -3200,6 +3236,8 @@ export interface CreatePrivateEndpointConnectionControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: PrivateEndpointConnectionPropertiesV2;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreatePrivateEndpointConnectionControllerResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3209,6 +3247,7 @@ export const CreatePrivateEndpointConnectionControllerResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionPropertiesV2),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreatePrivateEndpointConnectionControllerResponse",
@@ -3523,7 +3562,7 @@ export const PrivateEndpointConnectionProxySystemData = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PrivateEndpointConnectionProxySystemData>;
 
 /** Defines Private endpoint proxy resource. */
-export interface PrivateEndpointConnectionProxy {
+export interface CreatePrivateEndpointConnectionProxyControllerResponse {
   id?: string;
   name?: string;
   type?: string;
@@ -3531,19 +3570,23 @@ export interface PrivateEndpointConnectionProxy {
   properties?: PrivateEndpointConnectionProxyProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: PrivateEndpointConnectionProxySystemData;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-export const PrivateEndpointConnectionProxy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    name: S.optional(S.String),
-    type: S.optional(S.String),
-    eTag: S.optional(S.String),
-    properties: S.optional(PrivateEndpointConnectionProxyProperties),
-    systemData: S.optional(PrivateEndpointConnectionProxySystemData),
-  }),
-).annotate({
-  identifier: "PrivateEndpointConnectionProxy",
-}) as any as S.Schema<PrivateEndpointConnectionProxy>;
+export const CreatePrivateEndpointConnectionProxyControllerResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      eTag: S.optional(S.String),
+      properties: S.optional(PrivateEndpointConnectionProxyProperties),
+      systemData: S.optional(PrivateEndpointConnectionProxySystemData),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "CreatePrivateEndpointConnectionProxyControllerResponse",
+  }) as any as S.Schema<CreatePrivateEndpointConnectionProxyControllerResponse>;
 
 export interface CreateServerCollectorsOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3588,6 +3631,8 @@ export interface CreateServerCollectorsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: CollectorPropertiesBaseWithAgent;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateServerCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3597,6 +3642,7 @@ export const CreateServerCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CollectorPropertiesBaseWithAgent),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateServerCollectorsOperationResponse",
@@ -3696,6 +3742,8 @@ export interface CreateServerSitesControllerResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateServerSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3706,6 +3754,7 @@ export const CreateServerSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateServerSitesControllerResponseTagsMap),
     location: S.String,
     properties: S.optional(SiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateServerSitesControllerResponse",
@@ -3780,6 +3829,8 @@ export interface CreateSitesControllerResponse {
   properties?: SiteProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3791,6 +3842,7 @@ export const CreateSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SiteProperties),
     eTag: S.optional(S.String),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSitesControllerResponse",
@@ -4056,7 +4108,7 @@ export const SolutionProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SolutionProperties>;
 
 /** Solution REST Resource. */
-export interface Solution {
+export interface CreateSolutionsControllerResponse {
   /** Gets the relative URL to get to this REST resource. */
   id?: string;
   /** Gets the name of this REST resource. */
@@ -4067,16 +4119,21 @@ export interface Solution {
   etag?: string;
   /** Gets or sets the properties of the solution. */
   properties?: SolutionProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-export const Solution = /*@__PURE__*/ S.suspend(() =>
+export const CreateSolutionsControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
     type: S.optional(S.String),
     etag: S.optional(S.String),
     properties: S.optional(SolutionProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
-).annotate({ identifier: "Solution" }) as any as S.Schema<Solution>;
+).annotate({
+  identifier: "CreateSolutionsControllerResponse",
+}) as any as S.Schema<CreateSolutionsControllerResponse>;
 
 export type OsLicense = "Unknown" | "Yes" | "No";
 export const OsLicense = S.String;
@@ -4484,6 +4541,8 @@ export interface CreateSqlAssessmentV2OperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SqlAssessmentV2Properties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSqlAssessmentV2OperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4493,6 +4552,7 @@ export const CreateSqlAssessmentV2OperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SqlAssessmentV2Properties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateSqlAssessmentV2OperationResponse",
@@ -4540,6 +4600,8 @@ export interface CreateSqlCollectorOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: CollectorPropertiesBaseWithAgent;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSqlCollectorOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4548,6 +4610,7 @@ export const CreateSqlCollectorOperationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CollectorPropertiesBaseWithAgent),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSqlCollectorOperationResponse",
@@ -4616,6 +4679,8 @@ export interface CreateSqlDiscoverySiteDataSourceControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SqlDiscoverySiteDataSourceProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSqlDiscoverySiteDataSourceControllerResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4625,6 +4690,7 @@ export const CreateSqlDiscoverySiteDataSourceControllerResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SqlDiscoverySiteDataSourceProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateSqlDiscoverySiteDataSourceControllerResponse",
@@ -4772,6 +4838,8 @@ export interface CreateSqlSitesControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SqlSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSqlSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4780,6 +4848,7 @@ export const CreateSqlSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SqlSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSqlSitesControllerResponse",
@@ -4901,6 +4970,8 @@ export interface CreateVcenterControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VcenterProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateVcenterControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4909,6 +4980,7 @@ export const CreateVcenterControllerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(VcenterProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateVcenterControllerResponse",
@@ -4957,6 +5029,8 @@ export interface CreateVmwareCollectorsOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: CollectorPropertiesBaseWithAgent;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateVmwareCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4966,6 +5040,7 @@ export const CreateVmwareCollectorsOperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CollectorPropertiesBaseWithAgent),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateVmwareCollectorsOperationResponse",
@@ -5231,6 +5306,8 @@ export interface CreateWebAppAssessmentV2OperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: WebAppAssessmentV2Properties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebAppAssessmentV2OperationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5240,6 +5317,7 @@ export const CreateWebAppAssessmentV2OperationResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(WebAppAssessmentV2Properties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateWebAppAssessmentV2OperationResponse",
@@ -5331,6 +5409,8 @@ export interface CreateWebAppCollectorOperationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: WebAppCollectorPropertiesBaseWithAgent;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebAppCollectorOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -5340,6 +5420,7 @@ export const CreateWebAppCollectorOperationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(WebAppCollectorPropertiesBaseWithAgent),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateWebAppCollectorOperationResponse",
@@ -5397,6 +5478,8 @@ export interface CreateWebAppDiscoverySiteDataSourcesControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SqlDiscoverySiteDataSourceProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebAppDiscoverySiteDataSourcesControllerResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5406,6 +5489,7 @@ export const CreateWebAppDiscoverySiteDataSourcesControllerResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SqlDiscoverySiteDataSourceProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateWebAppDiscoverySiteDataSourcesControllerResponse",
@@ -5515,6 +5599,8 @@ export interface CreateWebAppSitesControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: WebAppSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebAppSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5523,6 +5609,7 @@ export const CreateWebAppSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateWebAppSitesControllerResponse",
@@ -5842,9 +5929,17 @@ export const DeleteHypervHostControllerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHypervHostControllerRequest",
 }) as any as S.Schema<DeleteHypervHostControllerRequest>;
 
-export interface DeleteHypervHostControllerResponse {}
+export interface DeleteHypervHostControllerResponse {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteHypervHostControllerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteHypervHostControllerResponse",
 }) as any as S.Schema<DeleteHypervHostControllerResponse>;
@@ -6750,9 +6845,19 @@ export const DeleteWebAppDiscoverySiteDataSourcesControllerRequest =
     identifier: "DeleteWebAppDiscoverySiteDataSourcesControllerRequest",
   }) as any as S.Schema<DeleteWebAppDiscoverySiteDataSourcesControllerRequest>;
 
-export interface DeleteWebAppDiscoverySiteDataSourcesControllerResponse {}
+export interface DeleteWebAppDiscoverySiteDataSourcesControllerResponse {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteWebAppDiscoverySiteDataSourcesControllerResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteWebAppDiscoverySiteDataSourcesControllerResponse",
   }) as any as S.Schema<DeleteWebAppDiscoverySiteDataSourcesControllerResponse>;
 
@@ -6784,9 +6889,17 @@ export const DeleteWebAppSitesControllerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWebAppSitesControllerRequest",
 }) as any as S.Schema<DeleteWebAppSitesControllerRequest>;
 
-export interface DeleteWebAppSitesControllerResponse {}
+export interface DeleteWebAppSitesControllerResponse {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteWebAppSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteWebAppSitesControllerResponse",
 }) as any as S.Schema<DeleteWebAppSitesControllerResponse>;
@@ -6961,11 +7074,17 @@ export interface DownloadUrl {
   assessmentReportUrl: string;
   /** Expiry date of download url. */
   expirationTime: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const DownloadUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assessmentReportUrl: S.String,
     expirationTime: S.String,
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({ identifier: "DownloadUrl" }) as any as S.Schema<DownloadUrl>;
 
@@ -17104,6 +17223,29 @@ export const GetPrivateEndpointConnectionProxyControllerRequest =
     identifier: "GetPrivateEndpointConnectionProxyControllerRequest",
   }) as any as S.Schema<GetPrivateEndpointConnectionProxyControllerRequest>;
 
+/** Defines Private endpoint proxy resource. */
+export interface PrivateEndpointConnectionProxy {
+  id?: string;
+  name?: string;
+  type?: string;
+  eTag?: string;
+  properties?: PrivateEndpointConnectionProxyProperties;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: PrivateEndpointConnectionProxySystemData;
+}
+export const PrivateEndpointConnectionProxy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    eTag: S.optional(S.String),
+    properties: S.optional(PrivateEndpointConnectionProxyProperties),
+    systemData: S.optional(PrivateEndpointConnectionProxySystemData),
+  }),
+).annotate({
+  identifier: "PrivateEndpointConnectionProxy",
+}) as any as S.Schema<PrivateEndpointConnectionProxy>;
+
 export interface GetPrivateEndpointConnectionsControllerPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -18279,6 +18421,29 @@ export const GetSolutionsControllerSolutionRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "GetSolutionsControllerSolutionRequest",
 }) as any as S.Schema<GetSolutionsControllerSolutionRequest>;
+
+/** Solution REST Resource. */
+export interface Solution {
+  /** Gets the relative URL to get to this REST resource. */
+  id?: string;
+  /** Gets the name of this REST resource. */
+  name?: string;
+  /** Gets the type of this REST resource. */
+  type?: string;
+  /** Gets or sets the ETAG for optimistic concurrency control. */
+  etag?: string;
+  /** Gets or sets the properties of the solution. */
+  properties?: SolutionProperties;
+}
+export const Solution = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    type: S.optional(S.String),
+    etag: S.optional(S.String),
+    properties: S.optional(SolutionProperties),
+  }),
+).annotate({ identifier: "Solution" }) as any as S.Schema<Solution>;
 
 export interface GetSqlAssessmentOptionsOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -26710,11 +26875,14 @@ export interface ProjectResultList {
   /** List of projects. */
   value?: ProjectResultListValueList;
   nextLink?: string;
+  /** Service generated Request ID. */
+  xMsRequestId?: string;
 }
 export const ProjectResultList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ProjectResultListValueList),
     nextLink: S.optional(S.String),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "ProjectResultList",
@@ -30029,6 +30197,40 @@ export const MigrateProjectsControllerPutMigrateProjectRequest =
     identifier: "MigrateProjectsControllerPutMigrateProjectRequest",
   }) as any as S.Schema<MigrateProjectsControllerPutMigrateProjectRequest>;
 
+/** Migrate project. */
+export interface MigrateProjectsControllerPutMigrateProjectResponse {
+  properties?: MigrateProjectProperties;
+  /** For optimistic concurrency control. */
+  eTag?: string;
+  /** Azure location in which project is created. */
+  location?: string;
+  /** Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{projectName} */
+  id?: string;
+  /** Name of the project. */
+  name?: string;
+  /** Type of the object = [Microsoft.Migrate/migrateProjects]. */
+  type?: string;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: MigrateProjectSystemData;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const MigrateProjectsControllerPutMigrateProjectResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      properties: S.optional(MigrateProjectProperties),
+      eTag: S.optional(S.String),
+      location: S.optional(S.String),
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      systemData: S.optional(MigrateProjectSystemData),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "MigrateProjectsControllerPutMigrateProjectResponse",
+  }) as any as S.Schema<MigrateProjectsControllerPutMigrateProjectResponse>;
+
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** Gets the properties of the object. */
@@ -30077,6 +30279,39 @@ export const PutPrivateEndpointConnectionControllerPrivateEndpointConnectionRequ
     identifier:
       "PutPrivateEndpointConnectionControllerPrivateEndpointConnectionRequest",
   }) as any as S.Schema<PutPrivateEndpointConnectionControllerPrivateEndpointConnectionRequest>;
+
+/** REST model used to encapsulate the user visible state of a PrivateEndpoint. */
+export interface PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse {
+  /** Relative URL to get this Sites. */
+  id?: string;
+  /** Gets the name of the resource. */
+  name?: string;
+  /** Gets the resource type. */
+  type?: string;
+  /** Gets the tag for optimistic concurrency control. */
+  eTag?: string;
+  /** Gets the properties of the object. */
+  properties?: PrivateEndpointConnectionProperties_2;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: PrivateEndpointConnectionSystemData;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      eTag: S.optional(S.String),
+      properties: S.optional(PrivateEndpointConnectionProperties_2),
+      systemData: S.optional(PrivateEndpointConnectionSystemData),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier:
+      "PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse",
+  }) as any as S.Schema<PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse>;
 
 /** Gets or sets the goal for which summary needs to be refreshed. */
 export type RefreshMigrateProjectsControllerSummaryRequestGoal =
@@ -30888,6 +31123,10 @@ export interface UpdateAssessmentProjectsOperationResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: ProjectProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateAssessmentProjectsOperationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -30899,6 +31138,8 @@ export const UpdateAssessmentProjectsOperationResponse =
       tags: S.optional(UpdateAssessmentProjectsOperationResponseTagsMap),
       location: S.String,
       properties: S.optional(ProjectProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "UpdateAssessmentProjectsOperationResponse",
@@ -30975,6 +31216,10 @@ export interface UpdateGroupsOperationMachinesResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: GroupProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UpdateGroupsOperationMachinesResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -30984,6 +31229,8 @@ export const UpdateGroupsOperationMachinesResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GroupProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "UpdateGroupsOperationMachinesResponse",
@@ -31662,6 +31909,10 @@ export interface UpdateMasterSitesControllerResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: MasterSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateMasterSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31672,6 +31923,8 @@ export const UpdateMasterSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateMasterSitesControllerResponseTagsMap),
     location: S.String,
     properties: S.optional(MasterSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateMasterSitesControllerResponse",
@@ -31780,6 +32033,8 @@ export interface UpdatePrivateEndpointConnectionOperationResponse {
   systemData?: SystemData;
   /** Properties of the private endpoint connection. */
   properties?: UpdatePrivateEndpointConnectionOperationResponseProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePrivateEndpointConnectionOperationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -31791,6 +32046,7 @@ export const UpdatePrivateEndpointConnectionOperationResponse =
       properties: S.optional(
         UpdatePrivateEndpointConnectionOperationResponseProperties,
       ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdatePrivateEndpointConnectionOperationResponse",
@@ -32472,6 +32728,10 @@ export interface UpdateSqlSitesControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SqlSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UpdateSqlSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32480,6 +32740,8 @@ export const UpdateSqlSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SqlSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSqlSitesControllerResponse",
@@ -32898,6 +33160,10 @@ export interface UpdateWebAppSitesControllerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: WebAppSiteProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UpdateWebAppSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32906,6 +33172,8 @@ export const UpdateWebAppSitesControllerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(WebAppSiteProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateWebAppSitesControllerResponse",
@@ -33222,12 +33490,12 @@ export type CreatePrivateEndpointConnectionProxyControllerError = AzureOpError;
 /** Create or update private endpoint proxy. Create or update a private endpoint proxy with specified name. If a private endpoint already exists, update it. */
 export const CreatePrivateEndpointConnectionProxyController: API.OperationMethod<
   CreatePrivateEndpointConnectionProxyControllerRequest,
-  PrivateEndpointConnectionProxy,
+  CreatePrivateEndpointConnectionProxyControllerResponse,
   CreatePrivateEndpointConnectionProxyControllerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePrivateEndpointConnectionProxyControllerRequest,
-  output: PrivateEndpointConnectionProxy,
+  output: CreatePrivateEndpointConnectionProxyControllerResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -33282,12 +33550,12 @@ export type CreateSolutionsControllerError = AzureOpError;
 /** Creates a solution in the migrate project. */
 export const CreateSolutionsController: API.OperationMethod<
   CreateSolutionsControllerRequest,
-  Solution,
+  CreateSolutionsControllerResponse,
   CreateSolutionsControllerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSolutionsControllerRequest,
-  output: Solution,
+  output: CreateSolutionsControllerResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -37564,12 +37832,12 @@ export type MigrateProjectsControllerPutMigrateProjectError = AzureOpError;
 /** Create or update a new project with specified settings. Create or update a new project by sending a json object of type 'migrateproject' as given in Models section as part of the Request Body. The project name is unique. This operation is Idempotent. */
 export const MigrateProjectsControllerPutMigrateProject: API.OperationMethod<
   MigrateProjectsControllerPutMigrateProjectRequest,
-  MigrateProject,
+  MigrateProjectsControllerPutMigrateProjectResponse,
   MigrateProjectsControllerPutMigrateProjectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: MigrateProjectsControllerPutMigrateProjectRequest,
-  output: MigrateProject,
+  output: MigrateProjectsControllerPutMigrateProjectResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -37580,12 +37848,13 @@ export type PutPrivateEndpointConnectionControllerPrivateEndpointConnectionError
 /** Create or update private endpoint. Create or update a private endpoint with specified name. If a private endpoint already exists, update it. */
 export const PutPrivateEndpointConnectionControllerPrivateEndpointConnection: API.OperationMethod<
   PutPrivateEndpointConnectionControllerPrivateEndpointConnectionRequest,
-  PrivateEndpointConnection_2,
+  PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse,
   PutPrivateEndpointConnectionControllerPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: PutPrivateEndpointConnectionControllerPrivateEndpointConnectionRequest,
-  output: PrivateEndpointConnection_2,
+  output:
+    PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -62,9 +62,17 @@ export const AcceptSubscriptionOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AcceptSubscriptionOwnershipRequest",
 }) as any as S.Schema<AcceptSubscriptionOwnershipRequest>;
 
-export interface AcceptSubscriptionOwnershipResponse {}
+export interface AcceptSubscriptionOwnershipResponse {
+  /** GET this URL to retrieve the status of the asynchronous operation. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: number;
+}
 export const AcceptSubscriptionOwnershipResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "AcceptSubscriptionOwnershipResponse",
 }) as any as S.Schema<AcceptSubscriptionOwnershipResponse>;
@@ -621,10 +629,16 @@ export const GetSubscriptionOperationRequest = /*@__PURE__*/ S.suspend(() =>
 export interface SubscriptionCreationResult {
   /** The link to the new subscription. Use this link to check the status of subscription creation operation. */
   subscriptionLink?: string;
+  /** The URL where the status of the asynchronous operation can be checked. */
+  location?: string;
+  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
+  retryAfter?: number;
 }
 export const SubscriptionCreationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionLink: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SubscriptionCreationResult",

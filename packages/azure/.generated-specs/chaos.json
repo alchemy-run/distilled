@@ -24,7 +24,7 @@
         "target": "com.azure.chaos#StartExperimentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.chaos#StartExperimentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Start a Experiment resource.",
         "com.distilled.openapi#apiVersion": "2025-01-01"
+      }
+    },
+    "com.azure.chaos#StartExperimentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.chaos#StartExperimentRequest": {
@@ -776,7 +798,7 @@
         "target": "com.azure.chaos#CancelExperimentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.chaos#CancelExperimentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -787,6 +809,28 @@
         },
         "smithy.api#documentation": "Cancel a running Experiment resource.",
         "com.distilled.openapi#apiVersion": "2025-01-01"
+      }
+    },
+    "com.azure.chaos#CancelExperimentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.chaos#CancelExperimentRequest": {
@@ -827,7 +871,7 @@
         "target": "com.azure.chaos#DeleteExperimentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.chaos#DeleteExperimentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -838,6 +882,28 @@
         },
         "smithy.api#documentation": "Delete a Experiment resource.",
         "com.distilled.openapi#apiVersion": "2025-01-01"
+      }
+    },
+    "com.azure.chaos#DeleteExperimentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.chaos#DeleteExperimentRequest": {
@@ -942,6 +1008,20 @@
           "traits": {
             "smithy.api#documentation": "The properties of the experiment resource.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1499,6 +1579,20 @@
           "traits": {
             "smithy.api#documentation": "The properties of the experiment resource.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

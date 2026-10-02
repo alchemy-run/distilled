@@ -2540,6 +2540,30 @@ export const RegenerateSignalRKeyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegenerateSignalRKeyRequest",
 }) as any as S.Schema<RegenerateSignalRKeyRequest>;
 
+/** A class represents the access keys of the resource. */
+export interface RegenerateSignalRKeyResponse {
+  /** The primary access key. */
+  primaryKey?: string;
+  /** The secondary access key. */
+  secondaryKey?: string;
+  /** Connection string constructed via the primaryKey */
+  primaryConnectionString?: string;
+  /** Connection string constructed via the secondaryKey */
+  secondaryConnectionString?: string;
+  location?: string;
+}
+export const RegenerateSignalRKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryKey: S.optional(S.String),
+    secondaryKey: S.optional(S.String),
+    primaryConnectionString: S.optional(S.String),
+    secondaryConnectionString: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "RegenerateSignalRKeyResponse",
+}) as any as S.Schema<RegenerateSignalRKeyResponse>;
+
 export interface RestartSignalRRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2565,9 +2589,13 @@ export const RestartSignalRRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartSignalRRequest",
 }) as any as S.Schema<RestartSignalRRequest>;
 
-export interface RestartSignalRResponse {}
+export interface RestartSignalRResponse {
+  location?: string;
+}
 export const RestartSignalRResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartSignalRResponse",
 }) as any as S.Schema<RestartSignalRResponse>;
@@ -2600,9 +2628,13 @@ export const RestartSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartSignalRReplicasRequest",
 }) as any as S.Schema<RestartSignalRReplicasRequest>;
 
-export interface RestartSignalRReplicasResponse {}
+export interface RestartSignalRReplicasResponse {
+  location?: string;
+}
 export const RestartSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartSignalRReplicasResponse",
 }) as any as S.Schema<RestartSignalRReplicasResponse>;
@@ -3256,6 +3288,7 @@ export interface UpdateSignalRResponse {
   properties?: SignalRProperties;
   kind?: ServiceKind;
   identity?: ManagedIdentity;
+  locationHeader?: string;
 }
 export const UpdateSignalRResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3269,6 +3302,7 @@ export const UpdateSignalRResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SignalRProperties),
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSignalRResponse",
@@ -3417,6 +3451,7 @@ export interface UpdateSignalRReplicasResponse {
   location: string;
   sku?: ResourceSku;
   properties?: ReplicaProperties;
+  locationHeader?: string;
 }
 export const UpdateSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3428,6 +3463,7 @@ export const UpdateSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     sku: S.optional(ResourceSku),
     properties: S.optional(ReplicaProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSignalRReplicasResponse",
@@ -3857,12 +3893,12 @@ export type RegenerateSignalRKeyError = AzureOpError;
 /** Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
 export const RegenerateSignalRKey: API.OperationMethod<
   RegenerateSignalRKeyRequest,
-  SignalRKeys,
+  RegenerateSignalRKeyResponse,
   RegenerateSignalRKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateSignalRKeyRequest,
-  output: SignalRKeys,
+  output: RegenerateSignalRKeyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

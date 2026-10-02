@@ -657,7 +657,7 @@
         "target": "com.azure.notificationhubs#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.notificationhubs#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -668,6 +668,20 @@
         },
         "smithy.api#documentation": "Deletes the Private Endpoint Connection.\r\nThis is a public API that can be called directly by Notification Hubs users.",
         "com.distilled.openapi#apiVersion": "2023-09-01"
+      }
+    },
+    "com.azure.notificationhubs#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.notificationhubs#DeletePrivateEndpointConnectionRequest": {

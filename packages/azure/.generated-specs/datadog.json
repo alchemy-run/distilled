@@ -771,6 +771,20 @@
         },
         "properties": {
           "target": "com.azure.datadog#DatadogSingleSignOnProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1253,6 +1267,20 @@
         },
         "identity": {
           "target": "com.azure.datadog#IdentityProperties"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1653,7 +1681,7 @@
         "target": "com.azure.datadog#DeleteMonitoredSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datadog#DeleteMonitoredSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1664,6 +1692,28 @@
         },
         "smithy.api#documentation": "Updates the subscriptions that are being monitored by the Datadog monitor resource\n\nUpdates the subscriptions that are being monitored by the Datadog monitor resource",
         "com.distilled.openapi#apiVersion": "2025-06-11"
+      }
+    },
+    "com.azure.datadog#DeleteMonitoredSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datadog#DeleteMonitoredSubscriptionRequest": {
@@ -1756,6 +1806,20 @@
           "target": "com.azure.datadog#SubscriptionList",
           "traits": {
             "smithy.api#documentation": "The request to update subscriptions needed to be monitored by the Datadog monitor resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2051,6 +2115,20 @@
           "target": "com.azure.datadog#SubscriptionList",
           "traits": {
             "smithy.api#documentation": "The request to update subscriptions needed to be monitored by the Datadog monitor resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3024,7 +3102,7 @@
         "target": "com.azure.datadog#DeleteMonitorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datadog#DeleteMonitorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3035,6 +3113,28 @@
         },
         "smithy.api#documentation": "Delete a monitor resource.\n\nDelete a monitor resource.",
         "com.distilled.openapi#apiVersion": "2025-06-11"
+      }
+    },
+    "com.azure.datadog#DeleteMonitorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datadog#DeleteMonitorRequest": {
@@ -3139,6 +3239,20 @@
         },
         "identity": {
           "target": "com.azure.datadog#IdentityProperties"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3332,6 +3446,20 @@
         },
         "identity": {
           "target": "com.azure.datadog#IdentityProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {

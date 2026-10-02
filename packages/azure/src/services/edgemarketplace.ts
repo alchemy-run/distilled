@@ -60,23 +60,29 @@ export const GenerateOfferAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GenerateOfferAccessTokenRequest>;
 
 /** The disk access token */
-export interface DiskAccessToken {
+export interface GenerateOfferAccessTokenResponse {
   /** The disk id. */
   diskId?: string;
   /** The access token creation status. */
   status?: string;
   /** The access token. */
   accessToken: string | Redacted.Redacted<string>;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-export const DiskAccessToken = /*@__PURE__*/ S.suspend(() =>
+export const GenerateOfferAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     diskId: S.optional(S.String),
     status: S.optional(S.String),
     accessToken: S.String.pipe(T.SensitiveValue({})),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
-  identifier: "DiskAccessToken",
-}) as any as S.Schema<DiskAccessToken>;
+  identifier: "GenerateOfferAccessTokenResponse",
+}) as any as S.Schema<GenerateOfferAccessTokenResponse>;
 
 export interface GetOfferRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -455,6 +461,25 @@ export const GetOfferAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOfferAccessTokenRequest",
 }) as any as S.Schema<GetOfferAccessTokenRequest>;
 
+/** The disk access token */
+export interface DiskAccessToken {
+  /** The disk id. */
+  diskId?: string;
+  /** The access token creation status. */
+  status?: string;
+  /** The access token. */
+  accessToken: string | Redacted.Redacted<string>;
+}
+export const DiskAccessToken = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    diskId: S.optional(S.String),
+    status: S.optional(S.String),
+    accessToken: S.String.pipe(T.SensitiveValue({})),
+  }),
+).annotate({
+  identifier: "DiskAccessToken",
+}) as any as S.Schema<DiskAccessToken>;
+
 export interface GetPublisherRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
@@ -804,12 +829,12 @@ export type GenerateOfferAccessTokenError = AzureOpError;
 /** A long-running resource action. */
 export const GenerateOfferAccessToken: API.OperationMethod<
   GenerateOfferAccessTokenRequest,
-  DiskAccessToken,
+  GenerateOfferAccessTokenResponse,
   GenerateOfferAccessTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GenerateOfferAccessTokenRequest,
-  output: DiskAccessToken,
+  output: GenerateOfferAccessTokenResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

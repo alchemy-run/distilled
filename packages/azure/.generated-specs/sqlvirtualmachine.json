@@ -69,6 +69,20 @@
           "traits": {
             "smithy.api#documentation": "Virtual machine resource id for response."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -193,7 +207,7 @@
         "target": "com.azure.sqlvirtualmachine#StartSqlVirtualMachineAssessmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.sqlvirtualmachine#StartSqlVirtualMachineAssessmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -204,6 +218,28 @@
         },
         "smithy.api#documentation": "Starts SQL best practices Assessment on SQL virtual machine.",
         "com.distilled.openapi#apiVersion": "2023-10-01"
+      }
+    },
+    "com.azure.sqlvirtualmachine#StartSqlVirtualMachineAssessmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.sqlvirtualmachine#StartSqlVirtualMachineAssessmentRequest": {
@@ -244,7 +280,7 @@
         "target": "com.azure.sqlvirtualmachine#RedeploySqlVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.sqlvirtualmachine#RedeploySqlVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -255,6 +291,28 @@
         },
         "smithy.api#documentation": "Uninstalls and reinstalls the SQL IaaS Extension.",
         "com.distilled.openapi#apiVersion": "2023-10-01"
+      }
+    },
+    "com.azure.sqlvirtualmachine#RedeploySqlVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.sqlvirtualmachine#RedeploySqlVirtualMachineRequest": {
@@ -295,7 +353,7 @@
         "target": "com.azure.sqlvirtualmachine#FetchSqlVirtualMachineDCAssessmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.sqlvirtualmachine#FetchSqlVirtualMachineDCAssessmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -306,6 +364,28 @@
         },
         "smithy.api#documentation": "Starts SQL best practices Assessment with Disk Config rules on SQL virtual machine",
         "com.distilled.openapi#apiVersion": "2023-10-01"
+      }
+    },
+    "com.azure.sqlvirtualmachine#FetchSqlVirtualMachineDCAssessmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.sqlvirtualmachine#FetchSqlVirtualMachineDCAssessmentRequest": {
@@ -352,7 +432,7 @@
         "target": "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -363,6 +443,28 @@
         },
         "smithy.api#documentation": "Deletes a SQL virtual machine.",
         "com.distilled.openapi#apiVersion": "2023-10-01"
+      }
+    },
+    "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineRequest": {
@@ -466,6 +568,13 @@
           "target": "com.azure.sqlvirtualmachine#ResourceIdentity",
           "traits": {
             "smithy.api#documentation": "DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
           }
         }
       },
@@ -2111,6 +2220,20 @@
           "traits": {
             "smithy.api#documentation": "DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2668,7 +2791,7 @@
         "target": "com.azure.sqlvirtualmachine#DeleteAvailabilityGroupListenerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.sqlvirtualmachine#DeleteAvailabilityGroupListenerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2679,6 +2802,28 @@
         },
         "smithy.api#documentation": "Deletes an availability group listener.",
         "com.distilled.openapi#apiVersion": "2023-10-01"
+      }
+    },
+    "com.azure.sqlvirtualmachine#DeleteAvailabilityGroupListenerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.sqlvirtualmachine#DeleteAvailabilityGroupListenerRequest": {
@@ -2771,6 +2916,20 @@
           "target": "com.azure.sqlvirtualmachine#AvailabilityGroupListenerProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3419,7 +3578,7 @@
         "target": "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3430,6 +3589,28 @@
         },
         "smithy.api#documentation": "Deletes a SQL virtual machine group.",
         "com.distilled.openapi#apiVersion": "2023-10-01"
+      }
+    },
+    "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.sqlvirtualmachine#DeleteSqlVirtualMachineGroupRequest": {
@@ -3527,6 +3708,13 @@
           "target": "com.azure.sqlvirtualmachine#SqlVirtualMachineGroupProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
           }
         }
       },
@@ -3859,6 +4047,20 @@
           "target": "com.azure.sqlvirtualmachine#SqlVirtualMachineGroupProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

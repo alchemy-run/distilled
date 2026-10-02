@@ -289,7 +289,7 @@
         "target": "com.azure.azurefleet#DeleteFleetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.azurefleet#DeleteFleetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -300,6 +300,28 @@
         },
         "smithy.api#documentation": "Delete a Fleet",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.azurefleet#DeleteFleetResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.azurefleet#DeleteFleetRequest": {
@@ -415,6 +437,20 @@
           "target": "com.azure.azurefleet#UpdateFleetResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4736,6 +4772,13 @@
           "target": "com.azure.azurefleet#FleetsCreateOrUpdateResponsePlan",
           "traits": {
             "smithy.api#documentation": "Plan for the resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

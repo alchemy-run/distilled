@@ -705,7 +705,7 @@
         "target": "com.azure.subscription#AcceptSubscriptionOwnershipRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.subscription#AcceptSubscriptionOwnershipResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -716,6 +716,28 @@
         },
         "smithy.api#documentation": "Accept subscription ownership.",
         "com.distilled.openapi#apiVersion": "2021-10-01"
+      }
+    },
+    "com.azure.subscription#AcceptSubscriptionOwnershipResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "GET this URL to retrieve the status of the asynchronous operation."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The amount of delay to use while the status of the operation is checked. The value is expressed in seconds."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.subscription#AcceptSubscriptionOwnershipRequest": {
@@ -1427,6 +1449,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The link to the new subscription. Use this link to check the status of subscription creation operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The URL where the status of the asynchronous operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The amount of delay to use while the status of the operation is checked. The value is expressed in seconds."
           }
         }
       },

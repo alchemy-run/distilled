@@ -45,6 +45,20 @@
           "traits": {
             "smithy.api#documentation": "Response body stating if the ledger files are being exported."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -102,7 +116,7 @@
         "target": "com.azure.confidentialledger#DeleteLedgerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.confidentialledger#DeleteLedgerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -113,6 +127,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Confidential Ledger.",
         "com.distilled.openapi#apiVersion": "2026-02-23"
+      }
+    },
+    "com.azure.confidentialledger#DeleteLedgerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.confidentialledger#DeleteLedgerRequest": {
@@ -210,6 +246,13 @@
           "target": "com.azure.confidentialledger#LedgerProperties",
           "traits": {
             "smithy.api#documentation": "Properties of Confidential Ledger Resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -959,6 +1002,20 @@
           "target": "com.azure.confidentialledger#LedgerProperties",
           "traits": {
             "smithy.api#documentation": "Properties of Confidential Ledger Resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

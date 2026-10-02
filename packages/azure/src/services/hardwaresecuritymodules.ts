@@ -179,10 +179,24 @@ export const BackupResultProperties = /*@__PURE__*/ S.suspend(() =>
 export interface BackupResult {
   /** Properties of the Cloud HSM Cluster */
   properties?: BackupResultProperties;
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BackupResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(BackupResultProperties),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({ identifier: "BackupResult" }) as any as S.Schema<BackupResult>;
 
@@ -659,6 +673,10 @@ export interface CloudHsmClustersCreateOrUpdateResponse {
   identity?: CloudHsmClustersCreateOrUpdateResponseIdentity;
   /** SKU details */
   sku?: CloudHsmClusterSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CloudHsmClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -672,6 +690,10 @@ export const CloudHsmClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       properties: S.optional(CloudHsmClusterProperties),
       identity: S.optional(CloudHsmClustersCreateOrUpdateResponseIdentity),
       sku: S.optional(CloudHsmClusterSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CloudHsmClustersCreateOrUpdateResponse",
@@ -788,10 +810,24 @@ export const BackupRestoreBaseResultProperties = /*@__PURE__*/ S.suspend(() =>
 export interface RestoreResult {
   /** Backup and Restore operation common properties */
   properties?: BackupRestoreBaseResultProperties;
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const RestoreResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(BackupRestoreBaseResultProperties),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({ identifier: "RestoreResult" }) as any as S.Schema<RestoreResult>;
 
@@ -1155,6 +1191,10 @@ export interface DedicatedHsmCreateOrUpdateResponse {
   sku: Sku;
   /** The availability zones. */
   zones?: DedicatedHsmCreateOrUpdateResponseZonesList;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DedicatedHsmCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1167,6 +1207,10 @@ export const DedicatedHsmCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: DedicatedHsmProperties,
     sku: Sku,
     zones: S.optional(DedicatedHsmCreateOrUpdateResponseZonesList),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DedicatedHsmCreateOrUpdateResponse",
@@ -1197,9 +1241,17 @@ export const DeleteCloudHsmClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCloudHsmClusterRequest",
 }) as any as S.Schema<DeleteCloudHsmClusterRequest>;
 
-export interface DeleteCloudHsmClusterResponse {}
+export interface DeleteCloudHsmClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCloudHsmClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCloudHsmClusterResponse",
 }) as any as S.Schema<DeleteCloudHsmClusterResponse>;
@@ -1233,9 +1285,19 @@ export const DeleteCloudHsmClusterPrivateEndpointConnectionRequest =
     identifier: "DeleteCloudHsmClusterPrivateEndpointConnectionRequest",
   }) as any as S.Schema<DeleteCloudHsmClusterPrivateEndpointConnectionRequest>;
 
-export interface DeleteCloudHsmClusterPrivateEndpointConnectionResponse {}
+export interface DeleteCloudHsmClusterPrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCloudHsmClusterPrivateEndpointConnectionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteCloudHsmClusterPrivateEndpointConnectionResponse",
   }) as any as S.Schema<DeleteCloudHsmClusterPrivateEndpointConnectionResponse>;
 
@@ -1264,9 +1326,17 @@ export const DeleteDedicatedHsmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDedicatedHsmRequest",
 }) as any as S.Schema<DeleteDedicatedHsmRequest>;
 
-export interface DeleteDedicatedHsmResponse {}
+export interface DeleteDedicatedHsmResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDedicatedHsmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDedicatedHsmResponse",
 }) as any as S.Schema<DeleteDedicatedHsmResponse>;
@@ -2366,6 +2436,10 @@ export interface UpdateCloudHsmClusterResponse {
   identity?: UpdateCloudHsmClusterResponseIdentity;
   /** SKU details */
   sku?: CloudHsmClusterSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCloudHsmClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2378,6 +2452,8 @@ export const UpdateCloudHsmClusterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CloudHsmClusterProperties),
     identity: S.optional(UpdateCloudHsmClusterResponseIdentity),
     sku: S.optional(CloudHsmClusterSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCloudHsmClusterResponse",
@@ -2454,6 +2530,10 @@ export interface UpdateDedicatedHsmResponse {
   sku: Sku;
   /** The availability zones. */
   zones?: UpdateDedicatedHsmResponseZonesList;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDedicatedHsmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2466,6 +2546,8 @@ export const UpdateDedicatedHsmResponse = /*@__PURE__*/ S.suspend(() =>
     properties: DedicatedHsmProperties,
     sku: Sku,
     zones: S.optional(UpdateDedicatedHsmResponseZonesList),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDedicatedHsmResponse",

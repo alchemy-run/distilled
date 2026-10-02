@@ -203,6 +203,10 @@ export interface AttestationsCreateOrUpdateAtResourceResponse {
   systemData?: SystemData;
   /** Properties for the attestation. */
   properties: AttestationProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AttestationsCreateOrUpdateAtResourceResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -212,6 +216,8 @@ export const AttestationsCreateOrUpdateAtResourceResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: AttestationProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AttestationsCreateOrUpdateAtResourceResponse",
@@ -257,6 +263,10 @@ export interface AttestationsCreateOrUpdateAtResourceGroupResponse {
   systemData?: SystemData;
   /** Properties for the attestation. */
   properties: AttestationProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AttestationsCreateOrUpdateAtResourceGroupResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -266,6 +276,8 @@ export const AttestationsCreateOrUpdateAtResourceGroupResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: AttestationProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AttestationsCreateOrUpdateAtResourceGroupResponse",
@@ -308,6 +320,10 @@ export interface AttestationsCreateOrUpdateAtSubscriptionResponse {
   systemData?: SystemData;
   /** Properties for the attestation. */
   properties: AttestationProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AttestationsCreateOrUpdateAtSubscriptionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -317,6 +333,8 @@ export const AttestationsCreateOrUpdateAtSubscriptionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: AttestationProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AttestationsCreateOrUpdateAtSubscriptionResponse",
@@ -5400,9 +5418,19 @@ export const TriggerPolicyStateResourceGroupEvaluationRequest =
     identifier: "TriggerPolicyStateResourceGroupEvaluationRequest",
   }) as any as S.Schema<TriggerPolicyStateResourceGroupEvaluationRequest>;
 
-export interface TriggerPolicyStateResourceGroupEvaluationResponse {}
+export interface TriggerPolicyStateResourceGroupEvaluationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const TriggerPolicyStateResourceGroupEvaluationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "TriggerPolicyStateResourceGroupEvaluationResponse",
   }) as any as S.Schema<TriggerPolicyStateResourceGroupEvaluationResponse>;
 
@@ -5426,9 +5454,19 @@ export const TriggerPolicyStateSubscriptionEvaluationRequest =
     identifier: "TriggerPolicyStateSubscriptionEvaluationRequest",
   }) as any as S.Schema<TriggerPolicyStateSubscriptionEvaluationRequest>;
 
-export interface TriggerPolicyStateSubscriptionEvaluationResponse {}
+export interface TriggerPolicyStateSubscriptionEvaluationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const TriggerPolicyStateSubscriptionEvaluationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "TriggerPolicyStateSubscriptionEvaluationResponse",
   }) as any as S.Schema<TriggerPolicyStateSubscriptionEvaluationResponse>;
 

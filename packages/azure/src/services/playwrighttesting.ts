@@ -213,6 +213,8 @@ export interface AccountsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: AccountProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AccountsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -223,6 +225,7 @@ export const AccountsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(AccountsCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(AccountProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "AccountsCreateOrUpdateResponse",
@@ -303,9 +306,17 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccountRequest",
 }) as any as S.Schema<DeleteAccountRequest>;
 
-export interface DeleteAccountResponse {}
+export interface DeleteAccountResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAccountResponse",
 }) as any as S.Schema<DeleteAccountResponse>;

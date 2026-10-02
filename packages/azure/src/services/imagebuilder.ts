@@ -38,9 +38,24 @@ export const CancelVirtualMachineImageTemplateRequest = /*@__PURE__*/ S.suspend(
   identifier: "CancelVirtualMachineImageTemplateRequest",
 }) as any as S.Schema<CancelVirtualMachineImageTemplateRequest>;
 
-export interface CancelVirtualMachineImageTemplateResponse {}
+export interface CancelVirtualMachineImageTemplateResponse {
+  /** The URL to query for the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to query for the result of the asynchronous operation. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CancelVirtualMachineImageTemplateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "CancelVirtualMachineImageTemplateResponse",
   }) as any as S.Schema<CancelVirtualMachineImageTemplateResponse>;
 
@@ -72,9 +87,17 @@ export const DeleteTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTriggerRequest",
 }) as any as S.Schema<DeleteTriggerRequest>;
 
-export interface DeleteTriggerResponse {}
+export interface DeleteTriggerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTriggerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteTriggerResponse",
 }) as any as S.Schema<DeleteTriggerResponse>;
@@ -105,9 +128,19 @@ export const DeleteVirtualMachineImageTemplateRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteVirtualMachineImageTemplateRequest",
 }) as any as S.Schema<DeleteVirtualMachineImageTemplateRequest>;
 
-export interface DeleteVirtualMachineImageTemplateResponse {}
+export interface DeleteVirtualMachineImageTemplateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualMachineImageTemplateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteVirtualMachineImageTemplateResponse",
   }) as any as S.Schema<DeleteVirtualMachineImageTemplateResponse>;
 
@@ -1242,9 +1275,23 @@ export const RunVirtualMachineImageTemplateRequest = /*@__PURE__*/ S.suspend(
   identifier: "RunVirtualMachineImageTemplateRequest",
 }) as any as S.Schema<RunVirtualMachineImageTemplateRequest>;
 
-export interface RunVirtualMachineImageTemplateResponse {}
+export interface RunVirtualMachineImageTemplateResponse {
+  /** The URL to query for the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to query for the result of the asynchronous operation. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RunVirtualMachineImageTemplateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RunVirtualMachineImageTemplateResponse",
 }) as any as S.Schema<RunVirtualMachineImageTemplateResponse>;
@@ -1304,6 +1351,10 @@ export interface TriggersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The properties of a trigger */
   properties?: TriggerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TriggersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1312,6 +1363,10 @@ export const TriggersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(TriggerProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "TriggersCreateOrUpdateResponse",
@@ -1452,6 +1507,12 @@ export interface UpdateVirtualMachineImageTemplateResponse {
   properties?: ImageTemplateProperties;
   /** The identity of the image template, if configured. */
   identity: ImageTemplateIdentity;
+  /** The URL to query for the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
+  /** The URL to query for the result of the asynchronous operation. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVirtualMachineImageTemplateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1464,6 +1525,11 @@ export const UpdateVirtualMachineImageTemplateResponse =
       location: S.String,
       properties: S.optional(ImageTemplateProperties),
       identity: ImageTemplateIdentity,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateVirtualMachineImageTemplateResponse",
@@ -1628,6 +1694,10 @@ export interface VirtualMachineImageTemplatesCreateOrUpdateResponse {
   properties?: ImageTemplateProperties;
   /** The identity of the image template, if configured. */
   identity: ImageTemplateIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VirtualMachineImageTemplatesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1642,6 +1712,10 @@ export const VirtualMachineImageTemplatesCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(ImageTemplateProperties),
       identity: ImageTemplateIdentity,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "VirtualMachineImageTemplatesCreateOrUpdateResponse",

@@ -2696,6 +2696,30 @@ export const RegenerateWebPubSubKeyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegenerateWebPubSubKeyRequest",
 }) as any as S.Schema<RegenerateWebPubSubKeyRequest>;
 
+/** A class represents the access keys of the resource. */
+export interface RegenerateWebPubSubKeyResponse {
+  /** The primary access key. */
+  primaryKey?: string;
+  /** The secondary access key. */
+  secondaryKey?: string;
+  /** Connection string constructed via the primaryKey */
+  primaryConnectionString?: string;
+  /** Connection string constructed via the secondaryKey */
+  secondaryConnectionString?: string;
+  location?: string;
+}
+export const RegenerateWebPubSubKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryKey: S.optional(S.String),
+    secondaryKey: S.optional(S.String),
+    primaryConnectionString: S.optional(S.String),
+    secondaryConnectionString: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "RegenerateWebPubSubKeyResponse",
+}) as any as S.Schema<RegenerateWebPubSubKeyResponse>;
+
 export interface RestartWebPubSubRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -2721,9 +2745,13 @@ export const RestartWebPubSubRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartWebPubSubRequest",
 }) as any as S.Schema<RestartWebPubSubRequest>;
 
-export interface RestartWebPubSubResponse {}
+export interface RestartWebPubSubResponse {
+  location?: string;
+}
 export const RestartWebPubSubResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartWebPubSubResponse",
 }) as any as S.Schema<RestartWebPubSubResponse>;
@@ -2756,9 +2784,13 @@ export const RestartWebPubSubReplicasRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartWebPubSubReplicasRequest",
 }) as any as S.Schema<RestartWebPubSubReplicasRequest>;
 
-export interface RestartWebPubSubReplicasResponse {}
+export interface RestartWebPubSubReplicasResponse {
+  location?: string;
+}
 export const RestartWebPubSubReplicasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartWebPubSubReplicasResponse",
 }) as any as S.Schema<RestartWebPubSubReplicasResponse>;
@@ -2925,6 +2957,7 @@ export interface UpdateWebPubSubResponse {
   properties?: WebPubSubProperties;
   kind?: ServiceKind;
   identity?: ManagedIdentity;
+  locationHeader?: string;
 }
 export const UpdateWebPubSubResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2938,6 +2971,7 @@ export const UpdateWebPubSubResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WebPubSubProperties),
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateWebPubSubResponse",
@@ -3101,6 +3135,7 @@ export interface UpdateWebPubSubReplicasResponse {
   location: string;
   sku?: ResourceSku;
   properties?: ReplicaProperties;
+  locationHeader?: string;
 }
 export const UpdateWebPubSubReplicasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3112,6 +3147,7 @@ export const UpdateWebPubSubReplicasResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     sku: S.optional(ResourceSku),
     properties: S.optional(ReplicaProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateWebPubSubReplicasResponse",
@@ -4101,12 +4137,12 @@ export type RegenerateWebPubSubKeyError = AzureOpError;
 /** Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the same time. */
 export const RegenerateWebPubSubKey: API.OperationMethod<
   RegenerateWebPubSubKeyRequest,
-  WebPubSubKeys,
+  RegenerateWebPubSubKeyResponse,
   RegenerateWebPubSubKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateWebPubSubKeyRequest,
-  output: WebPubSubKeys,
+  output: RegenerateWebPubSubKeyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

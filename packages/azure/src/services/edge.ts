@@ -210,9 +210,19 @@ export const BulkSolutionTemplateVersionReviewSolutionRequest =
     identifier: "BulkSolutionTemplateVersionReviewSolutionRequest",
   }) as any as S.Schema<BulkSolutionTemplateVersionReviewSolutionRequest>;
 
-export interface BulkSolutionTemplateVersionReviewSolutionResponse {}
+export interface BulkSolutionTemplateVersionReviewSolutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const BulkSolutionTemplateVersionReviewSolutionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "BulkSolutionTemplateVersionReviewSolutionResponse",
   }) as any as S.Schema<BulkSolutionTemplateVersionReviewSolutionResponse>;
 
@@ -420,6 +430,10 @@ export interface ConfigTemplateMetadatasCreateOrUpdateResponse {
   properties?: ConfigTemplateMetadataProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConfigTemplateMetadatasCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -430,6 +444,10 @@ export const ConfigTemplateMetadatasCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(ConfigTemplateMetadataProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ConfigTemplateMetadatasCreateOrUpdateResponse",
@@ -542,6 +560,10 @@ export interface ConfigTemplatesCreateOrUpdateResponse {
   properties?: ConfigTemplateProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConfigTemplatesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -554,6 +576,10 @@ export const ConfigTemplatesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(ConfigTemplateProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ConfigTemplatesCreateOrUpdateResponse",
@@ -604,9 +630,18 @@ export const ConfigTemplatesLinkToHierarchiesRequest = /*@__PURE__*/ S.suspend(
   identifier: "ConfigTemplatesLinkToHierarchiesRequest",
 }) as any as S.Schema<ConfigTemplatesLinkToHierarchiesRequest>;
 
-export interface ConfigTemplatesLinkToHierarchiesResponse {}
+export interface ConfigTemplatesLinkToHierarchiesResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ConfigTemplatesLinkToHierarchiesResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "ConfigTemplatesLinkToHierarchiesResponse",
 }) as any as S.Schema<ConfigTemplatesLinkToHierarchiesResponse>;
@@ -656,9 +691,19 @@ export const ConfigTemplatesUnLinkFromHierarchiesRequest =
     identifier: "ConfigTemplatesUnLinkFromHierarchiesRequest",
   }) as any as S.Schema<ConfigTemplatesUnLinkFromHierarchiesRequest>;
 
-export interface ConfigTemplatesUnLinkFromHierarchiesResponse {}
+export interface ConfigTemplatesUnLinkFromHierarchiesResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ConfigTemplatesUnLinkFromHierarchiesResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "ConfigTemplatesUnLinkFromHierarchiesResponse",
   }) as any as S.Schema<ConfigTemplatesUnLinkFromHierarchiesResponse>;
 
@@ -737,6 +782,10 @@ export interface ConfigTemplateVersionsCreateOrUpdateResponse {
   properties?: ConfigTemplateVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConfigTemplateVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -747,6 +796,10 @@ export const ConfigTemplateVersionsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(ConfigTemplateVersionProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ConfigTemplateVersionsCreateOrUpdateResponse",
@@ -1107,6 +1160,10 @@ export interface ContextsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: ContextProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ContextsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1117,6 +1174,10 @@ export const ContextsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ContextsCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(ContextProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ContextsCreateOrUpdateResponse",
@@ -1186,6 +1247,10 @@ export interface CreateConfigTemplateVersionResponse {
   properties?: ConfigTemplateVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateConfigTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1195,6 +1260,8 @@ export const CreateConfigTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ConfigTemplateVersionProperties),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateConfigTemplateVersionResponse",
@@ -1289,6 +1356,10 @@ export interface CreateSchemaVersionResponse {
   properties?: SchemaVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSchemaVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1298,6 +1369,8 @@ export const CreateSchemaVersionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SchemaVersionProperties),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSchemaVersionResponse",
@@ -1441,6 +1514,10 @@ export interface CreateSolutionTemplateVersionResponse {
   properties?: SolutionTemplateVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSolutionTemplateVersionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1451,6 +1528,8 @@ export const CreateSolutionTemplateVersionResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(SolutionTemplateVersionProperties),
       eTag: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateSolutionTemplateVersionResponse",
@@ -1481,9 +1560,17 @@ export const DeleteConfigTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConfigTemplateRequest",
 }) as any as S.Schema<DeleteConfigTemplateRequest>;
 
-export interface DeleteConfigTemplateResponse {}
+export interface DeleteConfigTemplateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConfigTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConfigTemplateResponse",
 }) as any as S.Schema<DeleteConfigTemplateResponse>;
@@ -1517,9 +1604,18 @@ export const DeleteConfigTemplateMetadatasRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteConfigTemplateMetadatasRequest",
 }) as any as S.Schema<DeleteConfigTemplateMetadatasRequest>;
 
-export interface DeleteConfigTemplateMetadatasResponse {}
+export interface DeleteConfigTemplateMetadatasResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConfigTemplateMetadatasResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteConfigTemplateMetadatasResponse",
 }) as any as S.Schema<DeleteConfigTemplateMetadatasResponse>;
@@ -1552,9 +1648,17 @@ export const DeleteConfigTemplateVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConfigTemplateVersionRequest",
 }) as any as S.Schema<DeleteConfigTemplateVersionRequest>;
 
-export interface DeleteConfigTemplateVersionResponse {}
+export interface DeleteConfigTemplateVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConfigTemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConfigTemplateVersionResponse",
 }) as any as S.Schema<DeleteConfigTemplateVersionResponse>;
@@ -1645,9 +1749,17 @@ export const DeleteContextRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContextRequest",
 }) as any as S.Schema<DeleteContextRequest>;
 
-export interface DeleteContextResponse {}
+export interface DeleteContextResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteContextResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteContextResponse",
 }) as any as S.Schema<DeleteContextResponse>;
@@ -1677,9 +1789,17 @@ export const DeleteDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDiagnosticRequest",
 }) as any as S.Schema<DeleteDiagnosticRequest>;
 
-export interface DeleteDiagnosticResponse {}
+export interface DeleteDiagnosticResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDiagnosticResponse",
 }) as any as S.Schema<DeleteDiagnosticResponse>;
@@ -1709,9 +1829,17 @@ export const DeleteDisconnectedOperationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDisconnectedOperationRequest",
 }) as any as S.Schema<DeleteDisconnectedOperationRequest>;
 
-export interface DeleteDisconnectedOperationResponse {}
+export interface DeleteDisconnectedOperationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDisconnectedOperationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDisconnectedOperationResponse",
 }) as any as S.Schema<DeleteDisconnectedOperationResponse>;
@@ -1817,9 +1945,17 @@ export const DeleteDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDynamicSchemaRequest",
 }) as any as S.Schema<DeleteDynamicSchemaRequest>;
 
-export interface DeleteDynamicSchemaResponse {}
+export interface DeleteDynamicSchemaResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDynamicSchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDynamicSchemaResponse",
 }) as any as S.Schema<DeleteDynamicSchemaResponse>;
@@ -1855,9 +1991,17 @@ export const DeleteDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDynamicSchemaVersionRequest",
 }) as any as S.Schema<DeleteDynamicSchemaVersionRequest>;
 
-export interface DeleteDynamicSchemaVersionResponse {}
+export interface DeleteDynamicSchemaVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDynamicSchemaVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDynamicSchemaVersionResponse",
 }) as any as S.Schema<DeleteDynamicSchemaVersionResponse>;
@@ -1896,9 +2040,17 @@ export const DeleteExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteExecutionRequest",
 }) as any as S.Schema<DeleteExecutionRequest>;
 
-export interface DeleteExecutionResponse {}
+export interface DeleteExecutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteExecutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteExecutionResponse",
 }) as any as S.Schema<DeleteExecutionResponse>;
@@ -1931,9 +2083,17 @@ export const DeleteHardwareSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHardwareSettingsRequest",
 }) as any as S.Schema<DeleteHardwareSettingsRequest>;
 
-export interface DeleteHardwareSettingsResponse {}
+export interface DeleteHardwareSettingsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteHardwareSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteHardwareSettingsResponse",
 }) as any as S.Schema<DeleteHardwareSettingsResponse>;
@@ -1969,9 +2129,17 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteInstanceRequest",
 }) as any as S.Schema<DeleteInstanceRequest>;
 
-export interface DeleteInstanceResponse {}
+export interface DeleteInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteInstanceResponse",
 }) as any as S.Schema<DeleteInstanceResponse>;
@@ -2001,9 +2169,17 @@ export const DeleteSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSchemaRequest",
 }) as any as S.Schema<DeleteSchemaRequest>;
 
-export interface DeleteSchemaResponse {}
+export interface DeleteSchemaResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSchemaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSchemaResponse",
 }) as any as S.Schema<DeleteSchemaResponse>;
@@ -2030,9 +2206,17 @@ export const DeleteSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSchemaReferenceRequest",
 }) as any as S.Schema<DeleteSchemaReferenceRequest>;
 
-export interface DeleteSchemaReferenceResponse {}
+export interface DeleteSchemaReferenceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSchemaReferenceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSchemaReferenceResponse",
 }) as any as S.Schema<DeleteSchemaReferenceResponse>;
@@ -2065,9 +2249,17 @@ export const DeleteSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSchemaVersionRequest",
 }) as any as S.Schema<DeleteSchemaVersionRequest>;
 
-export interface DeleteSchemaVersionResponse {}
+export interface DeleteSchemaVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSchemaVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSchemaVersionResponse",
 }) as any as S.Schema<DeleteSchemaVersionResponse>;
@@ -2132,9 +2324,17 @@ export const DeleteSiteReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSiteReferenceRequest",
 }) as any as S.Schema<DeleteSiteReferenceRequest>;
 
-export interface DeleteSiteReferenceResponse {}
+export interface DeleteSiteReferenceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSiteReferenceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSiteReferenceResponse",
 }) as any as S.Schema<DeleteSiteReferenceResponse>;
@@ -2225,9 +2425,17 @@ export const DeleteSolutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSolutionRequest",
 }) as any as S.Schema<DeleteSolutionRequest>;
 
-export interface DeleteSolutionResponse {}
+export interface DeleteSolutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSolutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSolutionResponse",
 }) as any as S.Schema<DeleteSolutionResponse>;
@@ -2257,9 +2465,17 @@ export const DeleteSolutionTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSolutionTemplateRequest",
 }) as any as S.Schema<DeleteSolutionTemplateRequest>;
 
-export interface DeleteSolutionTemplateResponse {}
+export interface DeleteSolutionTemplateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSolutionTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSolutionTemplateResponse",
 }) as any as S.Schema<DeleteSolutionTemplateResponse>;
@@ -2293,9 +2509,18 @@ export const DeleteSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSolutionTemplateVersionRequest",
 }) as any as S.Schema<DeleteSolutionTemplateVersionRequest>;
 
-export interface DeleteSolutionTemplateVersionResponse {}
+export interface DeleteSolutionTemplateVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSolutionTemplateVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteSolutionTemplateVersionResponse",
 }) as any as S.Schema<DeleteSolutionTemplateVersionResponse>;
@@ -2331,9 +2556,17 @@ export const DeleteSolutionVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSolutionVersionRequest",
 }) as any as S.Schema<DeleteSolutionVersionRequest>;
 
-export interface DeleteSolutionVersionResponse {}
+export interface DeleteSolutionVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSolutionVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSolutionVersionResponse",
 }) as any as S.Schema<DeleteSolutionVersionResponse>;
@@ -2366,9 +2599,17 @@ export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTargetRequest",
 }) as any as S.Schema<DeleteTargetRequest>;
 
-export interface DeleteTargetResponse {}
+export interface DeleteTargetResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteTargetResponse",
 }) as any as S.Schema<DeleteTargetResponse>;
@@ -2401,9 +2642,17 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkflowRequest",
 }) as any as S.Schema<DeleteWorkflowRequest>;
 
-export interface DeleteWorkflowResponse {}
+export interface DeleteWorkflowResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWorkflowResponse",
 }) as any as S.Schema<DeleteWorkflowResponse>;
@@ -2439,9 +2688,17 @@ export const DeleteWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkflowVersionRequest",
 }) as any as S.Schema<DeleteWorkflowVersionRequest>;
 
-export interface DeleteWorkflowVersionResponse {}
+export interface DeleteWorkflowVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWorkflowVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWorkflowVersionResponse",
 }) as any as S.Schema<DeleteWorkflowVersionResponse>;
@@ -2562,6 +2819,10 @@ export interface DiagnosticsCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DiagnosticsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2576,6 +2837,10 @@ export const DiagnosticsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DiagnosticsCreateOrUpdateResponse",
@@ -2839,6 +3104,10 @@ export interface DisconnectedOperationsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: DisconnectedOperationProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DisconnectedOperationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2850,6 +3119,10 @@ export const DisconnectedOperationsCreateOrUpdateResponse =
       tags: S.optional(DisconnectedOperationsCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(DisconnectedOperationProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DisconnectedOperationsCreateOrUpdateResponse",
@@ -2944,6 +3217,10 @@ export interface DynamicConfigurationsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: DynamicConfigurationProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DynamicConfigurationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2953,6 +3230,10 @@ export const DynamicConfigurationsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(DynamicConfigurationProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DynamicConfigurationsCreateOrUpdateResponse",
@@ -3053,6 +3334,10 @@ export interface DynamicConfigurationVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: DynamicConfigurationVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DynamicConfigurationVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3062,6 +3347,10 @@ export const DynamicConfigurationVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(DynamicConfigurationVersionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DynamicConfigurationVersionsCreateOrUpdateResponse",
@@ -3137,6 +3426,10 @@ export interface DynamicSchemasCreateOrUpdateResponse {
   properties?: DynamicSchemaProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DynamicSchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3147,6 +3440,10 @@ export const DynamicSchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(DynamicSchemaProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "DynamicSchemasCreateOrUpdateResponse",
@@ -3200,6 +3497,10 @@ export interface DynamicSchemaVersionsCreateOrUpdateResponse {
   properties?: SchemaVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DynamicSchemaVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3210,6 +3511,10 @@ export const DynamicSchemaVersionsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(SchemaVersionProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DynamicSchemaVersionsCreateOrUpdateResponse",
@@ -3406,6 +3711,10 @@ export interface ExecutionsCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ExecutionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3418,6 +3727,10 @@ export const ExecutionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ExecutionsCreateOrUpdateResponse",
@@ -7112,6 +7425,10 @@ export interface HardwareSettingsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: HardwareSettingProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const HardwareSettingsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -7121,6 +7438,10 @@ export const HardwareSettingsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(HardwareSettingProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "HardwareSettingsCreateOrUpdateResponse",
@@ -7233,9 +7554,17 @@ export const InstallTargetSolutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstallTargetSolutionRequest",
 }) as any as S.Schema<InstallTargetSolutionRequest>;
 
-export interface InstallTargetSolutionResponse {}
+export interface InstallTargetSolutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const InstallTargetSolutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "InstallTargetSolutionResponse",
 }) as any as S.Schema<InstallTargetSolutionResponse>;
@@ -7319,6 +7648,10 @@ export interface InstancesCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const InstancesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7331,6 +7664,10 @@ export const InstancesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "InstancesCreateOrUpdateResponse",
@@ -10569,6 +10906,10 @@ export interface PublishTargetSolutionVersionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PublishTargetSolutionVersionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -10582,6 +10923,8 @@ export const PublishTargetSolutionVersionResponse = /*@__PURE__*/ S.suspend(
         AzureResourceManagerCommonTypesExtendedLocation,
       ),
       eTag: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PublishTargetSolutionVersionResponse",
@@ -10685,9 +11028,18 @@ export const RemoveSolutionTemplateVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "RemoveSolutionTemplateVersionRequest",
 }) as any as S.Schema<RemoveSolutionTemplateVersionRequest>;
 
-export interface RemoveSolutionTemplateVersionResponse {}
+export interface RemoveSolutionTemplateVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RemoveSolutionTemplateVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RemoveSolutionTemplateVersionResponse",
 }) as any as S.Schema<RemoveSolutionTemplateVersionResponse>;
@@ -10723,9 +11075,17 @@ export const RemoveTargetRevisionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveTargetRevisionRequest",
 }) as any as S.Schema<RemoveTargetRevisionRequest>;
 
-export interface RemoveTargetRevisionResponse {}
+export interface RemoveTargetRevisionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RemoveTargetRevisionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RemoveTargetRevisionResponse",
 }) as any as S.Schema<RemoveTargetRevisionResponse>;
@@ -10789,6 +11149,10 @@ export interface ReviewTargetSolutionVersionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ReviewTargetSolutionVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10801,6 +11165,8 @@ export const ReviewTargetSolutionVersionResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ReviewTargetSolutionVersionResponse",
@@ -10858,6 +11224,10 @@ export interface SchemaReferencesCreateOrUpdateResponse {
   properties?: SchemaReferenceProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SchemaReferencesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -10868,6 +11238,10 @@ export const SchemaReferencesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(SchemaReferenceProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SchemaReferencesCreateOrUpdateResponse",
@@ -10946,6 +11320,10 @@ export interface SchemasCreateOrUpdateResponse {
   properties?: SchemaProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10957,6 +11335,10 @@ export const SchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SchemaProperties),
     eTag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SchemasCreateOrUpdateResponse",
@@ -11006,6 +11388,10 @@ export interface SchemaVersionsCreateOrUpdateResponse {
   properties?: SchemaVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SchemaVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -11016,6 +11402,10 @@ export const SchemaVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(SchemaVersionProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SchemaVersionsCreateOrUpdateResponse",
@@ -11076,6 +11466,10 @@ export interface SiteReferencesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SiteReferenceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SiteReferencesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -11085,6 +11479,10 @@ export const SiteReferencesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SiteReferenceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SiteReferencesCreateOrUpdateResponse",
@@ -11158,6 +11556,10 @@ export interface SitesByServiceGroupCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SiteProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SitesByServiceGroupCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -11167,6 +11569,10 @@ export const SitesByServiceGroupCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SiteProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SitesByServiceGroupCreateOrUpdateResponse",
@@ -11209,6 +11615,10 @@ export interface SitesBySubscriptionCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SiteProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SitesBySubscriptionCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -11218,6 +11628,10 @@ export const SitesBySubscriptionCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SiteProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SitesBySubscriptionCreateOrUpdateResponse",
@@ -11262,6 +11676,10 @@ export interface SitesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SiteProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SitesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11270,6 +11688,10 @@ export const SitesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SiteProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SitesCreateOrUpdateResponse",
@@ -11330,6 +11752,10 @@ export interface SolutionsCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SolutionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11342,6 +11768,10 @@ export const SolutionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SolutionsCreateOrUpdateResponse",
@@ -11448,6 +11878,10 @@ export interface SolutionTemplatesCreateOrUpdateResponse {
   properties?: SolutionTemplateProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SolutionTemplatesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -11460,6 +11894,10 @@ export const SolutionTemplatesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(SolutionTemplateProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SolutionTemplatesCreateOrUpdateResponse",
@@ -11518,9 +11956,19 @@ export const SolutionTemplateVersionsBulkDeploySolutionRequest =
     identifier: "SolutionTemplateVersionsBulkDeploySolutionRequest",
   }) as any as S.Schema<SolutionTemplateVersionsBulkDeploySolutionRequest>;
 
-export interface SolutionTemplateVersionsBulkDeploySolutionResponse {}
+export interface SolutionTemplateVersionsBulkDeploySolutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const SolutionTemplateVersionsBulkDeploySolutionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "SolutionTemplateVersionsBulkDeploySolutionResponse",
   }) as any as S.Schema<SolutionTemplateVersionsBulkDeploySolutionResponse>;
 
@@ -11618,9 +12066,19 @@ export const SolutionTemplateVersionsBulkPublishSolutionRequest =
     identifier: "SolutionTemplateVersionsBulkPublishSolutionRequest",
   }) as any as S.Schema<SolutionTemplateVersionsBulkPublishSolutionRequest>;
 
-export interface SolutionTemplateVersionsBulkPublishSolutionResponse {}
+export interface SolutionTemplateVersionsBulkPublishSolutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const SolutionTemplateVersionsBulkPublishSolutionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "SolutionTemplateVersionsBulkPublishSolutionResponse",
   }) as any as S.Schema<SolutionTemplateVersionsBulkPublishSolutionResponse>;
 
@@ -11669,6 +12127,10 @@ export interface SolutionTemplateVersionsCreateOrUpdateResponse {
   properties?: SolutionTemplateVersionProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SolutionTemplateVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -11679,6 +12141,10 @@ export const SolutionTemplateVersionsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(SolutionTemplateVersionProperties),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SolutionTemplateVersionsCreateOrUpdateResponse",
@@ -11771,6 +12237,10 @@ export interface SolutionVersionsCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SolutionVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -11784,6 +12254,10 @@ export const SolutionVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
         AzureResourceManagerCommonTypesExtendedLocation,
       ),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SolutionVersionsCreateOrUpdateResponse",
@@ -11915,6 +12389,10 @@ export interface TargetsCreateOrUpdateResponse {
   eTag?: string;
   /** The extended location of the resource. */
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TargetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11929,6 +12407,10 @@ export const TargetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "TargetsCreateOrUpdateResponse",
@@ -11982,10 +12464,16 @@ export const TargetsResolveConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ResolvedConfiguration {
   /** Resolved Configuration as string */
   configuration: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ResolvedConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     configuration: S.String,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ResolvedConfiguration",
@@ -12035,6 +12523,10 @@ export interface TargetsUnstageSolutionVersionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TargetsUnstageSolutionVersionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -12048,6 +12540,8 @@ export const TargetsUnstageSolutionVersionResponse = /*@__PURE__*/ S.suspend(
         AzureResourceManagerCommonTypesExtendedLocation,
       ),
       eTag: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "TargetsUnstageSolutionVersionResponse",
@@ -12084,9 +12578,17 @@ export const UninstallTargetSolutionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UninstallTargetSolutionRequest",
 }) as any as S.Schema<UninstallTargetSolutionRequest>;
 
-export interface UninstallTargetSolutionResponse {}
+export interface UninstallTargetSolutionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const UninstallTargetSolutionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "UninstallTargetSolutionResponse",
 }) as any as S.Schema<UninstallTargetSolutionResponse>;
@@ -12271,6 +12773,10 @@ export interface UpdateConfigTemplateMetadatasResponse {
   properties?: ConfigTemplateMetadataProperties;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateConfigTemplateMetadatasResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -12281,6 +12787,8 @@ export const UpdateConfigTemplateMetadatasResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(ConfigTemplateMetadataProperties),
       eTag: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateConfigTemplateMetadatasResponse",
@@ -12577,6 +13085,10 @@ export interface UpdateContextResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: ContextProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateContextResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12587,6 +13099,8 @@ export const UpdateContextResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateContextResponseTagsMap),
     location: S.String,
     properties: S.optional(ContextProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateContextResponse",
@@ -12664,6 +13178,10 @@ export interface UpdateDiagnosticResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12678,6 +13196,8 @@ export const UpdateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDiagnosticResponse",
@@ -13176,6 +13696,10 @@ export interface UpdateExecutionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateExecutionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13188,6 +13712,8 @@ export const UpdateExecutionResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateExecutionResponse",
@@ -13284,6 +13810,10 @@ export interface UpdateInstanceResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13296,6 +13826,8 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateInstanceResponse",
@@ -13644,6 +14176,10 @@ export interface UpdateSiteReferenceResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SiteReferenceProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSiteReferenceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13652,6 +14188,8 @@ export const UpdateSiteReferenceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SiteReferenceProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateSiteReferenceResponse",
@@ -13805,6 +14343,10 @@ export interface UpdateSolutionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSolutionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13817,6 +14359,8 @@ export const UpdateSolutionResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateSolutionResponse",
@@ -14097,6 +14641,10 @@ export interface UpdateSolutionVersionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSolutionVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14109,6 +14657,8 @@ export const UpdateSolutionVersionResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateSolutionVersionResponse",
@@ -14230,6 +14780,10 @@ export interface UpdateTargetResponse {
   eTag?: string;
   /** The extended location of the resource. */
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateTargetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14244,6 +14798,8 @@ export const UpdateTargetResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateTargetResponse",
@@ -14312,6 +14868,10 @@ export interface UpdateTargetExternalValidationStatusResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateTargetExternalValidationStatusResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -14325,6 +14885,8 @@ export const UpdateTargetExternalValidationStatusResponse =
         AzureResourceManagerCommonTypesExtendedLocation,
       ),
       eTag: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateTargetExternalValidationStatusResponse",
@@ -14380,6 +14942,10 @@ export interface UpdateWorkflowResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14392,6 +14958,8 @@ export const UpdateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateWorkflowResponse",
@@ -14479,6 +15047,10 @@ export interface UpdateWorkflowVersionResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateWorkflowVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14491,6 +15063,8 @@ export const UpdateWorkflowVersionResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateWorkflowVersionResponse",
@@ -14547,6 +15121,10 @@ export interface WorkflowsCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WorkflowsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14559,6 +15137,10 @@ export const WorkflowsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
     eTag: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "WorkflowsCreateOrUpdateResponse",
@@ -14652,6 +15234,10 @@ export interface WorkflowVersionsCreateOrUpdateResponse {
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
   eTag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WorkflowVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -14665,6 +15251,10 @@ export const WorkflowVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
         AzureResourceManagerCommonTypesExtendedLocation,
       ),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "WorkflowVersionsCreateOrUpdateResponse",

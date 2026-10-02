@@ -235,9 +235,17 @@ export const DeleteVaultRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVaultRequest",
 }) as any as S.Schema<DeleteVaultRequest>;
 
-export interface DeleteVaultResponse {}
+export interface DeleteVaultResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVaultResponse",
 }) as any as S.Schema<DeleteVaultResponse>;
@@ -2252,6 +2260,10 @@ export interface UndeleteDeletedVaultResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: DeletedVaultProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UndeleteDeletedVaultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2260,6 +2272,10 @@ export const UndeleteDeletedVaultResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(DeletedVaultProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UndeleteDeletedVaultResponse",
@@ -2440,6 +2456,10 @@ export interface UpdateVaultResponse {
   sku?: Sku;
   /** etag for the resource. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVaultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2453,6 +2473,8 @@ export const UpdateVaultResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityData),
     sku: S.optional(Sku),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVaultResponse",
@@ -2658,6 +2680,10 @@ export interface VaultsCreateOrUpdateResponse {
   sku?: Sku;
   /** etag for the resource. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VaultsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2671,6 +2697,8 @@ export const VaultsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityData),
     sku: S.optional(Sku),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "VaultsCreateOrUpdateResponse",

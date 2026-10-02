@@ -144,10 +144,16 @@ export const GetReportResultResultsList = /*@__PURE__*/ S.Array(
 export interface GetReportResult {
   /** One or more result sets, in the same order as the queries in the request body */
   results: GetReportResultResultsList;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GetReportResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: GetReportResultResultsList,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "GetReportResult",

@@ -45,6 +45,13 @@
           "traits": {
             "smithy.api#documentation": "The configuration group schema state."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -135,7 +142,7 @@
         "target": "com.azure.hybridnetwork#DeleteConfigurationGroupSchemaRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteConfigurationGroupSchemaResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -146,6 +153,21 @@
         },
         "smithy.api#documentation": "Deletes a specified configuration group schema.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteConfigurationGroupSchemaResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteConfigurationGroupSchemaRequest": {
@@ -1332,7 +1354,7 @@
         "target": "com.azure.hybridnetwork#DeleteConfigurationGroupValueRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteConfigurationGroupValueResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1343,6 +1365,21 @@
         },
         "smithy.api#documentation": "Deletes the specified hybrid configuration group value.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteConfigurationGroupValueResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteConfigurationGroupValueRequest": {
@@ -2683,7 +2720,7 @@
         "target": "com.azure.hybridnetwork#ExecuteNetworkFunctionRequestRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#ExecuteNetworkFunctionRequestResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2694,6 +2731,21 @@
         },
         "smithy.api#documentation": "Execute a request to services on a containerized network function.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#ExecuteNetworkFunctionRequestResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#ExecuteNetworkFunctionRequestRequest": {
@@ -3344,7 +3396,7 @@
         "target": "com.azure.hybridnetwork#DeleteNetworkFunctionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteNetworkFunctionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3355,6 +3407,21 @@
         },
         "smithy.api#documentation": "Deletes the specified network function resource.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteNetworkFunctionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkFunctionRequest": {
@@ -4141,6 +4208,13 @@
           "traits": {
             "smithy.api#documentation": "The network function definition version state. Only the 'Active' and 'Deprecated' states are allowed for updates. Other states are used for internal state transitioning."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -4523,7 +4597,7 @@
         "target": "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4534,6 +4608,21 @@
         },
         "smithy.api#documentation": "Deletes the specified network function definition version.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionVersionRequest": {
@@ -5082,7 +5171,7 @@
         "target": "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5093,6 +5182,21 @@
         },
         "smithy.api#documentation": "Deletes a specified network function definition group.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkFunctionDefinitionGroupRequest": {
@@ -5810,6 +5914,13 @@
           "traits": {
             "smithy.api#documentation": "The network service design version state."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -6332,7 +6443,7 @@
         "target": "com.azure.hybridnetwork#DeleteNetworkServiceDesignVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteNetworkServiceDesignVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6343,6 +6454,21 @@
         },
         "smithy.api#documentation": "Deletes the specified network service design version.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteNetworkServiceDesignVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkServiceDesignVersionRequest": {
@@ -6917,7 +7043,7 @@
         "target": "com.azure.hybridnetwork#DeleteNetworkServiceDesignGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteNetworkServiceDesignGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6928,6 +7054,21 @@
         },
         "smithy.api#documentation": "Deletes a specified network service design group.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteNetworkServiceDesignGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteNetworkServiceDesignGroupRequest": {
@@ -7803,6 +7944,13 @@
           "traits": {
             "smithy.api#documentation": "The artifact manifest state."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -8021,7 +8169,7 @@
         "target": "com.azure.hybridnetwork#DeleteArtifactManifestRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteArtifactManifestResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8032,6 +8180,21 @@
         },
         "smithy.api#documentation": "Deletes the specified artifact manifest.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteArtifactManifestResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteArtifactManifestRequest": {
@@ -8883,6 +9046,13 @@
           "traits": {
             "smithy.api#documentation": "The URI to get the next set of results."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -8981,7 +9151,7 @@
         "target": "com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPointsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPointsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8992,6 +9162,21 @@
         },
         "smithy.api#documentation": "Remove manual private endpoints on artifact stores",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPointsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#RemoveArtifactStorePrivateEndPointsRequest": {
@@ -9069,7 +9254,7 @@
         "target": "com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPointsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPointsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9080,6 +9265,21 @@
         },
         "smithy.api#documentation": "Approve manual private endpoints on artifact stores",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPointsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#ApproveArtifactStorePrivateEndPointsRequest": {
@@ -9184,6 +9384,13 @@
           "traits": {
             "smithy.api#documentation": "The URI to get the next set of results."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -9282,7 +9489,7 @@
         "target": "com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPointsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPointsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9293,6 +9500,21 @@
         },
         "smithy.api#documentation": "Delete network fabric controllers on artifact stores",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPointsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteArtifactStoreNetworkFabricControllerEndPointsRequest": {
@@ -9370,7 +9592,7 @@
         "target": "com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPointsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPointsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9381,6 +9603,21 @@
         },
         "smithy.api#documentation": "Add network fabric controllers to artifact stores",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPointsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#AddArtifactStoreNetworkFabricControllerEndPointsRequest": {
@@ -9458,7 +9695,7 @@
         "target": "com.azure.hybridnetwork#DeleteArtifactStoreRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteArtifactStoreResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9469,6 +9706,21 @@
         },
         "smithy.api#documentation": "Deletes the specified artifact store.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteArtifactStoreResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteArtifactStoreRequest": {
@@ -10369,7 +10621,7 @@
         "target": "com.azure.hybridnetwork#DeletePublisherRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeletePublisherResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10380,6 +10632,21 @@
         },
         "smithy.api#documentation": "Deletes the specified publisher.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeletePublisherResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeletePublisherRequest": {
@@ -11334,6 +11601,13 @@
           "traits": {
             "smithy.api#documentation": "Proxy Artifact overview properties."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -12107,7 +12381,7 @@
         "target": "com.azure.hybridnetwork#DeleteSiteRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteSiteResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12118,6 +12392,21 @@
         },
         "smithy.api#documentation": "Deletes the specified network site.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteSiteResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteSiteRequest": {
@@ -13104,7 +13393,7 @@
         "target": "com.azure.hybridnetwork#DeleteSiteNetworkServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridnetwork#DeleteSiteNetworkServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13115,6 +13404,21 @@
         },
         "smithy.api#documentation": "Deletes the specified site network service.",
         "com.distilled.openapi#apiVersion": "2024-04-15"
+      }
+    },
+    "com.azure.hybridnetwork#DeleteSiteNetworkServiceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridnetwork#DeleteSiteNetworkServiceRequest": {

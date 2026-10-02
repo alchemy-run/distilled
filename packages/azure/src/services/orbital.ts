@@ -404,6 +404,8 @@ export interface ContactProfilesCreateOrUpdateResponse {
   location: string;
   /** Properties of the contact profile resource. */
   properties: ContactProfilesProperties;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
 }
 export const ContactProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -415,6 +417,9 @@ export const ContactProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(ContactProfilesCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: ContactProfilesProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "ContactProfilesCreateOrUpdateResponse",
@@ -594,6 +599,8 @@ export interface CreateContactResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties: ContactsProperties;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
 }
 export const CreateContactResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -602,6 +609,9 @@ export const CreateContactResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: ContactsProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "CreateContactResponse",
@@ -635,9 +645,14 @@ export const DeleteContactRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContactRequest",
 }) as any as S.Schema<DeleteContactRequest>;
 
-export interface DeleteContactResponse {}
+export interface DeleteContactResponse {
+  /** URL for determining when an operation has completed. */
+  location?: string;
+}
 export const DeleteContactResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteContactResponse",
 }) as any as S.Schema<DeleteContactResponse>;
@@ -667,9 +682,14 @@ export const DeleteContactProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContactProfileRequest",
 }) as any as S.Schema<DeleteContactProfileRequest>;
 
-export interface DeleteContactProfileResponse {}
+export interface DeleteContactProfileResponse {
+  /** URL for determining when an operation has completed. */
+  location?: string;
+}
 export const DeleteContactProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteContactProfileResponse",
 }) as any as S.Schema<DeleteContactProfileResponse>;
@@ -763,9 +783,14 @@ export const DeleteL2ConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteL2ConnectionRequest",
 }) as any as S.Schema<DeleteL2ConnectionRequest>;
 
-export interface DeleteL2ConnectionResponse {}
+export interface DeleteL2ConnectionResponse {
+  /** URL for determining when an operation has completed. */
+  location?: string;
+}
 export const DeleteL2ConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteL2ConnectionResponse",
 }) as any as S.Schema<DeleteL2ConnectionResponse>;
@@ -795,9 +820,14 @@ export const DeleteSpacecraftRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSpacecraftRequest",
 }) as any as S.Schema<DeleteSpacecraftRequest>;
 
-export interface DeleteSpacecraftResponse {}
+export interface DeleteSpacecraftResponse {
+  /** URL for determining when an operation has completed. */
+  location?: string;
+}
 export const DeleteSpacecraftResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteSpacecraftResponse",
 }) as any as S.Schema<DeleteSpacecraftResponse>;
@@ -1390,6 +1420,8 @@ export interface OperationResult {
   nextLink?: string;
   properties?: unknown;
   error?: OperationResultErrorProperties;
+  /** URL for determining when an operation has completed. */
+  location?: string;
 }
 export const OperationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1403,6 +1435,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     properties: S.optional(S.Unknown),
     error: S.optional(OperationResultErrorProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "OperationResult",
@@ -1797,6 +1830,8 @@ export interface L2ConnectionsCreateOrUpdateResponse {
   location: string;
   /** The properties bag for this resource. */
   properties: L2ConnectionsProperties;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
 }
 export const L2ConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1807,6 +1842,9 @@ export const L2ConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(L2ConnectionsCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: L2ConnectionsProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "L2ConnectionsCreateOrUpdateResponse",
@@ -2838,11 +2876,14 @@ export interface AvailableContactsListResult {
   value?: AvailableContactsListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** URL for determining when an operation has completed. */
+  location?: string;
 }
 export const AvailableContactsListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(AvailableContactsListResultValueList),
     nextLink: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "AvailableContactsListResult",
@@ -3091,6 +3132,8 @@ export interface SpacecraftsCreateOrUpdateResponse {
   location: string;
   /** Spacecraft Properties */
   properties: SpacecraftsProperties;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
 }
 export const SpacecraftsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3101,6 +3144,9 @@ export const SpacecraftsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(SpacecraftsCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: SpacecraftsProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "SpacecraftsCreateOrUpdateResponse",
@@ -3167,6 +3213,8 @@ export interface UpdateContactProfileTagsResponse {
   location: string;
   /** Properties of the contact profile resource. */
   properties: ContactProfilesProperties;
+  /** URL for determining when an operation has completed. */
+  locationHeader?: string;
 }
 export const UpdateContactProfileTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3177,6 +3225,7 @@ export const UpdateContactProfileTagsResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateContactProfileTagsResponseTagsMap),
     location: S.String,
     properties: ContactProfilesProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateContactProfileTagsResponse",
@@ -3395,6 +3444,8 @@ export interface UpdateL2ConnectionTagsResponse {
   location: string;
   /** The properties bag for this resource. */
   properties: L2ConnectionsProperties;
+  /** URL for determining when an operation has completed. */
+  locationHeader?: string;
 }
 export const UpdateL2ConnectionTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3405,6 +3456,7 @@ export const UpdateL2ConnectionTagsResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateL2ConnectionTagsResponseTagsMap),
     location: S.String,
     properties: L2ConnectionsProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateL2ConnectionTagsResponse",
@@ -3471,6 +3523,8 @@ export interface UpdateSpacecraftTagsResponse {
   location: string;
   /** Spacecraft Properties */
   properties: SpacecraftsProperties;
+  /** URL for determining when an operation has completed. */
+  locationHeader?: string;
 }
 export const UpdateSpacecraftTagsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3481,6 +3535,7 @@ export const UpdateSpacecraftTagsResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateSpacecraftTagsResponseTagsMap),
     location: S.String,
     properties: SpacecraftsProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSpacecraftTagsResponse",

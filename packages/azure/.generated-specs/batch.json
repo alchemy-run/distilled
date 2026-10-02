@@ -602,7 +602,7 @@
         "target": "com.azure.batch#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.batch#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -613,6 +613,35 @@
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.batch#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.batch#DeletePrivateEndpointConnectionRequest": {
@@ -717,6 +746,27 @@
           "target": "com.azure.batch#UpdatePrivateEndpointConnectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The tags of the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1332,6 +1382,13 @@
           "target": "com.azure.batch#PoolStopResizeResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The tags of the resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers."
           }
         }
       },
@@ -4149,6 +4206,13 @@
           "traits": {
             "smithy.api#documentation": "The tags of the resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers."
+          }
         }
       },
       "traits": {
@@ -4213,7 +4277,7 @@
         "target": "com.azure.batch#DeletePoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.batch#DeletePoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4224,6 +4288,28 @@
         },
         "smithy.api#documentation": "Deletes the specified pool.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.batch#DeletePoolResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.batch#DeletePoolRequest": {
@@ -4334,6 +4420,13 @@
           "target": "com.azure.batch#UpdatePoolResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The tags of the resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers."
           }
         }
       },
@@ -4660,6 +4753,13 @@
           "traits": {
             "smithy.api#documentation": "The tags of the resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers."
+          }
         }
       },
       "traits": {
@@ -4816,6 +4916,13 @@
           "target": "com.azure.batch#GetPoolResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "The tags of the resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers."
           }
         }
       },
@@ -5210,7 +5317,7 @@
         "target": "com.azure.batch#NetworkSecurityPerimeterReconcileConfigurationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.batch#NetworkSecurityPerimeterReconcileConfigurationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5221,6 +5328,28 @@
         },
         "smithy.api#documentation": "Reconciles the specified NSP configuration.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.batch#NetworkSecurityPerimeterReconcileConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.batch#NetworkSecurityPerimeterReconcileConfigurationRequest": {
@@ -7649,7 +7778,7 @@
         "target": "com.azure.batch#DeleteBatchAccountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.batch#DeleteBatchAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7660,6 +7789,28 @@
         },
         "smithy.api#documentation": "Deletes the specified Batch account.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.batch#DeleteBatchAccountResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.batch#DeleteBatchAccountRequest": {
@@ -8654,6 +8805,20 @@
           "target": "com.azure.batch#BatchAccountIdentity",
           "traits": {
             "smithy.api#documentation": "The identity of the Batch account."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

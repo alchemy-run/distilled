@@ -263,9 +263,19 @@ export const CancelProjectCatalogImageDefinitionBuildRequest =
     identifier: "CancelProjectCatalogImageDefinitionBuildRequest",
   }) as any as S.Schema<CancelProjectCatalogImageDefinitionBuildRequest>;
 
-export interface CancelProjectCatalogImageDefinitionBuildResponse {}
+export interface CancelProjectCatalogImageDefinitionBuildResponse {
+  azureAsyncOperation?: string;
+  location?: string;
+}
 export const CancelProjectCatalogImageDefinitionBuildResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "CancelProjectCatalogImageDefinitionBuildResponse",
   }) as any as S.Schema<CancelProjectCatalogImageDefinitionBuildResponse>;
 
@@ -529,9 +539,13 @@ export const ConnectCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectCatalogRequest",
 }) as any as S.Schema<ConnectCatalogRequest>;
 
-export interface ConnectCatalogResponse {}
+export interface ConnectCatalogResponse {
+  location?: string;
+}
 export const ConnectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "ConnectCatalogResponse",
 }) as any as S.Schema<ConnectCatalogResponse>;
@@ -564,9 +578,13 @@ export const ConnectProjectCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectProjectCatalogRequest",
 }) as any as S.Schema<ConnectProjectCatalogRequest>;
 
-export interface ConnectProjectCatalogResponse {}
+export interface ConnectProjectCatalogResponse {
+  location?: string;
+}
 export const ConnectProjectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "ConnectProjectCatalogResponse",
 }) as any as S.Schema<ConnectProjectCatalogResponse>;
@@ -599,9 +617,13 @@ export const DeleteAttachedNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAttachedNetworkRequest",
 }) as any as S.Schema<DeleteAttachedNetworkRequest>;
 
-export interface DeleteAttachedNetworkResponse {}
+export interface DeleteAttachedNetworkResponse {
+  location?: string;
+}
 export const DeleteAttachedNetworkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteAttachedNetworkResponse",
 }) as any as S.Schema<DeleteAttachedNetworkResponse>;
@@ -634,9 +656,13 @@ export const DeleteCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCatalogRequest",
 }) as any as S.Schema<DeleteCatalogRequest>;
 
-export interface DeleteCatalogResponse {}
+export interface DeleteCatalogResponse {
+  location?: string;
+}
 export const DeleteCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteCatalogResponse",
 }) as any as S.Schema<DeleteCatalogResponse>;
@@ -669,9 +695,13 @@ export const DeleteDevBoxDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDevBoxDefinitionRequest",
 }) as any as S.Schema<DeleteDevBoxDefinitionRequest>;
 
-export interface DeleteDevBoxDefinitionResponse {}
+export interface DeleteDevBoxDefinitionResponse {
+  location?: string;
+}
 export const DeleteDevBoxDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDevBoxDefinitionResponse",
 }) as any as S.Schema<DeleteDevBoxDefinitionResponse>;
@@ -701,9 +731,13 @@ export const DeleteDevCenterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDevCenterRequest",
 }) as any as S.Schema<DeleteDevCenterRequest>;
 
-export interface DeleteDevCenterResponse {}
+export interface DeleteDevCenterResponse {
+  location?: string;
+}
 export const DeleteDevCenterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDevCenterResponse",
 }) as any as S.Schema<DeleteDevCenterResponse>;
@@ -771,9 +805,13 @@ export const DeleteGalleryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGalleryRequest",
 }) as any as S.Schema<DeleteGalleryRequest>;
 
-export interface DeleteGalleryResponse {}
+export interface DeleteGalleryResponse {
+  location?: string;
+}
 export const DeleteGalleryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteGalleryResponse",
 }) as any as S.Schema<DeleteGalleryResponse>;
@@ -803,9 +841,13 @@ export const DeleteNetworkConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNetworkConnectionRequest",
 }) as any as S.Schema<DeleteNetworkConnectionRequest>;
 
-export interface DeleteNetworkConnectionResponse {}
+export interface DeleteNetworkConnectionResponse {
+  location?: string;
+}
 export const DeleteNetworkConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNetworkConnectionResponse",
 }) as any as S.Schema<DeleteNetworkConnectionResponse>;
@@ -838,9 +880,13 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePoolRequest",
 }) as any as S.Schema<DeletePoolRequest>;
 
-export interface DeletePoolResponse {}
+export interface DeletePoolResponse {
+  location?: string;
+}
 export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePoolResponse",
 }) as any as S.Schema<DeletePoolResponse>;
@@ -870,9 +916,13 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProjectRequest",
 }) as any as S.Schema<DeleteProjectRequest>;
 
-export interface DeleteProjectResponse {}
+export interface DeleteProjectResponse {
+  location?: string;
+}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteProjectResponse",
 }) as any as S.Schema<DeleteProjectResponse>;
@@ -905,9 +955,13 @@ export const DeleteProjectCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProjectCatalogRequest",
 }) as any as S.Schema<DeleteProjectCatalogRequest>;
 
-export interface DeleteProjectCatalogResponse {}
+export interface DeleteProjectCatalogResponse {
+  location?: string;
+}
 export const DeleteProjectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteProjectCatalogResponse",
 }) as any as S.Schema<DeleteProjectCatalogResponse>;
@@ -975,9 +1029,13 @@ export const DeleteProjectPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProjectPolicyRequest",
 }) as any as S.Schema<DeleteProjectPolicyRequest>;
 
-export interface DeleteProjectPolicyResponse {}
+export interface DeleteProjectPolicyResponse {
+  location?: string;
+}
 export const DeleteProjectPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteProjectPolicyResponse",
 }) as any as S.Schema<DeleteProjectPolicyResponse>;
@@ -1016,9 +1074,13 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteScheduleRequest",
 }) as any as S.Schema<DeleteScheduleRequest>;
 
-export interface DeleteScheduleResponse {}
+export interface DeleteScheduleResponse {
+  location?: string;
+}
 export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteScheduleResponse",
 }) as any as S.Schema<DeleteScheduleResponse>;
@@ -3852,6 +3914,7 @@ export interface GetOperationStatusResponse {
   error?: ErrorDetail;
   /** Custom operation properties, populated only for a successful operation. */
   properties?: unknown;
+  location?: string;
 }
 export const GetOperationStatusResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3865,6 +3928,7 @@ export const GetOperationStatusResponse = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(GetOperationStatusResponseOperationsList),
     error: S.optional(ErrorDetail),
     properties: S.optional(S.Unknown),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "GetOperationStatusResponse",
@@ -8132,6 +8196,7 @@ export interface PatchProjectCatalogResponse {
   systemData?: SystemData;
   /** Catalog properties. */
   properties?: CatalogProperties;
+  location?: string;
 }
 export const PatchProjectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8140,6 +8205,7 @@ export const PatchProjectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CatalogProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "PatchProjectCatalogResponse",
@@ -8354,9 +8420,19 @@ export const ProjectCatalogImageDefinitionsBuildImageRequest =
     identifier: "ProjectCatalogImageDefinitionsBuildImageRequest",
   }) as any as S.Schema<ProjectCatalogImageDefinitionsBuildImageRequest>;
 
-export interface ProjectCatalogImageDefinitionsBuildImageResponse {}
+export interface ProjectCatalogImageDefinitionsBuildImageResponse {
+  azureAsyncOperation?: string;
+  location?: string;
+}
 export const ProjectCatalogImageDefinitionsBuildImageResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "ProjectCatalogImageDefinitionsBuildImageResponse",
   }) as any as S.Schema<ProjectCatalogImageDefinitionsBuildImageResponse>;
 
@@ -8855,9 +8931,14 @@ export const RunNetworkConnectionHealthChecksRequest = /*@__PURE__*/ S.suspend(
   identifier: "RunNetworkConnectionHealthChecksRequest",
 }) as any as S.Schema<RunNetworkConnectionHealthChecksRequest>;
 
-export interface RunNetworkConnectionHealthChecksResponse {}
+export interface RunNetworkConnectionHealthChecksResponse {
+  location?: string;
+}
 export const RunNetworkConnectionHealthChecksResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "RunNetworkConnectionHealthChecksResponse",
 }) as any as S.Schema<RunNetworkConnectionHealthChecksResponse>;
@@ -8890,9 +8971,13 @@ export const RunPoolHealthChecksRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RunPoolHealthChecksRequest",
 }) as any as S.Schema<RunPoolHealthChecksRequest>;
 
-export interface RunPoolHealthChecksResponse {}
+export interface RunPoolHealthChecksResponse {
+  location?: string;
+}
 export const RunPoolHealthChecksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RunPoolHealthChecksResponse",
 }) as any as S.Schema<RunPoolHealthChecksResponse>;
@@ -9017,9 +9102,13 @@ export const SyncCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SyncCatalogRequest",
 }) as any as S.Schema<SyncCatalogRequest>;
 
-export interface SyncCatalogResponse {}
+export interface SyncCatalogResponse {
+  location?: string;
+}
 export const SyncCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "SyncCatalogResponse",
 }) as any as S.Schema<SyncCatalogResponse>;
@@ -9052,9 +9141,13 @@ export const SyncProjectCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SyncProjectCatalogRequest",
 }) as any as S.Schema<SyncProjectCatalogRequest>;
 
-export interface SyncProjectCatalogResponse {}
+export interface SyncProjectCatalogResponse {
+  location?: string;
+}
 export const SyncProjectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "SyncProjectCatalogResponse",
 }) as any as S.Schema<SyncProjectCatalogResponse>;
@@ -9101,6 +9194,7 @@ export interface UpdateCatalogResponse {
   systemData?: SystemData;
   /** Catalog properties. */
   properties?: CatalogProperties;
+  location?: string;
 }
 export const UpdateCatalogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9109,6 +9203,7 @@ export const UpdateCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CatalogProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateCatalogResponse",
@@ -9210,6 +9305,7 @@ export interface UpdateDevBoxDefinitionResponse {
   location: string;
   /** Dev Box definition properties */
   properties?: DevBoxDefinitionProperties;
+  locationHeader?: string;
 }
 export const UpdateDevBoxDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9220,6 +9316,7 @@ export const UpdateDevBoxDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateDevBoxDefinitionResponseTagsMap),
     location: S.String,
     properties: S.optional(DevBoxDefinitionProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateDevBoxDefinitionResponse",
@@ -9304,6 +9401,7 @@ export interface UpdateDevCenterResponse {
   properties?: DevCenterProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: DevCentersCreateOrUpdateResponseIdentity;
+  locationHeader?: string;
 }
 export const UpdateDevCenterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9315,6 +9413,7 @@ export const UpdateDevCenterResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DevCenterProperties),
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateDevCenterResponse",
@@ -9486,6 +9585,7 @@ export interface UpdateNetworkConnectionResponse {
   location: string;
   /** Properties of a Network Connection */
   properties?: NetworkProperties;
+  locationHeader?: string;
 }
 export const UpdateNetworkConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9496,6 +9596,7 @@ export const UpdateNetworkConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateNetworkConnectionResponseTagsMap),
     location: S.String,
     properties: S.optional(NetworkProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateNetworkConnectionResponse",
@@ -9616,6 +9717,7 @@ export interface UpdatePoolResponse {
   location: string;
   /** Pool properties */
   properties?: PoolProperties;
+  locationHeader?: string;
 }
 export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9626,6 +9728,7 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdatePoolResponseTagsMap),
     location: S.String,
     properties: S.optional(PoolProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdatePoolResponse",
@@ -9710,6 +9813,7 @@ export interface UpdateProjectResponse {
   properties?: ProjectProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: DevCentersCreateOrUpdateResponseIdentity;
+  locationHeader?: string;
 }
 export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9721,6 +9825,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ProjectProperties),
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateProjectResponse",
@@ -9968,6 +10073,7 @@ export interface UpdateProjectPolicyResponse {
   systemData?: SystemData;
   /** Properties of an project policy. */
   properties?: ProjectPolicyProperties;
+  location?: string;
 }
 export const UpdateProjectPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9976,6 +10082,7 @@ export const UpdateProjectPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ProjectPolicyProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateProjectPolicyResponse",
@@ -10060,6 +10167,7 @@ export interface UpdateScheduleResponse {
   systemData?: SystemData;
   /** Properties of a Schedule resource */
   properties?: ScheduleProperties;
+  location?: string;
 }
 export const UpdateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10068,6 +10176,7 @@ export const UpdateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ScheduleProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateScheduleResponse",

@@ -1566,6 +1566,10 @@ export interface CreateJobResponse {
   sku: Sku;
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1578,6 +1582,8 @@ export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
     properties: JobProperties,
     sku: Sku,
     identity: S.optional(ResourceIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateJobResponse",
@@ -1608,9 +1614,17 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteJobRequest",
 }) as any as S.Schema<DeleteJobRequest>;
 
-export interface DeleteJobResponse {}
+export interface DeleteJobResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteJobResponse",
 }) as any as S.Schema<DeleteJobResponse>;
@@ -2701,6 +2715,10 @@ export interface UpdateJobResponse {
   sku: Sku;
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2713,6 +2731,8 @@ export const UpdateJobResponse = /*@__PURE__*/ S.suspend(() =>
     properties: JobProperties,
     sku: Sku,
     identity: S.optional(ResourceIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateJobResponse",

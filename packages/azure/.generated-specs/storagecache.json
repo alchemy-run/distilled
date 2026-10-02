@@ -24,7 +24,7 @@
         "target": "com.azure.storagecache#CachesUpgradeFirmwareRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#CachesUpgradeFirmwareResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,35 @@
         },
         "smithy.api#documentation": "Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#CachesUpgradeFirmwareResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#CachesUpgradeFirmwareRequest": {
@@ -75,7 +104,7 @@
         "target": "com.azure.storagecache#SuspendStorageTargetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#SuspendStorageTargetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -86,6 +115,35 @@
         },
         "smithy.api#documentation": "Suspends client access to a storage target.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#SuspendStorageTargetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#SuspendStorageTargetRequest": {
@@ -134,7 +192,7 @@
         "target": "com.azure.storagecache#ResumeStorageTargetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#ResumeStorageTargetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -145,6 +203,35 @@
         },
         "smithy.api#documentation": "Resumes client access to a previously suspended storage target.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#ResumeStorageTargetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#ResumeStorageTargetRequest": {
@@ -193,7 +280,7 @@
         "target": "com.azure.storagecache#RestoreStorageTargetDefaultsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#RestoreStorageTargetDefaultsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -204,6 +291,35 @@
         },
         "smithy.api#documentation": "Tells a storage target to restore its settings to their default values.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#RestoreStorageTargetDefaultsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#RestoreStorageTargetDefaultsRequest": {
@@ -252,7 +368,7 @@
         "target": "com.azure.storagecache#InvalidateStorageTargetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#InvalidateStorageTargetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -263,6 +379,35 @@
         },
         "smithy.api#documentation": "Invalidate all cached data for a storage target. Cached files are discarded and fetched from the back end on the next request.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#InvalidateStorageTargetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#InvalidateStorageTargetRequest": {
@@ -311,7 +456,7 @@
         "target": "com.azure.storagecache#FlushStorageTargetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#FlushStorageTargetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -322,6 +467,35 @@
         },
         "smithy.api#documentation": "Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to this storage target's namespace will return errors until the flush operation completes.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#FlushStorageTargetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#FlushStorageTargetRequest": {
@@ -370,7 +544,7 @@
         "target": "com.azure.storagecache#RefreshStorageTargetsDnsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#RefreshStorageTargetsDnsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -381,6 +555,35 @@
         },
         "smithy.api#documentation": "Tells a storage target to refresh its DNS information.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#RefreshStorageTargetsDnsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#RefreshStorageTargetsDnsRequest": {
@@ -429,7 +632,7 @@
         "target": "com.azure.storagecache#DeleteStorageTargetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteStorageTargetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -440,6 +643,35 @@
         },
         "smithy.api#documentation": "Removes a Storage Target from a cache. This operation is allowed at any time, but if the cache is down or unhealthy, the actual removal of the Storage Target may be delayed until the cache is healthy again. Note that if the cache has data to flush to the Storage Target, the data will be flushed before the Storage Target will be deleted.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteStorageTargetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteStorageTargetRequest": {
@@ -545,6 +777,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Region name string."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1315,7 +1561,7 @@
         "target": "com.azure.storagecache#StopCachPrimingJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#StopCachPrimingJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1326,6 +1572,35 @@
         },
         "smithy.api#documentation": "Schedule a priming job for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#StopCachPrimingJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#StopCachPrimingJobRequest": {
@@ -1373,7 +1648,7 @@
         "target": "com.azure.storagecache#StopCachRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#StopCachResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1384,6 +1659,35 @@
         },
         "smithy.api#documentation": "Tells an Active cache to transition to Stopped state.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#StopCachResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#StopCachRequest": {
@@ -1424,7 +1728,7 @@
         "target": "com.azure.storagecache#StartCachPrimingJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#StartCachPrimingJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1435,6 +1739,35 @@
         },
         "smithy.api#documentation": "Create a priming job. This operation is only allowed when the cache is healthy.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#StartCachPrimingJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#StartCachPrimingJobRequest": {
@@ -1489,7 +1822,7 @@
         "target": "com.azure.storagecache#StartCachRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#StartCachResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1500,6 +1833,35 @@
         },
         "smithy.api#documentation": "Tells a Stopped state cache to transition to Active state.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#StartCachResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#StartCachRequest": {
@@ -1540,7 +1902,7 @@
         "target": "com.azure.storagecache#CachesSpaceAllocationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#CachesSpaceAllocationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1551,6 +1913,35 @@
         },
         "smithy.api#documentation": "Update cache space allocation.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#CachesSpaceAllocationResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#CachesSpaceAllocationRequest": {
@@ -1624,7 +2015,7 @@
         "target": "com.azure.storagecache#ResumeCachPrimingJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#ResumeCachPrimingJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1635,6 +2026,35 @@
         },
         "smithy.api#documentation": "Resumes a paused priming job.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#ResumeCachPrimingJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#ResumeCachPrimingJobRequest": {
@@ -1682,7 +2102,7 @@
         "target": "com.azure.storagecache#PauseCachPrimingJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#PauseCachPrimingJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1693,6 +2113,35 @@
         },
         "smithy.api#documentation": "Schedule a priming job to be paused.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#PauseCachPrimingJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#PauseCachPrimingJobRequest": {
@@ -1740,7 +2189,7 @@
         "target": "com.azure.storagecache#FlushCachRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#FlushCachResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1751,6 +2200,35 @@
         },
         "smithy.api#documentation": "Tells a cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#FlushCachResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#FlushCachRequest": {
@@ -1791,7 +2269,7 @@
         "target": "com.azure.storagecache#CachesDebugInfoRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#CachesDebugInfoResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1802,6 +2280,35 @@
         },
         "smithy.api#documentation": "Tells a cache to write generate debug info for support to process.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#CachesDebugInfoResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#CachesDebugInfoRequest": {
@@ -1842,7 +2349,7 @@
         "target": "com.azure.storagecache#DeleteCachRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteCachResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1853,6 +2360,35 @@
         },
         "smithy.api#documentation": "Schedules a cache for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteCachResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteCachRequest": {
@@ -1961,6 +2497,27 @@
           "target": "com.azure.storagecache#CacheSku",
           "traits": {
             "smithy.api#documentation": "SKU for the cache."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3403,6 +3960,20 @@
           "traits": {
             "smithy.api#documentation": "SKU for the cache."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3772,7 +4343,7 @@
         "target": "com.azure.storagecache#DeleteRebalanceJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteRebalanceJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3783,6 +4354,35 @@
         },
         "smithy.api#documentation": "Schedules a rebalance job for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteRebalanceJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteRebalanceJobRequest": {
@@ -3875,6 +4475,27 @@
           "target": "com.azure.storagecache#RebalanceJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the rebalance job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4407,7 +5028,7 @@
         "target": "com.azure.storagecache#DeleteImportJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteImportJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4418,6 +5039,35 @@
         },
         "smithy.api#documentation": "Schedules an import job for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteImportJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteImportJobRequest": {
@@ -4523,6 +5173,27 @@
           "target": "com.azure.storagecache#ImportJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the import job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4998,6 +5669,20 @@
           "traits": {
             "smithy.api#documentation": "Properties of the import job."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5451,7 +6136,7 @@
         "target": "com.azure.storagecache#DeleteExpansionJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteExpansionJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5462,6 +6147,35 @@
         },
         "smithy.api#documentation": "Schedules an expansion job for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteExpansionJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteExpansionJobRequest": {
@@ -5567,6 +6281,27 @@
           "target": "com.azure.storagecache#ExpansionJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the expansion job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5871,6 +6606,27 @@
           "target": "com.azure.storagecache#ExpansionJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the expansion job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6303,7 +7059,7 @@
         "target": "com.azure.storagecache#DeleteAutoImportJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteAutoImportJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6314,6 +7070,35 @@
         },
         "smithy.api#documentation": "Schedules an auto import job for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteAutoImportJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteAutoImportJobRequest": {
@@ -6419,6 +7204,27 @@
           "target": "com.azure.storagecache#AutoImportJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the auto import job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6998,6 +7804,20 @@
           "traits": {
             "smithy.api#documentation": "Properties of the auto import job."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -7457,7 +8277,7 @@
         "target": "com.azure.storagecache#DeleteAutoExportJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteAutoExportJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7468,6 +8288,35 @@
         },
         "smithy.api#documentation": "Schedules an auto export job for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteAutoExportJobResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteAutoExportJobRequest": {
@@ -7573,6 +8422,27 @@
           "target": "com.azure.storagecache#AutoExportJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the auto export job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7991,6 +8861,20 @@
           "target": "com.azure.storagecache#AutoExportJobProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the auto export job."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8458,7 +9342,7 @@
         "target": "com.azure.storagecache#DeleteAmlFilesystemRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagecache#DeleteAmlFilesystemResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8469,6 +9353,35 @@
         },
         "smithy.api#documentation": "Schedules an AML file system for deletion.",
         "com.distilled.openapi#apiVersion": "2026-08-01"
+      }
+    },
+    "com.azure.storagecache#DeleteAmlFilesystemResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagecache#DeleteAmlFilesystemRequest": {
@@ -8584,6 +9497,27 @@
           "target": "com.azure.storagecache#UpdateAmlFilesystemResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9500,6 +10434,20 @@
           "target": "com.azure.storagecache#AmlFilesystemsCreateOrUpdateResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

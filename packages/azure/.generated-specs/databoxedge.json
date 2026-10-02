@@ -24,7 +24,7 @@
         "target": "com.azure.databoxedge#DeleteUserRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteUserResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Deletes the user on a databox edge/gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteUserResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteUserRequest": {
@@ -128,6 +150,20 @@
           "traits": {
             "smithy.api#documentation": "The storage account credential properties.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1813,7 +1849,7 @@
         "target": "com.azure.databoxedge#DeleteTriggerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteTriggerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1824,6 +1860,28 @@
         },
         "smithy.api#documentation": "Deletes the trigger on the gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteTriggerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteTriggerRequest": {
@@ -1917,6 +1975,20 @@
           "traits": {
             "smithy.api#documentation": "Trigger Kind.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2222,7 +2294,7 @@
         "target": "com.azure.databoxedge#TriggerSupportPackageSupportPackageRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#TriggerSupportPackageSupportPackageResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2233,6 +2305,28 @@
         },
         "smithy.api#documentation": "Triggers support package on the device\n\nTriggers support package on the device",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#TriggerSupportPackageSupportPackageResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#TriggerSupportPackageSupportPackageRequest": {
@@ -2306,7 +2400,7 @@
         "target": "com.azure.databoxedge#RefreshContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#RefreshContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2317,6 +2411,28 @@
         },
         "smithy.api#documentation": "Refreshes the container metadata with the data from the cloud.\n\nRefreshes the container metadata with the data from the cloud.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#RefreshContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#RefreshContainerRequest": {
@@ -2373,7 +2489,7 @@
         "target": "com.azure.databoxedge#DeleteContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2384,6 +2500,28 @@
         },
         "smithy.api#documentation": "Deletes the container on the Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteContainerRequest": {
@@ -2485,6 +2623,20 @@
           "traits": {
             "smithy.api#documentation": "The container properties.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2931,7 +3083,7 @@
         "target": "com.azure.databoxedge#DeleteStorageAccountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteStorageAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2942,6 +3094,28 @@
         },
         "smithy.api#documentation": "Deletes the StorageAccount on the Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteStorageAccountResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteStorageAccountRequest": {
@@ -3035,6 +3209,20 @@
           "traits": {
             "smithy.api#documentation": "The Storage Account properties.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3449,7 +3637,7 @@
         "target": "com.azure.databoxedge#DeleteStorageAccountCredentialsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteStorageAccountCredentialsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3460,6 +3648,28 @@
         },
         "smithy.api#documentation": "Deletes the storage account credential.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteStorageAccountCredentialsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteStorageAccountCredentialsRequest": {
@@ -3553,6 +3763,20 @@
           "traits": {
             "smithy.api#documentation": "The storage account credential properties.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3931,7 +4155,7 @@
         "target": "com.azure.databoxedge#RefreshShareRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#RefreshShareResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3942,6 +4166,28 @@
         },
         "smithy.api#documentation": "Refreshes the share metadata with the data from the cloud.\n\nRefreshes the share metadata with the data from the cloud.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#RefreshShareResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#RefreshShareRequest": {
@@ -3990,7 +4236,7 @@
         "target": "com.azure.databoxedge#DeleteShareRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteShareResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4001,6 +4247,28 @@
         },
         "smithy.api#documentation": "Deletes the share on the Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteShareResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteShareRequest": {
@@ -4094,6 +4362,20 @@
           "traits": {
             "smithy.api#documentation": "The share properties.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4837,7 +5119,7 @@
         "target": "com.azure.databoxedge#DevicesCreateOrUpdateSecuritySettingsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DevicesCreateOrUpdateSecuritySettingsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4848,6 +5130,28 @@
         },
         "smithy.api#documentation": "Updates the security settings on a Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DevicesCreateOrUpdateSecuritySettingsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DevicesCreateOrUpdateSecuritySettingsRequest": {
@@ -4910,7 +5214,7 @@
         "target": "com.azure.databoxedge#DevicesScanForUpdatesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DevicesScanForUpdatesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4921,6 +5225,28 @@
         },
         "smithy.api#documentation": "Scans for updates on a Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DevicesScanForUpdatesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DevicesScanForUpdatesRequest": {
@@ -4961,7 +5287,7 @@
         "target": "com.azure.databoxedge#DeleteMonitoringConfigRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteMonitoringConfigResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4972,6 +5298,28 @@
         },
         "smithy.api#documentation": "deletes a new metric configuration for a role.\n\ndeletes a new metric configuration for a role.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteMonitoringConfigResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteMonitoringConfigRequest": {
@@ -5065,6 +5413,20 @@
           "traits": {
             "smithy.api#documentation": "The metric setting properties.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5515,7 +5877,7 @@
         "target": "com.azure.databoxedge#DeleteAddonRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteAddonResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5526,6 +5888,28 @@
         },
         "smithy.api#documentation": "Deletes the addon on the device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteAddonResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteAddonRequest": {
@@ -5627,6 +6011,20 @@
           "traits": {
             "smithy.api#documentation": "Addon type.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5949,7 +6347,7 @@
         "target": "com.azure.databoxedge#DeleteRoleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteRoleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5960,6 +6358,28 @@
         },
         "smithy.api#documentation": "Deletes the role on the device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteRoleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteRoleRequest": {
@@ -6053,6 +6473,20 @@
           "traits": {
             "smithy.api#documentation": "Role type.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6410,7 +6844,7 @@
         "target": "com.azure.databoxedge#DeleteOrderRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteOrderResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6421,6 +6855,28 @@
         },
         "smithy.api#documentation": "Deletes the order related to the device.\n\nDeletes the order related to the device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteOrderResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteOrderRequest": {
@@ -6511,6 +6967,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "It specify the order api version."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8444,7 +8914,7 @@
         "target": "com.azure.databoxedge#InstallDeviceUpdatesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#InstallDeviceUpdatesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8455,6 +8925,28 @@
         },
         "smithy.api#documentation": "Installs the updates on the Data Box Edge/Data Box Gateway device.\n\nInstalls the updates on the Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#InstallDeviceUpdatesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#InstallDeviceUpdatesRequest": {
@@ -8770,7 +9262,7 @@
         "target": "com.azure.databoxedge#DownloadDeviceUpdatesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DownloadDeviceUpdatesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8781,6 +9273,28 @@
         },
         "smithy.api#documentation": "Downloads the updates on a Data Box Edge/Data Box Gateway device.\n\nDownloads the updates on a Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DownloadDeviceUpdatesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DownloadDeviceUpdatesRequest": {
@@ -8866,6 +9380,20 @@
           "traits": {
             "smithy.api#documentation": "Properties of the remote support  settings.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9166,6 +9694,20 @@
           "traits": {
             "smithy.api#documentation": "Properties of the diagnostic proactive log collection settings.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9796,7 +10338,7 @@
         "target": "com.azure.databoxedge#CheckDeviceCapacityCheckResourceCreationFeasibilityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#CheckDeviceCapacityCheckResourceCreationFeasibilityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9807,6 +10349,28 @@
         },
         "smithy.api#documentation": "Posts the device capacity request info to check feasibility.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#CheckDeviceCapacityCheckResourceCreationFeasibilityResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#CheckDeviceCapacityCheckResourceCreationFeasibilityRequest": {
@@ -9948,7 +10512,7 @@
         "target": "com.azure.databoxedge#DeleteBandwidthScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteBandwidthScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9959,6 +10523,28 @@
         },
         "smithy.api#documentation": "Deletes the specified bandwidth schedule.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteBandwidthScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteBandwidthScheduleRequest": {
@@ -10052,6 +10638,20 @@
           "traits": {
             "smithy.api#documentation": "The properties of the bandwidth schedule.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10753,7 +11353,7 @@
         "target": "com.azure.databoxedge#DeleteDeviceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.databoxedge#DeleteDeviceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10764,6 +11364,28 @@
         },
         "smithy.api#documentation": "Deletes the Data Box Edge/Data Box Gateway device.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.databoxedge#DeleteDeviceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.databoxedge#DeleteDeviceRequest": {

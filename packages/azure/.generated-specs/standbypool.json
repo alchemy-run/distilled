@@ -861,7 +861,7 @@
         "target": "com.azure.standbypool#DeleteStandbyVirtualMachinePoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.standbypool#DeleteStandbyVirtualMachinePoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -872,6 +872,28 @@
         },
         "smithy.api#documentation": "Delete a StandbyVirtualMachinePoolResource",
         "com.distilled.openapi#apiVersion": "2026-04-01"
+      }
+    },
+    "com.azure.standbypool#DeleteStandbyVirtualMachinePoolResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.standbypool#DeleteStandbyVirtualMachinePoolRequest": {
@@ -1283,6 +1305,13 @@
           "target": "com.azure.standbypool#StandbyVirtualMachinePoolResourceProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2043,7 +2072,7 @@
         "target": "com.azure.standbypool#DeleteStandbyContainerGroupPoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.standbypool#DeleteStandbyContainerGroupPoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2054,6 +2083,28 @@
         },
         "smithy.api#documentation": "Delete a StandbyContainerGroupPoolResource",
         "com.distilled.openapi#apiVersion": "2026-04-01"
+      }
+    },
+    "com.azure.standbypool#DeleteStandbyContainerGroupPoolResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.standbypool#DeleteStandbyContainerGroupPoolRequest": {
@@ -2474,6 +2525,13 @@
           "target": "com.azure.standbypool#StandbyContainerGroupPoolResourceProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

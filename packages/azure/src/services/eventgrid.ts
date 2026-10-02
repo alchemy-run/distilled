@@ -1353,9 +1353,13 @@ export const DeleteCaCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCaCertificateRequest",
 }) as any as S.Schema<DeleteCaCertificateRequest>;
 
-export interface DeleteCaCertificateResponse {}
+export interface DeleteCaCertificateResponse {
+  location?: string;
+}
 export const DeleteCaCertificateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteCaCertificateResponse",
 }) as any as S.Schema<DeleteCaCertificateResponse>;
@@ -1388,9 +1392,13 @@ export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteChannelRequest",
 }) as any as S.Schema<DeleteChannelRequest>;
 
-export interface DeleteChannelResponse {}
+export interface DeleteChannelResponse {
+  location?: string;
+}
 export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteChannelResponse",
 }) as any as S.Schema<DeleteChannelResponse>;
@@ -1423,9 +1431,13 @@ export const DeleteClientRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteClientRequest",
 }) as any as S.Schema<DeleteClientRequest>;
 
-export interface DeleteClientResponse {}
+export interface DeleteClientResponse {
+  location?: string;
+}
 export const DeleteClientResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteClientResponse",
 }) as any as S.Schema<DeleteClientResponse>;
@@ -1458,9 +1470,13 @@ export const DeleteClientGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteClientGroupRequest",
 }) as any as S.Schema<DeleteClientGroupRequest>;
 
-export interface DeleteClientGroupResponse {}
+export interface DeleteClientGroupResponse {
+  location?: string;
+}
 export const DeleteClientGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteClientGroupResponse",
 }) as any as S.Schema<DeleteClientGroupResponse>;
@@ -1490,9 +1506,13 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDomainRequest",
 }) as any as S.Schema<DeleteDomainRequest>;
 
-export interface DeleteDomainResponse {}
+export interface DeleteDomainResponse {
+  location?: string;
+}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDomainResponse",
 }) as any as S.Schema<DeleteDomainResponse>;
@@ -1526,9 +1546,14 @@ export const DeleteDomainEventSubscriptionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteDomainEventSubscriptionRequest",
 }) as any as S.Schema<DeleteDomainEventSubscriptionRequest>;
 
-export interface DeleteDomainEventSubscriptionResponse {}
+export interface DeleteDomainEventSubscriptionResponse {
+  location?: string;
+}
 export const DeleteDomainEventSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteDomainEventSubscriptionResponse",
 }) as any as S.Schema<DeleteDomainEventSubscriptionResponse>;
@@ -1561,9 +1586,13 @@ export const DeleteDomainTopicRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDomainTopicRequest",
 }) as any as S.Schema<DeleteDomainTopicRequest>;
 
-export interface DeleteDomainTopicResponse {}
+export interface DeleteDomainTopicResponse {
+  location?: string;
+}
 export const DeleteDomainTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDomainTopicResponse",
 }) as any as S.Schema<DeleteDomainTopicResponse>;
@@ -1600,9 +1629,15 @@ export const DeleteDomainTopicEventSubscriptionRequest =
     identifier: "DeleteDomainTopicEventSubscriptionRequest",
   }) as any as S.Schema<DeleteDomainTopicEventSubscriptionRequest>;
 
-export interface DeleteDomainTopicEventSubscriptionResponse {}
+export interface DeleteDomainTopicEventSubscriptionResponse {
+  location?: string;
+}
 export const DeleteDomainTopicEventSubscriptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteDomainTopicEventSubscriptionResponse",
   }) as any as S.Schema<DeleteDomainTopicEventSubscriptionResponse>;
 
@@ -1628,9 +1663,13 @@ export const DeleteEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEventSubscriptionRequest",
 }) as any as S.Schema<DeleteEventSubscriptionRequest>;
 
-export interface DeleteEventSubscriptionResponse {}
+export interface DeleteEventSubscriptionResponse {
+  location?: string;
+}
 export const DeleteEventSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteEventSubscriptionResponse",
 }) as any as S.Schema<DeleteEventSubscriptionResponse>;
@@ -1660,9 +1699,13 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNamespaceRequest",
 }) as any as S.Schema<DeleteNamespaceRequest>;
 
-export interface DeleteNamespaceResponse {}
+export interface DeleteNamespaceResponse {
+  location?: string;
+}
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNamespaceResponse",
 }) as any as S.Schema<DeleteNamespaceResponse>;
@@ -1695,9 +1738,13 @@ export const DeleteNamespaceTopicRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNamespaceTopicRequest",
 }) as any as S.Schema<DeleteNamespaceTopicRequest>;
 
-export interface DeleteNamespaceTopicResponse {}
+export interface DeleteNamespaceTopicResponse {
+  location?: string;
+}
 export const DeleteNamespaceTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNamespaceTopicResponse",
 }) as any as S.Schema<DeleteNamespaceTopicResponse>;
@@ -1734,9 +1781,15 @@ export const DeleteNamespaceTopicEventSubscriptionRequest =
     identifier: "DeleteNamespaceTopicEventSubscriptionRequest",
   }) as any as S.Schema<DeleteNamespaceTopicEventSubscriptionRequest>;
 
-export interface DeleteNamespaceTopicEventSubscriptionResponse {}
+export interface DeleteNamespaceTopicEventSubscriptionResponse {
+  location?: string;
+}
 export const DeleteNamespaceTopicEventSubscriptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteNamespaceTopicEventSubscriptionResponse",
   }) as any as S.Schema<DeleteNamespaceTopicEventSubscriptionResponse>;
 
@@ -1762,9 +1815,13 @@ export const DeletePartnerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePartnerConfigurationRequest",
 }) as any as S.Schema<DeletePartnerConfigurationRequest>;
 
-export interface DeletePartnerConfigurationResponse {}
+export interface DeletePartnerConfigurationResponse {
+  location?: string;
+}
 export const DeletePartnerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePartnerConfigurationResponse",
 }) as any as S.Schema<DeletePartnerConfigurationResponse>;
@@ -1794,9 +1851,13 @@ export const DeletePartnerNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePartnerNamespaceRequest",
 }) as any as S.Schema<DeletePartnerNamespaceRequest>;
 
-export interface DeletePartnerNamespaceResponse {}
+export interface DeletePartnerNamespaceResponse {
+  location?: string;
+}
 export const DeletePartnerNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePartnerNamespaceResponse",
 }) as any as S.Schema<DeletePartnerNamespaceResponse>;
@@ -1826,9 +1887,13 @@ export const DeletePartnerRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePartnerRegistrationRequest",
 }) as any as S.Schema<DeletePartnerRegistrationRequest>;
 
-export interface DeletePartnerRegistrationResponse {}
+export interface DeletePartnerRegistrationResponse {
+  location?: string;
+}
 export const DeletePartnerRegistrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePartnerRegistrationResponse",
 }) as any as S.Schema<DeletePartnerRegistrationResponse>;
@@ -1858,9 +1923,13 @@ export const DeletePartnerTopicRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePartnerTopicRequest",
 }) as any as S.Schema<DeletePartnerTopicRequest>;
 
-export interface DeletePartnerTopicResponse {}
+export interface DeletePartnerTopicResponse {
+  location?: string;
+}
 export const DeletePartnerTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePartnerTopicResponse",
 }) as any as S.Schema<DeletePartnerTopicResponse>;
@@ -1894,9 +1963,15 @@ export const DeletePartnerTopicEventSubscriptionRequest =
     identifier: "DeletePartnerTopicEventSubscriptionRequest",
   }) as any as S.Schema<DeletePartnerTopicEventSubscriptionRequest>;
 
-export interface DeletePartnerTopicEventSubscriptionResponse {}
+export interface DeletePartnerTopicEventSubscriptionResponse {
+  location?: string;
+}
 export const DeletePartnerTopicEventSubscriptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeletePartnerTopicEventSubscriptionResponse",
   }) as any as S.Schema<DeletePartnerTopicEventSubscriptionResponse>;
 
@@ -1928,9 +2003,13 @@ export const DeletePermissionBindingRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePermissionBindingRequest",
 }) as any as S.Schema<DeletePermissionBindingRequest>;
 
-export interface DeletePermissionBindingResponse {}
+export interface DeletePermissionBindingResponse {
+  location?: string;
+}
 export const DeletePermissionBindingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePermissionBindingResponse",
 }) as any as S.Schema<DeletePermissionBindingResponse>;
@@ -1976,9 +2055,14 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  location?: string;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -2008,9 +2092,13 @@ export const DeleteSystemTopicRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSystemTopicRequest",
 }) as any as S.Schema<DeleteSystemTopicRequest>;
 
-export interface DeleteSystemTopicResponse {}
+export interface DeleteSystemTopicResponse {
+  location?: string;
+}
 export const DeleteSystemTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteSystemTopicResponse",
 }) as any as S.Schema<DeleteSystemTopicResponse>;
@@ -2044,9 +2132,15 @@ export const DeleteSystemTopicEventSubscriptionRequest =
     identifier: "DeleteSystemTopicEventSubscriptionRequest",
   }) as any as S.Schema<DeleteSystemTopicEventSubscriptionRequest>;
 
-export interface DeleteSystemTopicEventSubscriptionResponse {}
+export interface DeleteSystemTopicEventSubscriptionResponse {
+  location?: string;
+}
 export const DeleteSystemTopicEventSubscriptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteSystemTopicEventSubscriptionResponse",
   }) as any as S.Schema<DeleteSystemTopicEventSubscriptionResponse>;
 
@@ -2075,9 +2169,13 @@ export const DeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTopicRequest",
 }) as any as S.Schema<DeleteTopicRequest>;
 
-export interface DeleteTopicResponse {}
+export interface DeleteTopicResponse {
+  location?: string;
+}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteTopicResponse",
 }) as any as S.Schema<DeleteTopicResponse>;
@@ -2110,9 +2208,14 @@ export const DeleteTopicEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTopicEventSubscriptionRequest",
 }) as any as S.Schema<DeleteTopicEventSubscriptionRequest>;
 
-export interface DeleteTopicEventSubscriptionResponse {}
+export interface DeleteTopicEventSubscriptionResponse {
+  location?: string;
+}
 export const DeleteTopicEventSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteTopicEventSubscriptionResponse",
 }) as any as S.Schema<DeleteTopicEventSubscriptionResponse>;
@@ -2145,9 +2248,13 @@ export const DeleteTopicSpaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTopicSpaceRequest",
 }) as any as S.Schema<DeleteTopicSpaceRequest>;
 
-export interface DeleteTopicSpaceResponse {}
+export interface DeleteTopicSpaceResponse {
+  location?: string;
+}
 export const DeleteTopicSpaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteTopicSpaceResponse",
 }) as any as S.Schema<DeleteTopicSpaceResponse>;
@@ -12958,6 +13065,24 @@ export const RegenerateNamespaceKeyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegenerateNamespaceKeyRequest",
 }) as any as S.Schema<RegenerateNamespaceKeyRequest>;
 
+/** Shared access keys of the Namespace. */
+export interface RegenerateNamespaceKeyResponse {
+  /** Shared access key1 for the namespace. */
+  key1?: string;
+  /** Shared access key2 for the namespace. */
+  key2?: string;
+  location?: string;
+}
+export const RegenerateNamespaceKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key1: S.optional(S.String),
+    key2: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "RegenerateNamespaceKeyResponse",
+}) as any as S.Schema<RegenerateNamespaceKeyResponse>;
+
 export interface RegenerateNamespaceTopicKeyRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -12988,6 +13113,24 @@ export const RegenerateNamespaceTopicKeyRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegenerateNamespaceTopicKeyRequest",
 }) as any as S.Schema<RegenerateNamespaceTopicKeyRequest>;
+
+/** Shared access keys of the Topic */
+export interface RegenerateNamespaceTopicKeyResponse {
+  /** Shared access key1 for the topic. */
+  key1?: string;
+  /** Shared access key2 for the topic. */
+  key2?: string;
+  location?: string;
+}
+export const RegenerateNamespaceTopicKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key1: S.optional(S.String),
+    key2: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "RegenerateNamespaceTopicKeyResponse",
+}) as any as S.Schema<RegenerateNamespaceTopicKeyResponse>;
 
 export interface RegeneratePartnerNamespaceKeyRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -13045,6 +13188,24 @@ export const RegenerateTopicKeyRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegenerateTopicKeyRequest",
 }) as any as S.Schema<RegenerateTopicKeyRequest>;
+
+/** Shared access keys of the Topic */
+export interface RegenerateTopicKeyResponse {
+  /** Shared access key1 for the topic. */
+  key1?: string;
+  /** Shared access key2 for the topic. */
+  key2?: string;
+  location?: string;
+}
+export const RegenerateTopicKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key1: S.optional(S.String),
+    key2: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "RegenerateTopicKeyResponse",
+}) as any as S.Schema<RegenerateTopicKeyResponse>;
 
 export interface SystemTopicEventSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -14627,6 +14788,7 @@ export interface UpdateNamespaceResponse {
   identity?: IdentityInfo;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: UpdateNamespaceResponseSystemData;
+  locationHeader?: string;
 }
 export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14639,6 +14801,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(NamespaceSku),
     identity: S.optional(IdentityInfo),
     systemData: S.optional(UpdateNamespaceResponseSystemData),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateNamespaceResponse",
@@ -14750,6 +14913,7 @@ export interface UpdateNamespaceTopicResponse {
   properties?: NamespaceTopicProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: UpdateNamespaceTopicResponseSystemData;
+  location?: string;
 }
 export const UpdateNamespaceTopicResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14758,6 +14922,7 @@ export const UpdateNamespaceTopicResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(NamespaceTopicProperties),
     systemData: S.optional(UpdateNamespaceTopicResponseSystemData),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateNamespaceTopicResponse",
@@ -14892,6 +15057,7 @@ export interface UpdateNamespaceTopicEventSubscriptionResponse {
   properties?: SubscriptionProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: UpdateNamespaceTopicEventSubscriptionResponseSystemData;
+  location?: string;
 }
 export const UpdateNamespaceTopicEventSubscriptionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -14903,6 +15069,7 @@ export const UpdateNamespaceTopicEventSubscriptionResponse =
       systemData: S.optional(
         UpdateNamespaceTopicEventSubscriptionResponseSystemData,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "UpdateNamespaceTopicEventSubscriptionResponse",
@@ -16062,6 +16229,7 @@ export interface CustomDomainOwnershipValidationResult {
   customDomainsForTopicsConfiguration?: CustomDomainOwnershipValidationResultCustomDomainsForTopicsConfigurationList;
   /** List of custom domain configurations for the namespace under topic spaces configuration. */
   customDomainsForTopicSpacesConfiguration?: CustomDomainOwnershipValidationResultCustomDomainsForTopicSpacesConfigurationList;
+  location?: string;
 }
 export const CustomDomainOwnershipValidationResult = /*@__PURE__*/ S.suspend(
   () =>
@@ -16072,6 +16240,7 @@ export const CustomDomainOwnershipValidationResult = /*@__PURE__*/ S.suspend(
       customDomainsForTopicSpacesConfiguration: S.optional(
         CustomDomainOwnershipValidationResultCustomDomainsForTopicSpacesConfigurationList,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "CustomDomainOwnershipValidationResult",
@@ -18220,12 +18389,12 @@ export type RegenerateNamespaceKeyError = AzureOpError;
 /** Regenerate key for a namespace. Regenerate a shared access key for a namespace. */
 export const RegenerateNamespaceKey: API.OperationMethod<
   RegenerateNamespaceKeyRequest,
-  NamespaceSharedAccessKeys,
+  RegenerateNamespaceKeyResponse,
   RegenerateNamespaceKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateNamespaceKeyRequest,
-  output: NamespaceSharedAccessKeys,
+  output: RegenerateNamespaceKeyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -18235,12 +18404,12 @@ export type RegenerateNamespaceTopicKeyError = AzureOpError;
 /** Regenerate key for a namespace topic. Regenerate a shared access key for a namespace topic. */
 export const RegenerateNamespaceTopicKey: API.OperationMethod<
   RegenerateNamespaceTopicKeyRequest,
-  TopicSharedAccessKeys,
+  RegenerateNamespaceTopicKeyResponse,
   RegenerateNamespaceTopicKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateNamespaceTopicKeyRequest,
-  output: TopicSharedAccessKeys,
+  output: RegenerateNamespaceTopicKeyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -18265,12 +18434,12 @@ export type RegenerateTopicKeyError = AzureOpError;
 /** Regenerate key for a topic. Regenerate a shared access key for a topic. */
 export const RegenerateTopicKey: API.OperationMethod<
   RegenerateTopicKeyRequest,
-  TopicSharedAccessKeys,
+  RegenerateTopicKeyResponse,
   RegenerateTopicKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateTopicKeyRequest,
-  output: TopicSharedAccessKeys,
+  output: RegenerateTopicKeyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

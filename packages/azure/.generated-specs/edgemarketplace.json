@@ -1222,7 +1222,7 @@
         "target": "com.azure.edgemarketplace#GenerateOfferAccessTokenRequest"
       },
       "output": {
-        "target": "com.azure.edgemarketplace#DiskAccessToken"
+        "target": "com.azure.edgemarketplace#GenerateOfferAccessTokenResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1233,6 +1233,49 @@
         },
         "smithy.api#documentation": "A long-running resource action.",
         "com.distilled.openapi#apiVersion": "2024-10-01"
+      }
+    },
+    "com.azure.edgemarketplace#GenerateOfferAccessTokenResponse": {
+      "type": "structure",
+      "members": {
+        "diskId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The disk id."
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token creation status."
+          }
+        },
+        "accessToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The access token.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The disk access token",
+        "smithy.api#output": {}
       }
     },
     "com.azure.edgemarketplace#GenerateOfferAccessTokenRequest": {

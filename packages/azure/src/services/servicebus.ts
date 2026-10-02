@@ -232,9 +232,14 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNamespaceRequest",
 }) as any as S.Schema<DeleteNamespaceRequest>;
 
-export interface DeleteNamespaceResponse {}
+export interface DeleteNamespaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNamespaceResponse",
 }) as any as S.Schema<DeleteNamespaceResponse>;
@@ -304,9 +309,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -4135,6 +4149,10 @@ export interface MigrationConfigsCreateAndStartMigrationResponse {
   properties?: MigrationConfigPropertiesProperties;
   /** The geo-location where the resource lives */
   location?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrationConfigsCreateAndStartMigrationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4145,6 +4163,8 @@ export const MigrationConfigsCreateAndStartMigrationResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(MigrationConfigPropertiesProperties),
       location: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrationConfigsCreateAndStartMigrationResponse",
@@ -4372,6 +4392,8 @@ export interface NamespacesCreateOrUpdateResponse {
   sku?: SBSku;
   /** Properties of BYOK Identity description */
   identity?: Identity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const NamespacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4384,6 +4406,7 @@ export const NamespacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SBNamespaceProperties),
     sku: S.optional(SBSku),
     identity: S.optional(Identity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "NamespacesCreateOrUpdateResponse",
@@ -4548,9 +4571,22 @@ export const NamespacesFailoverRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "NamespacesFailoverRequest",
 }) as any as S.Schema<NamespacesFailoverRequest>;
 
-export interface NamespacesFailoverResponse {}
+export interface NamespacesFailoverResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const NamespacesFailoverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "NamespacesFailoverResponse",
 }) as any as S.Schema<NamespacesFailoverResponse>;

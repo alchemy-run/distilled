@@ -24,7 +24,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkVMGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkVMGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkVMGroup",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkVMGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkVMGroupRequest": {
@@ -127,6 +149,20 @@
           "target": "com.azure.vmware#WorkloadNetworkVMGroupProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -484,6 +520,13 @@
           "target": "com.azure.vmware#WorkloadNetworkVMGroupProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1071,7 +1114,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkSegmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkSegmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1082,6 +1125,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkSegment",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkSegmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkSegmentRequest": {
@@ -1174,6 +1239,20 @@
           "target": "com.azure.vmware#WorkloadNetworkSegmentProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1476,6 +1555,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1750,7 +1836,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkPublicIPRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkPublicIPResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1761,6 +1847,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkPublicIP",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkPublicIPResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkPublicIPRequest": {
@@ -1853,6 +1961,13 @@
           "target": "com.azure.vmware#WorkloadNetworkPublicIPProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2224,7 +2339,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkPortMirroringRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkPortMirroringResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2235,6 +2350,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkPortMirroring",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkPortMirroringResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkPortMirroringRequest": {
@@ -2327,6 +2464,20 @@
           "target": "com.azure.vmware#WorkloadNetworkPortMirroringProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2608,6 +2759,13 @@
           "target": "com.azure.vmware#WorkloadNetworkPortMirroringProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3125,7 +3283,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkDnsZoneRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkDnsZoneResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3136,6 +3294,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkDnsZone",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkDnsZoneResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkDnsZoneRequest": {
@@ -3228,6 +3408,20 @@
           "target": "com.azure.vmware#WorkloadNetworkDnsZoneProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3506,6 +3700,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3780,7 +3981,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkDnsServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkDnsServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3791,6 +3992,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkDnsService",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkDnsServiceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkDnsServiceRequest": {
@@ -3883,6 +4106,20 @@
           "target": "com.azure.vmware#WorkloadNetworkDnsServiceProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4207,6 +4444,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -4481,7 +4725,7 @@
         "target": "com.azure.vmware#DeleteWorkloadNetworkDhcpRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteWorkloadNetworkDhcpResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4492,6 +4736,28 @@
         },
         "smithy.api#documentation": "Delete a WorkloadNetworkDhcp",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteWorkloadNetworkDhcpResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteWorkloadNetworkDhcpRequest": {
@@ -4584,6 +4850,20 @@
           "target": "com.azure.vmware#WorkloadNetworkDhcpEntity",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4826,6 +5106,13 @@
           "target": "com.azure.vmware#WorkloadNetworkDhcpEntity",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6461,7 +6748,7 @@
         "target": "com.azure.vmware#DeleteScriptExecutionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteScriptExecutionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6472,6 +6759,28 @@
         },
         "smithy.api#documentation": "Delete a ScriptExecution",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteScriptExecutionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteScriptExecutionRequest": {
@@ -6564,6 +6873,13 @@
           "target": "com.azure.vmware#ScriptExecutionProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6935,7 +7251,7 @@
         "target": "com.azure.vmware#RotatePrivateCloudVcenterPasswordRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#RotatePrivateCloudVcenterPasswordResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6946,6 +7262,28 @@
         },
         "smithy.api#documentation": "Rotate the vCenter password",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#RotatePrivateCloudVcenterPasswordResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#RotatePrivateCloudVcenterPasswordRequest": {
@@ -6986,7 +7324,7 @@
         "target": "com.azure.vmware#RotatePrivateCloudNsxtPasswordRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#RotatePrivateCloudNsxtPasswordResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6997,6 +7335,28 @@
         },
         "smithy.api#documentation": "Rotate the NSX-T Manager password",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#RotatePrivateCloudNsxtPasswordResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#RotatePrivateCloudNsxtPasswordRequest": {
@@ -7037,7 +7397,7 @@
         "target": "com.azure.vmware#DeletePureStoragePolicyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeletePureStoragePolicyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7048,6 +7408,28 @@
         },
         "smithy.api#documentation": "Delete a PureStoragePolicy",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeletePureStoragePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeletePureStoragePolicyRequest": {
@@ -7140,6 +7522,20 @@
           "target": "com.azure.vmware#PureStoragePolicyProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9314,7 +9710,7 @@
         "target": "com.azure.vmware#DeleteLicenseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteLicenseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9325,6 +9721,28 @@
         },
         "smithy.api#documentation": "Delete a License",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteLicenseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteLicenseRequest": {
@@ -9429,6 +9847,20 @@
           "target": "com.azure.vmware#LicenseProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9743,7 +10175,7 @@
         "target": "com.azure.vmware#DeleteIscsiPathRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteIscsiPathResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9754,6 +10186,28 @@
         },
         "smithy.api#documentation": "Delete a IscsiPath",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteIscsiPathResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteIscsiPathRequest": {
@@ -9838,6 +10292,13 @@
           "target": "com.azure.vmware#IscsiPathProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10652,7 +11113,7 @@
         "target": "com.azure.vmware#DeleteGlobalReachConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteGlobalReachConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10663,6 +11124,28 @@
         },
         "smithy.api#documentation": "Delete a GlobalReachConnection",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteGlobalReachConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteGlobalReachConnectionRequest": {
@@ -10755,6 +11238,13 @@
           "target": "com.azure.vmware#GlobalReachConnectionProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -11244,7 +11734,7 @@
         "target": "com.azure.vmware#VirtualMachinesRestrictMovementRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#VirtualMachinesRestrictMovementResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11255,6 +11745,28 @@
         },
         "smithy.api#documentation": "Enable or disable DRS-driven VM movement restriction",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#VirtualMachinesRestrictMovementResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#VirtualMachinesRestrictMovementRequest": {
@@ -11633,7 +12145,7 @@
         "target": "com.azure.vmware#DeletePlacementPolicyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeletePlacementPolicyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11644,6 +12156,28 @@
         },
         "smithy.api#documentation": "Delete a PlacementPolicy",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeletePlacementPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeletePlacementPolicyRequest": {
@@ -11744,6 +12278,20 @@
           "target": "com.azure.vmware#PlacementPolicyProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -12068,6 +12616,13 @@
           "target": "com.azure.vmware#PlacementPolicyProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -13232,7 +13787,7 @@
         "target": "com.azure.vmware#DeleteDatastoreRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteDatastoreResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13243,6 +13798,28 @@
         },
         "smithy.api#documentation": "Delete a Datastore",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteDatastoreResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteDatastoreRequest": {
@@ -13343,6 +13920,13 @@
           "target": "com.azure.vmware#DatastoreProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -13978,7 +14562,7 @@
         "target": "com.azure.vmware#DeleteClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13989,6 +14573,28 @@
         },
         "smithy.api#documentation": "Delete a Cluster",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteClusterRequest": {
@@ -14088,6 +14694,20 @@
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -14396,6 +15016,13 @@
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU",
             "smithy.api#required": {}
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -14871,7 +15498,7 @@
         "target": "com.azure.vmware#DeleteCloudLinkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteCloudLinkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14882,6 +15509,28 @@
         },
         "smithy.api#documentation": "Delete a CloudLink",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteCloudLinkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteCloudLinkRequest": {
@@ -14974,6 +15623,13 @@
           "target": "com.azure.vmware#CloudLinkProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -15353,7 +16009,7 @@
         "target": "com.azure.vmware#DeleteAuthorizationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteAuthorizationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15364,6 +16020,28 @@
         },
         "smithy.api#documentation": "Delete a ExpressRouteAuthorization",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteAuthorizationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteAuthorizationRequest": {
@@ -15456,6 +16134,13 @@
           "target": "com.azure.vmware#ExpressRouteAuthorizationProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -15809,7 +16494,7 @@
         "target": "com.azure.vmware#DeleteAddonRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeleteAddonResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15820,6 +16505,28 @@
         },
         "smithy.api#documentation": "Delete a Addon",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeleteAddonResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeleteAddonRequest": {
@@ -15912,6 +16619,13 @@
           "target": "com.azure.vmware#AddonProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -16305,7 +17019,7 @@
         "target": "com.azure.vmware#DeletePrivateCloudRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#DeletePrivateCloudResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16316,6 +17030,28 @@
         },
         "smithy.api#documentation": "Delete a PrivateCloud",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#DeletePrivateCloudResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#DeletePrivateCloudRequest": {
@@ -16432,6 +17168,20 @@
           "target": "com.azure.vmware#UpdatePrivateCloudResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -17586,6 +18336,13 @@
           "target": "com.azure.vmware#PrivateCloudsCreateOrUpdateResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18862,7 +19619,7 @@
         "target": "com.azure.vmware#CheckServiceComponentAvailabilityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmware#CheckServiceComponentAvailabilityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18873,6 +19630,28 @@
         },
         "smithy.api#documentation": "Return service component availability",
         "com.distilled.openapi#apiVersion": "2026-03-01"
+      }
+    },
+    "com.azure.vmware#CheckServiceComponentAvailabilityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmware#CheckServiceComponentAvailabilityRequest": {

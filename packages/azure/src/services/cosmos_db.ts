@@ -539,6 +539,10 @@ export interface CassandraClustersCreateUpdateResponse {
   tags?: CassandraClustersCreateUpdateResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedCassandraManagedServiceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CassandraClustersCreateUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -551,6 +555,8 @@ export const CassandraClustersCreateUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.optional(S.String),
       tags: S.optional(CassandraClustersCreateUpdateResponseTagsMap),
       identity: S.optional(ManagedCassandraManagedServiceIdentity),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CassandraClustersCreateUpdateResponse",
@@ -581,9 +587,17 @@ export const CassandraClustersDeallocateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CassandraClustersDeallocateRequest",
 }) as any as S.Schema<CassandraClustersDeallocateRequest>;
 
-export interface CassandraClustersDeallocateResponse {}
+export interface CassandraClustersDeallocateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CassandraClustersDeallocateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "CassandraClustersDeallocateResponse",
 }) as any as S.Schema<CassandraClustersDeallocateResponse>;
@@ -1051,6 +1065,10 @@ export interface CassandraDataCentersCreateUpdateResponse {
   systemData?: SystemData;
   /** Properties of a managed Cassandra data center. */
   properties?: DataCenterResourceProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CassandraDataCentersCreateUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1060,6 +1078,8 @@ export const CassandraDataCentersCreateUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(DataCenterResourceProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CassandraDataCentersCreateUpdateResponse",
@@ -1347,6 +1367,12 @@ export interface CassandraResourcesCreateUpdateCassandraKeyspaceResponse {
   tags?: CassandraResourcesCreateUpdateCassandraKeyspaceResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CassandraResourcesCreateUpdateCassandraKeyspaceResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1361,6 +1387,11 @@ export const CassandraResourcesCreateUpdateCassandraKeyspaceResponse =
         CassandraResourcesCreateUpdateCassandraKeyspaceResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CassandraResourcesCreateUpdateCassandraKeyspaceResponse",
@@ -1452,6 +1483,12 @@ export interface CassandraResourcesCreateUpdateCassandraRoleAssignmentResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Assignment. */
   properties?: CassandraRoleAssignmentResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CassandraResourcesCreateUpdateCassandraRoleAssignmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1461,6 +1498,11 @@ export const CassandraResourcesCreateUpdateCassandraRoleAssignmentResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CassandraRoleAssignmentResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CassandraResourcesCreateUpdateCassandraRoleAssignmentResponse",
@@ -1588,6 +1630,12 @@ export interface CassandraResourcesCreateUpdateCassandraRoleDefinitionResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB Cassandra Role Definition. */
   properties?: CassandraRoleDefinitionResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CassandraResourcesCreateUpdateCassandraRoleDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1597,6 +1645,11 @@ export const CassandraResourcesCreateUpdateCassandraRoleDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CassandraRoleDefinitionResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CassandraResourcesCreateUpdateCassandraRoleDefinitionResponse",
@@ -1846,6 +1899,12 @@ export interface CassandraResourcesCreateUpdateCassandraTableResponse {
   tags?: CassandraResourcesCreateUpdateCassandraTableResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CassandraResourcesCreateUpdateCassandraTableResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1860,6 +1919,11 @@ export const CassandraResourcesCreateUpdateCassandraTableResponse =
         CassandraResourcesCreateUpdateCassandraTableResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CassandraResourcesCreateUpdateCassandraTableResponse",
@@ -2078,6 +2142,10 @@ export interface CreateFleetspaceResponse {
   systemData?: SystemData;
   /** Properties to update Azure Cosmos DB Fleetspace. */
   properties?: FleetspaceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2086,6 +2154,10 @@ export const CreateFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateFleetspaceResponse",
@@ -2171,6 +2243,10 @@ export interface CreateFleetspaceAccountResponse {
   systemData?: SystemData;
   /** An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account. */
   properties?: FleetspaceAccountProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateFleetspaceAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2179,6 +2255,10 @@ export const CreateFleetspaceAccountResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceAccountProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateFleetspaceAccountResponse",
@@ -2293,6 +2373,10 @@ export interface CreateServiceResponse {
   systemData?: SystemData;
   /** Services response resource. */
   properties?: ServiceResourceProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2301,6 +2385,8 @@ export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ServiceResourceProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateServiceResponse",
@@ -3312,6 +3398,8 @@ export interface DatabaseAccountsCreateOrUpdateResponse {
   identity?: ManagedServiceIdentity;
   /** Indicates the type of database account. This can only be set at database account creation. */
   kind?: DatabaseAccountsCreateOrUpdateResponseKind;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const DatabaseAccountsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3325,6 +3413,7 @@ export const DatabaseAccountsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(DatabaseAccountsCreateOrUpdateResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
       kind: S.optional(DatabaseAccountsCreateOrUpdateResponseKind),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "DatabaseAccountsCreateOrUpdateResponse",
@@ -3384,9 +3473,24 @@ export const DatabaseAccountsFailoverPriorityChangeRequest =
     identifier: "DatabaseAccountsFailoverPriorityChangeRequest",
   }) as any as S.Schema<DatabaseAccountsFailoverPriorityChangeRequest>;
 
-export interface DatabaseAccountsFailoverPriorityChangeResponse {}
+export interface DatabaseAccountsFailoverPriorityChangeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DatabaseAccountsFailoverPriorityChangeResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DatabaseAccountsFailoverPriorityChangeResponse",
   }) as any as S.Schema<DatabaseAccountsFailoverPriorityChangeResponse>;
 
@@ -3488,9 +3592,23 @@ export const DatabaseAccountsOfflineRegionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DatabaseAccountsOfflineRegionRequest",
 }) as any as S.Schema<DatabaseAccountsOfflineRegionRequest>;
 
-export interface DatabaseAccountsOfflineRegionResponse {}
+export interface DatabaseAccountsOfflineRegionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DatabaseAccountsOfflineRegionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DatabaseAccountsOfflineRegionResponse",
 }) as any as S.Schema<DatabaseAccountsOfflineRegionResponse>;
@@ -3523,9 +3641,23 @@ export const DatabaseAccountsOnlineRegionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DatabaseAccountsOnlineRegionRequest",
 }) as any as S.Schema<DatabaseAccountsOnlineRegionRequest>;
 
-export interface DatabaseAccountsOnlineRegionResponse {}
+export interface DatabaseAccountsOnlineRegionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DatabaseAccountsOnlineRegionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DatabaseAccountsOnlineRegionResponse",
 }) as any as S.Schema<DatabaseAccountsOnlineRegionResponse>;
@@ -3555,9 +3687,17 @@ export const DeleteCassandraClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCassandraClusterRequest",
 }) as any as S.Schema<DeleteCassandraClusterRequest>;
 
-export interface DeleteCassandraClusterResponse {}
+export interface DeleteCassandraClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCassandraClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCassandraClusterResponse",
 }) as any as S.Schema<DeleteCassandraClusterResponse>;
@@ -3590,9 +3730,17 @@ export const DeleteCassandraDataCenterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCassandraDataCenterRequest",
 }) as any as S.Schema<DeleteCassandraDataCenterRequest>;
 
-export interface DeleteCassandraDataCenterResponse {}
+export interface DeleteCassandraDataCenterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCassandraDataCenterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCassandraDataCenterResponse",
 }) as any as S.Schema<DeleteCassandraDataCenterResponse>;
@@ -3626,9 +3774,21 @@ export const DeleteCassandraResourceCassandraKeyspaceRequest =
     identifier: "DeleteCassandraResourceCassandraKeyspaceRequest",
   }) as any as S.Schema<DeleteCassandraResourceCassandraKeyspaceRequest>;
 
-export interface DeleteCassandraResourceCassandraKeyspaceResponse {}
+export interface DeleteCassandraResourceCassandraKeyspaceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteCassandraResourceCassandraKeyspaceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteCassandraResourceCassandraKeyspaceResponse",
   }) as any as S.Schema<DeleteCassandraResourceCassandraKeyspaceResponse>;
 
@@ -3661,9 +3821,21 @@ export const DeleteCassandraResourceCassandraRoleAssignmentRequest =
     identifier: "DeleteCassandraResourceCassandraRoleAssignmentRequest",
   }) as any as S.Schema<DeleteCassandraResourceCassandraRoleAssignmentRequest>;
 
-export interface DeleteCassandraResourceCassandraRoleAssignmentResponse {}
+export interface DeleteCassandraResourceCassandraRoleAssignmentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteCassandraResourceCassandraRoleAssignmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteCassandraResourceCassandraRoleAssignmentResponse",
   }) as any as S.Schema<DeleteCassandraResourceCassandraRoleAssignmentResponse>;
 
@@ -3696,9 +3868,21 @@ export const DeleteCassandraResourceCassandraRoleDefinitionRequest =
     identifier: "DeleteCassandraResourceCassandraRoleDefinitionRequest",
   }) as any as S.Schema<DeleteCassandraResourceCassandraRoleDefinitionRequest>;
 
-export interface DeleteCassandraResourceCassandraRoleDefinitionResponse {}
+export interface DeleteCassandraResourceCassandraRoleDefinitionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteCassandraResourceCassandraRoleDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteCassandraResourceCassandraRoleDefinitionResponse",
   }) as any as S.Schema<DeleteCassandraResourceCassandraRoleDefinitionResponse>;
 
@@ -3734,9 +3918,21 @@ export const DeleteCassandraResourceCassandraTableRequest =
     identifier: "DeleteCassandraResourceCassandraTableRequest",
   }) as any as S.Schema<DeleteCassandraResourceCassandraTableRequest>;
 
-export interface DeleteCassandraResourceCassandraTableResponse {}
+export interface DeleteCassandraResourceCassandraTableResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteCassandraResourceCassandraTableResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteCassandraResourceCassandraTableResponse",
   }) as any as S.Schema<DeleteCassandraResourceCassandraTableResponse>;
 
@@ -3765,9 +3961,19 @@ export const DeleteDatabaseAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatabaseAccountRequest",
 }) as any as S.Schema<DeleteDatabaseAccountRequest>;
 
-export interface DeleteDatabaseAccountResponse {}
+export interface DeleteDatabaseAccountResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteDatabaseAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDatabaseAccountResponse",
 }) as any as S.Schema<DeleteDatabaseAccountResponse>;
@@ -3797,9 +4003,22 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFleetRequest",
 }) as any as S.Schema<DeleteFleetRequest>;
 
-export interface DeleteFleetResponse {}
+export interface DeleteFleetResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFleetResponse",
 }) as any as S.Schema<DeleteFleetResponse>;
@@ -3832,9 +4051,22 @@ export const DeleteFleetspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFleetspaceRequest",
 }) as any as S.Schema<DeleteFleetspaceRequest>;
 
-export interface DeleteFleetspaceResponse {}
+export interface DeleteFleetspaceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFleetspaceResponse",
 }) as any as S.Schema<DeleteFleetspaceResponse>;
@@ -3870,9 +4102,22 @@ export const DeleteFleetspaceAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFleetspaceAccountRequest",
 }) as any as S.Schema<DeleteFleetspaceAccountRequest>;
 
-export interface DeleteFleetspaceAccountResponse {}
+export interface DeleteFleetspaceAccountResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFleetspaceAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFleetspaceAccountResponse",
 }) as any as S.Schema<DeleteFleetspaceAccountResponse>;
@@ -3906,9 +4151,21 @@ export const DeleteGremlinResourceGremlinDatabaseRequest =
     identifier: "DeleteGremlinResourceGremlinDatabaseRequest",
   }) as any as S.Schema<DeleteGremlinResourceGremlinDatabaseRequest>;
 
-export interface DeleteGremlinResourceGremlinDatabaseResponse {}
+export interface DeleteGremlinResourceGremlinDatabaseResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteGremlinResourceGremlinDatabaseResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteGremlinResourceGremlinDatabaseResponse",
   }) as any as S.Schema<DeleteGremlinResourceGremlinDatabaseResponse>;
 
@@ -3944,9 +4201,21 @@ export const DeleteGremlinResourceGremlinGraphRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteGremlinResourceGremlinGraphRequest",
 }) as any as S.Schema<DeleteGremlinResourceGremlinGraphRequest>;
 
-export interface DeleteGremlinResourceGremlinGraphResponse {}
+export interface DeleteGremlinResourceGremlinGraphResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteGremlinResourceGremlinGraphResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteGremlinResourceGremlinGraphResponse",
   }) as any as S.Schema<DeleteGremlinResourceGremlinGraphResponse>;
 
@@ -3979,9 +4248,21 @@ export const DeleteGremlinResourceGremlinRoleAssignmentRequest =
     identifier: "DeleteGremlinResourceGremlinRoleAssignmentRequest",
   }) as any as S.Schema<DeleteGremlinResourceGremlinRoleAssignmentRequest>;
 
-export interface DeleteGremlinResourceGremlinRoleAssignmentResponse {}
+export interface DeleteGremlinResourceGremlinRoleAssignmentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteGremlinResourceGremlinRoleAssignmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteGremlinResourceGremlinRoleAssignmentResponse",
   }) as any as S.Schema<DeleteGremlinResourceGremlinRoleAssignmentResponse>;
 
@@ -4014,9 +4295,21 @@ export const DeleteGremlinResourceGremlinRoleDefinitionRequest =
     identifier: "DeleteGremlinResourceGremlinRoleDefinitionRequest",
   }) as any as S.Schema<DeleteGremlinResourceGremlinRoleDefinitionRequest>;
 
-export interface DeleteGremlinResourceGremlinRoleDefinitionResponse {}
+export interface DeleteGremlinResourceGremlinRoleDefinitionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteGremlinResourceGremlinRoleDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteGremlinResourceGremlinRoleDefinitionResponse",
   }) as any as S.Schema<DeleteGremlinResourceGremlinRoleDefinitionResponse>;
 
@@ -4052,9 +4345,21 @@ export const DeleteMongoDBResourceMongoDBCollectionRequest =
     identifier: "DeleteMongoDBResourceMongoDBCollectionRequest",
   }) as any as S.Schema<DeleteMongoDBResourceMongoDBCollectionRequest>;
 
-export interface DeleteMongoDBResourceMongoDBCollectionResponse {}
+export interface DeleteMongoDBResourceMongoDBCollectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteMongoDBResourceMongoDBCollectionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteMongoDBResourceMongoDBCollectionResponse",
   }) as any as S.Schema<DeleteMongoDBResourceMongoDBCollectionResponse>;
 
@@ -4087,9 +4392,21 @@ export const DeleteMongoDBResourceMongoDBDatabaseRequest =
     identifier: "DeleteMongoDBResourceMongoDBDatabaseRequest",
   }) as any as S.Schema<DeleteMongoDBResourceMongoDBDatabaseRequest>;
 
-export interface DeleteMongoDBResourceMongoDBDatabaseResponse {}
+export interface DeleteMongoDBResourceMongoDBDatabaseResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteMongoDBResourceMongoDBDatabaseResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteMongoDBResourceMongoDBDatabaseResponse",
   }) as any as S.Schema<DeleteMongoDBResourceMongoDBDatabaseResponse>;
 
@@ -4122,9 +4439,19 @@ export const DeleteMongoDBResourceMongoRoleDefinitionRequest =
     identifier: "DeleteMongoDBResourceMongoRoleDefinitionRequest",
   }) as any as S.Schema<DeleteMongoDBResourceMongoRoleDefinitionRequest>;
 
-export interface DeleteMongoDBResourceMongoRoleDefinitionResponse {}
+export interface DeleteMongoDBResourceMongoRoleDefinitionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteMongoDBResourceMongoRoleDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteMongoDBResourceMongoRoleDefinitionResponse",
   }) as any as S.Schema<DeleteMongoDBResourceMongoRoleDefinitionResponse>;
 
@@ -4157,9 +4484,19 @@ export const DeleteMongoDBResourceMongoUserDefinitionRequest =
     identifier: "DeleteMongoDBResourceMongoUserDefinitionRequest",
   }) as any as S.Schema<DeleteMongoDBResourceMongoUserDefinitionRequest>;
 
-export interface DeleteMongoDBResourceMongoUserDefinitionResponse {}
+export interface DeleteMongoDBResourceMongoUserDefinitionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteMongoDBResourceMongoUserDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteMongoDBResourceMongoUserDefinitionResponse",
   }) as any as S.Schema<DeleteMongoDBResourceMongoUserDefinitionResponse>;
 
@@ -4192,9 +4529,21 @@ export const DeleteMongoMIResourceMongoMIRoleAssignmentRequest =
     identifier: "DeleteMongoMIResourceMongoMIRoleAssignmentRequest",
   }) as any as S.Schema<DeleteMongoMIResourceMongoMIRoleAssignmentRequest>;
 
-export interface DeleteMongoMIResourceMongoMIRoleAssignmentResponse {}
+export interface DeleteMongoMIResourceMongoMIRoleAssignmentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteMongoMIResourceMongoMIRoleAssignmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteMongoMIResourceMongoMIRoleAssignmentResponse",
   }) as any as S.Schema<DeleteMongoMIResourceMongoMIRoleAssignmentResponse>;
 
@@ -4227,9 +4576,21 @@ export const DeleteMongoMIResourceMongoMIRoleDefinitionRequest =
     identifier: "DeleteMongoMIResourceMongoMIRoleDefinitionRequest",
   }) as any as S.Schema<DeleteMongoMIResourceMongoMIRoleDefinitionRequest>;
 
-export interface DeleteMongoMIResourceMongoMIRoleDefinitionResponse {}
+export interface DeleteMongoMIResourceMongoMIRoleDefinitionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteMongoMIResourceMongoMIRoleDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteMongoMIResourceMongoMIRoleDefinitionResponse",
   }) as any as S.Schema<DeleteMongoMIResourceMongoMIRoleDefinitionResponse>;
 
@@ -4267,9 +4628,17 @@ export const DeleteNotebookWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNotebookWorkspaceRequest",
 }) as any as S.Schema<DeleteNotebookWorkspaceRequest>;
 
-export interface DeleteNotebookWorkspaceResponse {}
+export interface DeleteNotebookWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteNotebookWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteNotebookWorkspaceResponse",
 }) as any as S.Schema<DeleteNotebookWorkspaceResponse>;
@@ -4303,9 +4672,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -4338,9 +4716,19 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteServiceRequest",
 }) as any as S.Schema<DeleteServiceRequest>;
 
-export interface DeleteServiceResponse {}
+export interface DeleteServiceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteServiceResponse",
 }) as any as S.Schema<DeleteServiceResponse>;
@@ -4377,9 +4765,20 @@ export const DeleteSqlResourceSqlContainerRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSqlResourceSqlContainerRequest",
 }) as any as S.Schema<DeleteSqlResourceSqlContainerRequest>;
 
-export interface DeleteSqlResourceSqlContainerResponse {}
+export interface DeleteSqlResourceSqlContainerResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteSqlResourceSqlContainerResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteSqlResourceSqlContainerResponse",
 }) as any as S.Schema<DeleteSqlResourceSqlContainerResponse>;
@@ -4412,9 +4811,20 @@ export const DeleteSqlResourceSqlDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSqlResourceSqlDatabaseRequest",
 }) as any as S.Schema<DeleteSqlResourceSqlDatabaseRequest>;
 
-export interface DeleteSqlResourceSqlDatabaseResponse {}
+export interface DeleteSqlResourceSqlDatabaseResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteSqlResourceSqlDatabaseResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteSqlResourceSqlDatabaseResponse",
 }) as any as S.Schema<DeleteSqlResourceSqlDatabaseResponse>;
@@ -4448,9 +4858,19 @@ export const DeleteSqlResourceSqlRoleAssignmentRequest =
     identifier: "DeleteSqlResourceSqlRoleAssignmentRequest",
   }) as any as S.Schema<DeleteSqlResourceSqlRoleAssignmentRequest>;
 
-export interface DeleteSqlResourceSqlRoleAssignmentResponse {}
+export interface DeleteSqlResourceSqlRoleAssignmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSqlResourceSqlRoleAssignmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteSqlResourceSqlRoleAssignmentResponse",
   }) as any as S.Schema<DeleteSqlResourceSqlRoleAssignmentResponse>;
 
@@ -4483,9 +4903,19 @@ export const DeleteSqlResourceSqlRoleDefinitionRequest =
     identifier: "DeleteSqlResourceSqlRoleDefinitionRequest",
   }) as any as S.Schema<DeleteSqlResourceSqlRoleDefinitionRequest>;
 
-export interface DeleteSqlResourceSqlRoleDefinitionResponse {}
+export interface DeleteSqlResourceSqlRoleDefinitionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSqlResourceSqlRoleDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteSqlResourceSqlRoleDefinitionResponse",
   }) as any as S.Schema<DeleteSqlResourceSqlRoleDefinitionResponse>;
 
@@ -4524,9 +4954,21 @@ export const DeleteSqlResourceSqlStoredProcedureRequest =
     identifier: "DeleteSqlResourceSqlStoredProcedureRequest",
   }) as any as S.Schema<DeleteSqlResourceSqlStoredProcedureRequest>;
 
-export interface DeleteSqlResourceSqlStoredProcedureResponse {}
+export interface DeleteSqlResourceSqlStoredProcedureResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteSqlResourceSqlStoredProcedureResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteSqlResourceSqlStoredProcedureResponse",
   }) as any as S.Schema<DeleteSqlResourceSqlStoredProcedureResponse>;
 
@@ -4565,9 +5007,21 @@ export const DeleteSqlResourceSqlUserDefinedFunctionRequest =
     identifier: "DeleteSqlResourceSqlUserDefinedFunctionRequest",
   }) as any as S.Schema<DeleteSqlResourceSqlUserDefinedFunctionRequest>;
 
-export interface DeleteSqlResourceSqlUserDefinedFunctionResponse {}
+export interface DeleteSqlResourceSqlUserDefinedFunctionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteSqlResourceSqlUserDefinedFunctionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteSqlResourceSqlUserDefinedFunctionResponse",
   }) as any as S.Schema<DeleteSqlResourceSqlUserDefinedFunctionResponse>;
 
@@ -4599,9 +5053,19 @@ export const DeleteTableResourceTableRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTableResourceTableRequest",
 }) as any as S.Schema<DeleteTableResourceTableRequest>;
 
-export interface DeleteTableResourceTableResponse {}
+export interface DeleteTableResourceTableResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteTableResourceTableResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteTableResourceTableResponse",
 }) as any as S.Schema<DeleteTableResourceTableResponse>;
@@ -4635,9 +5099,21 @@ export const DeleteTableResourceTableRoleAssignmentRequest =
     identifier: "DeleteTableResourceTableRoleAssignmentRequest",
   }) as any as S.Schema<DeleteTableResourceTableRoleAssignmentRequest>;
 
-export interface DeleteTableResourceTableRoleAssignmentResponse {}
+export interface DeleteTableResourceTableRoleAssignmentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteTableResourceTableRoleAssignmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteTableResourceTableRoleAssignmentResponse",
   }) as any as S.Schema<DeleteTableResourceTableRoleAssignmentResponse>;
 
@@ -4670,9 +5146,21 @@ export const DeleteTableResourceTableRoleDefinitionRequest =
     identifier: "DeleteTableResourceTableRoleDefinitionRequest",
   }) as any as S.Schema<DeleteTableResourceTableRoleDefinitionRequest>;
 
-export interface DeleteTableResourceTableRoleDefinitionResponse {}
+export interface DeleteTableResourceTableRoleDefinitionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteTableResourceTableRoleDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteTableResourceTableRoleDefinitionResponse",
   }) as any as S.Schema<DeleteTableResourceTableRoleDefinitionResponse>;
 
@@ -5600,10 +6088,16 @@ export const ContinuousBackupInformation = /*@__PURE__*/ S.suspend(() =>
 export interface BackupInformation {
   /** Information about the status of continuous backups. */
   continuousBackupInformation?: ContinuousBackupInformation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BackupInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     continuousBackupInformation: S.optional(ContinuousBackupInformation),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "BackupInformation",
@@ -9568,6 +10062,12 @@ export interface GremlinResourcesCreateUpdateGremlinDatabaseResponse {
   tags?: GremlinResourcesCreateUpdateGremlinDatabaseResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GremlinResourcesCreateUpdateGremlinDatabaseResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -9582,6 +10082,11 @@ export const GremlinResourcesCreateUpdateGremlinDatabaseResponse =
         GremlinResourcesCreateUpdateGremlinDatabaseResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GremlinResourcesCreateUpdateGremlinDatabaseResponse",
@@ -9755,6 +10260,12 @@ export interface GremlinResourcesCreateUpdateGremlinGraphResponse {
   tags?: GremlinResourcesCreateUpdateGremlinGraphResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GremlinResourcesCreateUpdateGremlinGraphResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -9767,6 +10278,11 @@ export const GremlinResourcesCreateUpdateGremlinGraphResponse =
       location: S.optional(S.String),
       tags: S.optional(GremlinResourcesCreateUpdateGremlinGraphResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GremlinResourcesCreateUpdateGremlinGraphResponse",
@@ -9835,6 +10351,12 @@ export interface GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Assignment. */
   properties?: GremlinRoleAssignmentResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -9844,6 +10366,11 @@ export const GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GremlinRoleAssignmentResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse",
@@ -9892,6 +10419,12 @@ export interface GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB Gremlin Role Definition. */
   properties?: GremlinRoleDefinitionResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -9901,6 +10434,11 @@ export const GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GremlinRoleDefinitionResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse",
@@ -9959,9 +10497,18 @@ export const InvokeCassandraClusterCommandRequest = /*@__PURE__*/ S.suspend(
   identifier: "InvokeCassandraClusterCommandRequest",
 }) as any as S.Schema<InvokeCassandraClusterCommandRequest>;
 
-export interface InvokeCassandraClusterCommandResponse {}
+export interface InvokeCassandraClusterCommandResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const InvokeCassandraClusterCommandResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "InvokeCassandraClusterCommandResponse",
 }) as any as S.Schema<InvokeCassandraClusterCommandResponse>;
@@ -15759,6 +16306,12 @@ export interface MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponse {
   tags?: MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -15773,6 +16326,11 @@ export const MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponse =
         MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponse",
@@ -15834,6 +16392,12 @@ export interface MigrateCassandraResourceCassandraKeyspaceToManualThroughputResp
   tags?: MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -15848,6 +16412,11 @@ export const MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponse
         MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier:
@@ -15913,6 +16482,12 @@ export interface MigrateCassandraResourceCassandraTableToAutoscaleResponse {
   tags?: MigrateCassandraResourceCassandraTableToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateCassandraResourceCassandraTableToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -15927,6 +16502,11 @@ export const MigrateCassandraResourceCassandraTableToAutoscaleResponse =
         MigrateCassandraResourceCassandraTableToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateCassandraResourceCassandraTableToAutoscaleResponse",
@@ -15991,6 +16571,12 @@ export interface MigrateCassandraResourceCassandraTableToManualThroughputRespons
   tags?: MigrateCassandraResourceCassandraTableToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateCassandraResourceCassandraTableToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16005,6 +16591,11 @@ export const MigrateCassandraResourceCassandraTableToManualThroughputResponse =
         MigrateCassandraResourceCassandraTableToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier:
@@ -16067,6 +16658,12 @@ export interface MigrateGremlinResourceGremlinDatabaseToAutoscaleResponse {
   tags?: MigrateGremlinResourceGremlinDatabaseToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateGremlinResourceGremlinDatabaseToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16081,6 +16678,11 @@ export const MigrateGremlinResourceGremlinDatabaseToAutoscaleResponse =
         MigrateGremlinResourceGremlinDatabaseToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateGremlinResourceGremlinDatabaseToAutoscaleResponse",
@@ -16142,6 +16744,12 @@ export interface MigrateGremlinResourceGremlinDatabaseToManualThroughputResponse
   tags?: MigrateGremlinResourceGremlinDatabaseToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateGremlinResourceGremlinDatabaseToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16156,6 +16764,11 @@ export const MigrateGremlinResourceGremlinDatabaseToManualThroughputResponse =
         MigrateGremlinResourceGremlinDatabaseToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier:
@@ -16221,6 +16834,12 @@ export interface MigrateGremlinResourceGremlinGraphToAutoscaleResponse {
   tags?: MigrateGremlinResourceGremlinGraphToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateGremlinResourceGremlinGraphToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16235,6 +16854,11 @@ export const MigrateGremlinResourceGremlinGraphToAutoscaleResponse =
         MigrateGremlinResourceGremlinGraphToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateGremlinResourceGremlinGraphToAutoscaleResponse",
@@ -16298,6 +16922,12 @@ export interface MigrateGremlinResourceGremlinGraphToManualThroughputResponse {
   tags?: MigrateGremlinResourceGremlinGraphToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateGremlinResourceGremlinGraphToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16312,6 +16942,11 @@ export const MigrateGremlinResourceGremlinGraphToManualThroughputResponse =
         MigrateGremlinResourceGremlinGraphToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateGremlinResourceGremlinGraphToManualThroughputResponse",
@@ -16375,6 +17010,12 @@ export interface MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponse {
   tags?: MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16389,6 +17030,11 @@ export const MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponse =
         MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponse",
@@ -16453,6 +17099,12 @@ export interface MigrateMongoDBResourceMongoDBCollectionToManualThroughputRespon
   tags?: MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16467,6 +17119,11 @@ export const MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponse =
         MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier:
@@ -16529,6 +17186,12 @@ export interface MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponse {
   tags?: MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16543,6 +17206,11 @@ export const MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponse =
         MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponse",
@@ -16604,6 +17272,12 @@ export interface MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponse
   tags?: MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16618,6 +17292,11 @@ export const MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponse =
         MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier:
@@ -16683,6 +17362,10 @@ export interface MigrateSqlResourceSqlContainerToAutoscaleResponse {
   tags?: MigrateSqlResourceSqlContainerToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const MigrateSqlResourceSqlContainerToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16697,6 +17380,10 @@ export const MigrateSqlResourceSqlContainerToAutoscaleResponse =
         MigrateSqlResourceSqlContainerToAutoscaleResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "MigrateSqlResourceSqlContainerToAutoscaleResponse",
@@ -16761,6 +17448,10 @@ export interface MigrateSqlResourceSqlContainerToManualThroughputResponse {
   tags?: MigrateSqlResourceSqlContainerToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const MigrateSqlResourceSqlContainerToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16775,6 +17466,10 @@ export const MigrateSqlResourceSqlContainerToManualThroughputResponse =
         MigrateSqlResourceSqlContainerToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "MigrateSqlResourceSqlContainerToManualThroughputResponse",
@@ -16836,6 +17531,12 @@ export interface MigrateSqlResourceSqlDatabaseToAutoscaleResponse {
   tags?: MigrateSqlResourceSqlDatabaseToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateSqlResourceSqlDatabaseToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16848,6 +17549,11 @@ export const MigrateSqlResourceSqlDatabaseToAutoscaleResponse =
       location: S.optional(S.String),
       tags: S.optional(MigrateSqlResourceSqlDatabaseToAutoscaleResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateSqlResourceSqlDatabaseToAutoscaleResponse",
@@ -16909,6 +17615,12 @@ export interface MigrateSqlResourceSqlDatabaseToManualThroughputResponse {
   tags?: MigrateSqlResourceSqlDatabaseToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateSqlResourceSqlDatabaseToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16923,6 +17635,11 @@ export const MigrateSqlResourceSqlDatabaseToManualThroughputResponse =
         MigrateSqlResourceSqlDatabaseToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateSqlResourceSqlDatabaseToManualThroughputResponse",
@@ -16984,6 +17701,12 @@ export interface MigrateTableResourceTableToAutoscaleResponse {
   tags?: MigrateTableResourceTableToAutoscaleResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateTableResourceTableToAutoscaleResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16996,6 +17719,11 @@ export const MigrateTableResourceTableToAutoscaleResponse =
       location: S.optional(S.String),
       tags: S.optional(MigrateTableResourceTableToAutoscaleResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateTableResourceTableToAutoscaleResponse",
@@ -17057,6 +17785,12 @@ export interface MigrateTableResourceTableToManualThroughputResponse {
   tags?: MigrateTableResourceTableToManualThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MigrateTableResourceTableToManualThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17071,6 +17805,11 @@ export const MigrateTableResourceTableToManualThroughputResponse =
         MigrateTableResourceTableToManualThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MigrateTableResourceTableToManualThroughputResponse",
@@ -17223,6 +17962,12 @@ export interface MongoDBResourcesCreateUpdateMongoDBCollectionResponse {
   tags?: MongoDBResourcesCreateUpdateMongoDBCollectionResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MongoDBResourcesCreateUpdateMongoDBCollectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17237,6 +17982,11 @@ export const MongoDBResourcesCreateUpdateMongoDBCollectionResponse =
         MongoDBResourcesCreateUpdateMongoDBCollectionResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MongoDBResourcesCreateUpdateMongoDBCollectionResponse",
@@ -17362,6 +18112,12 @@ export interface MongoDBResourcesCreateUpdateMongoDBDatabaseResponse {
   tags?: MongoDBResourcesCreateUpdateMongoDBDatabaseResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MongoDBResourcesCreateUpdateMongoDBDatabaseResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17376,6 +18132,11 @@ export const MongoDBResourcesCreateUpdateMongoDBDatabaseResponse =
         MongoDBResourcesCreateUpdateMongoDBDatabaseResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MongoDBResourcesCreateUpdateMongoDBDatabaseResponse",
@@ -17424,6 +18185,10 @@ export interface MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse {
   systemData?: SystemData;
   /** Properties related to the Mongo Role Definition. */
   properties?: MongoRoleDefinitionResource;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17433,6 +18198,8 @@ export const MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(MongoRoleDefinitionResource),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse",
@@ -17481,6 +18248,10 @@ export interface MongoDBResourcesCreateUpdateMongoUserDefinitionResponse {
   systemData?: SystemData;
   /** Properties related to the User Definition. */
   properties?: MongoUserDefinitionResource;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MongoDBResourcesCreateUpdateMongoUserDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17490,6 +18261,8 @@ export const MongoDBResourcesCreateUpdateMongoUserDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(MongoUserDefinitionResource),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MongoDBResourcesCreateUpdateMongoUserDefinitionResponse",
@@ -17558,6 +18331,12 @@ export interface MongoMIResourcesCreateUpdateMongoMIRoleAssignmentResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Assignment. */
   properties?: MongoMIRoleAssignmentResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MongoMIResourcesCreateUpdateMongoMIRoleAssignmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17567,6 +18346,11 @@ export const MongoMIResourcesCreateUpdateMongoMIRoleAssignmentResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(MongoMIRoleAssignmentResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MongoMIResourcesCreateUpdateMongoMIRoleAssignmentResponse",
@@ -17615,6 +18399,12 @@ export interface MongoMIResourcesCreateUpdateMongoMIRoleDefinitionResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB MongoMI Role Definition. */
   properties?: MongoMIRoleDefinitionResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MongoMIResourcesCreateUpdateMongoMIRoleDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17624,6 +18414,11 @@ export const MongoMIResourcesCreateUpdateMongoMIRoleDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(MongoMIRoleDefinitionResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "MongoMIResourcesCreateUpdateMongoMIRoleDefinitionResponse",
@@ -17679,6 +18474,8 @@ export interface NotebookWorkspacesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: NotebookWorkspaceProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const NotebookWorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -17688,6 +18485,7 @@ export const NotebookWorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(NotebookWorkspaceProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "NotebookWorkspacesCreateOrUpdateResponse",
@@ -17778,6 +18576,10 @@ export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PrivateEndpointConnectionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17787,6 +18589,8 @@ export const PrivateEndpointConnectionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PrivateEndpointConnectionsCreateOrUpdateResponse",
@@ -17828,9 +18632,23 @@ export const RegenerateDatabaseAccountKeyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegenerateDatabaseAccountKeyRequest",
 }) as any as S.Schema<RegenerateDatabaseAccountKeyRequest>;
 
-export interface RegenerateDatabaseAccountKeyResponse {}
+export interface RegenerateDatabaseAccountKeyResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RegenerateDatabaseAccountKeyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RegenerateDatabaseAccountKeyResponse",
 }) as any as S.Schema<RegenerateDatabaseAccountKeyResponse>;
@@ -17874,9 +18692,19 @@ export const RegenerateNotebookWorkspaceAuthTokenRequest =
     identifier: "RegenerateNotebookWorkspaceAuthTokenRequest",
   }) as any as S.Schema<RegenerateNotebookWorkspaceAuthTokenRequest>;
 
-export interface RegenerateNotebookWorkspaceAuthTokenResponse {}
+export interface RegenerateNotebookWorkspaceAuthTokenResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RegenerateNotebookWorkspaceAuthTokenResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "RegenerateNotebookWorkspaceAuthTokenResponse",
   }) as any as S.Schema<RegenerateNotebookWorkspaceAuthTokenResponse>;
 
@@ -17962,6 +18790,12 @@ export interface SqlResourcesCreateUpdateClientEncryptionKeyResponse {
   systemData?: SystemData;
   /** The properties of a ClientEncryptionKey */
   properties?: ClientEncryptionKeyGetProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateClientEncryptionKeyResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17971,6 +18805,11 @@ export const SqlResourcesCreateUpdateClientEncryptionKeyResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(ClientEncryptionKeyGetProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateClientEncryptionKeyResponse",
@@ -18137,6 +18976,12 @@ export interface SqlResourcesCreateUpdateSqlContainerResponse {
   tags?: SqlResourcesCreateUpdateSqlContainerResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlContainerResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18149,6 +18994,11 @@ export const SqlResourcesCreateUpdateSqlContainerResponse =
       location: S.optional(S.String),
       tags: S.optional(SqlResourcesCreateUpdateSqlContainerResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlContainerResponse",
@@ -18271,6 +19121,12 @@ export interface SqlResourcesCreateUpdateSqlDatabaseResponse {
   tags?: SqlResourcesCreateUpdateSqlDatabaseResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlDatabaseResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18283,6 +19139,11 @@ export const SqlResourcesCreateUpdateSqlDatabaseResponse =
       location: S.optional(S.String),
       tags: S.optional(SqlResourcesCreateUpdateSqlDatabaseResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlDatabaseResponse",
@@ -18331,6 +19192,10 @@ export interface SqlResourcesCreateUpdateSqlRoleAssignmentResponse {
   systemData?: SystemData;
   /** Properties related to the Role Assignment. */
   properties?: SqlRoleAssignmentResource;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlRoleAssignmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18340,6 +19205,8 @@ export const SqlResourcesCreateUpdateSqlRoleAssignmentResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SqlRoleAssignmentResource),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlRoleAssignmentResponse",
@@ -18388,6 +19255,10 @@ export interface SqlResourcesCreateUpdateSqlRoleDefinitionResponse {
   systemData?: SystemData;
   /** Properties related to the Role Definition. */
   properties?: SqlRoleDefinitionResource;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlRoleDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18397,6 +19268,8 @@ export const SqlResourcesCreateUpdateSqlRoleDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SqlRoleDefinitionResource),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlRoleDefinitionResponse",
@@ -18521,6 +19394,12 @@ export interface SqlResourcesCreateUpdateSqlStoredProcedureResponse {
   tags?: SqlResourcesCreateUpdateSqlStoredProcedureResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlStoredProcedureResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18535,6 +19414,11 @@ export const SqlResourcesCreateUpdateSqlStoredProcedureResponse =
         SqlResourcesCreateUpdateSqlStoredProcedureResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlStoredProcedureResponse",
@@ -18662,6 +19546,12 @@ export interface SqlResourcesCreateUpdateSqlTriggerResponse {
   tags?: SqlResourcesCreateUpdateSqlTriggerResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlTriggerResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18674,6 +19564,11 @@ export const SqlResourcesCreateUpdateSqlTriggerResponse =
       location: S.optional(S.String),
       tags: S.optional(SqlResourcesCreateUpdateSqlTriggerResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlTriggerResponse",
@@ -18798,6 +19693,12 @@ export interface SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse {
   tags?: SqlResourcesCreateUpdateSqlUserDefinedFunctionResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -18812,6 +19713,11 @@ export const SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse =
         SqlResourcesCreateUpdateSqlUserDefinedFunctionResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse",
@@ -18851,9 +19757,20 @@ export const SqlResourcesDeleteSqlTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SqlResourcesDeleteSqlTriggerRequest",
 }) as any as S.Schema<SqlResourcesDeleteSqlTriggerRequest>;
 
-export interface SqlResourcesDeleteSqlTriggerResponse {}
+export interface SqlResourcesDeleteSqlTriggerResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const SqlResourcesDeleteSqlTriggerResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "SqlResourcesDeleteSqlTriggerResponse",
 }) as any as S.Schema<SqlResourcesDeleteSqlTriggerResponse>;
@@ -18959,9 +19876,17 @@ export const StartCassandraClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartCassandraClusterRequest",
 }) as any as S.Schema<StartCassandraClusterRequest>;
 
-export interface StartCassandraClusterResponse {}
+export interface StartCassandraClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartCassandraClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartCassandraClusterResponse",
 }) as any as S.Schema<StartCassandraClusterResponse>;
@@ -19000,9 +19925,17 @@ export const StartNotebookWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartNotebookWorkspaceRequest",
 }) as any as S.Schema<StartNotebookWorkspaceRequest>;
 
-export interface StartNotebookWorkspaceResponse {}
+export interface StartNotebookWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartNotebookWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartNotebookWorkspaceResponse",
 }) as any as S.Schema<StartNotebookWorkspaceResponse>;
@@ -19122,6 +20055,12 @@ export interface TableResourcesCreateUpdateTableResponse {
   tags?: TableResourcesCreateUpdateTableResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TableResourcesCreateUpdateTableResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -19134,6 +20073,11 @@ export const TableResourcesCreateUpdateTableResponse = /*@__PURE__*/ S.suspend(
       location: S.optional(S.String),
       tags: S.optional(TableResourcesCreateUpdateTableResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "TableResourcesCreateUpdateTableResponse",
@@ -19202,6 +20146,12 @@ export interface TableResourcesCreateUpdateTableRoleAssignmentResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB Table Role Assignment. */
   properties?: TableRoleAssignmentResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TableResourcesCreateUpdateTableRoleAssignmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -19211,6 +20161,11 @@ export const TableResourcesCreateUpdateTableRoleAssignmentResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(TableRoleAssignmentResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "TableResourcesCreateUpdateTableRoleAssignmentResponse",
@@ -19259,6 +20214,10 @@ export interface TableResourcesCreateUpdateTableRoleDefinitionResponse {
   systemData?: SystemData;
   /** Properties to create and update an Azure Cosmos DB Table Role Definition. */
   properties?: TableRoleDefinitionResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const TableResourcesCreateUpdateTableRoleDefinitionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -19268,6 +20227,10 @@ export const TableResourcesCreateUpdateTableRoleDefinitionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(TableRoleDefinitionResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "TableResourcesCreateUpdateTableRoleDefinitionResponse",
@@ -19345,6 +20308,10 @@ export interface UpdateCassandraClusterResponse {
   tags?: UpdateCassandraClusterResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedCassandraManagedServiceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCassandraClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19356,6 +20323,8 @@ export const UpdateCassandraClusterResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     tags: S.optional(UpdateCassandraClusterResponseTagsMap),
     identity: S.optional(ManagedCassandraManagedServiceIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCassandraClusterResponse",
@@ -19403,6 +20372,10 @@ export interface UpdateCassandraDataCenterResponse {
   systemData?: SystemData;
   /** Properties of a managed Cassandra data center. */
   properties?: DataCenterResourceProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCassandraDataCenterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19411,6 +20384,8 @@ export const UpdateCassandraDataCenterResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(DataCenterResourceProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCassandraDataCenterResponse",
@@ -19541,6 +20516,12 @@ export interface UpdateCassandraResourceCassandraKeyspaceThroughputResponse {
   tags?: UpdateCassandraResourceCassandraKeyspaceThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCassandraResourceCassandraKeyspaceThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -19555,6 +20536,11 @@ export const UpdateCassandraResourceCassandraKeyspaceThroughputResponse =
         UpdateCassandraResourceCassandraKeyspaceThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateCassandraResourceCassandraKeyspaceThroughputResponse",
@@ -19643,6 +20629,12 @@ export interface UpdateCassandraResourceCassandraTableThroughputResponse {
   tags?: UpdateCassandraResourceCassandraTableThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCassandraResourceCassandraTableThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -19657,6 +20649,11 @@ export const UpdateCassandraResourceCassandraTableThroughputResponse =
         UpdateCassandraResourceCassandraTableThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateCassandraResourceCassandraTableThroughputResponse",
@@ -19905,6 +20902,8 @@ export interface UpdateDatabaseAccountResponse {
   identity?: ManagedServiceIdentity;
   /** Indicates the type of database account. This can only be set at database account creation. */
   kind?: UpdateDatabaseAccountResponseKind;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateDatabaseAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19917,6 +20916,7 @@ export const UpdateDatabaseAccountResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateDatabaseAccountResponseTagsMap),
     identity: S.optional(ManagedServiceIdentity),
     kind: S.optional(UpdateDatabaseAccountResponseKind),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateDatabaseAccountResponse",
@@ -20039,6 +21039,12 @@ export interface UpdateFleetspaceResponse {
   systemData?: SystemData;
   /** Properties to update Azure Cosmos DB Fleetspace. */
   properties?: FleetspaceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -20047,6 +21053,11 @@ export const UpdateFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFleetspaceResponse",
@@ -20132,6 +21143,12 @@ export interface UpdateGremlinResourceGremlinDatabaseThroughputResponse {
   tags?: UpdateGremlinResourceGremlinDatabaseThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGremlinResourceGremlinDatabaseThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20146,6 +21163,11 @@ export const UpdateGremlinResourceGremlinDatabaseThroughputResponse =
         UpdateGremlinResourceGremlinDatabaseThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateGremlinResourceGremlinDatabaseThroughputResponse",
@@ -20234,6 +21256,12 @@ export interface UpdateGremlinResourceGremlinGraphThroughputResponse {
   tags?: UpdateGremlinResourceGremlinGraphThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGremlinResourceGremlinGraphThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20248,6 +21276,11 @@ export const UpdateGremlinResourceGremlinGraphThroughputResponse =
         UpdateGremlinResourceGremlinGraphThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateGremlinResourceGremlinGraphThroughputResponse",
@@ -20336,6 +21369,12 @@ export interface UpdateMongoDBResourceMongoDBCollectionThroughputResponse {
   tags?: UpdateMongoDBResourceMongoDBCollectionThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateMongoDBResourceMongoDBCollectionThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20350,6 +21389,11 @@ export const UpdateMongoDBResourceMongoDBCollectionThroughputResponse =
         UpdateMongoDBResourceMongoDBCollectionThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateMongoDBResourceMongoDBCollectionThroughputResponse",
@@ -20435,6 +21479,12 @@ export interface UpdateMongoDBResourceMongoDBDatabaseThroughputResponse {
   tags?: UpdateMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateMongoDBResourceMongoDBDatabaseThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20449,6 +21499,11 @@ export const UpdateMongoDBResourceMongoDBDatabaseThroughputResponse =
         UpdateMongoDBResourceMongoDBDatabaseThroughputResponseTagsMap,
       ),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateMongoDBResourceMongoDBDatabaseThroughputResponse",
@@ -20535,6 +21590,12 @@ export interface UpdateSqlResourceSqlContainerThroughputResponse {
   tags?: UpdateSqlResourceSqlContainerThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSqlResourceSqlContainerThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20547,6 +21608,11 @@ export const UpdateSqlResourceSqlContainerThroughputResponse =
       location: S.optional(S.String),
       tags: S.optional(UpdateSqlResourceSqlContainerThroughputResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateSqlResourceSqlContainerThroughputResponse",
@@ -20630,6 +21696,12 @@ export interface UpdateSqlResourceSqlDatabaseThroughputResponse {
   tags?: UpdateSqlResourceSqlDatabaseThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSqlResourceSqlDatabaseThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20642,6 +21714,11 @@ export const UpdateSqlResourceSqlDatabaseThroughputResponse =
       location: S.optional(S.String),
       tags: S.optional(UpdateSqlResourceSqlDatabaseThroughputResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateSqlResourceSqlDatabaseThroughputResponse",
@@ -20725,6 +21802,12 @@ export interface UpdateTableResourceTableThroughputResponse {
   tags?: UpdateTableResourceTableThroughputResponseTagsMap;
   /** Identity for the resource. */
   identity?: ManagedServiceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateTableResourceTableThroughputResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -20737,6 +21820,11 @@ export const UpdateTableResourceTableThroughputResponse =
       location: S.optional(S.String),
       tags: S.optional(UpdateTableResourceTableThroughputResponseTagsMap),
       identity: S.optional(ManagedServiceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateTableResourceTableThroughputResponse",

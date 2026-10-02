@@ -475,7 +475,7 @@
         "target": "com.azure.connectedvmware#DeleteVMInstanceGuestAgentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteVMInstanceGuestAgentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -486,6 +486,20 @@
         },
         "smithy.api#documentation": "Deletes an GuestAgent.\n\nImplements GuestAgent DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteVMInstanceGuestAgentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteVMInstanceGuestAgentRequest": {
@@ -901,7 +915,7 @@
         "target": "com.azure.connectedvmware#RestartVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#RestartVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -912,6 +926,20 @@
         },
         "smithy.api#documentation": "Implements the operation to restart a virtual machine.\n\nThe operation to restart a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#RestartVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#RestartVirtualMachineInstanceRequest": {
@@ -936,7 +964,7 @@
         "target": "com.azure.connectedvmware#StartVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#StartVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -947,6 +975,20 @@
         },
         "smithy.api#documentation": "Implements the operation to start a virtual machine.\n\nThe operation to start a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#StartVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#StartVirtualMachineInstanceRequest": {
@@ -971,7 +1013,7 @@
         "target": "com.azure.connectedvmware#StopVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#StopVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -982,6 +1024,20 @@
         },
         "smithy.api#documentation": "Implements the operation to stop a virtual machine.\n\nThe operation to power off (stop) a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#StopVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#StopVirtualMachineInstanceRequest": {
@@ -2197,7 +2253,7 @@
         "target": "com.azure.connectedvmware#DeleteVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2208,6 +2264,20 @@
         },
         "smithy.api#documentation": "Deletes an virtual machine.\n\nThe operation to delete a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteVirtualMachineInstanceRequest": {
@@ -2297,6 +2367,12 @@
           "target": "com.azure.connectedvmware#ExtendedLocation",
           "traits": {
             "smithy.api#documentation": "Gets or sets the extended location."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -3875,7 +3951,7 @@
         "target": "com.azure.connectedvmware#DeleteVirtualNetworkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteVirtualNetworkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3886,6 +3962,20 @@
         },
         "smithy.api#documentation": "Deletes an virtual network.\n\nImplements virtual network DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteVirtualNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteVirtualNetworkRequest": {
@@ -4615,7 +4705,7 @@
         "target": "com.azure.connectedvmware#DeleteVirtualMachineTemplateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteVirtualMachineTemplateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4626,6 +4716,20 @@
         },
         "smithy.api#documentation": "Deletes an virtual machine template.\n\nImplements virtual machine template DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteVirtualMachineTemplateResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteVirtualMachineTemplateRequest": {
@@ -5305,7 +5409,7 @@
         "target": "com.azure.connectedvmware#DeleteVCenterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteVCenterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5316,6 +5420,20 @@
         },
         "smithy.api#documentation": "Deletes an vCenter.\n\nImplements vCenter DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteVCenterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteVCenterRequest": {
@@ -5974,7 +6092,7 @@
         "target": "com.azure.connectedvmware#DeleteDatastoreRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteDatastoreResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5985,6 +6103,20 @@
         },
         "smithy.api#documentation": "Deletes an datastore.\n\nImplements datastore DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteDatastoreResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteDatastoreRequest": {
@@ -6684,7 +6816,7 @@
         "target": "com.azure.connectedvmware#DeleteHostRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteHostResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6695,6 +6827,20 @@
         },
         "smithy.api#documentation": "Deletes an host.\n\nImplements host DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteHostResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteHostRequest": {
@@ -7394,7 +7540,7 @@
         "target": "com.azure.connectedvmware#DeleteClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7405,6 +7551,20 @@
         },
         "smithy.api#documentation": "Deletes an cluster.\n\nImplements cluster DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteClusterRequest": {
@@ -8140,7 +8300,7 @@
         "target": "com.azure.connectedvmware#DeleteResourcePoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedvmware#DeleteResourcePoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8151,6 +8311,20 @@
         },
         "smithy.api#documentation": "Deletes an resourcePool.\n\nImplements resourcePool DELETE method.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.connectedvmware#DeleteResourcePoolResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedvmware#DeleteResourcePoolRequest": {

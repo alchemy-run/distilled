@@ -24,7 +24,7 @@
         "target": "com.azure.appplatform#EnablePredefinedAcceleratorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#EnablePredefinedAcceleratorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,20 @@
         },
         "smithy.api#documentation": "Enable predefined accelerator.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#EnablePredefinedAcceleratorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#EnablePredefinedAcceleratorRequest": {
@@ -91,7 +105,7 @@
         "target": "com.azure.appplatform#DisablePredefinedAcceleratorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DisablePredefinedAcceleratorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -102,6 +116,20 @@
         },
         "smithy.api#documentation": "Disable predefined accelerator.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DisablePredefinedAcceleratorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DisablePredefinedAcceleratorRequest": {
@@ -637,6 +665,12 @@
           "traits": {
             "smithy.api#documentation": "The detail validation results"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
@@ -833,7 +867,7 @@
         "target": "com.azure.appplatform#DeleteCustomizedAcceleratorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteCustomizedAcceleratorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -844,6 +878,20 @@
         },
         "smithy.api#documentation": "Delete the customized accelerator.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteCustomizedAcceleratorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteCustomizedAcceleratorRequest": {
@@ -1418,7 +1466,7 @@
         "target": "com.azure.appplatform#DeleteApplicationAcceleratorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteApplicationAcceleratorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1429,6 +1477,20 @@
         },
         "smithy.api#documentation": "Delete the application accelerator.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteApplicationAcceleratorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteApplicationAcceleratorRequest": {
@@ -4896,7 +4958,7 @@
         "target": "com.azure.appplatform#RestartGatewayRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#RestartGatewayResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4907,6 +4969,20 @@
         },
         "smithy.api#documentation": "Restart the Spring Cloud Gateway.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#RestartGatewayResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#RestartGatewayRequest": {
@@ -15715,7 +15791,7 @@
         "target": "com.azure.appplatform#DeleteBuildServiceBuildRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteBuildServiceBuildResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15726,6 +15802,20 @@
         },
         "smithy.api#documentation": "delete a KPack build.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteBuildServiceBuildResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteBuildServiceBuildRequest": {
@@ -16874,6 +16964,12 @@
           "traits": {
             "smithy.api#documentation": "Detailed validation messages."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
@@ -16948,7 +17044,7 @@
         "target": "com.azure.appplatform#DeleteContainerRegistryRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteContainerRegistryResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16959,6 +17055,20 @@
         },
         "smithy.api#documentation": "Delete a container registry resource.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteContainerRegistryResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteContainerRegistryRequest": {
@@ -17396,7 +17506,7 @@
         "target": "com.azure.appplatform#DeleteDevToolPortalRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteDevToolPortalResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -17407,6 +17517,20 @@
         },
         "smithy.api#documentation": "Disable the default Dev Tool Portal.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteDevToolPortalResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteDevToolPortalRequest": {
@@ -18107,7 +18231,7 @@
         "target": "com.azure.appplatform#DeleteApplicationLiveViewRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteApplicationLiveViewResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18118,6 +18242,20 @@
         },
         "smithy.api#documentation": "Disable the default Application Live View.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteApplicationLiveViewResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteApplicationLiveViewRequest": {
@@ -19096,7 +19234,7 @@
         "target": "com.azure.appplatform#ValidateConfigurationServiceResourceRequest"
       },
       "output": {
-        "target": "com.azure.appplatform#ConfigurationServiceSettingsValidateResult"
+        "target": "com.azure.appplatform#ValidateConfigurationServiceResourceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -19109,15 +19247,22 @@
         "com.distilled.openapi#apiVersion": "2023-12-01"
       }
     },
-    "com.azure.appplatform#ConfigurationServiceSettingsValidateResult": {
+    "com.azure.appplatform#ValidateConfigurationServiceResourceResponse": {
       "type": "structure",
       "members": {
         "gitPropertyValidationResult": {
           "target": "com.azure.appplatform#ConfigurationServiceGitPropertyValidateResult"
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Validation result for configuration service settings"
+        "smithy.api#documentation": "Validation result for configuration service settings",
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#ConfigurationServiceGitPropertyValidateResult": {
@@ -19436,6 +19581,17 @@
         },
         "smithy.api#documentation": "Check if the Application Configuration Service settings are valid.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#ConfigurationServiceSettingsValidateResult": {
+      "type": "structure",
+      "members": {
+        "gitPropertyValidationResult": {
+          "target": "com.azure.appplatform#ConfigurationServiceGitPropertyValidateResult"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Validation result for configuration service settings"
       }
     },
     "com.azure.appplatform#ValidateConfigurationServiceRequest": {
@@ -20747,7 +20903,7 @@
         "target": "com.azure.appplatform#DeleteApmRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DeleteApmResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -20758,6 +20914,20 @@
         },
         "smithy.api#documentation": "Operation to delete an APM",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DeleteApmResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DeleteApmRequest": {
@@ -21267,7 +21437,7 @@
         "target": "com.azure.appplatform#DisableServiceApmGloballyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#DisableServiceApmGloballyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21278,6 +21448,20 @@
         },
         "smithy.api#documentation": "Disable an APM globally.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#DisableServiceApmGloballyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#DisableServiceApmGloballyRequest": {
@@ -21325,7 +21509,7 @@
         "target": "com.azure.appplatform#EnableServiceApmGloballyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#EnableServiceApmGloballyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21336,6 +21520,20 @@
         },
         "smithy.api#documentation": "Enable an APM globally.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#EnableServiceApmGloballyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#EnableServiceApmGloballyRequest": {
@@ -21551,7 +21749,7 @@
         "target": "com.azure.appplatform#FlushServiceVnetDnsSettingRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appplatform#FlushServiceVnetDnsSettingResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21562,6 +21760,20 @@
         },
         "smithy.api#documentation": "Flush Virtual Network DNS settings for a VNET injected Service.",
         "com.distilled.openapi#apiVersion": "2023-12-01"
+      }
+    },
+    "com.azure.appplatform#FlushServiceVnetDnsSettingResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appplatform#FlushServiceVnetDnsSettingRequest": {

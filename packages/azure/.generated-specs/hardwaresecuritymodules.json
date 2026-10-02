@@ -195,7 +195,7 @@
         "target": "com.azure.hardwaresecuritymodules#DeleteDedicatedHsmRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hardwaresecuritymodules#DeleteDedicatedHsmResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -206,6 +206,28 @@
         },
         "smithy.api#documentation": "Deletes the specified Azure Dedicated HSM.",
         "com.distilled.openapi#apiVersion": "2025-03-31"
+      }
+    },
+    "com.azure.hardwaresecuritymodules#DeleteDedicatedHsmResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hardwaresecuritymodules#DeleteDedicatedHsmRequest": {
@@ -317,6 +339,20 @@
           "target": "com.azure.hardwaresecuritymodules#UpdateDedicatedHsmResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -795,6 +831,20 @@
           "target": "com.azure.hardwaresecuritymodules#DedicatedHsmCreateOrUpdateResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1308,6 +1358,34 @@
           "traits": {
             "smithy.api#documentation": "Backup and Restore operation common properties"
           }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1601,6 +1679,34 @@
           "target": "com.azure.hardwaresecuritymodules#BackupResultProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Cloud HSM Cluster"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "An opaque, globally-unique, server-generated string identifier for the request."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2064,7 +2170,7 @@
         "target": "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterPrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterPrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2075,6 +2181,28 @@
         },
         "smithy.api#documentation": "Deletes the private endpoint connection for the Cloud Hsm Cluster.",
         "com.distilled.openapi#apiVersion": "2025-03-31"
+      }
+    },
+    "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterPrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterPrivateEndpointConnectionRequest": {
@@ -2801,7 +2929,7 @@
         "target": "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2812,6 +2940,28 @@
         },
         "smithy.api#documentation": "Deletes the specified Cloud HSM Cluster",
         "com.distilled.openapi#apiVersion": "2025-03-31"
+      }
+    },
+    "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hardwaresecuritymodules#DeleteCloudHsmClusterRequest": {
@@ -2921,6 +3071,20 @@
           "target": "com.azure.hardwaresecuritymodules#CloudHsmClusterSku",
           "traits": {
             "smithy.api#documentation": "SKU details"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3496,6 +3660,20 @@
           "target": "com.azure.hardwaresecuritymodules#CloudHsmClusterSku",
           "traits": {
             "smithy.api#documentation": "SKU details"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

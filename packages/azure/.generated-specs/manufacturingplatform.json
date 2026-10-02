@@ -135,7 +135,7 @@
         "target": "com.azure.manufacturingplatform#DeleteManufacturingDataServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.manufacturingplatform#DeleteManufacturingDataServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -146,6 +146,28 @@
         },
         "smithy.api#documentation": "Delete a MdsResource",
         "com.distilled.openapi#apiVersion": "2025-03-01"
+      }
+    },
+    "com.azure.manufacturingplatform#DeleteManufacturingDataServiceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.manufacturingplatform#DeleteManufacturingDataServiceRequest": {
@@ -255,6 +277,20 @@
           "target": "com.azure.manufacturingplatform#UpdateManufacturingDataServiceResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1609,6 +1645,20 @@
           "target": "com.azure.manufacturingplatform#ManufacturingDataServicesCreateOrUpdateResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

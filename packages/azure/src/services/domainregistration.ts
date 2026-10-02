@@ -552,6 +552,8 @@ export interface DomainsCreateOrUpdateResponse {
   properties?: DomainProperties;
   /** Kind of resource */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const DomainsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -563,6 +565,7 @@ export const DomainsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DomainProperties),
     kind: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "DomainsCreateOrUpdateResponse",

@@ -1828,6 +1828,12 @@ export interface CalculateExchangeOperationResultResponse {
   properties?: CalculateExchangeResponseProperties;
   /** Required if status == failed or status == canceled. */
   error?: OperationResultError;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CalculateExchangeOperationResultResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1837,6 +1843,11 @@ export const CalculateExchangeOperationResultResponse = /*@__PURE__*/ S.suspend(
       status: S.optional(CalculateExchangeOperationResultStatus),
       properties: S.optional(CalculateExchangeResponseProperties),
       error: S.optional(OperationResultError),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CalculateExchangeOperationResultResponse",
@@ -2267,6 +2278,12 @@ export interface ExchangeOperationResultResponse {
   properties?: ExchangeResponseProperties;
   /** Required if status == failed or status == canceled. */
   error?: OperationResultError;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ExchangeOperationResultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2275,6 +2292,11 @@ export const ExchangeOperationResultResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ExchangeOperationResultStatus),
     properties: S.optional(ExchangeResponseProperties),
     error: S.optional(OperationResultError),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ExchangeOperationResultResponse",
@@ -2336,6 +2358,10 @@ export interface PostReturnResponse {
   /** Properties of a reservation order. */
   properties?: ReservationOrderProperties;
   etag?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PostReturnResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2345,6 +2371,8 @@ export const PostReturnResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ReservationOrderProperties),
     etag: S.optional(S.Number),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PostReturnResponse",
@@ -2427,10 +2455,16 @@ export const SubscriptionScopeProperties = /*@__PURE__*/ S.suspend(() =>
 export interface AvailableScopeProperties {
   /** The scopes checked by the available scope api. */
   properties?: SubscriptionScopeProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AvailableScopeProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(SubscriptionScopeProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "AvailableScopeProperties",
@@ -2654,6 +2688,10 @@ export interface ReservationOrderPurchaseResponse {
   /** Properties of a reservation order. */
   properties?: ReservationOrderProperties;
   etag?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ReservationOrderPurchaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2663,6 +2701,8 @@ export const ReservationOrderPurchaseResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ReservationOrderProperties),
     etag: S.optional(S.Number),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ReservationOrderPurchaseResponse",
@@ -2851,6 +2891,12 @@ export interface UpdateReservationResponse {
   sku?: SkuName;
   /** Resource Provider type to be reserved. */
   kind?: UpdateReservationResponseKind;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateReservationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2863,6 +2909,11 @@ export const UpdateReservationResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.Number),
     sku: S.optional(SkuName),
     kind: S.optional(UpdateReservationResponseKind),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateReservationResponse",

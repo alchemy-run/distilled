@@ -24,7 +24,7 @@
         "target": "com.azure.containerinstance#DeleteSubnetServiceAssociationLinkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#DeleteSubnetServiceAssociationLinkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Delete container group virtual network association links.\n\nDelete container group virtual network association links. The operation does not delete other resources provided by the user.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#DeleteSubnetServiceAssociationLinkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#DeleteSubnetServiceAssociationLinkRequest": {
@@ -164,7 +186,7 @@
         "target": "com.azure.containerinstance#DeleteSandboxGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#DeleteSandboxGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -175,6 +197,28 @@
         },
         "smithy.api#documentation": "Delete a SandboxGroup\n\nDelete a SandboxGroup",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#DeleteSandboxGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#DeleteSandboxGroupRequest": {
@@ -278,6 +322,20 @@
           "target": "com.azure.containerinstance#UpdateSandboxGroupResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -743,6 +801,20 @@
           "target": "com.azure.containerinstance#SandboxGroupsCreateOrUpdateResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1268,7 +1340,7 @@
         "target": "com.azure.containerinstance#StartNGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#StartNGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1279,6 +1351,34 @@
         },
         "smithy.api#documentation": "Starts all container groups in the specified NGroups resource.\n\nStarts all container groups in the specified NGroups resource. Compute resources will be allocated and billing will start.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#StartNGroupResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#StartNGroupRequest": {
@@ -1319,7 +1419,7 @@
         "target": "com.azure.containerinstance#RestartNGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#RestartNGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1330,6 +1430,34 @@
         },
         "smithy.api#documentation": "Restarts all container groups in the specified NGroups resource.\n\nRestarts all container groups in the specified NGroups resource in place. If container image has updates, new image will be downloaded.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#RestartNGroupResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#RestartNGroupRequest": {
@@ -1370,7 +1498,7 @@
         "target": "com.azure.containerinstance#DeleteNGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#DeleteNGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1381,6 +1509,34 @@
         },
         "smithy.api#documentation": "NGroups Delete REST API\n\nDeletes the NGroups resource.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#DeleteNGroupResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#DeleteNGroupRequest": {
@@ -1489,6 +1645,25 @@
           "target": "com.azure.containerinstance#NGroupIdentity",
           "traits": {
             "smithy.api#documentation": "The identity of the NGroup, if configured."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2468,6 +2643,19 @@
           "traits": {
             "smithy.api#documentation": "The identity of the NGroup, if configured."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2925,7 +3113,7 @@
         "target": "com.azure.containerinstance#StartContainerGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#StartContainerGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2936,6 +3124,28 @@
         },
         "smithy.api#documentation": "Starts all containers in a container group.\n\nStarts all containers in a container group. Compute resources will be allocated and billing will start.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#StartContainerGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#StartContainerGroupRequest": {
@@ -2976,7 +3186,7 @@
         "target": "com.azure.containerinstance#RestartContainerGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerinstance#RestartContainerGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2987,6 +3197,28 @@
         },
         "smithy.api#documentation": "Restarts all containers in a container group.\n\nRestarts all containers in a container group in place. If container image has updates, new image will be downloaded.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.containerinstance#RestartContainerGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerinstance#RestartContainerGroupRequest": {
@@ -3450,6 +3682,20 @@
           "traits": {
             "smithy.api#documentation": "The container group properties",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5651,6 +5897,20 @@
             "smithy.api#documentation": "The container group properties",
             "smithy.api#required": {}
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -7443,6 +7703,12 @@
           "traits": {
             "smithy.api#documentation": "The availability zones."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id"
+          }
         }
       },
       "traits": {
@@ -7588,6 +7854,12 @@
           "target": "com.azure.containerinstance#CGProfileCreateOrUpdateResponseZonesList",
           "traits": {
             "smithy.api#documentation": "The availability zones."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id"
           }
         }
       },

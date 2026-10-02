@@ -249,9 +249,17 @@ export const DeleteLoadTestRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLoadTestRequest",
 }) as any as S.Schema<DeleteLoadTestRequest>;
 
-export interface DeleteLoadTestResponse {}
+export interface DeleteLoadTestResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteLoadTestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteLoadTestResponse",
 }) as any as S.Schema<DeleteLoadTestResponse>;
@@ -281,9 +289,17 @@ export const DeletePlaywrightWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePlaywrightWorkspaceRequest",
 }) as any as S.Schema<DeletePlaywrightWorkspaceRequest>;
 
-export interface DeletePlaywrightWorkspaceResponse {}
+export interface DeletePlaywrightWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePlaywrightWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePlaywrightWorkspaceResponse",
 }) as any as S.Schema<DeletePlaywrightWorkspaceResponse>;
@@ -1622,6 +1638,10 @@ export interface LoadTestsCreateOrUpdateResponse {
   properties?: LoadTestProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetLoadTestResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const LoadTestsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1633,6 +1653,10 @@ export const LoadTestsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LoadTestProperties),
     identity: S.optional(GetLoadTestResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "LoadTestsCreateOrUpdateResponse",
@@ -1740,6 +1764,10 @@ export interface PlaywrightWorkspacesCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: PlaywrightWorkspaceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PlaywrightWorkspacesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1751,6 +1779,10 @@ export const PlaywrightWorkspacesCreateOrUpdateResponse =
       tags: S.optional(PlaywrightWorkspacesCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(PlaywrightWorkspaceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PlaywrightWorkspacesCreateOrUpdateResponse",
@@ -1839,6 +1871,12 @@ export interface UpdateLoadTestResponse {
   properties?: LoadTestProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetLoadTestResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateLoadTestResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1850,6 +1888,11 @@ export const UpdateLoadTestResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(LoadTestProperties),
     identity: S.optional(GetLoadTestResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateLoadTestResponse",

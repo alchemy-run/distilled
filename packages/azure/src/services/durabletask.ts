@@ -37,9 +37,17 @@ export const DeleteRetentionPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRetentionPolicyRequest",
 }) as any as S.Schema<DeleteRetentionPolicyRequest>;
 
-export interface DeleteRetentionPolicyResponse {}
+export interface DeleteRetentionPolicyResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteRetentionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteRetentionPolicyResponse",
 }) as any as S.Schema<DeleteRetentionPolicyResponse>;
@@ -69,9 +77,17 @@ export const DeleteSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSchedulerRequest",
 }) as any as S.Schema<DeleteSchedulerRequest>;
 
-export interface DeleteSchedulerResponse {}
+export interface DeleteSchedulerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSchedulerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSchedulerResponse",
 }) as any as S.Schema<DeleteSchedulerResponse>;
@@ -105,9 +121,19 @@ export const DeleteSchedulerPrivateEndpointConnectionRequest =
     identifier: "DeleteSchedulerPrivateEndpointConnectionRequest",
   }) as any as S.Schema<DeleteSchedulerPrivateEndpointConnectionRequest>;
 
-export interface DeleteSchedulerPrivateEndpointConnectionResponse {}
+export interface DeleteSchedulerPrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSchedulerPrivateEndpointConnectionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteSchedulerPrivateEndpointConnectionResponse",
   }) as any as S.Schema<DeleteSchedulerPrivateEndpointConnectionResponse>;
 
@@ -139,9 +165,17 @@ export const DeleteTaskHubRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTaskHubRequest",
 }) as any as S.Schema<DeleteTaskHubRequest>;
 
-export interface DeleteTaskHubResponse {}
+export interface DeleteTaskHubResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTaskHubResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteTaskHubResponse",
 }) as any as S.Schema<DeleteTaskHubResponse>;
@@ -1271,6 +1305,10 @@ export interface RetentionPoliciesCreateOrReplaceResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: RetentionPolicyProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const RetentionPoliciesCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1280,6 +1318,10 @@ export const RetentionPoliciesCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(RetentionPolicyProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "RetentionPoliciesCreateOrReplaceResponse",
@@ -1377,6 +1419,10 @@ export interface SchedulersCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SchedulerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SchedulersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1387,6 +1433,10 @@ export const SchedulersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(SchedulersCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(SchedulerProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SchedulersCreateOrUpdateResponse",
@@ -1460,6 +1510,10 @@ export interface SchedulersCreateOrUpdatePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SchedulersCreateOrUpdatePrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1469,6 +1523,10 @@ export const SchedulersCreateOrUpdatePrivateEndpointConnectionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SchedulersCreateOrUpdatePrivateEndpointConnectionResponse",
@@ -1520,6 +1578,10 @@ export interface TaskHubsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: TaskHubProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TaskHubsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1528,6 +1590,10 @@ export const TaskHubsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(TaskHubProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "TaskHubsCreateOrUpdateResponse",
@@ -1572,6 +1638,10 @@ export interface UpdateRetentionPolicyResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: RetentionPolicyProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateRetentionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1580,6 +1650,8 @@ export const UpdateRetentionPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(RetentionPolicyProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateRetentionPolicyResponse",
@@ -1691,6 +1763,10 @@ export interface UpdateSchedulerResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SchedulerProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSchedulerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1701,6 +1777,8 @@ export const UpdateSchedulerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateSchedulerResponseTagsMap),
     location: S.String,
     properties: S.optional(SchedulerProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateSchedulerResponse",
@@ -1782,6 +1860,10 @@ export interface UpdateSchedulerPrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSchedulerPrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1791,6 +1873,8 @@ export const UpdateSchedulerPrivateEndpointConnectionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateSchedulerPrivateEndpointConnectionResponse",

@@ -184,7 +184,7 @@
         "target": "com.azure.loadtestservice#DeleteLoadTestRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.loadtestservice#DeleteLoadTestResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -195,6 +195,28 @@
         },
         "smithy.api#documentation": "Delete a LoadTestResource",
         "com.distilled.openapi#apiVersion": "2022-12-01"
+      }
+    },
+    "com.azure.loadtestservice#DeleteLoadTestResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.loadtestservice#DeleteLoadTestRequest": {
@@ -298,6 +320,27 @@
           "target": "com.azure.loadtestservice#UpdateLoadTestResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -836,6 +879,20 @@
           "target": "com.azure.loadtestservice#LoadTestsCreateOrUpdateResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2347,7 +2404,7 @@
         "target": "com.azure.loadtestservice#DeletePlaywrightWorkspaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.loadtestservice#DeletePlaywrightWorkspaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2358,6 +2415,28 @@
         },
         "smithy.api#documentation": "Deletes a Playwright workspace resource asynchronously.",
         "com.distilled.openapi#apiVersion": "2025-09-01"
+      }
+    },
+    "com.azure.loadtestservice#DeletePlaywrightWorkspaceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.loadtestservice#DeletePlaywrightWorkspaceRequest": {
@@ -2711,6 +2790,20 @@
           "target": "com.azure.loadtestservice#PlaywrightWorkspaceProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

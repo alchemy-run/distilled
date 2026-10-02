@@ -37,9 +37,17 @@ export const CancelExperimentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelExperimentRequest",
 }) as any as S.Schema<CancelExperimentRequest>;
 
-export interface CancelExperimentResponse {}
+export interface CancelExperimentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CancelExperimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "CancelExperimentResponse",
 }) as any as S.Schema<CancelExperimentResponse>;
@@ -252,9 +260,17 @@ export const DeleteExperimentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteExperimentRequest",
 }) as any as S.Schema<DeleteExperimentRequest>;
 
-export interface DeleteExperimentResponse {}
+export interface DeleteExperimentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteExperimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteExperimentResponse",
 }) as any as S.Schema<DeleteExperimentResponse>;
@@ -627,6 +643,10 @@ export interface ExperimentsCreateOrUpdateResponse {
   identity?: ExperimentsCreateOrUpdateResponseIdentity;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ExperimentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -638,6 +658,10 @@ export const ExperimentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     identity: S.optional(ExperimentsCreateOrUpdateResponseIdentity),
     properties: ExperimentProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ExperimentsCreateOrUpdateResponse",
@@ -2142,9 +2166,17 @@ export const StartExperimentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartExperimentRequest",
 }) as any as S.Schema<StartExperimentRequest>;
 
-export interface StartExperimentResponse {}
+export interface StartExperimentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartExperimentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartExperimentResponse",
 }) as any as S.Schema<StartExperimentResponse>;
@@ -2313,6 +2345,10 @@ export interface UpdateExperimentResponse {
   identity?: ExperimentsCreateOrUpdateResponseIdentity;
   /** The properties of the experiment resource. */
   properties: ExperimentProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateExperimentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2324,6 +2360,8 @@ export const UpdateExperimentResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     identity: S.optional(ExperimentsCreateOrUpdateResponseIdentity),
     properties: ExperimentProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateExperimentResponse",

@@ -69,9 +69,16 @@ export const AddArtifactStoreNetworkFabricControllerEndPointsRequest =
     identifier: "AddArtifactStoreNetworkFabricControllerEndPointsRequest",
   }) as any as S.Schema<AddArtifactStoreNetworkFabricControllerEndPointsRequest>;
 
-export interface AddArtifactStoreNetworkFabricControllerEndPointsResponse {}
+export interface AddArtifactStoreNetworkFabricControllerEndPointsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const AddArtifactStoreNetworkFabricControllerEndPointsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "AddArtifactStoreNetworkFabricControllerEndPointsResponse",
   }) as any as S.Schema<AddArtifactStoreNetworkFabricControllerEndPointsResponse>;
 
@@ -123,9 +130,16 @@ export const ApproveArtifactStorePrivateEndPointsRequest =
     identifier: "ApproveArtifactStorePrivateEndPointsRequest",
   }) as any as S.Schema<ApproveArtifactStorePrivateEndPointsRequest>;
 
-export interface ApproveArtifactStorePrivateEndPointsResponse {}
+export interface ApproveArtifactStorePrivateEndPointsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const ApproveArtifactStorePrivateEndPointsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "ApproveArtifactStorePrivateEndPointsResponse",
   }) as any as S.Schema<ApproveArtifactStorePrivateEndPointsResponse>;
 
@@ -992,9 +1006,14 @@ export const DeleteArtifactManifestRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteArtifactManifestRequest",
 }) as any as S.Schema<DeleteArtifactManifestRequest>;
 
-export interface DeleteArtifactManifestResponse {}
+export interface DeleteArtifactManifestResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteArtifactManifestResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteArtifactManifestResponse",
 }) as any as S.Schema<DeleteArtifactManifestResponse>;
@@ -1027,9 +1046,14 @@ export const DeleteArtifactStoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteArtifactStoreRequest",
 }) as any as S.Schema<DeleteArtifactStoreRequest>;
 
-export interface DeleteArtifactStoreResponse {}
+export interface DeleteArtifactStoreResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteArtifactStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteArtifactStoreResponse",
 }) as any as S.Schema<DeleteArtifactStoreResponse>;
@@ -1082,9 +1106,16 @@ export const DeleteArtifactStoreNetworkFabricControllerEndPointsRequest =
     identifier: "DeleteArtifactStoreNetworkFabricControllerEndPointsRequest",
   }) as any as S.Schema<DeleteArtifactStoreNetworkFabricControllerEndPointsRequest>;
 
-export interface DeleteArtifactStoreNetworkFabricControllerEndPointsResponse {}
+export interface DeleteArtifactStoreNetworkFabricControllerEndPointsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteArtifactStoreNetworkFabricControllerEndPointsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteArtifactStoreNetworkFabricControllerEndPointsResponse",
   }) as any as S.Schema<DeleteArtifactStoreNetworkFabricControllerEndPointsResponse>;
 
@@ -1117,9 +1148,15 @@ export const DeleteConfigurationGroupSchemaRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteConfigurationGroupSchemaRequest",
 }) as any as S.Schema<DeleteConfigurationGroupSchemaRequest>;
 
-export interface DeleteConfigurationGroupSchemaResponse {}
+export interface DeleteConfigurationGroupSchemaResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteConfigurationGroupSchemaResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteConfigurationGroupSchemaResponse",
 }) as any as S.Schema<DeleteConfigurationGroupSchemaResponse>;
@@ -1150,9 +1187,15 @@ export const DeleteConfigurationGroupValueRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteConfigurationGroupValueRequest",
 }) as any as S.Schema<DeleteConfigurationGroupValueRequest>;
 
-export interface DeleteConfigurationGroupValueResponse {}
+export interface DeleteConfigurationGroupValueResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteConfigurationGroupValueResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteConfigurationGroupValueResponse",
 }) as any as S.Schema<DeleteConfigurationGroupValueResponse>;
@@ -1182,9 +1225,14 @@ export const DeleteNetworkFunctionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNetworkFunctionRequest",
 }) as any as S.Schema<DeleteNetworkFunctionRequest>;
 
-export interface DeleteNetworkFunctionResponse {}
+export interface DeleteNetworkFunctionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNetworkFunctionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNetworkFunctionResponse",
 }) as any as S.Schema<DeleteNetworkFunctionResponse>;
@@ -1218,9 +1266,16 @@ export const DeleteNetworkFunctionDefinitionGroupRequest =
     identifier: "DeleteNetworkFunctionDefinitionGroupRequest",
   }) as any as S.Schema<DeleteNetworkFunctionDefinitionGroupRequest>;
 
-export interface DeleteNetworkFunctionDefinitionGroupResponse {}
+export interface DeleteNetworkFunctionDefinitionGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNetworkFunctionDefinitionGroupResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteNetworkFunctionDefinitionGroupResponse",
   }) as any as S.Schema<DeleteNetworkFunctionDefinitionGroupResponse>;
 
@@ -1256,9 +1311,16 @@ export const DeleteNetworkFunctionDefinitionVersionRequest =
     identifier: "DeleteNetworkFunctionDefinitionVersionRequest",
   }) as any as S.Schema<DeleteNetworkFunctionDefinitionVersionRequest>;
 
-export interface DeleteNetworkFunctionDefinitionVersionResponse {}
+export interface DeleteNetworkFunctionDefinitionVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNetworkFunctionDefinitionVersionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteNetworkFunctionDefinitionVersionResponse",
   }) as any as S.Schema<DeleteNetworkFunctionDefinitionVersionResponse>;
 
@@ -1291,9 +1353,15 @@ export const DeleteNetworkServiceDesignGroupRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteNetworkServiceDesignGroupRequest",
 }) as any as S.Schema<DeleteNetworkServiceDesignGroupRequest>;
 
-export interface DeleteNetworkServiceDesignGroupResponse {}
+export interface DeleteNetworkServiceDesignGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNetworkServiceDesignGroupResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteNetworkServiceDesignGroupResponse",
 }) as any as S.Schema<DeleteNetworkServiceDesignGroupResponse>;
@@ -1330,9 +1398,16 @@ export const DeleteNetworkServiceDesignVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteNetworkServiceDesignVersionRequest",
 }) as any as S.Schema<DeleteNetworkServiceDesignVersionRequest>;
 
-export interface DeleteNetworkServiceDesignVersionResponse {}
+export interface DeleteNetworkServiceDesignVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNetworkServiceDesignVersionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteNetworkServiceDesignVersionResponse",
   }) as any as S.Schema<DeleteNetworkServiceDesignVersionResponse>;
 
@@ -1361,9 +1436,14 @@ export const DeletePublisherRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePublisherRequest",
 }) as any as S.Schema<DeletePublisherRequest>;
 
-export interface DeletePublisherResponse {}
+export interface DeletePublisherResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeletePublisherResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeletePublisherResponse",
 }) as any as S.Schema<DeletePublisherResponse>;
@@ -1393,9 +1473,14 @@ export const DeleteSiteRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSiteRequest",
 }) as any as S.Schema<DeleteSiteRequest>;
 
-export interface DeleteSiteResponse {}
+export interface DeleteSiteResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteSiteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteSiteResponse",
 }) as any as S.Schema<DeleteSiteResponse>;
@@ -1425,9 +1510,14 @@ export const DeleteSiteNetworkServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSiteNetworkServiceRequest",
 }) as any as S.Schema<DeleteSiteNetworkServiceRequest>;
 
-export interface DeleteSiteNetworkServiceResponse {}
+export interface DeleteSiteNetworkServiceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteSiteNetworkServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteSiteNetworkServiceResponse",
 }) as any as S.Schema<DeleteSiteNetworkServiceResponse>;
@@ -1496,9 +1586,15 @@ export const ExecuteNetworkFunctionRequestRequest = /*@__PURE__*/ S.suspend(
   identifier: "ExecuteNetworkFunctionRequestRequest",
 }) as any as S.Schema<ExecuteNetworkFunctionRequestRequest>;
 
-export interface ExecuteNetworkFunctionRequestResponse {}
+export interface ExecuteNetworkFunctionRequestResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const ExecuteNetworkFunctionRequestResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "ExecuteNetworkFunctionRequestResponse",
 }) as any as S.Schema<ExecuteNetworkFunctionRequestResponse>;
@@ -3827,6 +3923,8 @@ export interface ArtifactStoreNetworkFabricControllerEndPointsList {
   value?: ArtifactStoreNetworkFabricControllerEndPointsListValueList;
   /** The URI to get the next set of results. */
   nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ArtifactStoreNetworkFabricControllerEndPointsList =
   /*@__PURE__*/ S.suspend(() =>
@@ -3835,6 +3933,7 @@ export const ArtifactStoreNetworkFabricControllerEndPointsList =
         ArtifactStoreNetworkFabricControllerEndPointsListValueList,
       ),
       nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "ArtifactStoreNetworkFabricControllerEndPointsList",
@@ -3912,12 +4011,15 @@ export interface ArtifactStorePrivateEndPointsListResult {
   value?: ArtifactStorePrivateEndPointsListResultValueList;
   /** The URI to get the next set of results. */
   nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ArtifactStorePrivateEndPointsListResult = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       value: S.optional(ArtifactStorePrivateEndPointsListResultValueList),
       nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "ArtifactStorePrivateEndPointsListResult",
@@ -6032,9 +6134,16 @@ export const RemoveArtifactStorePrivateEndPointsRequest =
     identifier: "RemoveArtifactStorePrivateEndPointsRequest",
   }) as any as S.Schema<RemoveArtifactStorePrivateEndPointsRequest>;
 
-export interface RemoveArtifactStorePrivateEndPointsResponse {}
+export interface RemoveArtifactStorePrivateEndPointsResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const RemoveArtifactStorePrivateEndPointsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "RemoveArtifactStorePrivateEndPointsResponse",
   }) as any as S.Schema<RemoveArtifactStorePrivateEndPointsResponse>;
 
@@ -6465,10 +6574,13 @@ export const UpdateArtifactManifestStateRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ArtifactManifestUpdateState {
   /** The artifact manifest state. */
   artifactManifestState?: ArtifactManifestState;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ArtifactManifestUpdateState = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     artifactManifestState: S.optional(ArtifactManifestState),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "ArtifactManifestUpdateState",
@@ -6672,11 +6784,14 @@ export const UpdateConfigurationGroupSchemaStateRequest =
 export interface ConfigurationGroupSchemaVersionUpdateState {
   /** The configuration group schema state. */
   versionState?: ConfigurationGroupSchemaVersionState;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ConfigurationGroupSchemaVersionUpdateState =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       versionState: S.optional(ConfigurationGroupSchemaVersionState),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "ConfigurationGroupSchemaVersionUpdateState",
@@ -6970,11 +7085,14 @@ export const UpdateNetworkFunctionDefinitionVersionStateRequest =
 export interface NetworkFunctionDefinitionVersionUpdateState {
   /** The network function definition version state. Only the 'Active' and 'Deprecated' states are allowed for updates. Other states are used for internal state transitioning. */
   versionState?: VersionState;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const NetworkFunctionDefinitionVersionUpdateState =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       versionState: S.optional(VersionState),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "NetworkFunctionDefinitionVersionUpdateState",
@@ -7276,11 +7394,14 @@ export const UpdateNetworkServiceDesignVersionStateRequest =
 export interface NetworkServiceDesignVersionUpdateState {
   /** The network service design version state. */
   versionState?: NSDVersionState;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const NetworkServiceDesignVersionUpdateState = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       versionState: S.optional(NSDVersionState),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "NetworkServiceDesignVersionUpdateState",
@@ -7347,6 +7468,8 @@ export interface UpdateProxyArtifactStateResponse {
   systemData?: SystemData;
   /** Proxy Artifact overview properties. */
   properties?: ProxyArtifactOverviewPropertiesValue;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UpdateProxyArtifactStateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7355,6 +7478,7 @@ export const UpdateProxyArtifactStateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ProxyArtifactOverviewPropertiesValue),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateProxyArtifactStateResponse",

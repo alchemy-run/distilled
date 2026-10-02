@@ -1244,6 +1244,20 @@
           "traits": {
             "smithy.api#documentation": "Modified whenever there is a change in the state of private endpoint connection."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1526,6 +1540,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Modified whenever there is a change in the state of private endpoint connection."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "(specified only if operation does not finish synchronously) The URI to poll for completion status. The response of this URI may be synchronous or asynchronous."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4410,6 +4438,20 @@
           "traits": {
             "smithy.api#documentation": "Tags assigned to the key vault resource."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5459,6 +5501,20 @@
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5692,6 +5748,20 @@
           "target": "com.azure.keyvault#PutMHSMPrivateEndpointConnectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "(specified only if operation does not finish synchronously) The URI to poll for completion status. The response of this URI may be synchronous or asynchronous."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7194,7 +7264,7 @@
         "target": "com.azure.keyvault#DeleteManagedHsmRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.keyvault#DeleteManagedHsmResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7205,6 +7275,28 @@
         },
         "smithy.api#documentation": "Deletes the specified managed HSM Pool.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.keyvault#DeleteManagedHsmResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.keyvault#DeleteManagedHsmRequest": {
@@ -7313,6 +7405,20 @@
           "target": "com.azure.keyvault#UpdateManagedHsmResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8036,6 +8142,20 @@
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -8601,7 +8721,7 @@
         "target": "com.azure.keyvault#PurgeVaultDeletedRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.keyvault#PurgeVaultDeletedResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8612,6 +8732,28 @@
         },
         "smithy.api#documentation": "Permanently deletes the specified vault. aka Purges the deleted Azure key vault.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.keyvault#PurgeVaultDeletedResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.keyvault#PurgeVaultDeletedRequest": {
@@ -8797,7 +8939,7 @@
         "target": "com.azure.keyvault#PurgeManagedHsmDeletedRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.keyvault#PurgeManagedHsmDeletedResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8808,6 +8950,28 @@
         },
         "smithy.api#documentation": "Permanently deletes the specified managed HSM.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.keyvault#PurgeManagedHsmDeletedResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.keyvault#PurgeManagedHsmDeletedRequest": {

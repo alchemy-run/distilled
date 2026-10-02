@@ -24,7 +24,7 @@
         "target": "com.azure.cloudshell#KeepAliveRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cloudshell#KeepAliveResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,21 @@
         },
         "smithy.api#documentation": "Keep alive\n\nKeep console alive",
         "com.distilled.openapi#apiVersion": "2018-10-01"
+      }
+    },
+    "com.azure.cloudshell#KeepAliveResponse": {
+      "type": "structure",
+      "members": {
+        "xMsConsoleRemainingSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-console-remaining-seconds",
+            "smithy.api#documentation": "Remaining time left in session, in seconds."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cloudshell#KeepAliveRequest": {
@@ -772,6 +787,20 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "xMsConsoleRequiredLocationCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-console-required-location-code",
+            "smithy.api#documentation": "normalized required location code"
+          }
+        },
+        "xMsConsolePreviewUser": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-console-preview-user",
+            "smithy.api#documentation": "indicates whether user is a previous usr."
+          }
         }
       },
       "traits": {
@@ -800,7 +829,7 @@
         "target": "com.azure.cloudshell#KeepAliveWithLocationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cloudshell#KeepAliveWithLocationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -811,6 +840,21 @@
         },
         "smithy.api#documentation": "Keep alive\n\nKeep console alive",
         "com.distilled.openapi#apiVersion": "2018-10-01"
+      }
+    },
+    "com.azure.cloudshell#KeepAliveWithLocationResponse": {
+      "type": "structure",
+      "members": {
+        "xMsConsoleRemainingSeconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-console-remaining-seconds",
+            "smithy.api#documentation": "Remaining time left in session, in seconds."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cloudshell#KeepAliveWithLocationRequest": {
@@ -1186,6 +1230,20 @@
           "target": "com.azure.cloudshell#UserProperties",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "xMsConsoleRequiredLocationCode": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-console-required-location-code",
+            "smithy.api#documentation": "normalized required location code"
+          }
+        },
+        "xMsConsolePreviewUser": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-console-preview-user",
+            "smithy.api#documentation": "indicates whether user is a previous usr."
           }
         }
       },

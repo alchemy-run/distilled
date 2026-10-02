@@ -90,9 +90,17 @@ export const ClustersPromoteReadReplicaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ClustersPromoteReadReplicaRequest",
 }) as any as S.Schema<ClustersPromoteReadReplicaRequest>;
 
-export interface ClustersPromoteReadReplicaResponse {}
+export interface ClustersPromoteReadReplicaResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const ClustersPromoteReadReplicaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "ClustersPromoteReadReplicaResponse",
 }) as any as S.Schema<ClustersPromoteReadReplicaResponse>;
@@ -515,6 +523,8 @@ export interface CreateClusterResponse {
   location: string;
   /** Properties of the cluster. */
   properties?: ClusterProperties;
+  locationHeader?: string;
+  azureAsyncOperation?: string;
 }
 export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -525,6 +535,10 @@ export const CreateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateClusterResponseTagsMap),
     location: S.String,
     properties: S.optional(ClusterProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
   }),
 ).annotate({
   identifier: "CreateClusterResponse",
@@ -607,6 +621,8 @@ export interface CreateRoleResponse {
   systemData?: SystemData;
   /** The properties of a role. */
   properties: RoleProperties;
+  location?: string;
+  azureAsyncOperation?: string;
 }
 export const CreateRoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -615,6 +631,10 @@ export const CreateRoleResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: RoleProperties,
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
   }),
 ).annotate({
   identifier: "CreateRoleResponse",
@@ -645,9 +665,17 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteClusterRequest",
 }) as any as S.Schema<DeleteClusterRequest>;
 
-export interface DeleteClusterResponse {}
+export interface DeleteClusterResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteClusterResponse",
 }) as any as S.Schema<DeleteClusterResponse>;
@@ -680,9 +708,17 @@ export const DeleteFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFirewallRuleRequest",
 }) as any as S.Schema<DeleteFirewallRuleRequest>;
 
-export interface DeleteFirewallRuleResponse {}
+export interface DeleteFirewallRuleResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const DeleteFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteFirewallRuleResponse",
 }) as any as S.Schema<DeleteFirewallRuleResponse>;
@@ -716,9 +752,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("azure-async-operation")),
+      ),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -751,9 +796,17 @@ export const DeleteRoleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRoleRequest",
 }) as any as S.Schema<DeleteRoleRequest>;
 
-export interface DeleteRoleResponse {}
+export interface DeleteRoleResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRoleResponse",
 }) as any as S.Schema<DeleteRoleResponse>;
@@ -835,6 +888,8 @@ export interface FirewallRulesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The properties of a firewall rule. */
   properties: FirewallRuleProperties;
+  location?: string;
+  azureAsyncOperation?: string;
 }
 export const FirewallRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -843,6 +898,10 @@ export const FirewallRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: FirewallRuleProperties,
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
   }),
 ).annotate({
   identifier: "FirewallRulesCreateOrUpdateResponse",
@@ -2344,6 +2403,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  location?: string;
+  azureAsyncOperation?: string;
 }
 export const PrivateEndpointConnectionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2353,6 +2414,10 @@ export const PrivateEndpointConnectionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("azure-async-operation")),
+      ),
     }),
   ).annotate({
     identifier: "PrivateEndpointConnectionsCreateOrUpdateResponse",
@@ -2383,9 +2448,17 @@ export const RestartClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartClusterRequest",
 }) as any as S.Schema<RestartClusterRequest>;
 
-export interface RestartClusterResponse {}
+export interface RestartClusterResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const RestartClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "RestartClusterResponse",
 }) as any as S.Schema<RestartClusterResponse>;
@@ -2415,9 +2488,17 @@ export const StartClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartClusterRequest",
 }) as any as S.Schema<StartClusterRequest>;
 
-export interface StartClusterResponse {}
+export interface StartClusterResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const StartClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "StartClusterResponse",
 }) as any as S.Schema<StartClusterResponse>;
@@ -2447,9 +2528,17 @@ export const StopClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopClusterRequest",
 }) as any as S.Schema<StopClusterRequest>;
 
-export interface StopClusterResponse {}
+export interface StopClusterResponse {
+  location?: string;
+  azureAsyncOperation?: string;
+}
 export const StopClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
+  }),
 ).annotate({
   identifier: "StopClusterResponse",
 }) as any as S.Schema<StopClusterResponse>;
@@ -2571,6 +2660,8 @@ export interface UpdateClusterResponse {
   location: string;
   /** Properties of the cluster. */
   properties?: ClusterProperties;
+  locationHeader?: string;
+  azureAsyncOperation?: string;
 }
 export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2581,6 +2672,10 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateClusterResponseTagsMap),
     location: S.String,
     properties: S.optional(ClusterProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateClusterResponse",
@@ -2642,6 +2737,8 @@ export interface UpdateConfigurationOnCoordinatorResponse {
   systemData?: SystemData;
   /** The properties of a configuration. */
   properties?: ServerConfigurationProperties;
+  location?: string;
+  azureAsyncOperation?: string;
 }
 export const UpdateConfigurationOnCoordinatorResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2651,6 +2748,10 @@ export const UpdateConfigurationOnCoordinatorResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(ServerConfigurationProperties),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("azure-async-operation")),
+      ),
     }),
 ).annotate({
   identifier: "UpdateConfigurationOnCoordinatorResponse",
@@ -2698,6 +2799,8 @@ export interface UpdateConfigurationOnNodeResponse {
   systemData?: SystemData;
   /** The properties of a configuration. */
   properties?: ServerConfigurationProperties;
+  location?: string;
+  azureAsyncOperation?: string;
 }
 export const UpdateConfigurationOnNodeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2706,6 +2809,10 @@ export const UpdateConfigurationOnNodeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ServerConfigurationProperties),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("azure-async-operation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateConfigurationOnNodeResponse",

@@ -24,7 +24,7 @@
         "target": "com.azure.storagesync#AbortWorkflowRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#AbortWorkflowResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Abort the given workflow.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#AbortWorkflowResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#AbortWorkflowRequest": {
@@ -127,6 +149,20 @@
           "target": "com.azure.storagesync#WorkflowProperties",
           "traits": {
             "smithy.api#documentation": "Workflow properties."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -435,6 +471,20 @@
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -526,7 +576,7 @@
         "target": "com.azure.storagesync#ServerEndpointsRecallActionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#ServerEndpointsRecallActionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -537,6 +587,42 @@
         },
         "smithy.api#documentation": "Recall a server endpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#ServerEndpointsRecallActionResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#ServerEndpointsRecallActionRequest": {
@@ -605,7 +691,7 @@
         "target": "com.azure.storagesync#DeleteServerEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#DeleteServerEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -616,6 +702,42 @@
         },
         "smithy.api#documentation": "Delete a given ServerEndpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#DeleteServerEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#DeleteServerEndpointRequest": {
@@ -716,6 +838,41 @@
           "target": "com.azure.storagesync#ServerEndpointProperties",
           "traits": {
             "smithy.api#documentation": "Server Endpoint properties."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2066,6 +2223,41 @@
           "traits": {
             "smithy.api#documentation": "Server Endpoint properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2317,6 +2509,20 @@
           "traits": {
             "smithy.api#documentation": "Server Endpoint properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -2403,6 +2609,27 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -2503,7 +2730,7 @@
         "target": "com.azure.storagesync#TriggerCloudEndpointChangeDetectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#TriggerCloudEndpointChangeDetectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2514,6 +2741,42 @@
         },
         "smithy.api#documentation": "Triggers detection of changes performed on Azure File share connected to the specified Azure File Sync Cloud Endpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#TriggerCloudEndpointChangeDetectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#TriggerCloudEndpointChangeDetectionRequest": {
@@ -2617,7 +2880,7 @@
         "target": "com.azure.storagesync#CloudEndpointsRestoreheartbeatRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#CloudEndpointsRestoreheartbeatResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2628,6 +2891,28 @@
         },
         "smithy.api#documentation": "Restore Heartbeat a given CloudEndpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#CloudEndpointsRestoreheartbeatResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#CloudEndpointsRestoreheartbeatRequest": {
@@ -2684,7 +2969,7 @@
         "target": "com.azure.storagesync#RestoreCloudEndpointsPreRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#RestoreCloudEndpointsPreResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2695,6 +2980,42 @@
         },
         "smithy.api#documentation": "Pre Restore a given CloudEndpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#RestoreCloudEndpointsPreResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#RestoreCloudEndpointsPreRequest": {
@@ -2834,7 +3155,7 @@
         "target": "com.azure.storagesync#CloudEndpointsPreBackupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#CloudEndpointsPreBackupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2845,6 +3166,42 @@
         },
         "smithy.api#documentation": "Pre Backup a given CloudEndpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#CloudEndpointsPreBackupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#CloudEndpointsPreBackupRequest": {
@@ -2907,7 +3264,7 @@
         "target": "com.azure.storagesync#CloudEndpointsPostRestoreRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#CloudEndpointsPostRestoreResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2918,6 +3275,42 @@
         },
         "smithy.api#documentation": "Post Restore a given CloudEndpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#CloudEndpointsPostRestoreResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#CloudEndpointsPostRestoreRequest": {
@@ -3052,6 +3445,34 @@
           "traits": {
             "smithy.api#documentation": "Post Backup Response Properties"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3159,6 +3580,20 @@
           "traits": {
             "smithy.api#documentation": "The second public key."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -3219,7 +3654,7 @@
         "target": "com.azure.storagesync#DeleteCloudEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#DeleteCloudEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3230,6 +3665,49 @@
         },
         "smithy.api#documentation": "Delete a given CloudEndpoint.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#DeleteCloudEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#DeleteCloudEndpointRequest": {
@@ -3330,6 +3808,41 @@
           "target": "com.azure.storagesync#CloudEndpointProperties",
           "traits": {
             "smithy.api#documentation": "Cloud Endpoint properties."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3726,6 +4239,41 @@
           "traits": {
             "smithy.api#documentation": "Cloud Endpoint properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3875,6 +4423,20 @@
           "traits": {
             "smithy.api#documentation": "Cloud Endpoint properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -3961,6 +4523,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -4061,7 +4637,7 @@
         "target": "com.azure.storagesync#DeleteSyncGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#DeleteSyncGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4072,6 +4648,28 @@
         },
         "smithy.api#documentation": "Delete a given SyncGroup.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#DeleteSyncGroupResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "Request id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#DeleteSyncGroupRequest": {
@@ -4164,6 +4762,20 @@
           "target": "com.azure.storagesync#SyncGroupProperties",
           "traits": {
             "smithy.api#documentation": "SyncGroup properties."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -4288,6 +4900,20 @@
           "traits": {
             "smithy.api#documentation": "SyncGroup properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -4366,6 +4992,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -4458,7 +5098,7 @@
         "target": "com.azure.storagesync#TriggerRegisteredServerRolloverRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#TriggerRegisteredServerRolloverResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4469,6 +5109,42 @@
         },
         "smithy.api#documentation": "Triggers Server certificate rollover.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#TriggerRegisteredServerRolloverResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#TriggerRegisteredServerRolloverRequest": {
@@ -4523,7 +5199,7 @@
         "target": "com.azure.storagesync#DeleteRegisteredServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#DeleteRegisteredServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4534,6 +5210,42 @@
         },
         "smithy.api#documentation": "Delete the given registered server.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#DeleteRegisteredServerResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#DeleteRegisteredServerRequest": {
@@ -4626,6 +5338,41 @@
           "target": "com.azure.storagesync#RegisteredServerProperties",
           "traits": {
             "smithy.api#documentation": "RegisteredServer properties."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4972,6 +5719,41 @@
           "traits": {
             "smithy.api#documentation": "RegisteredServer properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5149,6 +5931,20 @@
           "traits": {
             "smithy.api#documentation": "RegisteredServer properties."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -5227,6 +6023,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -5475,7 +6285,7 @@
         "target": "com.azure.storagesync#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5486,6 +6296,49 @@
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the storage sync service.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "Request id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#DeletePrivateEndpointConnectionRequest": {
@@ -5578,6 +6431,41 @@
           "target": "com.azure.storagesync#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "Request id"
           }
         }
       },
@@ -5929,6 +6817,20 @@
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -6020,7 +6922,7 @@
         "target": "com.azure.storagesync#DeleteStorageSyncServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.storagesync#DeleteStorageSyncServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6031,6 +6933,49 @@
         },
         "smithy.api#documentation": "Delete a given StorageSyncService.",
         "com.distilled.openapi#apiVersion": "2025-12-01"
+      }
+    },
+    "com.azure.storagesync#DeleteStorageSyncServiceResponse": {
+      "type": "structure",
+      "members": {
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.storagesync#DeleteStorageSyncServiceRequest": {
@@ -6134,6 +7079,41 @@
           "target": "com.azure.storagesync#UpdateStorageSyncServiceResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6563,6 +7543,41 @@
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "Request id"
+          }
         }
       },
       "traits": {
@@ -6786,6 +7801,20 @@
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -6897,6 +7926,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -7085,6 +8128,20 @@
           "target": "com.azure.storagesync#StorageSyncApiError",
           "traits": {
             "smithy.api#documentation": "Error details."
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },
@@ -7364,6 +8421,20 @@
           "traits": {
             "smithy.api#documentation": "Percent complete."
           }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
+          }
         }
       },
       "traits": {
@@ -7550,6 +8621,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The link to the next page of items"
+          }
+        },
+        "xMsCorrelationRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-correlation-request-id",
+            "smithy.api#documentation": "correlation request id."
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "request id."
           }
         }
       },

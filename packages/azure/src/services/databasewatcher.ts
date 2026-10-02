@@ -282,6 +282,8 @@ export interface CreateSharedPrivateLinkResourceResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: SharedPrivateLinkResourceProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSharedPrivateLinkResourceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -291,6 +293,7 @@ export const CreateSharedPrivateLinkResourceResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SharedPrivateLinkResourceProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateSharedPrivateLinkResourceResponse",
@@ -360,9 +363,18 @@ export const DeleteSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSharedPrivateLinkResourceRequest",
 }) as any as S.Schema<DeleteSharedPrivateLinkResourceRequest>;
 
-export interface DeleteSharedPrivateLinkResourceResponse {}
+export interface DeleteSharedPrivateLinkResourceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSharedPrivateLinkResourceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteSharedPrivateLinkResourceResponse",
 }) as any as S.Schema<DeleteSharedPrivateLinkResourceResponse>;
@@ -427,9 +439,17 @@ export const DeleteWatcherRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWatcherRequest",
 }) as any as S.Schema<DeleteWatcherRequest>;
 
-export interface DeleteWatcherResponse {}
+export interface DeleteWatcherResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWatcherResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWatcherResponse",
 }) as any as S.Schema<DeleteWatcherResponse>;
@@ -1478,6 +1498,10 @@ export interface StartHealthValidationValidationResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: HealthValidationProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StartHealthValidationValidationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1487,6 +1511,8 @@ export const StartHealthValidationValidationResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(HealthValidationProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "StartHealthValidationValidationResponse",
@@ -1545,6 +1571,10 @@ export interface StartWatcherResponse {
   properties?: WatcherProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetWatcherResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StartWatcherResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1556,6 +1586,8 @@ export const StartWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StartWatcherResponse",
@@ -1614,6 +1646,10 @@ export interface StopWatcherResponse {
   properties?: WatcherProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetWatcherResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StopWatcherResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1625,6 +1661,8 @@ export const StopWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StopWatcherResponse",
@@ -1856,6 +1894,10 @@ export interface UpdateWatcherResponse {
   properties?: WatcherProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetWatcherResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateWatcherResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1867,6 +1909,8 @@ export const UpdateWatcherResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateWatcherResponse",
@@ -1971,6 +2015,8 @@ export interface WatchersCreateOrUpdateResponse {
   properties?: WatcherProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetWatcherResponseIdentity;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WatchersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1982,6 +2028,7 @@ export const WatchersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WatcherProperties),
     identity: S.optional(GetWatcherResponseIdentity),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "WatchersCreateOrUpdateResponse",

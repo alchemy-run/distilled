@@ -136,6 +136,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -541,6 +548,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -735,7 +749,7 @@
         "target": "com.azure.apicenter#ImportApiDefinitionSpecificationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apicenter#ImportApiDefinitionSpecificationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -746,6 +760,28 @@
         },
         "smithy.api#documentation": "Imports the API specification.",
         "com.distilled.openapi#apiVersion": "2024-03-01"
+      }
+    },
+    "com.azure.apicenter#ImportApiDefinitionSpecificationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apicenter#ImportApiDefinitionSpecificationRequest": {
@@ -902,6 +938,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The result of the export operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1127,6 +1177,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -1300,6 +1357,13 @@
           "target": "com.azure.apicenter#ApiDefinitionProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
           }
         }
       },
@@ -1647,6 +1711,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -1837,6 +1908,13 @@
           "target": "com.azure.apicenter#ApiVersionProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
           }
         }
       },
@@ -2168,6 +2246,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -2379,6 +2464,13 @@
           "target": "com.azure.apicenter#DeploymentProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
           }
         }
       },
@@ -2701,6 +2793,13 @@
           "target": "com.azure.apicenter#ApiProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
           }
         }
       },
@@ -3039,6 +3138,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -3337,6 +3443,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -3460,6 +3573,13 @@
           "target": "com.azure.apicenter#WorkspaceProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
           }
         }
       },
@@ -3743,6 +3863,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
+          }
         }
       },
       "traits": {
@@ -3927,6 +4054,13 @@
           "target": "com.azure.apicenter#MetadataSchemaProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The entity tag for the response."
           }
         }
       },
@@ -4132,6 +4266,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The result of the export operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

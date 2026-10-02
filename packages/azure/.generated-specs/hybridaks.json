@@ -571,7 +571,7 @@
         "target": "com.azure.hybridaks#DeleteVMSkusRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridaks#DeleteVMSkusResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -582,6 +582,20 @@
         },
         "smithy.api#documentation": "Deletes the default VM skus resource type\n\nDeletes the default VM skus resource type",
         "com.distilled.openapi#apiVersion": "2024-01-01"
+      }
+    },
+    "com.azure.hybridaks#DeleteVMSkusResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridaks#DeleteVMSkusRequest": {
@@ -1072,7 +1086,7 @@
         "target": "com.azure.hybridaks#DeleteKubernetesVersionsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridaks#DeleteKubernetesVersionsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1083,6 +1097,20 @@
         },
         "smithy.api#documentation": "Deletes the default kubernetes version resource type\n\nDelete the default kubernetes versions resource type",
         "com.distilled.openapi#apiVersion": "2024-01-01"
+      }
+    },
+    "com.azure.hybridaks#DeleteKubernetesVersionsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridaks#DeleteKubernetesVersionsRequest": {
@@ -1346,6 +1374,12 @@
         },
         "properties": {
           "target": "com.azure.hybridaks#ListCredentialResponseProperties"
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
@@ -1751,7 +1785,7 @@
         "target": "com.azure.hybridaks#DeleteAgentPoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridaks#DeleteAgentPoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1762,6 +1796,20 @@
         },
         "smithy.api#documentation": "Deletes the specified agent pool in the provisioned cluster\n\nDeletes the specified agent pool in the provisioned cluster",
         "com.distilled.openapi#apiVersion": "2024-01-01"
+      }
+    },
+    "com.azure.hybridaks#DeleteAgentPoolResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridaks#DeleteAgentPoolRequest": {
@@ -2276,7 +2324,7 @@
         "target": "com.azure.hybridaks#DeleteHybridIdentityMetadataRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridaks#DeleteHybridIdentityMetadataResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2287,6 +2335,20 @@
         },
         "smithy.api#documentation": "Deletes the hybrid identity metadata resource\n\nDeletes the hybrid identity metadata proxy resource.",
         "com.distilled.openapi#apiVersion": "2024-01-01"
+      }
+    },
+    "com.azure.hybridaks#DeleteHybridIdentityMetadataResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridaks#DeleteHybridIdentityMetadataRequest": {
@@ -3471,7 +3533,7 @@
         "target": "com.azure.hybridaks#DeleteProvisionedClusterInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridaks#DeleteProvisionedClusterInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3482,6 +3544,20 @@
         },
         "smithy.api#documentation": "Deletes the provisioned cluster instance\n\nDeletes the provisioned cluster instance",
         "com.distilled.openapi#apiVersion": "2024-01-01"
+      }
+    },
+    "com.azure.hybridaks#DeleteProvisionedClusterInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridaks#DeleteProvisionedClusterInstanceRequest": {
@@ -4452,7 +4528,7 @@
         "target": "com.azure.hybridaks#DeleteVirtualNetworkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridaks#DeleteVirtualNetworkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4463,6 +4539,20 @@
         },
         "smithy.api#documentation": "Deletes the specified virtual network resource\n\nDeletes the specified virtual network resource",
         "com.distilled.openapi#apiVersion": "2024-01-01"
+      }
+    },
+    "com.azure.hybridaks#DeleteVirtualNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridaks#DeleteVirtualNetworkRequest": {

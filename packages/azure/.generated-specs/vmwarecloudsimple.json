@@ -24,7 +24,7 @@
         "target": "com.azure.vmwarecloudsimple#StopVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmwarecloudsimple#StopVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,32 @@
         },
         "smithy.api#documentation": "Implements shutdown, poweroff, and suspend method for a virtual machine\n\nPower off virtual machine, options: shutdown, poweroff, and suspend",
         "com.distilled.openapi#apiVersion": "2019-04-01"
+      }
+    },
+    "com.azure.vmwarecloudsimple#StopVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmwarecloudsimple#StopVirtualMachineRequest": {
@@ -112,7 +138,7 @@
         "target": "com.azure.vmwarecloudsimple#StartVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmwarecloudsimple#StartVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -123,6 +149,32 @@
         },
         "smithy.api#documentation": "Implements a start method for a virtual machine\n\nPower on virtual machine",
         "com.distilled.openapi#apiVersion": "2019-04-01"
+      }
+    },
+    "com.azure.vmwarecloudsimple#StartVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmwarecloudsimple#StartVirtualMachineRequest": {
@@ -163,7 +215,7 @@
         "target": "com.azure.vmwarecloudsimple#DeleteVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.vmwarecloudsimple#DeleteVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -174,6 +226,32 @@
         },
         "smithy.api#documentation": "Implements virtual machine DELETE method\n\nDelete virtual machine",
         "com.distilled.openapi#apiVersion": "2019-04-01"
+      }
+    },
+    "com.azure.vmwarecloudsimple#DeleteVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmwarecloudsimple#DeleteVirtualMachineRequest": {
@@ -1042,7 +1120,7 @@
         "target": "com.azure.vmwarecloudsimple#VirtualMachinesCreateOrUpdateRequest"
       },
       "output": {
-        "target": "com.azure.vmwarecloudsimple#VirtualMachine"
+        "target": "com.azure.vmwarecloudsimple#VirtualMachinesCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1053,6 +1131,58 @@
         },
         "smithy.api#documentation": "Implements virtual machine PUT method\n\nCreate Or Update Virtual Machine",
         "com.distilled.openapi#apiVersion": "2019-04-01"
+      }
+    },
+    "com.azure.vmwarecloudsimple#VirtualMachinesCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/virtualMachines/{virtualMachineName}"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure region",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "{virtualMachineName}"
+          }
+        },
+        "properties": {
+          "target": "com.azure.vmwarecloudsimple#VirtualMachineProperties",
+          "traits": {
+            "smithy.api#documentation": "Virtual machine properties"
+          }
+        },
+        "tags": {
+          "target": "com.azure.vmwarecloudsimple#Tags",
+          "traits": {
+            "smithy.api#documentation": "The list of tags"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "{resourceProviderNamespace}/{resourceType}"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Virtual machine model",
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmwarecloudsimple#VirtualMachinesCreateOrUpdateRequest": {
@@ -2372,7 +2502,7 @@
         "target": "com.azure.vmwarecloudsimple#DedicatedCloudNodesCreateOrUpdateRequest"
       },
       "output": {
-        "target": "com.azure.vmwarecloudsimple#DedicatedCloudNode"
+        "target": "com.azure.vmwarecloudsimple#DedicatedCloudNodesCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2383,6 +2513,76 @@
         },
         "smithy.api#documentation": "Implements dedicated cloud node PUT method\n\nReturns dedicated cloud node by its name",
         "com.distilled.openapi#apiVersion": "2019-04-01"
+      }
+    },
+    "com.azure.vmwarecloudsimple#DedicatedCloudNodesCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudNodes/{dedicatedCloudNodeName}"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure region",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "{dedicatedCloudNodeName}"
+          }
+        },
+        "properties": {
+          "target": "com.azure.vmwarecloudsimple#DedicatedCloudNodeProperties",
+          "traits": {
+            "smithy.api#documentation": "Dedicated Cloud Nodes properties"
+          }
+        },
+        "sku": {
+          "target": "com.azure.vmwarecloudsimple#Sku",
+          "traits": {
+            "smithy.api#documentation": "Dedicated Cloud Nodes SKU"
+          }
+        },
+        "tags": {
+          "target": "com.azure.vmwarecloudsimple#Tags",
+          "traits": {
+            "smithy.api#documentation": "Dedicated Cloud Nodes tags"
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "{resourceProviderNamespace}/{resourceType}"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Dedicated cloud node model",
+        "smithy.api#output": {}
       }
     },
     "com.azure.vmwarecloudsimple#DedicatedCloudNodesCreateOrUpdateRequest": {
@@ -4392,6 +4592,18 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Operation status"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
           }
         }
       },

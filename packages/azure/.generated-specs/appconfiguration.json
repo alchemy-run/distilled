@@ -467,7 +467,7 @@
         "target": "com.azure.appconfiguration#DeleteReplicasRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appconfiguration#DeleteReplicasResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -478,6 +478,21 @@
         },
         "smithy.api#documentation": "Deletes a replica.",
         "com.distilled.openapi#apiVersion": "2024-06-01"
+      }
+    },
+    "com.azure.appconfiguration#DeleteReplicasResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL to query for status of the operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appconfiguration#DeleteReplicasRequest": {
@@ -2919,7 +2934,7 @@
         "target": "com.azure.appconfiguration#DeleteConfigurationStoreRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.appconfiguration#DeleteConfigurationStoreResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2930,6 +2945,35 @@
         },
         "smithy.api#documentation": "Deletes a configuration store.",
         "com.distilled.openapi#apiVersion": "2024-06-01"
+      }
+    },
+    "com.azure.appconfiguration#DeleteConfigurationStoreResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL to query for status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL to query for the operation result"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "Indicates how long the client should wait before polling the URL in the Location or Azure-AsyncOperation header."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.appconfiguration#DeleteConfigurationStoreRequest": {

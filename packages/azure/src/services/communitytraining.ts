@@ -261,6 +261,8 @@ export interface CreateCommunityTrainingResponse {
   properties?: CommunityTrainingProperties;
   /** The resource model definition representing SKU */
   sku?: CreateCommunityTrainingResponseSku;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCommunityTrainingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -272,6 +274,7 @@ export const CreateCommunityTrainingResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(CommunityTrainingProperties),
     sku: S.optional(CreateCommunityTrainingResponseSku),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCommunityTrainingResponse",
@@ -302,9 +305,17 @@ export const DeleteCommunityTrainingRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCommunityTrainingRequest",
 }) as any as S.Schema<DeleteCommunityTrainingRequest>;
 
-export interface DeleteCommunityTrainingResponse {}
+export interface DeleteCommunityTrainingResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCommunityTrainingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCommunityTrainingResponse",
 }) as any as S.Schema<DeleteCommunityTrainingResponse>;
@@ -712,6 +723,10 @@ export interface UpdateCommunityTrainingResponse {
   properties?: CommunityTrainingProperties;
   /** The resource model definition representing SKU */
   sku?: CreateCommunityTrainingResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCommunityTrainingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -723,6 +738,8 @@ export const UpdateCommunityTrainingResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(CommunityTrainingProperties),
     sku: S.optional(CreateCommunityTrainingResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCommunityTrainingResponse",

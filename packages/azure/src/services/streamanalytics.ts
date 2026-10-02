@@ -494,6 +494,8 @@ export interface FunctionsCreateOrReplaceResponse {
   type?: string;
   /** The properties that are associated with a function. */
   properties?: FunctionProperties;
+  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const FunctionsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -501,6 +503,7 @@ export const FunctionsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(FunctionProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "FunctionsCreateOrReplaceResponse",
@@ -607,6 +610,8 @@ export interface GetFunctionResponse {
   type?: string;
   /** The properties that are associated with a function. */
   properties?: FunctionProperties;
+  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -614,6 +619,7 @@ export const GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(FunctionProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetFunctionResponse",
@@ -803,6 +809,8 @@ export interface GetInputResponse {
   type?: string;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
   properties?: InputProperties;
+  /** The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const GetInputResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -810,6 +818,7 @@ export const GetInputResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(InputProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetInputResponse",
@@ -926,6 +935,8 @@ export interface GetOutputResponse {
   type?: string;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
   properties?: OutputProperties;
+  /** The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const GetOutputResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -933,6 +944,7 @@ export const GetOutputResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OutputProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetOutputResponse",
@@ -1450,6 +1462,8 @@ export interface GetStreamingJobResponse {
   properties?: StreamingJobProperties;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
   identity?: Identity;
+  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const GetStreamingJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1460,6 +1474,7 @@ export const GetStreamingJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(StreamingJobProperties),
     identity: S.optional(Identity),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetStreamingJobResponse",
@@ -1502,6 +1517,8 @@ export interface GetTransformationResponse {
   type?: string;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
   properties?: TransformationProperties;
+  /** The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const GetTransformationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1509,6 +1526,7 @@ export const GetTransformationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TransformationProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTransformationResponse",
@@ -1579,6 +1597,8 @@ export interface InputsCreateOrReplaceResponse {
   type?: string;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
   properties?: InputProperties;
+  /** The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const InputsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1586,6 +1606,7 @@ export const InputsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(InputProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "InputsCreateOrReplaceResponse",
@@ -2341,6 +2362,8 @@ export interface OutputsCreateOrReplaceResponse {
   type?: string;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
   properties?: OutputProperties;
+  /** The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const OutputsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2348,6 +2371,7 @@ export const OutputsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OutputProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "OutputsCreateOrReplaceResponse",
@@ -2861,6 +2885,8 @@ export interface StreamingJobsCreateOrReplaceResponse {
   properties?: StreamingJobProperties;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
   identity?: Identity;
+  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const StreamingJobsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2872,6 +2898,7 @@ export const StreamingJobsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
       location: S.optional(S.String),
       properties: S.optional(StreamingJobProperties),
       identity: S.optional(Identity),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "StreamingJobsCreateOrReplaceResponse",
@@ -3083,6 +3110,8 @@ export interface TransformationsCreateOrReplaceResponse {
   type?: string;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
   properties?: TransformationProperties;
+  /** The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const TransformationsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3091,6 +3120,7 @@ export const TransformationsCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(TransformationProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "TransformationsCreateOrReplaceResponse",
@@ -3223,6 +3253,8 @@ export interface UpdateFunctionResponse {
   type?: string;
   /** The properties that are associated with a function. */
   properties?: FunctionProperties;
+  /** The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const UpdateFunctionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3230,6 +3262,7 @@ export const UpdateFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(FunctionProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateFunctionResponse",
@@ -3278,6 +3311,8 @@ export interface UpdateInputResponse {
   type?: string;
   /** The properties that are associated with an input. Required on PUT (CreateOrReplace) requests. */
   properties?: InputProperties;
+  /** The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const UpdateInputResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3285,6 +3320,7 @@ export const UpdateInputResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(InputProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateInputResponse",
@@ -3333,6 +3369,8 @@ export interface UpdateOutputResponse {
   type?: string;
   /** The properties that are associated with an output. Required on PUT (CreateOrReplace) requests. */
   properties?: OutputProperties;
+  /** The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const UpdateOutputResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3340,6 +3378,7 @@ export const UpdateOutputResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OutputProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateOutputResponse",
@@ -3415,6 +3454,8 @@ export interface UpdateStreamingJobResponse {
   properties?: StreamingJobProperties;
   /** Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs. */
   identity?: Identity;
+  /** The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const UpdateStreamingJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3425,6 +3466,7 @@ export const UpdateStreamingJobResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(StreamingJobProperties),
     identity: S.optional(Identity),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateStreamingJobResponse",
@@ -3473,6 +3515,8 @@ export interface UpdateTransformationResponse {
   type?: string;
   /** The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests. */
   properties?: TransformationProperties;
+  /** The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency. */
+  eTag?: string;
 }
 export const UpdateTransformationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3480,6 +3524,7 @@ export const UpdateTransformationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TransformationProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateTransformationResponse",

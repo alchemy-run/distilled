@@ -372,6 +372,10 @@ export interface CreateStorageTaskResponse {
   properties: StorageTaskProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity: CreateStorageTaskResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateStorageTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -383,6 +387,8 @@ export const CreateStorageTaskResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: StorageTaskProperties,
     identity: CreateStorageTaskResponseIdentity,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateStorageTaskResponse",
@@ -413,9 +419,22 @@ export const DeleteStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStorageTaskRequest",
 }) as any as S.Schema<DeleteStorageTaskRequest>;
 
-export interface DeleteStorageTaskResponse {}
+export interface DeleteStorageTaskResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStorageTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteStorageTaskResponse",
 }) as any as S.Schema<DeleteStorageTaskResponse>;
@@ -1097,9 +1116,23 @@ export const StopStorageTaskAllAssignmentsRequest = /*@__PURE__*/ S.suspend(
   identifier: "StopStorageTaskAllAssignmentsRequest",
 }) as any as S.Schema<StopStorageTaskAllAssignmentsRequest>;
 
-export interface StopStorageTaskAllAssignmentsResponse {}
+export interface StopStorageTaskAllAssignmentsResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StopStorageTaskAllAssignmentsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "StopStorageTaskAllAssignmentsResponse",
 }) as any as S.Schema<StopStorageTaskAllAssignmentsResponse>;
@@ -1203,6 +1236,12 @@ export interface UpdateStorageTaskResponse {
   properties: StorageTaskProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity: CreateStorageTaskResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateStorageTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1214,6 +1253,11 @@ export const UpdateStorageTaskResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: StorageTaskProperties,
     identity: CreateStorageTaskResponseIdentity,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateStorageTaskResponse",

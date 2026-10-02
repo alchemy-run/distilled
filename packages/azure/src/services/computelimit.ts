@@ -586,6 +586,10 @@ export interface DisableFeatureResponse {
   operations?: DisableFeatureResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DisableFeatureResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -598,6 +602,8 @@ export const DisableFeatureResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(DisableFeatureResponseOperationsList),
     error: S.optional(ErrorDetail),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DisableFeatureResponse",
@@ -656,6 +662,10 @@ export interface EnableFeatureResponse {
   operations?: EnableFeatureResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const EnableFeatureResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -668,6 +678,8 @@ export const EnableFeatureResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(EnableFeatureResponseOperationsList),
     error: S.optional(ErrorDetail),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "EnableFeatureResponse",

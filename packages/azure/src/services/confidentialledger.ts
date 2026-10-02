@@ -395,6 +395,10 @@ export interface CreateLedgerResponse {
   location: string;
   /** Properties of Confidential Ledger Resource. */
   properties?: LedgerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateLedgerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -405,6 +409,10 @@ export const CreateLedgerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateLedgerResponseTagsMap),
     location: S.String,
     properties: S.optional(LedgerProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateLedgerResponse",
@@ -435,9 +443,17 @@ export const DeleteLedgerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLedgerRequest",
 }) as any as S.Schema<DeleteLedgerRequest>;
 
-export interface DeleteLedgerResponse {}
+export interface DeleteLedgerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteLedgerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteLedgerResponse",
 }) as any as S.Schema<DeleteLedgerResponse>;
@@ -477,11 +493,17 @@ export const ExportLedgerFileRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ConfidentialLedgerFilesExportResponse {
   /** Response body stating if the ledger files are being exported. */
   message?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConfidentialLedgerFilesExportResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       message: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ConfidentialLedgerFilesExportResponse",
@@ -797,6 +819,8 @@ export interface UpdateLedgerResponse {
   location: string;
   /** Properties of Confidential Ledger Resource. */
   properties?: LedgerProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateLedgerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -807,6 +831,7 @@ export const UpdateLedgerResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateLedgerResponseTagsMap),
     location: S.String,
     properties: S.optional(LedgerProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateLedgerResponse",

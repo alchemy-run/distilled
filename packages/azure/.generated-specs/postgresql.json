@@ -24,7 +24,7 @@
         "target": "com.azure.postgresql#DeleteVirtualEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeleteVirtualEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,35 @@
         },
         "smithy.api#documentation": "Deletes a pair of virtual endpoints.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeleteVirtualEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeleteVirtualEndpointRequest": {
@@ -83,7 +112,7 @@
         "target": "com.azure.postgresql#UpdateVirtualEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#UpdateVirtualEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -94,6 +123,35 @@
         },
         "smithy.api#documentation": "Updates a pair of virtual endpoints for a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#UpdateVirtualEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#UpdateVirtualEndpointRequest": {
@@ -191,7 +249,7 @@
         "target": "com.azure.postgresql#CreateVirtualEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#CreateVirtualEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -202,6 +260,35 @@
         },
         "smithy.api#documentation": "Creates a pair of virtual endpoints for a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#CreateVirtualEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#CreateVirtualEndpointRequest": {
@@ -1330,7 +1417,7 @@
         "target": "com.azure.postgresql#StopServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#StopServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1341,6 +1428,35 @@
         },
         "smithy.api#documentation": "Stops a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#StopServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#StopServerRequest": {
@@ -1401,6 +1517,34 @@
           "target": "com.azure.postgresql#LtrBackupOperationResponseProperties",
           "traits": {
             "smithy.api#documentation": "Long Term Retention Backup Operation Resource Properties"
+          }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "A unique ID for the current operation, service generated. All the resource providers must return this value in the response headers to facilitate debugging."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1601,7 +1745,7 @@
         "target": "com.azure.postgresql#StartServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#StartServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1612,6 +1756,35 @@
         },
         "smithy.api#documentation": "Starts a stopped server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#StartServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#StartServerRequest": {
@@ -1652,7 +1825,7 @@
         "target": "com.azure.postgresql#RestartServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#RestartServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1663,6 +1836,35 @@
         },
         "smithy.api#documentation": "Restarts PostgreSQL database engine in a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#RestartServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#RestartServerRequest": {
@@ -3598,7 +3800,7 @@
         "target": "com.azure.postgresql#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3609,6 +3811,35 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeletePrivateEndpointConnectionRequest": {
@@ -3657,7 +3888,7 @@
         "target": "com.azure.postgresql#UpdatePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#UpdatePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3668,6 +3899,35 @@
         },
         "smithy.api#documentation": "Approves or rejects a private endpoint connection.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#UpdatePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#UpdatePrivateEndpointConnectionRequest": {
@@ -6178,6 +6438,13 @@
             "smithy.api#documentation": "Additional Properties for the pre backup response",
             "smithy.api#required": {}
           }
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "A unique ID for the current operation, service generated. All the resource providers must return this value in the response headers to facilitate debugging."
+          }
         }
       },
       "traits": {
@@ -6617,7 +6884,7 @@
         "target": "com.azure.postgresql#DeleteFirewallRuleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeleteFirewallRuleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6628,6 +6895,35 @@
         },
         "smithy.api#documentation": "Deletes an existing firewall rule.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeleteFirewallRuleResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeleteFirewallRuleRequest": {
@@ -6676,7 +6972,7 @@
         "target": "com.azure.postgresql#FirewallRulesCreateOrUpdateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#FirewallRulesCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6687,6 +6983,35 @@
         },
         "smithy.api#documentation": "Creates a new firewall rule or updates an existing firewall rule.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#FirewallRulesCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#FirewallRulesCreateOrUpdateRequest": {
@@ -6982,7 +7307,7 @@
         "target": "com.azure.postgresql#DeleteDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeleteDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6993,6 +7318,35 @@
         },
         "smithy.api#documentation": "Deletes an existing database.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeleteDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeleteDatabaseRequest": {
@@ -7041,7 +7395,7 @@
         "target": "com.azure.postgresql#CreateDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#CreateDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7052,6 +7406,35 @@
         },
         "smithy.api#documentation": "Creates a new database.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#CreateDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#CreateDatabaseRequest": {
@@ -7342,7 +7725,7 @@
         "target": "com.azure.postgresql#UpdateConfigurationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#UpdateConfigurationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7353,6 +7736,35 @@
         },
         "smithy.api#documentation": "Updates the value assigned to a specific modifiable configuration (also known as server parameter) of a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#UpdateConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#UpdateConfigurationRequest": {
@@ -7427,7 +7839,7 @@
         "target": "com.azure.postgresql#PutConfigurationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#PutConfigurationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7438,6 +7850,35 @@
         },
         "smithy.api#documentation": "Updates, using Put verb, the value assigned to a specific modifiable configuration (also known as server parameter) of a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#PutConfigurationResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#PutConfigurationRequest": {
@@ -8811,7 +9252,7 @@
         "target": "com.azure.postgresql#DeleteBackupsAutomaticAndOnDemandRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeleteBackupsAutomaticAndOnDemandResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8822,6 +9263,35 @@
         },
         "smithy.api#documentation": "Deletes a specific backup, given its name.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeleteBackupsAutomaticAndOnDemandResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeleteBackupsAutomaticAndOnDemandRequest": {
@@ -8870,7 +9340,7 @@
         "target": "com.azure.postgresql#CreateBackupsAutomaticAndOnDemandRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#CreateBackupsAutomaticAndOnDemandResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8881,6 +9351,35 @@
         },
         "smithy.api#documentation": "Creates an on demand backup of a server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#CreateBackupsAutomaticAndOnDemandResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#CreateBackupsAutomaticAndOnDemandRequest": {
@@ -9191,7 +9690,7 @@
         "target": "com.azure.postgresql#ServerThreatProtectionSettingsCreateOrUpdateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#ServerThreatProtectionSettingsCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9202,6 +9701,35 @@
         },
         "smithy.api#documentation": "Creates or updates a server's Advanced Threat Protection settings.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#ServerThreatProtectionSettingsCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#ServerThreatProtectionSettingsCreateOrUpdateRequest": {
@@ -9552,7 +10080,7 @@
         "target": "com.azure.postgresql#DeleteAdministratorsMicrosoftEntraRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeleteAdministratorsMicrosoftEntraResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9563,6 +10091,35 @@
         },
         "smithy.api#documentation": "Deletes an existing server administrator associated to a Microsoft Entra principal.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeleteAdministratorsMicrosoftEntraResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeleteAdministratorsMicrosoftEntraRequest": {
@@ -9611,7 +10168,7 @@
         "target": "com.azure.postgresql#AdministratorsMicrosoftEntraCreateOrUpdateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#AdministratorsMicrosoftEntraCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9622,6 +10179,35 @@
         },
         "smithy.api#documentation": "Creates a new server administrator associated to a Microsoft Entra principal.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#AdministratorsMicrosoftEntraCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#AdministratorsMicrosoftEntraCreateOrUpdateRequest": {
@@ -9984,7 +10570,7 @@
         "target": "com.azure.postgresql#DeleteServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#DeleteServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9995,6 +10581,35 @@
         },
         "smithy.api#documentation": "Deletes or drops an existing server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#DeleteServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#DeleteServerRequest": {
@@ -10035,7 +10650,7 @@
         "target": "com.azure.postgresql#UpdateServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#UpdateServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10046,6 +10661,35 @@
         },
         "smithy.api#documentation": "Updates an existing server. The request body can contain one or multiple of the properties present in the normal server definition.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#UpdateServerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#UpdateServerRequest": {
@@ -10458,7 +11102,7 @@
         "target": "com.azure.postgresql#ServersCreateOrUpdateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresql#ServersCreateOrUpdateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10469,6 +11113,35 @@
         },
         "smithy.api#documentation": "Creates a new server.",
         "com.distilled.openapi#apiVersion": "2025-08-01"
+      }
+    },
+    "com.azure.postgresql#ServersCreateOrUpdateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresql#ServersCreateOrUpdateRequest": {

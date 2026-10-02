@@ -944,9 +944,22 @@ export const DeleteConfigurationStoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConfigurationStoreRequest",
 }) as any as S.Schema<DeleteConfigurationStoreRequest>;
 
-export interface DeleteConfigurationStoreResponse {}
+export interface DeleteConfigurationStoreResponse {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for the operation result */
+  location?: string;
+  /** Indicates how long the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
+  retryAfter?: number;
+}
 export const DeleteConfigurationStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConfigurationStoreResponse",
 }) as any as S.Schema<DeleteConfigurationStoreResponse>;
@@ -1050,9 +1063,16 @@ export const DeleteReplicasRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteReplicasRequest",
 }) as any as S.Schema<DeleteReplicasRequest>;
 
-export interface DeleteReplicasResponse {}
+export interface DeleteReplicasResponse {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+}
 export const DeleteReplicasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteReplicasResponse",
 }) as any as S.Schema<DeleteReplicasResponse>;

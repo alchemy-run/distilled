@@ -897,7 +897,7 @@
         "target": "com.azure.signalr#RestartSignalRRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.signalr#RestartSignalRResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -908,6 +908,20 @@
         },
         "smithy.api#documentation": "Operation to restart a resource.",
         "com.distilled.openapi#apiVersion": "2024-03-01"
+      }
+    },
+    "com.azure.signalr#RestartSignalRResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.signalr#RestartSignalRRequest": {
@@ -1273,7 +1287,7 @@
         "target": "com.azure.signalr#RestartSignalRReplicasRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.signalr#RestartSignalRReplicasResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1284,6 +1298,20 @@
         },
         "smithy.api#documentation": "Operation to restart a replica.",
         "com.distilled.openapi#apiVersion": "2024-03-01"
+      }
+    },
+    "com.azure.signalr#RestartSignalRReplicasResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.signalr#RestartSignalRReplicasRequest": {
@@ -1449,6 +1477,12 @@
         },
         "properties": {
           "target": "com.azure.signalr#ReplicaProperties"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
@@ -2023,7 +2057,7 @@
         "target": "com.azure.signalr#RegenerateSignalRKeyRequest"
       },
       "output": {
-        "target": "com.azure.signalr#SignalRKeys"
+        "target": "com.azure.signalr#RegenerateSignalRKeyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2036,7 +2070,7 @@
         "com.distilled.openapi#apiVersion": "2024-03-01"
       }
     },
-    "com.azure.signalr#SignalRKeys": {
+    "com.azure.signalr#RegenerateSignalRKeyResponse": {
       "type": "structure",
       "members": {
         "primaryKey": {
@@ -2062,10 +2096,17 @@
           "traits": {
             "smithy.api#documentation": "Connection string constructed via the secondaryKey"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "A class represents the access keys of the resource."
+        "smithy.api#documentation": "A class represents the access keys of the resource.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.signalr#RegenerateSignalRKeyRequest": {
@@ -2843,6 +2884,38 @@
         },
         "smithy.api#documentation": "Get the access keys of the resource.",
         "com.distilled.openapi#apiVersion": "2024-03-01"
+      }
+    },
+    "com.azure.signalr#SignalRKeys": {
+      "type": "structure",
+      "members": {
+        "primaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary access key."
+          }
+        },
+        "secondaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secondary access key."
+          }
+        },
+        "primaryConnectionString": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connection string constructed via the primaryKey"
+          }
+        },
+        "secondaryConnectionString": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Connection string constructed via the secondaryKey"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A class represents the access keys of the resource."
       }
     },
     "com.azure.signalr#ListSignalRKeysRequest": {
@@ -3870,6 +3943,12 @@
         },
         "identity": {
           "target": "com.azure.signalr#ManagedIdentity"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {

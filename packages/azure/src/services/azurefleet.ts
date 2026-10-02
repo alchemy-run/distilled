@@ -38,9 +38,17 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFleetRequest",
 }) as any as S.Schema<DeleteFleetRequest>;
 
-export interface DeleteFleetResponse {}
+export interface DeleteFleetResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFleetResponse",
 }) as any as S.Schema<DeleteFleetResponse>;
@@ -2549,6 +2557,8 @@ export interface FleetsCreateOrUpdateResponse {
   identity?: FleetsCreateOrUpdateResponseIdentity;
   /** Plan for the resource. */
   plan?: FleetsCreateOrUpdateRequestPlan;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FleetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2562,6 +2572,7 @@ export const FleetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(FleetsCreateOrUpdateResponseZonesList),
     identity: S.optional(FleetsCreateOrUpdateResponseIdentity),
     plan: S.optional(FleetsCreateOrUpdateRequestPlan),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "FleetsCreateOrUpdateResponse",
@@ -3149,6 +3160,10 @@ export interface UpdateFleetResponse {
   identity?: FleetsCreateOrUpdateResponseIdentity;
   /** Plan for the resource. */
   plan?: FleetsCreateOrUpdateRequestPlan;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3162,6 +3177,8 @@ export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(UpdateFleetResponseZonesList),
     identity: S.optional(FleetsCreateOrUpdateResponseIdentity),
     plan: S.optional(FleetsCreateOrUpdateRequestPlan),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFleetResponse",

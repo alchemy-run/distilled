@@ -446,6 +446,10 @@ export interface ApplicationsCreateOrUpdateResponse {
   identity?: ManagedIdentity;
   /** The geo-location where the resource lives */
   location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const ApplicationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -457,6 +461,10 @@ export const ApplicationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ApplicationsCreateOrUpdateResponseTagsMap),
     identity: S.optional(ManagedIdentity),
     location: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "ApplicationsCreateOrUpdateResponse",
@@ -675,6 +683,10 @@ export interface ApplicationTypeVersionsCreateOrUpdateResponse {
   tags?: ApplicationTypeVersionsCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
   location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const ApplicationTypeVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -686,6 +698,10 @@ export const ApplicationTypeVersionsCreateOrUpdateResponse =
       properties: S.optional(ApplicationTypeVersionResourceProperties),
       tags: S.optional(ApplicationTypeVersionsCreateOrUpdateResponseTagsMap),
       location: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "ApplicationTypeVersionsCreateOrUpdateResponse",
@@ -719,9 +735,19 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 
-export interface DeleteApplicationResponse {}
+export interface DeleteApplicationResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
@@ -754,9 +780,19 @@ export const DeleteApplicationTypeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationTypeRequest",
 }) as any as S.Schema<DeleteApplicationTypeRequest>;
 
-export interface DeleteApplicationTypeResponse {}
+export interface DeleteApplicationTypeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteApplicationTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteApplicationTypeResponse",
 }) as any as S.Schema<DeleteApplicationTypeResponse>;
@@ -792,9 +828,20 @@ export const DeleteApplicationTypeVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationTypeVersionRequest",
 }) as any as S.Schema<DeleteApplicationTypeVersionRequest>;
 
-export interface DeleteApplicationTypeVersionResponse {}
+export interface DeleteApplicationTypeVersionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteApplicationTypeVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteApplicationTypeVersionResponse",
 }) as any as S.Schema<DeleteApplicationTypeVersionResponse>;
@@ -824,9 +871,19 @@ export const DeleteManagedClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteManagedClusterRequest",
 }) as any as S.Schema<DeleteManagedClusterRequest>;
 
-export interface DeleteManagedClusterResponse {}
+export interface DeleteManagedClusterResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteManagedClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteManagedClusterResponse",
 }) as any as S.Schema<DeleteManagedClusterResponse>;
@@ -859,9 +916,19 @@ export const DeleteNodeTypeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNodeTypeRequest",
 }) as any as S.Schema<DeleteNodeTypeRequest>;
 
-export interface DeleteNodeTypeResponse {}
+export interface DeleteNodeTypeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNodeTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNodeTypeResponse",
 }) as any as S.Schema<DeleteNodeTypeResponse>;
@@ -913,9 +980,19 @@ export const DeleteNodeTypeNodeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNodeTypeNodeRequest",
 }) as any as S.Schema<DeleteNodeTypeNodeRequest>;
 
-export interface DeleteNodeTypeNodeResponse {}
+export interface DeleteNodeTypeNodeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteNodeTypeNodeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteNodeTypeNodeResponse",
 }) as any as S.Schema<DeleteNodeTypeNodeResponse>;
@@ -951,9 +1028,19 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteServiceRequest",
 }) as any as S.Schema<DeleteServiceRequest>;
 
-export interface DeleteServiceResponse {}
+export interface DeleteServiceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteServiceResponse",
 }) as any as S.Schema<DeleteServiceResponse>;
@@ -1011,9 +1098,19 @@ export const FetchApplicationHealthRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FetchApplicationHealthRequest",
 }) as any as S.Schema<FetchApplicationHealthRequest>;
 
-export interface FetchApplicationHealthResponse {}
+export interface FetchApplicationHealthResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const FetchApplicationHealthResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "FetchApplicationHealthResponse",
 }) as any as S.Schema<FetchApplicationHealthResponse>;
@@ -3082,9 +3179,14 @@ export const GetOperationResultRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOperationResultRequest",
 }) as any as S.Schema<GetOperationResultRequest>;
 
-export interface GetOperationResultResponse {}
+export interface GetOperationResultResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const GetOperationResultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+  }),
 ).annotate({
   identifier: "GetOperationResultResponse",
 }) as any as S.Schema<GetOperationResultResponse>;
@@ -4612,6 +4714,10 @@ export interface ManagedClustersCreateOrUpdateResponse {
   etag?: string;
   /** The sku of the managed cluster */
   sku: Sku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const ManagedClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4625,6 +4731,10 @@ export const ManagedClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       properties: S.optional(ManagedClusterProperties),
       etag: S.optional(S.String),
       sku: Sku,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "ManagedClustersCreateOrUpdateResponse",
@@ -5054,6 +5164,10 @@ export interface NodeTypesCreateOrUpdateResponse {
   tags?: NodeTypesCreateOrUpdateResponseTagsMap;
   /** The node type sku. */
   sku?: NodeTypeSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const NodeTypesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5064,6 +5178,10 @@ export const NodeTypesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NodeTypeProperties),
     tags: S.optional(NodeTypesCreateOrUpdateResponseTagsMap),
     sku: S.optional(NodeTypeSku),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "NodeTypesCreateOrUpdateResponse",
@@ -5112,9 +5230,19 @@ export const NodeTypesDeallocateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodeTypesDeallocateRequest",
 }) as any as S.Schema<NodeTypesDeallocateRequest>;
 
-export interface NodeTypesDeallocateResponse {}
+export interface NodeTypesDeallocateResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const NodeTypesDeallocateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "NodeTypesDeallocateResponse",
 }) as any as S.Schema<NodeTypesDeallocateResponse>;
@@ -5162,9 +5290,19 @@ export const NodeTypesReimageRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodeTypesReimageRequest",
 }) as any as S.Schema<NodeTypesReimageRequest>;
 
-export interface NodeTypesReimageResponse {}
+export interface NodeTypesReimageResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const NodeTypesReimageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "NodeTypesReimageResponse",
 }) as any as S.Schema<NodeTypesReimageResponse>;
@@ -5229,9 +5367,19 @@ export const ReadApplicationUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReadApplicationUpgradeRequest",
 }) as any as S.Schema<ReadApplicationUpgradeRequest>;
 
-export interface ReadApplicationUpgradeResponse {}
+export interface ReadApplicationUpgradeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const ReadApplicationUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "ReadApplicationUpgradeResponse",
 }) as any as S.Schema<ReadApplicationUpgradeResponse>;
@@ -5279,9 +5427,19 @@ export const RedeployNodeTypeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RedeployNodeTypeRequest",
 }) as any as S.Schema<RedeployNodeTypeRequest>;
 
-export interface RedeployNodeTypeResponse {}
+export interface RedeployNodeTypeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const RedeployNodeTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RedeployNodeTypeResponse",
 }) as any as S.Schema<RedeployNodeTypeResponse>;
@@ -5330,9 +5488,21 @@ export const RestartApplicationDeployedCodePackageRequest =
     identifier: "RestartApplicationDeployedCodePackageRequest",
   }) as any as S.Schema<RestartApplicationDeployedCodePackageRequest>;
 
-export interface RestartApplicationDeployedCodePackageResponse {}
+export interface RestartApplicationDeployedCodePackageResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const RestartApplicationDeployedCodePackageResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "RestartApplicationDeployedCodePackageResponse",
   }) as any as S.Schema<RestartApplicationDeployedCodePackageResponse>;
 
@@ -5379,9 +5549,19 @@ export const RestartNodeTypeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartNodeTypeRequest",
 }) as any as S.Schema<RestartNodeTypeRequest>;
 
-export interface RestartNodeTypeResponse {}
+export interface RestartNodeTypeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const RestartNodeTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartNodeTypeResponse",
 }) as any as S.Schema<RestartNodeTypeResponse>;
@@ -5442,9 +5622,19 @@ export const RestartServiceReplicaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartServiceReplicaRequest",
 }) as any as S.Schema<RestartServiceReplicaRequest>;
 
-export interface RestartServiceReplicaResponse {}
+export interface RestartServiceReplicaResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const RestartServiceReplicaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartServiceReplicaResponse",
 }) as any as S.Schema<RestartServiceReplicaResponse>;
@@ -5480,9 +5670,19 @@ export const ResumeApplicationUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResumeApplicationUpgradeRequest",
 }) as any as S.Schema<ResumeApplicationUpgradeRequest>;
 
-export interface ResumeApplicationUpgradeResponse {}
+export interface ResumeApplicationUpgradeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const ResumeApplicationUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "ResumeApplicationUpgradeResponse",
 }) as any as S.Schema<ResumeApplicationUpgradeResponse>;
@@ -5643,6 +5843,10 @@ export interface ServicesCreateOrUpdateResponse {
   tags?: ServicesCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
   location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const ServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5653,6 +5857,10 @@ export const ServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServiceResourceProperties),
     tags: S.optional(ServicesCreateOrUpdateResponseTagsMap),
     location: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "ServicesCreateOrUpdateResponse",
@@ -5686,9 +5894,19 @@ export const StartApplicationRollbackRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartApplicationRollbackRequest",
 }) as any as S.Schema<StartApplicationRollbackRequest>;
 
-export interface StartApplicationRollbackResponse {}
+export interface StartApplicationRollbackResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const StartApplicationRollbackResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "StartApplicationRollbackResponse",
 }) as any as S.Schema<StartApplicationRollbackResponse>;
@@ -5736,9 +5954,19 @@ export const StartNodeTypeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartNodeTypeRequest",
 }) as any as S.Schema<StartNodeTypeRequest>;
 
-export interface StartNodeTypeResponse {}
+export interface StartNodeTypeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const StartNodeTypeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "StartNodeTypeResponse",
 }) as any as S.Schema<StartNodeTypeResponse>;
@@ -5838,6 +6066,10 @@ export interface UpdateApplicationResponse {
   identity?: ManagedIdentity;
   /** The geo-location where the resource lives */
   location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5849,6 +6081,10 @@ export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateApplicationResponseTagsMap),
     identity: S.optional(ManagedIdentity),
     location: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateApplicationResponse",
@@ -6152,9 +6388,19 @@ export const UpdateApplicationUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateApplicationUpgradeRequest",
 }) as any as S.Schema<UpdateApplicationUpgradeRequest>;
 
-export interface UpdateApplicationUpgradeResponse {}
+export interface UpdateApplicationUpgradeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const UpdateApplicationUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "UpdateApplicationUpgradeResponse",
 }) as any as S.Schema<UpdateApplicationUpgradeResponse>;
@@ -6224,6 +6470,10 @@ export interface UpdateManagedClusterResponse {
   etag?: string;
   /** The sku of the managed cluster */
   sku: Sku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateManagedClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6236,6 +6486,10 @@ export const UpdateManagedClusterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ManagedClusterProperties),
     etag: S.optional(S.String),
     sku: Sku,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateManagedClusterResponse",
@@ -6308,6 +6562,10 @@ export interface UpdateNodeTypeResponse {
   tags?: UpdateNodeTypeResponseTagsMap;
   /** The node type sku. */
   sku?: NodeTypeSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UpdateNodeTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6318,6 +6576,10 @@ export const UpdateNodeTypeResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(NodeTypeProperties),
     tags: S.optional(UpdateNodeTypeResponseTagsMap),
     sku: S.optional(NodeTypeSku),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateNodeTypeResponse",

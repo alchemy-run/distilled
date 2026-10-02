@@ -392,7 +392,7 @@
         "target": "com.azure.hybridcompute#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -403,6 +403,35 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection with a given name.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeletePrivateEndpointConnectionRequest": {
@@ -495,6 +524,20 @@
           "target": "com.azure.hybridcompute#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -915,6 +958,27 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The URL of the resource used to check the status of the asynchronous operation."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1556,7 +1620,7 @@
         "target": "com.azure.hybridcompute#DeletePrivateLinkScopeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeletePrivateLinkScopeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1567,6 +1631,35 @@
         },
         "smithy.api#documentation": "Deletes a Azure Arc PrivateLinkScope.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeletePrivateLinkScopeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeletePrivateLinkScopeRequest": {
@@ -2331,7 +2424,7 @@
         "target": "com.azure.hybridcompute#UpgradeExtensionsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#UpgradeExtensionsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2342,6 +2435,35 @@
         },
         "smithy.api#documentation": "The operation to Upgrade Machine Extensions.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#UpgradeExtensionsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#UpgradeExtensionsRequest": {
@@ -2414,7 +2536,7 @@
         "target": "com.azure.hybridcompute#DeleteMachineRunCommandRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeleteMachineRunCommandResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2425,6 +2547,35 @@
         },
         "smithy.api#documentation": "The operation to delete a run command.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeleteMachineRunCommandResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeleteMachineRunCommandRequest": {
@@ -2530,6 +2681,27 @@
           "target": "com.azure.hybridcompute#MachineRunCommandProperties",
           "traits": {
             "smithy.api#documentation": "Describes Run Command Properties"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3645,7 +3817,7 @@
         "target": "com.azure.hybridcompute#DeleteLicenseProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeleteLicenseProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3656,6 +3828,35 @@
         },
         "smithy.api#documentation": "The operation to delete a license profile.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeleteLicenseProfileResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeleteLicenseProfileRequest": {
@@ -3773,6 +3974,27 @@
           "target": "com.azure.hybridcompute#LicenseProfileProperties",
           "traits": {
             "smithy.api#documentation": "Describe the properties of a license profile."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4659,6 +4881,27 @@
           "traits": {
             "smithy.api#documentation": "Describe the properties of a license profile."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5267,6 +5510,20 @@
           "traits": {
             "smithy.api#documentation": "The error detail."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5811,7 +6068,7 @@
         "target": "com.azure.hybridcompute#DeleteMachineExtensionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeleteMachineExtensionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5822,6 +6079,35 @@
         },
         "smithy.api#documentation": "The operation to delete the extension.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeleteMachineExtensionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeleteMachineExtensionRequest": {
@@ -5927,6 +6213,27 @@
           "target": "com.azure.hybridcompute#MachineExtensionProperties",
           "traits": {
             "smithy.api#documentation": "Describes Machine Extension Properties."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6341,6 +6648,20 @@
           "target": "com.azure.hybridcompute#MachineExtensionProperties",
           "traits": {
             "smithy.api#documentation": "Describes Machine Extension Properties."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6871,6 +7192,20 @@
           "traits": {
             "smithy.api#documentation": "The error detail."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -7054,6 +7389,27 @@
           "traits": {
             "smithy.api#documentation": "The list of extensions"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {}
@@ -7120,7 +7476,7 @@
         "target": "com.azure.hybridcompute#DeleteMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeleteMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7131,6 +7487,35 @@
         },
         "smithy.api#documentation": "The operation to delete a hybrid machine.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeleteMachineResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeleteMachineRequest": {
@@ -10287,7 +10672,7 @@
         "target": "com.azure.hybridcompute#DeleteLicenseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeleteLicenseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10298,6 +10683,28 @@
         },
         "smithy.api#documentation": "The operation to delete a license.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeleteLicenseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeleteLicenseRequest": {
@@ -10395,6 +10802,20 @@
           "target": "com.azure.hybridcompute#LicenseProperties",
           "traits": {
             "smithy.api#documentation": "Hybrid Compute License properties"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10586,6 +11007,20 @@
           "target": "com.azure.hybridcompute#LicenseProperties",
           "traits": {
             "smithy.api#documentation": "Hybrid Compute License properties"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10861,7 +11296,7 @@
         "target": "com.azure.hybridcompute#DeleteGatewayRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridcompute#DeleteGatewayResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10872,6 +11307,35 @@
         },
         "smithy.api#documentation": "The operation to delete a gateway.",
         "com.distilled.openapi#apiVersion": "2026-07-15"
+      }
+    },
+    "com.azure.hybridcompute#DeleteGatewayResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridcompute#DeleteGatewayRequest": {
@@ -11221,6 +11685,27 @@
           "target": "com.azure.hybridcompute#GatewayProperties",
           "traits": {
             "smithy.api#documentation": "Hybrid Compute Gateway properties"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -12059,6 +12544,20 @@
           "target": "com.azure.hybridcompute#LicenseProperties",
           "traits": {
             "smithy.api#documentation": "Hybrid Compute License properties"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

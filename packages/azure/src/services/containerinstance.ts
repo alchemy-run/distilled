@@ -1479,6 +1479,7 @@ export interface CGProfileCreateOrUpdateResponse {
   location?: string;
   /** The availability zones. */
   zones?: CGProfileCreateOrUpdateResponseZonesList;
+  xMsCorrelationRequestId?: string;
 }
 export const CGProfileCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1490,6 +1491,9 @@ export const CGProfileCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CGProfileCreateOrUpdateResponseTagsMap),
     location: S.optional(S.String),
     zones: S.optional(CGProfileCreateOrUpdateResponseZonesList),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
   }),
 ).annotate({
   identifier: "CGProfileCreateOrUpdateResponse",
@@ -2158,6 +2162,10 @@ export interface ContainerGroupsCreateOrUpdateResponse {
   identity?: ContainerGroupIdentity;
   /** The container group properties */
   properties: ContainerGroupPropertiesProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ContainerGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2171,6 +2179,8 @@ export const ContainerGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       zones: S.optional(ContainerGroupsCreateOrUpdateResponseZonesList),
       identity: S.optional(ContainerGroupIdentity),
       properties: ContainerGroupPropertiesProperties,
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ContainerGroupsCreateOrUpdateResponse",
@@ -2267,6 +2277,10 @@ export interface DeleteContainerGroupResponse {
   identity?: ContainerGroupIdentity;
   /** The container group properties */
   properties: ContainerGroupPropertiesProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DeleteContainerGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2279,6 +2293,8 @@ export const DeleteContainerGroupResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(DeleteContainerGroupResponseZonesList),
     identity: S.optional(ContainerGroupIdentity),
     properties: ContainerGroupPropertiesProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DeleteContainerGroupResponse",
@@ -2309,9 +2325,21 @@ export const DeleteNGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNGroupRequest",
 }) as any as S.Schema<DeleteNGroupRequest>;
 
-export interface DeleteNGroupResponse {}
+export interface DeleteNGroupResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteNGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteNGroupResponse",
 }) as any as S.Schema<DeleteNGroupResponse>;
@@ -2341,9 +2369,17 @@ export const DeleteSandboxGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSandboxGroupRequest",
 }) as any as S.Schema<DeleteSandboxGroupRequest>;
 
-export interface DeleteSandboxGroupResponse {}
+export interface DeleteSandboxGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSandboxGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSandboxGroupResponse",
 }) as any as S.Schema<DeleteSandboxGroupResponse>;
@@ -2377,9 +2413,19 @@ export const DeleteSubnetServiceAssociationLinkRequest =
     identifier: "DeleteSubnetServiceAssociationLinkRequest",
   }) as any as S.Schema<DeleteSubnetServiceAssociationLinkRequest>;
 
-export interface DeleteSubnetServiceAssociationLinkResponse {}
+export interface DeleteSubnetServiceAssociationLinkResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSubnetServiceAssociationLinkResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteSubnetServiceAssociationLinkResponse",
   }) as any as S.Schema<DeleteSubnetServiceAssociationLinkResponse>;
 
@@ -4493,6 +4539,9 @@ export interface NGroupsCreateOrUpdateResponse {
   zones?: NGroupsCreateOrUpdateResponseZonesList;
   /** The identity of the NGroup, if configured. */
   identity?: NGroupIdentity;
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const NGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4505,6 +4554,10 @@ export const NGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     zones: S.optional(NGroupsCreateOrUpdateResponseZonesList),
     identity: S.optional(NGroupIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "NGroupsCreateOrUpdateResponse",
@@ -4535,9 +4588,17 @@ export const RestartContainerGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartContainerGroupRequest",
 }) as any as S.Schema<RestartContainerGroupRequest>;
 
-export interface RestartContainerGroupResponse {}
+export interface RestartContainerGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestartContainerGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestartContainerGroupResponse",
 }) as any as S.Schema<RestartContainerGroupResponse>;
@@ -4567,9 +4628,21 @@ export const RestartNGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartNGroupRequest",
 }) as any as S.Schema<RestartNGroupRequest>;
 
-export interface RestartNGroupResponse {}
+export interface RestartNGroupResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestartNGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestartNGroupResponse",
 }) as any as S.Schema<RestartNGroupResponse>;
@@ -4681,6 +4754,10 @@ export interface SandboxGroupsCreateOrUpdateResponse {
   properties?: SandboxGroupProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetSandboxGroupResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SandboxGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4692,6 +4769,10 @@ export const SandboxGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SandboxGroupProperties),
     identity: S.optional(GetSandboxGroupResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SandboxGroupsCreateOrUpdateResponse",
@@ -4722,9 +4803,17 @@ export const StartContainerGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartContainerGroupRequest",
 }) as any as S.Schema<StartContainerGroupRequest>;
 
-export interface StartContainerGroupResponse {}
+export interface StartContainerGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartContainerGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartContainerGroupResponse",
 }) as any as S.Schema<StartContainerGroupResponse>;
@@ -4754,9 +4843,21 @@ export const StartNGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartNGroupRequest",
 }) as any as S.Schema<StartNGroupRequest>;
 
-export interface StartNGroupResponse {}
+export interface StartNGroupResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartNGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartNGroupResponse",
 }) as any as S.Schema<StartNGroupResponse>;
@@ -4894,6 +4995,7 @@ export interface UpdateCGProfileResponse {
   location?: string;
   /** The availability zones. */
   zones?: UpdateCGProfileResponseZonesList;
+  xMsCorrelationRequestId?: string;
 }
 export const UpdateCGProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4905,6 +5007,9 @@ export const UpdateCGProfileResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateCGProfileResponseTagsMap),
     location: S.optional(S.String),
     zones: S.optional(UpdateCGProfileResponseZonesList),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateCGProfileResponse",
@@ -5092,6 +5197,10 @@ export interface UpdateNGroupResponse {
   zones?: UpdateNGroupResponseZonesList;
   /** The identity of the NGroup, if configured. */
   identity?: NGroupIdentity;
+  azureAsyncOperation?: string;
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateNGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5104,6 +5213,11 @@ export const UpdateNGroupResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     zones: S.optional(UpdateNGroupResponseZonesList),
     identity: S.optional(NGroupIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateNGroupResponse",
@@ -5187,6 +5301,10 @@ export interface UpdateSandboxGroupResponse {
   properties?: SandboxGroupProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetSandboxGroupResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSandboxGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5198,6 +5316,8 @@ export const UpdateSandboxGroupResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SandboxGroupProperties),
     identity: S.optional(GetSandboxGroupResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateSandboxGroupResponse",

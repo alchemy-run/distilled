@@ -40,9 +40,19 @@ export const AbortWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AbortWorkflowRequest",
 }) as any as S.Schema<AbortWorkflowRequest>;
 
-export interface AbortWorkflowResponse {}
+export interface AbortWorkflowResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+}
 export const AbortWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+  }),
 ).annotate({
   identifier: "AbortWorkflowResponse",
 }) as any as S.Schema<AbortWorkflowResponse>;
@@ -140,12 +150,20 @@ export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
   firstKey?: string;
   /** The second public key. */
   secondKey?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const CloudEndpointAfsShareMetadataCertificatePublicKeys =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       firstKey: S.optional(S.String),
       secondKey: S.optional(S.String),
+      xMsCorrelationRequestId: S.optional(
+        S.String.pipe(T.Header("x-ms-correlation-request-id")),
+      ),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
     }),
   ).annotate({
     identifier: "CloudEndpointAfsShareMetadataCertificatePublicKeys",
@@ -232,9 +250,25 @@ export const CloudEndpointsPostRestoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudEndpointsPostRestoreRequest",
 }) as any as S.Schema<CloudEndpointsPostRestoreRequest>;
 
-export interface CloudEndpointsPostRestoreResponse {}
+export interface CloudEndpointsPostRestoreResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+}
 export const CloudEndpointsPostRestoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+  }),
 ).annotate({
   identifier: "CloudEndpointsPostRestoreResponse",
 }) as any as S.Schema<CloudEndpointsPostRestoreResponse>;
@@ -273,9 +307,25 @@ export const CloudEndpointsPreBackupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudEndpointsPreBackupRequest",
 }) as any as S.Schema<CloudEndpointsPreBackupRequest>;
 
-export interface CloudEndpointsPreBackupResponse {}
+export interface CloudEndpointsPreBackupResponse {
+  /** Operation Status Location URI */
+  location?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CloudEndpointsPreBackupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "CloudEndpointsPreBackupResponse",
 }) as any as S.Schema<CloudEndpointsPreBackupResponse>;
@@ -312,9 +362,20 @@ export const CloudEndpointsRestoreheartbeatRequest = /*@__PURE__*/ S.suspend(
   identifier: "CloudEndpointsRestoreheartbeatRequest",
 }) as any as S.Schema<CloudEndpointsRestoreheartbeatRequest>;
 
-export interface CloudEndpointsRestoreheartbeatResponse {}
+export interface CloudEndpointsRestoreheartbeatResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+}
 export const CloudEndpointsRestoreheartbeatResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      xMsCorrelationRequestId: S.optional(
+        S.String.pipe(T.Header("x-ms-correlation-request-id")),
+      ),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    }),
 ).annotate({
   identifier: "CloudEndpointsRestoreheartbeatResponse",
 }) as any as S.Schema<CloudEndpointsRestoreheartbeatResponse>;
@@ -590,6 +651,16 @@ export interface CreateCloudEndpointResponse {
   systemData?: SystemData;
   /** Cloud Endpoint properties. */
   properties?: CloudEndpointProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -598,6 +669,15 @@ export const CreateCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CloudEndpointProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCloudEndpointResponse",
@@ -747,6 +827,16 @@ export interface CreatePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** correlation request id */
+  xMsCorrelationRequestId?: string;
+  /** Request id */
+  xMsRequestId?: string;
 }
 export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -756,6 +846,15 @@ export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsCorrelationRequestId: S.optional(
+        S.String.pipe(T.Header("x-ms-correlation-request-id")),
+      ),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
     }),
 ).annotate({
   identifier: "CreatePrivateEndpointConnectionResponse",
@@ -950,6 +1049,16 @@ export interface CreateRegisteredServerResponse {
   systemData?: SystemData;
   /** RegisteredServer properties. */
   properties?: RegisteredServerProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -958,6 +1067,15 @@ export const CreateRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(RegisteredServerProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateRegisteredServerResponse",
@@ -1743,6 +1861,16 @@ export interface CreateServerEndpointResponse {
   systemData?: SystemData;
   /** Server Endpoint properties. */
   properties?: ServerEndpointProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1751,6 +1879,15 @@ export const CreateServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ServerEndpointProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateServerEndpointResponse",
@@ -2003,6 +2140,16 @@ export interface CreateStorageSyncServiceResponse {
   properties?: StorageSyncServiceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateStorageSyncServiceResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** correlation request id */
+  xMsCorrelationRequestId?: string;
+  /** Request id */
+  xMsRequestId?: string;
 }
 export const CreateStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2014,6 +2161,15 @@ export const CreateStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(StorageSyncServiceProperties),
     identity: S.optional(CreateStorageSyncServiceResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "CreateStorageSyncServiceResponse",
@@ -2077,6 +2233,10 @@ export interface CreateSyncGroupResponse {
   systemData?: SystemData;
   /** SyncGroup properties. */
   properties?: SyncGroupProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const CreateSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2085,6 +2245,10 @@ export const CreateSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SyncGroupProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "CreateSyncGroupResponse",
@@ -2121,9 +2285,30 @@ export const DeleteCloudEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCloudEndpointRequest",
 }) as any as S.Schema<DeleteCloudEndpointRequest>;
 
-export interface DeleteCloudEndpointResponse {}
+export interface DeleteCloudEndpointResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCloudEndpointResponse",
 }) as any as S.Schema<DeleteCloudEndpointResponse>;
@@ -2157,9 +2342,31 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** correlation request id */
+  xMsCorrelationRequestId?: string;
+  /** Request id */
+  xMsRequestId?: string;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsCorrelationRequestId: S.optional(
+        S.String.pipe(T.Header("x-ms-correlation-request-id")),
+      ),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -2192,9 +2399,25 @@ export const DeleteRegisteredServerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegisteredServerRequest",
 }) as any as S.Schema<DeleteRegisteredServerRequest>;
 
-export interface DeleteRegisteredServerResponse {}
+export interface DeleteRegisteredServerResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteRegisteredServerResponse",
 }) as any as S.Schema<DeleteRegisteredServerResponse>;
@@ -2230,9 +2453,25 @@ export const DeleteServerEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteServerEndpointRequest",
 }) as any as S.Schema<DeleteServerEndpointRequest>;
 
-export interface DeleteServerEndpointResponse {}
+export interface DeleteServerEndpointResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteServerEndpointResponse",
 }) as any as S.Schema<DeleteServerEndpointResponse>;
@@ -2262,9 +2501,30 @@ export const DeleteStorageSyncServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStorageSyncServiceRequest",
 }) as any as S.Schema<DeleteStorageSyncServiceRequest>;
 
-export interface DeleteStorageSyncServiceResponse {}
+export interface DeleteStorageSyncServiceResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteStorageSyncServiceResponse",
 }) as any as S.Schema<DeleteStorageSyncServiceResponse>;
@@ -2297,9 +2557,19 @@ export const DeleteSyncGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSyncGroupRequest",
 }) as any as S.Schema<DeleteSyncGroupRequest>;
 
-export interface DeleteSyncGroupResponse {}
+export interface DeleteSyncGroupResponse {
+  /** correlation request id */
+  xMsCorrelationRequestId?: string;
+  /** Request id */
+  xMsRequestId?: string;
+}
 export const DeleteSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+  }),
 ).annotate({
   identifier: "DeleteSyncGroupResponse",
 }) as any as S.Schema<DeleteSyncGroupResponse>;
@@ -2346,6 +2616,10 @@ export interface GetCloudEndpointResponse {
   systemData?: SystemData;
   /** Cloud Endpoint properties. */
   properties?: CloudEndpointProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const GetCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2354,6 +2628,10 @@ export const GetCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CloudEndpointProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "GetCloudEndpointResponse",
@@ -2483,6 +2761,10 @@ export interface OperationStatus {
   endTime?: string;
   /** Error details. */
   error?: StorageSyncApiError;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2491,6 +2773,10 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
     error: S.optional(StorageSyncApiError),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "OperationStatus",
@@ -2588,6 +2874,10 @@ export interface GetRegisteredServerResponse {
   systemData?: SystemData;
   /** RegisteredServer properties. */
   properties?: RegisteredServerProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const GetRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2596,6 +2886,10 @@ export const GetRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(RegisteredServerProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "GetRegisteredServerResponse",
@@ -2643,6 +2937,10 @@ export interface GetServerEndpointResponse {
   systemData?: SystemData;
   /** Server Endpoint properties. */
   properties?: ServerEndpointProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const GetServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2651,6 +2949,10 @@ export const GetServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ServerEndpointProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "GetServerEndpointResponse",
@@ -2713,6 +3015,10 @@ export interface GetStorageSyncServiceResponse {
   properties?: StorageSyncServiceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateStorageSyncServiceResponseIdentity;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const GetStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2724,6 +3030,10 @@ export const GetStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(StorageSyncServiceProperties),
     identity: S.optional(CreateStorageSyncServiceResponseIdentity),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "GetStorageSyncServiceResponse",
@@ -2768,6 +3078,10 @@ export interface GetSyncGroupResponse {
   systemData?: SystemData;
   /** SyncGroup properties. */
   properties?: SyncGroupProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const GetSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2776,6 +3090,10 @@ export const GetSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SyncGroupProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "GetSyncGroupResponse",
@@ -2867,6 +3185,10 @@ export interface GetWorkflowResponse {
   systemData?: SystemData;
   /** Workflow properties. */
   properties?: WorkflowProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2875,6 +3197,10 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(WorkflowProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "GetWorkflowResponse",
@@ -2943,11 +3269,19 @@ export interface CloudEndpointArray {
   value?: CloudEndpointArrayValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const CloudEndpointArray = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(CloudEndpointArrayValueList),
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "CloudEndpointArray",
@@ -3138,11 +3472,19 @@ export interface OperationEntityListResult {
   value: OperationEntityListResultValueList;
   /** The link to the next page of items */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const OperationEntityListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: OperationEntityListResultValueList,
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "OperationEntityListResult",
@@ -3194,11 +3536,19 @@ export interface PrivateEndpointConnectionListResult {
   value?: PrivateEndpointConnectionListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const PrivateEndpointConnectionListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(PrivateEndpointConnectionListResultValueList),
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "PrivateEndpointConnectionListResult",
@@ -3378,11 +3728,19 @@ export interface RegisteredServerArray {
   value?: RegisteredServerArrayValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const RegisteredServerArray = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(RegisteredServerArrayValueList),
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "RegisteredServerArray",
@@ -3452,11 +3810,22 @@ export interface ServerEndpointArray {
   value?: ServerEndpointArrayValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** Operation Status Location URI */
+  location?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const ServerEndpointArray = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ServerEndpointArrayValueList),
     nextLink: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "ServerEndpointArray",
@@ -3544,11 +3913,19 @@ export interface StorageSyncServiceArray {
   value?: StorageSyncServiceArrayValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const StorageSyncServiceArray = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(StorageSyncServiceArrayValueList),
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "StorageSyncServiceArray",
@@ -3635,11 +4012,19 @@ export interface SyncGroupArray {
   value?: SyncGroupArrayValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const SyncGroupArray = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SyncGroupArrayValueList),
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({ identifier: "SyncGroupArray" }) as any as S.Schema<SyncGroupArray>;
 
@@ -3704,11 +4089,19 @@ export interface WorkflowArray {
   value?: WorkflowArrayValueList;
   /** The URL to get the next set of results. */
   nextLink?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const WorkflowArray = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(WorkflowArrayValueList),
     nextLink: S.optional(S.String),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({ identifier: "WorkflowArray" }) as any as S.Schema<WorkflowArray>;
 
@@ -3753,6 +4146,10 @@ export interface LocationOperationStatus {
   error?: StorageSyncApiError;
   /** Percent complete. */
   percentComplete?: number;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
 }
 export const LocationOperationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3763,6 +4160,10 @@ export const LocationOperationStatus = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     error: S.optional(StorageSyncApiError),
     percentComplete: S.optional(S.Number),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "LocationOperationStatus",
@@ -3819,10 +4220,24 @@ export const PostBackupResponseProperties = /*@__PURE__*/ S.suspend(() =>
 export interface PostBackupResponse {
   /** Post Backup Response Properties */
   backupMetadata?: PostBackupResponseProperties;
+  /** Operation Status Location URI */
+  location?: string;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PostBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupMetadata: S.optional(PostBackupResponseProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PostBackupResponse",
@@ -3896,9 +4311,25 @@ export const RestoreCloudEndpointsPreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreCloudEndpointsPreRequest",
 }) as any as S.Schema<RestoreCloudEndpointsPreRequest>;
 
-export interface RestoreCloudEndpointsPreResponse {}
+export interface RestoreCloudEndpointsPreResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+}
 export const RestoreCloudEndpointsPreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+  }),
 ).annotate({
   identifier: "RestoreCloudEndpointsPreResponse",
 }) as any as S.Schema<RestoreCloudEndpointsPreResponse>;
@@ -3940,9 +4371,25 @@ export const ServerEndpointsRecallActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServerEndpointsRecallActionRequest",
 }) as any as S.Schema<ServerEndpointsRecallActionRequest>;
 
-export interface ServerEndpointsRecallActionResponse {}
+export interface ServerEndpointsRecallActionResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ServerEndpointsRecallActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ServerEndpointsRecallActionResponse",
 }) as any as S.Schema<ServerEndpointsRecallActionResponse>;
@@ -3999,9 +4446,27 @@ export const TriggerCloudEndpointChangeDetectionRequest =
     identifier: "TriggerCloudEndpointChangeDetectionRequest",
   }) as any as S.Schema<TriggerCloudEndpointChangeDetectionRequest>;
 
-export interface TriggerCloudEndpointChangeDetectionResponse {}
+export interface TriggerCloudEndpointChangeDetectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+}
 export const TriggerCloudEndpointChangeDetectionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsCorrelationRequestId: S.optional(
+        S.String.pipe(T.Header("x-ms-correlation-request-id")),
+      ),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    }),
+  ).annotate({
     identifier: "TriggerCloudEndpointChangeDetectionResponse",
   }) as any as S.Schema<TriggerCloudEndpointChangeDetectionResponse>;
 
@@ -4037,9 +4502,26 @@ export const TriggerRegisteredServerRolloverRequest = /*@__PURE__*/ S.suspend(
   identifier: "TriggerRegisteredServerRolloverRequest",
 }) as any as S.Schema<TriggerRegisteredServerRolloverRequest>;
 
-export interface TriggerRegisteredServerRolloverResponse {}
+export interface TriggerRegisteredServerRolloverResponse {
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const TriggerRegisteredServerRolloverResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      xMsCorrelationRequestId: S.optional(
+        S.String.pipe(T.Header("x-ms-correlation-request-id")),
+      ),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "TriggerRegisteredServerRolloverResponse",
 }) as any as S.Schema<TriggerRegisteredServerRolloverResponse>;
@@ -4102,6 +4584,16 @@ export interface UpdateCloudEndpointResponse {
   systemData?: SystemData;
   /** Cloud Endpoint properties. */
   properties?: CloudEndpointProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4110,6 +4602,15 @@ export const UpdateCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CloudEndpointProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCloudEndpointResponse",
@@ -4173,6 +4674,16 @@ export interface UpdateRegisteredServerResponse {
   systemData?: SystemData;
   /** RegisteredServer properties. */
   properties?: RegisteredServerProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4181,6 +4692,15 @@ export const UpdateRegisteredServerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(RegisteredServerProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateRegisteredServerResponse",
@@ -4265,6 +4785,16 @@ export interface UpdateServerEndpointResponse {
   systemData?: SystemData;
   /** Server Endpoint properties. */
   properties?: ServerEndpointProperties;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4273,6 +4803,15 @@ export const UpdateServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ServerEndpointProperties),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateServerEndpointResponse",
@@ -4365,6 +4904,16 @@ export interface UpdateStorageSyncServiceResponse {
   properties?: StorageSyncServiceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateStorageSyncServiceResponseIdentity;
+  /** correlation request id. */
+  xMsCorrelationRequestId?: string;
+  /** request id. */
+  xMsRequestId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4376,6 +4925,15 @@ export const UpdateStorageSyncServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(StorageSyncServiceProperties),
     identity: S.optional(CreateStorageSyncServiceResponseIdentity),
+    xMsCorrelationRequestId: S.optional(
+      S.String.pipe(T.Header("x-ms-correlation-request-id")),
+    ),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateStorageSyncServiceResponse",

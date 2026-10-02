@@ -476,11 +476,14 @@ export interface OperationStatus {
   status?: OperationStatusType;
   /** The properties of the resource generated. */
   properties?: PricesheetDownloadProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(OperationStatusType),
     properties: S.optional(PricesheetDownloadProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "OperationStatus",

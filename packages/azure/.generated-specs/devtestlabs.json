@@ -24,7 +24,7 @@
         "target": "com.azure.devtestlabs#GlobalSchedulesRetargetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#GlobalSchedulesRetargetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Updates a schedule's target resource Id. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#GlobalSchedulesRetargetResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#GlobalSchedulesRetargetRequest": {
@@ -87,7 +109,7 @@
         "target": "com.azure.devtestlabs#ExecuteGlobalScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ExecuteGlobalScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -98,6 +120,28 @@
         },
         "smithy.api#documentation": "Execute a schedule. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ExecuteGlobalScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ExecuteGlobalScheduleRequest": {
@@ -1144,7 +1188,7 @@
         "target": "com.azure.devtestlabs#DeleteVirtualNetworkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteVirtualNetworkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1155,6 +1199,28 @@
         },
         "smithy.api#documentation": "Delete virtual network. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteVirtualNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteVirtualNetworkRequest": {
@@ -1663,6 +1729,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2109,7 +2189,7 @@
         "target": "com.azure.devtestlabs#ClaimVirtualMachinesUnRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ClaimVirtualMachinesUnResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2120,6 +2200,28 @@
         },
         "smithy.api#documentation": "Release ownership of an existing virtual machine This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ClaimVirtualMachinesUnResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ClaimVirtualMachinesUnRequest": {
@@ -2168,7 +2270,7 @@
         "target": "com.azure.devtestlabs#TransferVirtualMachineDisksRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#TransferVirtualMachineDisksResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2179,6 +2281,28 @@
         },
         "smithy.api#documentation": "Transfers all data disks attached to the virtual machine to be owned by the current user. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#TransferVirtualMachineDisksResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#TransferVirtualMachineDisksRequest": {
@@ -2227,7 +2351,7 @@
         "target": "com.azure.devtestlabs#StopVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#StopVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2238,6 +2362,28 @@
         },
         "smithy.api#documentation": "Stop a virtual machine This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#StopVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#StopVirtualMachineRequest": {
@@ -2286,7 +2432,7 @@
         "target": "com.azure.devtestlabs#StartVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#StartVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2297,6 +2443,28 @@
         },
         "smithy.api#documentation": "Start a virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#StartVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#StartVirtualMachineRequest": {
@@ -2345,7 +2513,7 @@
         "target": "com.azure.devtestlabs#ExecuteVirtualMachineScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ExecuteVirtualMachineScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2356,6 +2524,28 @@
         },
         "smithy.api#documentation": "Execute a schedule. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ExecuteVirtualMachineScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ExecuteVirtualMachineScheduleRequest": {
@@ -3012,7 +3202,7 @@
         "target": "com.azure.devtestlabs#RestartVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#RestartVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3023,6 +3213,28 @@
         },
         "smithy.api#documentation": "Restart a virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#RestartVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#RestartVirtualMachineRequest": {
@@ -3071,7 +3283,7 @@
         "target": "com.azure.devtestlabs#ResizeVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ResizeVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3082,6 +3294,28 @@
         },
         "smithy.api#documentation": "Resize Virtual Machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ResizeVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ResizeVirtualMachineRequest": {
@@ -3136,7 +3370,7 @@
         "target": "com.azure.devtestlabs#RedeployVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#RedeployVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3147,6 +3381,28 @@
         },
         "smithy.api#documentation": "Redeploy a virtual machine This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#RedeployVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#RedeployVirtualMachineRequest": {
@@ -3410,7 +3666,7 @@
         "target": "com.azure.devtestlabs#DetachVirtualMachineDataDiskRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DetachVirtualMachineDataDiskResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3421,6 +3677,28 @@
         },
         "smithy.api#documentation": "Detach the specified disk from the virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DetachVirtualMachineDataDiskResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DetachVirtualMachineDataDiskRequest": {
@@ -3475,7 +3753,7 @@
         "target": "com.azure.devtestlabs#ClaimVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ClaimVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3486,6 +3764,28 @@
         },
         "smithy.api#documentation": "Take ownership of an existing virtual machine This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ClaimVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ClaimVirtualMachineRequest": {
@@ -3534,7 +3834,7 @@
         "target": "com.azure.devtestlabs#ApplyVirtualMachineArtifactsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ApplyVirtualMachineArtifactsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3545,6 +3845,28 @@
         },
         "smithy.api#documentation": "Apply artifacts to virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ApplyVirtualMachineArtifactsResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ApplyVirtualMachineArtifactsRequest": {
@@ -3687,7 +4009,7 @@
         "target": "com.azure.devtestlabs#AddVirtualMachineDataDiskRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#AddVirtualMachineDataDiskResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3698,6 +4020,28 @@
         },
         "smithy.api#documentation": "Attach a new or existing data disk to virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#AddVirtualMachineDataDiskResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#AddVirtualMachineDataDiskRequest": {
@@ -3842,7 +4186,7 @@
         "target": "com.azure.devtestlabs#DeleteVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3853,6 +4197,28 @@
         },
         "smithy.api#documentation": "Delete virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteVirtualMachineRequest": {
@@ -4890,6 +5256,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5498,7 +5878,7 @@
         "target": "com.azure.devtestlabs#StopServiceFabricRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#StopServiceFabricResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5509,6 +5889,28 @@
         },
         "smithy.api#documentation": "Stop a service fabric This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#StopServiceFabricResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#StopServiceFabricRequest": {
@@ -5565,7 +5967,7 @@
         "target": "com.azure.devtestlabs#StartServiceFabricRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#StartServiceFabricResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5576,6 +5978,28 @@
         },
         "smithy.api#documentation": "Start a service fabric. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#StartServiceFabricResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#StartServiceFabricRequest": {
@@ -5632,7 +6056,7 @@
         "target": "com.azure.devtestlabs#ExecuteServiceFabricScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ExecuteServiceFabricScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5643,6 +6067,28 @@
         },
         "smithy.api#documentation": "Execute a schedule. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ExecuteServiceFabricScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ExecuteServiceFabricScheduleRequest": {
@@ -6477,7 +6923,7 @@
         "target": "com.azure.devtestlabs#DeleteServiceFabricRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteServiceFabricResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6488,6 +6934,28 @@
         },
         "smithy.api#documentation": "Delete service fabric. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteServiceFabricResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteServiceFabricRequest": {
@@ -6787,6 +7255,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7527,6 +8009,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -7961,7 +8457,7 @@
         "target": "com.azure.devtestlabs#DeleteEnvironmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteEnvironmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7972,6 +8468,28 @@
         },
         "smithy.api#documentation": "Delete environment. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteEnvironmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteEnvironmentRequest": {
@@ -8326,6 +8844,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8767,7 +9299,7 @@
         "target": "com.azure.devtestlabs#DetachDiskRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DetachDiskResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8778,6 +9310,28 @@
         },
         "smithy.api#documentation": "Detach and break the lease of the disk attached to the virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DetachDiskResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DetachDiskRequest": {
@@ -8840,7 +9394,7 @@
         "target": "com.azure.devtestlabs#AttachDiskRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#AttachDiskResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8851,6 +9405,28 @@
         },
         "smithy.api#documentation": "Attach and create the lease of the disk to the virtual machine. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#AttachDiskResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#AttachDiskRequest": {
@@ -8913,7 +9489,7 @@
         "target": "com.azure.devtestlabs#DeleteDiskRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteDiskResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8924,6 +9500,28 @@
         },
         "smithy.api#documentation": "Delete disk. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteDiskResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteDiskRequest": {
@@ -9259,6 +9857,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9736,7 +10348,7 @@
         "target": "com.azure.devtestlabs#DeleteUserRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteUserResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9747,6 +10359,28 @@
         },
         "smithy.api#documentation": "Delete user profile. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteUserResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteUserRequest": {
@@ -10088,6 +10722,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10959,7 +11607,7 @@
         "target": "com.azure.devtestlabs#ExecuteScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ExecuteScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10970,6 +11618,28 @@
         },
         "smithy.api#documentation": "Execute a schedule. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ExecuteScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ExecuteScheduleRequest": {
@@ -13628,7 +14298,7 @@
         "target": "com.azure.devtestlabs#ImportLabVirtualMachineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ImportLabVirtualMachineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13639,6 +14309,28 @@
         },
         "smithy.api#documentation": "Import a virtual machine into a different lab. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ImportLabVirtualMachineResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ImportLabVirtualMachineRequest": {
@@ -14555,6 +15247,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -15207,7 +15913,7 @@
         "target": "com.azure.devtestlabs#ExportLabResourceUsageRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ExportLabResourceUsageResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15218,6 +15924,28 @@
         },
         "smithy.api#documentation": "Exports the lab resource usage into a storage account This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ExportLabResourceUsageResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ExportLabResourceUsageRequest": {
@@ -15270,7 +15998,7 @@
         "target": "com.azure.devtestlabs#DeleteCustomImageRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteCustomImageResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15281,6 +16009,28 @@
         },
         "smithy.api#documentation": "Delete custom image. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteCustomImageResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteCustomImageRequest": {
@@ -15821,6 +16571,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16288,7 +17052,7 @@
         "target": "com.azure.devtestlabs#CreateLabEnvironmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#CreateLabEnvironmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16299,6 +17063,28 @@
         },
         "smithy.api#documentation": "Create virtual machines in a lab. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#CreateLabEnvironmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#CreateLabEnvironmentRequest": {
@@ -17068,7 +17854,7 @@
         "target": "com.azure.devtestlabs#ClaimLabAnyVmRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#ClaimLabAnyVmResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -17079,6 +17865,28 @@
         },
         "smithy.api#documentation": "Claim a random claimable virtual machine in the lab. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#ClaimLabAnyVmResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#ClaimLabAnyVmRequest": {
@@ -18943,7 +19751,7 @@
         "target": "com.azure.devtestlabs#DeleteLabRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devtestlabs#DeleteLabResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18954,6 +19762,28 @@
         },
         "smithy.api#documentation": "Delete lab. This operation can take a while to complete.",
         "com.distilled.openapi#apiVersion": "2018-09-15"
+      }
+    },
+    "com.azure.devtestlabs#DeleteLabResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devtestlabs#DeleteLabRequest": {
@@ -19477,6 +20307,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

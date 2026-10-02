@@ -497,6 +497,20 @@
           "traits": {
             "smithy.api#documentation": "Resource properties."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1667,7 +1681,7 @@
         "target": "com.azure.redis#DeleteLinkedServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redis#DeleteLinkedServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1678,6 +1692,28 @@
         },
         "smithy.api#documentation": "Deletes the linked server from a redis cache (requires Premium SKU).",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.redis#DeleteLinkedServerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redis#DeleteLinkedServerRequest": {
@@ -1770,6 +1806,13 @@
           "target": "com.azure.redis#RedisLinkedServerProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the linked server."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -2142,7 +2185,7 @@
         "target": "com.azure.redis#ImportRedisDataRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redis#ImportRedisDataResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2153,6 +2196,28 @@
         },
         "smithy.api#documentation": "Import data into Redis cache.",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.redis#ImportRedisDataResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redis#ImportRedisDataRequest": {
@@ -2410,6 +2475,20 @@
           "target": "com.azure.redis#ErrorDetail",
           "traits": {
             "smithy.api#documentation": "If present, details of the operation error."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -3010,7 +3089,7 @@
         "target": "com.azure.redis#ExportRedisDataRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redis#ExportRedisDataResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3021,6 +3100,28 @@
         },
         "smithy.api#documentation": "Export data from the redis cache to blobs in a container.",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.redis#ExportRedisDataResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redis#ExportRedisDataRequest": {
@@ -3095,7 +3196,7 @@
         "target": "com.azure.redis#DeleteAccessPolicyAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redis#DeleteAccessPolicyAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3106,6 +3207,28 @@
         },
         "smithy.api#documentation": "Deletes the access policy assignment from a redis cache",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.redis#DeleteAccessPolicyAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redis#DeleteAccessPolicyAssignmentRequest": {
@@ -3198,6 +3321,20 @@
           "target": "com.azure.redis#RedisCacheAccessPolicyAssignmentProperties",
           "traits": {
             "smithy.api#documentation": "Properties of an access policy assignment"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3552,7 +3689,7 @@
         "target": "com.azure.redis#DeleteAccessPolicyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redis#DeleteAccessPolicyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3563,6 +3700,28 @@
         },
         "smithy.api#documentation": "Deletes the access policy from a redis cache",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.redis#DeleteAccessPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redis#DeleteAccessPolicyRequest": {
@@ -3655,6 +3814,20 @@
           "target": "com.azure.redis#RedisCacheAccessPolicyProperties",
           "traits": {
             "smithy.api#documentation": "Properties of an access policy."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4021,7 +4194,7 @@
         "target": "com.azure.redis#DeleteRedisRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redis#DeleteRedisResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4032,6 +4205,28 @@
         },
         "smithy.api#documentation": "Deletes a Redis cache.",
         "com.distilled.openapi#apiVersion": "2024-11-01"
+      }
+    },
+    "com.azure.redis#DeleteRedisResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redis#DeleteRedisRequest": {
@@ -4142,6 +4337,13 @@
           "target": "com.azure.redis#UpdateRedisResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -5328,6 +5530,13 @@
           "target": "com.azure.redis#CreateRedisResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },

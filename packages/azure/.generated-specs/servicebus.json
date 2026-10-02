@@ -4204,7 +4204,7 @@
         "target": "com.azure.servicebus#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicebus#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4215,6 +4215,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Private Endpoint Connection.",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.servicebus#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicebus#DeletePrivateEndpointConnectionRequest": {
@@ -6226,6 +6248,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -6598,7 +6634,7 @@
         "target": "com.azure.servicebus#NamespacesFailoverRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicebus#NamespacesFailoverResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6609,6 +6645,35 @@
         },
         "smithy.api#documentation": "GeoDR Failover",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.servicebus#NamespacesFailoverResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicebus#NamespacesFailoverRequest": {
@@ -8132,7 +8197,7 @@
         "target": "com.azure.servicebus#DeleteNamespaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicebus#DeleteNamespaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8143,6 +8208,21 @@
         },
         "smithy.api#documentation": "Deletes an existing namespace. This operation also removes all associated resources under the namespace.",
         "com.distilled.openapi#apiVersion": "2026-01-01"
+      }
+    },
+    "com.azure.servicebus#DeleteNamespaceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicebus#DeleteNamespaceRequest": {
@@ -9083,6 +9163,13 @@
           "target": "com.azure.servicebus#Identity",
           "traits": {
             "smithy.api#documentation": "Properties of BYOK Identity description"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },

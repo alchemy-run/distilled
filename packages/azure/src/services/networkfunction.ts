@@ -199,6 +199,10 @@ export interface AzureTrafficCollectorsCreateOrUpdateResponse {
   tags?: AzureTrafficCollectorsCreateOrUpdateResponseTagsMap;
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AzureTrafficCollectorsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -211,6 +215,10 @@ export const AzureTrafficCollectorsCreateOrUpdateResponse =
       location: S.String,
       tags: S.optional(AzureTrafficCollectorsCreateOrUpdateResponseTagsMap),
       etag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AzureTrafficCollectorsCreateOrUpdateResponse",
@@ -417,6 +425,10 @@ export interface CollectorPoliciesCreateOrUpdateResponse {
   tags?: CollectorPoliciesCreateOrUpdateResponseTagsMap;
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CollectorPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -429,6 +441,10 @@ export const CollectorPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       tags: S.optional(CollectorPoliciesCreateOrUpdateResponseTagsMap),
       etag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CollectorPoliciesCreateOrUpdateResponse",
@@ -459,9 +475,17 @@ export const DeleteAzureTrafficCollectorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAzureTrafficCollectorRequest",
 }) as any as S.Schema<DeleteAzureTrafficCollectorRequest>;
 
-export interface DeleteAzureTrafficCollectorResponse {}
+export interface DeleteAzureTrafficCollectorResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAzureTrafficCollectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAzureTrafficCollectorResponse",
 }) as any as S.Schema<DeleteAzureTrafficCollectorResponse>;
@@ -494,9 +518,17 @@ export const DeleteCollectorPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCollectorPolicyRequest",
 }) as any as S.Schema<DeleteCollectorPolicyRequest>;
 
-export interface DeleteCollectorPolicyResponse {}
+export interface DeleteCollectorPolicyResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCollectorPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCollectorPolicyResponse",
 }) as any as S.Schema<DeleteCollectorPolicyResponse>;

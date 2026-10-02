@@ -252,6 +252,12 @@ export interface CreatePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -261,6 +267,11 @@ export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreatePrivateEndpointConnectionResponse",
@@ -291,9 +302,17 @@ export const DeleteFileShareRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFileShareRequest",
 }) as any as S.Schema<DeleteFileShareRequest>;
 
-export interface DeleteFileShareResponse {}
+export interface DeleteFileShareResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFileShareResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFileShareResponse",
 }) as any as S.Schema<DeleteFileShareResponse>;
@@ -326,9 +345,17 @@ export const DeleteFileShareSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFileShareSnapshotRequest",
 }) as any as S.Schema<DeleteFileShareSnapshotRequest>;
 
-export interface DeleteFileShareSnapshotResponse {}
+export interface DeleteFileShareSnapshotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFileShareSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFileShareSnapshotResponse",
 }) as any as S.Schema<DeleteFileShareSnapshotResponse>;
@@ -362,9 +389,23 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -651,6 +692,10 @@ export interface FileSharesCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FileShareProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FileSharesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -661,6 +706,10 @@ export const FileSharesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(FileSharesCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(FileShareProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "FileSharesCreateOrUpdateResponse",
@@ -724,9 +773,23 @@ export const FileShareSnapshotCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
   identifier: "FileShareSnapshotCreateOrUpdateRequest",
 }) as any as S.Schema<FileShareSnapshotCreateOrUpdateRequest>;
 
-export interface FileShareSnapshotCreateOrUpdateResponse {}
+export interface FileShareSnapshotCreateOrUpdateResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const FileShareSnapshotCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "FileShareSnapshotCreateOrUpdateResponse",
 }) as any as S.Schema<FileShareSnapshotCreateOrUpdateResponse>;
@@ -1757,6 +1820,10 @@ export interface UpdateFileShareResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FileShareProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFileShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1767,6 +1834,8 @@ export const UpdateFileShareResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateFileShareResponseTagsMap),
     location: S.String,
     properties: S.optional(FileShareProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFileShareResponse",
@@ -1837,6 +1906,12 @@ export interface UpdateFileShareSnapshotResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: FileShareSnapshotProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFileShareSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1845,6 +1920,11 @@ export const UpdateFileShareSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(FileShareSnapshotProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFileShareSnapshotResponse",

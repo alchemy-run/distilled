@@ -190,6 +190,8 @@ export interface AssociationsInterfaceCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: AssociationProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AssociationsInterfaceCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -201,6 +203,7 @@ export const AssociationsInterfaceCreateOrUpdateResponse =
       tags: S.optional(AssociationsInterfaceCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(AssociationProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AssociationsInterfaceCreateOrUpdateResponse",
@@ -234,9 +237,17 @@ export const DeleteAssociationsInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssociationsInterfaceRequest",
 }) as any as S.Schema<DeleteAssociationsInterfaceRequest>;
 
-export interface DeleteAssociationsInterfaceResponse {}
+export interface DeleteAssociationsInterfaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAssociationsInterfaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAssociationsInterfaceResponse",
 }) as any as S.Schema<DeleteAssociationsInterfaceResponse>;
@@ -269,9 +280,17 @@ export const DeleteFrontendsInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFrontendsInterfaceRequest",
 }) as any as S.Schema<DeleteFrontendsInterfaceRequest>;
 
-export interface DeleteFrontendsInterfaceResponse {}
+export interface DeleteFrontendsInterfaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFrontendsInterfaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFrontendsInterfaceResponse",
 }) as any as S.Schema<DeleteFrontendsInterfaceResponse>;
@@ -305,9 +324,19 @@ export const DeletePrivateEndpointConnectionsInterfaceRequest =
     identifier: "DeletePrivateEndpointConnectionsInterfaceRequest",
   }) as any as S.Schema<DeletePrivateEndpointConnectionsInterfaceRequest>;
 
-export interface DeletePrivateEndpointConnectionsInterfaceResponse {}
+export interface DeletePrivateEndpointConnectionsInterfaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionsInterfaceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeletePrivateEndpointConnectionsInterfaceResponse",
   }) as any as S.Schema<DeletePrivateEndpointConnectionsInterfaceResponse>;
 
@@ -340,9 +369,18 @@ export const DeleteSecurityPoliciesInterfaceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSecurityPoliciesInterfaceRequest",
 }) as any as S.Schema<DeleteSecurityPoliciesInterfaceRequest>;
 
-export interface DeleteSecurityPoliciesInterfaceResponse {}
+export interface DeleteSecurityPoliciesInterfaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSecurityPoliciesInterfaceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteSecurityPoliciesInterfaceResponse",
 }) as any as S.Schema<DeleteSecurityPoliciesInterfaceResponse>;
@@ -373,9 +411,18 @@ export const DeleteTrafficControllerInterfaceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteTrafficControllerInterfaceRequest",
 }) as any as S.Schema<DeleteTrafficControllerInterfaceRequest>;
 
-export interface DeleteTrafficControllerInterfaceResponse {}
+export interface DeleteTrafficControllerInterfaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTrafficControllerInterfaceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteTrafficControllerInterfaceResponse",
 }) as any as S.Schema<DeleteTrafficControllerInterfaceResponse>;
@@ -556,6 +603,8 @@ export interface FrontendsInterfaceCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FrontendProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FrontendsInterfaceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -567,6 +616,7 @@ export const FrontendsInterfaceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(FrontendsInterfaceCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(FrontendProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "FrontendsInterfaceCreateOrUpdateResponse",
@@ -1900,6 +1950,8 @@ export interface SecurityPoliciesInterfaceCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SecurityPolicyProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SecurityPoliciesInterfaceCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1911,6 +1963,7 @@ export const SecurityPoliciesInterfaceCreateOrUpdateResponse =
       tags: S.optional(SecurityPoliciesInterfaceCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(SecurityPolicyProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SecurityPoliciesInterfaceCreateOrUpdateResponse",
@@ -1999,6 +2052,8 @@ export interface TrafficControllerInterfaceCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: TrafficControllerProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TrafficControllerInterfaceCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2010,6 +2065,7 @@ export const TrafficControllerInterfaceCreateOrUpdateResponse =
       tags: S.optional(TrafficControllerInterfaceCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(TrafficControllerProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "TrafficControllerInterfaceCreateOrUpdateResponse",
@@ -2342,6 +2398,10 @@ export interface UpdatePrivateEndpointConnectionsInterfaceResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePrivateEndpointConnectionsInterfaceResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2351,6 +2411,10 @@ export const UpdatePrivateEndpointConnectionsInterfaceResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdatePrivateEndpointConnectionsInterfaceResponse",

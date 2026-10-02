@@ -2239,9 +2239,15 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest =
     identifier: "DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest",
   }) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest>;
 
-export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse {}
+export interface DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse {
+  location?: string;
+}
 export const DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse",
   }) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse>;
 
@@ -2277,9 +2283,15 @@ export const DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest =
     identifier: "DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest",
   }) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest>;
 
-export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {}
+export interface DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse {
+  location?: string;
+}
 export const DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse",
   }) as any as S.Schema<DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse>;
 
@@ -2494,9 +2506,13 @@ export const DeleteMigrationServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMigrationServiceRequest",
 }) as any as S.Schema<DeleteMigrationServiceRequest>;
 
-export interface DeleteMigrationServiceResponse {}
+export interface DeleteMigrationServiceResponse {
+  location?: string;
+}
 export const DeleteMigrationServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteMigrationServiceResponse",
 }) as any as S.Schema<DeleteMigrationServiceResponse>;
@@ -6513,6 +6529,7 @@ export interface UpdateMigrationServiceResponse {
   /** The geo-location where the resource lives */
   location: string;
   properties?: MigrationServiceProperties;
+  locationHeader?: string;
 }
 export const UpdateMigrationServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6523,6 +6540,7 @@ export const UpdateMigrationServiceResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateMigrationServiceResponseTagsMap),
     location: S.String,
     properties: S.optional(MigrationServiceProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateMigrationServiceResponse",

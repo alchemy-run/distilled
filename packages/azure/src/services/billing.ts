@@ -766,6 +766,10 @@ export interface AddBillingAccountPaymentTermsResponse {
   properties?: BillingAccountProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: AddBillingAccountPaymentTermsResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AddBillingAccountPaymentTermsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -776,6 +780,8 @@ export const AddBillingAccountPaymentTermsResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(BillingAccountProperties),
       tags: S.optional(AddBillingAccountPaymentTermsResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "AddBillingAccountPaymentTermsResponse",
@@ -912,6 +918,10 @@ export interface AssociatedTenantsCreateOrUpdateResponse {
   properties?: AssociatedTenantProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: AssociatedTenantsCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AssociatedTenantsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -922,6 +932,8 @@ export const AssociatedTenantsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(AssociatedTenantProperties),
       tags: S.optional(AssociatedTenantsCreateOrUpdateResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "AssociatedTenantsCreateOrUpdateResponse",
@@ -1410,6 +1422,10 @@ export interface BillingProfilesCreateOrUpdateResponse {
   properties?: BillingProfileProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingProfilesCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BillingProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1420,6 +1436,8 @@ export const BillingProfilesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(BillingProfileProperties),
       tags: S.optional(BillingProfilesCreateOrUpdateResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "BillingProfilesCreateOrUpdateResponse",
@@ -1788,6 +1806,10 @@ export interface BillingRequestsCreateOrUpdateResponse {
   properties?: BillingRequestProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingRequestsCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BillingRequestsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1798,6 +1820,8 @@ export const BillingRequestsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(BillingRequestProperties),
       tags: S.optional(BillingRequestsCreateOrUpdateResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "BillingRequestsCreateOrUpdateResponse",
@@ -2008,6 +2032,10 @@ export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse {
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2020,6 +2048,8 @@ export const BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse =
       tags: S.optional(
         BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse",
@@ -2092,6 +2122,10 @@ export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse {
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingRoleAssignmentsCreateOrUpdateByDepartmentResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2104,6 +2138,8 @@ export const BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse =
       tags: S.optional(
         BillingRoleAssignmentsCreateOrUpdateByDepartmentResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse",
@@ -2175,6 +2211,10 @@ export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2187,6 +2227,8 @@ export const BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse =
       tags: S.optional(
         BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier:
@@ -2264,20 +2306,27 @@ export const BillingRoleAssignmentListResultValueList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BillingRoleAssignmentListResultValueList>;
 
 /** Paged collection of BillingRoleAssignment items */
-export interface BillingRoleAssignmentListResult {
+export interface BillingRoleAssignmentsResolveByBillingAccountResponse {
   /** The BillingRoleAssignment items on this page */
   value: BillingRoleAssignmentListResultValueList;
   /** The link to the next page of items */
   nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-export const BillingRoleAssignmentListResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: BillingRoleAssignmentListResultValueList,
-    nextLink: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BillingRoleAssignmentListResult",
-}) as any as S.Schema<BillingRoleAssignmentListResult>;
+export const BillingRoleAssignmentsResolveByBillingAccountResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      value: BillingRoleAssignmentListResultValueList,
+      nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "BillingRoleAssignmentsResolveByBillingAccountResponse",
+  }) as any as S.Schema<BillingRoleAssignmentsResolveByBillingAccountResponse>;
 
 export interface BillingRoleAssignmentsResolveByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2307,6 +2356,29 @@ export const BillingRoleAssignmentsResolveByBillingProfileRequest =
   ).annotate({
     identifier: "BillingRoleAssignmentsResolveByBillingProfileRequest",
   }) as any as S.Schema<BillingRoleAssignmentsResolveByBillingProfileRequest>;
+
+/** Paged collection of BillingRoleAssignment items */
+export interface BillingRoleAssignmentsResolveByBillingProfileResponse {
+  /** The BillingRoleAssignment items on this page */
+  value: BillingRoleAssignmentListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const BillingRoleAssignmentsResolveByBillingProfileResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      value: BillingRoleAssignmentListResultValueList,
+      nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "BillingRoleAssignmentsResolveByBillingProfileResponse",
+  }) as any as S.Schema<BillingRoleAssignmentsResolveByBillingProfileResponse>;
 
 export interface BillingRoleAssignmentsResolveByCustomerRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -2340,6 +2412,29 @@ export const BillingRoleAssignmentsResolveByCustomerRequest =
     identifier: "BillingRoleAssignmentsResolveByCustomerRequest",
   }) as any as S.Schema<BillingRoleAssignmentsResolveByCustomerRequest>;
 
+/** Paged collection of BillingRoleAssignment items */
+export interface BillingRoleAssignmentsResolveByCustomerResponse {
+  /** The BillingRoleAssignment items on this page */
+  value: BillingRoleAssignmentListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const BillingRoleAssignmentsResolveByCustomerResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      value: BillingRoleAssignmentListResultValueList,
+      nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "BillingRoleAssignmentsResolveByCustomerResponse",
+  }) as any as S.Schema<BillingRoleAssignmentsResolveByCustomerResponse>;
+
 export interface BillingRoleAssignmentsResolveByInvoiceSectionRequest {
   /** The ID that uniquely identifies a billing account. */
   billingAccountName: string;
@@ -2371,6 +2466,29 @@ export const BillingRoleAssignmentsResolveByInvoiceSectionRequest =
   ).annotate({
     identifier: "BillingRoleAssignmentsResolveByInvoiceSectionRequest",
   }) as any as S.Schema<BillingRoleAssignmentsResolveByInvoiceSectionRequest>;
+
+/** Paged collection of BillingRoleAssignment items */
+export interface BillingRoleAssignmentsResolveByInvoiceSectionResponse {
+  /** The BillingRoleAssignment items on this page */
+  value: BillingRoleAssignmentListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const BillingRoleAssignmentsResolveByInvoiceSectionResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      value: BillingRoleAssignmentListResultValueList,
+      nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "BillingRoleAssignmentsResolveByInvoiceSectionResponse",
+  }) as any as S.Schema<BillingRoleAssignmentsResolveByInvoiceSectionResponse>;
 
 /** Indicates whether auto renewal is turned on or off for a product. */
 export type AutoRenew = "Off" | "On";
@@ -2869,6 +2987,10 @@ export interface BillingSubscriptionsAliasesCreateOrUpdateResponse {
   properties?: BillingSubscriptionAliasProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BillingSubscriptionsAliasesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2881,6 +3003,8 @@ export const BillingSubscriptionsAliasesCreateOrUpdateResponse =
       tags: S.optional(
         BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap,
       ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "BillingSubscriptionsAliasesCreateOrUpdateResponse",
@@ -3120,6 +3244,10 @@ export interface BillingSubscriptionsSplitResponse {
   properties?: BillingSubscriptionProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: BillingSubscriptionsSplitResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BillingSubscriptionsSplitResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3129,6 +3257,8 @@ export const BillingSubscriptionsSplitResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BillingSubscriptionProperties),
     tags: S.optional(BillingSubscriptionsSplitResponseTagsMap),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "BillingSubscriptionsSplitResponse",
@@ -3276,6 +3406,10 @@ export interface CancelBillingAccountPaymentTermsResponse {
   properties?: BillingAccountProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: CancelBillingAccountPaymentTermsResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CancelBillingAccountPaymentTermsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3286,6 +3420,8 @@ export const CancelBillingAccountPaymentTermsResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(BillingAccountProperties),
       tags: S.optional(CancelBillingAccountPaymentTermsResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CancelBillingAccountPaymentTermsResponse",
@@ -3323,9 +3459,17 @@ export const CancelBillingSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelBillingSubscriptionRequest",
 }) as any as S.Schema<CancelBillingSubscriptionRequest>;
 
-export interface CancelBillingSubscriptionResponse {}
+export interface CancelBillingSubscriptionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CancelBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "CancelBillingSubscriptionResponse",
 }) as any as S.Schema<CancelBillingSubscriptionResponse>;
@@ -3990,6 +4134,10 @@ export interface CreateBillingRoleAssignmentByBillingAccountResponse {
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: CreateBillingRoleAssignmentByBillingAccountResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateBillingRoleAssignmentByBillingAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4002,6 +4150,8 @@ export const CreateBillingRoleAssignmentByBillingAccountResponse =
       tags: S.optional(
         CreateBillingRoleAssignmentByBillingAccountResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateBillingRoleAssignmentByBillingAccountResponse",
@@ -4074,6 +4224,10 @@ export interface CreateBillingRoleAssignmentByBillingProfileResponse {
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: CreateBillingRoleAssignmentByBillingProfileResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateBillingRoleAssignmentByBillingProfileResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4086,6 +4240,8 @@ export const CreateBillingRoleAssignmentByBillingProfileResponse =
       tags: S.optional(
         CreateBillingRoleAssignmentByBillingProfileResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateBillingRoleAssignmentByBillingProfileResponse",
@@ -4161,6 +4317,10 @@ export interface CreateBillingRoleAssignmentByCustomerResponse {
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: CreateBillingRoleAssignmentByCustomerResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateBillingRoleAssignmentByCustomerResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4171,6 +4331,8 @@ export const CreateBillingRoleAssignmentByCustomerResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(BillingRoleAssignmentProperties),
       tags: S.optional(CreateBillingRoleAssignmentByCustomerResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateBillingRoleAssignmentByCustomerResponse",
@@ -4246,6 +4408,10 @@ export interface CreateBillingRoleAssignmentByInvoiceSectionResponse {
   properties?: BillingRoleAssignmentProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateBillingRoleAssignmentByInvoiceSectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4258,6 +4424,8 @@ export const CreateBillingRoleAssignmentByInvoiceSectionResponse =
       tags: S.optional(
         CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateBillingRoleAssignmentByInvoiceSectionResponse",
@@ -4285,9 +4453,17 @@ export const DeleteAssociatedTenantRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssociatedTenantRequest",
 }) as any as S.Schema<DeleteAssociatedTenantRequest>;
 
-export interface DeleteAssociatedTenantResponse {}
+export interface DeleteAssociatedTenantResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAssociatedTenantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAssociatedTenantResponse",
 }) as any as S.Schema<DeleteAssociatedTenantResponse>;
@@ -4314,9 +4490,17 @@ export const DeleteBillingProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBillingProfileRequest",
 }) as any as S.Schema<DeleteBillingProfileRequest>;
 
-export interface DeleteBillingProfileResponse {}
+export interface DeleteBillingProfileResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteBillingProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteBillingProfileResponse",
 }) as any as S.Schema<DeleteBillingProfileResponse>;
@@ -4538,9 +4722,17 @@ export const DeleteBillingSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBillingSubscriptionRequest",
 }) as any as S.Schema<DeleteBillingSubscriptionRequest>;
 
-export interface DeleteBillingSubscriptionResponse {}
+export interface DeleteBillingSubscriptionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteBillingSubscriptionResponse",
 }) as any as S.Schema<DeleteBillingSubscriptionResponse>;
@@ -4570,9 +4762,17 @@ export const DeleteInvoiceSectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteInvoiceSectionRequest",
 }) as any as S.Schema<DeleteInvoiceSectionRequest>;
 
-export interface DeleteInvoiceSectionResponse {}
+export interface DeleteInvoiceSectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteInvoiceSectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteInvoiceSectionResponse",
 }) as any as S.Schema<DeleteInvoiceSectionResponse>;
@@ -4635,11 +4835,17 @@ export interface DocumentDownloadResult {
   expiryTime?: string;
   /** The URL to the PDF or .zip file. */
   url?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DocumentDownloadResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expiryTime: S.optional(S.String),
     url: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DocumentDownloadResult",
@@ -10198,9 +10404,17 @@ export const InvoicesAmendRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvoicesAmendRequest",
 }) as any as S.Schema<InvoicesAmendRequest>;
 
-export interface InvoicesAmendResponse {}
+export interface InvoicesAmendResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const InvoicesAmendResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "InvoicesAmendResponse",
 }) as any as S.Schema<InvoicesAmendResponse>;
@@ -10304,6 +10518,10 @@ export interface InvoiceSectionsCreateOrUpdateResponse {
   properties?: InvoiceSectionProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: InvoiceSectionsCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const InvoiceSectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -10314,6 +10532,8 @@ export const InvoiceSectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(InvoiceSectionProperties),
       tags: S.optional(InvoiceSectionsCreateOrUpdateResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "InvoiceSectionsCreateOrUpdateResponse",
@@ -11250,6 +11470,22 @@ export const ListBillingRoleAssignmentByBillingAccountRequest =
   ).annotate({
     identifier: "ListBillingRoleAssignmentByBillingAccountRequest",
   }) as any as S.Schema<ListBillingRoleAssignmentByBillingAccountRequest>;
+
+/** Paged collection of BillingRoleAssignment items */
+export interface BillingRoleAssignmentListResult {
+  /** The BillingRoleAssignment items on this page */
+  value: BillingRoleAssignmentListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const BillingRoleAssignmentListResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: BillingRoleAssignmentListResultValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "BillingRoleAssignmentListResult",
+}) as any as S.Schema<BillingRoleAssignmentListResult>;
 
 export interface ListBillingRoleAssignmentByBillingProfileRequest {
   /** The ID that uniquely identifies a billing account. */
@@ -14426,6 +14662,10 @@ export interface MergeBillingSubscriptionResponse {
   properties?: BillingSubscriptionProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: MergeBillingSubscriptionResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MergeBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14435,6 +14675,8 @@ export const MergeBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BillingSubscriptionProperties),
     tags: S.optional(MergeBillingSubscriptionResponseTagsMap),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "MergeBillingSubscriptionResponse",
@@ -14490,6 +14732,10 @@ export interface MoveBillingSubscriptionResponse {
   properties?: BillingSubscriptionProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: MoveBillingSubscriptionResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MoveBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14499,6 +14745,8 @@ export const MoveBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BillingSubscriptionProperties),
     tags: S.optional(MoveBillingSubscriptionResponseTagsMap),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "MoveBillingSubscriptionResponse",
@@ -14549,6 +14797,10 @@ export interface MoveProductResponse {
   properties?: ProductProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: MoveProductResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MoveProductResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14558,6 +14810,8 @@ export const MoveProductResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ProductProperties),
     tags: S.optional(MoveProductResponseTagsMap),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "MoveProductResponse",
@@ -14705,6 +14959,10 @@ export interface PoliciesCreateOrUpdateByBillingAccountResponse {
   properties?: BillingAccountPolicyProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: PoliciesCreateOrUpdateByBillingAccountResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PoliciesCreateOrUpdateByBillingAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -14715,6 +14973,8 @@ export const PoliciesCreateOrUpdateByBillingAccountResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(BillingAccountPolicyProperties),
       tags: S.optional(PoliciesCreateOrUpdateByBillingAccountResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PoliciesCreateOrUpdateByBillingAccountResponse",
@@ -14782,6 +15042,10 @@ export interface PoliciesCreateOrUpdateByBillingProfileResponse {
   properties?: BillingProfilePolicyProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: PoliciesCreateOrUpdateByBillingProfileResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PoliciesCreateOrUpdateByBillingProfileResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -14792,6 +15056,8 @@ export const PoliciesCreateOrUpdateByBillingProfileResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(BillingProfilePolicyProperties),
       tags: S.optional(PoliciesCreateOrUpdateByBillingProfileResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PoliciesCreateOrUpdateByBillingProfileResponse",
@@ -14862,6 +15128,10 @@ export interface PoliciesCreateOrUpdateByCustomerResponse {
   properties?: CustomerPolicyProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: PoliciesCreateOrUpdateByCustomerResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PoliciesCreateOrUpdateByCustomerResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -14872,6 +15142,8 @@ export const PoliciesCreateOrUpdateByCustomerResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(CustomerPolicyProperties),
       tags: S.optional(PoliciesCreateOrUpdateByCustomerResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PoliciesCreateOrUpdateByCustomerResponse",
@@ -14941,6 +15213,10 @@ export interface PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse {
   properties?: CustomerPolicyProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -14953,6 +15229,8 @@ export const PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse =
       tags: S.optional(
         PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap,
       ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse",
@@ -15436,6 +15714,10 @@ export interface UpdateBillingAccountResponse {
   properties?: BillingAccountProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: UpdateBillingAccountResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateBillingAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15445,6 +15727,8 @@ export const UpdateBillingAccountResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BillingAccountProperties),
     tags: S.optional(UpdateBillingAccountResponseTagsMap),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateBillingAccountResponse",
@@ -15604,6 +15888,10 @@ export interface UpdateBillingSubscriptionResponse {
   properties?: BillingSubscriptionProperties;
   /** Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \ ? / */
   tags?: UpdateBillingSubscriptionResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15613,6 +15901,8 @@ export const UpdateBillingSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BillingSubscriptionProperties),
     tags: S.optional(UpdateBillingSubscriptionResponseTagsMap),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateBillingSubscriptionResponse",
@@ -15907,6 +16197,12 @@ export interface UpdateReservationByBillingAccountResponse {
   tags?: UpdateReservationByBillingAccountResponseTagsMap;
   /** The sku information associated to this reservation */
   sku?: ReservationSkuProperty;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateReservationByBillingAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -15920,6 +16216,11 @@ export const UpdateReservationByBillingAccountResponse =
       etag: S.optional(S.Number),
       tags: S.optional(UpdateReservationByBillingAccountResponseTagsMap),
       sku: S.optional(ReservationSkuProperty),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateReservationByBillingAccountResponse",
@@ -15995,6 +16296,12 @@ export interface UpdateSavingsPlanByBillingAccountResponse {
   tags?: UpdateSavingsPlanByBillingAccountResponseTagsMap;
   /** Savings plan SKU */
   sku: Sku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSavingsPlanByBillingAccountResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16006,6 +16313,11 @@ export const UpdateSavingsPlanByBillingAccountResponse =
       properties: S.optional(SavingsPlanModelProperties),
       tags: S.optional(UpdateSavingsPlanByBillingAccountResponseTagsMap),
       sku: Sku,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateSavingsPlanByBillingAccountResponse",
@@ -16456,12 +16768,12 @@ export type BillingRoleAssignmentsResolveByBillingAccountError = AzureOpError;
 /** Lists the role assignments for the caller on a billing account while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement. */
 export const BillingRoleAssignmentsResolveByBillingAccount: API.OperationMethod<
   BillingRoleAssignmentsResolveByBillingAccountRequest,
-  BillingRoleAssignmentListResult,
+  BillingRoleAssignmentsResolveByBillingAccountResponse,
   BillingRoleAssignmentsResolveByBillingAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: BillingRoleAssignmentsResolveByBillingAccountRequest,
-  output: BillingRoleAssignmentListResult,
+  output: BillingRoleAssignmentsResolveByBillingAccountResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -16471,12 +16783,12 @@ export type BillingRoleAssignmentsResolveByBillingProfileError = AzureOpError;
 /** Lists the role assignments for the caller on an billing profile while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement. */
 export const BillingRoleAssignmentsResolveByBillingProfile: API.OperationMethod<
   BillingRoleAssignmentsResolveByBillingProfileRequest,
-  BillingRoleAssignmentListResult,
+  BillingRoleAssignmentsResolveByBillingProfileResponse,
   BillingRoleAssignmentsResolveByBillingProfileError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: BillingRoleAssignmentsResolveByBillingProfileRequest,
-  output: BillingRoleAssignmentListResult,
+  output: BillingRoleAssignmentsResolveByBillingProfileResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -16486,12 +16798,12 @@ export type BillingRoleAssignmentsResolveByCustomerError = AzureOpError;
 /** Lists the role assignments for the caller on a customer while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement. */
 export const BillingRoleAssignmentsResolveByCustomer: API.OperationMethod<
   BillingRoleAssignmentsResolveByCustomerRequest,
-  BillingRoleAssignmentListResult,
+  BillingRoleAssignmentsResolveByCustomerResponse,
   BillingRoleAssignmentsResolveByCustomerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: BillingRoleAssignmentsResolveByCustomerRequest,
-  output: BillingRoleAssignmentListResult,
+  output: BillingRoleAssignmentsResolveByCustomerResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -16501,12 +16813,12 @@ export type BillingRoleAssignmentsResolveByInvoiceSectionError = AzureOpError;
 /** Lists the role assignments for the caller on an invoice section while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement. */
 export const BillingRoleAssignmentsResolveByInvoiceSection: API.OperationMethod<
   BillingRoleAssignmentsResolveByInvoiceSectionRequest,
-  BillingRoleAssignmentListResult,
+  BillingRoleAssignmentsResolveByInvoiceSectionResponse,
   BillingRoleAssignmentsResolveByInvoiceSectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: BillingRoleAssignmentsResolveByInvoiceSectionRequest,
-  output: BillingRoleAssignmentListResult,
+  output: BillingRoleAssignmentsResolveByInvoiceSectionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

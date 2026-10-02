@@ -24,7 +24,7 @@
         "target": "com.azure.machinelearningservices#RegenerateServerlessEndpointKeysRequest"
       },
       "output": {
-        "target": "com.azure.machinelearningservices#EndpointAuthKeys"
+        "target": "com.azure.machinelearningservices#RegenerateServerlessEndpointKeysResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -37,7 +37,7 @@
         "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.machinelearningservices#EndpointAuthKeys": {
+    "com.azure.machinelearningservices#RegenerateServerlessEndpointKeysResponse": {
       "type": "structure",
       "members": {
         "primaryKey": {
@@ -53,10 +53,25 @@
             "smithy.api#documentation": "The secondary key.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Keys for endpoint authentication."
+        "smithy.api#documentation": "Keys for endpoint authentication.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#RegenerateServerlessEndpointKeysRequest": {
@@ -150,6 +165,28 @@
         "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
+    "com.azure.machinelearningservices#EndpointAuthKeys": {
+      "type": "structure",
+      "members": {
+        "primaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The primary key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "secondaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The secondary key.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Keys for endpoint authentication."
+      }
+    },
     "com.azure.machinelearningservices#ListServerlessEndpointKeysRequest": {
       "type": "structure",
       "members": {
@@ -196,7 +233,7 @@
         "target": "com.azure.machinelearningservices#DeleteServerlessEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteServerlessEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -207,6 +244,35 @@
         },
         "smithy.api#documentation": "Delete Serverless Endpoint (asynchronous).\n\nDelete Serverless Endpoint (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteServerlessEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteServerlessEndpointRequest": {
@@ -331,6 +397,27 @@
           "target": "com.azure.machinelearningservices#UpdateServerlessEndpointResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -1176,6 +1263,20 @@
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
         }
       },
       "traits": {
@@ -1907,7 +2008,7 @@
         "target": "com.azure.machinelearningservices#DeleteScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1918,6 +2019,35 @@
         },
         "smithy.api#documentation": "Delete schedule.\n\nDelete schedule.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteScheduleRequest": {
@@ -2011,6 +2141,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -2549,7 +2693,7 @@
         "target": "com.azure.machinelearningservices#WorkspacesResyncKeysRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#WorkspacesResyncKeysResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2560,6 +2704,28 @@
         },
         "smithy.api#documentation": "Resync all the keys associated with this workspace.This includes keys for the storage account, app insights and password for container registry\n\nResync all the keys associated with this workspace.This includes keys for the storage account, app insights and password for container registry",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#WorkspacesResyncKeysResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#WorkspacesResyncKeysRequest": {
@@ -2600,7 +2766,7 @@
         "target": "com.azure.machinelearningservices#ProvisionManagedNetworkProvisionManagedNetworkRequest"
       },
       "output": {
-        "target": "com.azure.machinelearningservices#ManagedNetworkProvisionStatus"
+        "target": "com.azure.machinelearningservices#ProvisionManagedNetworkProvisionManagedNetworkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2613,7 +2779,7 @@
         "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.machinelearningservices#ManagedNetworkProvisionStatus": {
+    "com.azure.machinelearningservices#ProvisionManagedNetworkProvisionManagedNetworkResponse": {
       "type": "structure",
       "members": {
         "sparkReady": {
@@ -2624,10 +2790,25 @@
           "traits": {
             "smithy.api#documentation": "Status for the managed network of a machine learning workspace."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Status of the Provisioning for the managed network of a machine learning workspace."
+        "smithy.api#documentation": "Status of the Provisioning for the managed network of a machine learning workspace.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#ManagedNetworkStatus": {
@@ -3870,7 +4051,7 @@
         "target": "com.azure.machinelearningservices#WorkspacesPrepareNotebookRequest"
       },
       "output": {
-        "target": "com.azure.machinelearningservices#NotebookResourceInfo"
+        "target": "com.azure.machinelearningservices#WorkspacesPrepareNotebookResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3883,7 +4064,7 @@
         "com.distilled.openapi#apiVersion": "2026-07-01"
       }
     },
-    "com.azure.machinelearningservices#NotebookResourceInfo": {
+    "com.azure.machinelearningservices#WorkspacesPrepareNotebookResponse": {
       "type": "structure",
       "members": {
         "fqdn": {
@@ -3903,9 +4084,25 @@
           "traits": {
             "smithy.api#documentation": "the data plane resourceId that used to initialize notebook component"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
-      "traits": {}
+      "traits": {
+        "smithy.api#output": {}
+      }
     },
     "com.azure.machinelearningservices#NotebookPreparationError": {
       "type": "structure",
@@ -3957,7 +4154,7 @@
         "target": "com.azure.machinelearningservices#DeleteManagedNetworkSettingsRuleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteManagedNetworkSettingsRuleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3968,6 +4165,28 @@
         },
         "smithy.api#documentation": "Deletes an outbound rule from the managed network of a machine learning workspace.\n\nDeletes an outbound rule from the managed network of a machine learning workspace.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteManagedNetworkSettingsRuleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteManagedNetworkSettingsRuleRequest": {
@@ -4061,6 +4280,20 @@
           "traits": {
             "smithy.api#documentation": "Outbound Rule for the managed network of a machine learning workspace.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4724,7 +4957,7 @@
         "target": "com.azure.machinelearningservices#RegenerateOnlineEndpointKeysRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#RegenerateOnlineEndpointKeysResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4735,6 +4968,28 @@
         },
         "smithy.api#documentation": "Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).\n\nRegenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#RegenerateOnlineEndpointKeysResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#RegenerateOnlineEndpointKeysRequest": {
@@ -5220,7 +5475,7 @@
         "target": "com.azure.machinelearningservices#DeleteOnlineDeploymentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteOnlineDeploymentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5231,6 +5486,35 @@
         },
         "smithy.api#documentation": "Delete Inference Endpoint Deployment (asynchronous).\n\nDelete Inference Endpoint Deployment (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteOnlineDeploymentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteOnlineDeploymentRequest": {
@@ -5363,6 +5647,27 @@
           "target": "com.azure.machinelearningservices#UpdateOnlineDeploymentResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -6136,6 +6441,20 @@
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
         }
       },
       "traits": {
@@ -6859,7 +7178,7 @@
         "target": "com.azure.machinelearningservices#DeleteOnlineEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteOnlineEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6870,6 +7189,35 @@
         },
         "smithy.api#documentation": "Delete Online Endpoint (asynchronous).\n\nDelete Online Endpoint (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteOnlineEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteOnlineEndpointRequest": {
@@ -6994,6 +7342,27 @@
           "target": "com.azure.machinelearningservices#UpdateOnlineEndpointResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -7398,6 +7767,20 @@
           "target": "com.azure.machinelearningservices#OnlineEndpointsCreateOrUpdateResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -8302,7 +8685,7 @@
         "target": "com.azure.machinelearningservices#PublishModelVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#PublishModelVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8313,6 +8696,28 @@
         },
         "smithy.api#documentation": "Publish version asset into registry.\n\nPublish version asset into registry.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#PublishModelVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#PublishModelVersionRequest": {
@@ -9708,7 +10113,7 @@
         "target": "com.azure.machinelearningservices#DeleteMarketplaceSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteMarketplaceSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9719,6 +10124,35 @@
         },
         "smithy.api#documentation": "Delete Marketplace Subscription (asynchronous).\n\nDelete Marketplace Subscription (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteMarketplaceSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteMarketplaceSubscriptionRequest": {
@@ -9812,6 +10246,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -10575,7 +11023,7 @@
         "target": "com.azure.machinelearningservices#CancelJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#CancelJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10586,6 +11034,28 @@
         },
         "smithy.api#documentation": "Cancels a Job (asynchronous).\n\nCancels a Job (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#CancelJobResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#CancelJobRequest": {
@@ -10634,7 +11104,7 @@
         "target": "com.azure.machinelearningservices#DeleteJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10645,6 +11115,35 @@
         },
         "smithy.api#documentation": "Deletes a Job (asynchronous).\n\nDeletes a Job (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteJobResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteJobRequest": {
@@ -11805,7 +12304,7 @@
         "target": "com.azure.machinelearningservices#DeleteFeaturestoreEntityVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteFeaturestoreEntityVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11816,6 +12315,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteFeaturestoreEntityVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteFeaturestoreEntityVersionRequest": {
@@ -11917,6 +12445,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -12483,7 +13032,7 @@
         "target": "com.azure.machinelearningservices#DeleteFeaturestoreEntityContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteFeaturestoreEntityContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12494,6 +13043,35 @@
         },
         "smithy.api#documentation": "Delete container.\n\nDelete container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteFeaturestoreEntityContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteFeaturestoreEntityContainerRequest": {
@@ -12587,6 +13165,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -13554,6 +14153,20 @@
             "smithy.api#documentation": "List of jobs submitted as part of the backfill request.",
             "com.distilled.openapi#nullable": {}
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -13799,7 +14412,7 @@
         "target": "com.azure.machinelearningservices#DeleteFeaturesetVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteFeaturesetVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13810,6 +14423,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteFeaturesetVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteFeaturesetVersionRequest": {
@@ -13911,6 +14553,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -14728,7 +15391,7 @@
         "target": "com.azure.machinelearningservices#DeleteFeaturesetContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteFeaturesetContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14739,6 +15402,35 @@
         },
         "smithy.api#documentation": "Delete container.\n\nDelete container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteFeaturesetContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteFeaturesetContainerRequest": {
@@ -14832,6 +15524,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -15440,7 +16153,7 @@
         "target": "com.azure.machinelearningservices#PublishEnvironmentVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#PublishEnvironmentVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15451,6 +16164,28 @@
         },
         "smithy.api#documentation": "Publish version asset into registry.\n\nPublish version asset into registry.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#PublishEnvironmentVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#PublishEnvironmentVersionRequest": {
@@ -16840,6 +17575,20 @@
       "members": {
         "value": {
           "target": "com.azure.machinelearningservices#DiagnoseResponseResultValue"
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {}
@@ -18025,7 +18774,7 @@
         "target": "com.azure.machinelearningservices#PublishDataVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#PublishDataVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18036,6 +18785,28 @@
         },
         "smithy.api#documentation": "Publish version asset into registry.\n\nPublish version asset into registry.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#PublishDataVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#PublishDataVersionRequest": {
@@ -20970,7 +21741,7 @@
         "target": "com.azure.machinelearningservices#StopComputeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#StopComputeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -20981,6 +21752,28 @@
         },
         "smithy.api#documentation": "Posts a stop action to a compute instance",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#StopComputeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#StopComputeRequest": {
@@ -21029,7 +21822,7 @@
         "target": "com.azure.machinelearningservices#StartComputeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#StartComputeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21040,6 +21833,28 @@
         },
         "smithy.api#documentation": "Posts a start action to a compute instance",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#StartComputeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#StartComputeRequest": {
@@ -21088,7 +21903,7 @@
         "target": "com.azure.machinelearningservices#RestartComputeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#RestartComputeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21099,6 +21914,28 @@
         },
         "smithy.api#documentation": "Posts a restart action to a compute instance",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#RestartComputeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#RestartComputeRequest": {
@@ -21468,7 +22305,7 @@
         "target": "com.azure.machinelearningservices#DeleteComputeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteComputeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21479,6 +22316,28 @@
         },
         "smithy.api#documentation": "Deletes specified Machine Learning compute.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteComputeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteComputeRequest": {
@@ -21622,6 +22481,20 @@
           "target": "com.azure.machinelearningservices#UpdateComputeResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -22103,6 +22976,20 @@
           "target": "com.azure.machinelearningservices#ComputeCreateOrUpdateResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -22809,7 +23696,7 @@
         "target": "com.azure.machinelearningservices#PublishComponentVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#PublishComponentVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22820,6 +23707,28 @@
         },
         "smithy.api#documentation": "Publish version asset into registry.\n\nPublish version asset into registry.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#PublishComponentVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#PublishComponentVersionRequest": {
@@ -24217,7 +25126,7 @@
         "target": "com.azure.machinelearningservices#PublishCodeVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#PublishCodeVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -24228,6 +25137,28 @@
         },
         "smithy.api#documentation": "Publish version asset into registry.\n\nPublish version asset into registry.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#PublishCodeVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#PublishCodeVersionRequest": {
@@ -25377,7 +26308,7 @@
         "target": "com.azure.machinelearningservices#DeleteCapabilityHostRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteCapabilityHostResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -25388,6 +26319,35 @@
         },
         "smithy.api#documentation": "Delete capabilityHost.\n\nDelete capabilityHost.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteCapabilityHostResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteCapabilityHostRequest": {
@@ -25481,6 +26441,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -26092,7 +27073,7 @@
         "target": "com.azure.machinelearningservices#DeleteBatchDeploymentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteBatchDeploymentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -26103,6 +27084,35 @@
         },
         "smithy.api#documentation": "Delete Batch Inference deployment (asynchronous).\n\nDelete Batch Inference deployment (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteBatchDeploymentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteBatchDeploymentRequest": {
@@ -26235,6 +27245,27 @@
           "target": "com.azure.machinelearningservices#UpdateBatchDeploymentResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -26827,6 +27858,27 @@
           "target": "com.azure.machinelearningservices#BatchDeploymentsCreateOrUpdateResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -27551,7 +28603,7 @@
         "target": "com.azure.machinelearningservices#DeleteBatchEndpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteBatchEndpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -27562,6 +28614,35 @@
         },
         "smithy.api#documentation": "Delete Batch Inference Endpoint (asynchronous).\n\nDelete Batch Inference Endpoint (asynchronous).",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteBatchEndpointResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteBatchEndpointRequest": {
@@ -27686,6 +28767,27 @@
           "target": "com.azure.machinelearningservices#UpdateBatchEndpointResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -28015,6 +29117,27 @@
           "target": "com.azure.machinelearningservices#BatchEndpointsCreateOrUpdateResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -28766,7 +29889,7 @@
         "target": "com.azure.machinelearningservices#DeleteWorkspaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteWorkspaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -28777,6 +29900,28 @@
         },
         "smithy.api#documentation": "Deletes a machine learning workspace.\n\nDeletes a machine learning workspace.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteWorkspaceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteWorkspaceRequest": {
@@ -28891,6 +30036,20 @@
         },
         "tags": {
           "target": "com.azure.machinelearningservices#UpdateWorkspaceResponseTagsMap"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -29346,6 +30505,30 @@
         "smithy.api#documentation": "The list of private endpoint connections in the workspace."
       }
     },
+    "com.azure.machinelearningservices#NotebookResourceInfo": {
+      "type": "structure",
+      "members": {
+        "fqdn": {
+          "target": "smithy.api#String"
+        },
+        "isPrivateLinkEnabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "notebookPreparationError": {
+          "target": "com.azure.machinelearningservices#NotebookPreparationError",
+          "traits": {
+            "smithy.api#documentation": "The error that occurs when preparing notebook."
+          }
+        },
+        "resourceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "the data plane resourceId that used to initialize notebook component"
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.azure.machinelearningservices#ManagedNetworkSettings": {
       "type": "structure",
       "members": {
@@ -29439,6 +30622,23 @@
       },
       "traits": {
         "smithy.api#documentation": "Firewall Sku used for FQDN Rules"
+      }
+    },
+    "com.azure.machinelearningservices#ManagedNetworkProvisionStatus": {
+      "type": "structure",
+      "members": {
+        "sparkReady": {
+          "target": "smithy.api#Boolean"
+        },
+        "status": {
+          "target": "com.azure.machinelearningservices#ManagedNetworkStatus",
+          "traits": {
+            "smithy.api#documentation": "Status for the managed network of a machine learning workspace."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Status of the Provisioning for the managed network of a machine learning workspace."
       }
     },
     "com.azure.machinelearningservices#ManagedNetworkSettingsOutboundRulesMap": {
@@ -29983,6 +31183,20 @@
         },
         "tags": {
           "target": "com.azure.machinelearningservices#WorkspacesCreateOrUpdateResponseTagsMap"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -30857,6 +32071,27 @@
           "target": "com.azure.machinelearningservices#RemoveRegistryRegionsResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -31760,7 +32995,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryModelVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryModelVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -31771,6 +33006,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryModelVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryModelVersionRequest": {
@@ -31872,6 +33136,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -32185,7 +33463,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryModelContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryModelContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -32196,6 +33474,35 @@
         },
         "smithy.api#documentation": "Delete container.\n\nDelete container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryModelContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryModelContainerRequest": {
@@ -32289,6 +33596,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -32536,7 +33857,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryEnvironmentVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryEnvironmentVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -32547,6 +33868,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryEnvironmentVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryEnvironmentVersionRequest": {
@@ -32648,6 +33998,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -32933,7 +34297,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryEnvironmentContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryEnvironmentContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -32944,6 +34308,35 @@
         },
         "smithy.api#documentation": "Delete container.\n\nDelete container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryEnvironmentContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryEnvironmentContainerRequest": {
@@ -33037,6 +34430,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -33554,7 +34968,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryDataVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryDataVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -33565,6 +34979,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryDataVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryDataVersionRequest": {
@@ -33666,6 +35109,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -33958,7 +35422,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryDataContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryDataContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -33969,6 +35433,35 @@
         },
         "smithy.api#documentation": "Delete container.\n\nDelete container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryDataContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryDataContainerRequest": {
@@ -34062,6 +35555,27 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -34309,7 +35823,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryComponentVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryComponentVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -34320,6 +35834,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryComponentVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryComponentVersionRequest": {
@@ -34421,6 +35964,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -34675,7 +36232,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryComponentContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryComponentContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -34686,6 +36243,35 @@
         },
         "smithy.api#documentation": "Delete container.\n\nDelete container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryComponentContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryComponentContainerRequest": {
@@ -34779,6 +36365,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -35095,7 +36695,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryCodeVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryCodeVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35106,6 +36706,35 @@
         },
         "smithy.api#documentation": "Delete version.\n\nDelete version.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryCodeVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryCodeVersionRequest": {
@@ -35207,6 +36836,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -35461,7 +37104,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryCodeContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryCodeContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35472,6 +37115,35 @@
         },
         "smithy.api#documentation": "Delete Code container.\n\nDelete Code container.",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryCodeContainerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryCodeContainerRequest": {
@@ -35565,6 +37237,20 @@
           "traits": {
             "smithy.api#documentation": "[Required] Additional attributes of the entity.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
           }
         }
       },
@@ -35781,7 +37467,7 @@
         "target": "com.azure.machinelearningservices#DeleteRegistryRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.machinelearningservices#DeleteRegistryResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35792,6 +37478,35 @@
         },
         "smithy.api#documentation": "Delete registry\n\nDelete registry",
         "com.distilled.openapi#apiVersion": "2026-07-01"
+      }
+    },
+    "com.azure.machinelearningservices#DeleteRegistryResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "xMsAsyncOperationTimeout": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-async-operation-timeout",
+            "smithy.api#documentation": "Timeout for the client to use when polling the asynchronous operation."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.machinelearningservices#DeleteRegistryRequest": {
@@ -36162,6 +37877,20 @@
           "target": "com.azure.machinelearningservices#RegistriesCreateOrUpdateResponseSku",
           "traits": {
             "smithy.api#documentation": "The resource model definition representing SKU"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

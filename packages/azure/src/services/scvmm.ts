@@ -193,6 +193,10 @@ export interface AvailabilitySetsCreateOrUpdateResponse {
   properties?: AvailabilitySetProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AvailabilitySetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -205,6 +209,10 @@ export const AvailabilitySetsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(AvailabilitySetProperties),
       extendedLocation: ExtendedLocation,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "AvailabilitySetsCreateOrUpdateResponse",
@@ -386,6 +394,8 @@ export interface CloudsCreateOrUpdateResponse {
   properties?: CloudProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CloudsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -397,6 +407,7 @@ export const CloudsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(CloudProperties),
     extendedLocation: ExtendedLocation,
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CloudsCreateOrUpdateResponse",
@@ -524,6 +535,8 @@ export interface CreateGuestAgentResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: GuestAgentProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateGuestAgentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -532,6 +545,7 @@ export const CreateGuestAgentResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(GuestAgentProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateGuestAgentResponse",
@@ -670,9 +684,19 @@ export const CreateVirtualMachineInstanceCheckpointRequest =
     identifier: "CreateVirtualMachineInstanceCheckpointRequest",
   }) as any as S.Schema<CreateVirtualMachineInstanceCheckpointRequest>;
 
-export interface CreateVirtualMachineInstanceCheckpointResponse {}
+export interface CreateVirtualMachineInstanceCheckpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CreateVirtualMachineInstanceCheckpointResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "CreateVirtualMachineInstanceCheckpointResponse",
   }) as any as S.Schema<CreateVirtualMachineInstanceCheckpointResponse>;
 
@@ -704,9 +728,22 @@ export const DeleteAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAvailabilitySetRequest",
 }) as any as S.Schema<DeleteAvailabilitySetRequest>;
 
-export interface DeleteAvailabilitySetResponse {}
+export interface DeleteAvailabilitySetResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAvailabilitySetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAvailabilitySetResponse",
 }) as any as S.Schema<DeleteAvailabilitySetResponse>;
@@ -739,9 +776,17 @@ export const DeleteCloudRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCloudRequest",
 }) as any as S.Schema<DeleteCloudRequest>;
 
-export interface DeleteCloudResponse {}
+export interface DeleteCloudResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCloudResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCloudResponse",
 }) as any as S.Schema<DeleteCloudResponse>;
@@ -832,9 +877,18 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualMachineInstanceRequest",
 }) as any as S.Schema<DeleteVirtualMachineInstanceRequest>;
 
-export interface DeleteVirtualMachineInstanceResponse {}
+export interface DeleteVirtualMachineInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteVirtualMachineInstanceResponse",
 }) as any as S.Schema<DeleteVirtualMachineInstanceResponse>;
@@ -862,9 +916,19 @@ export const DeleteVirtualMachineInstanceCheckpointRequest =
     identifier: "DeleteVirtualMachineInstanceCheckpointRequest",
   }) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointRequest>;
 
-export interface DeleteVirtualMachineInstanceCheckpointResponse {}
+export interface DeleteVirtualMachineInstanceCheckpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualMachineInstanceCheckpointResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteVirtualMachineInstanceCheckpointResponse",
   }) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointResponse>;
 
@@ -896,9 +960,18 @@ export const DeleteVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualMachineTemplateRequest",
 }) as any as S.Schema<DeleteVirtualMachineTemplateRequest>;
 
-export interface DeleteVirtualMachineTemplateResponse {}
+export interface DeleteVirtualMachineTemplateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualMachineTemplateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteVirtualMachineTemplateResponse",
 }) as any as S.Schema<DeleteVirtualMachineTemplateResponse>;
@@ -931,9 +1004,17 @@ export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualNetworkRequest",
 }) as any as S.Schema<DeleteVirtualNetworkRequest>;
 
-export interface DeleteVirtualNetworkResponse {}
+export interface DeleteVirtualNetworkResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVirtualNetworkResponse",
 }) as any as S.Schema<DeleteVirtualNetworkResponse>;
@@ -966,9 +1047,17 @@ export const DeleteVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVmmServerRequest",
 }) as any as S.Schema<DeleteVmmServerRequest>;
 
-export interface DeleteVmmServerResponse {}
+export interface DeleteVmmServerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVmmServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVmmServerResponse",
 }) as any as S.Schema<DeleteVmmServerResponse>;
@@ -2968,9 +3057,18 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(
   identifier: "RestartVirtualMachineInstanceRequest",
 }) as any as S.Schema<RestartVirtualMachineInstanceRequest>;
 
-export interface RestartVirtualMachineInstanceResponse {}
+export interface RestartVirtualMachineInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestartVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RestartVirtualMachineInstanceResponse",
 }) as any as S.Schema<RestartVirtualMachineInstanceResponse>;
@@ -2998,9 +3096,19 @@ export const RestoreVirtualMachineInstanceCheckpointRequest =
     identifier: "RestoreVirtualMachineInstanceCheckpointRequest",
   }) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointRequest>;
 
-export interface RestoreVirtualMachineInstanceCheckpointResponse {}
+export interface RestoreVirtualMachineInstanceCheckpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreVirtualMachineInstanceCheckpointResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "RestoreVirtualMachineInstanceCheckpointResponse",
   }) as any as S.Schema<RestoreVirtualMachineInstanceCheckpointResponse>;
 
@@ -3023,9 +3131,17 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartVirtualMachineInstanceRequest",
 }) as any as S.Schema<StartVirtualMachineInstanceRequest>;
 
-export interface StartVirtualMachineInstanceResponse {}
+export interface StartVirtualMachineInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartVirtualMachineInstanceResponse",
 }) as any as S.Schema<StartVirtualMachineInstanceResponse>;
@@ -3052,9 +3168,17 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopVirtualMachineInstanceRequest",
 }) as any as S.Schema<StopVirtualMachineInstanceRequest>;
 
-export interface StopVirtualMachineInstanceResponse {}
+export interface StopVirtualMachineInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StopVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StopVirtualMachineInstanceResponse",
 }) as any as S.Schema<StopVirtualMachineInstanceResponse>;
@@ -3122,6 +3246,10 @@ export interface UpdateAvailabilitySetResponse {
   properties?: AvailabilitySetProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateAvailabilitySetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3133,6 +3261,8 @@ export const UpdateAvailabilitySetResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AvailabilitySetProperties),
     extendedLocation: ExtendedLocation,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateAvailabilitySetResponse",
@@ -3197,6 +3327,10 @@ export interface UpdateCloudResponse {
   properties?: CloudProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCloudResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3208,6 +3342,8 @@ export const UpdateCloudResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(CloudProperties),
     extendedLocation: ExtendedLocation,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCloudResponse",
@@ -3429,6 +3565,10 @@ export interface UpdateVirtualMachineInstanceResponse {
   properties?: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3439,6 +3579,8 @@ export const UpdateVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(VirtualMachineInstanceProperties),
       extendedLocation: ExtendedLocation,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateVirtualMachineInstanceResponse",
@@ -3509,6 +3651,10 @@ export interface UpdateVirtualMachineTemplateResponse {
   properties?: VirtualMachineTemplateProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVirtualMachineTemplateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3521,6 +3667,8 @@ export const UpdateVirtualMachineTemplateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(VirtualMachineTemplateProperties),
       extendedLocation: ExtendedLocation,
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateVirtualMachineTemplateResponse",
@@ -3589,6 +3737,10 @@ export interface UpdateVirtualNetworkResponse {
   properties?: VirtualNetworkProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3600,6 +3752,8 @@ export const UpdateVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VirtualNetworkProperties),
     extendedLocation: ExtendedLocation,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVirtualNetworkResponse",
@@ -3668,6 +3822,10 @@ export interface UpdateVmmServerResponse {
   properties?: VmmServerProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVmmServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3679,6 +3837,8 @@ export const UpdateVmmServerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VmmServerProperties),
     extendedLocation: ExtendedLocation,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVmmServerResponse",
@@ -3922,6 +4082,8 @@ export interface VirtualMachineInstancesCreateOrUpdateResponse {
   properties?: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VirtualMachineInstancesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3932,6 +4094,7 @@ export const VirtualMachineInstancesCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(VirtualMachineInstanceProperties),
       extendedLocation: ExtendedLocation,
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "VirtualMachineInstancesCreateOrUpdateResponse",
@@ -4032,6 +4195,8 @@ export interface VirtualMachineTemplatesCreateOrUpdateResponse {
   properties?: VirtualMachineTemplateProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VirtualMachineTemplatesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4044,6 +4209,7 @@ export const VirtualMachineTemplatesCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(VirtualMachineTemplateProperties),
       extendedLocation: ExtendedLocation,
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "VirtualMachineTemplatesCreateOrUpdateResponse",
@@ -4143,6 +4309,8 @@ export interface VirtualNetworksCreateOrUpdateResponse {
   properties?: VirtualNetworkProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VirtualNetworksCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4155,6 +4323,7 @@ export const VirtualNetworksCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(VirtualNetworkProperties),
       extendedLocation: ExtendedLocation,
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "VirtualNetworksCreateOrUpdateResponse",
@@ -4251,6 +4420,8 @@ export interface VmmServersCreateOrUpdateResponse {
   properties?: VmmServerProperties;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VmmServersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4262,6 +4433,7 @@ export const VmmServersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VmmServerProperties),
     extendedLocation: ExtendedLocation,
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "VmmServersCreateOrUpdateResponse",

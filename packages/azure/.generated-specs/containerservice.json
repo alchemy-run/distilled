@@ -1120,7 +1120,7 @@
         "target": "com.azure.containerservice#DeleteTrustedAccessRoleBindingRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteTrustedAccessRoleBindingResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1131,6 +1131,35 @@
         },
         "smithy.api#documentation": "Delete a trusted access role binding.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteTrustedAccessRoleBindingResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteTrustedAccessRoleBindingRequest": {
@@ -1224,6 +1253,20 @@
           "traits": {
             "smithy.api#documentation": "Properties for trusted access role binding",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1608,7 +1651,7 @@
         "target": "com.azure.containerservice#StopManagedClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#StopManagedClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1619,6 +1662,28 @@
         },
         "smithy.api#documentation": "Stops a Managed Cluster\n\nThis can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A cluster does not accrue charges while it is stopped. See [stopping a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a cluster.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#StopManagedClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#StopManagedClusterRequest": {
@@ -1659,7 +1724,7 @@
         "target": "com.azure.containerservice#StartManagedClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#StartManagedClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1670,6 +1735,28 @@
         },
         "smithy.api#documentation": "Starts a previously stopped Managed Cluster\n\nSee [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about starting a cluster.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#StartManagedClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#StartManagedClusterRequest": {
@@ -1736,6 +1823,20 @@
           "target": "com.azure.containerservice#CommandResultProperties",
           "traits": {
             "smithy.api#documentation": "Properties of command result."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1844,7 +1945,7 @@
         "target": "com.azure.containerservice#RotateManagedClusterServiceAccountSigningKeysRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#RotateManagedClusterServiceAccountSigningKeysResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1855,6 +1956,28 @@
         },
         "smithy.api#documentation": "Rotates the service account signing keys of a managed cluster.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#RotateManagedClusterServiceAccountSigningKeysResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#RotateManagedClusterServiceAccountSigningKeysRequest": {
@@ -1895,7 +2018,7 @@
         "target": "com.azure.containerservice#RotateManagedClusterClusterCertificatesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#RotateManagedClusterClusterCertificatesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1906,6 +2029,28 @@
         },
         "smithy.api#documentation": "Rotates the certificates of a managed cluster.\n\nSee [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#RotateManagedClusterClusterCertificatesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#RotateManagedClusterClusterCertificatesRequest": {
@@ -2089,7 +2234,7 @@
         "target": "com.azure.containerservice#ResetManagedClusterServicePrincipalProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#ResetManagedClusterServicePrincipalProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2100,6 +2245,28 @@
         },
         "smithy.api#documentation": "Reset the Service Principal Profile of a managed cluster.\n\nThis action cannot be performed on a cluster that is not using a service principal",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#ResetManagedClusterServicePrincipalProfileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#ResetManagedClusterServicePrincipalProfileRequest": {
@@ -2228,7 +2395,7 @@
         "target": "com.azure.containerservice#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2239,6 +2406,28 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeletePrivateEndpointConnectionRequest": {
@@ -3313,7 +3502,7 @@
         "target": "com.azure.containerservice#DeleteManagedNamespaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteManagedNamespaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3324,6 +3513,35 @@
         },
         "smithy.api#documentation": "Deletes a namespace.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteManagedNamespaceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteManagedNamespaceRequest": {
@@ -3855,6 +4073,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5253,7 +5485,7 @@
         "target": "com.azure.containerservice#DeleteIdentityBindingRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteIdentityBindingResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5264,6 +5496,35 @@
         },
         "smithy.api#documentation": "Deletes an identity binding in the specified managed cluster.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteIdentityBindingResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteIdentityBindingRequest": {
@@ -5362,6 +5623,27 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6211,7 +6493,7 @@
         "target": "com.azure.containerservice#AgentPoolsUpgradeNodeImageVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#AgentPoolsUpgradeNodeImageVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6222,6 +6504,35 @@
         },
         "smithy.api#documentation": "Upgrades the node image version of an agent pool to the latest.\n\nUpgrading the node image version of an agent pool applies the newest OS and runtime updates to the nodes. AKS provides one new image per week with the latest updates. For more details on node image versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#AgentPoolsUpgradeNodeImageVersionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#AgentPoolsUpgradeNodeImageVersionRequest": {
@@ -6615,7 +6926,7 @@
         "target": "com.azure.containerservice#DeleteAgentPoolMachinesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteAgentPoolMachinesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6626,6 +6937,35 @@
         },
         "smithy.api#documentation": "Deletes specific machines in an agent pool.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteAgentPoolMachinesResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteAgentPoolMachinesRequest": {
@@ -6690,7 +7030,7 @@
         "target": "com.azure.containerservice#AbortAgentPoolLatestOperationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#AbortAgentPoolLatestOperationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6701,6 +7041,35 @@
         },
         "smithy.api#documentation": "Aborts last operation running on agent pool.\n\nAborts the currently running operation on the agent pool. The Agent Pool will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#AbortAgentPoolLatestOperationResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#AbortAgentPoolLatestOperationRequest": {
@@ -6749,7 +7118,7 @@
         "target": "com.azure.containerservice#DeleteAgentPoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteAgentPoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6760,6 +7129,35 @@
         },
         "smithy.api#documentation": "Deletes an agent pool in the specified managed cluster.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteAgentPoolResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteAgentPoolRequest": {
@@ -6859,6 +7257,20 @@
           "target": "com.azure.containerservice#ManagedClusterAgentPoolProfileProperties",
           "traits": {
             "smithy.api#documentation": "Properties of an agent pool."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9435,7 +9847,7 @@
         "target": "com.azure.containerservice#AbortManagedClusterLatestOperationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#AbortManagedClusterLatestOperationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9446,6 +9858,35 @@
         },
         "smithy.api#documentation": "Aborts last operation running on managed cluster.\n\nAborts the currently running operation on the managed cluster. The Managed Cluster will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#AbortManagedClusterLatestOperationResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#AbortManagedClusterLatestOperationRequest": {
@@ -9486,7 +9927,7 @@
         "target": "com.azure.containerservice#DeleteManagedClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteManagedClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -9497,6 +9938,35 @@
         },
         "smithy.api#documentation": "Deletes a managed cluster.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteManagedClusterResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteManagedClusterRequest": {
@@ -9624,6 +10094,27 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "This is primarily used to expose different UI experiences in the portal for different kinds"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -14005,6 +14496,20 @@
           "traits": {
             "smithy.api#documentation": "This is primarily used to expose different UI experiences in the portal for different kinds"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16486,7 +16991,7 @@
         "target": "com.azure.containerservice#DeleteDeploymentSafeguardRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteDeploymentSafeguardResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16497,6 +17002,28 @@
         },
         "smithy.api#documentation": "Delete DeploymentSafeguards",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.containerservice#DeleteDeploymentSafeguardResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteDeploymentSafeguardRequest": {
@@ -16571,6 +17098,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -16978,7 +17519,7 @@
         "target": "com.azure.containerservice#DeleteFleetUpdateStrategyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteFleetUpdateStrategyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16989,6 +17530,28 @@
         },
         "smithy.api#documentation": "Delete a FleetUpdateStrategy",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteFleetUpdateStrategyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteFleetUpdateStrategyRequest": {
@@ -17087,6 +17650,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -17682,6 +18252,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18429,6 +19013,20 @@
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -18531,6 +19129,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18654,7 +19266,7 @@
         "target": "com.azure.containerservice#DeleteUpdateRunRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteUpdateRunResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18665,6 +19277,28 @@
         },
         "smithy.api#documentation": "Delete a UpdateRun",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteUpdateRunResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteUpdateRunRequest": {
@@ -18763,6 +19397,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -19149,7 +19790,7 @@
         "target": "com.azure.containerservice#DeleteFleetMemberRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteFleetMemberResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -19160,6 +19801,28 @@
         },
         "smithy.api#documentation": "Delete a FleetMember",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteFleetMemberResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteFleetMemberRequest": {
@@ -19258,6 +19921,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -19570,6 +20247,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -19917,7 +20601,7 @@
         "target": "com.azure.containerservice#DeleteFleetManagedNamespaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteFleetManagedNamespaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -19928,6 +20612,28 @@
         },
         "smithy.api#documentation": "Delete a FleetManagedNamespace",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteFleetManagedNamespaceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteFleetManagedNamespaceRequest": {
@@ -20039,6 +20745,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -21025,6 +21745,20 @@
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -21577,6 +22311,20 @@
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -22088,6 +22836,27 @@
             "smithy.api#documentation": "The ARM resource id of the generated UpdateRun. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'.",
             "smithy.api#required": {}
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "The request should only proceed if an entity matches this string."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -22140,7 +22909,7 @@
         "target": "com.azure.containerservice#DeleteAutoUpgradeProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteAutoUpgradeProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22151,6 +22920,28 @@
         },
         "smithy.api#documentation": "Delete a AutoUpgradeProfile",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteAutoUpgradeProfileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteAutoUpgradeProfileRequest": {
@@ -22249,6 +23040,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -22889,7 +23694,7 @@
         "target": "com.azure.containerservice#DeleteFleetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.containerservice#DeleteFleetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22900,6 +23705,28 @@
         },
         "smithy.api#documentation": "Delete a Fleet",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.containerservice#DeleteFleetResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.containerservice#DeleteFleetRequest": {
@@ -23009,6 +23836,20 @@
           "target": "com.azure.containerservice#UpdateFleetResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -23524,6 +24365,13 @@
           "target": "com.azure.containerservice#FleetsCreateOrUpdateResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

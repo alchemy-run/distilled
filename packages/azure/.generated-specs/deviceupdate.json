@@ -182,7 +182,7 @@
         "target": "com.azure.deviceupdate#DeletePrivateEndpointConnectionProxyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.deviceupdate#DeletePrivateEndpointConnectionProxyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -193,6 +193,21 @@
         },
         "smithy.api#documentation": "(INTERNAL - DO NOT USE) Deletes the specified private endpoint connection proxy associated with the device update account.",
         "com.distilled.openapi#apiVersion": "2023-07-01"
+      }
+    },
+    "com.azure.deviceupdate#DeletePrivateEndpointConnectionProxyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.deviceupdate#DeletePrivateEndpointConnectionProxyRequest": {
@@ -1825,7 +1840,7 @@
         "target": "com.azure.deviceupdate#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.deviceupdate#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1836,6 +1851,21 @@
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the device update account.",
         "com.distilled.openapi#apiVersion": "2023-07-01"
+      }
+    },
+    "com.azure.deviceupdate#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.deviceupdate#DeletePrivateEndpointConnectionRequest": {
@@ -2357,7 +2387,7 @@
         "target": "com.azure.deviceupdate#DeleteInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.deviceupdate#DeleteInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2368,6 +2398,21 @@
         },
         "smithy.api#documentation": "Deletes instance.",
         "com.distilled.openapi#apiVersion": "2023-07-01"
+      }
+    },
+    "com.azure.deviceupdate#DeleteInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.deviceupdate#DeleteInstanceRequest": {
@@ -3421,7 +3466,7 @@
         "target": "com.azure.deviceupdate#DeleteAccountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.deviceupdate#DeleteAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3432,6 +3477,21 @@
         },
         "smithy.api#documentation": "Deletes account.",
         "com.distilled.openapi#apiVersion": "2023-07-01"
+      }
+    },
+    "com.azure.deviceupdate#DeleteAccountResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Operation Status Location URI"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.deviceupdate#DeleteAccountRequest": {

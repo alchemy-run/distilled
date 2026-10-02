@@ -320,10 +320,20 @@ export const UserProperties = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetUserSettingsResponse {
   properties: UserProperties;
+  /** normalized required location code */
+  xMsConsoleRequiredLocationCode?: string;
+  /** indicates whether user is a previous usr. */
+  xMsConsolePreviewUser?: boolean;
 }
 export const GetUserSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: UserProperties,
+    xMsConsoleRequiredLocationCode: S.optional(
+      S.String.pipe(T.Header("x-ms-console-required-location-code")),
+    ),
+    xMsConsolePreviewUser: S.optional(
+      S.Boolean.pipe(T.Header("x-ms-console-preview-user")),
+    ),
   }),
 ).annotate({
   identifier: "GetUserSettingsResponse",
@@ -353,10 +363,20 @@ export const GetUserSettingsWithLocationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetUserSettingsWithLocationResponse {
   properties: UserProperties;
+  /** normalized required location code */
+  xMsConsoleRequiredLocationCode?: string;
+  /** indicates whether user is a previous usr. */
+  xMsConsolePreviewUser?: boolean;
 }
 export const GetUserSettingsWithLocationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: UserProperties,
+    xMsConsoleRequiredLocationCode: S.optional(
+      S.String.pipe(T.Header("x-ms-console-required-location-code")),
+    ),
+    xMsConsolePreviewUser: S.optional(
+      S.Boolean.pipe(T.Header("x-ms-console-preview-user")),
+    ),
   }),
 ).annotate({
   identifier: "GetUserSettingsWithLocationResponse",
@@ -381,9 +401,16 @@ export const KeepAliveRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "KeepAliveRequest",
 }) as any as S.Schema<KeepAliveRequest>;
 
-export interface KeepAliveResponse {}
+export interface KeepAliveResponse {
+  /** Remaining time left in session, in seconds. */
+  xMsConsoleRemainingSeconds?: number;
+}
 export const KeepAliveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsConsoleRemainingSeconds: S.optional(
+      S.Number.pipe(T.Header("x-ms-console-remaining-seconds")),
+    ),
+  }),
 ).annotate({
   identifier: "KeepAliveResponse",
 }) as any as S.Schema<KeepAliveResponse>;
@@ -410,9 +437,16 @@ export const KeepAliveWithLocationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "KeepAliveWithLocationRequest",
 }) as any as S.Schema<KeepAliveWithLocationRequest>;
 
-export interface KeepAliveWithLocationResponse {}
+export interface KeepAliveWithLocationResponse {
+  /** Remaining time left in session, in seconds. */
+  xMsConsoleRemainingSeconds?: number;
+}
 export const KeepAliveWithLocationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsConsoleRemainingSeconds: S.optional(
+      S.Number.pipe(T.Header("x-ms-console-remaining-seconds")),
+    ),
+  }),
 ).annotate({
   identifier: "KeepAliveWithLocationResponse",
 }) as any as S.Schema<KeepAliveWithLocationResponse>;

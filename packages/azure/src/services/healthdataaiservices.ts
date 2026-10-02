@@ -372,6 +372,10 @@ export interface CreateDeidServiceResponse {
   properties?: DeidServiceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateDeidServiceResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateDeidServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -383,6 +387,10 @@ export const CreateDeidServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DeidServiceProperties),
     identity: S.optional(CreateDeidServiceResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateDeidServiceResponse",
@@ -485,6 +493,10 @@ export interface CreatePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Properties of the private endpoint connection. */
   properties?: CreatePrivateEndpointConnectionResponseProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -494,6 +506,10 @@ export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(CreatePrivateEndpointConnectionResponseProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreatePrivateEndpointConnectionResponse",
@@ -524,9 +540,17 @@ export const DeleteDeidServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDeidServiceRequest",
 }) as any as S.Schema<DeleteDeidServiceRequest>;
 
-export interface DeleteDeidServiceResponse {}
+export interface DeleteDeidServiceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDeidServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDeidServiceResponse",
 }) as any as S.Schema<DeleteDeidServiceResponse>;
@@ -560,9 +584,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -1259,6 +1292,10 @@ export interface UpdateDeidServiceResponse {
   properties?: DeidServiceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateDeidServiceResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDeidServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1270,6 +1307,8 @@ export const UpdateDeidServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DeidServiceProperties),
     identity: S.optional(CreateDeidServiceResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDeidServiceResponse",

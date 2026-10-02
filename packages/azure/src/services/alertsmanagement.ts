@@ -231,6 +231,8 @@ export interface AlertProcessingRulesCreateOrUpdateResponse {
   location: string;
   /** Alert processing rule properties. */
   properties?: AlertProcessingRuleProperties;
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
 }
 export const AlertProcessingRulesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -241,6 +243,7 @@ export const AlertProcessingRulesCreateOrUpdateResponse =
       tags: S.optional(AlertProcessingRulesCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(AlertProcessingRuleProperties),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
     }),
   ).annotate({
     identifier: "AlertProcessingRulesCreateOrUpdateResponse",
@@ -499,9 +502,14 @@ export const DeleteAlertProcessingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAlertProcessingRuleRequest",
 }) as any as S.Schema<DeleteAlertProcessingRuleRequest>;
 
-export interface DeleteAlertProcessingRuleResponse {}
+export interface DeleteAlertProcessingRuleResponse {
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
+}
 export const DeleteAlertProcessingRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
+  }),
 ).annotate({
   identifier: "DeleteAlertProcessingRuleResponse",
 }) as any as S.Schema<DeleteAlertProcessingRuleResponse>;
@@ -928,6 +936,8 @@ export interface GetAlertProcessingRuleByNameResponse {
   location: string;
   /** Alert processing rule properties. */
   properties?: AlertProcessingRuleProperties;
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
 }
 export const GetAlertProcessingRuleByNameResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -938,6 +948,7 @@ export const GetAlertProcessingRuleByNameResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(GetAlertProcessingRuleByNameResponseTagsMap),
       location: S.String,
       properties: S.optional(AlertProcessingRuleProperties),
+      xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
     }),
 ).annotate({
   identifier: "GetAlertProcessingRuleByNameResponse",
@@ -1696,11 +1707,14 @@ export interface AlertProcessingRulesList {
   value: AlertProcessingRulesListValueList;
   /** The link to the next page of items */
   nextLink?: string;
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
 }
 export const AlertProcessingRulesList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: AlertProcessingRulesListValueList,
     nextLink: S.optional(S.String),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "AlertProcessingRulesList",
@@ -2440,6 +2454,8 @@ export interface UpdateAlertProcessingRuleResponse {
   location: string;
   /** Alert processing rule properties. */
   properties?: AlertProcessingRuleProperties;
+  /** An opaque, globally-unique, server-generated string identifier for the request. */
+  xMsRequestId?: string;
 }
 export const UpdateAlertProcessingRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2449,6 +2465,7 @@ export const UpdateAlertProcessingRuleResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateAlertProcessingRuleResponseTagsMap),
     location: S.String,
     properties: S.optional(AlertProcessingRuleProperties),
+    xMsRequestId: S.optional(S.String.pipe(T.Header("x-ms-request-id"))),
   }),
 ).annotate({
   identifier: "UpdateAlertProcessingRuleResponse",

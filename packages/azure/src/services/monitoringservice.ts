@@ -829,9 +829,17 @@ export const DeleteAzureMonitorWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAzureMonitorWorkspaceRequest",
 }) as any as S.Schema<DeleteAzureMonitorWorkspaceRequest>;
 
-export interface DeleteAzureMonitorWorkspaceResponse {}
+export interface DeleteAzureMonitorWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAzureMonitorWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAzureMonitorWorkspaceResponse",
 }) as any as S.Schema<DeleteAzureMonitorWorkspaceResponse>;
@@ -896,9 +904,17 @@ export const DeletePipelineGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePipelineGroupRequest",
 }) as any as S.Schema<DeletePipelineGroupRequest>;
 
-export interface DeletePipelineGroupResponse {}
+export interface DeletePipelineGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePipelineGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePipelineGroupResponse",
 }) as any as S.Schema<DeletePipelineGroupResponse>;
@@ -2876,6 +2892,10 @@ export interface PipelineGroupsCreateOrUpdateResponse {
   properties?: PipelineGroupProperties;
   /** The extended location of the resource. */
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PipelineGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2890,6 +2910,10 @@ export const PipelineGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       extendedLocation: S.optional(
         AzureResourceManagerCommonTypesExtendedLocation,
       ),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PipelineGroupsCreateOrUpdateResponse",
@@ -3325,6 +3349,10 @@ export interface UpdatePipelineGroupResponse {
   properties?: PipelineGroupProperties;
   /** The extended location of the resource. */
   extendedLocation?: AzureResourceManagerCommonTypesExtendedLocation;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePipelineGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3338,6 +3366,8 @@ export const UpdatePipelineGroupResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(
       AzureResourceManagerCommonTypesExtendedLocation,
     ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdatePipelineGroupResponse",

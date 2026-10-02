@@ -3618,6 +3618,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5208,6 +5222,20 @@
           "traits": {
             "smithy.api#documentation": "The URL to the PDF or .zip file."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -6763,6 +6791,27 @@
             "smithy.api#documentation": "Savings plan SKU",
             "smithy.api#required": {}
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -7542,7 +7591,7 @@
         "target": "com.azure.billing#BillingRoleAssignmentsResolveByBillingAccountRequest"
       },
       "output": {
-        "target": "com.azure.billing#BillingRoleAssignmentListResult"
+        "target": "com.azure.billing#BillingRoleAssignmentsResolveByBillingAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7555,7 +7604,7 @@
         "com.distilled.openapi#apiVersion": "2024-04-01"
       }
     },
-    "com.azure.billing#BillingRoleAssignmentListResult": {
+    "com.azure.billing#BillingRoleAssignmentsResolveByBillingAccountResponse": {
       "type": "structure",
       "members": {
         "value": {
@@ -7570,10 +7619,25 @@
           "traits": {
             "smithy.api#documentation": "The link to the next page of items"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Paged collection of BillingRoleAssignment items"
+        "smithy.api#documentation": "Paged collection of BillingRoleAssignment items",
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#BillingRoleAssignmentListResultValueList": {
@@ -9031,6 +9095,27 @@
           "traits": {
             "smithy.api#documentation": "The sku information associated to this reservation"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -10211,6 +10296,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -10989,6 +11088,20 @@
           "target": "com.azure.billing#PoliciesCreateOrUpdateByBillingAccountResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -12477,7 +12590,7 @@
         "target": "com.azure.billing#InvoicesAmendRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billing#InvoicesAmendResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12488,6 +12601,28 @@
         },
         "smithy.api#documentation": "Regenerate an invoice by billing account name and invoice name. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#InvoicesAmendResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#InvoicesAmendRequest": {
@@ -13946,6 +14081,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -14195,6 +14344,27 @@
         },
         "smithy.api#documentation": "Lists the role assignments for the caller on a enrollment account. The operation is supported for billing accounts of type Enterprise Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#BillingRoleAssignmentListResult": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.billing#BillingRoleAssignmentListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The BillingRoleAssignment items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paged collection of BillingRoleAssignment items"
       }
     },
     "com.azure.billing#ListBillingRoleAssignmentByEnrollmentAccountRequest": {
@@ -15203,6 +15373,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -15898,6 +16082,20 @@
           "target": "com.azure.billing#PoliciesCreateOrUpdateByCustomerAtBillingAccountResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -16680,6 +16878,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16940,6 +17152,20 @@
           "target": "com.azure.billing#CancelBillingAccountPaymentTermsResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -17944,6 +18170,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -18073,6 +18313,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -18184,6 +18438,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -18244,7 +18512,7 @@
         "target": "com.azure.billing#CancelBillingSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billing#CancelBillingSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18255,6 +18523,28 @@
         },
         "smithy.api#documentation": "Cancels a usage-based subscription. This operation is supported only for billing accounts of type Microsoft Partner Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#CancelBillingSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#CancelBillingSubscriptionRequest": {
@@ -18326,7 +18616,7 @@
         "target": "com.azure.billing#DeleteBillingSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billing#DeleteBillingSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18337,6 +18627,28 @@
         },
         "smithy.api#documentation": "Cancels a billing subscription. This operation is supported only for billing accounts of type Microsoft Partner Agreement or Microsoft Customer Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#DeleteBillingSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#DeleteBillingSubscriptionRequest": {
@@ -18419,6 +18731,20 @@
           "target": "com.azure.billing#UpdateBillingSubscriptionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18858,6 +19184,20 @@
           "target": "com.azure.billing#BillingSubscriptionsAliasesCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -19834,6 +20174,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -20445,7 +20799,7 @@
         "target": "com.azure.billing#BillingRoleAssignmentsResolveByBillingProfileRequest"
       },
       "output": {
-        "target": "com.azure.billing#BillingRoleAssignmentListResult"
+        "target": "com.azure.billing#BillingRoleAssignmentsResolveByBillingProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -20456,6 +20810,42 @@
         },
         "smithy.api#documentation": "Lists the role assignments for the caller on an billing profile while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#BillingRoleAssignmentsResolveByBillingProfileResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.billing#BillingRoleAssignmentListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The BillingRoleAssignment items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paged collection of BillingRoleAssignment items",
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#BillingRoleAssignmentsResolveByBillingProfileRequest": {
@@ -20722,6 +21112,20 @@
           "target": "com.azure.billing#PoliciesCreateOrUpdateByBillingProfileResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -22251,7 +22655,7 @@
         "target": "com.azure.billing#BillingRoleAssignmentsResolveByInvoiceSectionRequest"
       },
       "output": {
-        "target": "com.azure.billing#BillingRoleAssignmentListResult"
+        "target": "com.azure.billing#BillingRoleAssignmentsResolveByInvoiceSectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22262,6 +22666,42 @@
         },
         "smithy.api#documentation": "Lists the role assignments for the caller on an invoice section while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#BillingRoleAssignmentsResolveByInvoiceSectionResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.billing#BillingRoleAssignmentListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The BillingRoleAssignment items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paged collection of BillingRoleAssignment items",
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#BillingRoleAssignmentsResolveByInvoiceSectionRequest": {
@@ -22459,6 +22899,20 @@
           "target": "com.azure.billing#CreateBillingRoleAssignmentByInvoiceSectionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -23310,7 +23764,7 @@
         "target": "com.azure.billing#DeleteInvoiceSectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billing#DeleteInvoiceSectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -23321,6 +23775,28 @@
         },
         "smithy.api#documentation": "Deletes an invoice section. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#DeleteInvoiceSectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#DeleteInvoiceSectionRequest": {
@@ -23411,6 +23887,20 @@
           "target": "com.azure.billing#InvoiceSectionsCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -24609,7 +25099,7 @@
         "target": "com.azure.billing#BillingRoleAssignmentsResolveByCustomerRequest"
       },
       "output": {
-        "target": "com.azure.billing#BillingRoleAssignmentListResult"
+        "target": "com.azure.billing#BillingRoleAssignmentsResolveByCustomerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -24620,6 +25110,42 @@
         },
         "smithy.api#documentation": "Lists the role assignments for the caller on a customer while fetching user info for each role assignment. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#BillingRoleAssignmentsResolveByCustomerResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.billing#BillingRoleAssignmentListResultValueList",
+          "traits": {
+            "smithy.api#documentation": "The BillingRoleAssignment items on this page",
+            "smithy.api#required": {}
+          }
+        },
+        "nextLink": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The link to the next page of items"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Paged collection of BillingRoleAssignment items",
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#BillingRoleAssignmentsResolveByCustomerRequest": {
@@ -24724,6 +25250,20 @@
           "target": "com.azure.billing#PoliciesCreateOrUpdateByCustomerResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -24982,6 +25522,20 @@
           "target": "com.azure.billing#CreateBillingRoleAssignmentByCustomerResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -26083,6 +26637,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -27151,7 +27719,7 @@
         "target": "com.azure.billing#DeleteBillingProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billing#DeleteBillingProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -27162,6 +27730,28 @@
         },
         "smithy.api#documentation": "Deletes a billing profile. The operation is supported for billing accounts with agreement type Microsoft Customer Agreement and Microsoft Partner Agreement.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#DeleteBillingProfileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#DeleteBillingProfileRequest": {
@@ -27244,6 +27834,20 @@
           "target": "com.azure.billing#BillingProfilesCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -28051,7 +28655,7 @@
         "target": "com.azure.billing#DeleteAssociatedTenantRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.billing#DeleteAssociatedTenantResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -28062,6 +28666,28 @@
         },
         "smithy.api#documentation": "Deletes an associated tenant for a billing account.",
         "com.distilled.openapi#apiVersion": "2024-04-01"
+      }
+    },
+    "com.azure.billing#DeleteAssociatedTenantResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.billing#DeleteAssociatedTenantRequest": {
@@ -28144,6 +28770,20 @@
           "target": "com.azure.billing#AssociatedTenantsCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -29166,6 +29806,20 @@
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -29270,6 +29924,20 @@
           "target": "com.azure.billing#UpdateBillingAccountResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Dictionary of metadata associated with the resource. It may not be populated for all resource types. Maximum key/value length supported of 256 characters. Keys/value should not empty value nor null. Keys can not contain < > % & \\ ? /"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

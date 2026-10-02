@@ -108,7 +108,7 @@
         "target": "com.azure.frontdoor#DeleteRulesEngineRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#DeleteRulesEngineResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -119,6 +119,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Rules Engine Configuration with the specified parameters.",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#DeleteRulesEngineResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#DeleteRulesEngineRequest": {
@@ -205,6 +227,20 @@
           "target": "com.azure.frontdoor#RulesEngineProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Rules Engine Configuration."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -999,7 +1035,7 @@
         "target": "com.azure.frontdoor#PurgeEndpointContentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#PurgeEndpointContentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1010,6 +1046,28 @@
         },
         "smithy.api#documentation": "Removes a content from Front Door.",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#PurgeEndpointContentResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#PurgeEndpointContentRequest": {
@@ -1066,7 +1124,7 @@
         "target": "com.azure.frontdoor#EnableFrontendEndpointHttpsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#EnableFrontendEndpointHttpsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1077,6 +1135,28 @@
         },
         "smithy.api#documentation": "Enables a frontendEndpoint for HTTPS traffic",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#EnableFrontendEndpointHttpsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#EnableFrontendEndpointHttpsRequest": {
@@ -1280,7 +1360,7 @@
         "target": "com.azure.frontdoor#DisableFrontendEndpointHttpsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#DisableFrontendEndpointHttpsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1291,6 +1371,28 @@
         },
         "smithy.api#documentation": "Disables a frontendEndpoint for HTTPS traffic",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#DisableFrontendEndpointHttpsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#DisableFrontendEndpointHttpsRequest": {
@@ -1780,7 +1882,7 @@
         "target": "com.azure.frontdoor#DeleteFrontDoorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#DeleteFrontDoorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1791,6 +1893,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Front Door with the specified parameters.",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#DeleteFrontDoorResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#DeleteFrontDoorRequest": {
@@ -1881,6 +2005,20 @@
           "target": "com.azure.frontdoor#FrontDoorProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Front Door Load Balancer"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4068,7 +4206,7 @@
         "target": "com.azure.frontdoor#DeleteExperimentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#DeleteExperimentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4079,6 +4217,28 @@
         },
         "smithy.api#documentation": "Deletes an Experiment\n\nDeletes an Experiment",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#DeleteExperimentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#DeleteExperimentRequest": {
@@ -4177,6 +4337,20 @@
           "target": "com.azure.frontdoor#ExperimentProperties",
           "traits": {
             "smithy.api#documentation": "The properties of an Experiment"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4470,6 +4644,20 @@
           "target": "com.azure.frontdoor#ExperimentProperties",
           "traits": {
             "smithy.api#documentation": "The properties of an Experiment"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4849,7 +5037,7 @@
         "target": "com.azure.frontdoor#DeleteNetworkExperimentProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#DeleteNetworkExperimentProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4860,6 +5048,28 @@
         },
         "smithy.api#documentation": "Deletes an NetworkExperiment Profile by ProfileName\n\nDeletes an NetworkExperiment Profile by ProfileName",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#DeleteNetworkExperimentProfileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#DeleteNetworkExperimentProfileRequest": {
@@ -4956,6 +5166,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Gets a unique read-only string that changes whenever the resource is updated."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5127,6 +5351,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Gets a unique read-only string that changes whenever the resource is updated."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5468,7 +5706,7 @@
         "target": "com.azure.frontdoor#DeletePolicyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.frontdoor#DeletePolicyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5479,6 +5717,28 @@
         },
         "smithy.api#documentation": "Deletes Policy",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.frontdoor#DeletePolicyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.frontdoor#DeletePolicyRequest": {
@@ -5581,6 +5841,20 @@
           "target": "com.azure.frontdoor#Sku",
           "traits": {
             "smithy.api#documentation": "The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7347,6 +7621,20 @@
           "target": "com.azure.frontdoor#Sku",
           "traits": {
             "smithy.api#documentation": "The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

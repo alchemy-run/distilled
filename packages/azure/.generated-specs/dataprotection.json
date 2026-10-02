@@ -2002,6 +2002,20 @@
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -3176,6 +3190,20 @@
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -3350,6 +3378,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -3902,6 +3944,24 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional ETag."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
           }
         }
       },
@@ -4812,7 +4872,7 @@
         "target": "com.azure.dataprotection#TriggerExportJobRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#TriggerExportJobResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4823,6 +4883,21 @@
         },
         "smithy.api#documentation": "Triggers export of jobs and returns an OperationID to track.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#TriggerExportJobResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#TriggerExportJobRequest": {
@@ -4863,7 +4938,7 @@
         "target": "com.azure.dataprotection#UndeleteDeletedBackupInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#UndeleteDeletedBackupInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4874,6 +4949,28 @@
         },
         "smithy.api#documentation": "A long-running resource action.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#UndeleteDeletedBackupInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#UndeleteDeletedBackupInstanceRequest": {
@@ -6648,6 +6745,20 @@
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -6707,7 +6818,7 @@
         "target": "com.azure.dataprotection#BackupInstancesValidateForModifyBackupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#BackupInstancesValidateForModifyBackupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6718,6 +6829,28 @@
         },
         "smithy.api#documentation": "Validate whether update for backup instance will be successful or not",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#BackupInstancesValidateForModifyBackupResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#BackupInstancesValidateForModifyBackupRequest": {
@@ -6773,7 +6906,7 @@
         "target": "com.azure.dataprotection#SyncBackupInstanceBackupInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#SyncBackupInstanceBackupInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6784,6 +6917,28 @@
         },
         "smithy.api#documentation": "Sync backup instance again in case of failure\nThis action will retry last failed operation and will bring backup instance to valid state",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#SyncBackupInstanceBackupInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#SyncBackupInstanceBackupInstanceRequest": {
@@ -6858,7 +7013,7 @@
         "target": "com.azure.dataprotection#SuspendBackupInstanceBackupsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#SuspendBackupInstanceBackupsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6869,6 +7024,28 @@
         },
         "smithy.api#documentation": "This operation will stop backup for a backup instance and retains the backup data as per the policy (except latest Recovery point, which will be retained forever)",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#SuspendBackupInstanceBackupsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#SuspendBackupInstanceBackupsRequest": {
@@ -6932,7 +7109,7 @@
         "target": "com.azure.dataprotection#StopBackupInstanceProtectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#StopBackupInstanceProtectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6943,6 +7120,28 @@
         },
         "smithy.api#documentation": "This operation will stop protection of a backup instance and data will be held forever",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#StopBackupInstanceProtectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#StopBackupInstanceProtectionRequest": {
@@ -7006,7 +7205,7 @@
         "target": "com.azure.dataprotection#ResumeBackupInstanceProtectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#ResumeBackupInstanceProtectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7017,6 +7216,28 @@
         },
         "smithy.api#documentation": "This operation will resume protection for a stopped backup instance",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#ResumeBackupInstanceProtectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#ResumeBackupInstanceProtectionRequest": {
@@ -7065,7 +7286,7 @@
         "target": "com.azure.dataprotection#ResumeBackupInstanceBackupsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#ResumeBackupInstanceBackupsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7076,6 +7297,28 @@
         },
         "smithy.api#documentation": "This operation will resume backups for backup instance",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#ResumeBackupInstanceBackupsResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#ResumeBackupInstanceBackupsRequest": {
@@ -7151,6 +7394,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -7251,7 +7508,7 @@
         "target": "com.azure.dataprotection#TriggerBackupInstanceRehydrateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#TriggerBackupInstanceRehydrateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7262,6 +7519,28 @@
         },
         "smithy.api#documentation": "rehydrate recovery point for restore for a BackupInstance",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#TriggerBackupInstanceRehydrateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#TriggerBackupInstanceRehydrateRequest": {
@@ -8108,6 +8387,20 @@
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -8199,7 +8492,7 @@
         "target": "com.azure.dataprotection#DeleteBackupInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#DeleteBackupInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8210,6 +8503,28 @@
         },
         "smithy.api#documentation": "Delete a backup instance in a backup vault",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#DeleteBackupInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#DeleteBackupInstanceRequest": {
@@ -8308,6 +8623,27 @@
           "target": "com.azure.dataprotection#BackupInstancesCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Proxy Resource tags."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
           }
         }
       },
@@ -8648,7 +8984,7 @@
         "target": "com.azure.dataprotection#DeleteBackupVaultRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.dataprotection#DeleteBackupVaultResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8659,6 +8995,28 @@
         },
         "smithy.api#documentation": "Deletes a BackupVault resource from the resource group.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.dataprotection#DeleteBackupVaultResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.dataprotection#DeleteBackupVaultRequest": {
@@ -8769,6 +9127,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional ETag."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9012,6 +9384,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional ETag."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9606,6 +9992,24 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Name or Arm Id of the job created for this operation."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After"
           }
         }
       },

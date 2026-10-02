@@ -677,6 +677,10 @@ export interface ConnectedClusterCreateOrReplaceResponse {
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
   kind?: ConnectedClusterKind;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConnectedClusterCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -690,6 +694,10 @@ export const ConnectedClusterCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
       properties: ConnectedClusterProperties,
       identity: ConnectedClusterIdentity,
       kind: S.optional(ConnectedClusterKind),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ConnectedClusterCreateOrReplaceResponse",
@@ -720,9 +728,17 @@ export const DeleteConnectedClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectedClusterRequest",
 }) as any as S.Schema<DeleteConnectedClusterRequest>;
 
-export interface DeleteConnectedClusterResponse {}
+export interface DeleteConnectedClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConnectedClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConnectedClusterResponse",
 }) as any as S.Schema<DeleteConnectedClusterResponse>;
@@ -1191,6 +1207,10 @@ export interface UpdateConnectedClusterResponse {
   identity: ConnectedClusterIdentity;
   /** The kind of connected cluster. */
   kind?: ConnectedClusterKind;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateConnectedClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1203,6 +1223,8 @@ export const UpdateConnectedClusterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: ConnectedClusterProperties,
     identity: ConnectedClusterIdentity,
     kind: S.optional(ConnectedClusterKind),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateConnectedClusterResponse",

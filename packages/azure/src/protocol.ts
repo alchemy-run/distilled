@@ -16,7 +16,10 @@
  *             on every call
  *
  *   response: 2xx JSON is the payload (no envelope; sensitive members
- *             delivered as `Redacted`); errors are matched like distilled
+ *             delivered as `Redacted`), plus any response headers the
+ *             output declares — the `Azure-AsyncOperation` / `Location`
+ *             status monitor of a long-running operation's 202, for
+ *             example; errors are matched like distilled
  *             v0's Azure client:
  *               1. ARM envelope `{ error: { code, message, target } }` (flat
  *                  `{ code, message }` fallback) → `AZURE_ERROR_CODE_MAP`
@@ -35,11 +38,15 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as API from "@distilled.cloud/core/api";
-import { httpSymbol } from "@distilled.cloud/core/trait";
+import { headerSymbol, httpSymbol } from "@distilled.cloud/core/trait";
 import {
   buildRequest,
   getAnn,
+  getProps,
+  hasPropAnn,
   mapKeys,
+  nameOf,
+  resolveNode,
 } from "@distilled.cloud/core/protocol-http";
 import {
   unwrapRedactedDeep,
@@ -258,11 +265,43 @@ const decode = ({
     const body: unknown = nonJson ? text : (json ?? {});
     const mapped = yield* validateResponse(
       outputAst,
-      mapKeys(outputAst, body, "decode"),
+      withResponseHeaders(
+        outputAst,
+        mapKeys(outputAst, body, "decode"),
+        headers,
+      ),
       (cause) => new AzureParseError({ body: nonJson ? text : json, cause }),
     ).pipe(Effect.catch(fail));
     return wrapSensitive(outputAst, mapped);
   });
+
+/**
+ * Copy the response headers the output declares (`T.Header`) onto the
+ * decoded body. ARM sends them on 2xx responses, the long-running-operation
+ * status monitor (`Azure-AsyncOperation`, `Location`, `Retry-After`) among
+ * them. Numeric members such as `retryAfter` are parsed.
+ */
+const withResponseHeaders = (
+  outputAst: AST.AST,
+  decoded: unknown,
+  headers: Record<string, string | undefined>,
+): unknown => {
+  const props = getProps(outputAst).filter((prop) =>
+    hasPropAnn(prop, headerSymbol),
+  );
+  if (props.length === 0) return decoded;
+  const result: Record<string, unknown> =
+    decoded !== null && typeof decoded === "object"
+      ? { ...(decoded as Record<string, unknown>) }
+      : {};
+  for (const prop of props) {
+    const value = headers[nameOf(prop, headerSymbol).toLowerCase()];
+    if (value === undefined) continue;
+    result[String(prop.name)] =
+      resolveNode(prop.type)._tag === "Number" ? Number(value) : value;
+  }
+  return result;
+};
 
 export const AzureProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,

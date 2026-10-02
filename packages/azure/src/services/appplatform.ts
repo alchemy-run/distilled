@@ -3569,9 +3569,13 @@ export const DeleteApmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApmRequest",
 }) as any as S.Schema<DeleteApmRequest>;
 
-export interface DeleteApmResponse {}
+export interface DeleteApmResponse {
+  location?: string;
+}
 export const DeleteApmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteApmResponse",
 }) as any as S.Schema<DeleteApmResponse>;
@@ -3639,9 +3643,14 @@ export const DeleteApplicationAcceleratorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationAcceleratorRequest",
 }) as any as S.Schema<DeleteApplicationAcceleratorRequest>;
 
-export interface DeleteApplicationAcceleratorResponse {}
+export interface DeleteApplicationAcceleratorResponse {
+  location?: string;
+}
 export const DeleteApplicationAcceleratorResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteApplicationAcceleratorResponse",
 }) as any as S.Schema<DeleteApplicationAcceleratorResponse>;
@@ -3674,9 +3683,13 @@ export const DeleteApplicationLiveViewRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationLiveViewRequest",
 }) as any as S.Schema<DeleteApplicationLiveViewRequest>;
 
-export interface DeleteApplicationLiveViewResponse {}
+export interface DeleteApplicationLiveViewResponse {
+  location?: string;
+}
 export const DeleteApplicationLiveViewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteApplicationLiveViewResponse",
 }) as any as S.Schema<DeleteApplicationLiveViewResponse>;
@@ -3791,9 +3804,13 @@ export const DeleteBuildServiceBuildRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBuildServiceBuildRequest",
 }) as any as S.Schema<DeleteBuildServiceBuildRequest>;
 
-export interface DeleteBuildServiceBuildResponse {}
+export interface DeleteBuildServiceBuildResponse {
+  location?: string;
+}
 export const DeleteBuildServiceBuildResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteBuildServiceBuildResponse",
 }) as any as S.Schema<DeleteBuildServiceBuildResponse>;
@@ -3934,9 +3951,13 @@ export const DeleteContainerRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContainerRegistryRequest",
 }) as any as S.Schema<DeleteContainerRegistryRequest>;
 
-export interface DeleteContainerRegistryResponse {}
+export interface DeleteContainerRegistryResponse {
+  location?: string;
+}
 export const DeleteContainerRegistryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteContainerRegistryResponse",
 }) as any as S.Schema<DeleteContainerRegistryResponse>;
@@ -4010,9 +4031,13 @@ export const DeleteCustomizedAcceleratorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCustomizedAcceleratorRequest",
 }) as any as S.Schema<DeleteCustomizedAcceleratorRequest>;
 
-export interface DeleteCustomizedAcceleratorResponse {}
+export interface DeleteCustomizedAcceleratorResponse {
+  location?: string;
+}
 export const DeleteCustomizedAcceleratorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteCustomizedAcceleratorResponse",
 }) as any as S.Schema<DeleteCustomizedAcceleratorResponse>;
@@ -4083,9 +4108,13 @@ export const DeleteDevToolPortalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDevToolPortalRequest",
 }) as any as S.Schema<DeleteDevToolPortalRequest>;
 
-export interface DeleteDevToolPortalResponse {}
+export interface DeleteDevToolPortalResponse {
+  location?: string;
+}
 export const DeleteDevToolPortalResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDevToolPortalResponse",
 }) as any as S.Schema<DeleteDevToolPortalResponse>;
@@ -4957,9 +4986,14 @@ export const DisablePredefinedAcceleratorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisablePredefinedAcceleratorRequest",
 }) as any as S.Schema<DisablePredefinedAcceleratorRequest>;
 
-export interface DisablePredefinedAcceleratorResponse {}
+export interface DisablePredefinedAcceleratorResponse {
+  location?: string;
+}
 export const DisablePredefinedAcceleratorResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DisablePredefinedAcceleratorResponse",
 }) as any as S.Schema<DisablePredefinedAcceleratorResponse>;
@@ -4992,9 +5026,13 @@ export const DisableServiceApmGloballyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisableServiceApmGloballyRequest",
 }) as any as S.Schema<DisableServiceApmGloballyRequest>;
 
-export interface DisableServiceApmGloballyResponse {}
+export interface DisableServiceApmGloballyResponse {
+  location?: string;
+}
 export const DisableServiceApmGloballyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DisableServiceApmGloballyResponse",
 }) as any as S.Schema<DisableServiceApmGloballyResponse>;
@@ -5097,9 +5135,13 @@ export const EnablePredefinedAcceleratorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnablePredefinedAcceleratorRequest",
 }) as any as S.Schema<EnablePredefinedAcceleratorRequest>;
 
-export interface EnablePredefinedAcceleratorResponse {}
+export interface EnablePredefinedAcceleratorResponse {
+  location?: string;
+}
 export const EnablePredefinedAcceleratorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "EnablePredefinedAcceleratorResponse",
 }) as any as S.Schema<EnablePredefinedAcceleratorResponse>;
@@ -5132,9 +5174,13 @@ export const EnableServiceApmGloballyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnableServiceApmGloballyRequest",
 }) as any as S.Schema<EnableServiceApmGloballyRequest>;
 
-export interface EnableServiceApmGloballyResponse {}
+export interface EnableServiceApmGloballyResponse {
+  location?: string;
+}
 export const EnableServiceApmGloballyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "EnableServiceApmGloballyResponse",
 }) as any as S.Schema<EnableServiceApmGloballyResponse>;
@@ -5212,9 +5258,13 @@ export const FlushServiceVnetDnsSettingRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FlushServiceVnetDnsSettingRequest",
 }) as any as S.Schema<FlushServiceVnetDnsSettingRequest>;
 
-export interface FlushServiceVnetDnsSettingResponse {}
+export interface FlushServiceVnetDnsSettingResponse {
+  location?: string;
+}
 export const FlushServiceVnetDnsSettingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "FlushServiceVnetDnsSettingResponse",
 }) as any as S.Schema<FlushServiceVnetDnsSettingResponse>;
@@ -11686,9 +11736,13 @@ export const RestartGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartGatewayRequest",
 }) as any as S.Schema<RestartGatewayRequest>;
 
-export interface RestartGatewayResponse {}
+export interface RestartGatewayResponse {
+  location?: string;
+}
 export const RestartGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "RestartGatewayResponse",
 }) as any as S.Schema<RestartGatewayResponse>;
@@ -12804,6 +12858,23 @@ export const ValidateConfigurationServiceResourceRequest =
     identifier: "ValidateConfigurationServiceResourceRequest",
   }) as any as S.Schema<ValidateConfigurationServiceResourceRequest>;
 
+/** Validation result for configuration service settings */
+export interface ValidateConfigurationServiceResourceResponse {
+  gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult;
+  location?: string;
+}
+export const ValidateConfigurationServiceResourceResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      gitPropertyValidationResult: S.optional(
+        ConfigurationServiceGitPropertyValidateResult,
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
+    identifier: "ValidateConfigurationServiceResourceResponse",
+  }) as any as S.Schema<ValidateConfigurationServiceResourceResponse>;
+
 export interface ValidateContainerRegistryRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
@@ -12841,11 +12912,13 @@ export interface ContainerRegistryValidateResult {
   isValid?: boolean;
   /** Detailed validation messages. */
   message?: string;
+  location?: string;
 }
 export const ContainerRegistryValidateResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     isValid: S.optional(S.Boolean),
     message: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "ContainerRegistryValidateResult",
@@ -12925,11 +12998,13 @@ export interface CustomizedAcceleratorValidateResult {
   state?: CustomizedAcceleratorValidateResultState;
   /** The detail validation results */
   errorMessage?: string;
+  location?: string;
 }
 export const CustomizedAcceleratorValidateResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(CustomizedAcceleratorValidateResultState),
     errorMessage: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "CustomizedAcceleratorValidateResult",
@@ -15370,12 +15445,12 @@ export type ValidateConfigurationServiceResourceError = AzureOpError;
 /** Check if the Application Configuration Service resource is valid. */
 export const ValidateConfigurationServiceResource: API.OperationMethod<
   ValidateConfigurationServiceResourceRequest,
-  ConfigurationServiceSettingsValidateResult,
+  ValidateConfigurationServiceResourceResponse,
   ValidateConfigurationServiceResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ValidateConfigurationServiceResourceRequest,
-  output: ConfigurationServiceSettingsValidateResult,
+  output: ValidateConfigurationServiceResourceResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -364,6 +364,10 @@ export interface ApprovePipelineConnectionResponse {
   properties?: ConnectionProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ApprovePipelineConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -375,6 +379,8 @@ export const ApprovePipelineConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ApprovePipelineConnectionResponse",
@@ -571,6 +577,10 @@ export interface ConnectionsCreateOrUpdateResponse {
   properties?: ConnectionProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -582,6 +592,10 @@ export const ConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ConnectionsCreateOrUpdateResponse",
@@ -650,6 +664,10 @@ export interface ConnectionsLinkResponse {
   properties?: ConnectionProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConnectionsLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -661,6 +679,8 @@ export const ConnectionsLinkResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ConnectionsLinkResponse",
@@ -691,9 +711,17 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 
-export interface DeleteConnectionResponse {}
+export interface DeleteConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
@@ -726,9 +754,17 @@ export const DeleteFlowRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFlowRequest",
 }) as any as S.Schema<DeleteFlowRequest>;
 
-export interface DeleteFlowResponse {}
+export interface DeleteFlowResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFlowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFlowResponse",
 }) as any as S.Schema<DeleteFlowResponse>;
@@ -758,9 +794,17 @@ export const DeletePipelineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePipelineRequest",
 }) as any as S.Schema<DeletePipelineRequest>;
 
-export interface DeletePipelineResponse {}
+export interface DeletePipelineResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePipelineResponse",
 }) as any as S.Schema<DeletePipelineResponse>;
@@ -1078,6 +1122,10 @@ export interface DisableFlowResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DisableFlowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1090,6 +1138,8 @@ export const DisableFlowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DisableFlowResponse",
@@ -1159,6 +1209,10 @@ export interface EnableFlowResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const EnableFlowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1171,6 +1225,8 @@ export const EnableFlowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "EnableFlowResponse",
@@ -1479,6 +1535,10 @@ export interface ExecutePipelineActionResponse {
   properties?: PipelineProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ExecutePipelineActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1490,6 +1550,8 @@ export const ExecutePipelineActionResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PipelineProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ExecutePipelineActionResponse",
@@ -1701,6 +1763,10 @@ export interface FlowsCreateOrUpdateResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FlowsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1713,6 +1779,10 @@ export const FlowsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "FlowsCreateOrUpdateResponse",
@@ -1788,6 +1858,10 @@ export interface FlowsLinkResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FlowsLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1800,6 +1874,8 @@ export const FlowsLinkResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "FlowsLinkResponse",
@@ -1871,6 +1947,10 @@ export interface GenerateFlowPassphraseResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GenerateFlowPassphraseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1883,6 +1963,8 @@ export const GenerateFlowPassphraseResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "GenerateFlowPassphraseResponse",
@@ -3459,6 +3541,10 @@ export interface PipelinesCreateOrUpdateResponse {
   properties?: PipelineProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PipelinesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3470,6 +3556,10 @@ export const PipelinesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PipelineProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PipelinesCreateOrUpdateResponse",
@@ -3538,6 +3628,10 @@ export interface RejectPipelineConnectionResponse {
   properties?: ConnectionProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const RejectPipelineConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3549,6 +3643,8 @@ export const RejectPipelineConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "RejectPipelineConnectionResponse",
@@ -3634,6 +3730,10 @@ export interface SetFlowDestinationEndpointPortsResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SetFlowDestinationEndpointPortsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3647,6 +3747,8 @@ export const SetFlowDestinationEndpointPortsResponse = /*@__PURE__*/ S.suspend(
       properties: S.optional(FlowProperties),
       plan: S.optional(DisableFlowResponsePlan),
       identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SetFlowDestinationEndpointPortsResponse",
@@ -3729,6 +3831,10 @@ export interface SetFlowDestinationEndpointsResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SetFlowDestinationEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3741,6 +3847,8 @@ export const SetFlowDestinationEndpointsResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SetFlowDestinationEndpointsResponse",
@@ -3815,6 +3923,10 @@ export interface SetFlowPassphraseResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SetFlowPassphraseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3827,6 +3939,8 @@ export const SetFlowPassphraseResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SetFlowPassphraseResponse",
@@ -3907,6 +4021,10 @@ export interface SetFlowSourceAddressesResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SetFlowSourceAddressesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3919,6 +4037,8 @@ export const SetFlowSourceAddressesResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SetFlowSourceAddressesResponse",
@@ -4002,6 +4122,10 @@ export interface UpdateConnectionResponse {
   properties?: ConnectionProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4013,6 +4137,8 @@ export const UpdateConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ConnectionProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateConnectionResponse",
@@ -4101,6 +4227,10 @@ export interface UpdateFlowResponse {
   plan?: DisableFlowResponsePlan;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFlowResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4113,6 +4243,8 @@ export const UpdateFlowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FlowProperties),
     plan: S.optional(DisableFlowResponsePlan),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFlowResponse",
@@ -4220,6 +4352,10 @@ export interface UpdatePipelineResponse {
   properties?: PipelineProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: ApprovePipelineConnectionResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4231,6 +4367,8 @@ export const UpdatePipelineResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PipelineProperties),
     identity: S.optional(ApprovePipelineConnectionResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdatePipelineResponse",

@@ -11802,6 +11802,20 @@
           "traits": {
             "smithy.api#documentation": "Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -12289,6 +12303,20 @@
           "target": "com.azure.resources#DeploymentStacksWhatIfResultsAtResourceGroupWhatIfResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -14072,6 +14100,20 @@
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -14663,6 +14705,20 @@
           "target": "com.azure.resources#DeploymentStackValidateProperties",
           "traits": {
             "smithy.api#documentation": "The validation result details."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -15300,7 +15356,7 @@
         "target": "com.azure.resources#DeleteDeploymentStackAtResourceGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentStackAtResourceGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15311,6 +15367,28 @@
         },
         "smithy.api#documentation": "Deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentStackAtResourceGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentStackAtResourceGroupRequest": {
@@ -15514,6 +15592,20 @@
           "target": "com.azure.resources#DeploymentStacksCreateOrUpdateAtResourceGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -16489,6 +16581,20 @@
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16743,6 +16849,20 @@
           "target": "com.azure.resources#DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -17078,7 +17198,7 @@
         "target": "com.azure.resources#DeleteDeploymentStackAtSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentStackAtSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -17089,6 +17209,28 @@
         },
         "smithy.api#documentation": "Deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentStackAtSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentStackAtSubscriptionRequest": {
@@ -17284,6 +17426,20 @@
           "target": "com.azure.resources#DeploymentStacksCreateOrUpdateAtSubscriptionResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -17560,6 +17716,20 @@
           "traits": {
             "smithy.api#documentation": "Resource tags."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -17814,6 +17984,20 @@
           "target": "com.azure.resources#DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18149,7 +18333,7 @@
         "target": "com.azure.resources#DeleteDeploymentStackAtManagementGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentStackAtManagementGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18160,6 +18344,28 @@
         },
         "smithy.api#documentation": "Deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentStackAtManagementGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentStackAtManagementGroupRequest": {
@@ -18355,6 +18561,20 @@
           "target": "com.azure.resources#DeploymentStacksCreateOrUpdateAtManagementGroupResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18606,6 +18826,20 @@
           "target": "com.azure.resources#ErrorResponse",
           "traits": {
             "smithy.api#documentation": "Error when What-If operation fails."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -19721,6 +19955,20 @@
           "target": "com.azure.resources#DeploymentPropertiesExtended",
           "traits": {
             "smithy.api#documentation": "The template deployment properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -20964,7 +21212,7 @@
         "target": "com.azure.resources#DeleteDeploymentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -20975,6 +21223,28 @@
         },
         "smithy.api#documentation": "Deletes a deployment from the deployment history.\n\nA template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentRequest": {
@@ -21071,6 +21341,20 @@
           "target": "com.azure.resources#DeploymentsCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Deployment tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -22158,7 +22442,7 @@
         "target": "com.azure.resources#DeleteDeploymentAtSubscriptionScopeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentAtSubscriptionScopeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22169,6 +22453,28 @@
         },
         "smithy.api#documentation": "Deletes a deployment from the deployment history.\n\nA template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentAtSubscriptionScopeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentAtSubscriptionScopeRequest": {
@@ -22257,6 +22563,20 @@
           "target": "com.azure.resources#DeploymentsCreateOrUpdateAtSubscriptionScopeResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Deployment tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -22768,7 +23088,7 @@
         "target": "com.azure.resources#DeleteDeploymentAtTenantScopeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentAtTenantScopeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22779,6 +23099,28 @@
         },
         "smithy.api#documentation": "Deletes a deployment from the deployment history.\n\nA template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentAtTenantScopeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentAtTenantScopeRequest": {
@@ -22859,6 +23201,20 @@
           "target": "com.azure.resources#DeploymentsCreateOrUpdateAtTenantScopeResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Deployment tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -23428,7 +23784,7 @@
         "target": "com.azure.resources#DeleteDeploymentAtManagementGroupScopeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentAtManagementGroupScopeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -23439,6 +23795,28 @@
         },
         "smithy.api#documentation": "Deletes a deployment from the deployment history.\n\nA template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentAtManagementGroupScopeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentAtManagementGroupScopeRequest": {
@@ -23527,6 +23905,20 @@
           "target": "com.azure.resources#DeploymentsCreateOrUpdateAtManagementGroupScopeResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Deployment tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -24029,7 +24421,7 @@
         "target": "com.azure.resources#DeleteDeploymentAtScopeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteDeploymentAtScopeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -24040,6 +24432,28 @@
         },
         "smithy.api#documentation": "Deletes a deployment from the deployment history.\n\nA template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.resources#DeleteDeploymentAtScopeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteDeploymentAtScopeRequest": {
@@ -24128,6 +24542,20 @@
           "target": "com.azure.resources#DeploymentsCreateOrUpdateAtScopeResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Deployment tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -25599,7 +26027,7 @@
         "target": "com.azure.resources#ResourcesValidateMoveResourcesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#ResourcesValidateMoveResourcesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -25610,6 +26038,21 @@
         },
         "smithy.api#documentation": "Validates whether resources can be moved from one resource group to another resource group.\n\nThis operation checks whether the specified resources can be moved to the target. The resources to be moved must be in the same source resource group in the source subscription being used. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.",
         "com.distilled.openapi#apiVersion": "2025-04-01"
+      }
+    },
+    "com.azure.resources#ResourcesValidateMoveResourcesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#ResourcesValidateMoveResourcesRequest": {
@@ -25727,7 +26170,7 @@
         "target": "com.azure.resources#DeleteResourceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteResourceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -25738,6 +26181,28 @@
         },
         "smithy.api#documentation": "Deletes a resource.",
         "com.distilled.openapi#apiVersion": "2025-04-01"
+      }
+    },
+    "com.azure.resources#DeleteResourceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteResourceRequest": {
@@ -25894,6 +26359,20 @@
           "target": "com.azure.resources#UpdateResourceResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -26170,6 +26649,20 @@
           "target": "com.azure.resources#ResourcesCreateOrUpdateResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -26490,7 +26983,7 @@
         "target": "com.azure.resources#MoveResourceResourcesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#MoveResourceResourcesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -26501,6 +26994,21 @@
         },
         "smithy.api#documentation": "Moves resources from one resource group to another resource group.\n\nThe resources to be moved must be in the same source resource group in the source subscription being used. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.",
         "com.distilled.openapi#apiVersion": "2025-04-01"
+      }
+    },
+    "com.azure.resources#MoveResourceResourcesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#MoveResourceResourcesRequest": {
@@ -26586,6 +27094,20 @@
           "target": "com.azure.resources#ResourceGroupExportResultError",
           "traits": {
             "smithy.api#documentation": "The error detail."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -26726,7 +27248,7 @@
         "target": "com.azure.resources#DeleteResourceGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteResourceGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -26737,6 +27259,28 @@
         },
         "smithy.api#documentation": "Deletes a resource group.\n\nWhen you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.",
         "com.distilled.openapi#apiVersion": "2025-04-01"
+      }
+    },
+    "com.azure.resources#DeleteResourceGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteResourceGroupRequest": {
@@ -28158,7 +28702,7 @@
         "target": "com.azure.resources#DeleteTagAtScopeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteTagAtScopeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -28169,6 +28713,28 @@
         },
         "smithy.api#documentation": "Deletes the entire set of tags on a resource or subscription.\n\nDeletes the entire set of tags on a resource or subscription.",
         "com.distilled.openapi#apiVersion": "2025-04-01"
+      }
+    },
+    "com.azure.resources#DeleteTagAtScopeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteTagAtScopeRequest": {
@@ -28238,6 +28804,20 @@
           "traits": {
             "smithy.api#documentation": "The set of tags.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -28377,6 +28957,20 @@
             "smithy.api#documentation": "The set of tags.",
             "smithy.api#required": {}
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -28486,7 +29080,7 @@
         "target": "com.azure.resources#DeleteResourceByIdRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.resources#DeleteResourceByIdResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -28497,6 +29091,28 @@
         },
         "smithy.api#documentation": "Deletes a resource by ID.",
         "com.distilled.openapi#apiVersion": "2025-04-01"
+      }
+    },
+    "com.azure.resources#DeleteResourceByIdResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.resources#DeleteResourceByIdRequest": {
@@ -28612,6 +29228,20 @@
           "target": "com.azure.resources#UpdateResourceByIdResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -28810,6 +29440,20 @@
           "target": "com.azure.resources#ResourcesCreateOrUpdateByIdResponseTagsMap",
           "traits": {
             "smithy.api#documentation": "Resource tags"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

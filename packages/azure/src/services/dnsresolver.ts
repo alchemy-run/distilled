@@ -166,6 +166,10 @@ export interface BulkDnsResolverDomainListResponse {
   properties?: DnsResolverDomainListProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BulkDnsResolverDomainListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -177,6 +181,8 @@ export const BulkDnsResolverDomainListResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DnsResolverDomainListProperties),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "BulkDnsResolverDomainListResponse",
@@ -207,9 +213,17 @@ export const DeleteDnsForwardingRulesetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDnsForwardingRulesetRequest",
 }) as any as S.Schema<DeleteDnsForwardingRulesetRequest>;
 
-export interface DeleteDnsForwardingRulesetResponse {}
+export interface DeleteDnsForwardingRulesetResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDnsForwardingRulesetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDnsForwardingRulesetResponse",
 }) as any as S.Schema<DeleteDnsForwardingRulesetResponse>;
@@ -239,9 +253,17 @@ export const DeleteDnsResolverRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDnsResolverRequest",
 }) as any as S.Schema<DeleteDnsResolverRequest>;
 
-export interface DeleteDnsResolverResponse {}
+export interface DeleteDnsResolverResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDnsResolverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDnsResolverResponse",
 }) as any as S.Schema<DeleteDnsResolverResponse>;
@@ -271,9 +293,17 @@ export const DeleteDnsResolverDomainListRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDnsResolverDomainListRequest",
 }) as any as S.Schema<DeleteDnsResolverDomainListRequest>;
 
-export interface DeleteDnsResolverDomainListResponse {}
+export interface DeleteDnsResolverDomainListResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDnsResolverDomainListResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDnsResolverDomainListResponse",
 }) as any as S.Schema<DeleteDnsResolverDomainListResponse>;
@@ -303,9 +333,17 @@ export const DeleteDnsResolverPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDnsResolverPolicyRequest",
 }) as any as S.Schema<DeleteDnsResolverPolicyRequest>;
 
-export interface DeleteDnsResolverPolicyResponse {}
+export interface DeleteDnsResolverPolicyResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDnsResolverPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDnsResolverPolicyResponse",
 }) as any as S.Schema<DeleteDnsResolverPolicyResponse>;
@@ -339,9 +377,19 @@ export const DeleteDnsResolverPolicyVirtualNetworkLinkRequest =
     identifier: "DeleteDnsResolverPolicyVirtualNetworkLinkRequest",
   }) as any as S.Schema<DeleteDnsResolverPolicyVirtualNetworkLinkRequest>;
 
-export interface DeleteDnsResolverPolicyVirtualNetworkLinkResponse {}
+export interface DeleteDnsResolverPolicyVirtualNetworkLinkResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDnsResolverPolicyVirtualNetworkLinkResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteDnsResolverPolicyVirtualNetworkLinkResponse",
   }) as any as S.Schema<DeleteDnsResolverPolicyVirtualNetworkLinkResponse>;
 
@@ -373,9 +421,17 @@ export const DeleteDnsSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDnsSecurityRuleRequest",
 }) as any as S.Schema<DeleteDnsSecurityRuleRequest>;
 
-export interface DeleteDnsSecurityRuleResponse {}
+export interface DeleteDnsSecurityRuleResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDnsSecurityRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDnsSecurityRuleResponse",
 }) as any as S.Schema<DeleteDnsSecurityRuleResponse>;
@@ -443,9 +499,17 @@ export const DeleteInboundEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteInboundEndpointRequest",
 }) as any as S.Schema<DeleteInboundEndpointRequest>;
 
-export interface DeleteInboundEndpointResponse {}
+export interface DeleteInboundEndpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteInboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteInboundEndpointResponse",
 }) as any as S.Schema<DeleteInboundEndpointResponse>;
@@ -478,9 +542,17 @@ export const DeleteOutboundEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOutboundEndpointRequest",
 }) as any as S.Schema<DeleteOutboundEndpointRequest>;
 
-export interface DeleteOutboundEndpointResponse {}
+export interface DeleteOutboundEndpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteOutboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteOutboundEndpointResponse",
 }) as any as S.Schema<DeleteOutboundEndpointResponse>;
@@ -513,9 +585,17 @@ export const DeleteVirtualNetworkLinkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualNetworkLinkRequest",
 }) as any as S.Schema<DeleteVirtualNetworkLinkRequest>;
 
-export interface DeleteVirtualNetworkLinkResponse {}
+export interface DeleteVirtualNetworkLinkResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVirtualNetworkLinkResponse",
 }) as any as S.Schema<DeleteVirtualNetworkLinkResponse>;
@@ -653,6 +733,10 @@ export interface DnsForwardingRulesetsCreateOrUpdateResponse {
   properties: DnsForwardingRulesetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DnsForwardingRulesetsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -665,6 +749,8 @@ export const DnsForwardingRulesetsCreateOrUpdateResponse =
       location: S.String,
       properties: DnsForwardingRulesetProperties,
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DnsForwardingRulesetsCreateOrUpdateResponse",
@@ -763,6 +849,10 @@ export interface DnsResolverDomainListsCreateOrUpdateResponse {
   properties?: DnsResolverDomainListProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DnsResolverDomainListsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -775,6 +865,8 @@ export const DnsResolverDomainListsCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(DnsResolverDomainListProperties),
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DnsResolverDomainListsCreateOrUpdateResponse",
@@ -876,6 +968,10 @@ export interface DnsResolverPoliciesCreateOrUpdateResponse {
   properties?: DnsResolverPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DnsResolverPoliciesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -888,6 +984,8 @@ export const DnsResolverPoliciesCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(DnsResolverPolicyProperties),
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DnsResolverPoliciesCreateOrUpdateResponse",
@@ -986,6 +1084,10 @@ export interface DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse {
   properties: DnsResolverPolicyVirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1000,6 +1102,8 @@ export const DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse =
       location: S.String,
       properties: DnsResolverPolicyVirtualNetworkLinkProperties,
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse",
@@ -1113,6 +1217,10 @@ export interface DnsResolversCreateOrUpdateResponse {
   properties: DnsResolverProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DnsResolversCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1124,6 +1232,8 @@ export const DnsResolversCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: DnsResolverProperties,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DnsResolversCreateOrUpdateResponse",
@@ -1258,6 +1368,10 @@ export interface DnsSecurityRulesCreateOrUpdateResponse {
   properties: DnsSecurityRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DnsSecurityRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1270,6 +1384,8 @@ export const DnsSecurityRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: DnsSecurityRuleProperties,
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "DnsSecurityRulesCreateOrUpdateResponse",
@@ -2255,6 +2371,10 @@ export interface InboundEndpointsCreateOrUpdateResponse {
   properties: InboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const InboundEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2267,6 +2387,8 @@ export const InboundEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: InboundEndpointProperties,
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "InboundEndpointsCreateOrUpdateResponse",
@@ -3492,6 +3614,10 @@ export interface OutboundEndpointsCreateOrUpdateResponse {
   properties: OutboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const OutboundEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3504,6 +3630,8 @@ export const OutboundEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: OutboundEndpointProperties,
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "OutboundEndpointsCreateOrUpdateResponse",
@@ -3585,6 +3713,10 @@ export interface UpdateDnsForwardingRulesetResponse {
   properties: DnsForwardingRulesetProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDnsForwardingRulesetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3596,6 +3728,8 @@ export const UpdateDnsForwardingRulesetResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: DnsForwardingRulesetProperties,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDnsForwardingRulesetResponse",
@@ -3664,6 +3798,10 @@ export interface UpdateDnsResolverResponse {
   properties: DnsResolverProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDnsResolverResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3675,6 +3813,8 @@ export const UpdateDnsResolverResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: DnsResolverProperties,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDnsResolverResponse",
@@ -3768,6 +3908,10 @@ export interface UpdateDnsResolverDomainListResponse {
   properties?: DnsResolverDomainListProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDnsResolverDomainListResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3779,6 +3923,8 @@ export const UpdateDnsResolverDomainListResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DnsResolverDomainListProperties),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDnsResolverDomainListResponse",
@@ -3847,6 +3993,10 @@ export interface UpdateDnsResolverPolicyResponse {
   properties?: DnsResolverPolicyProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDnsResolverPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3858,6 +4008,8 @@ export const UpdateDnsResolverPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DnsResolverPolicyProperties),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDnsResolverPolicyResponse",
@@ -3932,6 +4084,10 @@ export interface UpdateDnsResolverPolicyVirtualNetworkLinkResponse {
   properties: DnsResolverPolicyVirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDnsResolverPolicyVirtualNetworkLinkResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3946,6 +4102,8 @@ export const UpdateDnsResolverPolicyVirtualNetworkLinkResponse =
       location: S.String,
       properties: DnsResolverPolicyVirtualNetworkLinkProperties,
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateDnsResolverPolicyVirtualNetworkLinkResponse",
@@ -4052,6 +4210,10 @@ export interface UpdateDnsSecurityRuleResponse {
   properties: DnsSecurityRuleProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDnsSecurityRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4063,6 +4225,8 @@ export const UpdateDnsSecurityRuleResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: DnsSecurityRuleProperties,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDnsSecurityRuleResponse",
@@ -4240,6 +4404,10 @@ export interface UpdateInboundEndpointResponse {
   properties: InboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateInboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4251,6 +4419,8 @@ export const UpdateInboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: InboundEndpointProperties,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateInboundEndpointResponse",
@@ -4322,6 +4492,10 @@ export interface UpdateOutboundEndpointResponse {
   properties: OutboundEndpointProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateOutboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4333,6 +4507,8 @@ export const UpdateOutboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: OutboundEndpointProperties,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateOutboundEndpointResponse",
@@ -4405,6 +4581,10 @@ export interface UpdateVirtualNetworkLinkResponse {
   properties: VirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4414,6 +4594,8 @@ export const UpdateVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: VirtualNetworkLinkProperties,
     etag: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVirtualNetworkLinkResponse",
@@ -4464,6 +4646,10 @@ export interface VirtualNetworkLinksCreateOrUpdateResponse {
   properties: VirtualNetworkLinkProperties;
   /** "If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.") */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VirtualNetworkLinksCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4474,6 +4660,8 @@ export const VirtualNetworkLinksCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: VirtualNetworkLinkProperties,
       etag: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "VirtualNetworkLinksCreateOrUpdateResponse",

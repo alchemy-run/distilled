@@ -504,6 +504,12 @@ export interface ApiCreateOrUpdateResponse {
   type?: string;
   /** API entity contract properties. */
   properties?: ApiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const ApiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -511,6 +517,11 @@ export const ApiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "ApiCreateOrUpdateResponse",
@@ -747,6 +758,8 @@ export interface ApiDiagnosticCreateOrUpdateResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiDiagnosticCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -754,6 +767,7 @@ export const ApiDiagnosticCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiDiagnosticCreateOrUpdateResponse",
@@ -1238,6 +1252,8 @@ export interface ApiIssueAttachmentCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Issue Attachment. */
   properties?: IssueAttachmentContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiIssueAttachmentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1246,6 +1262,7 @@ export const ApiIssueAttachmentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(IssueAttachmentContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ApiIssueAttachmentCreateOrUpdateResponse",
@@ -1317,6 +1334,8 @@ export interface ApiIssueCommentCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Issue Comment. */
   properties?: IssueCommentContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiIssueCommentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1325,6 +1344,7 @@ export const ApiIssueCommentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(IssueCommentContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ApiIssueCommentCreateOrUpdateResponse",
@@ -1410,6 +1430,8 @@ export interface ApiIssueCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Issue. */
   properties?: IssueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiIssueCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1417,6 +1439,7 @@ export const ApiIssueCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiIssueCreateOrUpdateResponse",
@@ -2226,6 +2249,7 @@ export interface ApiManagementServiceBackupResponse {
   etag?: string;
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: ApiManagementServiceBackupResponseZonesList;
+  locationHeader?: string;
 }
 export const ApiManagementServiceBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2240,6 +2264,7 @@ export const ApiManagementServiceBackupResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     etag: S.optional(S.String),
     zones: S.optional(ApiManagementServiceBackupResponseZonesList),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
   }),
 ).annotate({
   identifier: "ApiManagementServiceBackupResponse",
@@ -3022,6 +3047,8 @@ export interface ApiOperationCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiOperationCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3029,6 +3056,7 @@ export const ApiOperationCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiOperationCreateOrUpdateResponse",
@@ -3108,6 +3136,8 @@ export interface ApiOperationPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiOperationPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3116,6 +3146,7 @@ export const ApiOperationPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ApiOperationPolicyCreateOrUpdateResponse",
@@ -3167,6 +3198,8 @@ export interface ApiPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3174,6 +3207,7 @@ export const ApiPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiPolicyCreateOrUpdateResponse",
@@ -3260,6 +3294,8 @@ export interface ApiReleaseCreateOrUpdateResponse {
   type?: string;
   /** ApiRelease entity contract properties. */
   properties?: ApiReleaseContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiReleaseCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3267,6 +3303,7 @@ export const ApiReleaseCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiReleaseCreateOrUpdateResponse",
@@ -3369,6 +3406,12 @@ export interface ApiSchemaCreateOrUpdateResponse {
   type?: string;
   /** Properties of the API Schema. */
   properties?: SchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const ApiSchemaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3376,6 +3419,11 @@ export const ApiSchemaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SchemaContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "ApiSchemaCreateOrUpdateResponse",
@@ -3469,6 +3517,8 @@ export interface ApiTagDescriptionCreateOrUpdateResponse {
   type?: string;
   /** TagDescription entity contract properties. */
   properties?: TagDescriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiTagDescriptionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3477,6 +3527,7 @@ export const ApiTagDescriptionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(TagDescriptionContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ApiTagDescriptionCreateOrUpdateResponse",
@@ -3556,6 +3607,8 @@ export interface ApiVersionSetCreateOrUpdateResponse {
   type?: string;
   /** API VersionSet contract properties. */
   properties?: ApiVersionSetContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiVersionSetCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3563,6 +3616,7 @@ export const ApiVersionSetCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiVersionSetContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiVersionSetCreateOrUpdateResponse",
@@ -3641,6 +3695,8 @@ export interface ApiWikiCreateOrUpdateResponse {
   type?: string;
   /** Wiki details. */
   properties?: WikiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ApiWikiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3648,6 +3704,7 @@ export const ApiWikiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiWikiCreateOrUpdateResponse",
@@ -3774,6 +3831,7 @@ export interface ApplyApiManagementServiceNetworkConfigurationUpdatesResponse {
   etag?: string;
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: ApplyApiManagementServiceNetworkConfigurationUpdatesResponseZonesList;
+  locationHeader?: string;
 }
 export const ApplyApiManagementServiceNetworkConfigurationUpdatesResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3795,6 +3853,7 @@ export const ApplyApiManagementServiceNetworkConfigurationUpdatesResponse =
       zones: S.optional(
         ApplyApiManagementServiceNetworkConfigurationUpdatesResponseZonesList,
       ),
+      locationHeader: S.optional(S.String.pipe(T.Header("location"))),
     }),
   ).annotate({
     identifier: "ApplyApiManagementServiceNetworkConfigurationUpdatesResponse",
@@ -3853,6 +3912,8 @@ export interface AssignTagToApiResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const AssignTagToApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3860,6 +3921,7 @@ export const AssignTagToApiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "AssignTagToApiResponse",
@@ -4047,6 +4109,8 @@ export interface AuthorizationAccessPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Authorization Contract. */
   properties?: AuthorizationAccessPolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const AuthorizationAccessPolicyCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4055,6 +4119,7 @@ export const AuthorizationAccessPolicyCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(AuthorizationAccessPolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "AuthorizationAccessPolicyCreateOrUpdateResponse",
@@ -4169,6 +4234,8 @@ export interface AuthorizationCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Authorization Contract. */
   properties?: AuthorizationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const AuthorizationCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4176,6 +4243,7 @@ export const AuthorizationCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AuthorizationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "AuthorizationCreateOrUpdateResponse",
@@ -4299,6 +4367,8 @@ export interface AuthorizationProviderCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Authorization Provider Contract. */
   properties?: AuthorizationProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const AuthorizationProviderCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4307,6 +4377,7 @@ export const AuthorizationProviderCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(AuthorizationProviderContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "AuthorizationProviderCreateOrUpdateResponse",
@@ -4523,6 +4594,8 @@ export interface AuthorizationServerCreateOrUpdateResponse {
   type?: string;
   /** Properties of the External OAuth authorization server Contract. */
   properties?: AuthorizationServerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const AuthorizationServerCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4531,6 +4604,7 @@ export const AuthorizationServerCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(AuthorizationServerContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "AuthorizationServerCreateOrUpdateResponse",
@@ -4970,6 +5044,8 @@ export interface BackendCreateOrUpdateResponse {
   type?: string;
   /** Backend entity contract properties. */
   properties?: BackendContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const BackendCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4977,6 +5053,7 @@ export const BackendCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "BackendCreateOrUpdateResponse",
@@ -5095,6 +5172,8 @@ export interface CacheCreateOrUpdateResponse {
   type?: string;
   /** Cache properties details. */
   properties?: CacheContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const CacheCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5102,6 +5181,7 @@ export const CacheCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CacheContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "CacheCreateOrUpdateResponse",
@@ -5243,6 +5323,8 @@ export interface CertificateCreateOrUpdateResponse {
   type?: string;
   /** Certificate properties details. */
   properties?: CertificateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const CertificateCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5250,6 +5332,7 @@ export const CertificateCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CertificateContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "CertificateCreateOrUpdateResponse",
@@ -5340,9 +5423,15 @@ export const ConfirmAuthorizationConsentCodeRequest = /*@__PURE__*/ S.suspend(
   identifier: "ConfirmAuthorizationConsentCodeRequest",
 }) as any as S.Schema<ConfirmAuthorizationConsentCodeRequest>;
 
-export interface ConfirmAuthorizationConsentCodeResponse {}
+export interface ConfirmAuthorizationConsentCodeResponse {
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+}
 export const ConfirmAuthorizationConsentCodeResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    }),
 ).annotate({
   identifier: "ConfirmAuthorizationConsentCodeResponse",
 }) as any as S.Schema<ConfirmAuthorizationConsentCodeResponse>;
@@ -5398,6 +5487,8 @@ export interface ContentItemCreateOrUpdateResponse {
   type?: string;
   /** Properties of the content item. */
   properties?: ContentItemContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ContentItemCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5405,6 +5496,7 @@ export const ContentItemCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ContentItemContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ContentItemCreateOrUpdateResponse",
@@ -5474,6 +5566,8 @@ export interface ContentTypeCreateOrUpdateResponse {
   type?: string;
   /** Properties of the content type. */
   properties?: ContentTypeContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ContentTypeCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5481,6 +5575,7 @@ export const ContentTypeCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ContentTypeContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ContentTypeCreateOrUpdateResponse",
@@ -5726,6 +5821,8 @@ export interface CreateTenantAccessResponse {
   type?: string;
   /** AccessInformation entity contract properties. */
   properties?: AccessInformationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const CreateTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5733,6 +5830,7 @@ export const CreateTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AccessInformationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "CreateTenantAccessResponse",
@@ -5824,9 +5922,19 @@ export const DeleteApiRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApiRequest",
 }) as any as S.Schema<DeleteApiRequest>;
 
-export interface DeleteApiResponse {}
+export interface DeleteApiResponse {
+  /** Location header */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
+}
 export const DeleteApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteApiResponse",
 }) as any as S.Schema<DeleteApiResponse>;
@@ -5894,9 +6002,14 @@ export const DeleteApiGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApiGatewayRequest",
 }) as any as S.Schema<DeleteApiGatewayRequest>;
 
-export interface DeleteApiGatewayResponse {}
+export interface DeleteApiGatewayResponse {
+  /** Location header */
+  location?: string;
+}
 export const DeleteApiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+  }),
 ).annotate({
   identifier: "DeleteApiGatewayResponse",
 }) as any as S.Schema<DeleteApiGatewayResponse>;
@@ -5930,9 +6043,15 @@ export const DeleteApiGatewayConfigConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteApiGatewayConfigConnectionRequest",
 }) as any as S.Schema<DeleteApiGatewayConfigConnectionRequest>;
 
-export interface DeleteApiGatewayConfigConnectionResponse {}
+export interface DeleteApiGatewayConfigConnectionResponse {
+  /** Location header */
+  location?: string;
+}
 export const DeleteApiGatewayConfigConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header())),
+    }),
 ).annotate({
   identifier: "DeleteApiGatewayConfigConnectionResponse",
 }) as any as S.Schema<DeleteApiGatewayConfigConnectionResponse>;
@@ -6082,9 +6201,14 @@ export const DeleteApiManagementServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApiManagementServiceRequest",
 }) as any as S.Schema<DeleteApiManagementServiceRequest>;
 
-export interface DeleteApiManagementServiceResponse {}
+export interface DeleteApiManagementServiceResponse {
+  /** Location header */
+  location?: string;
+}
 export const DeleteApiManagementServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+  }),
 ).annotate({
   identifier: "DeleteApiManagementServiceResponse",
 }) as any as S.Schema<DeleteApiManagementServiceResponse>;
@@ -7582,9 +7706,15 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** Location header */
+  location?: string;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header())),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -8079,9 +8209,19 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteUserRequest",
 }) as any as S.Schema<DeleteUserRequest>;
 
-export interface DeleteUserResponse {}
+export interface DeleteUserResponse {
+  /** Location header */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
+}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteUserResponse",
 }) as any as S.Schema<DeleteUserResponse>;
@@ -9508,6 +9648,7 @@ export interface DeployTenantConfigurationResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationResultContractProperties;
+  location?: string;
 }
 export const DeployTenantConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9515,6 +9656,7 @@ export const DeployTenantConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationResultContractProperties),
+    location: S.optional(S.String.pipe(T.Header())),
   }),
 ).annotate({
   identifier: "DeployTenantConfigurationResponse",
@@ -9677,6 +9819,8 @@ export interface DiagnosticCreateOrUpdateResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const DiagnosticCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9684,6 +9828,7 @@ export const DiagnosticCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "DiagnosticCreateOrUpdateResponse",
@@ -9745,6 +9890,8 @@ export interface DocumentationCreateOrUpdateResponse {
   type?: string;
   /** Markdown Documentation details. */
   properties?: DocumentationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const DocumentationCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9752,6 +9899,7 @@ export const DocumentationCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DocumentationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "DocumentationCreateOrUpdateResponse",
@@ -10057,6 +10205,8 @@ export interface GatewayCertificateAuthorityCreateOrUpdateResponse {
   type?: string;
   /** Gateway certificate authority details. */
   properties?: GatewayCertificateAuthorityContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GatewayCertificateAuthorityCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -10065,6 +10215,7 @@ export const GatewayCertificateAuthorityCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GatewayCertificateAuthorityContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "GatewayCertificateAuthorityCreateOrUpdateResponse",
@@ -10148,6 +10299,8 @@ export interface GatewayCreateOrUpdateResponse {
   type?: string;
   /** Gateway details. */
   properties?: GatewayContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GatewayCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10155,6 +10308,7 @@ export const GatewayCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GatewayContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GatewayCreateOrUpdateResponse",
@@ -10233,6 +10387,8 @@ export interface GatewayHostnameConfigurationCreateOrUpdateResponse {
   type?: string;
   /** Gateway hostname configuration details. */
   properties?: GatewayHostnameConfigurationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GatewayHostnameConfigurationCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -10241,6 +10397,7 @@ export const GatewayHostnameConfigurationCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GatewayHostnameConfigurationContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "GatewayHostnameConfigurationCreateOrUpdateResponse",
@@ -10371,6 +10528,8 @@ export interface GetApiResponse {
   type?: string;
   /** API entity contract properties. */
   properties?: ApiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10378,6 +10537,7 @@ export const GetApiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({ identifier: "GetApiResponse" }) as any as S.Schema<GetApiResponse>;
 
@@ -10421,6 +10581,8 @@ export interface GetApiDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10428,6 +10590,7 @@ export const GetApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiDiagnosticResponse",
@@ -10646,6 +10809,8 @@ export interface GetApiIssueResponse {
   type?: string;
   /** Properties of the Issue. */
   properties?: IssueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiIssueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10653,6 +10818,7 @@ export const GetApiIssueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiIssueResponse",
@@ -10701,6 +10867,8 @@ export interface GetApiIssueAttachmentResponse {
   type?: string;
   /** Properties of the Issue Attachment. */
   properties?: IssueAttachmentContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiIssueAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10708,6 +10876,7 @@ export const GetApiIssueAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IssueAttachmentContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiIssueAttachmentResponse",
@@ -10756,6 +10925,8 @@ export interface GetApiIssueCommentResponse {
   type?: string;
   /** Properties of the Issue Comment. */
   properties?: IssueCommentContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiIssueCommentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10763,6 +10934,7 @@ export const GetApiIssueCommentResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IssueCommentContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiIssueCommentResponse",
@@ -11105,6 +11277,8 @@ export interface GetApiOperationResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11112,6 +11286,7 @@ export const GetApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiOperationResponse",
@@ -11169,6 +11344,8 @@ export interface GetApiOperationPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiOperationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11176,6 +11353,7 @@ export const GetApiOperationPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiOperationPolicyResponse",
@@ -11230,6 +11408,8 @@ export interface GetApiPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11237,6 +11417,7 @@ export const GetApiPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiPolicyResponse",
@@ -11282,6 +11463,8 @@ export interface GetApiReleaseResponse {
   type?: string;
   /** ApiRelease entity contract properties. */
   properties?: ApiReleaseContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11289,6 +11472,7 @@ export const GetApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiReleaseResponse",
@@ -11334,6 +11518,8 @@ export interface GetApiSchemaResponse {
   type?: string;
   /** Properties of the API Schema. */
   properties?: SchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11341,6 +11527,7 @@ export const GetApiSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SchemaContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiSchemaResponse",
@@ -11386,6 +11573,8 @@ export interface GetApiTagDescriptionResponse {
   type?: string;
   /** TagDescription entity contract properties. */
   properties?: TagDescriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiTagDescriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11393,6 +11582,7 @@ export const GetApiTagDescriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagDescriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiTagDescriptionResponse",
@@ -11435,6 +11625,8 @@ export interface GetApiVersionSetResponse {
   type?: string;
   /** API VersionSet contract properties. */
   properties?: ApiVersionSetContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11442,6 +11634,7 @@ export const GetApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiVersionSetContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiVersionSetResponse",
@@ -11484,6 +11677,8 @@ export interface GetApiWikiResponse {
   type?: string;
   /** Wiki details. */
   properties?: WikiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetApiWikiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11491,6 +11686,7 @@ export const GetApiWikiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiWikiResponse",
@@ -11536,6 +11732,8 @@ export interface GetAuthorizationResponse {
   type?: string;
   /** Properties of the Authorization Contract. */
   properties?: AuthorizationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11543,6 +11741,7 @@ export const GetAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AuthorizationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetAuthorizationResponse",
@@ -11591,6 +11790,8 @@ export interface GetAuthorizationAccessPolicyResponse {
   type?: string;
   /** Properties of the Authorization Contract. */
   properties?: AuthorizationAccessPolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetAuthorizationAccessPolicyResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -11599,6 +11800,7 @@ export const GetAuthorizationAccessPolicyResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(AuthorizationAccessPolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GetAuthorizationAccessPolicyResponse",
@@ -11641,6 +11843,8 @@ export interface GetAuthorizationProviderResponse {
   type?: string;
   /** Properties of the Authorization Provider Contract. */
   properties?: AuthorizationProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetAuthorizationProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11648,6 +11852,7 @@ export const GetAuthorizationProviderResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AuthorizationProviderContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetAuthorizationProviderResponse",
@@ -11690,6 +11895,8 @@ export interface GetAuthorizationServerResponse {
   type?: string;
   /** Properties of the External OAuth authorization server Contract. */
   properties?: AuthorizationServerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetAuthorizationServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11697,6 +11904,7 @@ export const GetAuthorizationServerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AuthorizationServerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetAuthorizationServerResponse",
@@ -11739,6 +11947,8 @@ export interface GetBackendResponse {
   type?: string;
   /** Backend entity contract properties. */
   properties?: BackendContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetBackendResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11746,6 +11956,7 @@ export const GetBackendResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetBackendResponse",
@@ -11788,6 +11999,8 @@ export interface GetCacheResponse {
   type?: string;
   /** Cache properties details. */
   properties?: CacheContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetCacheResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11795,6 +12008,7 @@ export const GetCacheResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CacheContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetCacheResponse",
@@ -11837,6 +12051,8 @@ export interface GetCertificateResponse {
   type?: string;
   /** Certificate properties details. */
   properties?: CertificateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11844,6 +12060,7 @@ export const GetCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CertificateContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetCertificateResponse",
@@ -11889,6 +12106,8 @@ export interface GetContentItemResponse {
   type?: string;
   /** Properties of the content item. */
   properties?: ContentItemContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetContentItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11896,6 +12115,7 @@ export const GetContentItemResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ContentItemContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetContentItemResponse",
@@ -11938,6 +12158,8 @@ export interface GetContentTypeResponse {
   type?: string;
   /** Properties of the content type. */
   properties?: ContentTypeContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetContentTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11945,6 +12167,7 @@ export const GetContentTypeResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ContentTypeContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetContentTypeResponse",
@@ -12054,6 +12277,8 @@ export interface GetDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12061,6 +12286,7 @@ export const GetDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetDiagnosticResponse",
@@ -12103,6 +12329,8 @@ export interface GetDocumentationResponse {
   type?: string;
   /** Markdown Documentation details. */
   properties?: DocumentationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetDocumentationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12110,6 +12338,7 @@ export const GetDocumentationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DocumentationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetDocumentationResponse",
@@ -12169,6 +12398,8 @@ export interface GetEmailTemplateResponse {
   type?: string;
   /** Email Template entity contract properties. */
   properties?: EmailTemplateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetEmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12176,6 +12407,7 @@ export const GetEmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(EmailTemplateContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetEmailTemplateResponse",
@@ -12218,6 +12450,8 @@ export interface GetGatewayResponse {
   type?: string;
   /** Gateway details. */
   properties?: GatewayContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGatewayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12225,6 +12459,7 @@ export const GetGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GatewayContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetGatewayResponse",
@@ -12271,6 +12506,8 @@ export interface GetGatewayCertificateAuthorityResponse {
   type?: string;
   /** Gateway certificate authority details. */
   properties?: GatewayCertificateAuthorityContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGatewayCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -12279,6 +12516,7 @@ export const GetGatewayCertificateAuthorityResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GatewayCertificateAuthorityContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GetGatewayCertificateAuthorityResponse",
@@ -12325,6 +12563,8 @@ export interface GetGatewayHostnameConfigurationResponse {
   type?: string;
   /** Gateway hostname configuration details. */
   properties?: GatewayHostnameConfigurationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGatewayHostnameConfigurationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -12333,6 +12573,7 @@ export const GetGatewayHostnameConfigurationResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GatewayHostnameConfigurationContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GetGatewayHostnameConfigurationResponse",
@@ -12404,6 +12645,8 @@ export interface GetGlobalSchemaResponse {
   type?: string;
   /** Properties of the Global Schema. */
   properties?: GlobalSchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGlobalSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12411,6 +12654,7 @@ export const GetGlobalSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GlobalSchemaContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetGlobalSchemaResponse",
@@ -12475,6 +12719,8 @@ export interface GetGraphQLApiResolverResponse {
   type?: string;
   /** Properties of the Resolver Contract. */
   properties?: ResolverEntityBaseContract;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGraphQLApiResolverResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12482,6 +12728,7 @@ export const GetGraphQLApiResolverResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ResolverEntityBaseContract),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetGraphQLApiResolverResponse",
@@ -12541,6 +12788,8 @@ export interface GetGraphQLApiResolverPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGraphQLApiResolverPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12548,6 +12797,7 @@ export const GetGraphQLApiResolverPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetGraphQLApiResolverPolicyResponse",
@@ -12619,6 +12869,8 @@ export interface GetGroupResponse {
   type?: string;
   /** Group entity contract properties. */
   properties?: GroupContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12626,6 +12878,7 @@ export const GetGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetGroupResponse",
@@ -12744,6 +12997,8 @@ export interface GetIdentityProviderResponse {
   type?: string;
   /** Identity Provider contract properties. */
   properties?: IdentityProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetIdentityProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12751,6 +13006,7 @@ export const GetIdentityProviderResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IdentityProviderContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetIdentityProviderResponse",
@@ -12793,6 +13049,8 @@ export interface GetIssueResponse {
   type?: string;
   /** Properties of the Issue. */
   properties?: IssueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetIssueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12800,6 +13058,7 @@ export const GetIssueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetIssueResponse",
@@ -12883,6 +13142,8 @@ export interface GetLoggerResponse {
   type?: string;
   /** Logger entity contract properties. */
   properties?: LoggerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetLoggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12890,6 +13151,7 @@ export const GetLoggerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetLoggerResponse",
@@ -12966,6 +13228,8 @@ export interface GetNamedValueResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12973,6 +13237,7 @@ export const GetNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetNamedValueResponse",
@@ -13153,6 +13418,8 @@ export interface GetOpenIdConnectProviderResponse {
   type?: string;
   /** OpenId Connect Provider contract properties. */
   properties?: OpenidConnectProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetOpenIdConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13160,6 +13427,7 @@ export const GetOpenIdConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OpenidConnectProviderContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetOpenIdConnectProviderResponse",
@@ -13190,9 +13458,14 @@ export const GetOperationsResultRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetOperationsResultRequest",
 }) as any as S.Schema<GetOperationsResultRequest>;
 
-export interface GetOperationsResultResponse {}
+export interface GetOperationsResultResponse {
+  /** URL for determining when an operation has completed. */
+  location?: string;
+}
 export const GetOperationsResultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "GetOperationsResultResponse",
 }) as any as S.Schema<GetOperationsResultResponse>;
@@ -13405,6 +13678,8 @@ export interface GetPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13412,6 +13687,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetPolicyResponse",
@@ -13486,6 +13762,8 @@ export interface GetPolicyFragmentResponse {
   type?: string;
   /** Properties of the Policy Fragment. */
   properties?: PolicyFragmentContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetPolicyFragmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13493,6 +13771,7 @@ export const GetPolicyFragmentResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyFragmentContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetPolicyFragmentResponse",
@@ -13555,6 +13834,8 @@ export interface GetPolicyRestrictionResponse {
   type?: string;
   /** Properties of the Policy Restriction. */
   properties?: PolicyRestrictionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetPolicyRestrictionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13562,6 +13843,7 @@ export const GetPolicyRestrictionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyRestrictionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetPolicyRestrictionResponse",
@@ -13751,6 +14033,8 @@ export interface GetPortalConfigResponse {
   type?: string;
   /** The developer portal configuration contract properties. */
   properties?: PortalConfigProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetPortalConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13758,6 +14042,7 @@ export const GetPortalConfigResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PortalConfigProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetPortalConfigResponse",
@@ -13838,6 +14123,8 @@ export interface GetPortalRevisionResponse {
   type?: string;
   /** Properties of the portal revisions. */
   properties?: PortalRevisionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetPortalRevisionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13845,6 +14132,7 @@ export const GetPortalRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PortalRevisionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetPortalRevisionResponse",
@@ -14108,6 +14396,8 @@ export interface GetProductResponse {
   type?: string;
   /** Product entity contract properties. */
   properties?: ProductContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetProductResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14115,6 +14405,7 @@ export const GetProductResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetProductResponse",
@@ -14173,6 +14464,8 @@ export interface GetProductApiLinkResponse {
   type?: string;
   /** Product-API link entity contract properties. */
   properties?: ProductApiLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetProductApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14180,6 +14473,7 @@ export const GetProductApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetProductApiLinkResponse",
@@ -14238,6 +14532,8 @@ export interface GetProductGroupLinkResponse {
   type?: string;
   /** Product-group link entity contract properties. */
   properties?: ProductGroupLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetProductGroupLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14245,6 +14541,7 @@ export const GetProductGroupLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductGroupLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetProductGroupLinkResponse",
@@ -14299,6 +14596,8 @@ export interface GetProductPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetProductPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14306,6 +14605,7 @@ export const GetProductPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetProductPolicyResponse",
@@ -14348,6 +14648,8 @@ export interface GetProductWikiResponse {
   type?: string;
   /** Wiki details. */
   properties?: WikiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetProductWikiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14355,6 +14657,7 @@ export const GetProductWikiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetProductWikiResponse",
@@ -14527,6 +14830,8 @@ export interface GetSubscriptionResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14534,6 +14839,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetSubscriptionResponse",
@@ -14574,6 +14880,8 @@ export interface GetTagResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14581,6 +14889,7 @@ export const GetTagResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({ identifier: "GetTagResponse" }) as any as S.Schema<GetTagResponse>;
 
@@ -14628,6 +14937,8 @@ export interface GetTagApiLinkResponse {
   type?: string;
   /** Tag-API link entity contract properties. */
   properties?: ProductApiLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14635,6 +14946,7 @@ export const GetTagApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTagApiLinkResponse",
@@ -14680,6 +14992,8 @@ export interface GetTagByApiResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagByApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14687,6 +15001,7 @@ export const GetTagByApiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTagByApiResponse",
@@ -14735,6 +15050,8 @@ export interface GetTagByOperationResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagByOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14742,6 +15059,7 @@ export const GetTagByOperationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTagByOperationResponse",
@@ -14787,6 +15105,8 @@ export interface GetTagByProductResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagByProductResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14794,6 +15114,7 @@ export const GetTagByProductResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTagByProductResponse",
@@ -14852,6 +15173,8 @@ export interface GetTagOperationLinkResponse {
   type?: string;
   /** Tag-API link entity contract properties. */
   properties?: TagOperationLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagOperationLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14859,6 +15182,7 @@ export const GetTagOperationLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagOperationLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTagOperationLinkResponse",
@@ -14917,6 +15241,8 @@ export interface GetTagProductLinkResponse {
   type?: string;
   /** Tag-API link entity contract properties. */
   properties?: TagProductLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTagProductLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14924,6 +15250,7 @@ export const GetTagProductLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagProductLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTagProductLinkResponse",
@@ -14969,6 +15296,8 @@ export interface GetTenantAccessResponse {
   type?: string;
   /** AccessInformation entity contract properties. */
   properties?: AccessInformationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14976,6 +15305,7 @@ export const GetTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AccessInformationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetTenantAccessResponse",
@@ -15109,6 +15439,8 @@ export interface GetUserResponse {
   type?: string;
   /** User entity contract properties. */
   properties?: UserContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15116,6 +15448,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(UserContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetUserResponse",
@@ -15224,6 +15557,8 @@ export interface GetUserSubscriptionResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetUserSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15231,6 +15566,7 @@ export const GetUserSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetUserSubscriptionResponse",
@@ -15289,6 +15625,8 @@ export interface GetWorkspaceResponse {
   type?: string;
   /** Workspace entity contract properties. */
   properties?: WorkspaceContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15296,6 +15634,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WorkspaceContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceResponse",
@@ -15341,6 +15680,8 @@ export interface GetWorkspaceApiResponse {
   type?: string;
   /** API entity contract properties. */
   properties?: ApiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15348,6 +15689,7 @@ export const GetWorkspaceApiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiResponse",
@@ -15396,6 +15738,8 @@ export interface GetWorkspaceApiDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15403,6 +15747,7 @@ export const GetWorkspaceApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiDiagnosticResponse",
@@ -15451,6 +15796,8 @@ export interface GetWorkspaceApiOperationResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15458,6 +15805,7 @@ export const GetWorkspaceApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiOperationResponse",
@@ -15521,6 +15869,8 @@ export interface GetWorkspaceApiOperationPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiOperationPolicyResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -15529,6 +15879,7 @@ export const GetWorkspaceApiOperationPolicyResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GetWorkspaceApiOperationPolicyResponse",
@@ -15586,6 +15937,8 @@ export interface GetWorkspaceApiPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15593,6 +15946,7 @@ export const GetWorkspaceApiPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiPolicyResponse",
@@ -15641,6 +15995,8 @@ export interface GetWorkspaceApiReleaseResponse {
   type?: string;
   /** ApiRelease entity contract properties. */
   properties?: ApiReleaseContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15648,6 +16004,7 @@ export const GetWorkspaceApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiReleaseResponse",
@@ -15696,6 +16053,8 @@ export interface GetWorkspaceApiSchemaResponse {
   type?: string;
   /** Properties of the API Schema. */
   properties?: SchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15703,6 +16062,7 @@ export const GetWorkspaceApiSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SchemaContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiSchemaResponse",
@@ -15748,6 +16108,8 @@ export interface GetWorkspaceApiVersionSetResponse {
   type?: string;
   /** API VersionSet contract properties. */
   properties?: ApiVersionSetContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15755,6 +16117,7 @@ export const GetWorkspaceApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiVersionSetContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceApiVersionSetResponse",
@@ -15800,6 +16163,8 @@ export interface GetWorkspaceBackendResponse {
   type?: string;
   /** Backend entity contract properties. */
   properties?: BackendContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceBackendResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15807,6 +16172,7 @@ export const GetWorkspaceBackendResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceBackendResponse",
@@ -15852,6 +16218,8 @@ export interface GetWorkspaceCertificateResponse {
   type?: string;
   /** Certificate properties details. */
   properties?: CertificateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceCertificateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15859,6 +16227,7 @@ export const GetWorkspaceCertificateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CertificateContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceCertificateResponse",
@@ -15904,6 +16273,8 @@ export interface GetWorkspaceDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15911,6 +16282,7 @@ export const GetWorkspaceDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceDiagnosticResponse",
@@ -15956,6 +16328,8 @@ export interface GetWorkspaceGlobalSchemaResponse {
   type?: string;
   /** Properties of the Global Schema. */
   properties?: GlobalSchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceGlobalSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15963,6 +16337,7 @@ export const GetWorkspaceGlobalSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GlobalSchemaContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceGlobalSchemaResponse",
@@ -16008,6 +16383,8 @@ export interface GetWorkspaceGroupResponse {
   type?: string;
   /** Group entity contract properties. */
   properties?: GroupContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16015,6 +16392,7 @@ export const GetWorkspaceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceGroupResponse",
@@ -16060,6 +16438,8 @@ export interface GetWorkspaceLoggerResponse {
   type?: string;
   /** Logger entity contract properties. */
   properties?: LoggerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceLoggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16067,6 +16447,7 @@ export const GetWorkspaceLoggerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceLoggerResponse",
@@ -16112,6 +16493,8 @@ export interface GetWorkspaceNamedValueResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16119,6 +16502,7 @@ export const GetWorkspaceNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceNamedValueResponse",
@@ -16239,6 +16623,8 @@ export interface GetWorkspacePolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspacePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16246,6 +16632,7 @@ export const GetWorkspacePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspacePolicyResponse",
@@ -16297,6 +16684,8 @@ export interface GetWorkspacePolicyFragmentResponse {
   type?: string;
   /** Properties of the Policy Fragment. */
   properties?: PolicyFragmentContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspacePolicyFragmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16304,6 +16693,7 @@ export const GetWorkspacePolicyFragmentResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyFragmentContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspacePolicyFragmentResponse",
@@ -16349,6 +16739,8 @@ export interface GetWorkspaceProductResponse {
   type?: string;
   /** Product entity contract properties. */
   properties?: ProductContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceProductResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16356,6 +16748,7 @@ export const GetWorkspaceProductResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceProductResponse",
@@ -16404,6 +16797,8 @@ export interface GetWorkspaceProductApiLinkResponse {
   type?: string;
   /** Product-API link entity contract properties. */
   properties?: ProductApiLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceProductApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16411,6 +16806,7 @@ export const GetWorkspaceProductApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceProductApiLinkResponse",
@@ -16459,6 +16855,8 @@ export interface GetWorkspaceProductGroupLinkResponse {
   type?: string;
   /** Product-group link entity contract properties. */
   properties?: ProductGroupLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceProductGroupLinkResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -16467,6 +16865,7 @@ export const GetWorkspaceProductGroupLinkResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(ProductGroupLinkContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GetWorkspaceProductGroupLinkResponse",
@@ -16524,6 +16923,8 @@ export interface GetWorkspaceProductPolicyResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceProductPolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16531,6 +16932,7 @@ export const GetWorkspaceProductPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceProductPolicyResponse",
@@ -16576,6 +16978,8 @@ export interface GetWorkspaceSubscriptionResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16583,6 +16987,7 @@ export const GetWorkspaceSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceSubscriptionResponse",
@@ -16628,6 +17033,8 @@ export interface GetWorkspaceTagResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16635,6 +17042,7 @@ export const GetWorkspaceTagResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceTagResponse",
@@ -16683,6 +17091,8 @@ export interface GetWorkspaceTagApiLinkResponse {
   type?: string;
   /** Tag-API link entity contract properties. */
   properties?: ProductApiLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceTagApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16690,6 +17100,7 @@ export const GetWorkspaceTagApiLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductApiLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceTagApiLinkResponse",
@@ -16738,6 +17149,8 @@ export interface GetWorkspaceTagOperationLinkResponse {
   type?: string;
   /** Tag-API link entity contract properties. */
   properties?: TagOperationLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceTagOperationLinkResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -16746,6 +17159,7 @@ export const GetWorkspaceTagOperationLinkResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(TagOperationLinkContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GetWorkspaceTagOperationLinkResponse",
@@ -16794,6 +17208,8 @@ export interface GetWorkspaceTagProductLinkResponse {
   type?: string;
   /** Tag-API link entity contract properties. */
   properties?: TagProductLinkContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetWorkspaceTagProductLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16801,6 +17217,7 @@ export const GetWorkspaceTagProductLinkResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagProductLinkContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceTagProductLinkResponse",
@@ -16872,6 +17289,12 @@ export interface GlobalSchemaCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Global Schema. */
   properties?: GlobalSchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const GlobalSchemaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16879,6 +17302,11 @@ export const GlobalSchemaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GlobalSchemaContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "GlobalSchemaCreateOrUpdateResponse",
@@ -16928,6 +17356,8 @@ export interface GraphQLApiResolverCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Resolver Contract. */
   properties?: ResolverEntityBaseContract;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GraphQLApiResolverCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -16936,6 +17366,7 @@ export const GraphQLApiResolverCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(ResolverEntityBaseContract),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "GraphQLApiResolverCreateOrUpdateResponse",
@@ -16995,6 +17426,8 @@ export interface GraphQLApiResolverPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GraphQLApiResolverPolicyCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17003,6 +17436,7 @@ export const GraphQLApiResolverPolicyCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "GraphQLApiResolverPolicyCreateOrUpdateResponse",
@@ -17077,6 +17511,8 @@ export interface GroupCreateOrUpdateResponse {
   type?: string;
   /** Group entity contract properties. */
   properties?: GroupContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GroupCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17084,6 +17520,7 @@ export const GroupCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GroupCreateOrUpdateResponse",
@@ -17209,6 +17646,8 @@ export interface IdentityProviderCreateOrUpdateResponse {
   type?: string;
   /** Identity Provider contract properties. */
   properties?: IdentityProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const IdentityProviderCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -17217,6 +17656,7 @@ export const IdentityProviderCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(IdentityProviderContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "IdentityProviderCreateOrUpdateResponse",
@@ -20353,6 +20793,8 @@ export interface ListAuthorizationServerSecretsResponse {
   resourceOwnerUsername?: string;
   /** Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password. */
   resourceOwnerPassword?: string | Redacted.Redacted<string>;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListAuthorizationServerSecretsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -20360,6 +20802,7 @@ export const ListAuthorizationServerSecretsResponse = /*@__PURE__*/ S.suspend(
       clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
       resourceOwnerUsername: S.optional(S.String),
       resourceOwnerPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ListAuthorizationServerSecretsResponse",
@@ -21443,11 +21886,14 @@ export interface ListGatewayKeysResponse {
   primary?: string;
   /** Secondary gateway key. */
   secondary?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListGatewayKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primary: S.optional(S.String),
     secondary: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ListGatewayKeysResponse",
@@ -22004,10 +22450,13 @@ export const ListIdentityProviderSecretsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListIdentityProviderSecretsResponse {
   /** Client or app secret used in IdentityProviders, Aad, OpenID or OAuth. */
   clientSecret?: string | Redacted.Redacted<string>;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListIdentityProviderSecretsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ListIdentityProviderSecretsResponse",
@@ -22264,10 +22713,13 @@ export const ListNamedValueValueRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListNamedValueValueResponse {
   /** This is secret value of the NamedValue entity. */
   value?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListNamedValueValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ListNamedValueValueResponse",
@@ -22837,11 +23289,14 @@ export const ListOpenIdConnectProviderSecretsRequest = /*@__PURE__*/ S.suspend(
 export interface ListOpenIdConnectProviderSecretsResponse {
   /** Client or app secret used in IdentityProviders, Aad, OpenID or OAuth. */
   clientSecret?: string | Redacted.Redacted<string>;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListOpenIdConnectProviderSecretsResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ListOpenIdConnectProviderSecretsResponse",
@@ -24295,11 +24750,14 @@ export interface ListProductWikisResponse {
   value?: ListProductWikisResponseValueList;
   /** Next page link if any. */
   nextLink?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListProductWikisResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ListProductWikisResponseValueList),
     nextLink: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ListProductWikisResponse",
@@ -25180,11 +25638,14 @@ export interface ListSubscriptionSecretsResponse {
   primaryKey?: string;
   /** Subscription secondary key. */
   secondaryKey?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListSubscriptionSecretsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     primaryKey: S.optional(S.String),
     secondaryKey: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ListSubscriptionSecretsResponse",
@@ -25889,6 +26350,8 @@ export interface ListTenantAccessSecretsResponse {
   secondaryKey?: string;
   /** Determines whether direct access is enabled. */
   enabled?: boolean;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListTenantAccessSecretsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -25897,6 +26360,7 @@ export const ListTenantAccessSecretsResponse = /*@__PURE__*/ S.suspend(() =>
     primaryKey: S.optional(S.String),
     secondaryKey: S.optional(S.String),
     enabled: S.optional(S.Boolean),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ListTenantAccessSecretsResponse",
@@ -27369,11 +27833,14 @@ export const ListWorkspaceNamedValueValueRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListWorkspaceNamedValueValueResponse {
   /** This is secret value of the NamedValue entity. */
   value?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListWorkspaceNamedValueValueResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       value: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ListWorkspaceNamedValueValueResponse",
@@ -28147,12 +28614,15 @@ export interface ListWorkspaceSubscriptionSecretsResponse {
   primaryKey?: string;
   /** Subscription secondary key. */
   secondaryKey?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ListWorkspaceSubscriptionSecretsResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       primaryKey: S.optional(S.String),
       secondaryKey: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ListWorkspaceSubscriptionSecretsResponse",
@@ -28468,6 +28938,8 @@ export interface LoggerCreateOrUpdateResponse {
   type?: string;
   /** Logger entity contract properties. */
   properties?: LoggerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const LoggerCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -28475,6 +28947,7 @@ export const LoggerCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "LoggerCreateOrUpdateResponse",
@@ -28606,6 +29079,7 @@ export interface MigrateApiManagementServiceToStv2Response {
   etag?: string;
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: MigrateApiManagementServiceToStv2ResponseZonesList;
+  locationHeader?: string;
 }
 export const MigrateApiManagementServiceToStv2Response =
   /*@__PURE__*/ S.suspend(() =>
@@ -28623,6 +29097,7 @@ export const MigrateApiManagementServiceToStv2Response =
       location: S.String,
       etag: S.optional(S.String),
       zones: S.optional(MigrateApiManagementServiceToStv2ResponseZonesList),
+      locationHeader: S.optional(S.String.pipe(T.Header("location"))),
     }),
   ).annotate({
     identifier: "MigrateApiManagementServiceToStv2Response",
@@ -28699,6 +29174,12 @@ export interface NamedValueCreateOrUpdateResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const NamedValueCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -28706,6 +29187,11 @@ export const NamedValueCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "NamedValueCreateOrUpdateResponse",
@@ -28955,6 +29441,8 @@ export interface OpenIdConnectProviderCreateOrUpdateResponse {
   type?: string;
   /** OpenId Connect Provider contract properties. */
   properties?: OpenidConnectProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const OpenIdConnectProviderCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -28963,6 +29451,7 @@ export const OpenIdConnectProviderCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(OpenidConnectProviderContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "OpenIdConnectProviderCreateOrUpdateResponse",
@@ -29269,6 +29758,7 @@ export interface PerformConnectivityCheckAsyncResponse {
   probesSent?: number;
   /** Number of failed probes. */
   probesFailed?: number;
+  location?: string;
 }
 export const PerformConnectivityCheckAsyncResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -29282,6 +29772,7 @@ export const PerformConnectivityCheckAsyncResponse = /*@__PURE__*/ S.suspend(
       maxLatencyInMs: S.optional(S.Number),
       probesSent: S.optional(S.Number),
       probesFailed: S.optional(S.Number),
+      location: S.optional(S.String.pipe(T.Header())),
     }),
 ).annotate({
   identifier: "PerformConnectivityCheckAsyncResponse",
@@ -29330,6 +29821,8 @@ export interface PolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version */
+  eTag?: string;
 }
 export const PolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29337,6 +29830,7 @@ export const PolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "PolicyCreateOrUpdateResponse",
@@ -29406,6 +29900,12 @@ export interface PolicyFragmentCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy Fragment. */
   properties?: PolicyFragmentContractProperties;
+  /** Current entity state version */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const PolicyFragmentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -29414,6 +29914,11 @@ export const PolicyFragmentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyFragmentContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "PolicyFragmentCreateOrUpdateResponse",
@@ -29460,6 +29965,8 @@ export interface PolicyRestrictionCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy Restriction. */
   properties?: PolicyRestrictionContractProperties;
+  /** Current entity state version */
+  eTag?: string;
 }
 export const PolicyRestrictionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -29468,6 +29975,7 @@ export const PolicyRestrictionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyRestrictionContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "PolicyRestrictionCreateOrUpdateResponse",
@@ -29508,6 +30016,8 @@ export interface PolicyRestrictionValidationsByServiceResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationResultContractProperties;
+  /** location of the header. */
+  location?: string;
 }
 export const PolicyRestrictionValidationsByServiceResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -29516,6 +30026,7 @@ export const PolicyRestrictionValidationsByServiceResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(OperationResultContractProperties),
+      location: S.optional(S.String.pipe(T.Header())),
     }),
   ).annotate({
     identifier: "PolicyRestrictionValidationsByServiceResponse",
@@ -29629,6 +30140,12 @@ export interface PortalRevisionCreateOrUpdateResponse {
   type?: string;
   /** Properties of the portal revisions. */
   properties?: PortalRevisionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const PortalRevisionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -29637,6 +30154,11 @@ export const PortalRevisionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PortalRevisionContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "PortalRevisionCreateOrUpdateResponse",
@@ -29679,10 +30201,13 @@ export const PostAuthorizationLoginLinkRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PostAuthorizationLoginLinkResponse {
   /** The login link */
   loginLink?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const PostAuthorizationLoginLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     loginLink: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "PostAuthorizationLoginLinkResponse",
@@ -29756,6 +30281,8 @@ export interface PrivateEndpointConnectionCreateOrUpdateResponse {
   type?: string;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** Location header */
+  location?: string;
 }
 export const PrivateEndpointConnectionCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -29764,6 +30291,7 @@ export const PrivateEndpointConnectionCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      location: S.optional(S.String.pipe(T.Header())),
     }),
   ).annotate({
     identifier: "PrivateEndpointConnectionCreateOrUpdateResponse",
@@ -29917,6 +30445,8 @@ export interface ProductCreateOrUpdateResponse {
   type?: string;
   /** Product entity contract properties. */
   properties?: ProductContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ProductCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -29924,6 +30454,7 @@ export const ProductCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ProductCreateOrUpdateResponse",
@@ -30084,6 +30615,8 @@ export interface ProductPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ProductPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30091,6 +30624,7 @@ export const ProductPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ProductPolicyCreateOrUpdateResponse",
@@ -30136,6 +30670,8 @@ export interface ProductWikiCreateOrUpdateResponse {
   type?: string;
   /** Wiki details. */
   properties?: WikiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const ProductWikiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30143,6 +30679,7 @@ export const ProductWikiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ProductWikiCreateOrUpdateResponse",
@@ -30173,9 +30710,13 @@ export const PurgeDeletedServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PurgeDeletedServiceRequest",
 }) as any as S.Schema<PurgeDeletedServiceRequest>;
 
-export interface PurgeDeletedServiceResponse {}
+export interface PurgeDeletedServiceResponse {
+  location?: string;
+}
 export const PurgeDeletedServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header())),
+  }),
 ).annotate({
   identifier: "PurgeDeletedServiceResponse",
 }) as any as S.Schema<PurgeDeletedServiceResponse>;
@@ -30217,6 +30758,8 @@ export interface RefreshCertificateSecretResponse {
   type?: string;
   /** Certificate properties details. */
   properties?: CertificateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const RefreshCertificateSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30224,6 +30767,7 @@ export const RefreshCertificateSecretResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CertificateContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "RefreshCertificateSecretResponse",
@@ -30266,6 +30810,12 @@ export interface RefreshNamedValueSecretResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const RefreshNamedValueSecretResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30273,6 +30823,11 @@ export const RefreshNamedValueSecretResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "RefreshNamedValueSecretResponse",
@@ -30319,6 +30874,8 @@ export interface RefreshWorkspaceCertificateSecretResponse {
   type?: string;
   /** Certificate properties details. */
   properties?: CertificateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const RefreshWorkspaceCertificateSecretResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -30327,6 +30884,7 @@ export const RefreshWorkspaceCertificateSecretResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(CertificateContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "RefreshWorkspaceCertificateSecretResponse",
@@ -30373,6 +30931,12 @@ export interface RefreshWorkspaceNamedValueSecretResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const RefreshWorkspaceNamedValueSecretResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -30381,6 +30945,11 @@ export const RefreshWorkspaceNamedValueSecretResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(NamedValueContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "RefreshWorkspaceNamedValueSecretResponse",
@@ -30891,6 +31460,7 @@ export interface RestoreApiManagementServiceResponse {
   etag?: string;
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: RestoreApiManagementServiceResponseZonesList;
+  locationHeader?: string;
 }
 export const RestoreApiManagementServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -30905,6 +31475,7 @@ export const RestoreApiManagementServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     etag: S.optional(S.String),
     zones: S.optional(RestoreApiManagementServiceResponseZonesList),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
   }),
 ).annotate({
   identifier: "RestoreApiManagementServiceResponse",
@@ -31050,6 +31621,8 @@ export interface SubscriptionCreateOrUpdateResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const SubscriptionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31057,6 +31630,7 @@ export const SubscriptionCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "SubscriptionCreateOrUpdateResponse",
@@ -31157,6 +31731,8 @@ export interface TagCreateOrUpdateResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const TagCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31164,6 +31740,7 @@ export const TagCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "TagCreateOrUpdateResponse",
@@ -31346,6 +31923,7 @@ export interface TenantConfigurationSaveResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationResultContractProperties;
+  location?: string;
 }
 export const TenantConfigurationSaveResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31353,6 +31931,7 @@ export const TenantConfigurationSaveResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationResultContractProperties),
+    location: S.optional(S.String.pipe(T.Header())),
   }),
 ).annotate({
   identifier: "TenantConfigurationSaveResponse",
@@ -31490,6 +32069,8 @@ export interface UpdateApiResponse {
   type?: string;
   /** API entity contract properties. */
   properties?: ApiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31497,6 +32078,7 @@ export const UpdateApiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiResponse",
@@ -31545,6 +32127,8 @@ export interface UpdateApiDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31552,6 +32136,7 @@ export const UpdateApiDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiDiagnosticResponse",
@@ -31733,6 +32318,8 @@ export interface UpdateApiGatewayResponse {
   location: string;
   /** ETag of the resource. */
   etag?: string;
+  /** Location header */
+  locationHeader?: string;
 }
 export const UpdateApiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31745,6 +32332,7 @@ export const UpdateApiGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateApiGatewayResponseSystemData),
     location: S.String,
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
   }),
 ).annotate({
   identifier: "UpdateApiGatewayResponse",
@@ -31830,6 +32418,8 @@ export interface UpdateApiIssueResponse {
   type?: string;
   /** Properties of the Issue. */
   properties?: IssueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiIssueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -31837,6 +32427,7 @@ export const UpdateApiIssueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IssueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiIssueResponse",
@@ -32172,6 +32763,8 @@ export interface UpdateApiManagementServiceResponse {
   etag?: string;
   /** A list of availability zones denoting where the resource needs to come from. */
   zones?: UpdateApiManagementServiceResponseZonesList;
+  /** Location header */
+  locationHeader?: string;
 }
 export const UpdateApiManagementServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32186,6 +32779,7 @@ export const UpdateApiManagementServiceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     etag: S.optional(S.String),
     zones: S.optional(UpdateApiManagementServiceResponseZonesList),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
   }),
 ).annotate({
   identifier: "UpdateApiManagementServiceResponse",
@@ -32286,6 +32880,8 @@ export interface UpdateApiOperationResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32293,6 +32889,7 @@ export const UpdateApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiOperationResponse",
@@ -32341,6 +32938,8 @@ export interface UpdateApiReleaseResponse {
   type?: string;
   /** ApiRelease entity contract properties. */
   properties?: ApiReleaseContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32348,6 +32947,7 @@ export const UpdateApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiReleaseResponse",
@@ -32430,6 +33030,8 @@ export interface UpdateApiVersionSetResponse {
   type?: string;
   /** API VersionSet contract properties. */
   properties?: ApiVersionSetContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32437,6 +33039,7 @@ export const UpdateApiVersionSetResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiVersionSetContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiVersionSetResponse",
@@ -32482,6 +33085,8 @@ export interface UpdateApiWikiResponse {
   type?: string;
   /** Wiki details. */
   properties?: WikiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateApiWikiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32489,6 +33094,7 @@ export const UpdateApiWikiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateApiWikiResponse",
@@ -32691,6 +33297,8 @@ export interface UpdateAuthorizationServerResponse {
   type?: string;
   /** Properties of the External OAuth authorization server Contract. */
   properties?: AuthorizationServerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateAuthorizationServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32698,6 +33306,7 @@ export const UpdateAuthorizationServerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AuthorizationServerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateAuthorizationServerResponse",
@@ -32817,6 +33426,8 @@ export interface UpdateBackendResponse {
   type?: string;
   /** Backend entity contract properties. */
   properties?: BackendContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateBackendResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32824,6 +33435,7 @@ export const UpdateBackendResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateBackendResponse",
@@ -32891,6 +33503,8 @@ export interface UpdateCacheResponse {
   type?: string;
   /** Cache properties details. */
   properties?: CacheContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateCacheResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32898,6 +33512,7 @@ export const UpdateCacheResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(CacheContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateCacheResponse",
@@ -32943,6 +33558,8 @@ export interface UpdateDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -32950,6 +33567,7 @@ export const UpdateDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateDiagnosticResponse",
@@ -32995,6 +33613,8 @@ export interface UpdateDocumentationResponse {
   type?: string;
   /** Markdown Documentation details. */
   properties?: DocumentationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateDocumentationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33002,6 +33622,7 @@ export const UpdateDocumentationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DocumentationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateDocumentationResponse",
@@ -33064,6 +33685,8 @@ export interface UpdateEmailTemplateResponse {
   type?: string;
   /** Email Template entity contract properties. */
   properties?: EmailTemplateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateEmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33071,6 +33694,7 @@ export const UpdateEmailTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(EmailTemplateContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateEmailTemplateResponse",
@@ -33116,6 +33740,8 @@ export interface UpdateGatewayResponse {
   type?: string;
   /** Gateway details. */
   properties?: GatewayContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33123,6 +33749,7 @@ export const UpdateGatewayResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GatewayContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateGatewayResponse",
@@ -33175,6 +33802,8 @@ export interface UpdateGraphQLApiResolverResponse {
   type?: string;
   /** Properties of the Resolver Contract. */
   properties?: ResolverEntityBaseContract;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateGraphQLApiResolverResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33182,6 +33811,7 @@ export const UpdateGraphQLApiResolverResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ResolverEntityBaseContract),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateGraphQLApiResolverResponse",
@@ -33256,6 +33886,8 @@ export interface UpdateGroupResponse {
   type?: string;
   /** Group entity contract properties. */
   properties?: GroupContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33263,6 +33895,7 @@ export const UpdateGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateGroupResponse",
@@ -33382,6 +34015,8 @@ export interface UpdateIdentityProviderResponse {
   type?: string;
   /** Identity Provider contract properties. */
   properties?: IdentityProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateIdentityProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33389,6 +34024,7 @@ export const UpdateIdentityProviderResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(IdentityProviderContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateIdentityProviderResponse",
@@ -33472,6 +34108,8 @@ export interface UpdateLoggerResponse {
   type?: string;
   /** Logger entity contract properties. */
   properties?: LoggerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateLoggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33479,6 +34117,7 @@ export const UpdateLoggerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateLoggerResponse",
@@ -33556,6 +34195,12 @@ export interface UpdateNamedValueResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const UpdateNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33563,6 +34208,11 @@ export const UpdateNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateNamedValueResponse",
@@ -33640,6 +34290,8 @@ export interface UpdateOpenIdConnectProviderResponse {
   type?: string;
   /** OpenId Connect Provider contract properties. */
   properties?: OpenidConnectProviderContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateOpenIdConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33647,6 +34299,7 @@ export const UpdateOpenIdConnectProviderResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OpenidConnectProviderContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateOpenIdConnectProviderResponse",
@@ -33692,6 +34345,8 @@ export interface UpdatePolicyRestrictionResponse {
   type?: string;
   /** Properties of the Policy Restriction. */
   properties?: PolicyRestrictionContractProperties;
+  /** Current entity state version */
+  eTag?: string;
 }
 export const UpdatePolicyRestrictionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33699,6 +34354,7 @@ export const UpdatePolicyRestrictionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PolicyRestrictionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdatePolicyRestrictionResponse",
@@ -33796,6 +34452,12 @@ export interface UpdatePortalRevisionResponse {
   type?: string;
   /** Properties of the portal revisions. */
   properties?: PortalRevisionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const UpdatePortalRevisionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33803,6 +34465,11 @@ export const UpdatePortalRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(PortalRevisionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdatePortalRevisionResponse",
@@ -33883,6 +34550,8 @@ export interface UpdateProductResponse {
   type?: string;
   /** Product entity contract properties. */
   properties?: ProductContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateProductResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33890,6 +34559,7 @@ export const UpdateProductResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateProductResponse",
@@ -33935,6 +34605,8 @@ export interface UpdateProductWikiResponse {
   type?: string;
   /** Wiki details. */
   properties?: WikiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateProductWikiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -33942,6 +34614,7 @@ export const UpdateProductWikiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WikiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateProductWikiResponse",
@@ -34158,6 +34831,8 @@ export interface UpdateSubscriptionResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34165,6 +34840,7 @@ export const UpdateSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateSubscriptionResponse",
@@ -34210,6 +34886,8 @@ export interface UpdateTagResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34217,6 +34895,7 @@ export const UpdateTagResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateTagResponse",
@@ -34279,6 +34958,8 @@ export interface UpdateTenantAccessResponse {
   type?: string;
   /** AccessInformation entity contract properties. */
   properties?: AccessInformationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34286,6 +34967,7 @@ export const UpdateTenantAccessResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(AccessInformationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateTenantAccessResponse",
@@ -34378,6 +35060,8 @@ export interface UpdateUserResponse {
   type?: string;
   /** User entity contract properties. */
   properties?: UserContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34385,6 +35069,7 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(UserContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateUserResponse",
@@ -34430,6 +35115,8 @@ export interface UpdateWorkspaceResponse {
   type?: string;
   /** Workspace entity contract properties. */
   properties?: WorkspaceContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34437,6 +35124,7 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WorkspaceContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceResponse",
@@ -34485,6 +35173,8 @@ export interface UpdateWorkspaceApiResponse {
   type?: string;
   /** API entity contract properties. */
   properties?: ApiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceApiResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34492,6 +35182,7 @@ export const UpdateWorkspaceApiResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceApiResponse",
@@ -34616,6 +35307,8 @@ export interface UpdateWorkspaceApiDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceApiDiagnosticResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -34624,6 +35317,7 @@ export const UpdateWorkspaceApiDiagnosticResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(DiagnosticContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "UpdateWorkspaceApiDiagnosticResponse",
@@ -34675,6 +35369,8 @@ export interface UpdateWorkspaceApiOperationResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34682,6 +35378,7 @@ export const UpdateWorkspaceApiOperationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceApiOperationResponse",
@@ -34733,6 +35430,8 @@ export interface UpdateWorkspaceApiReleaseResponse {
   type?: string;
   /** ApiRelease entity contract properties. */
   properties?: ApiReleaseContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34740,6 +35439,7 @@ export const UpdateWorkspaceApiReleaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiReleaseContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceApiReleaseResponse",
@@ -34788,6 +35488,8 @@ export interface UpdateWorkspaceApiVersionSetResponse {
   type?: string;
   /** API VersionSet contract properties. */
   properties?: ApiVersionSetContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceApiVersionSetResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -34796,6 +35498,7 @@ export const UpdateWorkspaceApiVersionSetResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(ApiVersionSetContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "UpdateWorkspaceApiVersionSetResponse",
@@ -34844,6 +35547,8 @@ export interface UpdateWorkspaceBackendResponse {
   type?: string;
   /** Backend entity contract properties. */
   properties?: BackendContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceBackendResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34851,6 +35556,7 @@ export const UpdateWorkspaceBackendResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(BackendContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceBackendResponse",
@@ -34899,6 +35605,8 @@ export interface UpdateWorkspaceDiagnosticResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34906,6 +35614,7 @@ export const UpdateWorkspaceDiagnosticResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DiagnosticContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceDiagnosticResponse",
@@ -34954,6 +35663,8 @@ export interface UpdateWorkspaceGroupResponse {
   type?: string;
   /** Group entity contract properties. */
   properties?: GroupContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34961,6 +35672,7 @@ export const UpdateWorkspaceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(GroupContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceGroupResponse",
@@ -35009,6 +35721,8 @@ export interface UpdateWorkspaceLoggerResponse {
   type?: string;
   /** Logger entity contract properties. */
   properties?: LoggerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceLoggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35016,6 +35730,7 @@ export const UpdateWorkspaceLoggerResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(LoggerContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceLoggerResponse",
@@ -35064,6 +35779,12 @@ export interface UpdateWorkspaceNamedValueResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const UpdateWorkspaceNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35071,6 +35792,11 @@ export const UpdateWorkspaceNamedValueResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(NamedValueContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceNamedValueResponse",
@@ -35119,6 +35845,8 @@ export interface UpdateWorkspaceProductResponse {
   type?: string;
   /** Product entity contract properties. */
   properties?: ProductContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceProductResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35126,6 +35854,7 @@ export const UpdateWorkspaceProductResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ProductContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceProductResponse",
@@ -35187,6 +35916,8 @@ export interface UpdateWorkspaceSubscriptionResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35194,6 +35925,7 @@ export const UpdateWorkspaceSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(SubscriptionContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceSubscriptionResponse",
@@ -35242,6 +35974,8 @@ export interface UpdateWorkspaceTagResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UpdateWorkspaceTagResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35249,6 +35983,7 @@ export const UpdateWorkspaceTagResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceTagResponse",
@@ -35358,6 +36093,8 @@ export interface UserCreateOrUpdateResponse {
   type?: string;
   /** User entity contract properties. */
   properties?: UserContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UserCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35365,6 +36102,7 @@ export const UserCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(UserContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UserCreateOrUpdateResponse",
@@ -35418,6 +36156,7 @@ export interface ValidateTenantConfigurationResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationResultContractProperties;
+  location?: string;
 }
 export const ValidateTenantConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35425,6 +36164,7 @@ export const ValidateTenantConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(OperationResultContractProperties),
+    location: S.optional(S.String.pipe(T.Header())),
   }),
 ).annotate({
   identifier: "ValidateTenantConfigurationResponse",
@@ -35473,6 +36213,12 @@ export interface WorkspaceApiCreateOrUpdateResponse {
   type?: string;
   /** API entity contract properties. */
   properties?: ApiContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const WorkspaceApiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -35480,6 +36226,11 @@ export const WorkspaceApiCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(ApiContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+    location: S.optional(S.String.pipe(T.Header())),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "WorkspaceApiCreateOrUpdateResponse",
@@ -35532,6 +36283,8 @@ export interface WorkspaceApiDiagnosticCreateOrUpdateResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceApiDiagnosticCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -35540,6 +36293,7 @@ export const WorkspaceApiDiagnosticCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(DiagnosticContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceApiDiagnosticCreateOrUpdateResponse",
@@ -35592,6 +36346,8 @@ export interface WorkspaceApiOperationCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Operation Contract. */
   properties?: OperationContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceApiOperationCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -35600,6 +36356,7 @@ export const WorkspaceApiOperationCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(OperationContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceApiOperationCreateOrUpdateResponse",
@@ -35663,6 +36420,8 @@ export interface WorkspaceApiOperationPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceApiOperationPolicyCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -35671,6 +36430,7 @@ export const WorkspaceApiOperationPolicyCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceApiOperationPolicyCreateOrUpdateResponse",
@@ -35726,6 +36486,8 @@ export interface WorkspaceApiPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceApiPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -35734,6 +36496,7 @@ export const WorkspaceApiPolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "WorkspaceApiPolicyCreateOrUpdateResponse",
@@ -35786,6 +36549,8 @@ export interface WorkspaceApiReleaseCreateOrUpdateResponse {
   type?: string;
   /** ApiRelease entity contract properties. */
   properties?: ApiReleaseContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceApiReleaseCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -35794,6 +36559,7 @@ export const WorkspaceApiReleaseCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(ApiReleaseContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceApiReleaseCreateOrUpdateResponse",
@@ -35846,6 +36612,12 @@ export interface WorkspaceApiSchemaCreateOrUpdateResponse {
   type?: string;
   /** Properties of the API Schema. */
   properties?: SchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const WorkspaceApiSchemaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -35854,6 +36626,11 @@ export const WorkspaceApiSchemaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(SchemaContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "WorkspaceApiSchemaCreateOrUpdateResponse",
@@ -35903,6 +36680,8 @@ export interface WorkspaceApiVersionSetCreateOrUpdateResponse {
   type?: string;
   /** API VersionSet contract properties. */
   properties?: ApiVersionSetContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceApiVersionSetCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -35911,6 +36690,7 @@ export const WorkspaceApiVersionSetCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(ApiVersionSetContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceApiVersionSetCreateOrUpdateResponse",
@@ -35960,6 +36740,8 @@ export interface WorkspaceBackendCreateOrUpdateResponse {
   type?: string;
   /** Backend entity contract properties. */
   properties?: BackendContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceBackendCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -35968,6 +36750,7 @@ export const WorkspaceBackendCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(BackendContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "WorkspaceBackendCreateOrUpdateResponse",
@@ -36017,6 +36800,8 @@ export interface WorkspaceCertificateCreateOrUpdateResponse {
   type?: string;
   /** Certificate properties details. */
   properties?: CertificateContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceCertificateCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -36025,6 +36810,7 @@ export const WorkspaceCertificateCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(CertificateContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceCertificateCreateOrUpdateResponse",
@@ -36070,6 +36856,8 @@ export interface WorkspaceCreateOrUpdateResponse {
   type?: string;
   /** Workspace entity contract properties. */
   properties?: WorkspaceContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -36077,6 +36865,7 @@ export const WorkspaceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(WorkspaceContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "WorkspaceCreateOrUpdateResponse",
@@ -36126,6 +36915,8 @@ export interface WorkspaceDiagnosticCreateOrUpdateResponse {
   type?: string;
   /** Diagnostic entity contract properties. */
   properties?: DiagnosticContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceDiagnosticCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -36134,6 +36925,7 @@ export const WorkspaceDiagnosticCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(DiagnosticContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceDiagnosticCreateOrUpdateResponse",
@@ -36183,6 +36975,12 @@ export interface WorkspaceGlobalSchemaCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Global Schema. */
   properties?: GlobalSchemaContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const WorkspaceGlobalSchemaCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -36191,6 +36989,11 @@ export const WorkspaceGlobalSchemaCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GlobalSchemaContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "WorkspaceGlobalSchemaCreateOrUpdateResponse",
@@ -36239,6 +37042,8 @@ export interface WorkspaceGroupCreateOrUpdateResponse {
   type?: string;
   /** Group entity contract properties. */
   properties?: GroupContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceGroupCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -36247,6 +37052,7 @@ export const WorkspaceGroupCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GroupContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "WorkspaceGroupCreateOrUpdateResponse",
@@ -36296,6 +37102,8 @@ export interface WorkspaceLoggerCreateOrUpdateResponse {
   type?: string;
   /** Logger entity contract properties. */
   properties?: LoggerContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceLoggerCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -36304,6 +37112,7 @@ export const WorkspaceLoggerCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(LoggerContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "WorkspaceLoggerCreateOrUpdateResponse",
@@ -36353,6 +37162,12 @@ export interface WorkspaceNamedValueCreateOrUpdateResponse {
   type?: string;
   /** NamedValue entity contract properties. */
   properties?: NamedValueContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const WorkspaceNamedValueCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -36361,6 +37176,11 @@ export const WorkspaceNamedValueCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(NamedValueContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "WorkspaceNamedValueCreateOrUpdateResponse",
@@ -36629,6 +37449,8 @@ export interface WorkspacePolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspacePolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -36637,6 +37459,7 @@ export const WorkspacePolicyCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "WorkspacePolicyCreateOrUpdateResponse",
@@ -36686,6 +37509,12 @@ export interface WorkspacePolicyFragmentCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy Fragment. */
   properties?: PolicyFragmentContractProperties;
+  /** Current entity state version */
+  eTag?: string;
+  /** Location header contains the URL where the status of the long running operation can be checked */
+  location?: string;
+  /** Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked */
+  azureAsyncOperation?: string;
 }
 export const WorkspacePolicyFragmentCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -36694,6 +37523,11 @@ export const WorkspacePolicyFragmentCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyFragmentContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
+      location: S.optional(S.String.pipe(T.Header())),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "WorkspacePolicyFragmentCreateOrUpdateResponse",
@@ -36803,6 +37637,8 @@ export interface WorkspaceProductCreateOrUpdateResponse {
   type?: string;
   /** Product entity contract properties. */
   properties?: ProductContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceProductCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -36811,6 +37647,7 @@ export const WorkspaceProductCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(ProductContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "WorkspaceProductCreateOrUpdateResponse",
@@ -36928,6 +37765,8 @@ export interface WorkspaceProductPolicyCreateOrUpdateResponse {
   type?: string;
   /** Properties of the Policy. */
   properties?: PolicyContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceProductPolicyCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -36936,6 +37775,7 @@ export const WorkspaceProductPolicyCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(PolicyContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceProductPolicyCreateOrUpdateResponse",
@@ -36998,6 +37838,8 @@ export interface WorkspaceSubscriptionCreateOrUpdateResponse {
   type?: string;
   /** Subscription contract properties. */
   properties?: SubscriptionContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceSubscriptionCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -37006,6 +37848,7 @@ export const WorkspaceSubscriptionCreateOrUpdateResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(SubscriptionContractProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "WorkspaceSubscriptionCreateOrUpdateResponse",
@@ -37114,6 +37957,8 @@ export interface WorkspaceTagCreateOrUpdateResponse {
   type?: string;
   /** Tag entity contract properties. */
   properties?: TagContractProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const WorkspaceTagCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -37121,6 +37966,7 @@ export const WorkspaceTagCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(TagContractProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "WorkspaceTagCreateOrUpdateResponse",

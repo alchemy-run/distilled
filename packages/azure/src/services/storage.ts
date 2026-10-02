@@ -39,9 +39,19 @@ export const AbortStorageAccountHierarchicalNamespaceMigrationRequest =
     identifier: "AbortStorageAccountHierarchicalNamespaceMigrationRequest",
   }) as any as S.Schema<AbortStorageAccountHierarchicalNamespaceMigrationRequest>;
 
-export interface AbortStorageAccountHierarchicalNamespaceMigrationResponse {}
+export interface AbortStorageAccountHierarchicalNamespaceMigrationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const AbortStorageAccountHierarchicalNamespaceMigrationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "AbortStorageAccountHierarchicalNamespaceMigrationResponse",
   }) as any as S.Schema<AbortStorageAccountHierarchicalNamespaceMigrationResponse>;
 
@@ -316,6 +326,8 @@ export interface BlobContainersCreateOrUpdateImmutabilityPolicyResponse {
   properties: ImmutabilityPolicyProperty;
   /** Resource Etag. */
   etag?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const BlobContainersCreateOrUpdateImmutabilityPolicyResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -326,6 +338,7 @@ export const BlobContainersCreateOrUpdateImmutabilityPolicyResponse =
       systemData: S.optional(SystemData),
       properties: ImmutabilityPolicyProperty,
       etag: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "BlobContainersCreateOrUpdateImmutabilityPolicyResponse",
@@ -428,9 +441,18 @@ export const BlobContainersObjectLevelWormRequest = /*@__PURE__*/ S.suspend(
   identifier: "BlobContainersObjectLevelWormRequest",
 }) as any as S.Schema<BlobContainersObjectLevelWormRequest>;
 
-export interface BlobContainersObjectLevelWormResponse {}
+export interface BlobContainersObjectLevelWormResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const BlobContainersObjectLevelWormResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "BlobContainersObjectLevelWormResponse",
 }) as any as S.Schema<BlobContainersObjectLevelWormResponse>;
@@ -940,6 +962,10 @@ export interface ContextCacheContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties: ContextCacheContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ContextCacheContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -949,6 +975,10 @@ export const ContextCacheContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: ContextCacheContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ContextCacheContainersCreateOrUpdateResponse",
@@ -1191,6 +1221,10 @@ export interface ContextCachesCreateOrUpdateResponse {
   properties: ContextCacheProperties;
   /** Managed service identity (either system assigned, or none) */
   identity?: ContextCachesCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ContextCachesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1202,6 +1236,10 @@ export const ContextCachesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: ContextCacheProperties,
     identity: S.optional(ContextCachesCreateOrUpdateResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ContextCachesCreateOrUpdateResponse",
@@ -1737,6 +1775,10 @@ export interface CreateConnectorResponse {
   location: string;
   /** The properties of the Storage Connector. */
   properties: StorageConnectorProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1747,6 +1789,10 @@ export const CreateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateConnectorResponseTagsMap),
     location: S.String,
     properties: StorageConnectorProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateConnectorResponse",
@@ -1937,6 +1983,10 @@ export interface CreateDataShareResponse {
   location: string;
   /** The properties of the Storage DataShare. */
   properties: StorageDataShareProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateDataShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1947,6 +1997,10 @@ export const CreateDataShareResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateDataShareResponseTagsMap),
     location: S.String,
     properties: StorageDataShareProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateDataShareResponse",
@@ -3973,6 +4027,10 @@ export interface CreateStorageAccountResponse {
   zones?: CreateStorageAccountResponseZonesList;
   /** Optional. Gets or sets the zonal placement details for the storage account. */
   placement?: Placement;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateStorageAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3989,6 +4047,8 @@ export const CreateStorageAccountResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     zones: S.optional(CreateStorageAccountResponseZonesList),
     placement: S.optional(Placement),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateStorageAccountResponse",
@@ -4279,6 +4339,12 @@ export interface CreateStorageTaskAssignmentResponse {
   systemData?: SystemData;
   /** Properties of the storage task assignment. */
   properties?: StorageTaskAssignmentProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const CreateStorageTaskAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4287,6 +4353,11 @@ export const CreateStorageTaskAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(StorageTaskAssignmentProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "CreateStorageTaskAssignmentResponse",
@@ -4545,6 +4616,8 @@ export interface DeleteBlobContainerImmutabilityPolicyResponse {
   properties: ImmutabilityPolicyProperty;
   /** Resource Etag. */
   etag?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const DeleteBlobContainerImmutabilityPolicyResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4555,6 +4628,7 @@ export const DeleteBlobContainerImmutabilityPolicyResponse =
       systemData: S.optional(SystemData),
       properties: ImmutabilityPolicyProperty,
       etag: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "DeleteBlobContainerImmutabilityPolicyResponse",
@@ -4629,9 +4703,17 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectorRequest",
 }) as any as S.Schema<DeleteConnectorRequest>;
 
-export interface DeleteConnectorResponse {}
+export interface DeleteConnectorResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConnectorResponse",
 }) as any as S.Schema<DeleteConnectorResponse>;
@@ -4661,9 +4743,17 @@ export const DeleteContextCachRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContextCachRequest",
 }) as any as S.Schema<DeleteContextCachRequest>;
 
-export interface DeleteContextCachResponse {}
+export interface DeleteContextCachResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteContextCachResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteContextCachResponse",
 }) as any as S.Schema<DeleteContextCachResponse>;
@@ -4696,9 +4786,17 @@ export const DeleteContextCacheContainerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContextCacheContainerRequest",
 }) as any as S.Schema<DeleteContextCacheContainerRequest>;
 
-export interface DeleteContextCacheContainerResponse {}
+export interface DeleteContextCacheContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteContextCacheContainerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteContextCacheContainerResponse",
 }) as any as S.Schema<DeleteContextCacheContainerResponse>;
@@ -4731,9 +4829,17 @@ export const DeleteDataShareRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDataShareRequest",
 }) as any as S.Schema<DeleteDataShareRequest>;
 
-export interface DeleteDataShareResponse {}
+export interface DeleteDataShareResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDataShareResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDataShareResponse",
 }) as any as S.Schema<DeleteDataShareResponse>;
@@ -5019,9 +5125,22 @@ export const DeleteStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStorageTaskAssignmentRequest",
 }) as any as S.Schema<DeleteStorageTaskAssignmentRequest>;
 
-export interface DeleteStorageTaskAssignmentResponse {}
+export interface DeleteStorageTaskAssignmentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStorageTaskAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteStorageTaskAssignmentResponse",
 }) as any as S.Schema<DeleteStorageTaskAssignmentResponse>;
@@ -5106,6 +5225,8 @@ export interface ExtendBlobContainerImmutabilityPolicyResponse {
   properties: ImmutabilityPolicyProperty;
   /** Resource Etag. */
   etag?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const ExtendBlobContainerImmutabilityPolicyResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5116,6 +5237,7 @@ export const ExtendBlobContainerImmutabilityPolicyResponse =
       systemData: S.optional(SystemData),
       properties: ImmutabilityPolicyProperty,
       etag: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "ExtendBlobContainerImmutabilityPolicyResponse",
@@ -5179,11 +5301,14 @@ export interface LeaseShareResponse {
   leaseId?: string;
   /** Approximate time remaining in the lease period, in seconds. */
   leaseTimeSeconds?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const LeaseShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     leaseId: S.optional(S.String),
     leaseTimeSeconds: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "LeaseShareResponse",
@@ -5348,6 +5473,8 @@ export interface GetBlobContainerImmutabilityPolicyResponse {
   properties: ImmutabilityPolicyProperty;
   /** Resource Etag. */
   etag?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const GetBlobContainerImmutabilityPolicyResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5358,6 +5485,7 @@ export const GetBlobContainerImmutabilityPolicyResponse =
       systemData: S.optional(SystemData),
       properties: ImmutabilityPolicyProperty,
       etag: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "GetBlobContainerImmutabilityPolicyResponse",
@@ -10972,6 +11100,8 @@ export interface LockBlobContainerImmutabilityPolicyResponse {
   properties: ImmutabilityPolicyProperty;
   /** Resource Etag. */
   etag?: string;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const LockBlobContainerImmutabilityPolicyResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -10982,6 +11112,7 @@ export const LockBlobContainerImmutabilityPolicyResponse =
       systemData: S.optional(SystemData),
       properties: ImmutabilityPolicyProperty,
       etag: S.optional(S.String),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
   ).annotate({
     identifier: "LockBlobContainerImmutabilityPolicyResponse",
@@ -11096,9 +11227,19 @@ export const NetworkSecurityPerimeterConfigurationsReconcileRequest =
     identifier: "NetworkSecurityPerimeterConfigurationsReconcileRequest",
   }) as any as S.Schema<NetworkSecurityPerimeterConfigurationsReconcileRequest>;
 
-export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {}
+export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const NetworkSecurityPerimeterConfigurationsReconcileResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "NetworkSecurityPerimeterConfigurationsReconcileResponse",
   }) as any as S.Schema<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
 
@@ -11573,6 +11714,35 @@ export const RestoreStorageAccountBlobRangesRequest = /*@__PURE__*/ S.suspend(
   identifier: "RestoreStorageAccountBlobRangesRequest",
 }) as any as S.Schema<RestoreStorageAccountBlobRangesRequest>;
 
+/** Blob restore status. */
+export interface RestoreStorageAccountBlobRangesResponse {
+  /** The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing. - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed. */
+  status?: BlobRestoreProgressStatus;
+  /** Failure reason when blob restore is failed. */
+  failureReason?: string;
+  /** Id for tracking blob restore request. */
+  restoreId?: string;
+  /** Blob restore request parameters. */
+  parameters?: BlobRestoreParameters;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const RestoreStorageAccountBlobRangesResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      status: S.optional(BlobRestoreProgressStatus),
+      failureReason: S.optional(S.String),
+      restoreId: S.optional(S.String),
+      parameters: S.optional(BlobRestoreParameters),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+).annotate({
+  identifier: "RestoreStorageAccountBlobRangesResponse",
+}) as any as S.Schema<RestoreStorageAccountBlobRangesResponse>;
+
 export interface RevokeStorageAccountUserDelegationKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -11953,9 +12123,24 @@ export const StopStorageTaskAssignmentAssignmentRequest =
     identifier: "StopStorageTaskAssignmentAssignmentRequest",
   }) as any as S.Schema<StopStorageTaskAssignmentAssignmentRequest>;
 
-export interface StopStorageTaskAssignmentAssignmentResponse {}
+export interface StopStorageTaskAssignmentAssignmentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StopStorageTaskAssignmentAssignmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "StopStorageTaskAssignmentAssignmentResponse",
   }) as any as S.Schema<StopStorageTaskAssignmentAssignmentResponse>;
 
@@ -12002,9 +12187,19 @@ export const StorageAccountsCustomerInitiatedMigrationRequest =
     identifier: "StorageAccountsCustomerInitiatedMigrationRequest",
   }) as any as S.Schema<StorageAccountsCustomerInitiatedMigrationRequest>;
 
-export interface StorageAccountsCustomerInitiatedMigrationResponse {}
+export interface StorageAccountsCustomerInitiatedMigrationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StorageAccountsCustomerInitiatedMigrationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "StorageAccountsCustomerInitiatedMigrationResponse",
   }) as any as S.Schema<StorageAccountsCustomerInitiatedMigrationResponse>;
 
@@ -12041,9 +12236,17 @@ export const StorageAccountsFailoverRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StorageAccountsFailoverRequest",
 }) as any as S.Schema<StorageAccountsFailoverRequest>;
 
-export interface StorageAccountsFailoverResponse {}
+export interface StorageAccountsFailoverResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StorageAccountsFailoverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StorageAccountsFailoverResponse",
 }) as any as S.Schema<StorageAccountsFailoverResponse>;
@@ -12077,9 +12280,19 @@ export const StorageAccountsHierarchicalNamespaceMigrationRequest =
     identifier: "StorageAccountsHierarchicalNamespaceMigrationRequest",
   }) as any as S.Schema<StorageAccountsHierarchicalNamespaceMigrationRequest>;
 
-export interface StorageAccountsHierarchicalNamespaceMigrationResponse {}
+export interface StorageAccountsHierarchicalNamespaceMigrationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StorageAccountsHierarchicalNamespaceMigrationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "StorageAccountsHierarchicalNamespaceMigrationResponse",
   }) as any as S.Schema<StorageAccountsHierarchicalNamespaceMigrationResponse>;
 
@@ -12123,12 +12336,18 @@ export interface TestConnectionResponse {
   storageConnectorErrorMessage?: string;
   /** The request Id associated with the request sent to the backing data store for validation. */
   storageConnectorRequestId: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TestConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     storageConnectorMethodName: S.String,
     storageConnectorErrorMessage: S.optional(S.String),
     storageConnectorRequestId: S.String,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "TestConnectionResponse",
@@ -12289,6 +12508,10 @@ export interface UpdateConnectorResponse {
   location: string;
   /** The properties of the Storage Connector. */
   properties: StorageConnectorProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12299,6 +12522,8 @@ export const UpdateConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateConnectorResponseTagsMap),
     location: S.String,
     properties: StorageConnectorProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateConnectorResponse",
@@ -12401,6 +12626,10 @@ export interface UpdateContextCachResponse {
   properties: ContextCacheProperties;
   /** Managed service identity (either system assigned, or none) */
   identity?: ContextCachesCreateOrUpdateResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateContextCachResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12412,6 +12641,8 @@ export const UpdateContextCachResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: ContextCacheProperties,
     identity: S.optional(ContextCachesCreateOrUpdateResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateContextCachResponse",
@@ -12476,6 +12707,10 @@ export interface UpdateContextCacheContainerResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties: ContextCacheContainerProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateContextCacheContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12484,6 +12719,8 @@ export const UpdateContextCacheContainerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: ContextCacheContainerProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateContextCacheContainerResponse",
@@ -12592,6 +12829,10 @@ export interface UpdateDataShareResponse {
   location: string;
   /** The properties of the Storage DataShare. */
   properties: StorageDataShareProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDataShareResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -12602,6 +12843,8 @@ export const UpdateDataShareResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateDataShareResponseTagsMap),
     location: S.String,
     properties: StorageDataShareProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDataShareResponse",
@@ -13081,6 +13324,12 @@ export interface UpdateStorageTaskAssignmentResponse {
   systemData?: SystemData;
   /** Properties of the storage task assignment. */
   properties?: StorageTaskAssignmentProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateStorageTaskAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13089,6 +13338,11 @@ export const UpdateStorageTaskAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(StorageTaskAssignmentProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateStorageTaskAssignmentResponse",
@@ -14789,12 +15043,12 @@ export type RestoreStorageAccountBlobRangesError = AzureOpError;
 /** Restore blobs in the specified blob ranges */
 export const RestoreStorageAccountBlobRanges: API.OperationMethod<
   RestoreStorageAccountBlobRangesRequest,
-  BlobRestoreStatus,
+  RestoreStorageAccountBlobRangesResponse,
   RestoreStorageAccountBlobRangesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RestoreStorageAccountBlobRangesRequest,
-  output: BlobRestoreStatus,
+  output: RestoreStorageAccountBlobRangesResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

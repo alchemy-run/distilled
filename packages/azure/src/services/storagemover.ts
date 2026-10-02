@@ -444,9 +444,17 @@ export const DeleteAgentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAgentRequest",
 }) as any as S.Schema<DeleteAgentRequest>;
 
-export interface DeleteAgentResponse {}
+export interface DeleteAgentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAgentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAgentResponse",
 }) as any as S.Schema<DeleteAgentResponse>;
@@ -479,9 +487,17 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 
-export interface DeleteConnectionResponse {}
+export interface DeleteConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
@@ -514,9 +530,17 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEndpointRequest",
 }) as any as S.Schema<DeleteEndpointRequest>;
 
-export interface DeleteEndpointResponse {}
+export interface DeleteEndpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteEndpointResponse",
 }) as any as S.Schema<DeleteEndpointResponse>;
@@ -552,9 +576,17 @@ export const DeleteJobDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteJobDefinitionRequest",
 }) as any as S.Schema<DeleteJobDefinitionRequest>;
 
-export interface DeleteJobDefinitionResponse {}
+export interface DeleteJobDefinitionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteJobDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteJobDefinitionResponse",
 }) as any as S.Schema<DeleteJobDefinitionResponse>;
@@ -587,9 +619,17 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProjectRequest",
 }) as any as S.Schema<DeleteProjectRequest>;
 
-export interface DeleteProjectResponse {}
+export interface DeleteProjectResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteProjectResponse",
 }) as any as S.Schema<DeleteProjectResponse>;
@@ -619,9 +659,17 @@ export const DeleteStorageMoverRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStorageMoverRequest",
 }) as any as S.Schema<DeleteStorageMoverRequest>;
 
-export interface DeleteStorageMoverResponse {}
+export interface DeleteStorageMoverResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStorageMoverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteStorageMoverResponse",
 }) as any as S.Schema<DeleteStorageMoverResponse>;

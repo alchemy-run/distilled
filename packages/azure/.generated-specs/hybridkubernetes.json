@@ -202,7 +202,7 @@
         "target": "com.azure.hybridkubernetes#DeleteConnectedClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.hybridkubernetes#DeleteConnectedClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -213,6 +213,28 @@
         },
         "smithy.api#documentation": "Delete a connected cluster.\n\nDelete a connected cluster, removing the tracked resource in Azure Resource Manager (ARM).",
         "com.distilled.openapi#apiVersion": "2026-05-01"
+      }
+    },
+    "com.azure.hybridkubernetes#DeleteConnectedClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.hybridkubernetes#DeleteConnectedClusterRequest": {
@@ -324,6 +346,20 @@
           "target": "com.azure.hybridkubernetes#ConnectedClusterKind",
           "traits": {
             "smithy.api#documentation": "The kind of connected cluster."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1298,6 +1334,20 @@
           "target": "com.azure.hybridkubernetes#ConnectedClusterKind",
           "traits": {
             "smithy.api#documentation": "The kind of connected cluster."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

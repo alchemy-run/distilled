@@ -179,6 +179,10 @@ export interface AuthorizedApplicationsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: AuthorizedApplicationProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AuthorizedApplicationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -188,6 +192,10 @@ export const AuthorizedApplicationsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(AuthorizedApplicationProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AuthorizedApplicationsCreateOrUpdateResponse",
@@ -322,6 +330,10 @@ export interface CreateProviderMonitorSettingsResponse {
   /** The geo-location where the resource lives */
   location: string;
   properties?: ProviderMonitorSettingProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateProviderMonitorSettingsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -333,6 +345,10 @@ export const CreateProviderMonitorSettingsResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(CreateProviderMonitorSettingsResponseTagsMap),
       location: S.String,
       properties: S.optional(ProviderMonitorSettingProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateProviderMonitorSettingsResponse",
@@ -4060,6 +4076,10 @@ export interface CustomRolloutsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Properties of the rollout. */
   properties: CustomRolloutProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CustomRolloutsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4069,6 +4089,10 @@ export const CustomRolloutsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: CustomRolloutProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CustomRolloutsCreateOrUpdateResponse",
@@ -4454,6 +4478,10 @@ export interface DefaultRolloutsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Properties of the rollout. */
   properties?: DefaultRolloutProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DefaultRolloutsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4463,6 +4491,10 @@ export const DefaultRolloutsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(DefaultRolloutProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "DefaultRolloutsCreateOrUpdateResponse",
@@ -4743,9 +4775,18 @@ export const DeleteResourceActionResourcesRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteResourceActionResourcesRequest",
 }) as any as S.Schema<DeleteResourceActionResourcesRequest>;
 
-export interface DeleteResourceActionResourcesResponse {}
+export interface DeleteResourceActionResourcesResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteResourceActionResourcesResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteResourceActionResourcesResponse",
 }) as any as S.Schema<DeleteResourceActionResourcesResponse>;
@@ -4776,9 +4817,18 @@ export const DeleteResourceTypeRegistrationRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteResourceTypeRegistrationRequest",
 }) as any as S.Schema<DeleteResourceTypeRegistrationRequest>;
 
-export interface DeleteResourceTypeRegistrationResponse {}
+export interface DeleteResourceTypeRegistrationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteResourceTypeRegistrationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteResourceTypeRegistrationResponse",
 }) as any as S.Schema<DeleteResourceTypeRegistrationResponse>;
@@ -7475,6 +7525,10 @@ export interface ProviderRegistrationsCreateOrUpdateResponse {
   properties?: ProviderRegistrationProperties;
   /** Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
   kind?: ProviderRegistrationsCreateOrUpdateResponseKind;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ProviderRegistrationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -7485,6 +7539,10 @@ export const ProviderRegistrationsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(ProviderRegistrationProperties),
       kind: S.optional(ProviderRegistrationsCreateOrUpdateResponseKind),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ProviderRegistrationsCreateOrUpdateResponse",
@@ -7547,6 +7605,10 @@ export interface ResourceTypeRegistrationsCreateOrUpdateResponse {
   properties?: ResourceTypeRegistrationProperties;
   /** Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type. */
   kind?: ResourceTypeRegistrationsCreateOrUpdateResponseKind;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ResourceTypeRegistrationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -7557,6 +7619,10 @@ export const ResourceTypeRegistrationsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(ResourceTypeRegistrationProperties),
       kind: S.optional(ResourceTypeRegistrationsCreateOrUpdateResponseKind),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ResourceTypeRegistrationsCreateOrUpdateResponse",

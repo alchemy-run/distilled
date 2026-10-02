@@ -287,6 +287,10 @@ export interface CreateAddressResponse {
   location: string;
   /** Properties of an address. */
   properties: AddressProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateAddressResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -297,6 +301,8 @@ export const CreateAddressResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateAddressResponseTagsMap),
     location: S.String,
     properties: AddressProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateAddressResponse",
@@ -1394,6 +1400,10 @@ export interface CreateOrderItemResponse {
   properties: OrderItemProperties;
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1405,6 +1415,8 @@ export const CreateOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: OrderItemProperties,
     identity: S.optional(ResourceIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateOrderItemResponse",
@@ -1435,9 +1447,17 @@ export const DeleteAddressRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAddressRequest",
 }) as any as S.Schema<DeleteAddressRequest>;
 
-export interface DeleteAddressResponse {}
+export interface DeleteAddressResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAddressResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAddressResponse",
 }) as any as S.Schema<DeleteAddressResponse>;
@@ -1467,9 +1487,17 @@ export const DeleteOrderItemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOrderItemRequest",
 }) as any as S.Schema<DeleteOrderItemRequest>;
 
-export interface DeleteOrderItemResponse {}
+export interface DeleteOrderItemResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteOrderItemResponse",
 }) as any as S.Schema<DeleteOrderItemResponse>;
@@ -3293,9 +3321,17 @@ export const OrderItemsReturnRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "OrderItemsReturnRequest",
 }) as any as S.Schema<OrderItemsReturnRequest>;
 
-export interface OrderItemsReturnResponse {}
+export interface OrderItemsReturnResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const OrderItemsReturnResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "OrderItemsReturnResponse",
 }) as any as S.Schema<OrderItemsReturnResponse>;
@@ -3378,6 +3414,10 @@ export interface UpdateAddressResponse {
   location: string;
   /** Properties of an address. */
   properties: AddressProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateAddressResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3388,6 +3428,8 @@ export const UpdateAddressResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateAddressResponseTagsMap),
     location: S.String,
     properties: AddressProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateAddressResponse",
@@ -3524,6 +3566,10 @@ export interface UpdateOrderItemResponse {
   properties: OrderItemProperties;
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3535,6 +3581,8 @@ export const UpdateOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: OrderItemProperties,
     identity: S.optional(ResourceIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateOrderItemResponse",

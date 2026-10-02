@@ -34,9 +34,22 @@ export const DeleteGroupQuotasRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGroupQuotasRequest",
 }) as any as S.Schema<DeleteGroupQuotasRequest>;
 
-export interface DeleteGroupQuotasResponse {}
+export interface DeleteGroupQuotasResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteGroupQuotasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteGroupQuotasResponse",
 }) as any as S.Schema<DeleteGroupQuotasResponse>;
@@ -66,9 +79,23 @@ export const DeleteGroupQuotaSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGroupQuotaSubscriptionRequest",
 }) as any as S.Schema<DeleteGroupQuotaSubscriptionRequest>;
 
-export interface DeleteGroupQuotaSubscriptionResponse {}
+export interface DeleteGroupQuotaSubscriptionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteGroupQuotaSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteGroupQuotaSubscriptionResponse",
 }) as any as S.Schema<DeleteGroupQuotaSubscriptionResponse>;
@@ -726,6 +753,8 @@ export interface GetQuotaResponse {
   systemData?: SystemData;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
   properties?: QuotaProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -734,6 +763,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetQuotaResponse",
@@ -952,6 +982,8 @@ export interface GetUsageResponse {
   systemData?: SystemData;
   /** Usage properties for the specified resource. */
   properties?: UsagesProperties;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const GetUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -960,6 +992,7 @@ export const GetUsageResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(UsagesProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetUsageResponse",
@@ -1019,6 +1052,12 @@ export interface GroupQuotaLocationSettingsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: GroupQuotasEnforcementStatusProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GroupQuotaLocationSettingsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1028,6 +1067,11 @@ export const GroupQuotaLocationSettingsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GroupQuotasEnforcementStatusProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GroupQuotaLocationSettingsCreateOrUpdateResponse",
@@ -1082,6 +1126,12 @@ export interface GroupQuotasCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Properties */
   properties?: GroupQuotasEntityBase;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GroupQuotasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1090,6 +1140,11 @@ export const GroupQuotasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(GroupQuotasEntityBase),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "GroupQuotasCreateOrUpdateResponse",
@@ -1131,6 +1186,12 @@ export interface GroupQuotaSubscriptionsCreateOrUpdateResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: GroupQuotaSubscriptionIdProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GroupQuotaSubscriptionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1140,6 +1201,11 @@ export const GroupQuotaSubscriptionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GroupQuotaSubscriptionIdProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GroupQuotaSubscriptionsCreateOrUpdateResponse",
@@ -1941,11 +2007,14 @@ export interface QuotaLimits {
   value: QuotaLimitsValueList;
   /** The link to the next page of items */
   nextLink?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const QuotaLimits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: QuotaLimitsValueList,
     nextLink: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({ identifier: "QuotaLimits" }) as any as S.Schema<QuotaLimits>;
 
@@ -2150,11 +2219,14 @@ export interface UsagesLimits {
   value: UsagesLimitsValueList;
   /** The link to the next page of items */
   nextLink?: string;
+  /** Current entity state version. Should be treated as opaque and used to make conditional HTTP requests. */
+  eTag?: string;
 }
 export const UsagesLimits = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: UsagesLimitsValueList,
     nextLink: S.optional(S.String),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({ identifier: "UsagesLimits" }) as any as S.Schema<UsagesLimits>;
 
@@ -2229,6 +2301,10 @@ export interface QuotaCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
   properties?: QuotaProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const QuotaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2237,6 +2313,8 @@ export const QuotaCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "QuotaCreateOrUpdateResponse",
@@ -2335,6 +2413,12 @@ export interface UpdateGroupQuotaLimitsRequestResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: GroupQuotaLimitListProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGroupQuotaLimitsRequestResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2344,6 +2428,11 @@ export const UpdateGroupQuotaLimitsRequestResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GroupQuotaLimitListProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateGroupQuotaLimitsRequestResponse",
@@ -2390,6 +2479,12 @@ export interface UpdateGroupQuotaLocationSettingsResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: GroupQuotasEnforcementStatusProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGroupQuotaLocationSettingsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2399,6 +2494,11 @@ export const UpdateGroupQuotaLocationSettingsResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GroupQuotasEnforcementStatusProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateGroupQuotaLocationSettingsResponse",
@@ -2444,6 +2544,12 @@ export interface UpdateGroupQuotasResponse {
   systemData?: SystemData;
   /** Properties */
   properties?: GroupQuotasEntityBase;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGroupQuotasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2452,6 +2558,11 @@ export const UpdateGroupQuotasResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(GroupQuotasEntityBase),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateGroupQuotasResponse",
@@ -2492,6 +2603,12 @@ export interface UpdateGroupQuotaSubscriptionResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: GroupQuotaSubscriptionIdProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGroupQuotaSubscriptionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2501,6 +2618,11 @@ export const UpdateGroupQuotaSubscriptionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(GroupQuotaSubscriptionIdProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateGroupQuotaSubscriptionResponse",
@@ -2602,6 +2724,12 @@ export interface UpdateGroupQuotaSubscriptionAllocationRequestResponse {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
   properties?: SubscriptionQuotaAllocationsListProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGroupQuotaSubscriptionAllocationRequestResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2611,6 +2739,11 @@ export const UpdateGroupQuotaSubscriptionAllocationRequestResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SubscriptionQuotaAllocationsListProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateGroupQuotaSubscriptionAllocationRequestResponse",
@@ -2652,6 +2785,8 @@ export interface UpdateQuotaResponse {
   systemData?: SystemData;
   /** Quota properties for the specified resource, based on the API called, Quotas or Usages. */
   properties?: QuotaProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
 export const UpdateQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2660,6 +2795,9 @@ export const UpdateQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateQuotaResponse",

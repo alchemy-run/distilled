@@ -24,7 +24,7 @@
         "target": "com.azure.redisenterprise#DatabasesUpgradeDBRedisVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#DatabasesUpgradeDBRedisVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Upgrades the database Redis version to the latest available.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#DatabasesUpgradeDBRedisVersionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URI to poll for the operation status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#DatabasesUpgradeDBRedisVersionRequest": {
@@ -83,7 +105,7 @@
         "target": "com.azure.redisenterprise#FlushDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#FlushDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -94,6 +116,28 @@
         },
         "smithy.api#documentation": "Flushes all the keys in this database and also from its linked databases.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#FlushDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URI to poll for the operation status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#FlushDatabaseRequest": {
@@ -157,7 +201,7 @@
         "target": "com.azure.redisenterprise#DatabasesForceLinkToReplicationGroupRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#DatabasesForceLinkToReplicationGroupResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -168,6 +212,28 @@
         },
         "smithy.api#documentation": "Forcibly recreates an existing database on the specified cluster, and rejoins it to an existing replication group. **IMPORTANT NOTE:** All data in this database will be discarded, and the database will temporarily be unavailable while rejoining the replication group.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#DatabasesForceLinkToReplicationGroupResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#DatabasesForceLinkToReplicationGroupRequest": {
@@ -266,7 +332,7 @@
         "target": "com.azure.redisenterprise#UnlinkDatabasesForceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#UnlinkDatabasesForceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -277,6 +343,28 @@
         },
         "smithy.api#documentation": "Forcibly removes the link to the specified database resource.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#UnlinkDatabasesForceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#UnlinkDatabasesForceRequest": {
@@ -491,7 +579,7 @@
         "target": "com.azure.redisenterprise#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -502,6 +590,28 @@
         },
         "smithy.api#documentation": "Deletes the specified private endpoint connection associated with the Redis Enterprise cluster.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URI to poll for the operation status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#DeletePrivateEndpointConnectionRequest": {
@@ -1297,7 +1407,7 @@
         "target": "com.azure.redisenterprise#DeleteAccessPolicyAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#DeleteAccessPolicyAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1308,6 +1418,28 @@
         },
         "smithy.api#documentation": "Deletes a single access policy assignment.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#DeleteAccessPolicyAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#DeleteAccessPolicyAssignmentRequest": {
@@ -1604,7 +1736,7 @@
         "target": "com.azure.redisenterprise#ExportDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#ExportDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1615,6 +1747,28 @@
         },
         "smithy.api#documentation": "Exports a database file from target database.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#ExportDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#ExportDatabaseRequest": {
@@ -1670,7 +1824,7 @@
         "target": "com.azure.redisenterprise#ImportDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#ImportDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1681,6 +1835,28 @@
         },
         "smithy.api#documentation": "Imports database files to target database.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#ImportDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#ImportDatabaseRequest": {
@@ -1745,7 +1921,7 @@
         "target": "com.azure.redisenterprise#RegenerateDatabaseKeyRequest"
       },
       "output": {
-        "target": "com.azure.redisenterprise#AccessKeys"
+        "target": "com.azure.redisenterprise#RegenerateDatabaseKeyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1758,7 +1934,7 @@
         "com.distilled.openapi#apiVersion": "2025-07-01"
       }
     },
-    "com.azure.redisenterprise#AccessKeys": {
+    "com.azure.redisenterprise#RegenerateDatabaseKeyResponse": {
       "type": "structure",
       "members": {
         "primaryKey": {
@@ -1772,10 +1948,25 @@
           "traits": {
             "smithy.api#documentation": "The current secondary key that clients can use to authenticate"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The secret access keys used for authenticating connections to redis"
+        "smithy.api#documentation": "The secret access keys used for authenticating connections to redis",
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#RegenerateDatabaseKeyRequest": {
@@ -1864,6 +2055,26 @@
         "com.distilled.openapi#apiVersion": "2025-07-01"
       }
     },
+    "com.azure.redisenterprise#AccessKeys": {
+      "type": "structure",
+      "members": {
+        "primaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current primary key that clients can use to authenticate"
+          }
+        },
+        "secondaryKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current secondary key that clients can use to authenticate"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The secret access keys used for authenticating connections to redis"
+      }
+    },
     "com.azure.redisenterprise#ListDatabaseKeysRequest": {
       "type": "structure",
       "members": {
@@ -1910,7 +2121,7 @@
         "target": "com.azure.redisenterprise#DeleteDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#DeleteDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1921,6 +2132,28 @@
         },
         "smithy.api#documentation": "Deletes a single database",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#DeleteDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#DeleteDatabaseRequest": {
@@ -2007,6 +2240,20 @@
           "target": "com.azure.redisenterprise#DatabaseCreateProperties",
           "traits": {
             "smithy.api#documentation": "Other properties of the database."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
           }
         }
       },
@@ -4336,7 +4583,7 @@
         "target": "com.azure.redisenterprise#DeleteRedisEnterpriseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.redisenterprise#DeleteRedisEnterpriseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4347,6 +4594,28 @@
         },
         "smithy.api#documentation": "Deletes a Redis Enterprise cache cluster.",
         "com.distilled.openapi#apiVersion": "2025-07-01"
+      }
+    },
+    "com.azure.redisenterprise#DeleteRedisEnterpriseResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.redisenterprise#DeleteRedisEnterpriseRequest": {
@@ -4460,6 +4729,20 @@
           "target": "com.azure.redisenterprise#ClusterCreateProperties",
           "traits": {
             "smithy.api#documentation": "Other properties of the cluster."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "Location URI to poll for result"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation URI to poll for result"
           }
         }
       },

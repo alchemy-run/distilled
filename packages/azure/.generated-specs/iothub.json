@@ -24,7 +24,7 @@
         "target": "com.azure.iothub#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "com.azure.iothub#PrivateEndpointConnection"
+        "target": "com.azure.iothub#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -37,7 +37,7 @@
         "com.distilled.openapi#apiVersion": "2023-06-30"
       }
     },
-    "com.azure.iothub#PrivateEndpointConnection": {
+    "com.azure.iothub#DeletePrivateEndpointConnectionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -63,10 +63,24 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL to query for status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The private endpoint connection of an IotHub"
+        "smithy.api#documentation": "The private endpoint connection of an IotHub",
+        "smithy.api#output": {}
       }
     },
     "com.azure.iothub#PrivateEndpointConnectionProperties": {
@@ -217,6 +231,38 @@
         },
         "smithy.api#documentation": "Update private endpoint connection\n\nUpdate the status of a private endpoint connection with the specified name",
         "com.distilled.openapi#apiVersion": "2023-06-30"
+      }
+    },
+    "com.azure.iothub#PrivateEndpointConnection": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource identifier."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource name."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The resource type."
+          }
+        },
+        "properties": {
+          "target": "com.azure.iothub#PrivateEndpointConnectionProperties",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The private endpoint connection of an IotHub"
       }
     },
     "com.azure.iothub#UpdatePrivateEndpointConnectionRequest": {
@@ -638,7 +684,7 @@
         "target": "com.azure.iothub#IotHubManualFailoverRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.iothub#IotHubManualFailoverResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -649,6 +695,27 @@
         },
         "smithy.api#documentation": "Manually initiate a failover for the IoT Hub to its secondary region\n\nManually initiate a failover for the IoT Hub to its secondary region. To learn more, see https://aka.ms/manualfailover",
         "com.distilled.openapi#apiVersion": "2023-06-30"
+      }
+    },
+    "com.azure.iothub#IotHubManualFailoverResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL to query for status of the operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.iothub#IotHubManualFailoverRequest": {
@@ -5651,6 +5718,19 @@
           "target": "com.azure.iothub#SystemData",
           "traits": {
             "smithy.api#documentation": "The system meta data relating to this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL to query for status of the operation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },

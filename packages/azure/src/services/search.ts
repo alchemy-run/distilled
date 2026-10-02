@@ -381,9 +381,20 @@ export const DeleteSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSharedPrivateLinkResourceRequest",
 }) as any as S.Schema<DeleteSharedPrivateLinkResourceRequest>;
 
-export interface DeleteSharedPrivateLinkResourceResponse {}
+export interface DeleteSharedPrivateLinkResourceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSharedPrivateLinkResourceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteSharedPrivateLinkResourceResponse",
 }) as any as S.Schema<DeleteSharedPrivateLinkResourceResponse>;
@@ -2007,9 +2018,16 @@ export const NetworkSecurityPerimeterConfigurationsReconcileRequest =
     identifier: "NetworkSecurityPerimeterConfigurationsReconcileRequest",
   }) as any as S.Schema<NetworkSecurityPerimeterConfigurationsReconcileRequest>;
 
-export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {}
+export interface NetworkSecurityPerimeterConfigurationsReconcileResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const NetworkSecurityPerimeterConfigurationsReconcileResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "NetworkSecurityPerimeterConfigurationsReconcileResponse",
   }) as any as S.Schema<NetworkSecurityPerimeterConfigurationsReconcileResponse>;
 
@@ -2274,6 +2292,10 @@ export interface ServicesCreateOrUpdateResponse {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2286,6 +2308,8 @@ export const ServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SearchServiceProperties),
     sku: S.optional(Sku),
     identity: S.optional(Identity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ServicesCreateOrUpdateResponse",
@@ -2344,6 +2368,10 @@ export interface ServicesUpgradeResponse {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ServicesUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2356,6 +2384,8 @@ export const ServicesUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SearchServiceProperties),
     sku: S.optional(Sku),
     identity: S.optional(Identity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ServicesUpgradeResponse",
@@ -2404,6 +2434,8 @@ export interface SharedPrivateLinkResourcesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Describes the properties of a shared private link resource managed by the Azure AI Search service. */
   properties?: SharedPrivateLinkResourceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
 export const SharedPrivateLinkResourcesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2413,6 +2445,9 @@ export const SharedPrivateLinkResourcesCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SharedPrivateLinkResourceProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "SharedPrivateLinkResourcesCreateOrUpdateResponse",

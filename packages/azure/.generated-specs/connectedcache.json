@@ -978,7 +978,7 @@
         "target": "com.azure.connectedcache#DeleteIspCacheNodesOperationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedcache#DeleteIspCacheNodesOperationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -989,6 +989,28 @@
         },
         "smithy.api#documentation": "This api deletes an existing ispCacheNode resource",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.connectedcache#DeleteIspCacheNodesOperationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedcache#DeleteIspCacheNodesOperationRequest": {
@@ -2361,6 +2383,20 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3050,7 +3086,7 @@
         "target": "com.azure.connectedcache#DeleteIspCustomerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedcache#DeleteIspCustomerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3061,6 +3097,28 @@
         },
         "smithy.api#documentation": "This api deletes an existing ispCustomer resource",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.connectedcache#DeleteIspCustomerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedcache#DeleteIspCustomerRequest": {
@@ -3732,6 +3790,20 @@
           "target": "com.azure.connectedcache#CustomerProperty",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4798,7 +4870,7 @@
         "target": "com.azure.connectedcache#DeleteEnterpriseMccCacheNodesOperationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedcache#DeleteEnterpriseMccCacheNodesOperationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4809,6 +4881,28 @@
         },
         "smithy.api#documentation": "This api deletes an existing ispCacheNode resource",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.connectedcache#DeleteEnterpriseMccCacheNodesOperationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedcache#DeleteEnterpriseMccCacheNodesOperationRequest": {
@@ -5054,6 +5148,20 @@
           "target": "com.azure.connectedcache#CacheNodeProperty",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5416,7 +5524,7 @@
         "target": "com.azure.connectedcache#DeleteEnterpriseMccCustomerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.connectedcache#DeleteEnterpriseMccCustomerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5427,6 +5535,28 @@
         },
         "smithy.api#documentation": "This api deletes an existing enterprise mcc customer resource",
         "com.distilled.openapi#apiVersion": "2026-06-01"
+      }
+    },
+    "com.azure.connectedcache#DeleteEnterpriseMccCustomerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.connectedcache#DeleteEnterpriseMccCustomerRequest": {
@@ -5656,6 +5786,20 @@
           "target": "com.azure.connectedcache#CustomerProperty",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

@@ -1479,6 +1479,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with a function."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -1582,6 +1589,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with a function."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -1684,6 +1698,13 @@
           "target": "com.azure.streamanalytics#FunctionProperties",
           "traits": {
             "smithy.api#documentation": "The properties that are associated with a function."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
           }
         }
       },
@@ -2260,6 +2281,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with an input. Required on PUT (CreateOrReplace) requests."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -2363,6 +2391,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with an input. Required on PUT (CreateOrReplace) requests."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -2465,6 +2500,13 @@
           "target": "com.azure.streamanalytics#InputProperties",
           "traits": {
             "smithy.api#documentation": "The properties that are associated with an input. Required on PUT (CreateOrReplace) requests."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the input. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
           }
         }
       },
@@ -2983,6 +3025,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with an output. Required on PUT (CreateOrReplace) requests."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -3086,6 +3135,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with an output. Required on PUT (CreateOrReplace) requests."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -3188,6 +3244,13 @@
           "target": "com.azure.streamanalytics#OutputProperties",
           "traits": {
             "smithy.api#documentation": "The properties that are associated with an output. Required on PUT (CreateOrReplace) requests."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the output. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
           }
         }
       },
@@ -4857,6 +4920,13 @@
           "traits": {
             "smithy.api#documentation": "Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -5312,6 +5382,13 @@
           "traits": {
             "smithy.api#documentation": "Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -5460,6 +5537,13 @@
           "target": "com.azure.streamanalytics#Identity",
           "traits": {
             "smithy.api#documentation": "Describes the system-assigned managed identity assigned to this job that can be used to authenticate with inputs and outputs."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the streaming job. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
           }
         }
       },
@@ -5787,6 +5871,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -5890,6 +5981,13 @@
           "traits": {
             "smithy.api#documentation": "The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
+          }
         }
       },
       "traits": {
@@ -5992,6 +6090,13 @@
           "target": "com.azure.streamanalytics#TransformationProperties",
           "traits": {
             "smithy.api#documentation": "The properties that are associated with a transformation. Required on PUT (CreateOrReplace) requests."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "The current entity tag for the transformation. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency."
           }
         }
       },

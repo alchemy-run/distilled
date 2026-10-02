@@ -178,7 +178,7 @@
         "target": "com.azure.elastic#MonitorUpgradeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#MonitorUpgradeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -189,6 +189,28 @@
         },
         "smithy.api#documentation": "Upgrade the Elastic monitor resource to a newer version, ensuring optimal observability and performance.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#MonitorUpgradeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#MonitorUpgradeRequest": {
@@ -235,7 +257,7 @@
         "target": "com.azure.elastic#DeleteTagRuleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#DeleteTagRuleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -246,6 +268,28 @@
         },
         "smithy.api#documentation": "Delete a tag rule set for a given Elastic monitor resource, removing fine-grained control over observability based on resource tags.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#DeleteTagRuleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#DeleteTagRuleRequest": {
@@ -963,6 +1007,20 @@
           "target": "com.azure.elastic#IdentityProperties",
           "traits": {
             "smithy.api#documentation": "Identity properties of the monitor resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2079,7 +2137,7 @@
         "target": "com.azure.elastic#DeleteMonitoredSubscriptionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#DeleteMonitoredSubscriptionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2090,6 +2148,28 @@
         },
         "smithy.api#documentation": "Delete subscriptions being monitored by the Elastic monitor resource, removing their observability and monitoring capabilities.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#DeleteMonitoredSubscriptionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#DeleteMonitoredSubscriptionRequest": {
@@ -2182,6 +2262,20 @@
           "target": "com.azure.elastic#SubscriptionList",
           "traits": {
             "smithy.api#documentation": "The request to update subscriptions needed to be monitored by the Elastic monitor resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2421,6 +2515,20 @@
           "target": "com.azure.elastic#SubscriptionList",
           "traits": {
             "smithy.api#documentation": "The request to update subscriptions needed to be monitored by the Elastic monitor resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3671,7 +3779,7 @@
         "target": "com.azure.elastic#UpdateDetachTrafficFilterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#UpdateDetachTrafficFilterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3682,6 +3790,28 @@
         },
         "smithy.api#documentation": "Detach an existing traffic filter from your Elastic monitor resource, removing its network traffic control capabilities.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#UpdateDetachTrafficFilterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#UpdateDetachTrafficFilterRequest": {
@@ -3950,7 +4080,7 @@
         "target": "com.azure.elastic#CreateCreateAndAssociatePLFilterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#CreateCreateAndAssociatePLFilterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3961,6 +4091,28 @@
         },
         "smithy.api#documentation": "Create and associate a PL filter with your Elastic monitor resource to control and manage network traffic.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#CreateCreateAndAssociatePLFilterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#CreateCreateAndAssociatePLFilterRequest": {
@@ -4022,7 +4174,7 @@
         "target": "com.azure.elastic#CreateCreateAndAssociateIPFilterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#CreateCreateAndAssociateIPFilterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4033,6 +4185,28 @@
         },
         "smithy.api#documentation": "Create and associate an IP filter with your Elastic monitor resource to control and manage network traffic.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#CreateCreateAndAssociateIPFilterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#CreateCreateAndAssociateIPFilterRequest": {
@@ -4087,7 +4261,7 @@
         "target": "com.azure.elastic#AssociateTrafficFilterAssociateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#AssociateTrafficFilterAssociateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4098,6 +4272,28 @@
         },
         "smithy.api#documentation": "Associate a traffic filter with your Elastic monitor resource to control and manage network traffic.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#AssociateTrafficFilterAssociateResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#AssociateTrafficFilterAssociateRequest": {
@@ -4145,7 +4341,7 @@
         "target": "com.azure.elastic#DeleteMonitorRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.elastic#DeleteMonitorResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4156,6 +4352,28 @@
         },
         "smithy.api#documentation": "Delete an existing Elastic monitor resource from your Azure subscription, removing its observability and monitoring capabilities.",
         "com.distilled.openapi#apiVersion": "2025-06-01"
+      }
+    },
+    "com.azure.elastic#DeleteMonitorResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.elastic#DeleteMonitorRequest": {
@@ -4271,6 +4489,13 @@
           "target": "com.azure.elastic#IdentityProperties",
           "traits": {
             "smithy.api#documentation": "Identity properties of the monitor resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -4420,6 +4645,20 @@
           "target": "com.azure.elastic#IdentityProperties",
           "traits": {
             "smithy.api#documentation": "Identity properties of the monitor resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

@@ -2101,6 +2101,13 @@
           "traits": {
             "smithy.api#documentation": "Kind of resource"
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -3169,6 +3176,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Kind of resource"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },

@@ -277,6 +277,10 @@ export interface CreateCommunicationResponse {
   systemData?: SystemData;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCommunicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -285,6 +289,8 @@ export const CreateCommunicationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: CommunicationDetailsProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCommunicationResponse",
@@ -327,6 +333,10 @@ export interface CreateCommunicationsNoSubscriptionResponse {
   systemData?: SystemData;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCommunicationsNoSubscriptionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -336,6 +346,8 @@ export const CreateCommunicationsNoSubscriptionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: CommunicationDetailsProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateCommunicationsNoSubscriptionResponse",
@@ -986,6 +998,10 @@ export interface CreateSupportTicketResponse {
   systemData?: SystemData;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSupportTicketResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -994,6 +1010,8 @@ export const CreateSupportTicketResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: SupportTicketDetailsProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSupportTicketResponse",
@@ -1033,6 +1051,10 @@ export interface CreateSupportTicketsNoSubscriptionResponse {
   systemData?: SystemData;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSupportTicketsNoSubscriptionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1042,6 +1064,8 @@ export const CreateSupportTicketsNoSubscriptionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: SupportTicketDetailsProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateSupportTicketsNoSubscriptionResponse",

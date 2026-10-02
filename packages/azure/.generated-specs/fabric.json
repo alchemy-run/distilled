@@ -24,7 +24,7 @@
         "target": "com.azure.fabric#SuspendFabricCapacityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.fabric#SuspendFabricCapacityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Suspend operation of the specified Fabric capacity instance.",
         "com.distilled.openapi#apiVersion": "2023-11-01"
+      }
+    },
+    "com.azure.fabric#SuspendFabricCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.fabric#SuspendFabricCapacityRequest": {
@@ -214,7 +236,7 @@
         "target": "com.azure.fabric#ResumeFabricCapacityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.fabric#ResumeFabricCapacityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -225,6 +247,28 @@
         },
         "smithy.api#documentation": "Resume operation of the specified Fabric capacity instance.",
         "com.distilled.openapi#apiVersion": "2023-11-01"
+      }
+    },
+    "com.azure.fabric#ResumeFabricCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.fabric#ResumeFabricCapacityRequest": {
@@ -265,7 +309,7 @@
         "target": "com.azure.fabric#DeleteFabricCapacityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.fabric#DeleteFabricCapacityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -276,6 +320,28 @@
         },
         "smithy.api#documentation": "Delete a FabricCapacity",
         "com.distilled.openapi#apiVersion": "2023-11-01"
+      }
+    },
+    "com.azure.fabric#DeleteFabricCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.fabric#DeleteFabricCapacityRequest": {
@@ -381,6 +447,20 @@
           "traits": {
             "smithy.api#documentation": "The SKU details",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -830,6 +910,20 @@
           "traits": {
             "smithy.api#documentation": "The SKU details",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

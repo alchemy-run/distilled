@@ -396,6 +396,10 @@ export interface CreateElasticSanResponse {
   location: string;
   /** Properties of ElasticSan. */
   properties: ElasticSanProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateElasticSanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -406,6 +410,8 @@ export const CreateElasticSanResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateElasticSanResponseTagsMap),
     location: S.String,
     properties: ElasticSanProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateElasticSanResponse",
@@ -492,6 +498,10 @@ export interface CreatePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Private Endpoint Connection Properties. */
   properties: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -501,6 +511,8 @@ export const CreatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: PrivateEndpointConnectionProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreatePrivateEndpointConnectionResponse",
@@ -671,6 +683,10 @@ export interface CreateVolumeResponse {
   systemData?: SystemData;
   /** Properties of Volume. */
   properties: VolumeProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -679,6 +695,8 @@ export const CreateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: VolumeProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateVolumeResponse",
@@ -1012,6 +1030,10 @@ export interface CreateVolumeGroupResponse {
   identity?: Identity;
   /** Properties of VolumeGroup. */
   properties?: VolumeGroupProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateVolumeGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1021,6 +1043,8 @@ export const CreateVolumeGroupResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     identity: S.optional(Identity),
     properties: S.optional(VolumeGroupProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateVolumeGroupResponse",
@@ -1119,6 +1143,10 @@ export interface CreateVolumeSnapshotResponse {
   systemData?: SystemData;
   /** Properties of Volume Snapshot. */
   properties: SnapshotProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateVolumeSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1127,6 +1155,8 @@ export const CreateVolumeSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: SnapshotProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateVolumeSnapshotResponse",
@@ -1157,9 +1187,17 @@ export const DeleteElasticSanRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteElasticSanRequest",
 }) as any as S.Schema<DeleteElasticSanRequest>;
 
-export interface DeleteElasticSanResponse {}
+export interface DeleteElasticSanResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteElasticSanResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteElasticSanResponse",
 }) as any as S.Schema<DeleteElasticSanResponse>;
@@ -1193,9 +1231,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -1231,9 +1278,17 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVolumeRequest",
 }) as any as S.Schema<DeleteVolumeRequest>;
 
-export interface DeleteVolumeResponse {}
+export interface DeleteVolumeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVolumeResponse",
 }) as any as S.Schema<DeleteVolumeResponse>;
@@ -1266,9 +1321,17 @@ export const DeleteVolumeGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVolumeGroupRequest",
 }) as any as S.Schema<DeleteVolumeGroupRequest>;
 
-export interface DeleteVolumeGroupResponse {}
+export interface DeleteVolumeGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVolumeGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVolumeGroupResponse",
 }) as any as S.Schema<DeleteVolumeGroupResponse>;
@@ -1304,9 +1367,17 @@ export const DeleteVolumeSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVolumeSnapshotRequest",
 }) as any as S.Schema<DeleteVolumeSnapshotRequest>;
 
-export interface DeleteVolumeSnapshotResponse {}
+export interface DeleteVolumeSnapshotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVolumeSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVolumeSnapshotResponse",
 }) as any as S.Schema<DeleteVolumeSnapshotResponse>;
@@ -2324,10 +2395,16 @@ export const RestoreVolumesPreRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PreValidationResponse {
   /** a status value indicating success or failure of validation */
   validationStatus?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PreValidationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     validationStatus: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PreValidationResponse",
@@ -2419,6 +2496,10 @@ export interface UpdateElasticSanResponse {
   location: string;
   /** Properties of ElasticSan. */
   properties: ElasticSanProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateElasticSanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2429,6 +2510,8 @@ export const UpdateElasticSanResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateElasticSanResponseTagsMap),
     location: S.String,
     properties: ElasticSanProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateElasticSanResponse",
@@ -2495,6 +2578,10 @@ export interface UpdateVolumeResponse {
   systemData?: SystemData;
   /** Properties of Volume. */
   properties: VolumeProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2503,6 +2590,8 @@ export const UpdateVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: VolumeProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVolumeResponse",
@@ -2559,6 +2648,10 @@ export interface UpdateVolumeGroupResponse {
   identity?: Identity;
   /** Properties of VolumeGroup. */
   properties?: VolumeGroupProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVolumeGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2568,6 +2661,8 @@ export const UpdateVolumeGroupResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     identity: S.optional(Identity),
     properties: S.optional(VolumeGroupProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVolumeGroupResponse",

@@ -948,6 +948,10 @@ export interface CostDetailsOperationResults {
   validTill?: string;
   /** The details of the error. */
   error?: ErrorDetails;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const CostDetailsOperationResults = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -958,6 +962,8 @@ export const CostDetailsOperationResults = /*@__PURE__*/ S.suspend(() =>
     manifest: S.optional(ReportManifest),
     validTill: S.optional(S.String),
     error: S.optional(ErrorDetails),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "CostDetailsOperationResults",
@@ -1036,6 +1042,12 @@ export interface CreateGenerateDetailedCostReportOperationResponse {
   systemData?: SystemData;
   /** The properties of the resource generated. */
   properties?: DownloadURL;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The URL to check the status of the asynchronous operation. */
+  azureConsumptionAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const CreateGenerateDetailedCostReportOperationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1045,6 +1057,13 @@ export const CreateGenerateDetailedCostReportOperationResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(DownloadURL),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      azureConsumptionAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-Consumption-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "CreateGenerateDetailedCostReportOperationResponse",
@@ -1819,11 +1838,14 @@ export interface OperationStatus {
   status?: OperationStatusType;
   /** The properties of the resource generated. */
   properties?: ReportURL;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(OperationStatusType),
     properties: S.optional(ReportURL),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "OperationStatus",
@@ -1948,12 +1970,18 @@ export interface PricesheetDownloadProperties {
   downloadUrl?: string;
   /** The properties in downloaded file */
   downloadFileProperties?: MCAPriceSheetProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The operation entity Id GUID. */
+  oDataEntityId?: string;
 }
 export const PricesheetDownloadProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     expiryTime: S.optional(S.String),
     downloadUrl: S.optional(S.String),
     downloadFileProperties: S.optional(MCAPriceSheetProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    oDataEntityId: S.optional(S.String.pipe(T.Header("OData-EntityId"))),
   }),
 ).annotate({
   identifier: "PricesheetDownloadProperties",
@@ -1983,6 +2011,31 @@ export const DownloadPriceSheetByInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DownloadPriceSheetByInvoiceRequest",
 }) as any as S.Schema<DownloadPriceSheetByInvoiceRequest>;
+
+/** The URL to download the generated report. */
+export interface DownloadPriceSheetByInvoiceResponse {
+  /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
+  expiryTime?: string;
+  /** The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z. */
+  validTill?: string;
+  /** The URL to download the generated report. */
+  downloadUrl?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The operation entity Id GUID. */
+  oDataEntityId?: string;
+}
+export const DownloadPriceSheetByInvoiceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    expiryTime: S.optional(S.String),
+    validTill: S.optional(S.String),
+    downloadUrl: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    oDataEntityId: S.optional(S.String.pipe(T.Header("OData-EntityId"))),
+  }),
+).annotate({
+  identifier: "DownloadPriceSheetByInvoiceResponse",
+}) as any as S.Schema<DownloadPriceSheetByInvoiceResponse>;
 
 /** The date range for data in the export. This should only be specified with timeFrame set to 'Custom'. The maximum date range is 1 calendar month. */
 export interface ExportTimePeriod {
@@ -3114,6 +3167,8 @@ export interface BenefitUtilizationSummariesOperationStatus {
   status?: OperationStatusType;
   /** Contains sas url to the async benefit utilization summaries report and a date that the url is valid until. These values will be empty if the report is in a Running or Failed state */
   properties?: AsyncOperationStatusProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BenefitUtilizationSummariesOperationStatus =
   /*@__PURE__*/ S.suspend(() =>
@@ -3121,6 +3176,7 @@ export const BenefitUtilizationSummariesOperationStatus =
       input: S.optional(BenefitUtilizationSummariesRequest),
       status: S.optional(OperationStatusType),
       properties: S.optional(AsyncOperationStatusProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "BenefitUtilizationSummariesOperationStatus",
@@ -3694,6 +3750,8 @@ export interface GetGenerateDetailedCostReportOperationResultResponse {
   systemData?: SystemData;
   /** The properties of the resource generated. */
   properties?: DownloadURL;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GetGenerateDetailedCostReportOperationResultResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3703,6 +3761,7 @@ export const GetGenerateDetailedCostReportOperationResultResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(DownloadURL),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GetGenerateDetailedCostReportOperationResultResponse",
@@ -6890,12 +6949,12 @@ export type DownloadPriceSheetByInvoiceError = AzureOpError;
 /** Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement. */
 export const DownloadPriceSheetByInvoice: API.OperationMethod<
   DownloadPriceSheetByInvoiceRequest,
-  DownloadURL,
+  DownloadPriceSheetByInvoiceResponse,
   DownloadPriceSheetByInvoiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DownloadPriceSheetByInvoiceRequest,
-  output: DownloadURL,
+  output: DownloadPriceSheetByInvoiceResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -1400,6 +1400,9 @@ export interface DeleteIotHubResourceResponse {
   identity?: ArmIdentity;
   /** The system meta data relating to this resource. */
   systemData?: SystemData;
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  locationHeader?: string;
 }
 export const DeleteIotHubResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1413,6 +1416,10 @@ export const DeleteIotHubResourceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: IotHubSkuInfo,
     identity: S.optional(ArmIdentity),
     systemData: S.optional(SystemData),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "DeleteIotHubResourceResponse",
@@ -1484,6 +1491,35 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
+
+/** The private endpoint connection of an IotHub */
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The resource identifier. */
+  id?: string;
+  /** The resource name. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+  properties: PrivateEndpointConnectionProperties;
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  location?: string;
+}
+export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      name: S.optional(S.String),
+      type: S.optional(S.String),
+      properties: PrivateEndpointConnectionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+).annotate({
+  identifier: "DeletePrivateEndpointConnectionResponse",
+}) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
 
 /** Specifies authentication type being used for connecting to the storage account. */
 export type ExportIotHubResourceDevicesRequestAuthenticationType =
@@ -2443,9 +2479,18 @@ export const IotHubManualFailoverRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "IotHubManualFailoverRequest",
 }) as any as S.Schema<IotHubManualFailoverRequest>;
 
-export interface IotHubManualFailoverResponse {}
+export interface IotHubManualFailoverResponse {
+  /** URL to query for status of the operation. */
+  azureAsyncOperation?: string;
+  location?: string;
+}
 export const IotHubManualFailoverResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "IotHubManualFailoverResponse",
 }) as any as S.Schema<IotHubManualFailoverResponse>;
@@ -3929,12 +3974,12 @@ export type DeletePrivateEndpointConnectionError = AzureOpError;
 /** Delete private endpoint connection Delete private endpoint connection with the specified name */
 export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionRequest,
-  PrivateEndpointConnection,
+  DeletePrivateEndpointConnectionResponse,
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePrivateEndpointConnectionRequest,
-  output: PrivateEndpointConnection,
+  output: DeletePrivateEndpointConnectionResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

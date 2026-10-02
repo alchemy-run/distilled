@@ -38,9 +38,18 @@ export const DeleteStandbyContainerGroupPoolRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteStandbyContainerGroupPoolRequest",
 }) as any as S.Schema<DeleteStandbyContainerGroupPoolRequest>;
 
-export interface DeleteStandbyContainerGroupPoolResponse {}
+export interface DeleteStandbyContainerGroupPoolResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStandbyContainerGroupPoolResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteStandbyContainerGroupPoolResponse",
 }) as any as S.Schema<DeleteStandbyContainerGroupPoolResponse>;
@@ -71,9 +80,18 @@ export const DeleteStandbyVirtualMachinePoolRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteStandbyVirtualMachinePoolRequest",
 }) as any as S.Schema<DeleteStandbyVirtualMachinePoolRequest>;
 
-export interface DeleteStandbyVirtualMachinePoolResponse {}
+export interface DeleteStandbyVirtualMachinePoolResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStandbyVirtualMachinePoolResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteStandbyVirtualMachinePoolResponse",
 }) as any as S.Schema<DeleteStandbyVirtualMachinePoolResponse>;
@@ -1535,6 +1553,8 @@ export interface StandbyContainerGroupPoolsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: StandbyContainerGroupPoolResourceProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StandbyContainerGroupPoolsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1546,6 +1566,7 @@ export const StandbyContainerGroupPoolsCreateOrUpdateResponse =
       tags: S.optional(StandbyContainerGroupPoolsCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(StandbyContainerGroupPoolResourceProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "StandbyContainerGroupPoolsCreateOrUpdateResponse",
@@ -1644,6 +1665,8 @@ export interface StandbyVirtualMachinePoolsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: StandbyVirtualMachinePoolResourceProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StandbyVirtualMachinePoolsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1655,6 +1678,7 @@ export const StandbyVirtualMachinePoolsCreateOrUpdateResponse =
       tags: S.optional(StandbyVirtualMachinePoolsCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(StandbyVirtualMachinePoolResourceProperties),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "StandbyVirtualMachinePoolsCreateOrUpdateResponse",

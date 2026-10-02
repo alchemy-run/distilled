@@ -24,7 +24,7 @@
         "target": "com.azure.cosmos_db#DeleteFleetspaceAccountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteFleetspaceAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,35 @@
         },
         "smithy.api#documentation": "Removes an existing Azure Cosmos DB fleetspace account from a fleetspace.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteFleetspaceAccountResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteFleetspaceAccountRequest": {
@@ -135,6 +164,20 @@
           "target": "com.azure.cosmos_db#FleetspaceAccountProperties",
           "traits": {
             "smithy.api#documentation": "An Azure Cosmos DB Global Database Account which is part of a Fleetspace Account."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -650,7 +693,7 @@
         "target": "com.azure.cosmos_db#DeleteFleetspaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteFleetspaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -661,6 +704,35 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Fleetspace.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteFleetspaceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteFleetspaceRequest": {
@@ -753,6 +825,27 @@
           "target": "com.azure.cosmos_db#FleetspaceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to update Azure Cosmos DB Fleetspace."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -969,6 +1062,20 @@
           "target": "com.azure.cosmos_db#FleetspaceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to update Azure Cosmos DB Fleetspace."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1244,7 +1351,7 @@
         "target": "com.azure.cosmos_db#DeleteFleetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteFleetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1255,6 +1362,35 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Fleet.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteFleetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteFleetRequest": {
@@ -2329,6 +2465,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2682,6 +2839,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2808,6 +2986,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3151,6 +3350,20 @@
           "traits": {
             "smithy.api#documentation": "Information about the status of continuous backups."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3223,7 +3436,7 @@
         "target": "com.azure.cosmos_db#DeleteTableResourceTableRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteTableResourceTableResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3234,6 +3447,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Table.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteTableResourceTableResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteTableResourceTableRequest": {
@@ -3344,6 +3579,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3941,7 +4197,7 @@
         "target": "com.azure.cosmos_db#DeleteTableResourceTableRoleDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteTableResourceTableRoleDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3952,6 +4208,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Table Role Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteTableResourceTableRoleDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteTableResourceTableRoleDefinitionRequest": {
@@ -4044,6 +4322,20 @@
           "target": "com.azure.cosmos_db#TableRoleDefinitionResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB Table Role Definition."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -4439,7 +4731,7 @@
         "target": "com.azure.cosmos_db#DeleteTableResourceTableRoleAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteTableResourceTableRoleAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4450,6 +4742,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Table Role Assignment.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteTableResourceTableRoleAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteTableResourceTableRoleAssignmentRequest": {
@@ -4542,6 +4856,27 @@
           "target": "com.azure.cosmos_db#TableRoleAssignmentResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB Table Role Assignment."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4875,7 +5210,7 @@
         "target": "com.azure.cosmos_db#DeleteSqlResourceSqlRoleDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteSqlResourceSqlRoleDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4886,6 +5221,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL Role Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteSqlResourceSqlRoleDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteSqlResourceSqlRoleDefinitionRequest": {
@@ -4978,6 +5335,20 @@
           "target": "com.azure.cosmos_db#SqlRoleDefinitionResource",
           "traits": {
             "smithy.api#documentation": "Properties related to the Role Definition."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5299,7 +5670,7 @@
         "target": "com.azure.cosmos_db#DeleteSqlResourceSqlRoleAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteSqlResourceSqlRoleAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5310,6 +5681,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL Role Assignment.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteSqlResourceSqlRoleAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteSqlResourceSqlRoleAssignmentRequest": {
@@ -5402,6 +5795,20 @@
           "target": "com.azure.cosmos_db#SqlRoleAssignmentResource",
           "traits": {
             "smithy.api#documentation": "Properties related to the Role Assignment."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5762,6 +6169,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -5889,6 +6317,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -6015,6 +6464,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6244,7 +6714,7 @@
         "target": "com.azure.cosmos_db#DeleteSqlResourceSqlUserDefinedFunctionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteSqlResourceSqlUserDefinedFunctionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6255,6 +6725,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL userDefinedFunction.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteSqlResourceSqlUserDefinedFunctionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteSqlResourceSqlUserDefinedFunctionRequest": {
@@ -6381,6 +6873,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6893,7 +7406,7 @@
         "target": "com.azure.cosmos_db#SqlResourcesDeleteSqlTriggerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#SqlResourcesDeleteSqlTriggerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6904,6 +7417,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL trigger.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#SqlResourcesDeleteSqlTriggerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#SqlResourcesDeleteSqlTriggerRequest": {
@@ -7030,6 +7565,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7687,6 +8243,20 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -7822,6 +8392,20 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -7956,6 +8540,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8201,7 +8806,7 @@
         "target": "com.azure.cosmos_db#DeleteSqlResourceSqlStoredProcedureRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteSqlResourceSqlStoredProcedureResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8212,6 +8817,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL storedProcedure.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteSqlResourceSqlStoredProcedureResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteSqlResourceSqlStoredProcedureRequest": {
@@ -8338,6 +8965,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8923,7 +9571,7 @@
         "target": "com.azure.cosmos_db#DeleteSqlResourceSqlContainerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteSqlResourceSqlContainerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8934,6 +9582,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL container.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteSqlResourceSqlContainerResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteSqlResourceSqlContainerRequest": {
@@ -9052,6 +9722,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10717,6 +11408,27 @@
           "traits": {
             "smithy.api#documentation": "The properties of a ClientEncryptionKey"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -11150,7 +11862,7 @@
         "target": "com.azure.cosmos_db#DeleteSqlResourceSqlDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteSqlResourceSqlDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11161,6 +11873,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB SQL database.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteSqlResourceSqlDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteSqlResourceSqlDatabaseRequest": {
@@ -11271,6 +12005,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -11877,7 +12632,7 @@
         "target": "com.azure.cosmos_db#DeleteServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11888,6 +12643,28 @@
         },
         "smithy.api#documentation": "Deletes service with the given serviceName.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteServiceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteServiceRequest": {
@@ -11980,6 +12757,20 @@
           "target": "com.azure.cosmos_db#ServiceResourceProperties",
           "traits": {
             "smithy.api#documentation": "Services response resource."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -12957,7 +13748,7 @@
         "target": "com.azure.cosmos_db#RegenerateDatabaseAccountKeyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#RegenerateDatabaseAccountKeyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12968,6 +13759,35 @@
         },
         "smithy.api#documentation": "Regenerates an access key for the specified Azure Cosmos DB database account.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#RegenerateDatabaseAccountKeyResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#RegenerateDatabaseAccountKeyRequest": {
@@ -13425,7 +14245,7 @@
         "target": "com.azure.cosmos_db#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13436,6 +14256,28 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection with a given name.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeletePrivateEndpointConnectionRequest": {
@@ -13528,6 +14370,20 @@
           "target": "com.azure.cosmos_db#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -13982,7 +14838,7 @@
         "target": "com.azure.cosmos_db#DatabaseAccountsOnlineRegionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DatabaseAccountsOnlineRegionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13993,6 +14849,35 @@
         },
         "smithy.api#documentation": "Online the specified region for the specified Azure Cosmos DB database account.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DatabaseAccountsOnlineRegionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DatabaseAccountsOnlineRegionRequest": {
@@ -14040,7 +14925,7 @@
         "target": "com.azure.cosmos_db#DatabaseAccountsOfflineRegionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DatabaseAccountsOfflineRegionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14051,6 +14936,35 @@
         },
         "smithy.api#documentation": "Offline the specified region for the specified Azure Cosmos DB database account.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DatabaseAccountsOfflineRegionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DatabaseAccountsOfflineRegionRequest": {
@@ -14098,7 +15012,7 @@
         "target": "com.azure.cosmos_db#StartNotebookWorkspaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#StartNotebookWorkspaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14109,6 +15023,28 @@
         },
         "smithy.api#documentation": "Starts the notebook workspace",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#StartNotebookWorkspaceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#StartNotebookWorkspaceRequest": {
@@ -14169,7 +15105,7 @@
         "target": "com.azure.cosmos_db#RegenerateNotebookWorkspaceAuthTokenRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#RegenerateNotebookWorkspaceAuthTokenResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14180,6 +15116,28 @@
         },
         "smithy.api#documentation": "Regenerates the auth token for the notebook workspace",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#RegenerateNotebookWorkspaceAuthTokenResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#RegenerateNotebookWorkspaceAuthTokenRequest": {
@@ -14331,7 +15289,7 @@
         "target": "com.azure.cosmos_db#DeleteNotebookWorkspaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteNotebookWorkspaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14342,6 +15300,28 @@
         },
         "smithy.api#documentation": "Deletes the notebook workspace for a Cosmos DB account.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteNotebookWorkspaceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteNotebookWorkspaceRequest": {
@@ -14446,6 +15426,13 @@
           "target": "com.azure.cosmos_db#NotebookWorkspaceProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -14755,7 +15742,7 @@
         "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoUserDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoUserDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14766,6 +15753,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Mongo User Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteMongoDBResourceMongoUserDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteMongoDBResourceMongoUserDefinitionRequest": {
@@ -14858,6 +15867,20 @@
           "target": "com.azure.cosmos_db#MongoUserDefinitionResource",
           "traits": {
             "smithy.api#documentation": "Properties related to the User Definition."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -15203,7 +16226,7 @@
         "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoRoleDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoRoleDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15214,6 +16237,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Mongo Role Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteMongoDBResourceMongoRoleDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteMongoDBResourceMongoRoleDefinitionRequest": {
@@ -15306,6 +16351,20 @@
           "target": "com.azure.cosmos_db#MongoRoleDefinitionResource",
           "traits": {
             "smithy.api#documentation": "Properties related to the Mongo Role Definition."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -15765,6 +16824,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -15892,6 +16972,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16018,6 +17119,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -16310,6 +17432,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16445,6 +17588,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -16579,6 +17743,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -16897,7 +18082,7 @@
         "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBCollectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBCollectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16908,6 +18093,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB MongoDB Collection.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBCollectionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBCollectionRequest": {
@@ -17026,6 +18233,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -17710,7 +18938,7 @@
         "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -17721,6 +18949,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB MongoDB database.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteMongoDBResourceMongoDBDatabaseRequest": {
@@ -17831,6 +19081,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18350,7 +19621,7 @@
         "target": "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18361,6 +19632,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB MongoMI Role Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleDefinitionRequest": {
@@ -18453,6 +19746,27 @@
           "target": "com.azure.cosmos_db#MongoMIRoleDefinitionResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB MongoMI Role Definition."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -18784,7 +20098,7 @@
         "target": "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -18795,6 +20109,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB MongoMI Role Assignment.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteMongoMIResourceMongoMIRoleAssignmentRequest": {
@@ -18887,6 +20223,27 @@
           "target": "com.azure.cosmos_db#MongoMIRoleAssignmentResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB MongoMI Role Assignment."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -19751,7 +21108,7 @@
         "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -19762,6 +21119,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Gremlin Role Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleDefinitionRequest": {
@@ -19854,6 +21233,27 @@
           "target": "com.azure.cosmos_db#GremlinRoleDefinitionResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB Gremlin Role Definition."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -20185,7 +21585,7 @@
         "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -20196,6 +21596,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Gremlin Role Assignment.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteGremlinResourceGremlinRoleAssignmentRequest": {
@@ -20288,6 +21710,27 @@
           "target": "com.azure.cosmos_db#GremlinRoleAssignmentResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB Gremlin Role Assignment."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -20684,6 +22127,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -20811,6 +22275,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -20937,6 +22422,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -21229,6 +22735,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -21364,6 +22891,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -21498,6 +23046,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -21816,7 +23385,7 @@
         "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinGraphRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinGraphResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -21827,6 +23396,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Gremlin graph.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteGremlinResourceGremlinGraphResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteGremlinResourceGremlinGraphRequest": {
@@ -21945,6 +23536,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -22560,7 +24172,7 @@
         "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinDatabaseRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteGremlinResourceGremlinDatabaseResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22571,6 +24183,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Gremlin database.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteGremlinResourceGremlinDatabaseResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteGremlinResourceGremlinDatabaseRequest": {
@@ -22681,6 +24315,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -23200,7 +24855,7 @@
         "target": "com.azure.cosmos_db#DatabaseAccountsFailoverPriorityChangeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DatabaseAccountsFailoverPriorityChangeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -23211,6 +24866,35 @@
         },
         "smithy.api#documentation": "Changes the failover priority for the Azure Cosmos DB database account. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DatabaseAccountsFailoverPriorityChangeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DatabaseAccountsFailoverPriorityChangeRequest": {
@@ -24003,7 +25687,7 @@
         "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -24014,6 +25698,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Cassandra Role Definition.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleDefinitionRequest": {
@@ -24106,6 +25812,27 @@
           "target": "com.azure.cosmos_db#CassandraRoleDefinitionResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB Cassandra Role Definition."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -24437,7 +26164,7 @@
         "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleAssignmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleAssignmentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -24448,6 +26175,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Cassandra Role Assignment.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleAssignmentResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteCassandraResourceCassandraRoleAssignmentRequest": {
@@ -24540,6 +26289,27 @@
           "target": "com.azure.cosmos_db#CassandraRoleAssignmentResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties to create and update an Azure Cosmos DB Cassandra Role Assignment."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -24936,6 +26706,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -25063,6 +26854,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -25189,6 +27001,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -25481,6 +27314,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -25616,6 +27470,27 @@
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -25750,6 +27625,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -25995,7 +27891,7 @@
         "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraTableRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraTableResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -26006,6 +27902,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Cassandra table.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteCassandraResourceCassandraTableResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteCassandraResourceCassandraTableRequest": {
@@ -26124,6 +28042,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -26746,7 +28685,7 @@
         "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraKeyspaceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteCassandraResourceCassandraKeyspaceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -26757,6 +28696,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB Cassandra keyspace.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteCassandraResourceCassandraKeyspaceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteCassandraResourceCassandraKeyspaceRequest": {
@@ -26867,6 +28828,27 @@
           "target": "com.azure.cosmos_db#ManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -27322,7 +29304,7 @@
         "target": "com.azure.cosmos_db#DeleteDatabaseAccountRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteDatabaseAccountResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -27333,6 +29315,28 @@
         },
         "smithy.api#documentation": "Deletes an existing Azure Cosmos DB database account.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteDatabaseAccountResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteDatabaseAccountRequest": {
@@ -27441,6 +29445,13 @@
           "target": "com.azure.cosmos_db#UpdateDatabaseAccountResponseKind",
           "traits": {
             "smithy.api#documentation": "Indicates the type of database account. This can only be set at database account creation."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -29043,6 +31054,13 @@
           "traits": {
             "smithy.api#documentation": "Indicates the type of database account. This can only be set at database account creation."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -30279,7 +32297,7 @@
         "target": "com.azure.cosmos_db#StartCassandraClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#StartCassandraClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -30290,6 +32308,28 @@
         },
         "smithy.api#documentation": "Start the Managed Cassandra Cluster and Associated Data Centers. Start will start the host virtual machine of this cluster with reserved data disk. This won't do anything on an already running cluster. Use Deallocate to deallocate the cluster.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#StartCassandraClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#StartCassandraClusterRequest": {
@@ -30330,7 +32370,7 @@
         "target": "com.azure.cosmos_db#InvokeCassandraClusterCommandRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#InvokeCassandraClusterCommandResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -30341,6 +32381,28 @@
         },
         "smithy.api#documentation": "Invoke a command like nodetool for cassandra maintenance",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#InvokeCassandraClusterCommandResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#InvokeCassandraClusterCommandRequest": {
@@ -30426,7 +32488,7 @@
         "target": "com.azure.cosmos_db#CassandraClustersDeallocateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#CassandraClustersDeallocateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -30437,6 +32499,28 @@
         },
         "smithy.api#documentation": "Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an already deallocated cluster. Use Start to restart the cluster.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#CassandraClustersDeallocateResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#CassandraClustersDeallocateRequest": {
@@ -30477,7 +32561,7 @@
         "target": "com.azure.cosmos_db#DeleteCassandraDataCenterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteCassandraDataCenterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -30488,6 +32572,28 @@
         },
         "smithy.api#documentation": "Delete a managed Cassandra data center.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteCassandraDataCenterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteCassandraDataCenterRequest": {
@@ -30580,6 +32686,20 @@
           "target": "com.azure.cosmos_db#DataCenterResourceProperties",
           "traits": {
             "smithy.api#documentation": "Properties of a managed Cassandra data center."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -31024,6 +33144,20 @@
           "traits": {
             "smithy.api#documentation": "Properties of a managed Cassandra data center."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -31294,7 +33428,7 @@
         "target": "com.azure.cosmos_db#DeleteCassandraClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.cosmos_db#DeleteCassandraClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -31305,6 +33439,28 @@
         },
         "smithy.api#documentation": "Deletes a managed Cassandra cluster.",
         "com.distilled.openapi#apiVersion": "2026-03-15"
+      }
+    },
+    "com.azure.cosmos_db#DeleteCassandraClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.cosmos_db#DeleteCassandraClusterRequest": {
@@ -31407,6 +33563,20 @@
           "target": "com.azure.cosmos_db#ManagedCassandraManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -32170,6 +34340,20 @@
           "target": "com.azure.cosmos_db#ManagedCassandraManagedServiceIdentity",
           "traits": {
             "smithy.api#documentation": "Identity for the resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

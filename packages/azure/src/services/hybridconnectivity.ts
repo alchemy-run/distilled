@@ -1936,6 +1936,10 @@ export interface PublicCloudConnectorsCreateOrUpdateResponse {
   properties?: PublicCloudConnectorProperties;
   /** The kind of the public cloud connector. */
   kind?: HostType;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PublicCloudConnectorsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1948,6 +1952,10 @@ export const PublicCloudConnectorsCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(PublicCloudConnectorProperties),
       kind: S.optional(HostType),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PublicCloudConnectorsCreateOrUpdateResponse",
@@ -2151,6 +2159,10 @@ export interface SyncSolutionConfigurationNowResponse {
   operations?: SyncSolutionConfigurationNowResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SyncSolutionConfigurationNowResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2166,6 +2178,8 @@ export const SyncSolutionConfigurationNowResponse = /*@__PURE__*/ S.suspend(
         SyncSolutionConfigurationNowResponseOperationsList,
       ),
       error: S.optional(ErrorDetail),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SyncSolutionConfigurationNowResponse",
@@ -2224,6 +2238,10 @@ export interface TestPublicCloudConnectorPermissionsResponse {
   operations?: TestPublicCloudConnectorPermissionsResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TestPublicCloudConnectorPermissionsResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2239,6 +2257,8 @@ export const TestPublicCloudConnectorPermissionsResponse =
         TestPublicCloudConnectorPermissionsResponseOperationsList,
       ),
       error: S.optional(ErrorDetail),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "TestPublicCloudConnectorPermissionsResponse",

@@ -37,9 +37,17 @@ export const DeletePrivateZoneRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePrivateZoneRequest",
 }) as any as S.Schema<DeletePrivateZoneRequest>;
 
-export interface DeletePrivateZoneResponse {}
+export interface DeletePrivateZoneResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateZoneResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePrivateZoneResponse",
 }) as any as S.Schema<DeletePrivateZoneResponse>;
@@ -121,9 +129,17 @@ export const DeleteVirtualNetworkLinkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualNetworkLinkRequest",
 }) as any as S.Schema<DeleteVirtualNetworkLinkRequest>;
 
-export interface DeleteVirtualNetworkLinkResponse {}
+export interface DeleteVirtualNetworkLinkResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVirtualNetworkLinkResponse",
 }) as any as S.Schema<DeleteVirtualNetworkLinkResponse>;
@@ -1087,6 +1103,10 @@ export interface PrivateZonesCreateOrUpdateResponse {
   location?: string;
   /** The ETag of the zone. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PrivateZonesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1098,6 +1118,8 @@ export const PrivateZonesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(PrivateZonesCreateOrUpdateResponseTagsMap),
     location: S.optional(S.String),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PrivateZonesCreateOrUpdateResponse",
@@ -1335,6 +1357,10 @@ export interface UpdatePrivateZoneResponse {
   location?: string;
   /** The ETag of the zone. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePrivateZoneResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1346,6 +1372,8 @@ export const UpdatePrivateZoneResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdatePrivateZoneResponseTagsMap),
     location: S.optional(S.String),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdatePrivateZoneResponse",
@@ -1520,6 +1548,10 @@ export interface UpdateVirtualNetworkLinkResponse {
   location?: string;
   /** The ETag of the virtual network link. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1531,6 +1563,8 @@ export const UpdateVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateVirtualNetworkLinkResponseTagsMap),
     location: S.optional(S.String),
     etag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVirtualNetworkLinkResponse",
@@ -1614,6 +1648,10 @@ export interface VirtualNetworkLinksCreateOrUpdateResponse {
   location?: string;
   /** The ETag of the virtual network link. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VirtualNetworkLinksCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1626,6 +1664,8 @@ export const VirtualNetworkLinksCreateOrUpdateResponse =
       tags: S.optional(VirtualNetworkLinksCreateOrUpdateResponseTagsMap),
       location: S.optional(S.String),
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "VirtualNetworkLinksCreateOrUpdateResponse",

@@ -1083,6 +1083,10 @@ export interface CreateBatchAccountResponse {
   properties?: BatchAccountProperties;
   /** The identity of the Batch account. */
   identity?: BatchAccountIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateBatchAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1094,6 +1098,8 @@ export const CreateBatchAccountResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(BatchAccountProperties),
     identity: S.optional(BatchAccountIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateBatchAccountResponse",
@@ -2778,6 +2784,8 @@ export interface CreatePoolResponse {
   etag?: string;
   /** The tags of the resource. */
   tags?: CreatePoolResponseTagsMap;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const CreatePoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2789,6 +2797,7 @@ export const CreatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchPoolIdentity),
     etag: S.optional(S.String),
     tags: S.optional(CreatePoolResponseTagsMap),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "CreatePoolResponse",
@@ -2892,9 +2901,17 @@ export const DeleteBatchAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBatchAccountRequest",
 }) as any as S.Schema<DeleteBatchAccountRequest>;
 
-export interface DeleteBatchAccountResponse {}
+export interface DeleteBatchAccountResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteBatchAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteBatchAccountResponse",
 }) as any as S.Schema<DeleteBatchAccountResponse>;
@@ -2927,9 +2944,17 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePoolRequest",
 }) as any as S.Schema<DeletePoolRequest>;
 
-export interface DeletePoolResponse {}
+export interface DeletePoolResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePoolResponse",
 }) as any as S.Schema<DeletePoolResponse>;
@@ -2963,9 +2988,23 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -3024,6 +3063,8 @@ export interface DisablePoolAutoScaleResponse {
   etag?: string;
   /** The tags of the resource. */
   tags?: DisablePoolAutoScaleResponseTagsMap;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const DisablePoolAutoScaleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3035,6 +3076,7 @@ export const DisablePoolAutoScaleResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchPoolIdentity),
     etag: S.optional(S.String),
     tags: S.optional(DisablePoolAutoScaleResponseTagsMap),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "DisablePoolAutoScaleResponse",
@@ -3805,6 +3847,8 @@ export interface GetPoolResponse {
   etag?: string;
   /** The tags of the resource. */
   tags?: GetPoolResponseTagsMap;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const GetPoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3816,6 +3860,7 @@ export const GetPoolResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchPoolIdentity),
     etag: S.optional(S.String),
     tags: S.optional(GetPoolResponseTagsMap),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetPoolResponse",
@@ -4985,9 +5030,19 @@ export const NetworkSecurityPerimeterReconcileConfigurationRequest =
     identifier: "NetworkSecurityPerimeterReconcileConfigurationRequest",
   }) as any as S.Schema<NetworkSecurityPerimeterReconcileConfigurationRequest>;
 
-export interface NetworkSecurityPerimeterReconcileConfigurationResponse {}
+export interface NetworkSecurityPerimeterReconcileConfigurationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const NetworkSecurityPerimeterReconcileConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "NetworkSecurityPerimeterReconcileConfigurationResponse",
   }) as any as S.Schema<NetworkSecurityPerimeterReconcileConfigurationResponse>;
 
@@ -5045,6 +5100,8 @@ export interface PoolStopResizeResponse {
   etag?: string;
   /** The tags of the resource. */
   tags?: PoolStopResizeResponseTagsMap;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const PoolStopResizeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5056,6 +5113,7 @@ export const PoolStopResizeResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchPoolIdentity),
     etag: S.optional(S.String),
     tags: S.optional(PoolStopResizeResponseTagsMap),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "PoolStopResizeResponse",
@@ -5375,6 +5433,8 @@ export interface UpdatePoolResponse {
   etag?: string;
   /** The tags of the resource. */
   tags?: UpdatePoolResponseTagsMap;
+  /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
+  eTag?: string;
 }
 export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5386,6 +5446,7 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchPoolIdentity),
     etag: S.optional(S.String),
     tags: S.optional(UpdatePoolResponseTagsMap),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "UpdatePoolResponse",
@@ -5494,6 +5555,12 @@ export interface UpdatePrivateEndpointConnectionResponse {
   etag?: string;
   /** The tags of the resource. */
   tags?: UpdatePrivateEndpointConnectionResponseTagsMap;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -5505,6 +5572,11 @@ export const UpdatePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       properties: S.optional(PrivateEndpointConnectionProperties),
       etag: S.optional(S.String),
       tags: S.optional(UpdatePrivateEndpointConnectionResponseTagsMap),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdatePrivateEndpointConnectionResponse",

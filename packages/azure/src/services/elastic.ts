@@ -42,9 +42,18 @@ export const AssociateTrafficFilterAssociateRequest = /*@__PURE__*/ S.suspend(
   identifier: "AssociateTrafficFilterAssociateRequest",
 }) as any as S.Schema<AssociateTrafficFilterAssociateRequest>;
 
-export interface AssociateTrafficFilterAssociateResponse {}
+export interface AssociateTrafficFilterAssociateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const AssociateTrafficFilterAssociateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "AssociateTrafficFilterAssociateResponse",
 }) as any as S.Schema<AssociateTrafficFilterAssociateResponse>;
@@ -81,9 +90,18 @@ export const CreateCreateAndAssociateIPFilterRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateCreateAndAssociateIPFilterRequest",
 }) as any as S.Schema<CreateCreateAndAssociateIPFilterRequest>;
 
-export interface CreateCreateAndAssociateIPFilterResponse {}
+export interface CreateCreateAndAssociateIPFilterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CreateCreateAndAssociateIPFilterResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "CreateCreateAndAssociateIPFilterResponse",
 }) as any as S.Schema<CreateCreateAndAssociateIPFilterResponse>;
@@ -123,9 +141,18 @@ export const CreateCreateAndAssociatePLFilterRequest = /*@__PURE__*/ S.suspend(
   identifier: "CreateCreateAndAssociatePLFilterRequest",
 }) as any as S.Schema<CreateCreateAndAssociatePLFilterRequest>;
 
-export interface CreateCreateAndAssociatePLFilterResponse {}
+export interface CreateCreateAndAssociatePLFilterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CreateCreateAndAssociatePLFilterResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "CreateCreateAndAssociatePLFilterResponse",
 }) as any as S.Schema<CreateCreateAndAssociatePLFilterResponse>;
@@ -615,6 +642,10 @@ export interface CreateMonitorResponse {
   sku?: ResourceSku;
   /** Identity properties of the monitor resource. */
   identity?: IdentityProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -628,6 +659,10 @@ export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateMonitorResponse",
@@ -693,9 +728,17 @@ export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMonitorRequest",
 }) as any as S.Schema<DeleteMonitorRequest>;
 
-export interface DeleteMonitorResponse {}
+export interface DeleteMonitorResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteMonitorResponse",
 }) as any as S.Schema<DeleteMonitorResponse>;
@@ -728,9 +771,17 @@ export const DeleteMonitoredSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMonitoredSubscriptionRequest",
 }) as any as S.Schema<DeleteMonitoredSubscriptionRequest>;
 
-export interface DeleteMonitoredSubscriptionResponse {}
+export interface DeleteMonitoredSubscriptionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteMonitoredSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteMonitoredSubscriptionResponse",
 }) as any as S.Schema<DeleteMonitoredSubscriptionResponse>;
@@ -798,9 +849,17 @@ export const DeleteTagRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTagRuleRequest",
 }) as any as S.Schema<DeleteTagRuleRequest>;
 
-export interface DeleteTagRuleResponse {}
+export interface DeleteTagRuleResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTagRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteTagRuleResponse",
 }) as any as S.Schema<DeleteTagRuleResponse>;
@@ -2483,9 +2542,17 @@ export const MonitorUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MonitorUpgradeRequest",
 }) as any as S.Schema<MonitorUpgradeRequest>;
 
-export interface MonitorUpgradeResponse {}
+export interface MonitorUpgradeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const MonitorUpgradeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "MonitorUpgradeResponse",
 }) as any as S.Schema<MonitorUpgradeResponse>;
@@ -2632,6 +2699,10 @@ export interface OrganizationsResubscribeResponse {
   sku?: ResourceSku;
   /** Identity properties of the monitor resource. */
   identity?: IdentityProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const OrganizationsResubscribeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2645,6 +2716,8 @@ export const OrganizationsResubscribeResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "OrganizationsResubscribeResponse",
@@ -2731,9 +2804,17 @@ export const UpdateDetachTrafficFilterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateDetachTrafficFilterRequest",
 }) as any as S.Schema<UpdateDetachTrafficFilterRequest>;
 
-export interface UpdateDetachTrafficFilterResponse {}
+export interface UpdateDetachTrafficFilterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const UpdateDetachTrafficFilterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "UpdateDetachTrafficFilterResponse",
 }) as any as S.Schema<UpdateDetachTrafficFilterResponse>;
@@ -2802,6 +2883,8 @@ export interface UpdateMonitorResponse {
   sku?: ResourceSku;
   /** Identity properties of the monitor resource. */
   identity?: IdentityProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2815,6 +2898,7 @@ export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateMonitorResponse",
@@ -2860,6 +2944,10 @@ export interface UpdateMonitoredSubscriptionResponse {
   systemData?: SystemData;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
   properties?: SubscriptionList;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateMonitoredSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2868,6 +2956,8 @@ export const UpdateMonitoredSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(SubscriptionList),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateMonitoredSubscriptionResponse",
@@ -2914,6 +3004,10 @@ export interface UpdateMonitoredSubscriptionsCreateorResponse {
   systemData?: SystemData;
   /** The request to update subscriptions needed to be monitored by the Elastic monitor resource. */
   properties?: SubscriptionList;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateMonitoredSubscriptionsCreateorResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2923,6 +3017,8 @@ export const UpdateMonitoredSubscriptionsCreateorResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(SubscriptionList),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "UpdateMonitoredSubscriptionsCreateorResponse",

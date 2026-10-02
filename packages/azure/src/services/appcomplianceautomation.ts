@@ -108,9 +108,17 @@ export const DeleteReportRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteReportRequest",
 }) as any as S.Schema<DeleteReportRequest>;
 
-export interface DeleteReportResponse {}
+export interface DeleteReportResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteReportResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteReportResponse",
 }) as any as S.Schema<DeleteReportResponse>;
@@ -398,6 +406,10 @@ export interface DownloadResponse {
   compliancePdfReport?: DownloadResponseCompliancePdfReport;
   /** The detailed compliance pdf report */
   complianceDetailedPdfReport?: DownloadResponseComplianceDetailedPdfReport;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DownloadResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -407,6 +419,8 @@ export const DownloadResponse = /*@__PURE__*/ S.suspend(() =>
     complianceDetailedPdfReport: S.optional(
       DownloadResponseComplianceDetailedPdfReport,
     ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DownloadResponse",
@@ -2309,10 +2323,16 @@ export const OnboardResponseSubscriptionIdsList = /*@__PURE__*/ S.Array(
 export interface OnboardResponse {
   /** List of subscription ids that are onboarded */
   subscriptionIds?: OnboardResponseSubscriptionIdsList;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const OnboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionIds: S.optional(OnboardResponseSubscriptionIdsList),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "OnboardResponse",
@@ -2382,6 +2402,8 @@ export interface ReportCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Report property. */
   properties: ReportProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ReportCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2390,6 +2412,7 @@ export const ReportCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: ReportProperties,
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ReportCreateOrUpdateResponse",
@@ -2424,11 +2447,17 @@ export interface ReportFixResult {
   result?: Result;
   /** If the report fix action failed, to indicate the detailed failed reason. */
   reason?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ReportFixResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: S.optional(Result),
     reason: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ReportFixResult",
@@ -2585,10 +2614,16 @@ export const SyncReportCertRecordRequest = /*@__PURE__*/ S.suspend(() =>
 export interface SyncCertRecordResponse {
   /** certification record synchronized. */
   certRecord?: CertSyncRecord;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SyncCertRecordResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     certRecord: S.optional(CertSyncRecord),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SyncCertRecordResponse",
@@ -2693,10 +2728,16 @@ export const TriggerEvaluationProperty = /*@__PURE__*/ S.suspend(() =>
 export interface TriggerEvaluationResponse {
   /** trigger evaluation property. */
   properties?: TriggerEvaluationProperty;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const TriggerEvaluationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(TriggerEvaluationProperty),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "TriggerEvaluationResponse",
@@ -2766,6 +2807,10 @@ export interface UpdateReportResponse {
   systemData?: SystemData;
   /** Report property. */
   properties: ReportProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateReportResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2774,6 +2819,8 @@ export const UpdateReportResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: ReportProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateReportResponse",
@@ -2895,11 +2942,17 @@ export interface ReportVerificationResult {
   result?: Result;
   /** If the report verification action failed, to indicate the detailed failed reason. */
   reason?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ReportVerificationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: S.optional(Result),
     reason: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ReportVerificationResult",

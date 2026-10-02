@@ -3027,9 +3027,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -3717,9 +3726,19 @@ export const DscNodeConfigurationCreateOrUpdateRequest =
     identifier: "DscNodeConfigurationCreateOrUpdateRequest",
   }) as any as S.Schema<DscNodeConfigurationCreateOrUpdateRequest>;
 
-export interface DscNodeConfigurationCreateOrUpdateResponse {}
+export interface DscNodeConfigurationCreateOrUpdateResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DscNodeConfigurationCreateOrUpdateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DscNodeConfigurationCreateOrUpdateResponse",
   }) as any as S.Schema<DscNodeConfigurationCreateOrUpdateResponse>;
 
@@ -11034,6 +11053,10 @@ export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PrivateEndpointConnectionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -11043,6 +11066,8 @@ export const PrivateEndpointConnectionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PrivateEndpointConnectionsCreateOrUpdateResponse",
@@ -11173,9 +11198,17 @@ export const PublishRunbookRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishRunbookRequest",
 }) as any as S.Schema<PublishRunbookRequest>;
 
-export interface PublishRunbookResponse {}
+export interface PublishRunbookResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PublishRunbookResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PublishRunbookResponse",
 }) as any as S.Schema<PublishRunbookResponse>;
@@ -11423,9 +11456,21 @@ export const ReplaceRunbookDraftContentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplaceRunbookDraftContentRequest",
 }) as any as S.Schema<ReplaceRunbookDraftContentRequest>;
 
-export interface ReplaceRunbookDraftContentResponse {}
+export interface ReplaceRunbookDraftContentResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ReplaceRunbookDraftContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ReplaceRunbookDraftContentResponse",
 }) as any as S.Schema<ReplaceRunbookDraftContentResponse>;

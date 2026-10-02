@@ -445,6 +445,20 @@
         },
         "properties": {
           "target": "com.azure.providerhub#ProviderMonitorSettingProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2629,7 +2643,7 @@
         "target": "com.azure.providerhub#DeleteResourceTypeRegistrationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.providerhub#DeleteResourceTypeRegistrationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2640,6 +2654,28 @@
         },
         "smithy.api#documentation": "Deletes a resource type",
         "com.distilled.openapi#apiVersion": "2025-10-01"
+      }
+    },
+    "com.azure.providerhub#DeleteResourceTypeRegistrationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.providerhub#DeleteResourceTypeRegistrationRequest": {
@@ -2727,6 +2763,20 @@
           "target": "com.azure.providerhub#ResourceTypeRegistrationsCreateOrUpdateResponseKind",
           "traits": {
             "smithy.api#documentation": "Resource type registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7351,7 +7401,7 @@
         "target": "com.azure.providerhub#DeleteResourceActionResourcesRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.providerhub#DeleteResourceActionResourcesResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7362,6 +7412,28 @@
         },
         "smithy.api#documentation": "Deletes resources.",
         "com.distilled.openapi#apiVersion": "2025-10-01"
+      }
+    },
+    "com.azure.providerhub#DeleteResourceActionResourcesResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.providerhub#DeleteResourceActionResourcesRequest": {
@@ -11226,6 +11298,20 @@
           "traits": {
             "smithy.api#documentation": "Indicates whether expedited rollout is enabled/disabled"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {}
@@ -11940,6 +12026,20 @@
           "traits": {
             "smithy.api#documentation": "Properties of the rollout.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -12726,6 +12826,20 @@
         },
         "properties": {
           "target": "com.azure.providerhub#AuthorizedApplicationProperties"
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -13159,6 +13273,20 @@
           "target": "com.azure.providerhub#ProviderRegistrationsCreateOrUpdateResponseKind",
           "traits": {
             "smithy.api#documentation": "Provider registration kind. This Metadata is also used by portal/tooling/etc to render different UX experiences for resources of the same type."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

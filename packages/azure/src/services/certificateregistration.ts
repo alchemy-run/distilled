@@ -389,6 +389,8 @@ export interface AppServiceCertificateOrdersCreateOrUpdateResponse {
   properties?: AppServiceCertificateOrderProperties;
   /** Kind of resource */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const AppServiceCertificateOrdersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -403,6 +405,7 @@ export const AppServiceCertificateOrdersCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(AppServiceCertificateOrderProperties),
       kind: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "AppServiceCertificateOrdersCreateOrUpdateResponse",
@@ -486,6 +489,8 @@ export interface AppServiceCertificateOrdersCreateOrUpdateCertificateResponse {
   properties?: AppServiceCertificate;
   /** Kind of resource */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const AppServiceCertificateOrdersCreateOrUpdateCertificateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -500,6 +505,7 @@ export const AppServiceCertificateOrdersCreateOrUpdateCertificateResponse =
       location: S.String,
       properties: S.optional(AppServiceCertificate),
       kind: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "AppServiceCertificateOrdersCreateOrUpdateCertificateResponse",

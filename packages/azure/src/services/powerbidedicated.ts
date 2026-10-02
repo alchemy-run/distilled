@@ -428,6 +428,10 @@ export interface CreateCapacityResponse {
   properties?: DedicatedCapacityProperties;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCapacityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -439,6 +443,8 @@ export const CreateCapacityResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DedicatedCapacityProperties),
     sku: CapacitySku,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCapacityResponse",
@@ -501,9 +507,17 @@ export const DeleteCapacityRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCapacityRequest",
 }) as any as S.Schema<DeleteCapacityRequest>;
 
-export interface DeleteCapacityResponse {}
+export interface DeleteCapacityResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCapacityResponse",
 }) as any as S.Schema<DeleteCapacityResponse>;
@@ -1171,9 +1185,17 @@ export const ResumeCapacityRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResumeCapacityRequest",
 }) as any as S.Schema<ResumeCapacityRequest>;
 
-export interface ResumeCapacityResponse {}
+export interface ResumeCapacityResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ResumeCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ResumeCapacityResponse",
 }) as any as S.Schema<ResumeCapacityResponse>;
@@ -1203,9 +1225,17 @@ export const SuspendCapacityRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SuspendCapacityRequest",
 }) as any as S.Schema<SuspendCapacityRequest>;
 
-export interface SuspendCapacityResponse {}
+export interface SuspendCapacityResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const SuspendCapacityResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "SuspendCapacityResponse",
 }) as any as S.Schema<SuspendCapacityResponse>;
@@ -1383,6 +1413,10 @@ export interface UpdateCapacityResponse {
   properties?: DedicatedCapacityProperties;
   /** The SKU of the PowerBI Dedicated capacity resource. */
   sku: CapacitySku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCapacityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1394,6 +1428,8 @@ export const UpdateCapacityResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DedicatedCapacityProperties),
     sku: CapacitySku,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCapacityResponse",

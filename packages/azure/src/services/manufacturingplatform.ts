@@ -38,9 +38,18 @@ export const DeleteManufacturingDataServiceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteManufacturingDataServiceRequest",
 }) as any as S.Schema<DeleteManufacturingDataServiceRequest>;
 
-export interface DeleteManufacturingDataServiceResponse {}
+export interface DeleteManufacturingDataServiceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteManufacturingDataServiceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteManufacturingDataServiceResponse",
 }) as any as S.Schema<DeleteManufacturingDataServiceResponse>;
@@ -1140,6 +1149,10 @@ export interface ManufacturingDataServicesCreateOrUpdateResponse {
   identity?: GetManufacturingDataServiceResponseIdentity;
   /** The resource model definition representing SKU */
   sku?: GetManufacturingDataServiceResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ManufacturingDataServicesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1153,6 +1166,10 @@ export const ManufacturingDataServicesCreateOrUpdateResponse =
       properties: S.optional(MdsResourceProperties),
       identity: S.optional(GetManufacturingDataServiceResponseIdentity),
       sku: S.optional(GetManufacturingDataServiceResponseSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ManufacturingDataServicesCreateOrUpdateResponse",
@@ -1413,6 +1430,10 @@ export interface UpdateManufacturingDataServiceResponse {
   identity?: GetManufacturingDataServiceResponseIdentity;
   /** The resource model definition representing SKU */
   sku?: GetManufacturingDataServiceResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateManufacturingDataServiceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1426,6 +1447,8 @@ export const UpdateManufacturingDataServiceResponse = /*@__PURE__*/ S.suspend(
       properties: S.optional(MdsResourceProperties),
       identity: S.optional(GetManufacturingDataServiceResponseIdentity),
       sku: S.optional(GetManufacturingDataServiceResponseSku),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateManufacturingDataServiceResponse",

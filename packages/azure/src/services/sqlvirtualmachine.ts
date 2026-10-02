@@ -323,6 +323,10 @@ export interface AvailabilityGroupListenersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: AvailabilityGroupListenerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AvailabilityGroupListenersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -332,6 +336,10 @@ export const AvailabilityGroupListenersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(AvailabilityGroupListenerProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AvailabilityGroupListenersCreateOrUpdateResponse",
@@ -366,9 +374,18 @@ export const DeleteAvailabilityGroupListenerRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteAvailabilityGroupListenerRequest",
 }) as any as S.Schema<DeleteAvailabilityGroupListenerRequest>;
 
-export interface DeleteAvailabilityGroupListenerResponse {}
+export interface DeleteAvailabilityGroupListenerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAvailabilityGroupListenerResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteAvailabilityGroupListenerResponse",
 }) as any as S.Schema<DeleteAvailabilityGroupListenerResponse>;
@@ -398,9 +415,17 @@ export const DeleteSqlVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSqlVirtualMachineRequest",
 }) as any as S.Schema<DeleteSqlVirtualMachineRequest>;
 
-export interface DeleteSqlVirtualMachineResponse {}
+export interface DeleteSqlVirtualMachineResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSqlVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSqlVirtualMachineResponse",
 }) as any as S.Schema<DeleteSqlVirtualMachineResponse>;
@@ -430,9 +455,18 @@ export const DeleteSqlVirtualMachineGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSqlVirtualMachineGroupRequest",
 }) as any as S.Schema<DeleteSqlVirtualMachineGroupRequest>;
 
-export interface DeleteSqlVirtualMachineGroupResponse {}
+export interface DeleteSqlVirtualMachineGroupResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSqlVirtualMachineGroupResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteSqlVirtualMachineGroupResponse",
 }) as any as S.Schema<DeleteSqlVirtualMachineGroupResponse>;
@@ -466,9 +500,19 @@ export const FetchSqlVirtualMachineDCAssessmentRequest =
     identifier: "FetchSqlVirtualMachineDCAssessmentRequest",
   }) as any as S.Schema<FetchSqlVirtualMachineDCAssessmentRequest>;
 
-export interface FetchSqlVirtualMachineDCAssessmentResponse {}
+export interface FetchSqlVirtualMachineDCAssessmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const FetchSqlVirtualMachineDCAssessmentResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "FetchSqlVirtualMachineDCAssessmentResponse",
   }) as any as S.Schema<FetchSqlVirtualMachineDCAssessmentResponse>;
 
@@ -1876,9 +1920,17 @@ export const RedeploySqlVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RedeploySqlVirtualMachineRequest",
 }) as any as S.Schema<RedeploySqlVirtualMachineRequest>;
 
-export interface RedeploySqlVirtualMachineResponse {}
+export interface RedeploySqlVirtualMachineResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RedeploySqlVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RedeploySqlVirtualMachineResponse",
 }) as any as S.Schema<RedeploySqlVirtualMachineResponse>;
@@ -1973,6 +2025,10 @@ export interface SqlVirtualMachineGroupsCreateOrUpdateResponse {
   location: string;
   /** Resource properties. */
   properties?: SqlVirtualMachineGroupProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlVirtualMachineGroupsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1984,6 +2040,10 @@ export const SqlVirtualMachineGroupsCreateOrUpdateResponse =
       tags: S.optional(SqlVirtualMachineGroupsCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(SqlVirtualMachineGroupProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "SqlVirtualMachineGroupsCreateOrUpdateResponse",
@@ -2150,6 +2210,10 @@ export interface SqlVirtualMachinesCreateOrUpdateResponse {
   properties?: SqlVirtualMachineProperties;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
   identity?: ResourceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlVirtualMachinesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2162,6 +2226,10 @@ export const SqlVirtualMachinesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(SqlVirtualMachineProperties),
       identity: S.optional(ResourceIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "SqlVirtualMachinesCreateOrUpdateResponse",
@@ -2231,6 +2299,10 @@ export interface SqlVmTroubleshooting {
   properties?: TroubleshootingAdditionalProperties;
   /** Virtual machine resource id for response. */
   virtualMachineResourceId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const SqlVmTroubleshooting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2241,6 +2313,8 @@ export const SqlVmTroubleshooting = /*@__PURE__*/ S.suspend(() =>
     ),
     properties: S.optional(TroubleshootingAdditionalProperties),
     virtualMachineResourceId: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "SqlVmTroubleshooting",
@@ -2272,9 +2346,18 @@ export const StartSqlVirtualMachineAssessmentRequest = /*@__PURE__*/ S.suspend(
   identifier: "StartSqlVirtualMachineAssessmentRequest",
 }) as any as S.Schema<StartSqlVirtualMachineAssessmentRequest>;
 
-export interface StartSqlVirtualMachineAssessmentResponse {}
+export interface StartSqlVirtualMachineAssessmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartSqlVirtualMachineAssessmentResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "StartSqlVirtualMachineAssessmentResponse",
 }) as any as S.Schema<StartSqlVirtualMachineAssessmentResponse>;
@@ -2342,6 +2425,8 @@ export interface UpdateSqlVirtualMachineResponse {
   properties?: SqlVirtualMachineProperties;
   /** DO NOT USE. This value will be deprecated. Azure Active Directory identity of the server. */
   identity?: ResourceIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
 export const UpdateSqlVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2353,6 +2438,9 @@ export const UpdateSqlVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SqlVirtualMachineProperties),
     identity: S.optional(ResourceIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateSqlVirtualMachineResponse",
@@ -2421,6 +2509,8 @@ export interface UpdateSqlVirtualMachineGroupResponse {
   location: string;
   /** Resource properties. */
   properties?: SqlVirtualMachineGroupProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
 export const UpdateSqlVirtualMachineGroupResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2432,6 +2522,9 @@ export const UpdateSqlVirtualMachineGroupResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(UpdateSqlVirtualMachineGroupResponseTagsMap),
       location: S.String,
       properties: S.optional(SqlVirtualMachineGroupProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "UpdateSqlVirtualMachineGroupResponse",

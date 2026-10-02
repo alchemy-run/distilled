@@ -243,6 +243,10 @@ export interface ApprovePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ApprovePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -252,6 +256,10 @@ export const ApprovePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ApprovePrivateEndpointConnectionResponse",
@@ -970,6 +978,10 @@ export interface CreateGrafanaResponse {
   location?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateGrafanaResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -982,6 +994,10 @@ export const CreateGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateGrafanaResponseTagsMap),
     location: S.optional(S.String),
     identity: S.optional(CreateGrafanaResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateGrafanaResponse",
@@ -1107,6 +1123,10 @@ export interface CreateIntegrationFabricResponse {
   /** The geo-location where the resource lives */
   location: string;
   properties?: IntegrationFabricProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1117,6 +1137,10 @@ export const CreateIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateIntegrationFabricResponseTagsMap),
     location: S.String,
     properties: S.optional(IntegrationFabricProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateIntegrationFabricResponse",
@@ -1210,6 +1234,10 @@ export interface CreateManagedDashboardResponse {
   location: string;
   /** Properties specific to the managed dashboard resource. */
   properties?: ManagedDashboardProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateManagedDashboardResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1220,6 +1248,10 @@ export const CreateManagedDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateManagedDashboardResponseTagsMap),
     location: S.String,
     properties: S.optional(ManagedDashboardProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateManagedDashboardResponse",
@@ -1400,6 +1432,10 @@ export interface CreateManagedPrivateEndpointResponse {
   location: string;
   /** Resource properties. */
   properties?: ManagedPrivateEndpointModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateManagedPrivateEndpointResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1411,6 +1447,10 @@ export const CreateManagedPrivateEndpointResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(CreateManagedPrivateEndpointResponseTagsMap),
       location: S.String,
       properties: S.optional(ManagedPrivateEndpointModelProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateManagedPrivateEndpointResponse",
@@ -1441,9 +1481,19 @@ export const DeleteGrafanaRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGrafanaRequest",
 }) as any as S.Schema<DeleteGrafanaRequest>;
 
-export interface DeleteGrafanaResponse {}
+export interface DeleteGrafanaResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteGrafanaResponse",
 }) as any as S.Schema<DeleteGrafanaResponse>;
@@ -1476,9 +1526,22 @@ export const DeleteIntegrationFabricRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIntegrationFabricRequest",
 }) as any as S.Schema<DeleteIntegrationFabricRequest>;
 
-export interface DeleteIntegrationFabricResponse {}
+export interface DeleteIntegrationFabricResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    location: S.optional(S.String.pipe(T.Header())),
+  }),
 ).annotate({
   identifier: "DeleteIntegrationFabricResponse",
 }) as any as S.Schema<DeleteIntegrationFabricResponse>;
@@ -1543,9 +1606,20 @@ export const DeleteManagedPrivateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteManagedPrivateEndpointRequest",
 }) as any as S.Schema<DeleteManagedPrivateEndpointRequest>;
 
-export interface DeleteManagedPrivateEndpointResponse {}
+export interface DeleteManagedPrivateEndpointResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteManagedPrivateEndpointResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteManagedPrivateEndpointResponse",
 }) as any as S.Schema<DeleteManagedPrivateEndpointResponse>;
@@ -1579,9 +1653,20 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -2684,9 +2769,20 @@ export const RefreshManagedPrivateEndpointRequest = /*@__PURE__*/ S.suspend(
   identifier: "RefreshManagedPrivateEndpointRequest",
 }) as any as S.Schema<RefreshManagedPrivateEndpointRequest>;
 
-export interface RefreshManagedPrivateEndpointResponse {}
+export interface RefreshManagedPrivateEndpointResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RefreshManagedPrivateEndpointResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RefreshManagedPrivateEndpointResponse",
 }) as any as S.Schema<RefreshManagedPrivateEndpointResponse>;
@@ -2864,6 +2960,10 @@ export interface UpdateGrafanaResponse {
   location?: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateGrafanaResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2876,6 +2976,10 @@ export const UpdateGrafanaResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateGrafanaResponseTagsMap),
     location: S.optional(S.String),
     identity: S.optional(CreateGrafanaResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateGrafanaResponse",
@@ -2970,6 +3074,12 @@ export interface UpdateIntegrationFabricResponse {
   /** The geo-location where the resource lives */
   location: string;
   properties?: IntegrationFabricProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2980,6 +3090,11 @@ export const UpdateIntegrationFabricResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateIntegrationFabricResponseTagsMap),
     location: S.String,
     properties: S.optional(IntegrationFabricProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    locationHeader: S.optional(S.String.pipe(T.Header("location"))),
   }),
 ).annotate({
   identifier: "UpdateIntegrationFabricResponse",
@@ -3127,6 +3242,10 @@ export interface UpdateManagedPrivateEndpointResponse {
   location: string;
   /** Resource properties. */
   properties?: ManagedPrivateEndpointModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateManagedPrivateEndpointResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3138,6 +3257,10 @@ export const UpdateManagedPrivateEndpointResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(UpdateManagedPrivateEndpointResponseTagsMap),
       location: S.String,
       properties: S.optional(ManagedPrivateEndpointModelProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "UpdateManagedPrivateEndpointResponse",

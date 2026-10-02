@@ -312,6 +312,8 @@ export interface CreateCertificateProfileResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: CertificateProfileProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCertificateProfileResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -320,6 +322,7 @@ export const CreateCertificateProfileResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CertificateProfileProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCertificateProfileResponse",
@@ -439,6 +442,8 @@ export interface CreateCodeSigningAccountResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: CodeSigningAccountProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCodeSigningAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -449,6 +454,7 @@ export const CreateCodeSigningAccountResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateCodeSigningAccountResponseTagsMap),
     location: S.String,
     properties: S.optional(CodeSigningAccountProperties),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCodeSigningAccountResponse",
@@ -482,9 +488,17 @@ export const DeleteCertificateProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCertificateProfileRequest",
 }) as any as S.Schema<DeleteCertificateProfileRequest>;
 
-export interface DeleteCertificateProfileResponse {}
+export interface DeleteCertificateProfileResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCertificateProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCertificateProfileResponse",
 }) as any as S.Schema<DeleteCertificateProfileResponse>;
@@ -514,9 +528,17 @@ export const DeleteCodeSigningAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCodeSigningAccountRequest",
 }) as any as S.Schema<DeleteCodeSigningAccountRequest>;
 
-export interface DeleteCodeSigningAccountResponse {}
+export interface DeleteCodeSigningAccountResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCodeSigningAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCodeSigningAccountResponse",
 }) as any as S.Schema<DeleteCodeSigningAccountResponse>;
@@ -1041,6 +1063,10 @@ export interface UpdateCodeSigningAccountResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: CodeSigningAccountProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCodeSigningAccountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1051,6 +1077,8 @@ export const UpdateCodeSigningAccountResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateCodeSigningAccountResponseTagsMap),
     location: S.String,
     properties: S.optional(CodeSigningAccountProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCodeSigningAccountResponse",

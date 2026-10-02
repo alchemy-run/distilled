@@ -290,6 +290,10 @@ export interface CreateGeoCatalogResponse {
   properties?: GeoCatalogProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateGeoCatalogResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateGeoCatalogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -301,6 +305,10 @@ export const CreateGeoCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(GeoCatalogProperties),
     identity: S.optional(CreateGeoCatalogResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateGeoCatalogResponse",
@@ -331,9 +339,17 @@ export const DeleteGeoCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGeoCatalogRequest",
 }) as any as S.Schema<DeleteGeoCatalogRequest>;
 
-export interface DeleteGeoCatalogResponse {}
+export interface DeleteGeoCatalogResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteGeoCatalogResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteGeoCatalogResponse",
 }) as any as S.Schema<DeleteGeoCatalogResponse>;
@@ -629,6 +645,10 @@ export interface UpdateGeoCatalogResponse {
   properties?: GeoCatalogProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateGeoCatalogResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateGeoCatalogResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -640,6 +660,8 @@ export const UpdateGeoCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(GeoCatalogProperties),
     identity: S.optional(CreateGeoCatalogResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateGeoCatalogResponse",

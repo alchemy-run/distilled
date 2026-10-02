@@ -97,9 +97,17 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePoolRequest",
 }) as any as S.Schema<DeletePoolRequest>;
 
-export interface DeletePoolResponse {}
+export interface DeletePoolResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePoolResponse",
 }) as any as S.Schema<DeletePoolResponse>;
@@ -1235,6 +1243,8 @@ export interface PoolsCreateOrUpdateResponse {
   properties?: PoolProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: PoolsCreateOrUpdateResponseIdentity;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PoolsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1246,6 +1256,7 @@ export const PoolsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PoolProperties),
     identity: S.optional(PoolsCreateOrUpdateResponseIdentity),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PoolsCreateOrUpdateResponse",
@@ -1486,6 +1497,10 @@ export interface UpdatePoolResponse {
   properties?: PoolProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: UpdatePoolResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1497,6 +1512,8 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PoolProperties),
     identity: S.optional(UpdatePoolResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdatePoolResponse",

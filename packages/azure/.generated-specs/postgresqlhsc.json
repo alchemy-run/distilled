@@ -385,7 +385,7 @@
         "target": "com.azure.postgresqlhsc#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -396,6 +396,26 @@
         },
         "smithy.api#documentation": "Deletes a private endpoint connection with a given name.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#DeletePrivateEndpointConnectionRequest": {
@@ -488,6 +508,18 @@
           "target": "com.azure.postgresqlhsc#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },
@@ -1175,7 +1207,7 @@
         "target": "com.azure.postgresqlhsc#ClustersPromoteReadReplicaRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#ClustersPromoteReadReplicaResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1186,6 +1218,26 @@
         },
         "smithy.api#documentation": "Promotes read replica cluster to an independent read-write cluster.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#ClustersPromoteReadReplicaResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#ClustersPromoteReadReplicaRequest": {
@@ -1226,7 +1278,7 @@
         "target": "com.azure.postgresqlhsc#StopClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#StopClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1237,6 +1289,26 @@
         },
         "smithy.api#documentation": "Stops compute on all cluster nodes.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#StopClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#StopClusterRequest": {
@@ -1277,7 +1349,7 @@
         "target": "com.azure.postgresqlhsc#StartClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#StartClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1288,6 +1360,26 @@
         },
         "smithy.api#documentation": "Starts stopped compute on all cluster nodes.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#StartClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#StartClusterRequest": {
@@ -1328,7 +1420,7 @@
         "target": "com.azure.postgresqlhsc#RestartClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#RestartClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1339,6 +1431,26 @@
         },
         "smithy.api#documentation": "Restarts all nodes in the cluster.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#RestartClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#RestartClusterRequest": {
@@ -1546,7 +1658,7 @@
         "target": "com.azure.postgresqlhsc#DeleteRoleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#DeleteRoleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1557,6 +1669,26 @@
         },
         "smithy.api#documentation": "Deletes a cluster role.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#DeleteRoleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#DeleteRoleRequest": {
@@ -1650,6 +1782,18 @@
           "traits": {
             "smithy.api#documentation": "The properties of a role.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },
@@ -1965,7 +2109,7 @@
         "target": "com.azure.postgresqlhsc#DeleteFirewallRuleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#DeleteFirewallRuleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1976,6 +2120,26 @@
         },
         "smithy.api#documentation": "Deletes a cluster firewall rule.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#DeleteFirewallRuleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#DeleteFirewallRuleRequest": {
@@ -2069,6 +2233,18 @@
           "traits": {
             "smithy.api#documentation": "The properties of a firewall rule.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },
@@ -2293,6 +2469,18 @@
           "target": "com.azure.postgresqlhsc#ServerConfigurationProperties",
           "traits": {
             "smithy.api#documentation": "The properties of a configuration."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },
@@ -2597,6 +2785,18 @@
           "target": "com.azure.postgresqlhsc#ServerConfigurationProperties",
           "traits": {
             "smithy.api#documentation": "The properties of a configuration."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },
@@ -3535,7 +3735,7 @@
         "target": "com.azure.postgresqlhsc#DeleteClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.postgresqlhsc#DeleteClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3546,6 +3746,26 @@
         },
         "smithy.api#documentation": "Deletes a cluster together with servers in it.",
         "com.distilled.openapi#apiVersion": "2022-11-08"
+      }
+    },
+    "com.azure.postgresqlhsc#DeleteClusterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.postgresqlhsc#DeleteClusterRequest": {
@@ -3643,6 +3863,18 @@
           "target": "com.azure.postgresqlhsc#ClusterProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the cluster."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },
@@ -4237,6 +4469,18 @@
           "target": "com.azure.postgresqlhsc#ClusterProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the cluster."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "azure-async-operation"
           }
         }
       },

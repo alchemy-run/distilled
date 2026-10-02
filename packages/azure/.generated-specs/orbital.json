@@ -90,6 +90,13 @@
         },
         "error": {
           "target": "com.azure.orbital#OperationResultErrorProperties"
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
         }
       },
       "traits": {
@@ -1088,7 +1095,7 @@
         "target": "com.azure.orbital#DeleteContactProfileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.orbital#DeleteContactProfileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1099,6 +1106,21 @@
         },
         "smithy.api#documentation": "Deletes a specified contact profile resource.",
         "com.distilled.openapi#apiVersion": "2022-11-01"
+      }
+    },
+    "com.azure.orbital#DeleteContactProfileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.orbital#DeleteContactProfileRequest": {
@@ -1197,6 +1219,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the contact profile resource.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
           }
         }
       },
@@ -1330,6 +1359,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the contact profile resource.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
           }
         }
       },
@@ -1722,6 +1758,13 @@
           "traits": {
             "smithy.api#documentation": "The URL to get the next set of results."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
         }
       },
       "traits": {
@@ -1906,7 +1949,7 @@
         "target": "com.azure.orbital#DeleteContactRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.orbital#DeleteContactResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1917,6 +1960,21 @@
         },
         "smithy.api#documentation": "Deletes a specified contact.",
         "com.distilled.openapi#apiVersion": "2022-11-01"
+      }
+    },
+    "com.azure.orbital#DeleteContactResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.orbital#DeleteContactRequest": {
@@ -2009,6 +2067,13 @@
           "target": "com.azure.orbital#ContactsProperties",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
           }
         }
       },
@@ -2513,7 +2578,7 @@
         "target": "com.azure.orbital#DeleteSpacecraftRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.orbital#DeleteSpacecraftResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2524,6 +2589,21 @@
         },
         "smithy.api#documentation": "Deletes a specified spacecraft resource.",
         "com.distilled.openapi#apiVersion": "2022-11-01"
+      }
+    },
+    "com.azure.orbital#DeleteSpacecraftResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.orbital#DeleteSpacecraftRequest": {
@@ -2622,6 +2702,13 @@
           "traits": {
             "smithy.api#documentation": "Spacecraft Properties",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
           }
         }
       },
@@ -2944,6 +3031,13 @@
           "traits": {
             "smithy.api#documentation": "Spacecraft Properties",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
           }
         }
       },
@@ -4319,7 +4413,7 @@
         "target": "com.azure.orbital#DeleteL2ConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.orbital#DeleteL2ConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4330,6 +4424,21 @@
         },
         "smithy.api#documentation": "Deletes a specified L2 Connection resource.",
         "com.distilled.openapi#apiVersion": "2024-03-01"
+      }
+    },
+    "com.azure.orbital#DeleteL2ConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.orbital#DeleteL2ConnectionRequest": {
@@ -4428,6 +4537,13 @@
           "traits": {
             "smithy.api#documentation": "The properties bag for this resource.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
           }
         }
       },
@@ -4561,6 +4677,13 @@
           "traits": {
             "smithy.api#documentation": "The properties bag for this resource.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "URL for checking the ongoing status of the operation."
           }
         }
       },

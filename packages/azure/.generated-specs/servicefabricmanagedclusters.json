@@ -24,7 +24,7 @@
         "target": "com.azure.servicefabricmanagedclusters#StartNodeTypeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#StartNodeTypeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Starts one or more nodes on the node type. It will trigger an allocation of the fabric node if needed and activate them.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#StartNodeTypeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#StartNodeTypeRequest": {
@@ -323,7 +345,7 @@
         "target": "com.azure.servicefabricmanagedclusters#RestartNodeTypeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#RestartNodeTypeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -334,6 +356,28 @@
         },
         "smithy.api#documentation": "Restarts one or more nodes on the node type. It will disable the fabric nodes, trigger a restart on the VMs and activate the nodes back again.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#RestartNodeTypeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#RestartNodeTypeRequest": {
@@ -409,7 +453,7 @@
         "target": "com.azure.servicefabricmanagedclusters#NodeTypesReimageRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#NodeTypesReimageResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -420,6 +464,28 @@
         },
         "smithy.api#documentation": "Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and activate the nodes back again.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#NodeTypesReimageResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#NodeTypesReimageRequest": {
@@ -495,7 +561,7 @@
         "target": "com.azure.servicefabricmanagedclusters#RedeployNodeTypeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#RedeployNodeTypeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -506,6 +572,28 @@
         },
         "smithy.api#documentation": "Redeploys one or more nodes on the node type. It will disable the fabric nodes, trigger a shut down on the VMs, move them to a new node, and power them back on.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#RedeployNodeTypeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#RedeployNodeTypeRequest": {
@@ -581,7 +669,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteNodeTypeNodeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteNodeTypeNodeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -592,6 +680,28 @@
         },
         "smithy.api#documentation": "Deletes one or more nodes on the node type. It will disable the fabric nodes, trigger a delete on the VMs and removes the state from the cluster.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteNodeTypeNodeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteNodeTypeNodeRequest": {
@@ -667,7 +777,7 @@
         "target": "com.azure.servicefabricmanagedclusters#NodeTypesDeallocateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#NodeTypesDeallocateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -678,6 +788,28 @@
         },
         "smithy.api#documentation": "Deallocates one or more nodes on the node type. It will disable the fabric nodes, trigger a shutdown on the VMs and release them from the cluster.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#NodeTypesDeallocateResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#NodeTypesDeallocateRequest": {
@@ -753,7 +885,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteNodeTypeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteNodeTypeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -764,6 +896,28 @@
         },
         "smithy.api#documentation": "Delete a Service Fabric node type of a given managed cluster.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteNodeTypeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteNodeTypeRequest": {
@@ -868,6 +1022,20 @@
           "target": "com.azure.servicefabricmanagedclusters#NodeTypeSku",
           "traits": {
             "smithy.api#documentation": "The node type sku."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -2715,6 +2883,20 @@
           "traits": {
             "smithy.api#documentation": "The node type sku."
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -3934,7 +4116,7 @@
         "target": "com.azure.servicefabricmanagedclusters#UpdateApplicationUpgradeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#UpdateApplicationUpgradeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3945,6 +4127,28 @@
         },
         "smithy.api#documentation": "Send a request to update the current application upgrade.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#UpdateApplicationUpgradeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#UpdateApplicationUpgradeRequest": {
@@ -4223,7 +4427,7 @@
         "target": "com.azure.servicefabricmanagedclusters#StartApplicationRollbackRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#StartApplicationRollbackResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4234,6 +4438,28 @@
         },
         "smithy.api#documentation": "Send a request to start a rollback of the current application upgrade. This will start rolling back the application to the previous version.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#StartApplicationRollbackResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#StartApplicationRollbackRequest": {
@@ -4282,7 +4508,7 @@
         "target": "com.azure.servicefabricmanagedclusters#RestartServiceReplicaRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#RestartServiceReplicaResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4293,6 +4519,28 @@
         },
         "smithy.api#documentation": "A long-running resource action.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#RestartServiceReplicaResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#RestartServiceReplicaRequest": {
@@ -4405,7 +4653,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4416,6 +4664,28 @@
         },
         "smithy.api#documentation": "Delete a Service Fabric managed service resource with the specified name.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteServiceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteServiceRequest": {
@@ -5162,6 +5432,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -5657,7 +5941,7 @@
         "target": "com.azure.servicefabricmanagedclusters#ResumeApplicationUpgradeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#ResumeApplicationUpgradeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5668,6 +5952,28 @@
         },
         "smithy.api#documentation": "Send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#ResumeApplicationUpgradeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#ResumeApplicationUpgradeRequest": {
@@ -5722,7 +6028,7 @@
         "target": "com.azure.servicefabricmanagedclusters#RestartApplicationDeployedCodePackageRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#RestartApplicationDeployedCodePackageResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5733,6 +6039,28 @@
         },
         "smithy.api#documentation": "Restart a code package instance of a service replica or instance. This is a potentially destabilizing operation that should be used with immense care.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#RestartApplicationDeployedCodePackageResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#RestartApplicationDeployedCodePackageRequest": {
@@ -5815,7 +6143,7 @@
         "target": "com.azure.servicefabricmanagedclusters#ReadApplicationUpgradeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#ReadApplicationUpgradeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5826,6 +6154,28 @@
         },
         "smithy.api#documentation": "Get the status of the latest application upgrade. It will query the cluster to find the status of the latest application upgrade.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#ReadApplicationUpgradeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#ReadApplicationUpgradeRequest": {
@@ -5874,7 +6224,7 @@
         "target": "com.azure.servicefabricmanagedclusters#FetchApplicationHealthRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#FetchApplicationHealthResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5885,6 +6235,28 @@
         },
         "smithy.api#documentation": "Get the status of the deployed application health. It will query the cluster to find the health of the deployed application.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#FetchApplicationHealthResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#FetchApplicationHealthRequest": {
@@ -6007,7 +6379,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteApplicationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteApplicationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6018,6 +6390,28 @@
         },
         "smithy.api#documentation": "Delete a Service Fabric managed application resource with the specified name.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteApplicationResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteApplicationRequest": {
@@ -6128,6 +6522,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -6698,6 +7106,20 @@
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -7166,7 +7588,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeVersionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeVersionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7177,6 +7599,28 @@
         },
         "smithy.api#documentation": "Delete a Service Fabric managed application type version resource with the specified name.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeVersionResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeVersionRequest": {
@@ -7457,6 +7901,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The geo-location where the resource lives"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -7855,7 +8313,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7866,6 +8324,28 @@
         },
         "smithy.api#documentation": "Delete a Service Fabric managed application type name resource with the specified name.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteApplicationTypeRequest": {
@@ -8489,7 +8969,7 @@
         "target": "com.azure.servicefabricmanagedclusters#DeleteManagedClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#DeleteManagedClusterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8500,6 +8980,28 @@
         },
         "smithy.api#documentation": "Delete a Service Fabric managed cluster resource with the specified name.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#DeleteManagedClusterResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#DeleteManagedClusterRequest": {
@@ -8610,6 +9112,20 @@
           "traits": {
             "smithy.api#documentation": "The sku of the managed cluster",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -9786,6 +10302,20 @@
           "traits": {
             "smithy.api#documentation": "The sku of the managed cluster",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -10990,7 +11520,7 @@
         "target": "com.azure.servicefabricmanagedclusters#GetOperationResultRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.servicefabricmanagedclusters#GetOperationResultResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11001,6 +11531,21 @@
         },
         "smithy.api#documentation": "Get long running operation result.\n\nGet long running operation result.",
         "com.distilled.openapi#apiVersion": "2026-02-01"
+      }
+    },
+    "com.azure.servicefabricmanagedclusters#GetOperationResultResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.servicefabricmanagedclusters#GetOperationResultRequest": {

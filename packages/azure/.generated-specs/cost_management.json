@@ -57,6 +57,13 @@
           "traits": {
             "smithy.api#documentation": "Contains sas url to the async benefit utilization summaries report and a date that the url is valid until. These values will be empty if the report is in a Running or Failed state"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -991,6 +998,13 @@
           "target": "com.azure.cost_management#ReportURL",
           "traits": {
             "smithy.api#documentation": "The properties of the resource generated."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -1999,6 +2013,20 @@
           "traits": {
             "smithy.api#documentation": "The properties in downloaded file"
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "oDataEntityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "OData-EntityId",
+            "smithy.api#documentation": "The operation entity Id GUID."
+          }
         }
       },
       "traits": {
@@ -2421,7 +2449,7 @@
         "target": "com.azure.cost_management#DownloadPriceSheetByInvoiceRequest"
       },
       "output": {
-        "target": "com.azure.cost_management#DownloadURL"
+        "target": "com.azure.cost_management#DownloadPriceSheetByInvoiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2434,7 +2462,7 @@
         "com.distilled.openapi#apiVersion": "2026-06-01"
       }
     },
-    "com.azure.cost_management#DownloadURL": {
+    "com.azure.cost_management#DownloadPriceSheetByInvoiceResponse": {
       "type": "structure",
       "members": {
         "expiryTime": {
@@ -2454,10 +2482,25 @@
           "traits": {
             "smithy.api#documentation": "The URL to download the generated report."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "oDataEntityId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "OData-EntityId",
+            "smithy.api#documentation": "The operation entity Id GUID."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "The URL to download the generated report."
+        "smithy.api#documentation": "The URL to download the generated report.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.cost_management#DownloadPriceSheetByInvoiceRequest": {
@@ -8442,6 +8485,32 @@
         "smithy.api#documentation": "The status of the long running operation."
       }
     },
+    "com.azure.cost_management#DownloadURL": {
+      "type": "structure",
+      "members": {
+        "expiryTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z."
+          }
+        },
+        "validTill": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z."
+          }
+        },
+        "downloadUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The URL to download the generated report."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The URL to download the generated report."
+      }
+    },
     "com.azure.cost_management#GetGenerateDetailedCostReportOperationStatusRequest": {
       "type": "structure",
       "members": {
@@ -8516,6 +8585,13 @@
           "target": "com.azure.cost_management#DownloadURL",
           "traits": {
             "smithy.api#documentation": "The properties of the resource generated."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -8597,6 +8673,27 @@
           "target": "com.azure.cost_management#DownloadURL",
           "traits": {
             "smithy.api#documentation": "The properties of the resource generated."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "azureConsumptionAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-Consumption-AsyncOperation",
+            "smithy.api#documentation": "The URL to check the status of the asynchronous operation."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -8754,6 +8851,20 @@
           "target": "com.azure.cost_management#ErrorDetails",
           "traits": {
             "smithy.api#documentation": "The details of the error."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },

@@ -498,7 +498,7 @@
         "target": "com.azure.devcenter#CancelProjectCatalogImageDefinitionBuildRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#CancelProjectCatalogImageDefinitionBuildResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -509,6 +509,26 @@
         },
         "smithy.api#documentation": "Cancels the specified build for an image definition.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#CancelProjectCatalogImageDefinitionBuildResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#CancelProjectCatalogImageDefinitionBuildRequest": {
@@ -878,7 +898,7 @@
         "target": "com.azure.devcenter#ProjectCatalogImageDefinitionsBuildImageRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#ProjectCatalogImageDefinitionsBuildImageResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -889,6 +909,26 @@
         },
         "smithy.api#documentation": "Builds an image for the specified Image Definition.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#ProjectCatalogImageDefinitionsBuildImageResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#ProjectCatalogImageDefinitionsBuildImageRequest": {
@@ -2882,6 +2922,12 @@
           "traits": {
             "smithy.api#documentation": "Custom operation properties, populated only for a successful operation."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
@@ -3899,7 +3945,7 @@
         "target": "com.azure.devcenter#DeleteDevBoxDefinitionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteDevBoxDefinitionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3910,6 +3956,20 @@
         },
         "smithy.api#documentation": "Deletes a Dev Box definition",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteDevBoxDefinitionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteDevBoxDefinitionRequest": {
@@ -4015,6 +4075,12 @@
           "target": "com.azure.devcenter#DevBoxDefinitionProperties",
           "traits": {
             "smithy.api#documentation": "Dev Box definition properties"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -7167,7 +7233,7 @@
         "target": "com.azure.devcenter#ConnectCatalogRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#ConnectCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7178,6 +7244,20 @@
         },
         "smithy.api#documentation": "Connects a catalog to enable syncing.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#ConnectCatalogResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#ConnectCatalogRequest": {
@@ -7226,7 +7306,7 @@
         "target": "com.azure.devcenter#SyncCatalogRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#SyncCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7237,6 +7317,20 @@
         },
         "smithy.api#documentation": "Syncs templates for a template source.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#SyncCatalogResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#SyncCatalogRequest": {
@@ -7477,7 +7571,7 @@
         "target": "com.azure.devcenter#DeleteCatalogRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -7488,6 +7582,20 @@
         },
         "smithy.api#documentation": "Deletes a catalog resource.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteCatalogResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteCatalogRequest": {
@@ -7580,6 +7688,12 @@
           "target": "com.azure.devcenter#CatalogProperties",
           "traits": {
             "smithy.api#documentation": "Catalog properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -8459,7 +8573,7 @@
         "target": "com.azure.devcenter#DeleteAttachedNetworkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteAttachedNetworkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8470,6 +8584,20 @@
         },
         "smithy.api#documentation": "Un-attach a NetworkConnection.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteAttachedNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteAttachedNetworkRequest": {
@@ -10528,7 +10656,7 @@
         "target": "com.azure.devcenter#DeleteGalleryRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteGalleryResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -10539,6 +10667,20 @@
         },
         "smithy.api#documentation": "Deletes a gallery resource.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteGalleryResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteGalleryRequest": {
@@ -11052,7 +11194,7 @@
         "target": "com.azure.devcenter#ConnectProjectCatalogRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#ConnectProjectCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11063,6 +11205,20 @@
         },
         "smithy.api#documentation": "Connects a project catalog to enable syncing.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#ConnectProjectCatalogResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#ConnectProjectCatalogRequest": {
@@ -11111,7 +11267,7 @@
         "target": "com.azure.devcenter#SyncProjectCatalogRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#SyncProjectCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11122,6 +11278,20 @@
         },
         "smithy.api#documentation": "Syncs templates for a template source.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#SyncProjectCatalogResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#SyncProjectCatalogRequest": {
@@ -11483,7 +11653,7 @@
         "target": "com.azure.devcenter#DeleteProjectCatalogRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteProjectCatalogResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11494,6 +11664,20 @@
         },
         "smithy.api#documentation": "Deletes a project catalog resource.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteProjectCatalogResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteProjectCatalogRequest": {
@@ -11586,6 +11770,12 @@
           "target": "com.azure.devcenter#CatalogProperties",
           "traits": {
             "smithy.api#documentation": "Catalog properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -12194,7 +12384,7 @@
         "target": "com.azure.devcenter#DeleteProjectRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteProjectResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12205,6 +12395,20 @@
         },
         "smithy.api#documentation": "Deletes a project resource.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteProjectResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteProjectRequest": {
@@ -12308,6 +12512,12 @@
           "target": "com.azure.devcenter#UpdateProjectResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -13259,7 +13469,7 @@
         "target": "com.azure.devcenter#DeleteProjectPolicyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteProjectPolicyResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13270,6 +13480,20 @@
         },
         "smithy.api#documentation": "Deletes an project policy.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteProjectPolicyResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteProjectPolicyRequest": {
@@ -13362,6 +13586,12 @@
           "target": "com.azure.devcenter#ProjectPolicyProperties",
           "traits": {
             "smithy.api#documentation": "Properties of an project policy."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -14048,7 +14278,7 @@
         "target": "com.azure.devcenter#DeleteDevCenterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteDevCenterResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -14059,6 +14289,20 @@
         },
         "smithy.api#documentation": "Deletes a devcenter",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteDevCenterResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteDevCenterRequest": {
@@ -14162,6 +14406,12 @@
           "target": "com.azure.devcenter#UpdateDevCenterResponseIdentity",
           "traits": {
             "smithy.api#documentation": "Managed service identity (system assigned and/or user assigned identities)"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -15384,7 +15634,7 @@
         "target": "com.azure.devcenter#RunNetworkConnectionHealthChecksRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#RunNetworkConnectionHealthChecksResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15395,6 +15645,20 @@
         },
         "smithy.api#documentation": "Triggers a new health check run. The execution and health check result can be tracked via the network Connection health check details",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#RunNetworkConnectionHealthChecksResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#RunNetworkConnectionHealthChecksRequest": {
@@ -15784,7 +16048,7 @@
         "target": "com.azure.devcenter#DeleteNetworkConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteNetworkConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -15795,6 +16059,20 @@
         },
         "smithy.api#documentation": "Deletes a Network Connections resource",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteNetworkConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteNetworkConnectionRequest": {
@@ -15892,6 +16170,12 @@
           "target": "com.azure.devcenter#NetworkProperties",
           "traits": {
             "smithy.api#documentation": "Properties of a Network Connection"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -16829,7 +17113,7 @@
         "target": "com.azure.devcenter#DeleteScheduleRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeleteScheduleResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -16840,6 +17124,20 @@
         },
         "smithy.api#documentation": "Deletes a Scheduled.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeleteScheduleResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeleteScheduleRequest": {
@@ -16947,6 +17245,12 @@
           "target": "com.azure.devcenter#ScheduleProperties",
           "traits": {
             "smithy.api#documentation": "Properties of a Schedule resource"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },
@@ -17700,7 +18004,7 @@
         "target": "com.azure.devcenter#RunPoolHealthChecksRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#RunPoolHealthChecksResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -17711,6 +18015,20 @@
         },
         "smithy.api#documentation": "Triggers a refresh of the pool status.",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#RunPoolHealthChecksResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#RunPoolHealthChecksRequest": {
@@ -17759,7 +18077,7 @@
         "target": "com.azure.devcenter#DeletePoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.devcenter#DeletePoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -17770,6 +18088,20 @@
         },
         "smithy.api#documentation": "Deletes a machine pool",
         "com.distilled.openapi#apiVersion": "2025-02-01"
+      }
+    },
+    "com.azure.devcenter#DeletePoolResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.devcenter#DeletePoolRequest": {
@@ -17875,6 +18207,12 @@
           "target": "com.azure.devcenter#PoolProperties",
           "traits": {
             "smithy.api#documentation": "Pool properties"
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
           }
         }
       },

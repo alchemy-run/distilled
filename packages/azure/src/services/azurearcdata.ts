@@ -2380,6 +2380,8 @@ export interface CreateSqlServerAvailabilityGroupAvailabilityGroupResponse {
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  locationHeader?: string;
 }
 export const CreateSqlServerAvailabilityGroupAvailabilityGroupResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2393,6 +2395,7 @@ export const CreateSqlServerAvailabilityGroupAvailabilityGroupResponse =
       ),
       location: S.String,
       properties: SqlServerAvailabilityGroupResourceProperties,
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "CreateSqlServerAvailabilityGroupAvailabilityGroupResponse",
@@ -2544,6 +2547,8 @@ export interface CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupRes
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  locationHeader?: string;
 }
 export const CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2557,6 +2562,7 @@ export const CreateSqlServerAvailabilityGroupDistributedAvailabilityGroupRespons
       ),
       location: S.String,
       properties: SqlServerAvailabilityGroupResourceProperties,
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier:
@@ -2780,6 +2786,12 @@ export interface CreateSqlServerAvailabilityGroupManagedInstanceLinkResponse {
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** URL for determining when an operation has completed. */
+  locationHeader?: string;
+  /** The URL to retrieve the status of the asynchronous operation. */
+  azureAsyncOperation?: string;
 }
 export const CreateSqlServerAvailabilityGroupManagedInstanceLinkResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2793,6 +2805,11 @@ export const CreateSqlServerAvailabilityGroupManagedInstanceLinkResponse =
       ),
       location: S.String,
       properties: SqlServerAvailabilityGroupResourceProperties,
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "CreateSqlServerAvailabilityGroupManagedInstanceLinkResponse",
@@ -5295,9 +5312,15 @@ export const DeleteSqlServerAvailabilityGroupRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSqlServerAvailabilityGroupRequest",
 }) as any as S.Schema<DeleteSqlServerAvailabilityGroupRequest>;
 
-export interface DeleteSqlServerAvailabilityGroupResponse {}
+export interface DeleteSqlServerAvailabilityGroupResponse {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
 export const DeleteSqlServerAvailabilityGroupResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteSqlServerAvailabilityGroupResponse",
 }) as any as S.Schema<DeleteSqlServerAvailabilityGroupResponse>;
@@ -5331,9 +5354,24 @@ export const DeleteSqlServerAvailabilityGroupMiLinkRequest =
     identifier: "DeleteSqlServerAvailabilityGroupMiLinkRequest",
   }) as any as S.Schema<DeleteSqlServerAvailabilityGroupMiLinkRequest>;
 
-export interface DeleteSqlServerAvailabilityGroupMiLinkResponse {}
+export interface DeleteSqlServerAvailabilityGroupMiLinkResponse {
+  /** The Retry-After header indicates how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** URL for checking the ongoing status of the operation. To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value. More details can be found in https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md */
+  azureAsyncOperation?: string;
+}
 export const DeleteSqlServerAvailabilityGroupMiLinkResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+    }),
+  ).annotate({
     identifier: "DeleteSqlServerAvailabilityGroupMiLinkResponse",
   }) as any as S.Schema<DeleteSqlServerAvailabilityGroupMiLinkResponse>;
 
@@ -5365,9 +5403,14 @@ export const DeleteSqlServerDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSqlServerDatabaseRequest",
 }) as any as S.Schema<DeleteSqlServerDatabaseRequest>;
 
-export interface DeleteSqlServerDatabaseResponse {}
+export interface DeleteSqlServerDatabaseResponse {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
 export const DeleteSqlServerDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteSqlServerDatabaseResponse",
 }) as any as S.Schema<DeleteSqlServerDatabaseResponse>;
@@ -6439,6 +6482,10 @@ export interface GetSqlServerInstanceBestPracticesAssessmentResponse {
   rows: GetSqlServerInstanceBestPracticesAssessmentResponseRowsList;
   /** The link to the next page of the best practices assessment response for the SQL Server instance. Null, if no more pages are available. */
   nextLink?: string;
+  /** The URL to retrieve the operation status. */
+  location?: string;
+  /** The URL to retrieve the operation status. */
+  azureAsyncOperation?: string;
 }
 export const GetSqlServerInstanceBestPracticesAssessmentResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -6446,6 +6493,10 @@ export const GetSqlServerInstanceBestPracticesAssessmentResponse =
       columns: GetSqlServerInstanceBestPracticesAssessmentResponseColumnsList,
       rows: GetSqlServerInstanceBestPracticesAssessmentResponseRowsList,
       nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "GetSqlServerInstanceBestPracticesAssessmentResponse",
@@ -6763,6 +6814,8 @@ export interface GetSqlServerInstanceTelemetryResponse {
   rows: GetSqlServerInstanceTelemetryResponseRowsList;
   /** The link to the next section of rows of the telemetry response for the SQL Server instance. Null if no more sections are available. */
   nextLink?: string;
+  /** The URL to retrieve the operation status. */
+  location?: string;
 }
 export const GetSqlServerInstanceTelemetryResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -6770,6 +6823,7 @@ export const GetSqlServerInstanceTelemetryResponse = /*@__PURE__*/ S.suspend(
       columns: GetSqlServerInstanceTelemetryResponseColumnsList,
       rows: GetSqlServerInstanceTelemetryResponseRowsList,
       nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "GetSqlServerInstanceTelemetryResponse",
@@ -8612,12 +8666,23 @@ export const RunSqlServerInstanceManagedInstanceLinkAssessmentResponseAssessment
 export interface RunSqlServerInstanceManagedInstanceLinkAssessmentResponse {
   /** The list of the results for MI Link assessment. */
   assessments?: RunSqlServerInstanceManagedInstanceLinkAssessmentResponseAssessmentsList;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The URL to retrieve the operation status. */
+  location?: string;
+  /** The URL to retrieve the operation status. */
+  azureAsyncOperation?: string;
 }
 export const RunSqlServerInstanceManagedInstanceLinkAssessmentResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       assessments: S.optional(
         RunSqlServerInstanceManagedInstanceLinkAssessmentResponseAssessmentsList,
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
       ),
     }),
   ).annotate({
@@ -8899,6 +8964,12 @@ export interface SqlServerAvailabilityGroupsFailoverMiLinkResponse {
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
+  /** The Retry-After header indicates how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  locationHeader?: string;
+  /** URL for checking the ongoing status of the operation. To get the status of the asynchronous operation, send a GET request to the URL in Azure-AsyncOperation header value. More details can be found in https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md */
+  azureAsyncOperation?: string;
 }
 export const SqlServerAvailabilityGroupsFailoverMiLinkResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -8912,6 +8983,11 @@ export const SqlServerAvailabilityGroupsFailoverMiLinkResponse =
       ),
       location: S.String,
       properties: SqlServerAvailabilityGroupResourceProperties,
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
   ).annotate({
     identifier: "SqlServerAvailabilityGroupsFailoverMiLinkResponse",
@@ -9306,6 +9382,8 @@ export interface UpdateSqlServerAvailabilityGroupResponse {
   location: string;
   /** Properties of Arc Sql Server availability group */
   properties: SqlServerAvailabilityGroupResourceProperties;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  locationHeader?: string;
 }
 export const UpdateSqlServerAvailabilityGroupResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -9317,6 +9395,7 @@ export const UpdateSqlServerAvailabilityGroupResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(UpdateSqlServerAvailabilityGroupResponseTagsMap),
       location: S.String,
       properties: SqlServerAvailabilityGroupResourceProperties,
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "UpdateSqlServerAvailabilityGroupResponse",
@@ -9389,6 +9468,8 @@ export interface UpdateSqlServerDatabaseResponse {
   location: string;
   /** Properties of Arc Sql Server database */
   properties: SqlServerDatabaseResourceProperties;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  locationHeader?: string;
 }
 export const UpdateSqlServerDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9399,6 +9480,7 @@ export const UpdateSqlServerDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateSqlServerDatabaseResponseTagsMap),
     location: S.String,
     properties: SqlServerDatabaseResourceProperties,
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSqlServerDatabaseResponse",
@@ -9711,6 +9793,8 @@ export interface UpdateSqlServerInstanceResponse {
   location: string;
   /** null */
   properties?: SqlServerInstanceProperties;
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  locationHeader?: string;
 }
 export const UpdateSqlServerInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9721,6 +9805,7 @@ export const UpdateSqlServerInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateSqlServerInstanceResponseTagsMap),
     location: S.String,
     properties: S.optional(SqlServerInstanceProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSqlServerInstanceResponse",

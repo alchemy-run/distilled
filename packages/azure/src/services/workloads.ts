@@ -810,6 +810,10 @@ export interface CreateSapApplicationServerInstanceResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SAPApplicationServerProperties_2;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSapApplicationServerInstanceResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -821,6 +825,10 @@ export const CreateSapApplicationServerInstanceResponse =
       tags: S.optional(CreateSapApplicationServerInstanceResponseTagsMap),
       location: S.String,
       properties: S.optional(SAPApplicationServerProperties_2),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CreateSapApplicationServerInstanceResponse",
@@ -1622,6 +1630,10 @@ export interface CreateSapCentralServerInstanceResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SAPCentralServerProperties_2;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1633,6 +1645,10 @@ export const CreateSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
       tags: S.optional(CreateSapCentralServerInstanceResponseTagsMap),
       location: S.String,
       properties: S.optional(SAPCentralServerProperties_2),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateSapCentralServerInstanceResponse",
@@ -1780,6 +1796,10 @@ export interface CreateSapDatabaseInstanceResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SAPDatabaseProperties_2;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1790,6 +1810,10 @@ export const CreateSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateSapDatabaseInstanceResponseTagsMap),
     location: S.String,
     properties: S.optional(SAPDatabaseProperties_2),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSapDatabaseInstanceResponse",
@@ -2440,6 +2464,10 @@ export interface CreateSapVirtualInstanceResponse {
   properties?: SAPVirtualInstanceProperties_2;
   /** The managed service identities assigned to this resource. */
   identity?: SAPVirtualInstanceIdentity_2;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2451,6 +2479,10 @@ export const CreateSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SAPVirtualInstanceProperties_2),
     identity: S.optional(SAPVirtualInstanceIdentity_2),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSapVirtualInstanceResponse",
@@ -2946,9 +2978,19 @@ export const DeleteSapApplicationServerInstanceRequest =
     identifier: "DeleteSapApplicationServerInstanceRequest",
   }) as any as S.Schema<DeleteSapApplicationServerInstanceRequest>;
 
-export interface DeleteSapApplicationServerInstanceResponse {}
+export interface DeleteSapApplicationServerInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSapApplicationServerInstanceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteSapApplicationServerInstanceResponse",
   }) as any as S.Schema<DeleteSapApplicationServerInstanceResponse>;
 
@@ -3123,9 +3165,18 @@ export const DeleteSapCentralServerInstanceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSapCentralServerInstanceRequest",
 }) as any as S.Schema<DeleteSapCentralServerInstanceRequest>;
 
-export interface DeleteSapCentralServerInstanceResponse {}
+export interface DeleteSapCentralServerInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteSapCentralServerInstanceResponse",
 }) as any as S.Schema<DeleteSapCentralServerInstanceResponse>;
@@ -3158,9 +3209,17 @@ export const DeleteSapDatabaseInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSapDatabaseInstanceRequest",
 }) as any as S.Schema<DeleteSapDatabaseInstanceRequest>;
 
-export interface DeleteSapDatabaseInstanceResponse {}
+export interface DeleteSapDatabaseInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSapDatabaseInstanceResponse",
 }) as any as S.Schema<DeleteSapDatabaseInstanceResponse>;
@@ -3291,9 +3350,17 @@ export const DeleteSapVirtualInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSapVirtualInstanceRequest",
 }) as any as S.Schema<DeleteSapVirtualInstanceRequest>;
 
-export interface DeleteSapVirtualInstanceResponse {}
+export interface DeleteSapVirtualInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteSapVirtualInstanceResponse",
 }) as any as S.Schema<DeleteSapVirtualInstanceResponse>;
@@ -6064,6 +6131,10 @@ export interface StartSapApplicationServerInstanceResponse {
   operations?: StartSapApplicationServerInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StartSapApplicationServerInstanceResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -6079,6 +6150,8 @@ export const StartSapApplicationServerInstanceResponse =
         StartSapApplicationServerInstanceResponseOperationsList,
       ),
       error: S.optional(ErrorDetail),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "StartSapApplicationServerInstanceResponse",
@@ -6289,6 +6362,10 @@ export interface StartSapCentralServerInstanceResponse {
   operations?: StartSapCentralServerInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StartSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -6304,6 +6381,8 @@ export const StartSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
         StartSapCentralServerInstanceResponseOperationsList,
       ),
       error: S.optional(ErrorDetail),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "StartSapCentralServerInstanceResponse",
@@ -6367,6 +6446,10 @@ export interface StartSapDatabaseInstanceResponse {
   operations?: StartSapDatabaseInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StartSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6379,6 +6462,8 @@ export const StartSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(StartSapDatabaseInstanceResponseOperationsList),
     error: S.optional(ErrorDetail),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StartSapDatabaseInstanceResponse",
@@ -6512,6 +6597,10 @@ export interface StartSapVirtualInstanceResponse {
   operations?: StartSapVirtualInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StartSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6524,6 +6613,8 @@ export const StartSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(StartSapVirtualInstanceResponseOperationsList),
     error: S.optional(ErrorDetail),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StartSapVirtualInstanceResponse",
@@ -6657,6 +6748,10 @@ export interface StopSapApplicationServerInstanceResponse {
   operations?: StopSapApplicationServerInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StopSapApplicationServerInstanceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -6672,6 +6767,8 @@ export const StopSapApplicationServerInstanceResponse = /*@__PURE__*/ S.suspend(
         StopSapApplicationServerInstanceResponseOperationsList,
       ),
       error: S.optional(ErrorDetail),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "StopSapApplicationServerInstanceResponse",
@@ -6890,6 +6987,10 @@ export interface StopSapCentralServerInstanceResponse {
   operations?: StopSapCentralServerInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StopSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -6905,6 +7006,8 @@ export const StopSapCentralServerInstanceResponse = /*@__PURE__*/ S.suspend(
         StopSapCentralServerInstanceResponseOperationsList,
       ),
       error: S.optional(ErrorDetail),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "StopSapCentralServerInstanceResponse",
@@ -6971,6 +7074,10 @@ export interface StopSapDatabaseInstanceResponse {
   operations?: StopSapDatabaseInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StopSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6983,6 +7090,8 @@ export const StopSapDatabaseInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(StopSapDatabaseInstanceResponseOperationsList),
     error: S.optional(ErrorDetail),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StopSapDatabaseInstanceResponse",
@@ -7122,6 +7231,10 @@ export interface StopSapVirtualInstanceResponse {
   operations?: StopSapVirtualInstanceResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const StopSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7134,6 +7247,8 @@ export const StopSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(StopSapVirtualInstanceResponseOperationsList),
     error: S.optional(ErrorDetail),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "StopSapVirtualInstanceResponse",
@@ -7965,6 +8080,10 @@ export interface UpdateSapVirtualInstanceResponse {
   properties?: SAPVirtualInstanceProperties_2;
   /** The managed service identities assigned to this resource. */
   identity?: SAPVirtualInstanceIdentity_2;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7976,6 +8095,8 @@ export const UpdateSapVirtualInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SAPVirtualInstanceProperties_2),
     identity: S.optional(SAPVirtualInstanceIdentity_2),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateSapVirtualInstanceResponse",

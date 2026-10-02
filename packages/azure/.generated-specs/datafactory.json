@@ -24,7 +24,7 @@
         "target": "com.azure.datafactory#UnsubscribeTriggerFromEventsRequest"
       },
       "output": {
-        "target": "com.azure.datafactory#TriggerSubscriptionOperationStatus"
+        "target": "com.azure.datafactory#UnsubscribeTriggerFromEventsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -37,7 +37,7 @@
         "com.distilled.openapi#apiVersion": "2018-06-01"
       }
     },
-    "com.azure.datafactory#TriggerSubscriptionOperationStatus": {
+    "com.azure.datafactory#UnsubscribeTriggerFromEventsResponse": {
       "type": "structure",
       "members": {
         "triggerName": {
@@ -51,10 +51,25 @@
           "traits": {
             "smithy.api#documentation": "Event Subscription Status."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Defines the response of a trigger subscription operation."
+        "smithy.api#documentation": "Defines the response of a trigger subscription operation.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.datafactory#EventSubscriptionStatus": {
@@ -271,7 +286,7 @@
         "target": "com.azure.datafactory#SubscribeTriggerToEventsRequest"
       },
       "output": {
-        "target": "com.azure.datafactory#TriggerSubscriptionOperationStatus"
+        "target": "com.azure.datafactory#SubscribeTriggerToEventsResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -282,6 +297,41 @@
         },
         "smithy.api#documentation": "Subscribe event trigger to events.",
         "com.distilled.openapi#apiVersion": "2018-06-01"
+      }
+    },
+    "com.azure.datafactory#SubscribeTriggerToEventsResponse": {
+      "type": "structure",
+      "members": {
+        "triggerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trigger name."
+          }
+        },
+        "status": {
+          "target": "com.azure.datafactory#EventSubscriptionStatus",
+          "traits": {
+            "smithy.api#documentation": "Event Subscription Status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the response of a trigger subscription operation.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.datafactory#SubscribeTriggerToEventsRequest": {
@@ -330,7 +380,7 @@
         "target": "com.azure.datafactory#StopTriggerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datafactory#StopTriggerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -341,6 +391,21 @@
         },
         "smithy.api#documentation": "Stops a trigger.",
         "com.distilled.openapi#apiVersion": "2018-06-01"
+      }
+    },
+    "com.azure.datafactory#StopTriggerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datafactory#StopTriggerRequest": {
@@ -389,7 +454,7 @@
         "target": "com.azure.datafactory#StartTriggerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datafactory#StartTriggerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -400,6 +465,21 @@
         },
         "smithy.api#documentation": "Starts a trigger.",
         "com.distilled.openapi#apiVersion": "2018-06-01"
+      }
+    },
+    "com.azure.datafactory#StartTriggerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datafactory#StartTriggerRequest": {
@@ -459,6 +539,26 @@
         },
         "smithy.api#documentation": "Get a trigger's event subscription status.",
         "com.distilled.openapi#apiVersion": "2018-06-01"
+      }
+    },
+    "com.azure.datafactory#TriggerSubscriptionOperationStatus": {
+      "type": "structure",
+      "members": {
+        "triggerName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Trigger name."
+          }
+        },
+        "status": {
+          "target": "com.azure.datafactory#EventSubscriptionStatus",
+          "traits": {
+            "smithy.api#documentation": "Event Subscription Status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines the response of a trigger subscription operation."
       }
     },
     "com.azure.datafactory#GetTriggerEventSubscriptionStatusRequest": {
@@ -5805,7 +5905,7 @@
         "target": "com.azure.datafactory#StopIntegrationRuntimeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datafactory#StopIntegrationRuntimeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5816,6 +5916,28 @@
         },
         "smithy.api#documentation": "Stops a ManagedReserved type integration runtime.",
         "com.distilled.openapi#apiVersion": "2018-06-01"
+      }
+    },
+    "com.azure.datafactory#StopIntegrationRuntimeResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datafactory#StopIntegrationRuntimeRequest": {
@@ -5864,7 +5986,7 @@
         "target": "com.azure.datafactory#StartIntegrationRuntimeRequest"
       },
       "output": {
-        "target": "com.azure.datafactory#IntegrationRuntimeStatusResponse"
+        "target": "com.azure.datafactory#StartIntegrationRuntimeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5877,7 +5999,7 @@
         "com.distilled.openapi#apiVersion": "2018-06-01"
       }
     },
-    "com.azure.datafactory#IntegrationRuntimeStatusResponse": {
+    "com.azure.datafactory#StartIntegrationRuntimeResponse": {
       "type": "structure",
       "members": {
         "name": {
@@ -5892,10 +6014,25 @@
             "smithy.api#documentation": "Integration runtime properties.",
             "smithy.api#required": {}
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Integration runtime status response."
+        "smithy.api#documentation": "Integration runtime status response.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.datafactory#IntegrationRuntimeStatus": {
@@ -6261,6 +6398,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The operation error message."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7168,6 +7319,27 @@
         "com.distilled.openapi#apiVersion": "2018-06-01"
       }
     },
+    "com.azure.datafactory#IntegrationRuntimeStatusResponse": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The integration runtime name."
+          }
+        },
+        "properties": {
+          "target": "com.azure.datafactory#IntegrationRuntimeStatus",
+          "traits": {
+            "smithy.api#documentation": "Integration runtime properties.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Integration runtime status response."
+      }
+    },
     "com.azure.datafactory#CreateIntegrationRuntimeLinkedIntegrationRuntimeRequest": {
       "type": "structure",
       "members": {
@@ -7606,6 +7778,27 @@
           "traits": {
             "smithy.api#documentation": "\"If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.\")"
           }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -7736,6 +7929,27 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "\"If etag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.\")"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9185,6 +9399,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The result data of data preview, statistics or expression preview."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -10838,6 +11066,20 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The ID of data flow debug session."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

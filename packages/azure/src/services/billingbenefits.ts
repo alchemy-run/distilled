@@ -338,6 +338,12 @@ export interface CancelConditionalCreditResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CancelConditionalCreditResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -354,6 +360,11 @@ export const CancelConditionalCreditResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CancelConditionalCreditResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CancelConditionalCreditResponse",
@@ -681,6 +692,10 @@ export interface CancelCreditResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
 }
 export const CancelCreditResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -697,6 +712,10 @@ export const CancelCreditResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CancelCreditResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "CancelCreditResponse",
@@ -871,6 +890,12 @@ export interface CancelDiscountResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CancelDiscountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -887,6 +912,11 @@ export const CancelDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedServiceIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CancelDiscountResponse",
@@ -1182,6 +1212,12 @@ export interface CancelMaccResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CancelMaccResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1198,6 +1234,11 @@ export const CancelMaccResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CancelMaccResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CancelMaccResponse",
@@ -1408,6 +1449,10 @@ export interface ConditionalCreditsCreateOrUpdateResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ConditionalCreditsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1425,6 +1470,10 @@ export const ConditionalCreditsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       identity: S.optional(ConditionalCreditsCreateOrUpdateResponseIdentity),
       sku: S.optional(Sku),
       plan: S.optional(Plan),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "ConditionalCreditsCreateOrUpdateResponse",
@@ -1638,6 +1687,12 @@ export interface CreateCreditResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCreditResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1654,6 +1709,11 @@ export const CreateCreditResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CreateCreditResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCreditResponse",
@@ -1821,6 +1881,10 @@ export interface CreateDiscountResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateDiscountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1837,6 +1901,10 @@ export const CreateDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedServiceIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateDiscountResponse",
@@ -2082,6 +2150,10 @@ export interface CreateFreeServiceResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateFreeServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2098,6 +2170,10 @@ export const CreateFreeServiceResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CreateFreeServiceResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateFreeServiceResponse",
@@ -2328,6 +2404,10 @@ export interface CreateMaccResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateMaccResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2344,6 +2424,10 @@ export const CreateMaccResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(CreateMaccResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateMaccResponse",
@@ -2634,6 +2718,10 @@ export interface CreateReservationOrderAliasResponse {
   sku: ResourceSku;
   /** The Azure Region where the reserved resource lives. */
   location?: string;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateReservationOrderAliasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2644,6 +2732,10 @@ export const CreateReservationOrderAliasResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ReservationOrderAliasResponseProperties),
     sku: ResourceSku,
     location: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateReservationOrderAliasResponse",
@@ -2767,6 +2859,10 @@ export interface CreateSavingsPlanOrderAliasResponse {
   sku: ResourceSku;
   /** Resource provider kind */
   kind?: string;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateSavingsPlanOrderAliasResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2777,6 +2873,10 @@ export const CreateSavingsPlanOrderAliasResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SavingsPlanOrderAliasProperties),
     sku: ResourceSku,
     kind: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateSavingsPlanOrderAliasResponse",
@@ -3025,9 +3125,19 @@ export const CreditsChangeSponsorRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreditsChangeSponsorRequest",
 }) as any as S.Schema<CreditsChangeSponsorRequest>;
 
-export interface CreditsChangeSponsorResponse {}
+export interface CreditsChangeSponsorResponse {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  location?: string;
+}
 export const CreditsChangeSponsorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "CreditsChangeSponsorResponse",
 }) as any as S.Schema<CreditsChangeSponsorResponse>;
@@ -3057,9 +3167,22 @@ export const DeleteConditionalCreditRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConditionalCreditRequest",
 }) as any as S.Schema<DeleteConditionalCreditRequest>;
 
-export interface DeleteConditionalCreditResponse {}
+export interface DeleteConditionalCreditResponse {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConditionalCreditResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConditionalCreditResponse",
 }) as any as S.Schema<DeleteConditionalCreditResponse>;
@@ -3089,9 +3212,22 @@ export const DeleteCreditRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCreditRequest",
 }) as any as S.Schema<DeleteCreditRequest>;
 
-export interface DeleteCreditResponse {}
+export interface DeleteCreditResponse {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCreditResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCreditResponse",
 }) as any as S.Schema<DeleteCreditResponse>;
@@ -3121,9 +3257,22 @@ export const DeleteDiscountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDiscountRequest",
 }) as any as S.Schema<DeleteDiscountRequest>;
 
-export interface DeleteDiscountResponse {}
+export interface DeleteDiscountResponse {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDiscountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDiscountResponse",
 }) as any as S.Schema<DeleteDiscountResponse>;
@@ -3153,9 +3302,22 @@ export const DeleteFreeServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFreeServiceRequest",
 }) as any as S.Schema<DeleteFreeServiceRequest>;
 
-export interface DeleteFreeServiceResponse {}
+export interface DeleteFreeServiceResponse {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFreeServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFreeServiceResponse",
 }) as any as S.Schema<DeleteFreeServiceResponse>;
@@ -3185,9 +3347,22 @@ export const DeleteMaccRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMaccRequest",
 }) as any as S.Schema<DeleteMaccRequest>;
 
-export interface DeleteMaccResponse {}
+export interface DeleteMaccResponse {
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteMaccResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteMaccResponse",
 }) as any as S.Schema<DeleteMaccResponse>;
@@ -7040,6 +7215,12 @@ export interface MaccsChargeShortfallResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MaccsChargeShortfallResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7056,6 +7237,11 @@ export const MaccsChargeShortfallResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(MaccsChargeShortfallResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "MaccsChargeShortfallResponse",
@@ -7155,6 +7341,12 @@ export interface MaccsWriteOffResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MaccsWriteOffResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7171,6 +7363,11 @@ export const MaccsWriteOffResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(MaccsWriteOffResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "MaccsWriteOffResponse",
@@ -7580,6 +7777,12 @@ export interface UpdateConditionalCreditResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateConditionalCreditResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7596,6 +7799,11 @@ export const UpdateConditionalCreditResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UpdateConditionalCreditResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateConditionalCreditResponse",
@@ -7731,6 +7939,12 @@ export interface UpdateCreditResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCreditResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7747,6 +7961,11 @@ export const UpdateCreditResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UpdateCreditResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCreditResponse",
@@ -7844,6 +8063,12 @@ export interface UpdateDiscountResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDiscountResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7860,6 +8085,11 @@ export const UpdateDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedServiceIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDiscountResponse",
@@ -7987,6 +8217,12 @@ export interface UpdateFreeServiceResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFreeServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8003,6 +8239,11 @@ export const UpdateFreeServiceResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UpdateFreeServiceResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFreeServiceResponse",
@@ -8161,6 +8402,12 @@ export interface UpdateMaccResponse {
   sku?: Sku;
   /** Plan for the resource. */
   plan?: Plan;
+  /** URL for checking the ongoing status of the operation. */
+  azureAsyncOperation?: string;
+  /** Location URI to poll for result. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateMaccResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8177,6 +8424,11 @@ export const UpdateMaccResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UpdateMaccResponseIdentity),
     sku: S.optional(Sku),
     plan: S.optional(Plan),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateMaccResponse",
@@ -8220,6 +8472,8 @@ export interface UpdateSavingsPlanResponse {
   properties?: SavingsPlanModelProperties;
   /** Savings plan SKU */
   sku: ResourceSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const UpdateSavingsPlanResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8229,6 +8483,7 @@ export const UpdateSavingsPlanResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SavingsPlanModelProperties),
     sku: ResourceSku,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateSavingsPlanResponse",

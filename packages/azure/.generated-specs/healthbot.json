@@ -169,7 +169,7 @@
         "target": "com.azure.healthbot#DeleteBotRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.healthbot#DeleteBotResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -180,6 +180,21 @@
         },
         "smithy.api#documentation": "Delete a HealthBot.",
         "com.distilled.openapi#apiVersion": "2025-11-01"
+      }
+    },
+    "com.azure.healthbot#DeleteBotResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.healthbot#DeleteBotRequest": {
@@ -290,6 +305,20 @@
           "target": "com.azure.healthbot#Identity",
           "traits": {
             "smithy.api#documentation": "The identity of the Azure Health Bot."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -826,6 +855,20 @@
           "target": "com.azure.healthbot#Identity",
           "traits": {
             "smithy.api#documentation": "The identity of the Azure Health Bot."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

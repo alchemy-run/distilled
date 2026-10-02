@@ -828,6 +828,10 @@ async function main() {
           // `?api-version=` on every call). Drops the api-version query
           // param from the user-facing input schema.
           apiVersion: spec.apiVersion,
+          // ARM answers long-running operations with 202 and the status
+          // monitor in `Azure-AsyncOperation` / `Location`; expose them so
+          // callers can follow the operation (distilled does not poll).
+          responseHeaders: true,
         });
         foldApiVersion(model);
         mergeSpecModel(merged, model);

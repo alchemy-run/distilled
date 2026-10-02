@@ -701,7 +701,7 @@
         "target": "com.azure.apimanagement#DeleteApiGatewayRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#DeleteApiGatewayResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -712,6 +712,21 @@
         },
         "smithy.api#documentation": "Deletes an existing API Management gateway.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#DeleteApiGatewayResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#DeleteApiGatewayRequest": {
@@ -823,6 +838,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "ETag of the resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
           }
         }
       },
@@ -2139,6 +2161,13 @@
           "traits": {
             "smithy.api#documentation": "Wiki details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -2236,6 +2265,13 @@
           "traits": {
             "smithy.api#documentation": "Wiki details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -2332,6 +2368,13 @@
           "target": "com.azure.apimanagement#WikiContractProperties",
           "traits": {
             "smithy.api#documentation": "Wiki details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -3195,6 +3238,13 @@
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -3308,6 +3358,13 @@
           "target": "com.azure.apimanagement#TagContractProperties",
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -3622,6 +3679,13 @@
           "traits": {
             "smithy.api#documentation": "TagDescription entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -3790,6 +3854,13 @@
           "target": "com.azure.apimanagement#TagDescriptionContractProperties",
           "traits": {
             "smithy.api#documentation": "TagDescription entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -4112,6 +4183,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Issue Attachment."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -4253,6 +4331,13 @@
           "target": "com.azure.apimanagement#IssueAttachmentContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Issue Attachment."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -4591,6 +4676,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Issue Comment."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -4731,6 +4823,13 @@
           "target": "com.azure.apimanagement#IssueCommentContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Issue Comment."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -5061,6 +5160,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Issue."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -5333,6 +5439,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Issue."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -5437,6 +5550,13 @@
           "target": "com.azure.apimanagement#IssueContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Issue."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -5764,6 +5884,13 @@
           "target": "com.azure.apimanagement#DiagnosticContractProperties",
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -6202,6 +6329,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -6306,6 +6440,13 @@
           "target": "com.azure.apimanagement#DiagnosticContractProperties",
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -6627,6 +6768,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the API Schema."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -6807,6 +6969,13 @@
           "target": "com.azure.apimanagement#SchemaContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the API Schema."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -7133,6 +7302,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -7302,6 +7478,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -7870,6 +8053,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -7994,6 +8184,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -8308,6 +8505,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Resolver Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -8465,6 +8669,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Resolver Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -8569,6 +8780,13 @@
           "target": "com.azure.apimanagement#ResolverEntityBaseContract",
           "traits": {
             "smithy.api#documentation": "Properties of the Resolver Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -8998,6 +9216,13 @@
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -9315,6 +9540,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -9439,6 +9671,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -9752,6 +9991,13 @@
           "target": "com.azure.apimanagement#OperationContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -10284,6 +10530,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -10388,6 +10641,13 @@
           "target": "com.azure.apimanagement#OperationContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -10709,6 +10969,13 @@
           "traits": {
             "smithy.api#documentation": "ApiRelease entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -10866,6 +11133,13 @@
           "traits": {
             "smithy.api#documentation": "ApiRelease entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -10970,6 +11244,13 @@
           "target": "com.azure.apimanagement#ApiReleaseContractProperties",
           "traits": {
             "smithy.api#documentation": "ApiRelease entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -11349,7 +11630,7 @@
         "target": "com.azure.apimanagement#DeleteApiRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#DeleteApiResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -11360,6 +11641,28 @@
         },
         "smithy.api#documentation": "Deletes the specified API of the API Management service instance.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#DeleteApiResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#DeleteApiRequest": {
@@ -11453,6 +11756,13 @@
           "target": "com.azure.apimanagement#ApiContractProperties",
           "traits": {
             "smithy.api#documentation": "API entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -12044,6 +12354,27 @@
           "traits": {
             "smithy.api#documentation": "API entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -12565,6 +12896,13 @@
           "traits": {
             "smithy.api#documentation": "API entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -12982,6 +13320,13 @@
           "traits": {
             "smithy.api#documentation": "API VersionSet contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -13209,6 +13554,13 @@
           "traits": {
             "smithy.api#documentation": "API VersionSet contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -13305,6 +13657,13 @@
           "target": "com.azure.apimanagement#ApiVersionSetContractProperties",
           "traits": {
             "smithy.api#documentation": "API VersionSet contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -13611,6 +13970,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Authorization Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -13758,6 +14124,13 @@
           "target": "com.azure.apimanagement#AuthorizationAccessPolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Authorization Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -13982,7 +14355,7 @@
         "target": "com.azure.apimanagement#ConfirmAuthorizationConsentCodeRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#ConfirmAuthorizationConsentCodeResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -13993,6 +14366,21 @@
         },
         "smithy.api#documentation": "Confirm valid consent code to suppress Authorizations anti-phishing page.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#ConfirmAuthorizationConsentCodeResponse": {
+      "type": "structure",
+      "members": {
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#ConfirmAuthorizationConsentCodeRequest": {
@@ -14075,6 +14463,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The login link"
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -14247,6 +14642,13 @@
           "target": "com.azure.apimanagement#AuthorizationContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Authorization Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -14453,6 +14855,13 @@
           "target": "com.azure.apimanagement#AuthorizationContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Authorization Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -14759,6 +15168,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Authorization Provider Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -14945,6 +15361,13 @@
           "target": "com.azure.apimanagement#AuthorizationProviderContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Authorization Provider Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -15166,6 +15589,13 @@
             "smithy.api#documentation": "Can be optionally specified when resource owner password grant type is supported by this authorization server. Default resource owner password.",
             "smithy.api#sensitive": {}
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -15315,6 +15745,13 @@
           "target": "com.azure.apimanagement#AuthorizationServerContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the External OAuth authorization server Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -16006,6 +16443,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the External OAuth authorization server Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -16102,6 +16546,13 @@
           "target": "com.azure.apimanagement#AuthorizationServerContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the External OAuth authorization server Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -16470,6 +16921,13 @@
           "target": "com.azure.apimanagement#BackendContractProperties",
           "traits": {
             "smithy.api#documentation": "Backend entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -17272,6 +17730,13 @@
           "traits": {
             "smithy.api#documentation": "Backend entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -17368,6 +17833,13 @@
           "target": "com.azure.apimanagement#BackendContractProperties",
           "traits": {
             "smithy.api#documentation": "Backend entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -17658,6 +18130,13 @@
           "traits": {
             "smithy.api#documentation": "Cache properties details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -17823,6 +18302,13 @@
           "traits": {
             "smithy.api#documentation": "Cache properties details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -17919,6 +18405,13 @@
           "target": "com.azure.apimanagement#CacheContractProperties",
           "traits": {
             "smithy.api#documentation": "Cache properties details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -18142,6 +18635,13 @@
           "target": "com.azure.apimanagement#CertificateContractProperties",
           "traits": {
             "smithy.api#documentation": "Certificate properties details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -18380,6 +18880,13 @@
           "traits": {
             "smithy.api#documentation": "Certificate properties details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -18523,6 +19030,13 @@
           "target": "com.azure.apimanagement#CertificateContractProperties",
           "traits": {
             "smithy.api#documentation": "Certificate properties details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -18778,6 +19292,12 @@
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#documentation": "Number of failed probes."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
           }
         }
       },
@@ -19408,6 +19928,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the content item."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -19522,6 +20049,13 @@
           "target": "com.azure.apimanagement#ContentItemContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the content item."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -19801,6 +20335,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the content type."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -19933,6 +20474,13 @@
           "target": "com.azure.apimanagement#ContentTypeContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the content type."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -20098,7 +20646,7 @@
         "target": "com.azure.apimanagement#PurgeDeletedServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#PurgeDeletedServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -20109,6 +20657,20 @@
         },
         "smithy.api#documentation": "Purges Api Management Service (deletes it with no option to undelete).",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#PurgeDeletedServiceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#PurgeDeletedServiceRequest": {
@@ -20447,6 +21009,12 @@
           "target": "com.azure.apimanagement#ApplyApiManagementServiceNetworkConfigurationUpdatesResponseZonesList",
           "traits": {
             "smithy.api#documentation": "A list of availability zones denoting where the resource needs to come from."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
           }
         }
       },
@@ -22482,6 +23050,12 @@
           "traits": {
             "smithy.api#documentation": "A list of availability zones denoting where the resource needs to come from."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
         }
       },
       "traits": {
@@ -22681,7 +23255,7 @@
         "target": "com.azure.apimanagement#DeleteApiManagementServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#DeleteApiManagementServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -22692,6 +23266,21 @@
         },
         "smithy.api#documentation": "Deletes an existing API Management service.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#DeleteApiManagementServiceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#DeleteApiManagementServiceRequest": {
@@ -22815,6 +23404,13 @@
           "target": "com.azure.apimanagement#UpdateApiManagementServiceResponseZonesList",
           "traits": {
             "smithy.api#documentation": "A list of availability zones denoting where the resource needs to come from."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
           }
         }
       },
@@ -24542,6 +25138,12 @@
           "traits": {
             "smithy.api#documentation": "A list of availability zones denoting where the resource needs to come from."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
         }
       },
       "traits": {
@@ -24863,6 +25465,12 @@
           "target": "com.azure.apimanagement#RestoreApiManagementServiceResponseZonesList",
           "traits": {
             "smithy.api#documentation": "A list of availability zones denoting where the resource needs to come from."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
           }
         }
       },
@@ -25547,6 +26155,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -25644,6 +26259,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -25740,6 +26362,13 @@
           "target": "com.azure.apimanagement#DiagnosticContractProperties",
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -25998,6 +26627,13 @@
           "traits": {
             "smithy.api#documentation": "Markdown Documentation details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -26115,6 +26751,13 @@
           "traits": {
             "smithy.api#documentation": "Markdown Documentation details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -26211,6 +26854,13 @@
           "target": "com.azure.apimanagement#DocumentationContractProperties",
           "traits": {
             "smithy.api#documentation": "Markdown Documentation details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -26584,6 +27234,13 @@
           "target": "com.azure.apimanagement#EmailTemplateContractProperties",
           "traits": {
             "smithy.api#documentation": "Email Template entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -27087,6 +27744,13 @@
           "traits": {
             "smithy.api#documentation": "Email Template entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -27368,7 +28032,7 @@
         "target": "com.azure.apimanagement#DeleteApiGatewayConfigConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#DeleteApiGatewayConfigConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -27379,6 +28043,21 @@
         },
         "smithy.api#documentation": "Deletes an existing API Management gateway config connection.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#DeleteApiGatewayConfigConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#DeleteApiGatewayConfigConnectionRequest": {
@@ -28189,6 +28868,13 @@
           "traits": {
             "smithy.api#documentation": "Gateway certificate authority details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -28307,6 +28993,13 @@
           "target": "com.azure.apimanagement#GatewayCertificateAuthorityContractProperties",
           "traits": {
             "smithy.api#documentation": "Gateway certificate authority details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -28930,6 +29623,13 @@
           "traits": {
             "smithy.api#documentation": "Gateway hostname configuration details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -29078,6 +29778,13 @@
           "target": "com.azure.apimanagement#GatewayHostnameConfigurationContractProperties",
           "traits": {
             "smithy.api#documentation": "Gateway hostname configuration details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -29500,6 +30207,13 @@
           "traits": {
             "smithy.api#documentation": "Secondary gateway key."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -29649,6 +30363,13 @@
           "target": "com.azure.apimanagement#GatewayContractProperties",
           "traits": {
             "smithy.api#documentation": "Gateway details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -29800,6 +30521,13 @@
           "traits": {
             "smithy.api#documentation": "Gateway details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -29896,6 +30624,13 @@
           "target": "com.azure.apimanagement#GatewayContractProperties",
           "traits": {
             "smithy.api#documentation": "Gateway details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -30690,6 +31425,13 @@
           "traits": {
             "smithy.api#documentation": "Group entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -30910,6 +31652,13 @@
           "traits": {
             "smithy.api#documentation": "Group entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -31065,6 +31814,13 @@
           "target": "com.azure.apimanagement#GroupContractProperties",
           "traits": {
             "smithy.api#documentation": "Group entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -31278,6 +32034,13 @@
           "traits": {
             "smithy.api#documentation": "Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.",
             "smithy.api#sensitive": {}
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -31512,6 +32275,13 @@
           "target": "com.azure.apimanagement#IdentityProviderContractProperties",
           "traits": {
             "smithy.api#documentation": "Identity Provider contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -31911,6 +32681,13 @@
           "traits": {
             "smithy.api#documentation": "Identity Provider contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -32181,6 +32958,13 @@
           "traits": {
             "smithy.api#documentation": "Identity Provider contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -32431,6 +33215,13 @@
           "target": "com.azure.apimanagement#IssueContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Issue."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -32689,6 +33480,13 @@
           "traits": {
             "smithy.api#documentation": "Logger entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -32933,6 +33731,13 @@
           "traits": {
             "smithy.api#documentation": "Logger entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -33029,6 +33834,13 @@
           "target": "com.azure.apimanagement#LoggerContractProperties",
           "traits": {
             "smithy.api#documentation": "Logger entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -33260,6 +34072,27 @@
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -33386,6 +34219,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "This is secret value of the NamedValue entity."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -33537,6 +34377,27 @@
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -33680,6 +34541,27 @@
           "target": "com.azure.apimanagement#NamedValueContractProperties",
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
           }
         }
       },
@@ -33825,6 +34707,13 @@
           "target": "com.azure.apimanagement#NamedValueContractProperties",
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -35697,6 +36586,13 @@
             "smithy.api#documentation": "Client or app secret used in IdentityProviders, Aad, OpenID or OAuth.",
             "smithy.api#sensitive": {}
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -35846,6 +36742,13 @@
           "target": "com.azure.apimanagement#OpenidConnectProviderContractProperties",
           "traits": {
             "smithy.api#documentation": "OpenId Connect Provider contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -36049,6 +36952,13 @@
           "traits": {
             "smithy.api#documentation": "OpenId Connect Provider contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -36145,6 +37055,13 @@
           "target": "com.azure.apimanagement#OpenidConnectProviderContractProperties",
           "traits": {
             "smithy.api#documentation": "OpenId Connect Provider contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -36606,6 +37523,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version"
+          }
         }
       },
       "traits": {
@@ -36714,6 +37638,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -37297,6 +38228,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Fragment."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -37493,6 +38445,13 @@
           "target": "com.azure.apimanagement#PolicyFragmentContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Fragment."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -37815,6 +38774,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Restriction."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version"
+          }
         }
       },
       "traits": {
@@ -37952,6 +38918,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Restriction."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version"
+          }
         }
       },
       "traits": {
@@ -38048,6 +39021,13 @@
           "target": "com.azure.apimanagement#PolicyRestrictionContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Restriction."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -38246,6 +39226,13 @@
           "target": "com.azure.apimanagement#OperationResultContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "location of the header."
           }
         }
       },
@@ -38907,6 +39894,13 @@
           "traits": {
             "smithy.api#documentation": "The developer portal configuration contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -39110,6 +40104,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the portal revisions."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -39305,6 +40320,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the portal revisions."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -39401,6 +40437,13 @@
           "target": "com.azure.apimanagement#PortalRevisionContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the portal revisions."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -39828,7 +40871,7 @@
         "target": "com.azure.apimanagement#DeletePrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#DeletePrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -39839,6 +40882,21 @@
         },
         "smithy.api#documentation": "Deletes the specified Private Endpoint Connection.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#DeletePrivateEndpointConnectionResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#DeletePrivateEndpointConnectionRequest": {
@@ -39925,6 +40983,13 @@
           "target": "com.azure.apimanagement#PrivateEndpointConnectionProperties",
           "traits": {
             "smithy.api#documentation": "Resource properties."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
           }
         }
       },
@@ -40552,6 +41617,13 @@
           "traits": {
             "smithy.api#documentation": "Product-group link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -40985,6 +42057,13 @@
           "traits": {
             "smithy.api#documentation": "Product-API link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -41219,6 +42298,13 @@
           "traits": {
             "smithy.api#documentation": "Next page link if any."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -41399,6 +42485,13 @@
           "traits": {
             "smithy.api#documentation": "Wiki details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -41496,6 +42589,13 @@
           "traits": {
             "smithy.api#documentation": "Wiki details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -41592,6 +42692,13 @@
           "target": "com.azure.apimanagement#WikiContractProperties",
           "traits": {
             "smithy.api#documentation": "Wiki details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -41849,6 +42956,13 @@
           "target": "com.azure.apimanagement#TagContractProperties",
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -42143,6 +43257,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -42259,6 +43380,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -43397,6 +44525,13 @@
           "traits": {
             "smithy.api#documentation": "Product entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -43564,6 +44699,13 @@
           "traits": {
             "smithy.api#documentation": "Product entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -43660,6 +44802,13 @@
           "target": "com.azure.apimanagement#ProductContractProperties",
           "traits": {
             "smithy.api#documentation": "Product entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -45826,6 +46975,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Global Schema."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -46034,6 +47204,13 @@
           "target": "com.azure.apimanagement#GlobalSchemaContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Global Schema."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -46759,6 +47936,13 @@
           "traits": {
             "smithy.api#documentation": "Subscription secondary key."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -47027,6 +48211,13 @@
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -47262,6 +48453,13 @@
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -47486,6 +48684,13 @@
           "target": "com.azure.apimanagement#SubscriptionContractProperties",
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -47979,6 +49184,13 @@
           "traits": {
             "smithy.api#documentation": "Tag-API link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -48411,6 +49623,13 @@
           "target": "com.azure.apimanagement#TagOperationLinkContractProperties",
           "traits": {
             "smithy.api#documentation": "Tag-API link entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -48845,6 +50064,13 @@
           "traits": {
             "smithy.api#documentation": "Tag-API link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -49150,6 +50376,13 @@
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -49247,6 +50480,13 @@
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -49343,6 +50583,13 @@
           "target": "com.azure.apimanagement#TagContractProperties",
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -49708,6 +50955,12 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
         }
       },
       "traits": {
@@ -49838,6 +51091,12 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
           }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
+          }
         }
       },
       "traits": {
@@ -49967,6 +51226,12 @@
           "target": "com.azure.apimanagement#OperationResultContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location"
           }
         }
       },
@@ -50237,6 +51502,13 @@
           "traits": {
             "smithy.api#documentation": "Determines whether direct access is enabled."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -50500,6 +51772,13 @@
           "traits": {
             "smithy.api#documentation": "AccessInformation entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -50655,6 +51934,13 @@
           "traits": {
             "smithy.api#documentation": "AccessInformation entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -50801,6 +52087,13 @@
           "target": "com.azure.apimanagement#AccessInformationContractProperties",
           "traits": {
             "smithy.api#documentation": "AccessInformation entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -51335,6 +52628,13 @@
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -51698,7 +52998,7 @@
         "target": "com.azure.apimanagement#DeleteUserRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#DeleteUserResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -51709,6 +53009,28 @@
         },
         "smithy.api#documentation": "Deletes specific user.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#DeleteUserResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#DeleteUserRequest": {
@@ -51834,6 +53156,13 @@
           "target": "com.azure.apimanagement#UserContractProperties",
           "traits": {
             "smithy.api#documentation": "User entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -52023,6 +53352,13 @@
           "target": "com.azure.apimanagement#UserContractProperties",
           "traits": {
             "smithy.api#documentation": "User entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -52274,6 +53610,13 @@
           "target": "com.azure.apimanagement#UserContractProperties",
           "traits": {
             "smithy.api#documentation": "User entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -52547,6 +53890,13 @@
           "traits": {
             "smithy.api#documentation": "Backend entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -52652,6 +54002,13 @@
           "traits": {
             "smithy.api#documentation": "Backend entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -52756,6 +54113,13 @@
           "target": "com.azure.apimanagement#BackendContractProperties",
           "traits": {
             "smithy.api#documentation": "Backend entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -52971,6 +54335,13 @@
           "traits": {
             "smithy.api#documentation": "Certificate properties details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -53137,6 +54508,13 @@
           "traits": {
             "smithy.api#documentation": "Certificate properties details."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -53241,6 +54619,13 @@
           "target": "com.azure.apimanagement#CertificateContractProperties",
           "traits": {
             "smithy.api#documentation": "Certificate properties details."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -53538,6 +54923,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -53805,6 +55197,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -53917,6 +55316,13 @@
           "target": "com.azure.apimanagement#DiagnosticContractProperties",
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -54215,6 +55621,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -54320,6 +55733,13 @@
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -54424,6 +55844,13 @@
           "target": "com.azure.apimanagement#DiagnosticContractProperties",
           "traits": {
             "smithy.api#documentation": "Diagnostic entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -54965,6 +56392,13 @@
           "traits": {
             "smithy.api#documentation": "Logger entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -55070,6 +56504,13 @@
           "traits": {
             "smithy.api#documentation": "Logger entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -55174,6 +56615,13 @@
           "target": "com.azure.apimanagement#LoggerContractProperties",
           "traits": {
             "smithy.api#documentation": "Logger entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -55576,6 +57024,13 @@
           "target": "com.azure.apimanagement#TagProductLinkContractProperties",
           "traits": {
             "smithy.api#documentation": "Tag-API link entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -55995,6 +57450,13 @@
           "traits": {
             "smithy.api#documentation": "Tag-API link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -56413,6 +57875,13 @@
           "traits": {
             "smithy.api#documentation": "Tag-API link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -56710,6 +58179,13 @@
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -56815,6 +58291,13 @@
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -56919,6 +58402,13 @@
           "target": "com.azure.apimanagement#TagContractProperties",
           "traits": {
             "smithy.api#documentation": "Tag entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -57228,6 +58718,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -57352,6 +58849,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -57787,6 +59291,13 @@
           "traits": {
             "smithy.api#documentation": "Product-group link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -58205,6 +59716,13 @@
           "traits": {
             "smithy.api#documentation": "Product-API link entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -58509,6 +60027,13 @@
           "traits": {
             "smithy.api#documentation": "Product entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -58614,6 +60139,13 @@
           "traits": {
             "smithy.api#documentation": "Product entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -58718,6 +60250,13 @@
           "target": "com.azure.apimanagement#ProductContractProperties",
           "traits": {
             "smithy.api#documentation": "Product entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -59029,6 +60568,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the API Schema."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -59141,6 +60701,13 @@
           "target": "com.azure.apimanagement#SchemaContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the API Schema."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -59459,6 +61026,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -59583,6 +61157,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -59925,6 +61506,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -60057,6 +61645,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -60395,6 +61990,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -60508,6 +62110,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -60620,6 +62229,13 @@
           "target": "com.azure.apimanagement#OperationContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Operation Contract."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -60933,6 +62549,13 @@
           "traits": {
             "smithy.api#documentation": "ApiRelease entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -61046,6 +62669,13 @@
           "traits": {
             "smithy.api#documentation": "ApiRelease entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -61158,6 +62788,13 @@
           "target": "com.azure.apimanagement#ApiReleaseContractProperties",
           "traits": {
             "smithy.api#documentation": "ApiRelease entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -61586,6 +63223,13 @@
           "traits": {
             "smithy.api#documentation": "API entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -61691,6 +63335,27 @@
           "traits": {
             "smithy.api#documentation": "API entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -61795,6 +63460,13 @@
           "target": "com.azure.apimanagement#ApiContractProperties",
           "traits": {
             "smithy.api#documentation": "API entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -62091,6 +63763,13 @@
           "traits": {
             "smithy.api#documentation": "API VersionSet contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -62196,6 +63875,13 @@
           "traits": {
             "smithy.api#documentation": "API VersionSet contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -62300,6 +63986,13 @@
           "target": "com.azure.apimanagement#ApiVersionSetContractProperties",
           "traits": {
             "smithy.api#documentation": "API VersionSet contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -62502,6 +64195,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Subscription secondary key."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -62803,6 +64503,13 @@
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -62940,6 +64647,13 @@
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -63076,6 +64790,13 @@
           "target": "com.azure.apimanagement#SubscriptionContractProperties",
           "traits": {
             "smithy.api#documentation": "Subscription contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -63663,6 +65384,13 @@
           "traits": {
             "smithy.api#documentation": "Group entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -63768,6 +65496,13 @@
           "traits": {
             "smithy.api#documentation": "Group entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -63872,6 +65607,13 @@
           "target": "com.azure.apimanagement#GroupContractProperties",
           "traits": {
             "smithy.api#documentation": "Group entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -64270,6 +66012,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Fragment."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -64374,6 +66137,13 @@
           "target": "com.azure.apimanagement#PolicyFragmentContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy Fragment."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -65946,6 +67716,27 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Global Schema."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -66050,6 +67841,13 @@
           "target": "com.azure.apimanagement#GlobalSchemaContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Global Schema."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -66265,6 +68063,27 @@
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -66345,6 +68164,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "This is secret value of the NamedValue entity."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -66512,6 +68338,27 @@
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -66617,6 +68464,27 @@
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "location",
+            "smithy.api#documentation": "Location header contains the URL where the status of the long running operation can be checked"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "Azure-AsyncOperation header contains the URL where the status of the long running operation can be checked"
+          }
         }
       },
       "traits": {
@@ -66721,6 +68589,13 @@
           "target": "com.azure.apimanagement#NamedValueContractProperties",
           "traits": {
             "smithy.api#documentation": "NamedValue entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -67040,6 +68915,13 @@
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -67156,6 +69038,13 @@
           "target": "com.azure.apimanagement#PolicyContractProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the Policy."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -67446,6 +69335,13 @@
           "traits": {
             "smithy.api#documentation": "Workspace entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -67564,6 +69460,13 @@
           "traits": {
             "smithy.api#documentation": "Workspace entity contract properties."
           }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
+          }
         }
       },
       "traits": {
@@ -67660,6 +69563,13 @@
           "target": "com.azure.apimanagement#WorkspaceContractProperties",
           "traits": {
             "smithy.api#documentation": "Workspace entity contract properties."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "ETag",
+            "smithy.api#documentation": "Current entity state version. Should be treated as opaque and used to make conditional HTTP requests."
           }
         }
       },
@@ -67852,7 +69762,7 @@
         "target": "com.azure.apimanagement#GetOperationsResultRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.apimanagement#GetOperationsResultResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -67863,6 +69773,21 @@
         },
         "smithy.api#documentation": "Returns operation results for long running operations executing DELETE or PATCH on the resource.",
         "com.distilled.openapi#apiVersion": "2024-05-01"
+      }
+    },
+    "com.azure.apimanagement#GetOperationsResultResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "URL for determining when an operation has completed."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.apimanagement#GetOperationsResultRequest": {

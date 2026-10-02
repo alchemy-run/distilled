@@ -483,6 +483,12 @@ export interface BatchDeploymentsCreateOrUpdateResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const BatchDeploymentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -497,6 +503,13 @@ export const BatchDeploymentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
       kind: S.optional(S.String),
       sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
 ).annotate({
   identifier: "BatchDeploymentsCreateOrUpdateResponse",
@@ -733,6 +746,12 @@ export interface BatchEndpointsCreateOrUpdateResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const BatchEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -747,6 +766,13 @@ export const BatchEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
       kind: S.optional(S.String),
       sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
 ).annotate({
   identifier: "BatchEndpointsCreateOrUpdateResponse",
@@ -780,9 +806,17 @@ export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelJobRequest",
 }) as any as S.Schema<CancelJobRequest>;
 
-export interface CancelJobResponse {}
+export interface CancelJobResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
@@ -1077,6 +1111,12 @@ export interface CapabilityHostsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const CapabilityHostsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1086,6 +1126,13 @@ export const CapabilityHostsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: CapabilityHostProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
 ).annotate({
   identifier: "CapabilityHostsCreateOrUpdateResponse",
@@ -1981,6 +2028,10 @@ export interface ComputeCreateOrUpdateResponse {
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ComputeCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1993,6 +2044,10 @@ export const ComputeCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(ComputeCreateOrUpdateResponseTagsMap)),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ComputeCreateOrUpdateResponse",
@@ -2795,9 +2850,22 @@ export const DeleteBatchDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBatchDeploymentRequest",
 }) as any as S.Schema<DeleteBatchDeploymentRequest>;
 
-export interface DeleteBatchDeploymentResponse {}
+export interface DeleteBatchDeploymentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteBatchDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteBatchDeploymentResponse",
 }) as any as S.Schema<DeleteBatchDeploymentResponse>;
@@ -2830,9 +2898,22 @@ export const DeleteBatchEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBatchEndpointRequest",
 }) as any as S.Schema<DeleteBatchEndpointRequest>;
 
-export interface DeleteBatchEndpointResponse {}
+export interface DeleteBatchEndpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteBatchEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteBatchEndpointResponse",
 }) as any as S.Schema<DeleteBatchEndpointResponse>;
@@ -2865,9 +2946,22 @@ export const DeleteCapabilityHostRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCapabilityHostRequest",
 }) as any as S.Schema<DeleteCapabilityHostRequest>;
 
-export interface DeleteCapabilityHostResponse {}
+export interface DeleteCapabilityHostResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteCapabilityHostResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteCapabilityHostResponse",
 }) as any as S.Schema<DeleteCapabilityHostResponse>;
@@ -3056,9 +3150,19 @@ export const DeleteComputeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteComputeRequest",
 }) as any as S.Schema<DeleteComputeRequest>;
 
-export interface DeleteComputeResponse {}
+export interface DeleteComputeResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteComputeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteComputeResponse",
 }) as any as S.Schema<DeleteComputeResponse>;
@@ -3272,9 +3376,22 @@ export const DeleteFeaturesetContainerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFeaturesetContainerRequest",
 }) as any as S.Schema<DeleteFeaturesetContainerRequest>;
 
-export interface DeleteFeaturesetContainerResponse {}
+export interface DeleteFeaturesetContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteFeaturesetContainerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteFeaturesetContainerResponse",
 }) as any as S.Schema<DeleteFeaturesetContainerResponse>;
@@ -3310,9 +3427,22 @@ export const DeleteFeaturesetVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFeaturesetVersionRequest",
 }) as any as S.Schema<DeleteFeaturesetVersionRequest>;
 
-export interface DeleteFeaturesetVersionResponse {}
+export interface DeleteFeaturesetVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteFeaturesetVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteFeaturesetVersionResponse",
 }) as any as S.Schema<DeleteFeaturesetVersionResponse>;
@@ -3346,9 +3476,24 @@ export const DeleteFeaturestoreEntityContainerRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteFeaturestoreEntityContainerRequest",
 }) as any as S.Schema<DeleteFeaturestoreEntityContainerRequest>;
 
-export interface DeleteFeaturestoreEntityContainerResponse {}
+export interface DeleteFeaturestoreEntityContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteFeaturestoreEntityContainerResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
+  ).annotate({
     identifier: "DeleteFeaturestoreEntityContainerResponse",
   }) as any as S.Schema<DeleteFeaturestoreEntityContainerResponse>;
 
@@ -3384,9 +3529,23 @@ export const DeleteFeaturestoreEntityVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteFeaturestoreEntityVersionRequest",
 }) as any as S.Schema<DeleteFeaturestoreEntityVersionRequest>;
 
-export interface DeleteFeaturestoreEntityVersionResponse {}
+export interface DeleteFeaturestoreEntityVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteFeaturestoreEntityVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteFeaturestoreEntityVersionResponse",
 }) as any as S.Schema<DeleteFeaturestoreEntityVersionResponse>;
@@ -3419,9 +3578,22 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteJobRequest",
 }) as any as S.Schema<DeleteJobRequest>;
 
-export interface DeleteJobResponse {}
+export interface DeleteJobResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteJobResponse",
 }) as any as S.Schema<DeleteJobResponse>;
@@ -3455,9 +3627,18 @@ export const DeleteManagedNetworkSettingsRuleRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteManagedNetworkSettingsRuleRequest",
 }) as any as S.Schema<DeleteManagedNetworkSettingsRuleRequest>;
 
-export interface DeleteManagedNetworkSettingsRuleResponse {}
+export interface DeleteManagedNetworkSettingsRuleResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteManagedNetworkSettingsRuleResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteManagedNetworkSettingsRuleResponse",
 }) as any as S.Schema<DeleteManagedNetworkSettingsRuleResponse>;
@@ -3491,9 +3672,23 @@ export const DeleteMarketplaceSubscriptionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteMarketplaceSubscriptionRequest",
 }) as any as S.Schema<DeleteMarketplaceSubscriptionRequest>;
 
-export interface DeleteMarketplaceSubscriptionResponse {}
+export interface DeleteMarketplaceSubscriptionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteMarketplaceSubscriptionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteMarketplaceSubscriptionResponse",
 }) as any as S.Schema<DeleteMarketplaceSubscriptionResponse>;
@@ -3602,9 +3797,22 @@ export const DeleteOnlineDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOnlineDeploymentRequest",
 }) as any as S.Schema<DeleteOnlineDeploymentRequest>;
 
-export interface DeleteOnlineDeploymentResponse {}
+export interface DeleteOnlineDeploymentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteOnlineDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteOnlineDeploymentResponse",
 }) as any as S.Schema<DeleteOnlineDeploymentResponse>;
@@ -3637,9 +3845,22 @@ export const DeleteOnlineEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOnlineEndpointRequest",
 }) as any as S.Schema<DeleteOnlineEndpointRequest>;
 
-export interface DeleteOnlineEndpointResponse {}
+export interface DeleteOnlineEndpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteOnlineEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteOnlineEndpointResponse",
 }) as any as S.Schema<DeleteOnlineEndpointResponse>;
@@ -3705,9 +3926,22 @@ export const DeleteRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryRequest",
 }) as any as S.Schema<DeleteRegistryRequest>;
 
-export interface DeleteRegistryResponse {}
+export interface DeleteRegistryResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRegistryResponse",
 }) as any as S.Schema<DeleteRegistryResponse>;
@@ -3740,9 +3974,22 @@ export const DeleteRegistryCodeContainerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryCodeContainerRequest",
 }) as any as S.Schema<DeleteRegistryCodeContainerRequest>;
 
-export interface DeleteRegistryCodeContainerResponse {}
+export interface DeleteRegistryCodeContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryCodeContainerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRegistryCodeContainerResponse",
 }) as any as S.Schema<DeleteRegistryCodeContainerResponse>;
@@ -3778,9 +4025,22 @@ export const DeleteRegistryCodeVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryCodeVersionRequest",
 }) as any as S.Schema<DeleteRegistryCodeVersionRequest>;
 
-export interface DeleteRegistryCodeVersionResponse {}
+export interface DeleteRegistryCodeVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryCodeVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRegistryCodeVersionResponse",
 }) as any as S.Schema<DeleteRegistryCodeVersionResponse>;
@@ -3814,9 +4074,23 @@ export const DeleteRegistryComponentContainerRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteRegistryComponentContainerRequest",
 }) as any as S.Schema<DeleteRegistryComponentContainerRequest>;
 
-export interface DeleteRegistryComponentContainerResponse {}
+export interface DeleteRegistryComponentContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryComponentContainerResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteRegistryComponentContainerResponse",
 }) as any as S.Schema<DeleteRegistryComponentContainerResponse>;
@@ -3853,9 +4127,23 @@ export const DeleteRegistryComponentVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteRegistryComponentVersionRequest",
 }) as any as S.Schema<DeleteRegistryComponentVersionRequest>;
 
-export interface DeleteRegistryComponentVersionResponse {}
+export interface DeleteRegistryComponentVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryComponentVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteRegistryComponentVersionResponse",
 }) as any as S.Schema<DeleteRegistryComponentVersionResponse>;
@@ -3888,9 +4176,22 @@ export const DeleteRegistryDataContainerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryDataContainerRequest",
 }) as any as S.Schema<DeleteRegistryDataContainerRequest>;
 
-export interface DeleteRegistryDataContainerResponse {}
+export interface DeleteRegistryDataContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryDataContainerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRegistryDataContainerResponse",
 }) as any as S.Schema<DeleteRegistryDataContainerResponse>;
@@ -3926,9 +4227,22 @@ export const DeleteRegistryDataVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryDataVersionRequest",
 }) as any as S.Schema<DeleteRegistryDataVersionRequest>;
 
-export interface DeleteRegistryDataVersionResponse {}
+export interface DeleteRegistryDataVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryDataVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRegistryDataVersionResponse",
 }) as any as S.Schema<DeleteRegistryDataVersionResponse>;
@@ -3962,9 +4276,24 @@ export const DeleteRegistryEnvironmentContainerRequest =
     identifier: "DeleteRegistryEnvironmentContainerRequest",
   }) as any as S.Schema<DeleteRegistryEnvironmentContainerRequest>;
 
-export interface DeleteRegistryEnvironmentContainerResponse {}
+export interface DeleteRegistryEnvironmentContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryEnvironmentContainerResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
+  ).annotate({
     identifier: "DeleteRegistryEnvironmentContainerResponse",
   }) as any as S.Schema<DeleteRegistryEnvironmentContainerResponse>;
 
@@ -4000,9 +4329,23 @@ export const DeleteRegistryEnvironmentVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteRegistryEnvironmentVersionRequest",
 }) as any as S.Schema<DeleteRegistryEnvironmentVersionRequest>;
 
-export interface DeleteRegistryEnvironmentVersionResponse {}
+export interface DeleteRegistryEnvironmentVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryEnvironmentVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteRegistryEnvironmentVersionResponse",
 }) as any as S.Schema<DeleteRegistryEnvironmentVersionResponse>;
@@ -4035,9 +4378,23 @@ export const DeleteRegistryModelContainerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryModelContainerRequest",
 }) as any as S.Schema<DeleteRegistryModelContainerRequest>;
 
-export interface DeleteRegistryModelContainerResponse {}
+export interface DeleteRegistryModelContainerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryModelContainerResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteRegistryModelContainerResponse",
 }) as any as S.Schema<DeleteRegistryModelContainerResponse>;
@@ -4073,9 +4430,22 @@ export const DeleteRegistryModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryModelVersionRequest",
 }) as any as S.Schema<DeleteRegistryModelVersionRequest>;
 
-export interface DeleteRegistryModelVersionResponse {}
+export interface DeleteRegistryModelVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteRegistryModelVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRegistryModelVersionResponse",
 }) as any as S.Schema<DeleteRegistryModelVersionResponse>;
@@ -4108,9 +4478,22 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteScheduleRequest",
 }) as any as S.Schema<DeleteScheduleRequest>;
 
-export interface DeleteScheduleResponse {}
+export interface DeleteScheduleResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteScheduleResponse",
 }) as any as S.Schema<DeleteScheduleResponse>;
@@ -4143,9 +4526,22 @@ export const DeleteServerlessEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteServerlessEndpointRequest",
 }) as any as S.Schema<DeleteServerlessEndpointRequest>;
 
-export interface DeleteServerlessEndpointResponse {}
+export interface DeleteServerlessEndpointResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
+}
 export const DeleteServerlessEndpointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteServerlessEndpointResponse",
 }) as any as S.Schema<DeleteServerlessEndpointResponse>;
@@ -4178,9 +4574,17 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWorkspaceRequest",
 }) as any as S.Schema<DeleteWorkspaceRequest>;
 
-export interface DeleteWorkspaceResponse {}
+export interface DeleteWorkspaceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWorkspaceResponse",
 }) as any as S.Schema<DeleteWorkspaceResponse>;
@@ -4703,6 +5107,12 @@ export interface FeaturesetContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const FeaturesetContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -4712,6 +5122,13 @@ export const FeaturesetContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: FeaturesetContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "FeaturesetContainersCreateOrUpdateResponse",
@@ -4862,10 +5279,16 @@ export const FeaturesetVersionBackfillResponseJobIdsList =
 export interface FeaturesetVersionBackfillResponse {
   /** List of jobs submitted as part of the backfill request. */
   jobIds?: FeaturesetVersionBackfillResponseJobIdsList | null;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const FeaturesetVersionBackfillResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     jobIds: S.optional(S.NullOr(FeaturesetVersionBackfillResponseJobIdsList)),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "FeaturesetVersionBackfillResponse",
@@ -5198,6 +5621,12 @@ export interface FeaturesetVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const FeaturesetVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -5207,6 +5636,13 @@ export const FeaturesetVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: FeaturesetVersionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
 ).annotate({
   identifier: "FeaturesetVersionsCreateOrUpdateResponse",
@@ -5356,6 +5792,12 @@ export interface FeaturestoreEntityContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const FeaturestoreEntityContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5365,6 +5807,13 @@ export const FeaturestoreEntityContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: FeaturestoreEntityContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "FeaturestoreEntityContainersCreateOrUpdateResponse",
@@ -5508,6 +5957,12 @@ export interface FeaturestoreEntityVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const FeaturestoreEntityVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5517,6 +5972,13 @@ export const FeaturestoreEntityVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: FeaturestoreEntityVersionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "FeaturestoreEntityVersionsCreateOrUpdateResponse",
@@ -15021,6 +15483,10 @@ export interface ManagedNetworkSettingsRuleCreateOrUpdateResponse {
   systemData?: SystemData;
   /** Outbound Rule for the managed network of a machine learning workspace. */
   properties: OutboundRule;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ManagedNetworkSettingsRuleCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -15030,6 +15496,8 @@ export const ManagedNetworkSettingsRuleCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: OutboundRule,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "ManagedNetworkSettingsRuleCreateOrUpdateResponse",
@@ -15091,6 +15559,10 @@ export interface MarketplaceSubscriptionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: MarketplaceSubscriptionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const MarketplaceSubscriptionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -15100,6 +15572,12 @@ export const MarketplaceSubscriptionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: MarketplaceSubscriptionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "MarketplaceSubscriptionsCreateOrUpdateResponse",
@@ -15377,6 +15855,10 @@ export interface OnlineDeploymentsCreateOrUpdateResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const OnlineDeploymentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -15391,6 +15873,12 @@ export const OnlineDeploymentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
       kind: S.optional(S.String),
       sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
 ).annotate({
   identifier: "OnlineDeploymentsCreateOrUpdateResponse",
@@ -15585,6 +16073,10 @@ export interface OnlineEndpointsCreateOrUpdateResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const OnlineEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -15599,6 +16091,12 @@ export const OnlineEndpointsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
       kind: S.optional(S.String),
       sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
 ).annotate({
   identifier: "OnlineEndpointsCreateOrUpdateResponse",
@@ -15775,6 +16273,28 @@ export const ProvisionManagedNetworkProvisionManagedNetworkRequest =
     identifier: "ProvisionManagedNetworkProvisionManagedNetworkRequest",
   }) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkRequest>;
 
+/** Status of the Provisioning for the managed network of a machine learning workspace. */
+export interface ProvisionManagedNetworkProvisionManagedNetworkResponse {
+  sparkReady?: boolean;
+  /** Status for the managed network of a machine learning workspace. */
+  status?: ManagedNetworkStatus;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const ProvisionManagedNetworkProvisionManagedNetworkResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sparkReady: S.optional(S.Boolean),
+      status: S.optional(ManagedNetworkStatus),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "ProvisionManagedNetworkProvisionManagedNetworkResponse",
+  }) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkResponse>;
+
 export interface PublishCodeVersionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -15815,9 +16335,17 @@ export const PublishCodeVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishCodeVersionRequest",
 }) as any as S.Schema<PublishCodeVersionRequest>;
 
-export interface PublishCodeVersionResponse {}
+export interface PublishCodeVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PublishCodeVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PublishCodeVersionResponse",
 }) as any as S.Schema<PublishCodeVersionResponse>;
@@ -15862,9 +16390,17 @@ export const PublishComponentVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishComponentVersionRequest",
 }) as any as S.Schema<PublishComponentVersionRequest>;
 
-export interface PublishComponentVersionResponse {}
+export interface PublishComponentVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PublishComponentVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PublishComponentVersionResponse",
 }) as any as S.Schema<PublishComponentVersionResponse>;
@@ -15909,9 +16445,17 @@ export const PublishDataVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishDataVersionRequest",
 }) as any as S.Schema<PublishDataVersionRequest>;
 
-export interface PublishDataVersionResponse {}
+export interface PublishDataVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PublishDataVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PublishDataVersionResponse",
 }) as any as S.Schema<PublishDataVersionResponse>;
@@ -15956,9 +16500,17 @@ export const PublishEnvironmentVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishEnvironmentVersionRequest",
 }) as any as S.Schema<PublishEnvironmentVersionRequest>;
 
-export interface PublishEnvironmentVersionResponse {}
+export interface PublishEnvironmentVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PublishEnvironmentVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PublishEnvironmentVersionResponse",
 }) as any as S.Schema<PublishEnvironmentVersionResponse>;
@@ -16003,9 +16555,17 @@ export const PublishModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishModelVersionRequest",
 }) as any as S.Schema<PublishModelVersionRequest>;
 
-export interface PublishModelVersionResponse {}
+export interface PublishModelVersionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PublishModelVersionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PublishModelVersionResponse",
 }) as any as S.Schema<PublishModelVersionResponse>;
@@ -16047,9 +16607,18 @@ export const RegenerateOnlineEndpointKeysRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegenerateOnlineEndpointKeysRequest",
 }) as any as S.Schema<RegenerateOnlineEndpointKeysRequest>;
 
-export interface RegenerateOnlineEndpointKeysResponse {}
+export interface RegenerateOnlineEndpointKeysResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RegenerateOnlineEndpointKeysResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RegenerateOnlineEndpointKeysResponse",
 }) as any as S.Schema<RegenerateOnlineEndpointKeysResponse>;
@@ -16088,6 +16657,29 @@ export const RegenerateServerlessEndpointKeysRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "RegenerateServerlessEndpointKeysRequest",
 }) as any as S.Schema<RegenerateServerlessEndpointKeysRequest>;
+
+/** Keys for endpoint authentication. */
+export interface RegenerateServerlessEndpointKeysResponse {
+  /** The primary key. */
+  primaryKey?: string | null;
+  /** The secondary key. */
+  secondaryKey?: string | null;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const RegenerateServerlessEndpointKeysResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      primaryKey: S.optional(S.NullOr(S.String)),
+      secondaryKey: S.optional(S.NullOr(S.String)),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+).annotate({
+  identifier: "RegenerateServerlessEndpointKeysResponse",
+}) as any as S.Schema<RegenerateServerlessEndpointKeysResponse>;
 
 /** Resource tags. */
 export type RegistriesCreateOrUpdateRequestTagsMap = {
@@ -16320,6 +16912,10 @@ export interface RegistriesCreateOrUpdateResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const RegistriesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16333,6 +16929,10 @@ export const RegistriesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "RegistriesCreateOrUpdateResponse",
@@ -16381,6 +16981,10 @@ export interface RegistryCodeContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryCodeContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16390,6 +16994,12 @@ export const RegistryCodeContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: CodeContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryCodeContainersCreateOrUpdateResponse",
@@ -16490,6 +17100,10 @@ export interface RegistryCodeVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryCodeVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16499,6 +17113,12 @@ export const RegistryCodeVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: CodeVersionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryCodeVersionsCreateOrUpdateResponse",
@@ -16547,6 +17167,10 @@ export interface RegistryComponentContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryComponentContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16556,6 +17180,12 @@ export const RegistryComponentContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: ComponentContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryComponentContainersCreateOrUpdateResponse",
@@ -16607,6 +17237,10 @@ export interface RegistryComponentVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryComponentVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16616,6 +17250,12 @@ export const RegistryComponentVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: ComponentVersionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryComponentVersionsCreateOrUpdateResponse",
@@ -16664,6 +17304,12 @@ export interface RegistryDataContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryDataContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16673,6 +17319,13 @@ export const RegistryDataContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: DataContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryDataContainersCreateOrUpdateResponse",
@@ -16773,6 +17426,12 @@ export interface RegistryDataVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBaseProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryDataVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16782,6 +17441,13 @@ export const RegistryDataVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: DataVersionBaseProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryDataVersionsCreateOrUpdateResponse",
@@ -16830,6 +17496,12 @@ export interface RegistryEnvironmentContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryEnvironmentContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16839,6 +17511,13 @@ export const RegistryEnvironmentContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: EnvironmentContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryEnvironmentContainersCreateOrUpdateResponse",
@@ -16890,6 +17569,10 @@ export interface RegistryEnvironmentVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryEnvironmentVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16899,6 +17582,12 @@ export const RegistryEnvironmentVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: EnvironmentVersionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryEnvironmentVersionsCreateOrUpdateResponse",
@@ -16947,6 +17636,10 @@ export interface RegistryModelContainersCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryModelContainersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -16956,6 +17649,12 @@ export const RegistryModelContainersCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: ModelContainerProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryModelContainersCreateOrUpdateResponse",
@@ -17056,6 +17755,10 @@ export interface RegistryModelVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RegistryModelVersionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17065,6 +17768,12 @@ export const RegistryModelVersionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: ModelVersionProperties,
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "RegistryModelVersionsCreateOrUpdateResponse",
@@ -17176,6 +17885,12 @@ export interface RemoveRegistryRegionsResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const RemoveRegistryRegionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17189,6 +17904,11 @@ export const RemoveRegistryRegionsResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "RemoveRegistryRegionsResponse",
@@ -17222,9 +17942,17 @@ export const RestartComputeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestartComputeRequest",
 }) as any as S.Schema<RestartComputeRequest>;
 
-export interface RestartComputeResponse {}
+export interface RestartComputeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestartComputeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestartComputeResponse",
 }) as any as S.Schema<RestartComputeResponse>;
@@ -17271,6 +17999,10 @@ export interface SchedulesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** [Required] Additional attributes of the entity. */
   properties: ScheduleProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const SchedulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17279,6 +18011,12 @@ export const SchedulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: ScheduleProperties,
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "SchedulesCreateOrUpdateResponse",
@@ -17414,6 +18152,10 @@ export interface ServerlessEndpointsCreateOrUpdateResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const ServerlessEndpointsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -17428,6 +18170,12 @@ export const ServerlessEndpointsCreateOrUpdateResponse =
       identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
       kind: S.optional(S.String),
       sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      xMsAsyncOperationTimeout: S.optional(
+        S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+      ),
     }),
   ).annotate({
     identifier: "ServerlessEndpointsCreateOrUpdateResponse",
@@ -17461,9 +18209,17 @@ export const StartComputeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartComputeRequest",
 }) as any as S.Schema<StartComputeRequest>;
 
-export interface StartComputeResponse {}
+export interface StartComputeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StartComputeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartComputeResponse",
 }) as any as S.Schema<StartComputeResponse>;
@@ -17496,9 +18252,17 @@ export const StopComputeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopComputeRequest",
 }) as any as S.Schema<StopComputeRequest>;
 
-export interface StopComputeResponse {}
+export interface StopComputeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const StopComputeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StopComputeResponse",
 }) as any as S.Schema<StopComputeResponse>;
@@ -17604,6 +18368,12 @@ export interface UpdateBatchDeploymentResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const UpdateBatchDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17617,6 +18387,11 @@ export const UpdateBatchDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateBatchDeploymentResponse",
@@ -17743,6 +18518,12 @@ export interface UpdateBatchEndpointResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const UpdateBatchEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17756,6 +18537,11 @@ export const UpdateBatchEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateBatchEndpointResponse",
@@ -17874,6 +18660,10 @@ export interface UpdateComputeResponse {
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateComputeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17886,6 +18676,10 @@ export const UpdateComputeResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(UpdateComputeResponseTagsMap)),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateComputeResponse",
@@ -18006,6 +18800,12 @@ export interface UpdateOnlineDeploymentResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const UpdateOnlineDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -18019,6 +18819,11 @@ export const UpdateOnlineDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateOnlineDeploymentResponse",
@@ -18109,6 +18914,12 @@ export interface UpdateOnlineEndpointResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const UpdateOnlineEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -18122,6 +18933,11 @@ export const UpdateOnlineEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateOnlineEndpointResponse",
@@ -18436,6 +19252,12 @@ export interface UpdateServerlessEndpointResponse {
   kind?: string;
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** Timeout for the client to use when polling the asynchronous operation. */
+  xMsAsyncOperationTimeout?: string;
 }
 export const UpdateServerlessEndpointResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -18449,6 +19271,11 @@ export const UpdateServerlessEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(BatchDeploymentsCreateOrUpdateResponseIdentity),
     kind: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    xMsAsyncOperationTimeout: S.optional(
+      S.String.pipe(T.Header("x-ms-async-operation-timeout")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateServerlessEndpointResponse",
@@ -18667,6 +19494,10 @@ export interface UpdateWorkspaceResponse {
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
   tags?: UpdateWorkspaceResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -18680,6 +19511,8 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
     tags: S.optional(UpdateWorkspaceResponseTagsMap),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateWorkspaceResponse",
@@ -18939,6 +19772,10 @@ export interface WorkspacesCreateOrUpdateResponse {
   /** The resource model definition representing SKU */
   sku?: BatchDeploymentsCreateOrUpdateResponseSku;
   tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -18952,6 +19789,8 @@ export const WorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     sku: S.optional(BatchDeploymentsCreateOrUpdateResponseSku),
     tags: S.optional(WorkspacesCreateOrUpdateResponseTagsMap),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "WorkspacesCreateOrUpdateResponse",
@@ -19249,10 +20088,16 @@ export const DiagnoseResponseResultValue = /*@__PURE__*/ S.suspend(() =>
 
 export interface DiagnoseResponseResult {
   value?: DiagnoseResponseResultValue;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DiagnoseResponseResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(DiagnoseResponseResultValue),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DiagnoseResponseResult",
@@ -19283,6 +20128,31 @@ export const WorkspacesPrepareNotebookRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkspacesPrepareNotebookRequest",
 }) as any as S.Schema<WorkspacesPrepareNotebookRequest>;
 
+export interface WorkspacesPrepareNotebookResponse {
+  fqdn?: string;
+  isPrivateLinkEnabled?: boolean;
+  /** The error that occurs when preparing notebook. */
+  notebookPreparationError?: NotebookPreparationError;
+  /** the data plane resourceId that used to initialize notebook component */
+  resourceId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+export const WorkspacesPrepareNotebookResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fqdn: S.optional(S.String),
+    isPrivateLinkEnabled: S.optional(S.Boolean),
+    notebookPreparationError: S.optional(NotebookPreparationError),
+    resourceId: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
+).annotate({
+  identifier: "WorkspacesPrepareNotebookResponse",
+}) as any as S.Schema<WorkspacesPrepareNotebookResponse>;
+
 export interface WorkspacesResyncKeysRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -19308,9 +20178,17 @@ export const WorkspacesResyncKeysRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkspacesResyncKeysRequest",
 }) as any as S.Schema<WorkspacesResyncKeysRequest>;
 
-export interface WorkspacesResyncKeysResponse {}
+export interface WorkspacesResyncKeysResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const WorkspacesResyncKeysResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "WorkspacesResyncKeysResponse",
 }) as any as S.Schema<WorkspacesResyncKeysResponse>;
@@ -21930,12 +22808,12 @@ export type ProvisionManagedNetworkProvisionManagedNetworkError = AzureOpError;
 /** Provisions the managed network of a machine learning workspace. Provisions the managed network of a machine learning workspace. */
 export const ProvisionManagedNetworkProvisionManagedNetwork: API.OperationMethod<
   ProvisionManagedNetworkProvisionManagedNetworkRequest,
-  ManagedNetworkProvisionStatus,
+  ProvisionManagedNetworkProvisionManagedNetworkResponse,
   ProvisionManagedNetworkProvisionManagedNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ProvisionManagedNetworkProvisionManagedNetworkRequest,
-  output: ManagedNetworkProvisionStatus,
+  output: ProvisionManagedNetworkProvisionManagedNetworkResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22035,12 +22913,12 @@ export type RegenerateServerlessEndpointKeysError = AzureOpError;
 /** Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous). Regenerate EndpointAuthKeys for an Endpoint using Key-based authentication (asynchronous). */
 export const RegenerateServerlessEndpointKeys: API.OperationMethod<
   RegenerateServerlessEndpointKeysRequest,
-  EndpointAuthKeys,
+  RegenerateServerlessEndpointKeysResponse,
   RegenerateServerlessEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateServerlessEndpointKeysRequest,
-  output: EndpointAuthKeys,
+  output: RegenerateServerlessEndpointKeysResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -22533,12 +23411,12 @@ export type WorkspacesPrepareNotebookError = AzureOpError;
 /** Prepare Azure Machine Learning Workspace's notebook resource Prepare Azure Machine Learning Workspace's notebook resource */
 export const WorkspacesPrepareNotebook: API.OperationMethod<
   WorkspacesPrepareNotebookRequest,
-  NotebookResourceInfo,
+  WorkspacesPrepareNotebookResponse,
   WorkspacesPrepareNotebookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkspacesPrepareNotebookRequest,
-  output: NotebookResourceInfo,
+  output: WorkspacesPrepareNotebookResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -141,6 +141,8 @@ export interface ApiDefinitionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ApiDefinitionProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const ApiDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -150,6 +152,7 @@ export const ApiDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(ApiDefinitionProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "ApiDefinitionsCreateOrUpdateResponse",
@@ -336,6 +339,8 @@ export interface ApisCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ApiProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const ApisCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -344,6 +349,7 @@ export const ApisCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ApiProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApisCreateOrUpdateResponse",
@@ -413,6 +419,8 @@ export interface ApiVersionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ApiVersionProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const ApiVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -421,6 +429,7 @@ export const ApiVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ApiVersionProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "ApiVersionsCreateOrUpdateResponse",
@@ -832,6 +841,8 @@ export interface DeploymentsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: DeploymentProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const DeploymentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -840,6 +851,7 @@ export const DeploymentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(DeploymentProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "DeploymentsCreateOrUpdateResponse",
@@ -979,6 +991,8 @@ export interface EnvironmentsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: EnvironmentProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const EnvironmentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -987,6 +1001,7 @@ export const EnvironmentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(EnvironmentProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "EnvironmentsCreateOrUpdateResponse",
@@ -1040,11 +1055,17 @@ export interface ApiSpecExportResult {
   format?: ApiSpecExportResultFormat;
   /** The result of the export operation. */
   value?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ApiSpecExportResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     format: S.optional(ApiSpecExportResultFormat),
     value: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ApiSpecExportResult",
@@ -1092,11 +1113,17 @@ export interface MetadataSchemaExportResult {
   format?: MetadataSchemaExportFormat;
   /** The result of the export operation. */
   value?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const MetadataSchemaExportResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     format: S.optional(MetadataSchemaExportFormat),
     value: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "MetadataSchemaExportResult",
@@ -1150,6 +1177,8 @@ export interface GetApiDefinitionResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ApiDefinitionProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetApiDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1158,6 +1187,7 @@ export const GetApiDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ApiDefinitionProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiDefinitionResponse",
@@ -1203,6 +1233,8 @@ export interface GetApisResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ApiProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetApisResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1211,6 +1243,7 @@ export const GetApisResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ApiProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApisResponse",
@@ -1261,6 +1294,8 @@ export interface GetApiVersionResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ApiVersionProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetApiVersionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1269,6 +1304,7 @@ export const GetApiVersionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ApiVersionProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetApiVersionResponse",
@@ -1319,6 +1355,8 @@ export interface GetDeploymentResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: DeploymentProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1327,6 +1365,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(DeploymentProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetDeploymentResponse",
@@ -1374,6 +1413,8 @@ export interface GetEnvironmentResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: EnvironmentProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1382,6 +1423,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(EnvironmentProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetEnvironmentResponse",
@@ -1467,6 +1509,8 @@ export interface GetMetadataSchemaResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: MetadataSchemaProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetMetadataSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1475,6 +1519,7 @@ export const GetMetadataSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(MetadataSchemaProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetMetadataSchemaResponse",
@@ -1670,6 +1715,8 @@ export interface GetWorkspaceResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: WorkspaceProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1678,6 +1725,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(WorkspaceProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "GetWorkspaceResponse",
@@ -1740,9 +1788,18 @@ export const ImportApiDefinitionSpecificationRequest = /*@__PURE__*/ S.suspend(
   identifier: "ImportApiDefinitionSpecificationRequest",
 }) as any as S.Schema<ImportApiDefinitionSpecificationRequest>;
 
-export interface ImportApiDefinitionSpecificationResponse {}
+export interface ImportApiDefinitionSpecificationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ImportApiDefinitionSpecificationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "ImportApiDefinitionSpecificationResponse",
 }) as any as S.Schema<ImportApiDefinitionSpecificationResponse>;
@@ -2520,6 +2577,8 @@ export interface MetadataSchemasCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: MetadataSchemaProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const MetadataSchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2529,6 +2588,7 @@ export const MetadataSchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(MetadataSchemaProperties),
+      eTag: S.optional(S.String.pipe(T.Header("ETag"))),
     }),
 ).annotate({
   identifier: "MetadataSchemasCreateOrUpdateResponse",
@@ -2795,6 +2855,8 @@ export interface WorkspacesCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: WorkspaceProperties;
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 export const WorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2803,6 +2865,7 @@ export const WorkspacesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(WorkspaceProperties),
+    eTag: S.optional(S.String.pipe(T.Header("ETag"))),
   }),
 ).annotate({
   identifier: "WorkspacesCreateOrUpdateResponse",

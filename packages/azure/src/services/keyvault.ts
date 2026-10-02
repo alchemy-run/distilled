@@ -772,9 +772,17 @@ export const DeleteManagedHsmRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteManagedHsmRequest",
 }) as any as S.Schema<DeleteManagedHsmRequest>;
 
-export interface DeleteManagedHsmResponse {}
+export interface DeleteManagedHsmResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteManagedHsmResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteManagedHsmResponse",
 }) as any as S.Schema<DeleteManagedHsmResponse>;
@@ -997,6 +1005,10 @@ export interface DeleteMHSMPrivateEndpointConnectionResponse {
   location?: string;
   /** Resource tags. */
   tags?: DeleteMHSMPrivateEndpointConnectionResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DeleteMHSMPrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1011,6 +1023,8 @@ export const DeleteMHSMPrivateEndpointConnectionResponse =
       etag: S.optional(S.String),
       location: S.optional(S.String),
       tags: S.optional(DeleteMHSMPrivateEndpointConnectionResponseTagsMap),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DeleteMHSMPrivateEndpointConnectionResponse",
@@ -1088,6 +1102,10 @@ export interface DeletePrivateEndpointConnectionResponse {
   tags?: DeletePrivateEndpointConnectionResponseTagsMap;
   /** Modified whenever there is a change in the state of private endpoint connection. */
   etag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1100,6 +1118,8 @@ export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       location: S.optional(S.String),
       tags: S.optional(DeletePrivateEndpointConnectionResponseTagsMap),
       etag: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
@@ -4209,6 +4229,10 @@ export interface ManagedHsmsCreateOrUpdateResponse {
   location?: string;
   /** Resource tags. */
   tags?: ManagedHsmsCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const ManagedHsmsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4221,6 +4245,8 @@ export const ManagedHsmsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(DeleteMHSMPrivateEndpointConnectionResponseIdentity),
     location: S.optional(S.String),
     tags: S.optional(ManagedHsmsCreateOrUpdateResponseTagsMap),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "ManagedHsmsCreateOrUpdateResponse",
@@ -4251,9 +4277,17 @@ export const PurgeManagedHsmDeletedRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PurgeManagedHsmDeletedRequest",
 }) as any as S.Schema<PurgeManagedHsmDeletedRequest>;
 
-export interface PurgeManagedHsmDeletedResponse {}
+export interface PurgeManagedHsmDeletedResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PurgeManagedHsmDeletedResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PurgeManagedHsmDeletedResponse",
 }) as any as S.Schema<PurgeManagedHsmDeletedResponse>;
@@ -4283,9 +4317,17 @@ export const PurgeVaultDeletedRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PurgeVaultDeletedRequest",
 }) as any as S.Schema<PurgeVaultDeletedRequest>;
 
-export interface PurgeVaultDeletedResponse {}
+export interface PurgeVaultDeletedResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const PurgeVaultDeletedResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "PurgeVaultDeletedResponse",
 }) as any as S.Schema<PurgeVaultDeletedResponse>;
@@ -4413,6 +4455,10 @@ export interface PutMHSMPrivateEndpointConnectionResponse {
   location?: string;
   /** Resource tags. */
   tags?: PutMHSMPrivateEndpointConnectionResponseTagsMap;
+  /** (specified only if operation does not finish synchronously) The URI to poll for completion status. The response of this URI may be synchronous or asynchronous. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PutMHSMPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4427,6 +4473,10 @@ export const PutMHSMPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       etag: S.optional(S.String),
       location: S.optional(S.String),
       tags: S.optional(PutMHSMPrivateEndpointConnectionResponseTagsMap),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PutMHSMPrivateEndpointConnectionResponse",
@@ -4503,6 +4553,10 @@ export interface PutPrivateEndpointConnectionResponse {
   tags?: PutPrivateEndpointConnectionResponseTagsMap;
   /** Modified whenever there is a change in the state of private endpoint connection. */
   etag?: string;
+  /** (specified only if operation does not finish synchronously) The URI to poll for completion status. The response of this URI may be synchronous or asynchronous. */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4515,6 +4569,10 @@ export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       location: S.optional(S.String),
       tags: S.optional(PutPrivateEndpointConnectionResponseTagsMap),
       etag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PutPrivateEndpointConnectionResponse",
@@ -4729,6 +4787,10 @@ export interface UpdateManagedHsmResponse {
   location?: string;
   /** Resource tags. */
   tags?: UpdateManagedHsmResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateManagedHsmResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4741,6 +4803,8 @@ export const UpdateManagedHsmResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(DeleteMHSMPrivateEndpointConnectionResponseIdentity),
     location: S.optional(S.String),
     tags: S.optional(UpdateManagedHsmResponseTagsMap),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateManagedHsmResponse",
@@ -5184,6 +5248,10 @@ export interface VaultsCreateOrUpdateResponse {
   location?: string;
   /** Tags assigned to the key vault resource. */
   tags?: VaultsCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const VaultsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5194,6 +5262,8 @@ export const VaultsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: VaultProperties,
     location: S.optional(S.String),
     tags: S.optional(VaultsCreateOrUpdateResponseTagsMap),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "VaultsCreateOrUpdateResponse",

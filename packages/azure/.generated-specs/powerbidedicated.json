@@ -24,7 +24,7 @@
         "target": "com.azure.powerbidedicated#SuspendCapacityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.powerbidedicated#SuspendCapacityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -35,6 +35,28 @@
         },
         "smithy.api#documentation": "Suspends operation of the specified dedicated capacity instance.",
         "com.distilled.openapi#apiVersion": "2021-01-01"
+      }
+    },
+    "com.azure.powerbidedicated#SuspendCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.powerbidedicated#SuspendCapacityRequest": {
@@ -222,7 +244,7 @@
         "target": "com.azure.powerbidedicated#ResumeCapacityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.powerbidedicated#ResumeCapacityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -233,6 +255,28 @@
         },
         "smithy.api#documentation": "Resumes operation of the specified Dedicated capacity instance.",
         "com.distilled.openapi#apiVersion": "2021-01-01"
+      }
+    },
+    "com.azure.powerbidedicated#ResumeCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.powerbidedicated#ResumeCapacityRequest": {
@@ -273,7 +317,7 @@
         "target": "com.azure.powerbidedicated#DeleteCapacityRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.powerbidedicated#DeleteCapacityResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -284,6 +328,28 @@
         },
         "smithy.api#documentation": "Deletes the specified Dedicated capacity.",
         "com.distilled.openapi#apiVersion": "2021-01-01"
+      }
+    },
+    "com.azure.powerbidedicated#DeleteCapacityResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.powerbidedicated#DeleteCapacityRequest": {
@@ -388,6 +454,20 @@
           "traits": {
             "smithy.api#documentation": "The SKU of the PowerBI Dedicated capacity resource.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -914,6 +994,20 @@
           "traits": {
             "smithy.api#documentation": "The SKU of the PowerBI Dedicated capacity resource.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

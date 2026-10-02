@@ -236,6 +236,10 @@ export interface CreateCacheRuleResponse {
   systemData?: SystemData;
   /** The properties of the cache rule. */
   properties?: CacheRuleProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -244,6 +248,10 @@ export const CreateCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CacheRuleProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCacheRuleResponse",
@@ -655,6 +663,10 @@ export interface CreateConnectedRegistryResponse {
   systemData?: SystemData;
   /** The properties of the connected registry. */
   properties?: ConnectedRegistryProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -663,6 +675,10 @@ export const CreateConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ConnectedRegistryProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateConnectedRegistryResponse",
@@ -904,6 +920,10 @@ export interface CreateCredentialSetResponse {
   properties?: CredentialSetProperties;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
   identity?: IdentityProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -913,6 +933,10 @@ export const CreateCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CredentialSetProperties),
     identity: S.optional(IdentityProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateCredentialSetResponse",
@@ -1576,6 +1600,10 @@ export interface CreateRegistryResponse {
   sku: Sku;
   /** The identity of the container registry. */
   identity?: IdentityProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1588,6 +1616,10 @@ export const CreateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RegistryProperties),
     sku: Sku,
     identity: S.optional(IdentityProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateRegistryResponse",
@@ -1709,6 +1741,10 @@ export interface CreateReplicationResponse {
   location: string;
   /** The properties of the replication. */
   properties?: ReplicationProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateReplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1719,6 +1755,10 @@ export const CreateReplicationResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateReplicationResponseTagsMap),
     location: S.String,
     properties: S.optional(ReplicationProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateReplicationResponse",
@@ -1819,6 +1859,10 @@ export interface CreateScopeMapResponse {
   systemData?: SystemData;
   /** The properties of the scope map. */
   properties?: ScopeMapProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1827,6 +1871,10 @@ export const CreateScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ScopeMapProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateScopeMapResponse",
@@ -2630,6 +2678,10 @@ export interface CreateTokenResponse {
   systemData?: SystemData;
   /** The properties of the token. */
   properties?: TokenProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2638,6 +2690,10 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(TokenProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateTokenResponse",
@@ -2797,6 +2853,10 @@ export interface CreateWebhookResponse {
   location: string;
   /** The properties of the webhook. */
   properties?: WebhookProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2807,6 +2867,10 @@ export const CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateWebhookResponseTagsMap),
     location: S.String,
     properties: S.optional(WebhookProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateWebhookResponse",
@@ -2840,9 +2904,17 @@ export const DeactivateConnectedRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeactivateConnectedRegistryRequest",
 }) as any as S.Schema<DeactivateConnectedRegistryRequest>;
 
-export interface DeactivateConnectedRegistryResponse {}
+export interface DeactivateConnectedRegistryResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeactivateConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeactivateConnectedRegistryResponse",
 }) as any as S.Schema<DeactivateConnectedRegistryResponse>;
@@ -2875,9 +2947,17 @@ export const DeleteCacheRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCacheRuleRequest",
 }) as any as S.Schema<DeleteCacheRuleRequest>;
 
-export interface DeleteCacheRuleResponse {}
+export interface DeleteCacheRuleResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCacheRuleResponse",
 }) as any as S.Schema<DeleteCacheRuleResponse>;
@@ -2910,9 +2990,17 @@ export const DeleteConnectedRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectedRegistryRequest",
 }) as any as S.Schema<DeleteConnectedRegistryRequest>;
 
-export interface DeleteConnectedRegistryResponse {}
+export interface DeleteConnectedRegistryResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteConnectedRegistryResponse",
 }) as any as S.Schema<DeleteConnectedRegistryResponse>;
@@ -2945,9 +3033,17 @@ export const DeleteCredentialSetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCredentialSetRequest",
 }) as any as S.Schema<DeleteCredentialSetRequest>;
 
-export interface DeleteCredentialSetResponse {}
+export interface DeleteCredentialSetResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCredentialSetResponse",
 }) as any as S.Schema<DeleteCredentialSetResponse>;
@@ -2981,9 +3077,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -3013,9 +3118,17 @@ export const DeleteRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryRequest",
 }) as any as S.Schema<DeleteRegistryRequest>;
 
-export interface DeleteRegistryResponse {}
+export interface DeleteRegistryResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteRegistryResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteRegistryResponse",
 }) as any as S.Schema<DeleteRegistryResponse>;
@@ -3048,9 +3161,17 @@ export const DeleteReplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteReplicationRequest",
 }) as any as S.Schema<DeleteReplicationRequest>;
 
-export interface DeleteReplicationResponse {}
+export interface DeleteReplicationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteReplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteReplicationResponse",
 }) as any as S.Schema<DeleteReplicationResponse>;
@@ -3083,9 +3204,17 @@ export const DeleteScopeMapRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteScopeMapRequest",
 }) as any as S.Schema<DeleteScopeMapRequest>;
 
-export interface DeleteScopeMapResponse {}
+export interface DeleteScopeMapResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteScopeMapResponse",
 }) as any as S.Schema<DeleteScopeMapResponse>;
@@ -3153,9 +3282,17 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTokenRequest",
 }) as any as S.Schema<DeleteTokenRequest>;
 
-export interface DeleteTokenResponse {}
+export interface DeleteTokenResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteTokenResponse",
 }) as any as S.Schema<DeleteTokenResponse>;
@@ -3188,9 +3325,17 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWebhookRequest",
 }) as any as S.Schema<DeleteWebhookRequest>;
 
-export interface DeleteWebhookResponse {}
+export interface DeleteWebhookResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteWebhookResponse",
 }) as any as S.Schema<DeleteWebhookResponse>;
@@ -3241,11 +3386,17 @@ export interface GenerateCredentialsResult {
   username?: string;
   /** The list of passwords for a container registry. */
   passwords?: GenerateCredentialsResultPasswordsList;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GenerateCredentialsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     username: S.optional(S.String),
     passwords: S.optional(GenerateCredentialsResultPasswordsList),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "GenerateCredentialsResult",
@@ -4416,9 +4567,17 @@ export const ImportRegistryImageRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportRegistryImageRequest",
 }) as any as S.Schema<ImportRegistryImageRequest>;
 
-export interface ImportRegistryImageResponse {}
+export interface ImportRegistryImageResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ImportRegistryImageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ImportRegistryImageResponse",
 }) as any as S.Schema<ImportRegistryImageResponse>;
@@ -5975,6 +6134,10 @@ export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The properties of a private endpoint connection. */
   properties?: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PrivateEndpointConnectionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -5984,6 +6147,10 @@ export const PrivateEndpointConnectionsCreateOrUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "PrivateEndpointConnectionsCreateOrUpdateResponse",
@@ -6166,6 +6333,10 @@ export interface UpdateCacheRuleResponse {
   systemData?: SystemData;
   /** The properties of the cache rule. */
   properties?: CacheRuleProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6174,6 +6345,10 @@ export const UpdateCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(CacheRuleProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCacheRuleResponse",
@@ -6284,6 +6459,10 @@ export interface UpdateConnectedRegistryResponse {
   systemData?: SystemData;
   /** The properties of the connected registry. */
   properties?: ConnectedRegistryProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6292,6 +6471,10 @@ export const UpdateConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ConnectedRegistryProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateConnectedRegistryResponse",
@@ -6367,6 +6550,10 @@ export interface UpdateCredentialSetResponse {
   properties?: CredentialSetProperties;
   /** Identities associated with the resource. This is used to access the KeyVault secrets. */
   identity?: IdentityProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6376,6 +6563,10 @@ export const UpdateCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CredentialSetProperties),
     identity: S.optional(IdentityProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateCredentialSetResponse",
@@ -6517,6 +6708,10 @@ export interface UpdateRegistryResponse {
   sku: Sku;
   /** The identity of the container registry. */
   identity?: IdentityProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6529,6 +6724,10 @@ export const UpdateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(RegistryProperties),
     sku: Sku,
     identity: S.optional(IdentityProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateRegistryResponse",
@@ -6614,6 +6813,10 @@ export interface UpdateReplicationResponse {
   location: string;
   /** The properties of the replication. */
   properties?: ReplicationProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateReplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6624,6 +6827,10 @@ export const UpdateReplicationResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateReplicationResponseTagsMap),
     location: S.String,
     properties: S.optional(ReplicationProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateReplicationResponse",
@@ -6746,6 +6953,10 @@ export interface UpdateScopeMapResponse {
   systemData?: SystemData;
   /** The properties of the scope map. */
   properties?: ScopeMapProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6754,6 +6965,10 @@ export const UpdateScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ScopeMapProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateScopeMapResponse",
@@ -7181,6 +7396,10 @@ export interface UpdateTokenResponse {
   systemData?: SystemData;
   /** The properties of the token. */
   properties?: TokenProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7189,6 +7408,10 @@ export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(TokenProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateTokenResponse",
@@ -7305,6 +7528,10 @@ export interface UpdateWebhookResponse {
   location: string;
   /** The properties of the webhook. */
   properties?: WebhookProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7315,6 +7542,10 @@ export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateWebhookResponseTagsMap),
     location: S.String,
     properties: S.optional(WebhookProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateWebhookResponse",

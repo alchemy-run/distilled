@@ -177,7 +177,7 @@ export const DedicatedCloudNodeProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DedicatedCloudNodeProperties>;
 
 /** Dedicated cloud node model */
-export interface DedicatedCloudNode {
+export interface DedicatedCloudNodesCreateOrUpdateResponse {
   /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudNodes/{dedicatedCloudNodeName} */
   id?: string;
   /** Azure region */
@@ -192,20 +192,29 @@ export interface DedicatedCloudNode {
   tags?: Tags;
   /** {resourceProviderNamespace}/{resourceType} */
   type?: string;
+  azureAsyncOperation?: string;
+  locationHeader?: string;
+  retryAfter?: number;
 }
-export const DedicatedCloudNode = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    location: S.String,
-    name: S.optional(S.String),
-    properties: S.optional(DedicatedCloudNodeProperties),
-    sku: S.optional(Sku),
-    tags: S.optional(Tags),
-    type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DedicatedCloudNode",
-}) as any as S.Schema<DedicatedCloudNode>;
+export const DedicatedCloudNodesCreateOrUpdateResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      id: S.optional(S.String),
+      location: S.String,
+      name: S.optional(S.String),
+      properties: S.optional(DedicatedCloudNodeProperties),
+      sku: S.optional(Sku),
+      tags: S.optional(Tags),
+      type: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
+    identifier: "DedicatedCloudNodesCreateOrUpdateResponse",
+  }) as any as S.Schema<DedicatedCloudNodesCreateOrUpdateResponse>;
 
 /** Properties of dedicated cloud service */
 export interface DedicatedCloudServicePropertiesInput {
@@ -405,9 +414,19 @@ export const DeleteVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualMachineRequest",
 }) as any as S.Schema<DeleteVirtualMachineRequest>;
 
-export interface DeleteVirtualMachineResponse {}
+export interface DeleteVirtualMachineResponse {
+  azureAsyncOperation?: string;
+  location?: string;
+  retryAfter?: number;
+}
 export const DeleteVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVirtualMachineResponse",
 }) as any as S.Schema<DeleteVirtualMachineResponse>;
@@ -669,6 +688,37 @@ export const GetDedicatedCloudNodeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDedicatedCloudNodeRequest",
 }) as any as S.Schema<GetDedicatedCloudNodeRequest>;
 
+/** Dedicated cloud node model */
+export interface DedicatedCloudNode {
+  /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudNodes/{dedicatedCloudNodeName} */
+  id?: string;
+  /** Azure region */
+  location: string;
+  /** {dedicatedCloudNodeName} */
+  name?: string;
+  /** Dedicated Cloud Nodes properties */
+  properties?: DedicatedCloudNodeProperties;
+  /** Dedicated Cloud Nodes SKU */
+  sku?: Sku;
+  /** Dedicated Cloud Nodes tags */
+  tags?: Tags;
+  /** {resourceProviderNamespace}/{resourceType} */
+  type?: string;
+}
+export const DedicatedCloudNode = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    location: S.String,
+    name: S.optional(S.String),
+    properties: S.optional(DedicatedCloudNodeProperties),
+    sku: S.optional(Sku),
+    tags: S.optional(Tags),
+    type: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DedicatedCloudNode",
+}) as any as S.Schema<DedicatedCloudNode>;
+
 export interface GetDedicatedCloudServiceRequest {
   /** The subscription ID. */
   subscriptionId: string;
@@ -747,6 +797,8 @@ export interface OperationResource {
   startTime?: string;
   /** Operation status */
   status?: string;
+  location?: string;
+  retryAfter?: number;
 }
 export const OperationResource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -756,6 +808,8 @@ export const OperationResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     startTime: S.optional(S.String),
     status: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "OperationResource",
@@ -2400,9 +2454,19 @@ export const StartVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartVirtualMachineRequest",
 }) as any as S.Schema<StartVirtualMachineRequest>;
 
-export interface StartVirtualMachineResponse {}
+export interface StartVirtualMachineResponse {
+  azureAsyncOperation?: string;
+  location?: string;
+  retryAfter?: number;
+}
 export const StartVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StartVirtualMachineResponse",
 }) as any as S.Schema<StartVirtualMachineResponse>;
@@ -2442,9 +2506,19 @@ export const StopVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopVirtualMachineRequest",
 }) as any as S.Schema<StopVirtualMachineRequest>;
 
-export interface StopVirtualMachineResponse {}
+export interface StopVirtualMachineResponse {
+  azureAsyncOperation?: string;
+  location?: string;
+  retryAfter?: number;
+}
 export const StopVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "StopVirtualMachineResponse",
 }) as any as S.Schema<StopVirtualMachineResponse>;
@@ -2755,16 +2829,49 @@ export const VirtualMachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
   identifier: "VirtualMachinesCreateOrUpdateRequest",
 }) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>;
 
+/** Virtual machine model */
+export interface VirtualMachinesCreateOrUpdateResponse {
+  /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/virtualMachines/{virtualMachineName} */
+  id?: string;
+  /** Azure region */
+  location: string;
+  /** {virtualMachineName} */
+  name?: string;
+  /** Virtual machine properties */
+  properties?: VirtualMachineProperties;
+  /** The list of tags */
+  tags?: Tags;
+  /** {resourceProviderNamespace}/{resourceType} */
+  type?: string;
+  azureAsyncOperation?: string;
+}
+export const VirtualMachinesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.optional(S.String),
+      location: S.String,
+      name: S.optional(S.String),
+      properties: S.optional(VirtualMachineProperties),
+      tags: S.optional(Tags),
+      type: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+    }),
+).annotate({
+  identifier: "VirtualMachinesCreateOrUpdateResponse",
+}) as any as S.Schema<VirtualMachinesCreateOrUpdateResponse>;
+
 export type DedicatedCloudNodesCreateOrUpdateError = AzureOpError;
 /** Implements dedicated cloud node PUT method Returns dedicated cloud node by its name */
 export const DedicatedCloudNodesCreateOrUpdate: API.OperationMethod<
   DedicatedCloudNodesCreateOrUpdateRequest,
-  DedicatedCloudNode,
+  DedicatedCloudNodesCreateOrUpdateResponse,
   DedicatedCloudNodesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: DedicatedCloudNodesCreateOrUpdateRequest,
-  output: DedicatedCloudNode,
+  output: DedicatedCloudNodesCreateOrUpdateResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3254,12 +3361,12 @@ export type VirtualMachinesCreateOrUpdateError = AzureOpError;
 /** Implements virtual machine PUT method Create Or Update Virtual Machine */
 export const VirtualMachinesCreateOrUpdate: API.OperationMethod<
   VirtualMachinesCreateOrUpdateRequest,
-  VirtualMachine,
+  VirtualMachinesCreateOrUpdateResponse,
   VirtualMachinesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: VirtualMachinesCreateOrUpdateRequest,
-  output: VirtualMachine,
+  output: VirtualMachinesCreateOrUpdateResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

@@ -676,7 +676,7 @@
         "target": "com.azure.scvmm#DeleteVmmServerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteVmmServerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -687,6 +687,28 @@
         },
         "smithy.api#documentation": "Implements VmmServers DELETE method.\n\nRemoves the SCVmm fabric from Azure.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteVmmServerResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteVmmServerRequest": {
@@ -816,6 +838,20 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1053,6 +1089,13 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1439,7 +1482,7 @@
         "target": "com.azure.scvmm#DeleteVirtualNetworkRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteVirtualNetworkResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1450,6 +1493,28 @@
         },
         "smithy.api#documentation": "Implements VirtualNetwork DELETE method.\n\nDeregisters the ScVmm virtual network from Azure.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteVirtualNetworkResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteVirtualNetworkRequest": {
@@ -1579,6 +1644,20 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -1756,6 +1835,13 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2141,7 +2227,7 @@
         "target": "com.azure.scvmm#DeleteVirtualMachineTemplateRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteVirtualMachineTemplateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2152,6 +2238,28 @@
         },
         "smithy.api#documentation": "Implements VirtualMachineTemplate DELETE method.\n\nDeregisters the ScVmm VM Template from Azure.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteVirtualMachineTemplateResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteVirtualMachineTemplateRequest": {
@@ -2281,6 +2389,20 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -2905,6 +3027,13 @@
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -3289,7 +3418,7 @@
         "target": "com.azure.scvmm#DeleteCloudRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteCloudResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -3300,6 +3429,28 @@
         },
         "smithy.api#documentation": "Implements Cloud resource DELETE method.\n\nDeregisters the ScVmm fabric cloud from Azure.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteCloudResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteCloudRequest": {
@@ -3429,6 +3580,20 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3703,6 +3868,13 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4088,7 +4260,7 @@
         "target": "com.azure.scvmm#DeleteAvailabilitySetRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteAvailabilitySetResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -4099,6 +4271,35 @@
         },
         "smithy.api#documentation": "Implements AvailabilitySet DELETE method.\n\nDeregisters the ScVmm availability set from Azure.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteAvailabilitySetResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteAvailabilitySetRequest": {
@@ -4228,6 +4429,20 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -4393,6 +4608,20 @@
           "traits": {
             "smithy.api#documentation": "The extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5105,7 +5334,7 @@
         "target": "com.azure.scvmm#StopVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#StopVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5116,6 +5345,28 @@
         },
         "smithy.api#documentation": "Implements the operation to stop a virtual machine.\n\nThe operation to power off (stop) a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#StopVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#StopVirtualMachineInstanceRequest": {
@@ -5166,7 +5417,7 @@
         "target": "com.azure.scvmm#StartVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#StartVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5177,6 +5428,28 @@
         },
         "smithy.api#documentation": "Implements the operation to start a virtual machine.\n\nThe operation to start a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#StartVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#StartVirtualMachineInstanceRequest": {
@@ -5201,7 +5474,7 @@
         "target": "com.azure.scvmm#RestoreVirtualMachineInstanceCheckpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#RestoreVirtualMachineInstanceCheckpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5212,6 +5485,28 @@
         },
         "smithy.api#documentation": "Implements the operation to restores to a checkpoint in a virtual machine instance.\n\nRestores to a checkpoint in virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#RestoreVirtualMachineInstanceCheckpointResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#RestoreVirtualMachineInstanceCheckpointRequest": {
@@ -5242,7 +5537,7 @@
         "target": "com.azure.scvmm#RestartVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#RestartVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5253,6 +5548,28 @@
         },
         "smithy.api#documentation": "Implements the operation to restart a virtual machine.\n\nThe operation to restart a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#RestartVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#RestartVirtualMachineInstanceRequest": {
@@ -5558,6 +5875,13 @@
           "target": "com.azure.scvmm#GuestAgentProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -5920,7 +6244,7 @@
         "target": "com.azure.scvmm#DeleteVirtualMachineInstanceCheckpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteVirtualMachineInstanceCheckpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5931,6 +6255,28 @@
         },
         "smithy.api#documentation": "Implements the operation to delete a checkpoint in a virtual machine instance.\n\nDeletes a checkpoint in virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteVirtualMachineInstanceCheckpointResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteVirtualMachineInstanceCheckpointRequest": {
@@ -5961,7 +6307,7 @@
         "target": "com.azure.scvmm#CreateVirtualMachineInstanceCheckpointRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#CreateVirtualMachineInstanceCheckpointResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -5972,6 +6318,28 @@
         },
         "smithy.api#documentation": "Implements the operation to creates a checkpoint in a virtual machine instance.\n\nCreates a checkpoint in virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#CreateVirtualMachineInstanceCheckpointResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#CreateVirtualMachineInstanceCheckpointRequest": {
@@ -6008,7 +6376,7 @@
         "target": "com.azure.scvmm#DeleteVirtualMachineInstanceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.scvmm#DeleteVirtualMachineInstanceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -6019,6 +6387,28 @@
         },
         "smithy.api#documentation": "Deletes an virtual machine.\n\nThe operation to delete a virtual machine instance.",
         "com.distilled.openapi#apiVersion": "2025-03-13"
+      }
+    },
+    "com.azure.scvmm#DeleteVirtualMachineInstanceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.scvmm#DeleteVirtualMachineInstanceRequest": {
@@ -6144,6 +6534,20 @@
           "traits": {
             "smithy.api#documentation": "Gets or sets the extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6871,6 +7275,13 @@
           "traits": {
             "smithy.api#documentation": "Gets or sets the extended location.",
             "smithy.api#required": {}
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

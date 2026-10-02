@@ -94,6 +94,20 @@
           "traits": {
             "smithy.api#documentation": "The identity of the resource."
           }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1299,7 +1313,7 @@
         "target": "com.azure.search#DeleteSharedPrivateLinkResourceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.search#DeleteSharedPrivateLinkResourceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1310,6 +1324,28 @@
         },
         "smithy.api#documentation": "Initiates the deletion of the shared private link resource from the search service.\nReturns 202 (Accepted) for asynchronous deletion, 204 (No Content) if the service exists but the shared private link is not found, or 404 (Not Found) if the service is not found.\nNOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.",
         "com.distilled.openapi#apiVersion": "2025-05-01"
+      }
+    },
+    "com.azure.search#DeleteSharedPrivateLinkResourceResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.search#DeleteSharedPrivateLinkResourceRequest": {
@@ -1402,6 +1438,13 @@
           "target": "com.azure.search#SharedPrivateLinkResourceProperties",
           "traits": {
             "smithy.api#documentation": "Describes the properties of a shared private link resource managed by the Azure AI Search service."
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
           }
         }
       },
@@ -2335,7 +2378,7 @@
         "target": "com.azure.search#NetworkSecurityPerimeterConfigurationsReconcileRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.search#NetworkSecurityPerimeterConfigurationsReconcileResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -2346,6 +2389,21 @@
         },
         "smithy.api#documentation": "Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.",
         "com.distilled.openapi#apiVersion": "2025-05-01"
+      }
+    },
+    "com.azure.search#NetworkSecurityPerimeterConfigurationsReconcileResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.search#NetworkSecurityPerimeterConfigurationsReconcileRequest": {
@@ -3831,6 +3889,20 @@
           "target": "com.azure.search#Identity",
           "traits": {
             "smithy.api#documentation": "The identity of the resource."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

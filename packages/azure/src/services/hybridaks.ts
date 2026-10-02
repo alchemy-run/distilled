@@ -391,9 +391,13 @@ export const DeleteAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAgentPoolRequest",
 }) as any as S.Schema<DeleteAgentPoolRequest>;
 
-export interface DeleteAgentPoolResponse {}
+export interface DeleteAgentPoolResponse {
+  location?: string;
+}
 export const DeleteAgentPoolResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteAgentPoolResponse",
 }) as any as S.Schema<DeleteAgentPoolResponse>;
@@ -417,9 +421,14 @@ export const DeleteHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHybridIdentityMetadataRequest",
 }) as any as S.Schema<DeleteHybridIdentityMetadataRequest>;
 
-export interface DeleteHybridIdentityMetadataResponse {}
+export interface DeleteHybridIdentityMetadataResponse {
+  location?: string;
+}
 export const DeleteHybridIdentityMetadataResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteHybridIdentityMetadataResponse",
 }) as any as S.Schema<DeleteHybridIdentityMetadataResponse>;
@@ -443,9 +452,13 @@ export const DeleteKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKubernetesVersionsRequest",
 }) as any as S.Schema<DeleteKubernetesVersionsRequest>;
 
-export interface DeleteKubernetesVersionsResponse {}
+export interface DeleteKubernetesVersionsResponse {
+  location?: string;
+}
 export const DeleteKubernetesVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteKubernetesVersionsResponse",
 }) as any as S.Schema<DeleteKubernetesVersionsResponse>;
@@ -470,9 +483,14 @@ export const DeleteProvisionedClusterInstanceRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteProvisionedClusterInstanceRequest",
 }) as any as S.Schema<DeleteProvisionedClusterInstanceRequest>;
 
-export interface DeleteProvisionedClusterInstanceResponse {}
+export interface DeleteProvisionedClusterInstanceResponse {
+  location?: string;
+}
 export const DeleteProvisionedClusterInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteProvisionedClusterInstanceResponse",
 }) as any as S.Schema<DeleteProvisionedClusterInstanceResponse>;
@@ -502,9 +520,13 @@ export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualNetworkRequest",
 }) as any as S.Schema<DeleteVirtualNetworkRequest>;
 
-export interface DeleteVirtualNetworkResponse {}
+export interface DeleteVirtualNetworkResponse {
+  location?: string;
+}
 export const DeleteVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteVirtualNetworkResponse",
 }) as any as S.Schema<DeleteVirtualNetworkResponse>;
@@ -528,9 +550,13 @@ export const DeleteVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVMSkusRequest",
 }) as any as S.Schema<DeleteVMSkusRequest>;
 
-export interface DeleteVMSkusResponse {}
+export interface DeleteVMSkusResponse {
+  location?: string;
+}
 export const DeleteVMSkusResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteVMSkusResponse",
 }) as any as S.Schema<DeleteVMSkusResponse>;
@@ -2225,6 +2251,7 @@ export interface ListCredentialResponse {
   status?: ProvisioningState;
   error?: ListCredentialResponseError;
   properties?: ListCredentialResponseProperties;
+  location?: string;
 }
 export const ListCredentialResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2234,6 +2261,7 @@ export const ListCredentialResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ProvisioningState),
     error: S.optional(ListCredentialResponseError),
     properties: S.optional(ListCredentialResponseProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "ListCredentialResponse",

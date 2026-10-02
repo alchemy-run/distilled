@@ -75,11 +75,19 @@ export interface BackupInstancesAdhocBackupResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BackupInstancesAdhocBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectType: S.String,
     jobId: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "BackupInstancesAdhocBackupResponse",
@@ -622,6 +630,12 @@ export interface BackupInstancesCreateOrUpdateResponse {
   properties?: BackupInstance;
   /** Proxy Resource tags. */
   tags?: BackupInstancesCreateOrUpdateResponseTagsMap;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
 export const BackupInstancesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -632,6 +646,11 @@ export const BackupInstancesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(BackupInstance),
       tags: S.optional(BackupInstancesCreateOrUpdateResponseTagsMap),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
     }),
 ).annotate({
   identifier: "BackupInstancesCreateOrUpdateResponse",
@@ -756,12 +775,20 @@ export interface BackupInstancesTriggerCrossRegionRestoreResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BackupInstancesTriggerCrossRegionRestoreResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       objectType: S.String,
       jobId: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "BackupInstancesTriggerCrossRegionRestoreResponse",
@@ -828,12 +855,20 @@ export interface BackupInstancesTriggerRestoreResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BackupInstancesTriggerRestoreResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       objectType: S.String,
       jobId: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "BackupInstancesTriggerRestoreResponse",
@@ -876,12 +911,20 @@ export interface BackupInstancesValidateCrossRegionRestoreResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BackupInstancesValidateCrossRegionRestoreResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       objectType: S.String,
       jobId: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "BackupInstancesValidateCrossRegionRestoreResponse",
@@ -919,9 +962,21 @@ export const BackupInstancesValidateForModifyBackupRequest =
     identifier: "BackupInstancesValidateForModifyBackupRequest",
   }) as any as S.Schema<BackupInstancesValidateForModifyBackupRequest>;
 
-export interface BackupInstancesValidateForModifyBackupResponse {}
+export interface BackupInstancesValidateForModifyBackupResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const BackupInstancesValidateForModifyBackupResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+  ).annotate({
     identifier: "BackupInstancesValidateForModifyBackupResponse",
   }) as any as S.Schema<BackupInstancesValidateForModifyBackupResponse>;
 
@@ -962,12 +1017,20 @@ export interface BackupInstancesValidateForRestoreResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const BackupInstancesValidateForRestoreResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       objectType: S.String,
       jobId: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "BackupInstancesValidateForRestoreResponse",
@@ -1643,6 +1706,10 @@ export interface BackupVaultsCreateOrUpdateResponse {
   identity?: DppIdentityDetails;
   /** Optional ETag. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const BackupVaultsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1655,6 +1722,8 @@ export const BackupVaultsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     properties: BackupVault,
     identity: S.optional(DppIdentityDetails),
     eTag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "BackupVaultsCreateOrUpdateResponse",
@@ -1778,9 +1847,19 @@ export const DeleteBackupInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBackupInstanceRequest",
 }) as any as S.Schema<DeleteBackupInstanceRequest>;
 
-export interface DeleteBackupInstanceResponse {}
+export interface DeleteBackupInstanceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteBackupInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteBackupInstanceResponse",
 }) as any as S.Schema<DeleteBackupInstanceResponse>;
@@ -1844,9 +1923,17 @@ export const DeleteBackupVaultRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBackupVaultRequest",
 }) as any as S.Schema<DeleteBackupVaultRequest>;
 
-export interface DeleteBackupVaultResponse {}
+export interface DeleteBackupVaultResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteBackupVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteBackupVaultResponse",
 }) as any as S.Schema<DeleteBackupVaultResponse>;
@@ -2522,6 +2609,9 @@ export interface GetBackupVaultOperationResultResponse {
   identity?: DppIdentityDetails;
   /** Optional ETag. */
   eTag?: string;
+  azureAsyncOperation?: string;
+  locationHeader?: string;
+  retryAfter?: number;
 }
 export const GetBackupVaultOperationResultResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2535,6 +2625,11 @@ export const GetBackupVaultOperationResultResponse = /*@__PURE__*/ S.suspend(
       properties: BackupVault,
       identity: S.optional(DppIdentityDetails),
       eTag: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "GetBackupVaultOperationResultResponse",
@@ -3286,11 +3381,19 @@ export interface GetOperationResultResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  azureAsyncOperation?: string;
+  location?: string;
+  retryAfter?: number;
 }
 export const GetOperationResultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectType: S.String,
     jobId: S.optional(S.String),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "GetOperationResultResponse",
@@ -5468,9 +5571,19 @@ export const ResumeBackupInstanceBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResumeBackupInstanceBackupsRequest",
 }) as any as S.Schema<ResumeBackupInstanceBackupsRequest>;
 
-export interface ResumeBackupInstanceBackupsResponse {}
+export interface ResumeBackupInstanceBackupsResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const ResumeBackupInstanceBackupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "ResumeBackupInstanceBackupsResponse",
 }) as any as S.Schema<ResumeBackupInstanceBackupsResponse>;
@@ -5504,9 +5617,20 @@ export const ResumeBackupInstanceProtectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "ResumeBackupInstanceProtectionRequest",
 }) as any as S.Schema<ResumeBackupInstanceProtectionRequest>;
 
-export interface ResumeBackupInstanceProtectionResponse {}
+export interface ResumeBackupInstanceProtectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const ResumeBackupInstanceProtectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "ResumeBackupInstanceProtectionResponse",
 }) as any as S.Schema<ResumeBackupInstanceProtectionResponse>;
@@ -5552,9 +5676,20 @@ export const StopBackupInstanceProtectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopBackupInstanceProtectionRequest",
 }) as any as S.Schema<StopBackupInstanceProtectionRequest>;
 
-export interface StopBackupInstanceProtectionResponse {}
+export interface StopBackupInstanceProtectionResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const StopBackupInstanceProtectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "StopBackupInstanceProtectionResponse",
 }) as any as S.Schema<StopBackupInstanceProtectionResponse>;
@@ -5600,9 +5735,20 @@ export const SuspendBackupInstanceBackupsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SuspendBackupInstanceBackupsRequest",
 }) as any as S.Schema<SuspendBackupInstanceBackupsRequest>;
 
-export interface SuspendBackupInstanceBackupsResponse {}
+export interface SuspendBackupInstanceBackupsResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const SuspendBackupInstanceBackupsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "SuspendBackupInstanceBackupsResponse",
 }) as any as S.Schema<SuspendBackupInstanceBackupsResponse>;
@@ -5643,9 +5789,20 @@ export const SyncBackupInstanceBackupInstanceRequest = /*@__PURE__*/ S.suspend(
   identifier: "SyncBackupInstanceBackupInstanceRequest",
 }) as any as S.Schema<SyncBackupInstanceBackupInstanceRequest>;
 
-export interface SyncBackupInstanceBackupInstanceResponse {}
+export interface SyncBackupInstanceBackupInstanceResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const SyncBackupInstanceBackupInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "SyncBackupInstanceBackupInstanceResponse",
 }) as any as S.Schema<SyncBackupInstanceBackupInstanceResponse>;
@@ -5692,9 +5849,20 @@ export const TriggerBackupInstanceRehydrateRequest = /*@__PURE__*/ S.suspend(
   identifier: "TriggerBackupInstanceRehydrateRequest",
 }) as any as S.Schema<TriggerBackupInstanceRehydrateRequest>;
 
-export interface TriggerBackupInstanceRehydrateResponse {}
+export interface TriggerBackupInstanceRehydrateResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const TriggerBackupInstanceRehydrateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "TriggerBackupInstanceRehydrateResponse",
 }) as any as S.Schema<TriggerBackupInstanceRehydrateResponse>;
@@ -5724,9 +5892,14 @@ export const TriggerExportJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggerExportJobRequest",
 }) as any as S.Schema<TriggerExportJobRequest>;
 
-export interface TriggerExportJobResponse {}
+export interface TriggerExportJobResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const TriggerExportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "TriggerExportJobResponse",
 }) as any as S.Schema<TriggerExportJobResponse>;
@@ -5760,9 +5933,18 @@ export const UndeleteDeletedBackupInstanceRequest = /*@__PURE__*/ S.suspend(
   identifier: "UndeleteDeletedBackupInstanceRequest",
 }) as any as S.Schema<UndeleteDeletedBackupInstanceRequest>;
 
-export interface UndeleteDeletedBackupInstanceResponse {}
+export interface UndeleteDeletedBackupInstanceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const UndeleteDeletedBackupInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "UndeleteDeletedBackupInstanceResponse",
 }) as any as S.Schema<UndeleteDeletedBackupInstanceResponse>;
@@ -5873,6 +6055,10 @@ export interface UpdateBackupVaultResponse {
   identity?: DppIdentityDetails;
   /** Optional ETag. */
   eTag?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateBackupVaultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5885,6 +6071,8 @@ export const UpdateBackupVaultResponse = /*@__PURE__*/ S.suspend(() =>
     properties: BackupVault,
     identity: S.optional(DppIdentityDetails),
     eTag: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateBackupVaultResponse",
@@ -5924,12 +6112,20 @@ export interface ValidateBackupInstanceForBackupResponse {
   objectType: string;
   /** Name or Arm Id of the job created for this operation. */
   jobId?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ValidateBackupInstanceForBackupResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       objectType: S.String,
       jobId: S.optional(S.String),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "ValidateBackupInstanceForBackupResponse",

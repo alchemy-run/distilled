@@ -384,6 +384,8 @@ export interface AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionR
   properties?: RemotePrivateEndpointConnectionARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -396,6 +398,7 @@ export const AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionRespo
         RemotePrivateEndpointConnectionARMResourceProperties,
       ),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier:
@@ -2277,20 +2280,24 @@ export const WebAppCollectionValueList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<WebAppCollectionValueList>;
 
 /** Collection of App Service apps. */
-export interface WebAppCollection {
+export interface AppServiceEnvironmentsChangeVnetResponse {
   /** The Site items on this page */
   value: WebAppCollectionValueList;
   /** The link to the next page of items */
   nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
-export const WebAppCollection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    value: WebAppCollectionValueList,
-    nextLink: S.optional(S.String),
-  }),
+export const AppServiceEnvironmentsChangeVnetResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      value: WebAppCollectionValueList,
+      nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
-  identifier: "WebAppCollection",
-}) as any as S.Schema<WebAppCollection>;
+  identifier: "AppServiceEnvironmentsChangeVnetResponse",
+}) as any as S.Schema<AppServiceEnvironmentsChangeVnetResponse>;
 
 /** Resource tags. */
 export type AppServiceEnvironmentsCreateOrUpdateRequestTagsMap = {
@@ -2833,6 +2840,10 @@ export interface AppServiceEnvironmentsCreateOrUpdateResponse {
   properties?: AppServiceEnvironment;
   /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AppServiceEnvironmentsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2845,6 +2856,8 @@ export const AppServiceEnvironmentsCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(AppServiceEnvironment),
       kind: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AppServiceEnvironmentsCreateOrUpdateResponse",
@@ -3039,6 +3052,8 @@ export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse {
   sku?: SkuDescription;
   /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3050,6 +3065,7 @@ export const AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse =
       properties: S.optional(WorkerPool),
       sku: S.optional(SkuDescription),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse",
@@ -3108,6 +3124,8 @@ export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse {
   sku?: SkuDescription;
   /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -3119,6 +3137,7 @@ export const AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse =
       properties: S.optional(WorkerPool),
       sku: S.optional(SkuDescription),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse",
@@ -3231,9 +3250,18 @@ export const AppServiceEnvironmentsUpgradeRequest = /*@__PURE__*/ S.suspend(
   identifier: "AppServiceEnvironmentsUpgradeRequest",
 }) as any as S.Schema<AppServiceEnvironmentsUpgradeRequest>;
 
-export interface AppServiceEnvironmentsUpgradeResponse {}
+export interface AppServiceEnvironmentsUpgradeResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const AppServiceEnvironmentsUpgradeResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "AppServiceEnvironmentsUpgradeResponse",
 }) as any as S.Schema<AppServiceEnvironmentsUpgradeResponse>;
@@ -3782,6 +3810,8 @@ export interface AppServicePlansCreateOrUpdateResponse {
   kind?: string;
   /** Managed service identity. */
   identity?: ManagedServiceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const AppServicePlansCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3797,6 +3827,7 @@ export const AppServicePlansCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       extendedLocation: S.optional(ExtendedLocation),
       kind: S.optional(S.String),
       identity: S.optional(ManagedServiceIdentity),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "AppServicePlansCreateOrUpdateResponse",
@@ -4502,9 +4533,19 @@ export const CreateStaticSiteZipDeploymentForStaticSiteRequest =
     identifier: "CreateStaticSiteZipDeploymentForStaticSiteRequest",
   }) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteRequest>;
 
-export interface CreateStaticSiteZipDeploymentForStaticSiteResponse {}
+export interface CreateStaticSiteZipDeploymentForStaticSiteResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CreateStaticSiteZipDeploymentForStaticSiteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "CreateStaticSiteZipDeploymentForStaticSiteResponse",
   }) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteResponse>;
 
@@ -4543,9 +4584,19 @@ export const CreateStaticSiteZipDeploymentForStaticSiteBuildRequest =
     identifier: "CreateStaticSiteZipDeploymentForStaticSiteBuildRequest",
   }) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteBuildRequest>;
 
-export interface CreateStaticSiteZipDeploymentForStaticSiteBuildResponse {}
+export interface CreateStaticSiteZipDeploymentForStaticSiteBuildResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CreateStaticSiteZipDeploymentForStaticSiteBuildResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "CreateStaticSiteZipDeploymentForStaticSiteBuildResponse",
   }) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteBuildResponse>;
 
@@ -4816,6 +4867,10 @@ export interface CreateWebAppFunctionResponse {
   properties?: FunctionEnvelopeProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebAppFunctionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4825,6 +4880,8 @@ export const CreateWebAppFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FunctionEnvelopeProperties),
     kind: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateWebAppFunctionResponse",
@@ -4881,6 +4938,10 @@ export interface CreateWebAppInstanceFunctionSlotResponse {
   properties?: FunctionEnvelopeProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateWebAppInstanceFunctionSlotResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4891,6 +4952,8 @@ export const CreateWebAppInstanceFunctionSlotResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(FunctionEnvelopeProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "CreateWebAppInstanceFunctionSlotResponse",
@@ -4956,9 +5019,17 @@ export const DeleteAppServiceEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAppServiceEnvironmentRequest",
 }) as any as S.Schema<DeleteAppServiceEnvironmentRequest>;
 
-export interface DeleteAppServiceEnvironmentResponse {}
+export interface DeleteAppServiceEnvironmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAppServiceEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAppServiceEnvironmentResponse",
 }) as any as S.Schema<DeleteAppServiceEnvironmentResponse>;
@@ -5200,9 +5271,17 @@ export const DeleteKubeEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKubeEnvironmentRequest",
 }) as any as S.Schema<DeleteKubeEnvironmentRequest>;
 
-export interface DeleteKubeEnvironmentResponse {}
+export interface DeleteKubeEnvironmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteKubeEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteKubeEnvironmentResponse",
 }) as any as S.Schema<DeleteKubeEnvironmentResponse>;
@@ -5413,9 +5492,17 @@ export const DeleteStaticSiteStaticSiteRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStaticSiteStaticSiteRequest",
 }) as any as S.Schema<DeleteStaticSiteStaticSiteRequest>;
 
-export interface DeleteStaticSiteStaticSiteResponse {}
+export interface DeleteStaticSiteStaticSiteResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStaticSiteStaticSiteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteStaticSiteStaticSiteResponse",
 }) as any as S.Schema<DeleteStaticSiteStaticSiteResponse>;
@@ -5449,9 +5536,18 @@ export const DeleteStaticSiteStaticSiteBuildRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeleteStaticSiteStaticSiteBuildRequest",
 }) as any as S.Schema<DeleteStaticSiteStaticSiteBuildRequest>;
 
-export interface DeleteStaticSiteStaticSiteBuildResponse {}
+export interface DeleteStaticSiteStaticSiteBuildResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStaticSiteStaticSiteBuildResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteStaticSiteStaticSiteBuildResponse",
 }) as any as S.Schema<DeleteStaticSiteStaticSiteBuildResponse>;
@@ -5485,9 +5581,19 @@ export const DeleteStaticSiteStaticSiteCustomDomainRequest =
     identifier: "DeleteStaticSiteStaticSiteCustomDomainRequest",
   }) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainRequest>;
 
-export interface DeleteStaticSiteStaticSiteCustomDomainResponse {}
+export interface DeleteStaticSiteStaticSiteCustomDomainResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteStaticSiteStaticSiteCustomDomainResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteStaticSiteStaticSiteCustomDomainResponse",
   }) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainResponse>;
 
@@ -7307,9 +7413,17 @@ export const DetachStaticSiteStaticSiteRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DetachStaticSiteStaticSiteRequest",
 }) as any as S.Schema<DetachStaticSiteStaticSiteRequest>;
 
-export interface DetachStaticSiteStaticSiteResponse {}
+export interface DetachStaticSiteStaticSiteResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DetachStaticSiteStaticSiteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DetachStaticSiteStaticSiteResponse",
 }) as any as S.Schema<DetachStaticSiteStaticSiteResponse>;
@@ -14063,6 +14177,10 @@ export interface GetStaticSitesAsyncOperationOperationResultResponse {
   type?: string;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GetStaticSitesAsyncOperationOperationResultResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -14071,6 +14189,8 @@ export const GetStaticSitesAsyncOperationOperationResultResponse =
       name: S.optional(S.String),
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GetStaticSitesAsyncOperationOperationResultResponse",
@@ -21209,6 +21329,8 @@ export interface GetWebAppProductionSiteDeploymentStatusResponse {
   properties?: CsmDeploymentStatusProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GetWebAppProductionSiteDeploymentStatusResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -21219,6 +21341,7 @@ export const GetWebAppProductionSiteDeploymentStatusResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(CsmDeploymentStatusProperties),
       kind: S.optional(S.String),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GetWebAppProductionSiteDeploymentStatusResponse",
@@ -22440,6 +22563,8 @@ export interface GetWebAppSlotSiteDeploymentStatusSlotResponse {
   properties?: CsmDeploymentStatusProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const GetWebAppSlotSiteDeploymentStatusSlotResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -22450,6 +22575,7 @@ export const GetWebAppSlotSiteDeploymentStatusSlotResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(CsmDeploymentStatusProperties),
       kind: S.optional(S.String),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "GetWebAppSlotSiteDeploymentStatusSlotResponse",
@@ -25305,6 +25431,10 @@ export interface InstallWebAppSiteExtensionResponse {
   properties?: SiteExtensionInfoProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const InstallWebAppSiteExtensionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -25314,6 +25444,8 @@ export const InstallWebAppSiteExtensionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SiteExtensionInfoProperties),
     kind: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "InstallWebAppSiteExtensionResponse",
@@ -25364,6 +25496,10 @@ export interface InstallWebAppSiteExtensionSlotResponse {
   properties?: SiteExtensionInfoProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const InstallWebAppSiteExtensionSlotResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -25374,6 +25510,8 @@ export const InstallWebAppSiteExtensionSlotResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(SiteExtensionInfoProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "InstallWebAppSiteExtensionSlotResponse",
@@ -25489,6 +25627,10 @@ export interface KubeEnvironmentsCreateOrUpdateResponse {
   extendedLocation?: ExtendedLocation;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const KubeEnvironmentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -25502,6 +25644,8 @@ export const KubeEnvironmentsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       properties: S.optional(KubeEnvironmentProperties),
       extendedLocation: S.optional(ExtendedLocation),
       kind: S.optional(S.String),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "KubeEnvironmentsCreateOrUpdateResponse",
@@ -26581,6 +26725,22 @@ export const ListAppServiceEnvironmentWebAppsRequest = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "ListAppServiceEnvironmentWebAppsRequest",
 }) as any as S.Schema<ListAppServiceEnvironmentWebAppsRequest>;
+
+/** Collection of App Service apps. */
+export interface WebAppCollection {
+  /** The Site items on this page */
+  value: WebAppCollectionValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+export const WebAppCollection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: WebAppCollectionValueList,
+    nextLink: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "WebAppCollection",
+}) as any as S.Schema<WebAppCollection>;
 
 export interface ListAppServiceEnvironmentWebWorkerMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -33608,6 +33768,8 @@ export interface ListWebAppPublishingCredentialsResponse {
   properties?: UserProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ListWebAppPublishingCredentialsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -33618,6 +33780,7 @@ export const ListWebAppPublishingCredentialsResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(UserProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "ListWebAppPublishingCredentialsResponse",
@@ -33665,6 +33828,8 @@ export interface ListWebAppPublishingCredentialsSlotResponse {
   properties?: UserProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ListWebAppPublishingCredentialsSlotResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -33675,6 +33840,7 @@ export const ListWebAppPublishingCredentialsSlotResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(UserProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "ListWebAppPublishingCredentialsSlotResponse",
@@ -36369,6 +36535,43 @@ export const MigrateWebAppMySqlRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MigrateWebAppMySqlRequest",
 }) as any as S.Schema<MigrateWebAppMySqlRequest>;
 
+/** An operation on a resource. */
+export interface MigrateWebAppMySqlResponse {
+  /** Operation ID. */
+  id?: string;
+  /** Operation name. */
+  name?: string;
+  /** The current status of the operation. */
+  status?: OperationStatus;
+  /** Any errors associate with the operation. */
+  errors?: OperationErrorsList;
+  /** Time when operation has started. */
+  createdTime?: string;
+  /** Time when operation has been updated. */
+  modifiedTime?: string;
+  /** Time when operation will expire. */
+  expirationTime?: string;
+  /** Applicable only for stamp operation ids. */
+  geoMasterOperationId?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+export const MigrateWebAppMySqlResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    status: S.optional(OperationStatus),
+    errors: S.optional(OperationErrorsList),
+    createdTime: S.optional(S.String),
+    modifiedTime: S.optional(S.String),
+    expirationTime: S.optional(S.String),
+    geoMasterOperationId: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "MigrateWebAppMySqlResponse",
+}) as any as S.Schema<MigrateWebAppMySqlResponse>;
+
 /** StorageMigrationOptions resource specific properties */
 export interface StorageMigrationOptionsProperties {
   /** AzureFiles connection string. */
@@ -36449,6 +36652,8 @@ export interface MigrateWebAppStorageResponse {
   type?: string;
   /** StorageMigrationResponse resource specific properties */
   properties?: StorageMigrationResponseProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const MigrateWebAppStorageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -36457,6 +36662,7 @@ export const MigrateWebAppStorageResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(StorageMigrationResponseProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "MigrateWebAppStorageResponse",
@@ -37091,6 +37297,8 @@ export interface RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteResponse
   properties?: StaticSiteUserProvidedFunctionAppProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -37101,6 +37309,7 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(StaticSiteUserProvidedFunctionAppProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier:
@@ -37164,6 +37373,8 @@ export interface RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildRes
   properties?: StaticSiteUserProvidedFunctionAppProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -37174,6 +37385,7 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildRespons
       systemData: S.optional(SystemData),
       properties: S.optional(StaticSiteUserProvidedFunctionAppProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier:
@@ -37606,9 +37818,17 @@ export const RestoreWebAppRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreWebAppRequest",
 }) as any as S.Schema<RestoreWebAppRequest>;
 
-export interface RestoreWebAppResponse {}
+export interface RestoreWebAppResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestoreWebAppResponse",
 }) as any as S.Schema<RestoreWebAppResponse>;
@@ -37644,9 +37864,17 @@ export const RestoreWebAppFromBackupBlobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreWebAppFromBackupBlobRequest",
 }) as any as S.Schema<RestoreWebAppFromBackupBlobRequest>;
 
-export interface RestoreWebAppFromBackupBlobResponse {}
+export interface RestoreWebAppFromBackupBlobResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppFromBackupBlobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestoreWebAppFromBackupBlobResponse",
 }) as any as S.Schema<RestoreWebAppFromBackupBlobResponse>;
@@ -37686,9 +37914,18 @@ export const RestoreWebAppFromBackupBlobSlotRequest = /*@__PURE__*/ S.suspend(
   identifier: "RestoreWebAppFromBackupBlobSlotRequest",
 }) as any as S.Schema<RestoreWebAppFromBackupBlobSlotRequest>;
 
-export interface RestoreWebAppFromBackupBlobSlotResponse {}
+export interface RestoreWebAppFromBackupBlobSlotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppFromBackupBlobSlotResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RestoreWebAppFromBackupBlobSlotResponse",
 }) as any as S.Schema<RestoreWebAppFromBackupBlobSlotResponse>;
@@ -37746,9 +37983,17 @@ export const RestoreWebAppFromDeletedAppRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreWebAppFromDeletedAppRequest",
 }) as any as S.Schema<RestoreWebAppFromDeletedAppRequest>;
 
-export interface RestoreWebAppFromDeletedAppResponse {}
+export interface RestoreWebAppFromDeletedAppResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppFromDeletedAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestoreWebAppFromDeletedAppResponse",
 }) as any as S.Schema<RestoreWebAppFromDeletedAppResponse>;
@@ -37788,9 +38033,18 @@ export const RestoreWebAppFromDeletedAppSlotRequest = /*@__PURE__*/ S.suspend(
   identifier: "RestoreWebAppFromDeletedAppSlotRequest",
 }) as any as S.Schema<RestoreWebAppFromDeletedAppSlotRequest>;
 
-export interface RestoreWebAppFromDeletedAppSlotResponse {}
+export interface RestoreWebAppFromDeletedAppSlotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppFromDeletedAppSlotResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "RestoreWebAppFromDeletedAppSlotResponse",
 }) as any as S.Schema<RestoreWebAppFromDeletedAppSlotResponse>;
@@ -37832,9 +38086,17 @@ export const RestoreWebAppSlotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreWebAppSlotRequest",
 }) as any as S.Schema<RestoreWebAppSlotRequest>;
 
-export interface RestoreWebAppSlotResponse {}
+export interface RestoreWebAppSlotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppSlotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestoreWebAppSlotResponse",
 }) as any as S.Schema<RestoreWebAppSlotResponse>;
@@ -37914,9 +38176,17 @@ export const RestoreWebAppSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreWebAppSnapshotRequest",
 }) as any as S.Schema<RestoreWebAppSnapshotRequest>;
 
-export interface RestoreWebAppSnapshotResponse {}
+export interface RestoreWebAppSnapshotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppSnapshotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestoreWebAppSnapshotResponse",
 }) as any as S.Schema<RestoreWebAppSnapshotResponse>;
@@ -37955,9 +38225,17 @@ export const RestoreWebAppSnapshotSlotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RestoreWebAppSnapshotSlotRequest",
 }) as any as S.Schema<RestoreWebAppSnapshotSlotRequest>;
 
-export interface RestoreWebAppSnapshotSlotResponse {}
+export interface RestoreWebAppSnapshotSlotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const RestoreWebAppSnapshotSlotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "RestoreWebAppSnapshotSlotResponse",
 }) as any as S.Schema<RestoreWebAppSnapshotSlotResponse>;
@@ -37986,6 +38264,25 @@ export const ResumeAppServiceEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ResumeAppServiceEnvironmentRequest",
 }) as any as S.Schema<ResumeAppServiceEnvironmentRequest>;
+
+/** Collection of App Service apps. */
+export interface ResumeAppServiceEnvironmentResponse {
+  /** The Site items on this page */
+  value: WebAppCollectionValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+export const ResumeAppServiceEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    value: WebAppCollectionValueList,
+    nextLink: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
+).annotate({
+  identifier: "ResumeAppServiceEnvironmentResponse",
+}) as any as S.Schema<ResumeAppServiceEnvironmentResponse>;
 
 export interface RunWebAppTriggeredWebJobRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -38769,6 +39066,8 @@ export interface StaticSitesApproveOrRejectPrivateEndpointConnectionResponse {
   properties?: RemotePrivateEndpointConnectionARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const StaticSitesApproveOrRejectPrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -38781,6 +39080,7 @@ export const StaticSitesApproveOrRejectPrivateEndpointConnectionResponse =
         RemotePrivateEndpointConnectionARMResourceProperties,
       ),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "StaticSitesApproveOrRejectPrivateEndpointConnectionResponse",
@@ -39168,6 +39468,8 @@ export interface StaticSitesCreateOrUpdateStaticSiteResponse {
   sku?: SkuDescription;
   /** Managed service identity. */
   identity?: ManagedServiceIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const StaticSitesCreateOrUpdateStaticSiteResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -39182,6 +39484,7 @@ export const StaticSitesCreateOrUpdateStaticSiteResponse =
       kind: S.optional(S.String),
       sku: S.optional(SkuDescription),
       identity: S.optional(ManagedServiceIdentity),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "StaticSitesCreateOrUpdateStaticSiteResponse",
@@ -39496,6 +39799,8 @@ export interface StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse {
   properties?: StaticSiteCustomDomainOverviewARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -39508,6 +39813,7 @@ export const StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse =
         StaticSiteCustomDomainOverviewARMResourceProperties,
       ),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse",
@@ -39683,6 +39989,8 @@ export interface StaticSitesLinkBackendResponse {
   properties?: StaticSiteLinkedBackendARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const StaticSitesLinkBackendResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -39692,6 +40000,7 @@ export const StaticSitesLinkBackendResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(StaticSiteLinkedBackendARMResourceProperties),
     kind: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "StaticSitesLinkBackendResponse",
@@ -39748,6 +40057,8 @@ export interface StaticSitesLinkBackendToBuildResponse {
   properties?: StaticSiteLinkedBackendARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const StaticSitesLinkBackendToBuildResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -39758,6 +40069,7 @@ export const StaticSitesLinkBackendToBuildResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(StaticSiteLinkedBackendARMResourceProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "StaticSitesLinkBackendToBuildResponse",
@@ -40096,6 +40408,26 @@ export const SuspendAppServiceEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SuspendAppServiceEnvironmentRequest",
 }) as any as S.Schema<SuspendAppServiceEnvironmentRequest>;
 
+/** Collection of App Service apps. */
+export interface SuspendAppServiceEnvironmentResponse {
+  /** The Site items on this page */
+  value: WebAppCollectionValueList;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+export const SuspendAppServiceEnvironmentResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      value: WebAppCollectionValueList,
+      nextLink: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
+).annotate({
+  identifier: "SuspendAppServiceEnvironmentResponse",
+}) as any as S.Schema<SuspendAppServiceEnvironmentResponse>;
+
 export interface SwapWebAppSlotSlotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -40130,9 +40462,17 @@ export const SwapWebAppSlotSlotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SwapWebAppSlotSlotRequest",
 }) as any as S.Schema<SwapWebAppSlotSlotRequest>;
 
-export interface SwapWebAppSlotSlotResponse {}
+export interface SwapWebAppSlotSlotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const SwapWebAppSlotSlotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "SwapWebAppSlotSlotResponse",
 }) as any as S.Schema<SwapWebAppSlotSlotResponse>;
@@ -40168,9 +40508,18 @@ export const SwapWebAppSlotWithProductionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SwapWebAppSlotWithProductionRequest",
 }) as any as S.Schema<SwapWebAppSlotWithProductionRequest>;
 
-export interface SwapWebAppSlotWithProductionResponse {}
+export interface SwapWebAppSlotWithProductionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const SwapWebAppSlotWithProductionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "SwapWebAppSlotWithProductionResponse",
 }) as any as S.Schema<SwapWebAppSlotWithProductionResponse>;
@@ -40440,9 +40789,17 @@ export const TriggerRunWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggerRunWorkflowRequest",
 }) as any as S.Schema<TriggerRunWorkflowRequest>;
 
-export interface TriggerRunWorkflowResponse {}
+export interface TriggerRunWorkflowResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const TriggerRunWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "TriggerRunWorkflowResponse",
 }) as any as S.Schema<TriggerRunWorkflowResponse>;
@@ -45310,9 +45667,17 @@ export const ValidateStaticSiteBackendRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidateStaticSiteBackendRequest",
 }) as any as S.Schema<ValidateStaticSiteBackendRequest>;
 
-export interface ValidateStaticSiteBackendResponse {}
+export interface ValidateStaticSiteBackendResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ValidateStaticSiteBackendResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ValidateStaticSiteBackendResponse",
 }) as any as S.Schema<ValidateStaticSiteBackendResponse>;
@@ -45355,9 +45720,19 @@ export const ValidateStaticSiteBackendForBuildRequest = /*@__PURE__*/ S.suspend(
   identifier: "ValidateStaticSiteBackendForBuildRequest",
 }) as any as S.Schema<ValidateStaticSiteBackendForBuildRequest>;
 
-export interface ValidateStaticSiteBackendForBuildResponse {}
+export interface ValidateStaticSiteBackendForBuildResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ValidateStaticSiteBackendForBuildResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "ValidateStaticSiteBackendForBuildResponse",
   }) as any as S.Schema<ValidateStaticSiteBackendForBuildResponse>;
 
@@ -45398,9 +45773,19 @@ export const ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteRequest =
     identifier: "ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteRequest",
   }) as any as S.Schema<ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteRequest>;
 
-export interface ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse {}
+export interface ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse",
   }) as any as S.Schema<ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse>;
 
@@ -46139,6 +46524,8 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnectionResponse {
   properties?: RemotePrivateEndpointConnectionARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const WebAppsApproveOrRejectPrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -46151,6 +46538,7 @@ export const WebAppsApproveOrRejectPrivateEndpointConnectionResponse =
         RemotePrivateEndpointConnectionARMResourceProperties,
       ),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "WebAppsApproveOrRejectPrivateEndpointConnectionResponse",
@@ -46209,6 +46597,8 @@ export interface WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse {
   properties?: RemotePrivateEndpointConnectionARMResourceProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -46221,6 +46611,7 @@ export const WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse =
         RemotePrivateEndpointConnectionARMResourceProperties,
       ),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
   ).annotate({
     identifier: "WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse",
@@ -46514,6 +46905,10 @@ export interface WebAppsCreateInstanceMSDeployOperationResponse {
   properties?: MSDeployStatusProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WebAppsCreateInstanceMSDeployOperationResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -46524,6 +46919,8 @@ export const WebAppsCreateInstanceMSDeployOperationResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(MSDeployStatusProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "WebAppsCreateInstanceMSDeployOperationResponse",
@@ -46580,6 +46977,10 @@ export interface WebAppsCreateInstanceMSDeployOperationSlotResponse {
   properties?: MSDeployStatusProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WebAppsCreateInstanceMSDeployOperationSlotResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -46590,6 +46991,8 @@ export const WebAppsCreateInstanceMSDeployOperationSlotResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(MSDeployStatusProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "WebAppsCreateInstanceMSDeployOperationSlotResponse",
@@ -46640,6 +47043,10 @@ export interface WebAppsCreateMSDeployOperationResponse {
   properties?: MSDeployStatusProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WebAppsCreateMSDeployOperationResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -46650,6 +47057,8 @@ export const WebAppsCreateMSDeployOperationResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: S.optional(MSDeployStatusProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "WebAppsCreateMSDeployOperationResponse",
@@ -46703,6 +47112,10 @@ export interface WebAppsCreateMSDeployOperationSlotResponse {
   properties?: MSDeployStatusProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WebAppsCreateMSDeployOperationSlotResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -46713,6 +47126,8 @@ export const WebAppsCreateMSDeployOperationSlotResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(MSDeployStatusProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "WebAppsCreateMSDeployOperationSlotResponse",
@@ -46976,6 +47391,8 @@ export interface WebAppsCreateOrUpdateResponse {
   extendedLocation?: ExtendedLocation;
   /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const WebAppsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -46989,6 +47406,7 @@ export const WebAppsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedServiceIdentity),
     extendedLocation: S.optional(ExtendedLocation),
     kind: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "WebAppsCreateOrUpdateResponse",
@@ -48245,6 +48663,8 @@ export interface WebAppsCreateOrUpdateSlotResponse {
   extendedLocation?: ExtendedLocation;
   /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const WebAppsCreateOrUpdateSlotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -48258,6 +48678,7 @@ export const WebAppsCreateOrUpdateSlotResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ManagedServiceIdentity),
     extendedLocation: S.optional(ExtendedLocation),
     kind: S.optional(S.String),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "WebAppsCreateOrUpdateSlotResponse",
@@ -48308,6 +48729,10 @@ export interface WebAppsCreateOrUpdateSourceControlResponse {
   properties?: SiteSourceControlProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WebAppsCreateOrUpdateSourceControlResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -48318,6 +48743,8 @@ export const WebAppsCreateOrUpdateSourceControlResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(SiteSourceControlProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "WebAppsCreateOrUpdateSourceControlResponse",
@@ -48371,6 +48798,10 @@ export interface WebAppsCreateOrUpdateSourceControlSlotResponse {
   properties?: SiteSourceControlProperties;
   /** Kind of resource. */
   kind?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const WebAppsCreateOrUpdateSourceControlSlotResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -48381,6 +48812,8 @@ export const WebAppsCreateOrUpdateSourceControlSlotResponse =
       systemData: S.optional(SystemData),
       properties: S.optional(SiteSourceControlProperties),
       kind: S.optional(S.String),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "WebAppsCreateOrUpdateSourceControlSlotResponse",
@@ -50260,9 +50693,18 @@ export const WorkflowTriggerHistoriesResubmitRequest = /*@__PURE__*/ S.suspend(
   identifier: "WorkflowTriggerHistoriesResubmitRequest",
 }) as any as S.Schema<WorkflowTriggerHistoriesResubmitRequest>;
 
-export interface WorkflowTriggerHistoriesResubmitResponse {}
+export interface WorkflowTriggerHistoriesResubmitResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const WorkflowTriggerHistoriesResubmitResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "WorkflowTriggerHistoriesResubmitResponse",
 }) as any as S.Schema<WorkflowTriggerHistoriesResubmitResponse>;
@@ -50333,12 +50775,12 @@ export type AppServiceEnvironmentsChangeVnetError = AzureOpError;
 /** Move an App Service Environment to a different VNET. Description for Move an App Service Environment to a different VNET. */
 export const AppServiceEnvironmentsChangeVnet: API.OperationMethod<
   AppServiceEnvironmentsChangeVnetRequest,
-  WebAppCollection,
+  AppServiceEnvironmentsChangeVnetResponse,
   AppServiceEnvironmentsChangeVnetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: AppServiceEnvironmentsChangeVnetRequest,
-  output: WebAppCollection,
+  output: AppServiceEnvironmentsChangeVnetResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -57608,12 +58050,12 @@ export type MigrateWebAppMySqlError = AzureOpError;
 /** Migrates a local (in-app) MySql database to a remote MySql database. Description for Migrates a local (in-app) MySql database to a remote MySql database. */
 export const MigrateWebAppMySql: API.OperationMethod<
   MigrateWebAppMySqlRequest,
-  Operation,
+  MigrateWebAppMySqlResponse,
   MigrateWebAppMySqlError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: MigrateWebAppMySqlRequest,
-  output: Operation,
+  output: MigrateWebAppMySqlResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -58091,12 +58533,12 @@ export type ResumeAppServiceEnvironmentError = AzureOpError;
 /** Resume an App Service Environment. Description for Resume an App Service Environment. */
 export const ResumeAppServiceEnvironment: API.OperationMethod<
   ResumeAppServiceEnvironmentRequest,
-  WebAppCollection,
+  ResumeAppServiceEnvironmentResponse,
   ResumeAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: ResumeAppServiceEnvironmentRequest,
-  output: WebAppCollection,
+  output: ResumeAppServiceEnvironmentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -58666,12 +59108,12 @@ export type SuspendAppServiceEnvironmentError = AzureOpError;
 /** Suspend an App Service Environment. Description for Suspend an App Service Environment. */
 export const SuspendAppServiceEnvironment: API.OperationMethod<
   SuspendAppServiceEnvironmentRequest,
-  WebAppCollection,
+  SuspendAppServiceEnvironmentResponse,
   SuspendAppServiceEnvironmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: SuspendAppServiceEnvironmentRequest,
-  output: WebAppCollection,
+  output: SuspendAppServiceEnvironmentResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

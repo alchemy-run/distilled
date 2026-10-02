@@ -2128,9 +2128,13 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteClusterRequest",
 }) as any as S.Schema<DeleteClusterRequest>;
 
-export interface DeleteClusterResponse {}
+export interface DeleteClusterResponse {
+  location?: string;
+}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteClusterResponse",
 }) as any as S.Schema<DeleteClusterResponse>;
@@ -2163,9 +2167,13 @@ export const DeleteDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatastoreRequest",
 }) as any as S.Schema<DeleteDatastoreRequest>;
 
-export interface DeleteDatastoreResponse {}
+export interface DeleteDatastoreResponse {
+  location?: string;
+}
 export const DeleteDatastoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteDatastoreResponse",
 }) as any as S.Schema<DeleteDatastoreResponse>;
@@ -2198,9 +2206,13 @@ export const DeleteHostRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHostRequest",
 }) as any as S.Schema<DeleteHostRequest>;
 
-export interface DeleteHostResponse {}
+export interface DeleteHostResponse {
+  location?: string;
+}
 export const DeleteHostResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteHostResponse",
 }) as any as S.Schema<DeleteHostResponse>;
@@ -2268,9 +2280,13 @@ export const DeleteResourcePoolRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResourcePoolRequest",
 }) as any as S.Schema<DeleteResourcePoolRequest>;
 
-export interface DeleteResourcePoolResponse {}
+export interface DeleteResourcePoolResponse {
+  location?: string;
+}
 export const DeleteResourcePoolResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteResourcePoolResponse",
 }) as any as S.Schema<DeleteResourcePoolResponse>;
@@ -2303,9 +2319,13 @@ export const DeleteVCenterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVCenterRequest",
 }) as any as S.Schema<DeleteVCenterRequest>;
 
-export interface DeleteVCenterResponse {}
+export interface DeleteVCenterResponse {
+  location?: string;
+}
 export const DeleteVCenterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteVCenterResponse",
 }) as any as S.Schema<DeleteVCenterResponse>;
@@ -2335,9 +2355,14 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualMachineInstanceRequest",
 }) as any as S.Schema<DeleteVirtualMachineInstanceRequest>;
 
-export interface DeleteVirtualMachineInstanceResponse {}
+export interface DeleteVirtualMachineInstanceResponse {
+  location?: string;
+}
 export const DeleteVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteVirtualMachineInstanceResponse",
 }) as any as S.Schema<DeleteVirtualMachineInstanceResponse>;
@@ -2370,9 +2395,14 @@ export const DeleteVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualMachineTemplateRequest",
 }) as any as S.Schema<DeleteVirtualMachineTemplateRequest>;
 
-export interface DeleteVirtualMachineTemplateResponse {}
+export interface DeleteVirtualMachineTemplateResponse {
+  location?: string;
+}
 export const DeleteVirtualMachineTemplateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "DeleteVirtualMachineTemplateResponse",
 }) as any as S.Schema<DeleteVirtualMachineTemplateResponse>;
@@ -2405,9 +2435,13 @@ export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualNetworkRequest",
 }) as any as S.Schema<DeleteVirtualNetworkRequest>;
 
-export interface DeleteVirtualNetworkResponse {}
+export interface DeleteVirtualNetworkResponse {
+  location?: string;
+}
 export const DeleteVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteVirtualNetworkResponse",
 }) as any as S.Schema<DeleteVirtualNetworkResponse>;
@@ -2431,9 +2465,13 @@ export const DeleteVMInstanceGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVMInstanceGuestAgentRequest",
 }) as any as S.Schema<DeleteVMInstanceGuestAgentRequest>;
 
-export interface DeleteVMInstanceGuestAgentResponse {}
+export interface DeleteVMInstanceGuestAgentResponse {
+  location?: string;
+}
 export const DeleteVMInstanceGuestAgentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteVMInstanceGuestAgentResponse",
 }) as any as S.Schema<DeleteVMInstanceGuestAgentResponse>;
@@ -3962,9 +4000,14 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(
   identifier: "RestartVirtualMachineInstanceRequest",
 }) as any as S.Schema<RestartVirtualMachineInstanceRequest>;
 
-export interface RestartVirtualMachineInstanceResponse {}
+export interface RestartVirtualMachineInstanceResponse {
+  location?: string;
+}
 export const RestartVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+    }),
 ).annotate({
   identifier: "RestartVirtualMachineInstanceResponse",
 }) as any as S.Schema<RestartVirtualMachineInstanceResponse>;
@@ -3988,9 +4031,13 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartVirtualMachineInstanceRequest",
 }) as any as S.Schema<StartVirtualMachineInstanceRequest>;
 
-export interface StartVirtualMachineInstanceResponse {}
+export interface StartVirtualMachineInstanceResponse {
+  location?: string;
+}
 export const StartVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "StartVirtualMachineInstanceResponse",
 }) as any as S.Schema<StartVirtualMachineInstanceResponse>;
@@ -4017,9 +4064,13 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopVirtualMachineInstanceRequest",
 }) as any as S.Schema<StopVirtualMachineInstanceRequest>;
 
-export interface StopVirtualMachineInstanceResponse {}
+export interface StopVirtualMachineInstanceResponse {
+  location?: string;
+}
 export const StopVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "StopVirtualMachineInstanceResponse",
 }) as any as S.Schema<StopVirtualMachineInstanceResponse>;
@@ -4372,6 +4423,7 @@ export interface UpdateVirtualMachineInstanceResponse {
   properties: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
   extendedLocation?: ExtendedLocation;
+  location?: string;
 }
 export const UpdateVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4382,6 +4434,7 @@ export const UpdateVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       properties: VirtualMachineInstanceProperties,
       extendedLocation: S.optional(ExtendedLocation),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "UpdateVirtualMachineInstanceResponse",

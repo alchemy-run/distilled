@@ -1842,7 +1842,7 @@
         "target": "com.azure.advisor#GenerateRecommendationRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.advisor#GenerateRecommendationResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -1853,6 +1853,28 @@
         },
         "smithy.api#documentation": "Initiates the recommendation generation or computation process for a subscription. This operation is asynchronous. The generated recommendations are stored in a cache in the Advisor service.",
         "com.distilled.openapi#apiVersion": "2025-01-01"
+      }
+    },
+    "com.azure.advisor#GenerateRecommendationResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The URL where the status of the asynchronous operation can be checked."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The amount of delay to use while the status of the operation is checked. The value is expressed in seconds."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.advisor#GenerateRecommendationRequest": {

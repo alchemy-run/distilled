@@ -419,6 +419,10 @@ export interface CreateFabricResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FabricModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateFabricResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -429,6 +433,10 @@ export const CreateFabricResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateFabricResponseTagsMap),
     location: S.String,
     properties: S.optional(FabricModelProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateFabricResponse",
@@ -587,6 +595,10 @@ export interface CreateFabricAgentResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: FabricAgentModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateFabricAgentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -595,6 +607,10 @@ export const CreateFabricAgentResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(FabricAgentModelProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateFabricAgentResponse",
@@ -684,6 +700,10 @@ export interface CreatePolicyResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: PolicyModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -692,6 +712,10 @@ export const CreatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(PolicyModelProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreatePolicyResponse",
@@ -991,6 +1015,10 @@ export interface CreateProtectedItemResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ProtectedItemModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -999,6 +1027,10 @@ export const CreateProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ProtectedItemModelProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateProtectedItemResponse",
@@ -1090,6 +1122,10 @@ export interface CreateReplicationExtensionResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ReplicationExtensionModelProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateReplicationExtensionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1098,6 +1134,10 @@ export const CreateReplicationExtensionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ReplicationExtensionModelProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateReplicationExtensionResponse",
@@ -1422,6 +1462,10 @@ export interface CreateVaultResponse {
   properties?: VaultModelProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateVaultResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateVaultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1433,6 +1477,10 @@ export const CreateVaultResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VaultModelProperties),
     identity: S.optional(CreateVaultResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateVaultResponse",
@@ -1463,9 +1511,17 @@ export const DeleteFabricRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFabricRequest",
 }) as any as S.Schema<DeleteFabricRequest>;
 
-export interface DeleteFabricResponse {}
+export interface DeleteFabricResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFabricResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFabricResponse",
 }) as any as S.Schema<DeleteFabricResponse>;
@@ -1498,9 +1554,17 @@ export const DeleteFabricAgentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFabricAgentRequest",
 }) as any as S.Schema<DeleteFabricAgentRequest>;
 
-export interface DeleteFabricAgentResponse {}
+export interface DeleteFabricAgentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteFabricAgentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteFabricAgentResponse",
 }) as any as S.Schema<DeleteFabricAgentResponse>;
@@ -1533,9 +1597,17 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePolicyRequest",
 }) as any as S.Schema<DeletePolicyRequest>;
 
-export interface DeletePolicyResponse {}
+export interface DeletePolicyResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeletePolicyResponse",
 }) as any as S.Schema<DeletePolicyResponse>;
@@ -1569,9 +1641,18 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -1607,9 +1688,17 @@ export const DeleteProtectedItemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProtectedItemRequest",
 }) as any as S.Schema<DeleteProtectedItemRequest>;
 
-export interface DeleteProtectedItemResponse {}
+export interface DeleteProtectedItemResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteProtectedItemResponse",
 }) as any as S.Schema<DeleteProtectedItemResponse>;
@@ -1642,9 +1731,17 @@ export const DeleteReplicationExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteReplicationExtensionRequest",
 }) as any as S.Schema<DeleteReplicationExtensionRequest>;
 
-export interface DeleteReplicationExtensionResponse {}
+export interface DeleteReplicationExtensionResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteReplicationExtensionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteReplicationExtensionResponse",
 }) as any as S.Schema<DeleteReplicationExtensionResponse>;
@@ -1674,9 +1771,17 @@ export const DeleteVaultRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVaultRequest",
 }) as any as S.Schema<DeleteVaultRequest>;
 
-export interface DeleteVaultResponse {}
+export interface DeleteVaultResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteVaultResponse",
 }) as any as S.Schema<DeleteVaultResponse>;
@@ -4049,10 +4154,16 @@ export const ProtectedItemPlannedFailoverRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PlannedFailoverModel {
   /** Planned failover model properties. */
   properties: PlannedFailoverModelProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PlannedFailoverModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: PlannedFailoverModelProperties,
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "PlannedFailoverModel",
@@ -4118,6 +4229,10 @@ export interface UpdateFabricResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: FabricModelProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateFabricResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4128,6 +4243,8 @@ export const UpdateFabricResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateFabricResponseTagsMap),
     location: S.String,
     properties: S.optional(FabricModelProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateFabricResponse",
@@ -4278,6 +4395,10 @@ export interface UpdateProtectedItemResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: ProtectedItemModelProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4286,6 +4407,8 @@ export const UpdateProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(ProtectedItemModelProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateProtectedItemResponse",
@@ -4406,6 +4529,10 @@ export interface UpdateVaultResponse {
   properties?: VaultModelProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: UpdateVaultResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateVaultResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4417,6 +4544,8 @@ export const UpdateVaultResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VaultModelProperties),
     identity: S.optional(UpdateVaultResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateVaultResponse",

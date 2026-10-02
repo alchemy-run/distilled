@@ -1194,9 +1194,21 @@ export const DatabasesForceLinkToReplicationGroupRequest =
     identifier: "DatabasesForceLinkToReplicationGroupRequest",
   }) as any as S.Schema<DatabasesForceLinkToReplicationGroupRequest>;
 
-export interface DatabasesForceLinkToReplicationGroupResponse {}
+export interface DatabasesForceLinkToReplicationGroupResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const DatabasesForceLinkToReplicationGroupResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+    }),
+  ).annotate({
     identifier: "DatabasesForceLinkToReplicationGroupResponse",
   }) as any as S.Schema<DatabasesForceLinkToReplicationGroupResponse>;
 
@@ -1229,9 +1241,20 @@ export const DatabasesUpgradeDBRedisVersionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DatabasesUpgradeDBRedisVersionRequest",
 }) as any as S.Schema<DatabasesUpgradeDBRedisVersionRequest>;
 
-export interface DatabasesUpgradeDBRedisVersionResponse {}
+export interface DatabasesUpgradeDBRedisVersionResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
 export const DatabasesUpgradeDBRedisVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+    }),
 ).annotate({
   identifier: "DatabasesUpgradeDBRedisVersionResponse",
 }) as any as S.Schema<DatabasesUpgradeDBRedisVersionResponse>;
@@ -1267,9 +1290,20 @@ export const DeleteAccessPolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessPolicyAssignmentRequest",
 }) as any as S.Schema<DeleteAccessPolicyAssignmentRequest>;
 
-export interface DeleteAccessPolicyAssignmentResponse {}
+export interface DeleteAccessPolicyAssignmentResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const DeleteAccessPolicyAssignmentResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+    }),
 ).annotate({
   identifier: "DeleteAccessPolicyAssignmentResponse",
 }) as any as S.Schema<DeleteAccessPolicyAssignmentResponse>;
@@ -1302,9 +1336,19 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatabaseRequest",
 }) as any as S.Schema<DeleteDatabaseRequest>;
 
-export interface DeleteDatabaseResponse {}
+export interface DeleteDatabaseResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteDatabaseResponse",
 }) as any as S.Schema<DeleteDatabaseResponse>;
@@ -1338,9 +1382,20 @@ export const DeletePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionRequest",
 }) as any as S.Schema<DeletePrivateEndpointConnectionRequest>;
 
-export interface DeletePrivateEndpointConnectionResponse {}
+export interface DeletePrivateEndpointConnectionResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
 export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+    }),
 ).annotate({
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
@@ -1370,9 +1425,19 @@ export const DeleteRedisEnterpriseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRedisEnterpriseRequest",
 }) as any as S.Schema<DeleteRedisEnterpriseRequest>;
 
-export interface DeleteRedisEnterpriseResponse {}
+export interface DeleteRedisEnterpriseResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const DeleteRedisEnterpriseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "DeleteRedisEnterpriseResponse",
 }) as any as S.Schema<DeleteRedisEnterpriseResponse>;
@@ -1408,9 +1473,19 @@ export const ExportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExportDatabaseRequest",
 }) as any as S.Schema<ExportDatabaseRequest>;
 
-export interface ExportDatabaseResponse {}
+export interface ExportDatabaseResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const ExportDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "ExportDatabaseResponse",
 }) as any as S.Schema<ExportDatabaseResponse>;
@@ -1452,9 +1527,19 @@ export const FlushDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "FlushDatabaseRequest",
 }) as any as S.Schema<FlushDatabaseRequest>;
 
-export interface FlushDatabaseResponse {}
+export interface FlushDatabaseResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
 export const FlushDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "FlushDatabaseResponse",
 }) as any as S.Schema<FlushDatabaseResponse>;
@@ -1848,9 +1933,19 @@ export const ImportDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportDatabaseRequest",
 }) as any as S.Schema<ImportDatabaseRequest>;
 
-export interface ImportDatabaseResponse {}
+export interface ImportDatabaseResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const ImportDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "ImportDatabaseResponse",
 }) as any as S.Schema<ImportDatabaseResponse>;
@@ -2563,6 +2658,30 @@ export const RegenerateDatabaseKeyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegenerateDatabaseKeyRequest",
 }) as any as S.Schema<RegenerateDatabaseKeyRequest>;
 
+/** The secret access keys used for authenticating connections to redis */
+export interface RegenerateDatabaseKeyResponse {
+  /** The current primary key that clients can use to authenticate */
+  primaryKey?: string;
+  /** The current secondary key that clients can use to authenticate */
+  secondaryKey?: string;
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
+export const RegenerateDatabaseKeyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    primaryKey: S.optional(S.String),
+    secondaryKey: S.optional(S.String),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
+).annotate({
+  identifier: "RegenerateDatabaseKeyResponse",
+}) as any as S.Schema<RegenerateDatabaseKeyResponse>;
+
 /** The resource IDs of the database resources to be unlinked. */
 export type UnlinkDatabasesForceRequestIdsList = Array<string>;
 export const UnlinkDatabasesForceRequestIdsList = /*@__PURE__*/ S.Array(
@@ -2600,9 +2719,19 @@ export const UnlinkDatabasesForceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UnlinkDatabasesForceRequest",
 }) as any as S.Schema<UnlinkDatabasesForceRequest>;
 
-export interface UnlinkDatabasesForceResponse {}
+export interface UnlinkDatabasesForceResponse {
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
+}
 export const UnlinkDatabasesForceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+  }),
 ).annotate({
   identifier: "UnlinkDatabasesForceResponse",
 }) as any as S.Schema<UnlinkDatabasesForceResponse>;
@@ -2760,6 +2889,10 @@ export interface UpdateDatabaseResponse {
   type?: string;
   /** Other properties of the database. */
   properties?: DatabaseCreateProperties;
+  /** Location URI to poll for result */
+  location?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
 }
 export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2767,6 +2900,10 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     properties: S.optional(DatabaseCreateProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateDatabaseResponse",
@@ -2982,6 +3119,10 @@ export interface UpdateRedisEnterpriseResponse {
   identity?: CreateRedisEnterpriseResponseIdentity;
   /** Other properties of the cluster. */
   properties?: ClusterCreateProperties;
+  /** Location URI to poll for result */
+  locationHeader?: string;
+  /** Azure-AsyncOperation URI to poll for result */
+  azureAsyncOperation?: string;
 }
 export const UpdateRedisEnterpriseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2995,6 +3136,10 @@ export const UpdateRedisEnterpriseResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(UpdateRedisEnterpriseResponseZonesList),
     identity: S.optional(CreateRedisEnterpriseResponseIdentity),
     properties: S.optional(ClusterCreateProperties),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
   }),
 ).annotate({
   identifier: "UpdateRedisEnterpriseResponse",
@@ -3409,12 +3554,12 @@ export type RegenerateDatabaseKeyError = AzureOpError;
 /** Regenerates the Redis Enterprise database's access keys. */
 export const RegenerateDatabaseKey: API.OperationMethod<
   RegenerateDatabaseKeyRequest,
-  AccessKeys,
+  RegenerateDatabaseKeyResponse,
   RegenerateDatabaseKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: RegenerateDatabaseKeyRequest,
-  output: AccessKeys,
+  output: RegenerateDatabaseKeyResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

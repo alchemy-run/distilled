@@ -250,7 +250,7 @@ export const B2CTenantResourceSystemData = /*@__PURE__*/ S.suspend(() =>
   identifier: "B2CTenantResourceSystemData",
 }) as any as S.Schema<B2CTenantResourceSystemData>;
 
-export interface B2CTenantResource {
+export interface CreateB2CTenantResponse {
   /** The type of the B2C tenant resource. */
   type?: B2CTenantResourceType;
   sku: B2CResourceSKU;
@@ -266,8 +266,12 @@ export interface B2CTenantResource {
   tags?: B2CTenantResourceTagsMap;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: B2CTenantResourceSystemData;
+  /** Location URI to poll for result */
+  locationHeader?: string;
+  /** Contains the number of seconds to wait before polling the location. */
+  retryAfter?: string;
 }
-export const B2CTenantResource = /*@__PURE__*/ S.suspend(() =>
+export const CreateB2CTenantResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(B2CTenantResourceType),
     sku: B2CResourceSKU,
@@ -277,10 +281,12 @@ export const B2CTenantResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     tags: S.optional(B2CTenantResourceTagsMap),
     systemData: S.optional(B2CTenantResourceSystemData),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.String.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
-  identifier: "B2CTenantResource",
-}) as any as S.Schema<B2CTenantResource>;
+  identifier: "CreateB2CTenantResponse",
+}) as any as S.Schema<CreateB2CTenantResponse>;
 
 /** Key-value pairs of additional resource provisioning properties. */
 export type CreateGuestUsageRequestTagsMap = {
@@ -447,9 +453,17 @@ export const DeleteB2CTenantRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteB2CTenantRequest",
 }) as any as S.Schema<DeleteB2CTenantRequest>;
 
-export interface DeleteB2CTenantResponse {}
+export interface DeleteB2CTenantResponse {
+  /** Contains the URL/location which can return the deletion status. */
+  location?: string;
+  /** Contains the number of seconds to wait before checking the deletion status. */
+  retryAfter?: string;
+}
 export const DeleteB2CTenantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.String.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteB2CTenantResponse",
 }) as any as S.Schema<DeleteB2CTenantResponse>;
@@ -510,6 +524,38 @@ export const GetB2CTenantRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetB2CTenantRequest",
 }) as any as S.Schema<GetB2CTenantRequest>;
+
+export interface B2CTenantResource {
+  /** The type of the B2C tenant resource. */
+  type?: B2CTenantResourceType;
+  sku: B2CResourceSKU;
+  /** The Azure AD B2C tenant resource properties */
+  properties?: B2CTenantResourceProperties;
+  /** An identifier that represents the Azure AD B2C tenant resource. */
+  id?: string;
+  /** The name of the Azure AD B2C tenant resource. */
+  name?: string;
+  /** The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information. */
+  location: string;
+  /** Resource Tags */
+  tags?: B2CTenantResourceTagsMap;
+  /** Metadata pertaining to creation and last modification of the resource. */
+  systemData?: B2CTenantResourceSystemData;
+}
+export const B2CTenantResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(B2CTenantResourceType),
+    sku: B2CResourceSKU,
+    properties: S.optional(B2CTenantResourceProperties),
+    id: S.optional(S.String),
+    name: S.optional(S.String),
+    location: S.String,
+    tags: S.optional(B2CTenantResourceTagsMap),
+    systemData: S.optional(B2CTenantResourceSystemData),
+  }),
+).annotate({
+  identifier: "B2CTenantResource",
+}) as any as S.Schema<B2CTenantResource>;
 
 export interface GetGuestUsageRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -876,12 +922,12 @@ export type CreateB2CTenantError = AzureOpError;
 /** Initiates an async request to create both the Azure AD B2C tenant and the corresponding Azure resource linked to a subscription. */
 export const CreateB2CTenant: API.OperationMethod<
   CreateB2CTenantRequest,
-  B2CTenantResource,
+  CreateB2CTenantResponse,
   CreateB2CTenantError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateB2CTenantRequest,
-  output: B2CTenantResource,
+  output: CreateB2CTenantResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

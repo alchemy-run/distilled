@@ -41,9 +41,19 @@ export const DeleteEnterpriseMccCacheNodesOperationRequest =
     identifier: "DeleteEnterpriseMccCacheNodesOperationRequest",
   }) as any as S.Schema<DeleteEnterpriseMccCacheNodesOperationRequest>;
 
-export interface DeleteEnterpriseMccCacheNodesOperationResponse {}
+export interface DeleteEnterpriseMccCacheNodesOperationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteEnterpriseMccCacheNodesOperationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
+  ).annotate({
     identifier: "DeleteEnterpriseMccCacheNodesOperationResponse",
   }) as any as S.Schema<DeleteEnterpriseMccCacheNodesOperationResponse>;
 
@@ -72,9 +82,17 @@ export const DeleteEnterpriseMccCustomerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEnterpriseMccCustomerRequest",
 }) as any as S.Schema<DeleteEnterpriseMccCustomerRequest>;
 
-export interface DeleteEnterpriseMccCustomerResponse {}
+export interface DeleteEnterpriseMccCustomerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteEnterpriseMccCustomerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteEnterpriseMccCustomerResponse",
 }) as any as S.Schema<DeleteEnterpriseMccCustomerResponse>;
@@ -107,9 +125,18 @@ export const DeleteIspCacheNodesOperationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIspCacheNodesOperationRequest",
 }) as any as S.Schema<DeleteIspCacheNodesOperationRequest>;
 
-export interface DeleteIspCacheNodesOperationResponse {}
+export interface DeleteIspCacheNodesOperationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteIspCacheNodesOperationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteIspCacheNodesOperationResponse",
 }) as any as S.Schema<DeleteIspCacheNodesOperationResponse>;
@@ -139,9 +166,17 @@ export const DeleteIspCustomerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIspCustomerRequest",
 }) as any as S.Schema<DeleteIspCustomerRequest>;
 
-export interface DeleteIspCustomerResponse {}
+export interface DeleteIspCustomerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteIspCustomerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteIspCustomerResponse",
 }) as any as S.Schema<DeleteIspCustomerResponse>;
@@ -1138,6 +1173,10 @@ export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: CacheNodeProperty;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const EnterpriseMccCacheNodesOperationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1151,6 +1190,10 @@ export const EnterpriseMccCacheNodesOperationsCreateOrUpdateResponse =
       ),
       location: S.String,
       properties: S.optional(CacheNodeProperty),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "EnterpriseMccCacheNodesOperationsCreateOrUpdateResponse",
@@ -1808,6 +1851,10 @@ export interface EnterpriseMccCustomersCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: CustomerProperty;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const EnterpriseMccCustomersCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1819,6 +1866,10 @@ export const EnterpriseMccCustomersCreateOrUpdateResponse =
       tags: S.optional(EnterpriseMccCustomersCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(CustomerProperty),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "EnterpriseMccCustomersCreateOrUpdateResponse",
@@ -2555,6 +2606,10 @@ export interface IspCacheNodesOperationsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: CacheNodeProperty;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const IspCacheNodesOperationsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2566,6 +2621,10 @@ export const IspCacheNodesOperationsCreateOrUpdateResponse =
       tags: S.optional(IspCacheNodesOperationsCreateOrUpdateResponseTagsMap),
       location: S.String,
       properties: S.optional(CacheNodeProperty),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "IspCacheNodesOperationsCreateOrUpdateResponse",
@@ -2781,6 +2840,10 @@ export interface IspCustomersCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: CustomerProperty;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const IspCustomersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2791,6 +2854,10 @@ export const IspCustomersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(IspCustomersCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(CustomerProperty),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "IspCustomersCreateOrUpdateResponse",

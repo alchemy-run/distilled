@@ -283,6 +283,10 @@ export interface CreateBotResponse {
   sku: Sku;
   /** The identity of the Azure Health Bot. */
   identity?: Identity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateBotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -295,6 +299,10 @@ export const CreateBotResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(HealthBotProperties),
     sku: Sku,
     identity: S.optional(Identity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateBotResponse",
@@ -325,9 +333,14 @@ export const DeleteBotRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBotRequest",
 }) as any as S.Schema<DeleteBotRequest>;
 
-export interface DeleteBotResponse {}
+export interface DeleteBotResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
 export const DeleteBotResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+  }),
 ).annotate({
   identifier: "DeleteBotResponse",
 }) as any as S.Schema<DeleteBotResponse>;
@@ -739,6 +752,10 @@ export interface UpdateBotResponse {
   sku: Sku;
   /** The identity of the Azure Health Bot. */
   identity?: Identity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateBotResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -751,6 +768,8 @@ export const UpdateBotResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(HealthBotProperties),
     sku: Sku,
     identity: S.optional(Identity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateBotResponse",

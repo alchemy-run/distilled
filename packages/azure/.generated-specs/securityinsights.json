@@ -753,7 +753,7 @@
         "target": "com.azure.securityinsights#DeleteWatchlistRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.securityinsights#DeleteWatchlistResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -764,6 +764,28 @@
         },
         "smithy.api#documentation": "Delete a watchlist.",
         "com.distilled.openapi#apiVersion": "2025-09-01"
+      }
+    },
+    "com.azure.securityinsights#DeleteWatchlistResponse": {
+      "type": "structure",
+      "members": {
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.securityinsights#DeleteWatchlistRequest": {
@@ -862,6 +884,13 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Etag of the azure resource"
+          }
+        },
+        "azureAsyncOperation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Azure-AsyncOperation",
+            "smithy.api#documentation": "A link to the status monitor"
           }
         }
       },

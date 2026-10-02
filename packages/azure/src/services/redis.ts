@@ -130,6 +130,10 @@ export interface AccessPolicyAssignmentCreateUpdateResponse {
   systemData?: SystemData;
   /** Properties of an access policy assignment */
   properties?: RedisCacheAccessPolicyAssignmentProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AccessPolicyAssignmentCreateUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -139,6 +143,8 @@ export const AccessPolicyAssignmentCreateUpdateResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(RedisCacheAccessPolicyAssignmentProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "AccessPolicyAssignmentCreateUpdateResponse",
@@ -219,6 +225,10 @@ export interface AccessPolicyCreateUpdateResponse {
   systemData?: SystemData;
   /** Properties of an access policy. */
   properties?: RedisCacheAccessPolicyProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const AccessPolicyCreateUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -227,6 +237,8 @@ export const AccessPolicyCreateUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(RedisCacheAccessPolicyProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "AccessPolicyCreateUpdateResponse",
@@ -358,6 +370,8 @@ export interface CreateLinkedServerResponse {
   systemData?: SystemData;
   /** Properties of the linked server. */
   properties?: RedisLinkedServerProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const CreateLinkedServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -366,6 +380,7 @@ export const CreateLinkedServerResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(RedisLinkedServerProperties),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "CreateLinkedServerResponse",
@@ -1113,6 +1128,8 @@ export interface CreateRedisResponse {
   zones?: CreateRedisResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const CreateRedisResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1125,6 +1142,7 @@ export const CreateRedisResponse = /*@__PURE__*/ S.suspend(() =>
     properties: RedisProperties,
     zones: S.optional(CreateRedisResponseZonesList),
     identity: S.optional(CreateRedisResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "CreateRedisResponse",
@@ -1158,9 +1176,17 @@ export const DeleteAccessPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessPolicyRequest",
 }) as any as S.Schema<DeleteAccessPolicyRequest>;
 
-export interface DeleteAccessPolicyResponse {}
+export interface DeleteAccessPolicyResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteAccessPolicyResponse",
 }) as any as S.Schema<DeleteAccessPolicyResponse>;
@@ -1193,9 +1219,18 @@ export const DeleteAccessPolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessPolicyAssignmentRequest",
 }) as any as S.Schema<DeleteAccessPolicyAssignmentRequest>;
 
-export interface DeleteAccessPolicyAssignmentResponse {}
+export interface DeleteAccessPolicyAssignmentResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteAccessPolicyAssignmentResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+  () =>
+    S.Struct({
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+    }),
 ).annotate({
   identifier: "DeleteAccessPolicyAssignmentResponse",
 }) as any as S.Schema<DeleteAccessPolicyAssignmentResponse>;
@@ -1263,9 +1298,17 @@ export const DeleteLinkedServerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLinkedServerRequest",
 }) as any as S.Schema<DeleteLinkedServerRequest>;
 
-export interface DeleteLinkedServerResponse {}
+export interface DeleteLinkedServerResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteLinkedServerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteLinkedServerResponse",
 }) as any as S.Schema<DeleteLinkedServerResponse>;
@@ -1369,9 +1412,17 @@ export const DeleteRedisRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRedisRequest",
 }) as any as S.Schema<DeleteRedisRequest>;
 
-export interface DeleteRedisResponse {}
+export interface DeleteRedisResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteRedisResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteRedisResponse",
 }) as any as S.Schema<DeleteRedisResponse>;
@@ -1420,9 +1471,17 @@ export const ExportRedisDataRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExportRedisDataRequest",
 }) as any as S.Schema<ExportRedisDataRequest>;
 
-export interface ExportRedisDataResponse {}
+export interface ExportRedisDataResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ExportRedisDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ExportRedisDataResponse",
 }) as any as S.Schema<ExportRedisDataResponse>;
@@ -1638,6 +1697,10 @@ export interface FlushRedisCacheResponse {
   operations?: FlushRedisCacheResponseOperationsList;
   /** If present, details of the operation error. */
   error?: ErrorDetail;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const FlushRedisCacheResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1649,6 +1712,10 @@ export const FlushRedisCacheResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     operations: S.optional(FlushRedisCacheResponseOperationsList),
     error: S.optional(ErrorDetail),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "FlushRedisCacheResponse",
@@ -2226,9 +2293,17 @@ export const ImportRedisDataRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportRedisDataRequest",
 }) as any as S.Schema<ImportRedisDataRequest>;
 
-export interface ImportRedisDataResponse {}
+export interface ImportRedisDataResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const ImportRedisDataResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "ImportRedisDataResponse",
 }) as any as S.Schema<ImportRedisDataResponse>;
@@ -3186,6 +3261,10 @@ export interface PutPrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -3195,6 +3274,8 @@ export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(PrivateEndpointConnectionProperties),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "PutPrivateEndpointConnectionResponse",
@@ -3431,6 +3512,8 @@ export interface UpdateRedisResponse {
   zones?: UpdateRedisResponseZonesList;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CreateRedisResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateRedisResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3443,6 +3526,7 @@ export const UpdateRedisResponse = /*@__PURE__*/ S.suspend(() =>
     properties: RedisProperties,
     zones: S.optional(UpdateRedisResponseZonesList),
     identity: S.optional(CreateRedisResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateRedisResponse",

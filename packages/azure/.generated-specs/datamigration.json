@@ -8278,7 +8278,7 @@
         "target": "com.azure.datamigration#DeleteMigrationServiceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datamigration#DeleteMigrationServiceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -8289,6 +8289,20 @@
         },
         "smithy.api#documentation": "Delete Database Migration Service.",
         "com.distilled.openapi#apiVersion": "2025-06-30"
+      }
+    },
+    "com.azure.datamigration#DeleteMigrationServiceResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datamigration#DeleteMigrationServiceRequest": {
@@ -8384,6 +8398,12 @@
         },
         "properties": {
           "target": "com.azure.datamigration#MigrationServiceProperties"
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
         }
       },
       "traits": {
@@ -12163,7 +12183,7 @@
         "target": "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12174,6 +12194,20 @@
         },
         "smithy.api#documentation": "Delete Database Migration resource.",
         "com.distilled.openapi#apiVersion": "2025-06-30"
+      }
+    },
+    "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbvCoreMongoRequest": {
@@ -12598,7 +12632,7 @@
         "target": "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -12609,6 +12643,20 @@
         },
         "smithy.api#documentation": "Delete Database Migration resource.",
         "com.distilled.openapi#apiVersion": "2025-06-30"
+      }
+    },
+    "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbRUMongoResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.datamigration#DeleteDatabaseMigrationsMongoToCosmosDbRUMongoRequest": {

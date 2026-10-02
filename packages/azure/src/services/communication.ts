@@ -48,9 +48,17 @@ export const CancelDomainVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelDomainVerificationRequest",
 }) as any as S.Schema<CancelDomainVerificationRequest>;
 
-export interface CancelDomainVerificationResponse {}
+export interface CancelDomainVerificationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const CancelDomainVerificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "CancelDomainVerificationResponse",
 }) as any as S.Schema<CancelDomainVerificationResponse>;
@@ -415,6 +423,10 @@ export interface CommunicationServicesCreateOrUpdateResponse {
   properties?: CommunicationServiceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: CommunicationServicesCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CommunicationServicesCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -427,6 +439,10 @@ export const CommunicationServicesCreateOrUpdateResponse =
       location: S.String,
       properties: S.optional(CommunicationServiceProperties),
       identity: S.optional(CommunicationServicesCreateOrUpdateResponseIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "CommunicationServicesCreateOrUpdateResponse",
@@ -502,9 +518,17 @@ export const DeleteCommunicationServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCommunicationServiceRequest",
 }) as any as S.Schema<DeleteCommunicationServiceRequest>;
 
-export interface DeleteCommunicationServiceResponse {}
+export interface DeleteCommunicationServiceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteCommunicationServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteCommunicationServiceResponse",
 }) as any as S.Schema<DeleteCommunicationServiceResponse>;
@@ -537,9 +561,17 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDomainRequest",
 }) as any as S.Schema<DeleteDomainRequest>;
 
-export interface DeleteDomainResponse {}
+export interface DeleteDomainResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteDomainResponse",
 }) as any as S.Schema<DeleteDomainResponse>;
@@ -569,9 +601,17 @@ export const DeleteEmailServiceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEmailServiceRequest",
 }) as any as S.Schema<DeleteEmailServiceRequest>;
 
-export interface DeleteEmailServiceResponse {}
+export interface DeleteEmailServiceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteEmailServiceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteEmailServiceResponse",
 }) as any as S.Schema<DeleteEmailServiceResponse>;
@@ -968,6 +1008,10 @@ export interface DomainsCreateOrUpdateResponse {
   location: string;
   /** The properties of a Domains resource. */
   properties?: DomainProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DomainsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -978,6 +1022,10 @@ export const DomainsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(DomainsCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(DomainProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "DomainsCreateOrUpdateResponse",
@@ -1014,9 +1062,17 @@ export const DomainsInitiateVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DomainsInitiateVerificationRequest",
 }) as any as S.Schema<DomainsInitiateVerificationRequest>;
 
-export interface DomainsInitiateVerificationResponse {}
+export interface DomainsInitiateVerificationResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DomainsInitiateVerificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DomainsInitiateVerificationResponse",
 }) as any as S.Schema<DomainsInitiateVerificationResponse>;
@@ -1118,6 +1174,10 @@ export interface EmailServicesCreateOrUpdateResponse {
   location: string;
   /** The properties of the service. */
   properties?: EmailServiceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const EmailServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1128,6 +1188,10 @@ export const EmailServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(EmailServicesCreateOrUpdateResponseTagsMap),
     location: S.String,
     properties: S.optional(EmailServiceProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "EmailServicesCreateOrUpdateResponse",
@@ -3068,6 +3132,10 @@ export interface UpdateDomainResponse {
   location: string;
   /** The properties of a Domains resource. */
   properties?: DomainProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3078,6 +3146,10 @@ export const UpdateDomainResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateDomainResponseTagsMap),
     location: S.String,
     properties: S.optional(DomainProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateDomainResponse",
@@ -3144,6 +3216,10 @@ export interface UpdateEmailServiceResponse {
   location: string;
   /** The properties of the service. */
   properties?: EmailServiceProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateEmailServiceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3154,6 +3230,10 @@ export const UpdateEmailServiceResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateEmailServiceResponseTagsMap),
     location: S.String,
     properties: S.optional(EmailServiceProperties),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateEmailServiceResponse",

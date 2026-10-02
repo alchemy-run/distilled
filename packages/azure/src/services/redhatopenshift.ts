@@ -38,9 +38,17 @@ export const DeleteOpenShiftClusterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOpenShiftClusterRequest",
 }) as any as S.Schema<DeleteOpenShiftClusterRequest>;
 
-export interface DeleteOpenShiftClusterResponse {}
+export interface DeleteOpenShiftClusterResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteOpenShiftClusterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteOpenShiftClusterResponse",
 }) as any as S.Schema<DeleteOpenShiftClusterResponse>;
@@ -1504,6 +1512,10 @@ export interface OpenShiftClustersCreateOrUpdateResponse {
   properties?: OpenShiftClusterProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: OpenShiftClustersCreateOrUpdateResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const OpenShiftClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1516,6 +1528,10 @@ export const OpenShiftClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       location: S.String,
       properties: S.optional(OpenShiftClusterProperties),
       identity: S.optional(OpenShiftClustersCreateOrUpdateResponseIdentity),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "OpenShiftClustersCreateOrUpdateResponse",
@@ -1652,6 +1668,10 @@ export interface UpdateOpenShiftClusterResponse {
   properties?: OpenShiftClusterProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: UpdateOpenShiftClusterResponseIdentity;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateOpenShiftClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1663,6 +1683,10 @@ export const UpdateOpenShiftClusterResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(OpenShiftClusterProperties),
     identity: S.optional(UpdateOpenShiftClusterResponseIdentity),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateOpenShiftClusterResponse",

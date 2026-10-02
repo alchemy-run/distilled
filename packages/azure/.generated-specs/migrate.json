@@ -128,6 +128,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -1982,6 +1989,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -2473,6 +2487,13 @@
           "target": "com.azure.migrate#CollectorPropertiesBaseWithAgent",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -3845,6 +3866,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -4857,6 +4885,13 @@
           "target": "com.azure.migrate#UpdatePrivateEndpointConnectionOperationResponseProperties",
           "traits": {
             "smithy.api#documentation": "Properties of the private endpoint connection."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -6235,6 +6270,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -6664,6 +6706,13 @@
           "target": "com.azure.migrate#CollectorPropertiesBaseWithAgent",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -7924,6 +7973,20 @@
             "smithy.api#documentation": "Expiry date of download url.",
             "smithy.api#required": {}
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -8639,6 +8702,13 @@
           "target": "com.azure.migrate#WebAppAssessmentV2Properties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -9613,6 +9683,20 @@
           "target": "com.azure.migrate#GroupProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -17757,6 +17841,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -19646,6 +19737,13 @@
           "target": "com.azure.migrate#AvsAssessmentProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -21721,6 +21819,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -22713,6 +22818,13 @@
           "target": "com.azure.migrate#GroupProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -25665,6 +25777,13 @@
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -26840,6 +26959,20 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -27127,6 +27260,13 @@
           "target": "com.azure.migrate#ProjectProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -28483,7 +28623,7 @@
         "target": "com.azure.migrate#CreatePrivateEndpointConnectionProxyControllerRequest"
       },
       "output": {
-        "target": "com.azure.migrate#PrivateEndpointConnectionProxy"
+        "target": "com.azure.migrate#CreatePrivateEndpointConnectionProxyControllerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -28494,6 +28634,43 @@
         },
         "smithy.api#documentation": "Create or update private endpoint proxy.\n\nCreate or update a private endpoint proxy with specified name. If a private endpoint already exists, update it.",
         "com.distilled.openapi#apiVersion": "2023-01-01"
+      }
+    },
+    "com.azure.migrate#CreatePrivateEndpointConnectionProxyControllerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "type": {
+          "target": "smithy.api#String"
+        },
+        "eTag": {
+          "target": "smithy.api#String"
+        },
+        "properties": {
+          "target": "com.azure.migrate#PrivateEndpointConnectionProxyProperties"
+        },
+        "systemData": {
+          "target": "com.azure.migrate#PrivateEndpointConnectionProxySystemData",
+          "traits": {
+            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Defines Private endpoint proxy resource.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#CreatePrivateEndpointConnectionProxyControllerRequest": {
@@ -29049,7 +29226,7 @@
         "target": "com.azure.migrate#PutPrivateEndpointConnectionControllerPrivateEndpointConnectionRequest"
       },
       "output": {
-        "target": "com.azure.migrate#PrivateEndpointConnection_2"
+        "target": "com.azure.migrate#PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -29062,7 +29239,7 @@
         "com.distilled.openapi#apiVersion": "2023-01-01"
       }
     },
-    "com.azure.migrate#PrivateEndpointConnection_2": {
+    "com.azure.migrate#PutPrivateEndpointConnectionControllerPrivateEndpointConnectionResponse": {
       "type": "structure",
       "members": {
         "id": {
@@ -29100,10 +29277,18 @@
           "traits": {
             "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
-        "smithy.api#documentation": "REST model used to encapsulate the user visible state of a PrivateEndpoint."
+        "smithy.api#documentation": "REST model used to encapsulate the user visible state of a PrivateEndpoint.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#PrivateEndpointConnectionSystemData": {
@@ -29352,6 +29537,50 @@
         },
         "smithy.api#documentation": "Get the private endpoint.\n\nGet the private endpoint with the specified name.",
         "com.distilled.openapi#apiVersion": "2023-01-01"
+      }
+    },
+    "com.azure.migrate#PrivateEndpointConnection_2": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Relative URL to get this Sites."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets the name of the resource."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets the resource type."
+          }
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets the tag for optimistic concurrency control."
+          }
+        },
+        "properties": {
+          "target": "com.azure.migrate#PrivateEndpointConnectionProperties_2",
+          "traits": {
+            "smithy.api#documentation": "Gets the properties of the object."
+          }
+        },
+        "systemData": {
+          "target": "com.azure.migrate#PrivateEndpointConnectionSystemData",
+          "traits": {
+            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "REST model used to encapsulate the user visible state of a PrivateEndpoint."
       }
     },
     "com.azure.migrate#GetPrivateEndpointConnectionControllerPrivateEndpointConnectionRequest": {
@@ -30416,7 +30645,7 @@
         "target": "com.azure.migrate#MigrateProjectsControllerPutMigrateProjectRequest"
       },
       "output": {
-        "target": "com.azure.migrate#MigrateProject"
+        "target": "com.azure.migrate#MigrateProjectsControllerPutMigrateProjectResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -30427,6 +30656,61 @@
         },
         "smithy.api#documentation": "Create or update a new project with specified settings.\n\nCreate or update a new project by sending a json object of type 'migrateproject' as given in Models section as part of the Request Body. The project name is unique.\n\nThis operation is Idempotent.",
         "com.distilled.openapi#apiVersion": "2023-01-01"
+      }
+    },
+    "com.azure.migrate#MigrateProjectsControllerPutMigrateProjectResponse": {
+      "type": "structure",
+      "members": {
+        "properties": {
+          "target": "com.azure.migrate#MigrateProjectProperties"
+        },
+        "eTag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "For optimistic concurrency control."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Azure location in which project is created."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Path reference to this project /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/migrateProjects/{projectName}"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the project."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Type of the object = [Microsoft.Migrate/migrateProjects]."
+          }
+        },
+        "systemData": {
+          "target": "com.azure.migrate#MigrateProjectSystemData",
+          "traits": {
+            "smithy.api#documentation": "Metadata pertaining to creation and last modification of the resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Migrate project.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#MigrateProjectsControllerPutMigrateProjectRequest": {
@@ -30557,6 +30841,13 @@
         },
         "nextLink": {
           "target": "smithy.api#String"
+        },
+        "xMsRequestId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-request-id",
+            "smithy.api#documentation": "Service generated Request ID."
+          }
         }
       },
       "traits": {
@@ -32774,7 +33065,7 @@
         "target": "com.azure.migrate#CreateSolutionsControllerRequest"
       },
       "output": {
-        "target": "com.azure.migrate#Solution"
+        "target": "com.azure.migrate#CreateSolutionsControllerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -32785,6 +33076,52 @@
         },
         "smithy.api#documentation": "Creates a solution in the migrate project.",
         "com.distilled.openapi#apiVersion": "2023-01-01"
+      }
+    },
+    "com.azure.migrate#CreateSolutionsControllerResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets the relative URL to get to this REST resource."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets the name of this REST resource."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets the type of this REST resource."
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Gets or sets the ETAG for optimistic concurrency control."
+          }
+        },
+        "properties": {
+          "target": "com.azure.migrate#SolutionProperties",
+          "traits": {
+            "smithy.api#documentation": "Gets or sets the properties of the solution."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Solution REST Resource.",
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#CreateSolutionsControllerRequest": {
@@ -34967,6 +35304,13 @@
           "target": "com.azure.migrate#VcenterProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -41440,6 +41784,13 @@
           "traits": {
             "smithy.api#documentation": "If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -44864,6 +45215,13 @@
           "target": "com.azure.migrate#SitesProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -49340,7 +49698,7 @@
         "target": "com.azure.migrate#DeleteWebAppDiscoverySiteDataSourcesControllerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.migrate#DeleteWebAppDiscoverySiteDataSourcesControllerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -49351,6 +49709,28 @@
         },
         "smithy.api#documentation": "Method to delete a Web app data source in site.",
         "com.distilled.openapi#apiVersion": "2023-06-06"
+      }
+    },
+    "com.azure.migrate#DeleteWebAppDiscoverySiteDataSourcesControllerResponse": {
+      "type": "structure",
+      "members": {
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#DeleteWebAppDiscoverySiteDataSourcesControllerRequest": {
@@ -49451,6 +49831,13 @@
           "target": "com.azure.migrate#DiscoverySiteDataSourceProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -49770,7 +50157,7 @@
         "target": "com.azure.migrate#DeleteWebAppSitesControllerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.migrate#DeleteWebAppSitesControllerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -49781,6 +50168,28 @@
         },
         "smithy.api#documentation": "Deletes the WebApp site.",
         "com.distilled.openapi#apiVersion": "2023-06-06"
+      }
+    },
+    "com.azure.migrate#DeleteWebAppSitesControllerResponse": {
+      "type": "structure",
+      "members": {
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#DeleteWebAppSitesControllerRequest": {
@@ -49873,6 +50282,20 @@
           "target": "com.azure.migrate#WebAppSiteProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
           }
         }
       },
@@ -50115,6 +50538,13 @@
           "target": "com.azure.migrate#WebAppSiteProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -53755,6 +54185,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -54177,6 +54614,20 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -54366,6 +54817,13 @@
           "target": "com.azure.migrate#SqlSiteProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -55040,6 +55498,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -55666,6 +56131,20 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "locationHeader": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
         }
       },
       "traits": {
@@ -55944,6 +56423,13 @@
           "target": "com.azure.migrate#MasterSiteProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -58535,6 +59021,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -60983,7 +61476,7 @@
         "target": "com.azure.migrate#DeleteHypervHostControllerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.azure.migrate#DeleteHypervHostControllerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -60994,6 +61487,28 @@
         },
         "smithy.api#documentation": "Delete a HypervHost",
         "com.distilled.openapi#apiVersion": "2023-06-06"
+      }
+    },
+    "com.azure.migrate#DeleteHypervHostControllerResponse": {
+      "type": "structure",
+      "members": {
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The Location header contains the URL where the status of the long running operation can be checked."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.azure.migrate#DeleteHypervHostControllerRequest": {
@@ -61086,6 +61601,13 @@
           "target": "com.azure.migrate#HypervHostProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },
@@ -62049,6 +62571,13 @@
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
           }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
+          }
         }
       },
       "traits": {
@@ -62884,6 +63413,13 @@
           "target": "com.azure.migrate#SiteProperties",
           "traits": {
             "smithy.api#documentation": "The resource-specific properties for this resource."
+          }
+        },
+        "retryAfter": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpHeader": "Retry-After",
+            "smithy.api#documentation": "The Retry-After header can indicate how long the client should wait before polling the operation status."
           }
         }
       },

@@ -306,6 +306,10 @@ export interface CreateOrUpdateServiceGroupResponse {
   kind?: string;
   /** The serviceGroup tags. */
   tags?: CreateOrUpdateServiceGroupResponseTagsMap;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const CreateOrUpdateServiceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -316,6 +320,10 @@ export const CreateOrUpdateServiceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServiceGroupProperties),
     kind: S.optional(S.String),
     tags: S.optional(CreateOrUpdateServiceGroupResponseTagsMap),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "CreateOrUpdateServiceGroupResponse",
@@ -366,9 +374,22 @@ export const DeleteManagementGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteManagementGroupRequest",
 }) as any as S.Schema<DeleteManagementGroupRequest>;
 
-export interface DeleteManagementGroupResponse {}
+export interface DeleteManagementGroupResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteManagementGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteManagementGroupResponse",
 }) as any as S.Schema<DeleteManagementGroupResponse>;
@@ -421,9 +442,22 @@ export const DeleteServiceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteServiceGroupRequest",
 }) as any as S.Schema<DeleteServiceGroupRequest>;
 
-export interface DeleteServiceGroupResponse {}
+export interface DeleteServiceGroupResponse {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteServiceGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteServiceGroupResponse",
 }) as any as S.Schema<DeleteServiceGroupResponse>;
@@ -1499,6 +1533,10 @@ export interface ManagementGroupsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The generic properties of a management group. */
   properties?: ManagementGroupProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 export const ManagementGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1508,6 +1546,10 @@ export const ManagementGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(ManagementGroupProperties),
+      azureAsyncOperation: S.optional(
+        S.String.pipe(T.Header("Azure-AsyncOperation")),
+      ),
+      location: S.optional(S.String.pipe(T.Header("Location"))),
     }),
 ).annotate({
   identifier: "ManagementGroupsCreateOrUpdateResponse",
@@ -1723,6 +1765,12 @@ export interface UpdateServiceGroupResponse {
   kind?: string;
   /** The serviceGroup tags. */
   tags?: UpdateServiceGroupResponseTagsMap;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const UpdateServiceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1733,6 +1781,11 @@ export const UpdateServiceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServiceGroupProperties),
     kind: S.optional(S.String),
     tags: S.optional(UpdateServiceGroupResponseTagsMap),
+    azureAsyncOperation: S.optional(
+      S.String.pipe(T.Header("Azure-AsyncOperation")),
+    ),
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
   }),
 ).annotate({
   identifier: "UpdateServiceGroupResponse",

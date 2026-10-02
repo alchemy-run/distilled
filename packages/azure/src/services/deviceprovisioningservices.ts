@@ -164,9 +164,17 @@ export const DeleteIotDpsResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIotDpsResourceRequest",
 }) as any as S.Schema<DeleteIotDpsResourceRequest>;
 
-export interface DeleteIotDpsResourceResponse {}
+export interface DeleteIotDpsResourceResponse {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
 export const DeleteIotDpsResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    location: S.optional(S.String.pipe(T.Header("Location"))),
+    retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+  }),
 ).annotate({
   identifier: "DeleteIotDpsResourceResponse",
 }) as any as S.Schema<DeleteIotDpsResourceResponse>;
@@ -309,6 +317,10 @@ export interface DeleteIotDpsResourcePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const DeleteIotDpsResourcePrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -318,6 +330,8 @@ export const DeleteIotDpsResourcePrivateEndpointConnectionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: PrivateEndpointConnectionProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "DeleteIotDpsResourcePrivateEndpointConnectionResponse",
@@ -1512,6 +1526,10 @@ export interface IotDpsResourceCreateOrUpdateResponse {
   sku: IotDpsSkuInfo;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetIotDpsResourceResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const IotDpsResourceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -1528,6 +1546,8 @@ export const IotDpsResourceCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       properties: IotDpsPropertiesDescription,
       sku: IotDpsSkuInfo,
       identity: S.optional(GetIotDpsResourceResponseIdentity),
+      locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
 ).annotate({
   identifier: "IotDpsResourceCreateOrUpdateResponse",
@@ -1576,6 +1596,10 @@ export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse {
   systemData?: SystemData;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 export const IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -1585,6 +1609,8 @@ export const IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse =
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: PrivateEndpointConnectionProperties,
+      location: S.optional(S.String.pipe(T.Header("Location"))),
+      retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
     }),
   ).annotate({
     identifier: "IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse",
@@ -2186,6 +2212,8 @@ export interface UpdateIotDpsResourceResponse {
   sku: IotDpsSkuInfo;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: GetIotDpsResourceResponseIdentity;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string;
 }
 export const UpdateIotDpsResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2201,6 +2229,7 @@ export const UpdateIotDpsResourceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: IotDpsPropertiesDescription,
     sku: IotDpsSkuInfo,
     identity: S.optional(GetIotDpsResourceResponseIdentity),
+    locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
   }),
 ).annotate({
   identifier: "UpdateIotDpsResourceResponse",
