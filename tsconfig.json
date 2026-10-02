@@ -351,6 +351,12 @@
       "path": "./packages/launchdarkly/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/linear/tsconfig.json"
+    },
+    {
+      "path": "./packages/linear/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/meilisearch/tsconfig.json"
     },
     {
