@@ -33,17 +33,14 @@ catalog:
   rolldown: "1.2.5"
   typescript: "^7.0.2"
   yaml: "^2.9.0"
-overrides:
-  "@effect/platform-bun@4.0.0-rc.112>@effect/platform-node-shared": "4.0.0-rc.112"
-  "@effect/platform-node@4.0.0-rc.112>@effect/platform-node-shared": "4.0.0-rc.112"
 
 catalogs:
   # Compatibility line used by the deployment-stack fixtures.
   alchemy:
-    "@effect/platform-bun": "4.0.0-rc.112"
-    "@effect/platform-node": "4.0.0-rc.112"
-    alchemy: "2.0.0-beta.77"
-    effect: "4.0.0-rc.112"
+    "@effect/platform-bun": "4.0.0"
+    "@effect/platform-node": "4.0.0"
+    alchemy: "2.0.0-beta.79"
+    effect: "4.0.0"
 minimumReleaseAgeExclude:
   - "@effect/atom-react@4.0.0"
   - "@effect/platform-bun@4.0.0"
