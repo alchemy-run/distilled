@@ -35,8 +35,10 @@ const createLabel = Query.fn((teamId: string, name: string) => {
 });
 
 const program = Effect.gen(function* () {
-  const [team] = yield* listTeams();
-  return yield* createLabel(team!.id, "needs-triage");
+  const teams = yield* listTeams();
+  return yield* Effect.forEach(teams, (team) =>
+    createLabel(team.id, "needs-triage"),
+  );
 });
 
 const Live = GraphQLLive.pipe(
@@ -129,8 +131,6 @@ retryable errors up to 5 times; mutations never retry.
   selection.
 - Arguments on non-connection object and scalar fields are not sent, so
   `Team.membership(userId:)` cannot be selected.
-- Union and interface members are not selectable beyond the interface's own
-  fields (no inline fragments).
 - Error codes not yet observed (forbidden, feature not accessible, usage
   limit exceeded, lock timeout, internal error) arrive as
   `UnknownGraphQLError`; their `code` and `extensions` are on the error.
@@ -141,8 +141,8 @@ retryable errors up to 5 times; mutations never retry.
 ## Generate
 
 ```sh
-pnpm specs:local linear                 # until spec-mirror-linear exists
-DISTILLED_SPECS_LOCAL=1 pnpm generate linear
+pnpm --filter @distilled.cloud/linear run specs:fetch   # once
+pnpm generate linear
 ```
 
 Conversion reads the mirrored introspection schema. Generation reads

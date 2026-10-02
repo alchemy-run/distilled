@@ -3,10 +3,14 @@ import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
+import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import {
   GqlTransport,
+  GraphQLFailure,
+  GraphQLTransportError,
+  UnknownGraphQLError,
   type CompiledOperation,
   type GraphQLResponse,
   type RawGraphQLError,
@@ -162,6 +166,79 @@ describe("Linear Query SDK", () => {
     expect(invalid._tag).toBe("LinearInvalidInput");
   });
 
+  test("an unobserved code is UnknownGraphQLError with the root", async () => {
+    const error = await failure(
+      getTeam("t1"),
+      sequence({
+        data: null,
+        errors: [
+          {
+            message: "Forbidden",
+            path: ["team"],
+            extensions: { code: "FORBIDDEN", type: "forbidden" },
+          },
+        ],
+      }).layer,
+    );
+    expect(error).toBeInstanceOf(UnknownGraphQLError);
+    expect(error).toMatchObject({ code: "FORBIDDEN", coordinate: "team" });
+  });
+
+  test("errors with different tags fail together", async () => {
+    const error = await failure(
+      Query.fn(() => ({
+        a: Linear.team({ id: "a" }).id,
+        b: Linear.team({ id: "b" }).id,
+      }))(),
+      sequence({
+        data: { team: null, team_0: null },
+        errors: [
+          notFound("team", "Team"),
+          {
+            message: "Argument Validation Error",
+            path: ["team_0"],
+            extensions: { code: "INVALID_INPUT", type: "invalid input" },
+          },
+        ],
+      }).layer,
+    );
+    expect(error).toBeInstanceOf(GraphQLFailure);
+    expect((error as GraphQLFailure).errors.map((issue) => issue._tag)).toEqual(
+      ["LinearNotFound", "LinearInvalidInput"],
+    );
+  });
+
+  test("Query.items follows endCursor until hasNextPage is false", async () => {
+    const page = (
+      nodes: ReadonlyArray<object>,
+      hasNextPage: boolean,
+      endCursor: string | null,
+    ) => ({
+      edges: nodes.map((node) => ({ node })),
+      pageInfo: { hasNextPage, endCursor },
+    });
+    const { layer, requests } = sequence(
+      {
+        data: { issueLabels: page([{ name: "a" }, { name: "b" }], true, "c1") },
+      },
+      { data: { issueLabels: page([{ name: "c" }], false, null) } },
+    );
+    const names = await run(
+      Stream.runCollect(
+        Query.items(
+          Linear.issueLabels({ first: 2 }).pipe(
+            Query.map((label) => label.name),
+          ),
+        ),
+      ),
+      layer,
+    );
+    expect([...names]).toEqual(["a", "b", "c"]);
+    expect(requests).toHaveLength(2);
+    expect(requests[0]!.document).toContain("hasNextPage");
+    expect(Object.values(requests[1]!.variables)).toContain("c1");
+  });
+
   test("rate limits retry queries but not mutations", async () => {
     const limited: GraphQLResponse = {
       data: null,
@@ -235,5 +312,30 @@ describe("Linear Query SDK", () => {
       { url: "https://api.linear.app/graphql", authorization: "k" },
       { url: "https://api.linear.app/graphql", authorization: "Bearer k" },
     ]);
+  });
+
+  test("a non-GraphQL HTTP response is GraphQLTransportError", async () => {
+    const http = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((request) =>
+        Effect.succeed(
+          HttpClientResponse.fromWeb(
+            request,
+            new Response("<html>", { status: 502 }),
+          ),
+        ),
+      ),
+    );
+    const error = await failure(
+      deleteLabel("l1"),
+      GraphQLLive.pipe(
+        Layer.provideMerge(http),
+        Layer.provideMerge(
+          CredentialsFromToken({ token: "k", tokenKind: "apiKey" }),
+        ),
+      ),
+    );
+    expect(error).toBeInstanceOf(GraphQLTransportError);
+    expect(error).toMatchObject({ status: 502 });
   });
 });

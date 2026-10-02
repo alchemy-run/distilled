@@ -1,5 +1,5 @@
 {
-  "description": "Linear error contracts. Linear sets extensions.code on every error and reuses the same codes across the whole graph, so every tag is global. Codes and messages were observed against api.linear.app on 2026-10-02 (see README.md); RATELIMITED is from https://linear.app/developers/rate-limiting. Entity-not-found shares INPUT_ERROR with other input failures, so it adds a message matcher and wins as the more specific match.",
+  "description": "Linear error contracts. Linear sets extensions.code on every error and reuses the same codes across the whole graph, so every tag is global. Codes and messages were observed against api.linear.app on 2026-10-02 (see README.md); RATELIMITED is from https://linear.app/developers/rate-limiting. Entity-not-found shares INPUT_ERROR with other input failures, so it adds a message matcher and wins as the more specific match. LinearNotFound is global rather than attached per coordinate (as Railway does) because any root that takes an id or a filter can raise it and the message matcher already scopes it.",
   "patches": [
     {
       "op": "add",
@@ -50,7 +50,7 @@
       }
     },
     {
-      "op": "add",
+      "op": "replace",
       "path": "/globalErrors",
       "value": [
         "LinearAuthenticationError",

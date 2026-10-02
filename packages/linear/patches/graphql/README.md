@@ -2,17 +2,46 @@
 
 The native GraphQL generator reads the complete mirrored introspection schema,
 normalizes it to `.generated-graphql/linear.json`, and applies the RFC 6902
-files in this directory in filename order. The patch format and matcher rules
-are the same as Railway's; see
-[`packages/railway/patches/graphql/README.md`](../../../railway/patches/graphql/README.md).
+files in this directory in filename order.
 
-Regenerate after editing a patch (drop `DISTILLED_SPECS_LOCAL=1` once
-`spec-mirror-linear` exists):
+Patch schema coordinates, not generated TypeScript or baked query documents:
+
+```json
+{
+  "description": "Record the exact live response and why this tag applies",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/LinearNotFound",
+      "value": {
+        "description": "An entity the operation references does not exist.",
+        "category": "notFound",
+        "matchers": [
+          { "code": "INPUT_ERROR", "messageIncludes": "Entity not found" }
+        ]
+      }
+    },
+    { "op": "replace", "path": "/globalErrors", "value": ["LinearNotFound"] }
+  ]
+}
+```
+
+Matchers support exact `code`, exact `message`, and case-sensitive
+`messageIncludes`; a matcher with both code and message wins over one with
+code alone. Linear reuses the same `extensions.code` values across the whole
+graph, so every tag here is in `globalErrors`. Attach a tag to one coordinate
+(`/types/<Type>/fields/<field>/errors/-`) only for an error a single field
+raises.
+
+Regenerate after editing a patch:
 
 ```sh
-pnpm specs:local linear
-DISTILLED_SPECS_LOCAL=1 pnpm generate linear
+pnpm --filter @distilled.cloud/linear run specs:fetch   # once
+pnpm generate linear
 ```
+
+Conversion fails on stale JSON pointers, dangling type references, or unknown
+error tags.
 
 ## Evidence
 
