@@ -349,6 +349,35 @@ export class ManagementPolicyNotFound extends Schema.TaggedError<ManagementPolic
 ).pipe(Category.withNotFoundError) {}
 
 /**
+ * Returned when a storage account has no blob inventory policy.
+ * Azure error code: `BlobInventoryPolicyNotFound`
+ */
+export class BlobInventoryPolicyNotFound extends Schema.TaggedError<BlobInventoryPolicyNotFound>()(
+  "BlobInventoryPolicyNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when a storage account has no advanced platform metrics rule of
+ * the requested type.
+ * Azure error code: `AdvancedPlatformMetricsRuleNotFound`
+ */
+export class AdvancedPlatformMetricsRuleNotFound extends Schema.TaggedError<AdvancedPlatformMetricsRuleNotFound>()(
+  "AdvancedPlatformMetricsRuleNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned when a storage account has no object replication policy with
+ * the requested ID.
+ * Azure error code: `ObjectReplicationPolicyNotFound`
+ */
+export class ObjectReplicationPolicyNotFound extends Schema.TaggedError<ObjectReplicationPolicyNotFound>()(
+  "ObjectReplicationPolicyNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
  * Returned when a storage account name is already used, in this or another
  * subscription (names are globally unique).
  * Azure error code: `StorageAccountAlreadyTaken` or `StorageAccountAlreadyExists`
@@ -491,6 +520,18 @@ export class ApiManagementServiceNotFound extends Schema.TaggedError<ApiManageme
   AzureErrorFields,
 ).pipe(Category.withNotFoundError) {}
 
+/**
+ * Returned by Microsoft.EventHub application-group operations on a Basic or
+ * Standard namespace: application groups exist only on Premium and
+ * Dedicated tiers. Azure error code: `ApplicationGroupInvalidSku` (PUT);
+ * GET/DELETE return HTTP 400 with "Application Group available only for
+ * Dedicated and Premium" (matched by message).
+ */
+export class EventHubApplicationGroupNotSupported extends Schema.TaggedError<EventHubApplicationGroupNotSupported>()(
+  "EventHubApplicationGroupNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
 // ---------------------------------------------------------------------------
 // Azure error code → typed error class mapping
 // ---------------------------------------------------------------------------
@@ -555,6 +596,9 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     ShareNotFound: ShareNotFound,
     QueueNotFound: QueueNotFound,
     ManagementPolicyNotFound: ManagementPolicyNotFound,
+    BlobInventoryPolicyNotFound: BlobInventoryPolicyNotFound,
+    AdvancedPlatformMetricsRuleNotFound: AdvancedPlatformMetricsRuleNotFound,
+    ObjectReplicationPolicyNotFound: ObjectReplicationPolicyNotFound,
     StorageAccountAlreadyTaken: StorageAccountAlreadyTaken,
     StorageAccountAlreadyExists: StorageAccountAlreadyTaken,
     ResourceGroupBeingDeleted: ResourceGroupBeingDeleted,
@@ -572,6 +616,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     NicInUse: NetworkInterfaceInUse,
     CannotDeleteResource: CannotDeleteResource,
     ServiceNotFound: ApiManagementServiceNotFound,
+    ApplicationGroupInvalidSku: EventHubApplicationGroupNotSupported,
   };
 
 /**
@@ -584,6 +629,29 @@ export class AppServicePlanCreateThrottled extends Schema.TaggedError<AppService
   "AppServicePlanCreateThrottled",
   AzureErrorFields,
 ).pipe(Category.withThrottlingError) {}
+
+/**
+ * Returned by Microsoft.Web when a custom hostname binding fails domain
+ * verification: the `asuid.{host}` TXT record or the CNAME/A record to the
+ * app is missing. Microsoft.Web error code: `BadRequest` with "A TXT record
+ * pointing from asuid..." / "A CNAME record pointing from ..." (matched by
+ * message).
+ */
+export class HostNameVerificationFailed extends Schema.TaggedError<HostNameVerificationFailed>()(
+  "HostNameVerificationFailed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Web when a deployment slot is created on a plan
+ * that has no slots (Free, Basic, Consumption, Flex Consumption).
+ * Microsoft.Web error code: `BadRequest` with "does not support slots"
+ * (matched by message).
+ */
+export class WebAppSlotsNotSupported extends Schema.TaggedError<WebAppSlotsNotSupported>()(
+  "WebAppSlotsNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
 
 /**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
@@ -607,6 +675,18 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     code: "429",
     includes: "App Service Plan Create operation is throttled",
     error: AppServicePlanCreateThrottled,
+  },
+  {
+    includes: "Application Group available only for Dedicated and Premium",
+    error: EventHubApplicationGroupNotSupported,
+  },
+  {
+    includes: "record pointing from",
+    error: HostNameVerificationFailed,
+  },
+  {
+    includes: "does not support slots",
+    error: WebAppSlotsNotSupported,
   },
 ];
 
@@ -675,6 +755,9 @@ export type AzureApiError =
   | ShareNotFound
   | QueueNotFound
   | ManagementPolicyNotFound
+  | BlobInventoryPolicyNotFound
+  | AdvancedPlatformMetricsRuleNotFound
+  | ObjectReplicationPolicyNotFound
   | StorageAccountAlreadyTaken
   | ResourceGroupBeingDeleted
   | PendingTransactionAlreadyExists
@@ -689,4 +772,7 @@ export type AzureApiError =
   | NetworkInterfaceInUse
   | CannotDeleteResource
   | ApiManagementServiceNotFound
-  | AppServicePlanCreateThrottled;
+  | AppServicePlanCreateThrottled
+  | HostNameVerificationFailed
+  | WebAppSlotsNotSupported
+  | EventHubApplicationGroupNotSupported;

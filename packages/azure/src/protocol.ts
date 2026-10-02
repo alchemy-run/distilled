@@ -56,6 +56,7 @@ import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   AZURE_ERROR_CODE_MAP,
+  matchAzureErrorMessage,
   type AzureApiError,
   AzureParseError,
   UnknownAzureError,
@@ -109,9 +110,14 @@ const parseArmError = (body: unknown): ArmError | undefined => {
     b.error !== null && typeof b.error === "object"
       ? (b.error as Record<string, unknown>)
       : b;
-  const code = typeof inner.code === "string" ? inner.code : undefined;
-  const message = typeof inner.message === "string" ? inner.message : undefined;
-  const target = typeof inner.target === "string" ? inner.target : undefined;
+  // Microsoft.Web (and other legacy RPs) return PascalCase `Code`/`Message`.
+  const field = (name: string) => {
+    const value = inner[name] ?? inner[name[0]!.toUpperCase() + name.slice(1)];
+    return typeof value === "string" ? value : undefined;
+  };
+  const code = field("code");
+  const message = field("message");
+  const target = field("target");
   if (code === undefined && message === undefined) return undefined;
   return { code, message, target };
 };
@@ -141,6 +147,9 @@ const encode = ({
       baseUrl: creds.apiBaseUrl,
       headers: {
         Authorization: `Bearer ${Redacted.value(creds.bearerToken)}`,
+        // ARM speaks JSON; without this, some resource providers negotiate
+        // another media type (API Management returns policies as raw XML).
+        Accept: "application/json",
       },
     });
 
@@ -203,7 +212,8 @@ const decode = ({
 
       // 1. Match by Azure error code first for richer typed errors.
       const AzureErrorClass =
-        arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined;
+        (arm !== undefined ? matchAzureErrorMessage(arm) : undefined) ??
+        (arm?.code !== undefined ? AZURE_ERROR_CODE_MAP[arm.code] : undefined);
       if (AzureErrorClass) {
         return yield* fail(
           new AzureErrorClass({
