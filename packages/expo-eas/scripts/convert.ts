@@ -27,20 +27,15 @@ import {
   PRELUDE,
   readIntrospection,
 } from "@distilled.cloud/core/codegen/graphql";
-import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const ROOT = path.resolve(import.meta.dir, "..");
-const SCHEMA_PATH = resolveSpecPath(
-  ROOT,
-  "specs/spec-mirror-expo-eas/specs/graphql.schema.json",
-);
+const SCHEMA_PATH = resolveSpecPath(ROOT, "specs/spec-mirror-expo-eas/specs/graphql.schema.json");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
 const OUT_FILE = path.join(OUT_DIR, "eas.json");
 
-const schema = readIntrospection(
-  JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf-8")),
-);
+const schema = readIntrospection(JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf-8")));
 
 const result = convertGraphQLToSmithy({
   schema,

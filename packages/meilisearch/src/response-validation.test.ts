@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { MeilisearchParseError } from "./errors.ts";
+import type { MeilisearchOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getVersion } from "./services/meilisearch.ts";
-import type { MeilisearchOpError } from "./protocol.ts";
 
 // getVersion declares `{ commitSha: string; commitDate: string; pkgVersion: string }`.
 const run = (body: string) =>
   runValidationModes(
-    getVersion({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getVersion({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -45,8 +42,6 @@ describe("Meilisearch response validation", () => {
 });
 
 // MeilisearchParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [MeilisearchParseError] extends [
-  MeilisearchOpError,
-]
+export const parseErrorIsDeclared: [MeilisearchParseError] extends [MeilisearchOpError]
   ? true
   : false = true;

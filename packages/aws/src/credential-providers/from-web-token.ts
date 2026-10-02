@@ -28,16 +28,13 @@ export interface FromWebTokenOptions {
  * already holds — the same exchange `fromTokenFile` performs, without the
  * token having to come from a file.
  */
-export const webTokenSource = (
-  options: FromWebTokenOptions,
-): CredentialSource =>
+export const webTokenSource = (options: FromWebTokenOptions): CredentialSource =>
   Effect.gen(function* () {
     const region = yield* stsRegion(options.region);
     return yield* assumeRoleWithWebIdentity(
       {
         RoleArn: options.roleArn,
-        RoleSessionName:
-          options.roleSessionName ?? `aws-sdk-js-session-${Date.now()}`,
+        RoleSessionName: options.roleSessionName ?? `aws-sdk-js-session-${Date.now()}`,
         WebIdentityToken: options.webIdentityToken,
         ...(options.providerId && { ProviderId: options.providerId }),
         ...(options.policyArns && { PolicyArns: options.policyArns }),
@@ -60,7 +57,5 @@ export const fromWebToken = (options: FromWebTokenOptions) =>
     webTokenSource(options),
     "web-token",
     hints,
-    options.region === undefined
-      ? regionFromEnv
-      : Effect.succeed(options.region as RegionName),
+    options.region === undefined ? regionFromEnv : Effect.succeed(options.region as RegionName),
   );

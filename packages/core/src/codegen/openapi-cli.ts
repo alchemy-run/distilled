@@ -14,10 +14,7 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
-import {
-  convertOpenApiToSmithy,
-  type OpenApiConvertOptions,
-} from "./openapi.ts";
+import { convertOpenApiToSmithy, type OpenApiConvertOptions } from "./openapi.ts";
 import {
   applyRfc6902Files,
   finalizeConvert,
@@ -86,14 +83,10 @@ const exists = async (p: string): Promise<boolean> => {
 };
 
 /** Run the OpenAPI→Smithy conversion pipeline (plain async — call from a script). */
-export const runOpenApiConvert = async (
-  o: RunOpenApiConvertOptions,
-): Promise<void> => {
+export const runOpenApiConvert = async (o: RunOpenApiConvertOptions): Promise<void> => {
   const outDir = path.resolve(o.root, o.outDir ?? ".generated-specs");
   const patchRoot =
-    o.patchesDir === false
-      ? undefined
-      : path.resolve(o.root, o.patchesDir ?? "patches");
+    o.patchesDir === false ? undefined : path.resolve(o.root, o.patchesDir ?? "patches");
   const parse = o.parse ?? ((text: string) => JSON.parse(text));
   const onStalePatch = o.onStalePatch ?? "fail";
 
@@ -125,8 +118,7 @@ export const runOpenApiConvert = async (
       label: patchLabel,
     });
     if (openapiPatches.errors.length) {
-      for (const b of openapiPatches.errors)
-        console.error(`❌ bad patch: ${b}`);
+      for (const b of openapiPatches.errors) console.error(`❌ bad patch: ${b}`);
       throw new Error(
         `${openapiPatches.errors.length} patch operation(s) failed — fix the pointers or delete the patch`,
       );
@@ -154,9 +146,7 @@ export const runOpenApiConvert = async (
         `${smithyPatches.errors.length} Smithy patch operation(s) failed — fix the pointers or delete the patch`,
       );
     }
-    const opCount = Object.values(model.shapes).filter(
-      (s: any) => s.type === "operation",
-    ).length;
+    const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
     const outPath = path.join(outDir, `${entry.name}.json`);
     await fs.writeFile(outPath, JSON.stringify(model, null, 2) + "\n");
     const staleOps = openapiPatches.stale + smithyPatches.stale;

@@ -40,9 +40,7 @@ class FetchError extends Error {
     readonly status?: number,
     readonly reason?: unknown,
   ) {
-    super(
-      `${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`,
-    );
+    super(`${url} — ${status !== undefined ? `HTTP ${status}` : `${reason ?? "network error"}`}`);
   }
 }
 
@@ -60,10 +58,7 @@ async function fetchText(url: string, attempts = 4): Promise<string> {
       error = new FetchError(url, response.status);
       if (response.status < 500) throw error;
     } catch (cause) {
-      error =
-        cause instanceof FetchError
-          ? cause
-          : new FetchError(url, undefined, cause);
+      error = cause instanceof FetchError ? cause : new FetchError(url, undefined, cause);
       if (error.status !== undefined && error.status < 500) throw error;
     }
     lastError = error;
@@ -80,9 +75,7 @@ async function fetchJson(url: string): Promise<Record<string, unknown>> {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
   return (await response.json()) as Record<string, unknown>;
 }
@@ -161,9 +154,7 @@ const latestOpenApiUrl = (text: string): string => {
   urls.sort();
   const latest = urls.at(-1);
   if (latest === undefined) {
-    throw new Error(
-      `${LLMS_URL} listed no polar.sh/docs/openapi/*.openapi.json document`,
-    );
+    throw new Error(`${LLMS_URL} listed no polar.sh/docs/openapi/*.openapi.json document`);
   }
   return latest;
 };
@@ -173,18 +164,15 @@ const mapPool = async <T, R>(
   concurrency: number,
   fn: (item: T) => Promise<R>,
 ): Promise<R[]> => {
-  const out: R[] = new Array(items.length);
+  const out: R[] = [];
   let next = 0;
-  const workers = Array.from(
-    { length: Math.min(concurrency, items.length) },
-    async () => {
-      while (true) {
-        const i = next++;
-        if (i >= items.length) return;
-        out[i] = await fn(items[i]!);
-      }
-    },
-  );
+  const workers = Array.from({ length: Math.min(concurrency, items.length) }, async () => {
+    while (true) {
+      const i = next++;
+      if (i >= items.length) return;
+      out[i] = await fn(items[i]!);
+    }
+  });
   await Promise.all(workers);
   return out;
 };
@@ -207,14 +195,9 @@ async function main() {
   console.log(`Fetching docs index from ${LLMS_URL}...`);
   const llms = await fetchText(LLMS_URL);
   if (!llms.includes("polar.sh/docs/") && !llms.includes("/docs/")) {
-    throw new Error(
-      `${LLMS_URL} did not look like Polar's docs index — refusing to continue`,
-    );
+    throw new Error(`${LLMS_URL} did not look like Polar's docs index — refusing to continue`);
   }
-  await Bun.write(
-    `${SPECS_DIR}/llms.txt`,
-    llms.endsWith("\n") ? llms : `${llms}\n`,
-  );
+  await Bun.write(`${SPECS_DIR}/llms.txt`, llms.endsWith("\n") ? llms : `${llms}\n`);
 
   const openApiUrl = latestOpenApiUrl(llms);
   console.log(`Fetching OpenAPI spec from ${openApiUrl}...`);
@@ -226,17 +209,12 @@ async function main() {
   }
   console.log(`Writing spec to ${OPENAPI_PATH}...`);
   await Bun.write(OPENAPI_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   const pages = pagesFromLlms(llms);
   if (pages.length === 0) {
     throw new Error(
-      `${LLMS_URL} listed a single docs page — refusing to continue`.replace(
-        "a single",
-        "no",
-      ),
+      `${LLMS_URL} listed a single docs page — refusing to continue`.replace("a single", "no"),
     );
   }
   console.log(`Fetching ${pages.length} docs pages...`);
@@ -245,34 +223,28 @@ async function main() {
     | { path: string; ok: true; body: string }
     | { path: string; ok: false; error: string };
 
-  const results = await mapPool(
-    pages,
-    CONCURRENCY,
-    async (page): Promise<Result> => {
-      const url = `${ORIGIN}/docs/${page}.md`;
-      try {
-        const body = await fetchText(url);
-        if (body.trim().length === 0) {
-          return { path: page, ok: false, error: "empty body" };
-        }
-        return { path: page, ok: true, body };
-      } catch (cause) {
-        return {
-          path: page,
-          ok: false,
-          error: cause instanceof Error ? cause.message : String(cause),
-        };
+  const results = await mapPool(pages, CONCURRENCY, async (page): Promise<Result> => {
+    const url = `${ORIGIN}/docs/${page}.md`;
+    try {
+      const body = await fetchText(url);
+      if (body.trim().length === 0) {
+        return { path: page, ok: false, error: "empty body" };
       }
-    },
-  );
+      return { path: page, ok: true, body };
+    } catch (cause) {
+      return {
+        path: page,
+        ok: false,
+        error: cause instanceof Error ? cause.message : String(cause),
+      };
+    }
+  });
 
   const ok = results.filter((r): r is Extract<Result, { ok: true }> => r.ok);
   const failed = results.filter((r) => !r.ok);
   const failureRate = failed.length / results.length;
   if (ok.length === 0) {
-    throw new Error(
-      `Every Polar docs page failed to download (${failed.length} failures)`,
-    );
+    throw new Error(`Every Polar docs page failed to download (${failed.length} failures)`);
   }
   for (const miss of failed) {
     console.warn(`   ⚠️  ${miss.path}: ${miss.error}`);
@@ -294,10 +266,7 @@ async function main() {
     pages: ok.map((p) => p.path),
     failed: failed.map((p) => p.path),
   };
-  await writeFile(
-    join(DOCS_DIR, "_manifest.json"),
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await writeFile(join(DOCS_DIR, "_manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
   if (failureRate <= MAX_FAILURE_RATE_FOR_PRUNE) {
     for (const file of await collectFiles(DOCS_DIR)) {
@@ -306,14 +275,10 @@ async function main() {
       await rm(file);
     }
   } else {
-    console.warn(
-      `   ⚠️  ${failed.length}/${results.length} docs pages failed — skipping prune`,
-    );
+    console.warn(`   ⚠️  ${failed.length}/${results.length} docs pages failed — skipping prune`);
   }
 
-  console.log(
-    `Done! ${ok.length} docs pages, ${failed.length} failed, OpenAPI ${spec.openapi}`,
-  );
+  console.log(`Done! ${ok.length} docs pages, ${failed.length} failed, OpenAPI ${spec.openapi}`);
 }
 
 main().catch((err) => {

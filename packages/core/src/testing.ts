@@ -12,11 +12,11 @@
  * ```
  */
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import type * as Result from "effect/Result";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import type * as Result from "effect/Result";
 import * as ResponseValidation from "./response-validation.ts";
 
 export interface MockResponse {
@@ -32,9 +32,7 @@ export interface MockResponse {
  * `response(request)` returns, for protocols that make more than one call).
  */
 export const mockHttpClient = (
-  response:
-    | MockResponse
-    | ((request: HttpClientRequest.HttpClientRequest) => MockResponse),
+  response: MockResponse | ((request: HttpClientRequest.HttpClientRequest) => MockResponse),
 ): Layer.Layer<HttpClient.HttpClient> =>
   Layer.succeed(
     HttpClient.HttpClient,
@@ -64,11 +62,7 @@ export const runValidationModes = <A, E>(
   readonly strict: Result.Result<A, E>;
 }> => {
   const run = (mode: Layer.Layer<never>) =>
-    effect.pipe(
-      Effect.provide(mockHttpClient(response)),
-      Effect.provide(mode),
-      Effect.result,
-    );
+    effect.pipe(Effect.provide(mockHttpClient(response)), Effect.provide(mode), Effect.result);
   return Effect.runPromise(
     Effect.all({
       lenient: run(ResponseValidation.lenient),

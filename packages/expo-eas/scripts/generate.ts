@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Effect
  * SDK.
@@ -14,7 +15,6 @@
  * `#nullableItems` / `#payload`), protocol/retry names, and error classes.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const OP_TRAIT = "com.expo.graphql#operation";
 const RESPONSE_PATH_TRAIT = "com.expo.graphql#responsePath";
@@ -42,19 +42,14 @@ const makeEasSpec = (model: any): SdkSpec => ({
       pipes.push(`T.GraphQLOp(${JSON.stringify(traits[OP_TRAIT])})`);
     }
     if (traits[RESPONSE_PATH_TRAIT] !== undefined) {
-      pipes.push(
-        `T.ResponsePath(${JSON.stringify(traits[RESPONSE_PATH_TRAIT])})`,
-      );
+      pipes.push(`T.ResponsePath(${JSON.stringify(traits[RESPONSE_PATH_TRAIT])})`);
     }
     return pipes;
   },
 
   shapeOverride: (ctx) => {
     // Lists whose GraphQL element type is nullable: `(X | null)[]`.
-    if (
-      ctx.def.type === "list" &&
-      ctx.def.traits?.[NULLABLE_ITEMS_TRAIT] !== undefined
-    ) {
+    if (ctx.def.type === "list" && ctx.def.traits?.[NULLABLE_ITEMS_TRAIT] !== undefined) {
       const t = ctx.def.member.target;
       return [
         `export type ${ctx.name} = (${ctx.tsRef(t)} | null)[];`,
@@ -79,9 +74,7 @@ const makeEasSpec = (model: any): SdkSpec => ({
             : ctx.ref(m.target, ctx.selfIdx);
           const pipes = [
             "T.GraphQLPayloadRoot()",
-            ...(rp !== undefined
-              ? [`T.ResponsePath(${JSON.stringify(rp)})`]
-              : []),
+            ...(rp !== undefined ? [`T.ResponsePath(${JSON.stringify(rp)})`] : []),
           ];
           return [
             `export type ${ctx.name} = ${ctx.tsRef(m.target)}${nullable ? " | null" : ""};`,

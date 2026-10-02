@@ -15,10 +15,7 @@ import {
   resolveLogins,
   unsigned,
 } from "./cognito-identity.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-} from "./credential-source.ts";
+import { type CredentialSource, CredentialSourceError } from "./credential-source.ts";
 import { withHttpClient } from "./http-client.ts";
 
 /**
@@ -45,10 +42,7 @@ const storage = (): Storage | undefined => {
 };
 
 export const defaultIdentityIdCache: IdentityIdCache = {
-  get: (key) =>
-    Effect.sync(
-      () => storage()?.getItem(key) ?? memoryStore.get(key) ?? undefined,
-    ),
+  get: (key) => Effect.sync(() => storage()?.getItem(key) ?? memoryStore.get(key) ?? undefined),
   set: (key, value) =>
     Effect.sync(() => {
       memoryStore.set(key, value);
@@ -88,26 +82,19 @@ export const cognitoIdentityPoolSource = (
   Effect.gen(function* () {
     const region = yield* cognitoRegion(options.region, options.identityPoolId);
     const cache = options.cache ?? defaultIdentityIdCache;
-    const userIdentifier =
-      options.userIdentifier ?? (options.logins ? undefined : "ANONYMOUS");
+    const userIdentifier = options.userIdentifier ?? (options.logins ? undefined : "ANONYMOUS");
     const cacheKey = userIdentifier
       ? `aws:cognito-identity-ids:${options.identityPoolId}:${userIdentifier}`
       : undefined;
 
     const getId = Effect.gen(function* () {
-      const Cognito = yield* Effect.promise(
-        () => import("../services/cognito-identity.ts"),
-      );
+      const Cognito = yield* Effect.promise(() => import("../services/cognito-identity.ts"));
       const logins = yield* resolveLogins(options.logins);
       const response = yield* Cognito.getId({
         IdentityPoolId: options.identityPoolId,
         ...(options.accountId && { AccountId: options.accountId }),
         ...(logins && { Logins: logins }),
-      }).pipe(
-        unsigned(region),
-        withHttpClient,
-        Effect.mapError(cognitoFailure),
-      );
+      }).pipe(unsigned(region), withHttpClient, Effect.mapError(cognitoFailure));
       if (!response.IdentityId) {
         return yield* new CredentialSourceError({
           message: `Cognito Identity returned no identity id for pool ${options.identityPoolId}.`,
@@ -120,9 +107,7 @@ export const cognitoIdentityPoolSource = (
 
     const cached = cacheKey ? yield* cache.get(cacheKey) : undefined;
     if (cached) {
-      const credentials = yield* Effect.option(
-        getCredentialsForIdentity(cached, region, options),
-      );
+      const credentials = yield* Effect.option(getCredentialsForIdentity(cached, region, options));
       if (Option.isSome(credentials)) return credentials.value;
       // The pool no longer knows the cached id (it was deleted, or belongs
       // to another pool): forget it and mint a new one.
@@ -137,9 +122,7 @@ const hints = [
 ];
 
 /** Credentials for a Cognito identity pool, minting the identity id first. */
-export const fromCognitoIdentityPool = (
-  options: FromCognitoIdentityPoolOptions,
-) => {
+export const fromCognitoIdentityPool = (options: FromCognitoIdentityPoolOptions) => {
   const region = options.region ?? regionFromId(options.identityPoolId);
   return createLazyProvider(
     cognitoIdentityPoolSource(options),

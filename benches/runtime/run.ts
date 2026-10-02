@@ -23,25 +23,17 @@ const opts = parseArgs(process.argv.slice(2));
 const started = performance.now();
 
 const importStart = performance.now();
-const cases = [
-  ...(await baselineCases()),
-  ...(await awsCases()),
-  ...(await cloudflareCases()),
-];
+const cases = [...(await baselineCases()), ...(await awsCases()), ...(await cloudflareCases())];
 const setupMs = performance.now() - importStart;
 
 const total = opts.filter
-  ? cases.filter((c) =>
-      opts.filter!.test(`${c.provider}/${c.service}/${c.op}/${c.stage}`),
-    ).length
+  ? cases.filter((c) => opts.filter!.test(`${c.provider}/${c.service}/${c.op}/${c.stage}`)).length
   : cases.length;
 let done = 0;
 const results: Result[] = await runCases(cases, opts, (r) => {
   done++;
   if (!opts.json) {
-    const status = r.error
-      ? `ERROR ${r.error}`
-      : `${(r.opsPerSec / 1e3).toFixed(1)}k ops/s`;
+    const status = r.error ? `ERROR ${r.error}` : `${(r.opsPerSec / 1e3).toFixed(1)}k ops/s`;
     process.stderr.write(
       `[${String(done).padStart(String(total).length)}/${total}] ${r.name}: ${status}\n`,
     );
@@ -81,9 +73,7 @@ if (opts.record) {
   }
   const file = toRecordFile(results, opts.full ? "full" : "quick");
   writeRecordFile(RESULTS_PATH, file);
-  console.error(
-    `wrote ${RESULTS_PATH} (${file.results.length} cases, ${file.commit})`,
-  );
+  console.error(`wrote ${RESULTS_PATH} (${file.results.length} cases, ${file.commit})`);
 }
 
 if (results.some((r) => r.error)) process.exit(1);

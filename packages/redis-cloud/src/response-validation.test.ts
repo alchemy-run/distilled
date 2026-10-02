@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { RedisCloudParseError } from "./errors.ts";
+import type { RedisCloudOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getAccountPaymentMethods } from "./services/redisCloud.ts";
-import type { RedisCloudOpError } from "./protocol.ts";
 
 // getAccountPaymentMethods declares `{ accountId?: number; links?: ... }` (every member optional).
 const run = (body: string) =>
@@ -21,9 +21,7 @@ describe("Redis Cloud response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
     const body = {
       accountId: 42,
-      links: [
-        { rel: "self", href: "https://api.redislabs.com/v1/payment-methods" },
-      ],
+      links: [{ rel: "self", href: "https://api.redislabs.com/v1/payment-methods" }],
     };
     const { lenient, strict } = await run(JSON.stringify(body));
     expect(lenient).toMatchObject({ _tag: "Success", success: body });
@@ -46,8 +44,6 @@ describe("Redis Cloud response validation", () => {
 });
 
 // RedisCloudParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [RedisCloudParseError] extends [
-  RedisCloudOpError,
-]
+export const parseErrorIsDeclared: [RedisCloudParseError] extends [RedisCloudOpError]
   ? true
   : false = true;

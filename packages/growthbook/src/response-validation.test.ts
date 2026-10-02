@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { GrowthBookParseError } from "./errors.ts";
+import type { GrowthBookOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getCodeRefs } from "./services/growthbook.ts";
-import type { GrowthBookOpError } from "./protocol.ts";
 
 // getCodeRefs declares `{ codeRefs: CodeRef[] }`.
 const run = (body: string) =>
@@ -41,8 +41,6 @@ describe("GrowthBook response validation", () => {
 });
 
 // GrowthBookParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [GrowthBookParseError] extends [
-  GrowthBookOpError,
-]
+export const parseErrorIsDeclared: [GrowthBookParseError] extends [GrowthBookOpError]
   ? true
   : false = true;

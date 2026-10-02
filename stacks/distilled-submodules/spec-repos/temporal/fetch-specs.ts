@@ -26,9 +26,7 @@ const REPO = "temporalio/api";
 const REF = "master";
 const OPENAPI_PATH = "openapi/openapiv3.yaml";
 
-const OPENAPI_SPEC_URL = `https://raw.githubusercontent.com/${REPO}/${REF}/${OPENAPI_PATH.split(
-  "/",
-)
+const OPENAPI_SPEC_URL = `https://raw.githubusercontent.com/${REPO}/${REF}/${OPENAPI_PATH.split("/")
   .map(encodeURIComponent)
   .join("/")}`;
 
@@ -80,9 +78,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -95,8 +91,7 @@ async function main() {
   // them first is enough to parse.
   const yamlForParse = yaml.replace(
     /^(\s*)\? (.+)\n\1: /gm,
-    (_match, indent: string, key: string) =>
-      `${indent}${JSON.stringify(key)}:\n${indent}  `,
+    (_match, indent: string, key: string) => `${indent}${JSON.stringify(key)}:\n${indent}  `,
   );
   const spec = Bun.YAML.parse(yamlForParse) as Record<string, unknown>;
 
@@ -120,9 +115,7 @@ async function main() {
       throw new Error(`${doc.url} returned an empty body`);
     }
     if (!/temporal/i.test(body)) {
-      throw new Error(
-        `${doc.url} does not look like Temporal docs (no "temporal" in body)`,
-      );
+      throw new Error(`${doc.url} does not look like Temporal docs (no "temporal" in body)`);
     }
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     mkdirSync(dirname(outputPath), { recursive: true });
@@ -148,10 +141,7 @@ async function main() {
     ],
     docs,
   };
-  await Bun.write(
-    `${DOCS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await Bun.write(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { SpacetimeDBParseError } from "./errors.ts";
+import type { SpacetimeDBOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getDatabase } from "./services/spacetimedb.ts";
-import type { SpacetimeDBOpError } from "./protocol.ts";
 
 // getDatabase declares `{ database_identity; owner_identity; host_type; initial_program }`.
 const run = (body: string) =>
@@ -47,8 +47,6 @@ describe("SpacetimeDB response validation", () => {
 });
 
 // SpacetimeDBParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [SpacetimeDBParseError] extends [
-  SpacetimeDBOpError,
-]
+export const parseErrorIsDeclared: [SpacetimeDBParseError] extends [SpacetimeDBOpError]
   ? true
   : false = true;

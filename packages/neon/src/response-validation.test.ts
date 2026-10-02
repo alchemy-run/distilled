@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { NeonParseError } from "./errors.ts";
+import type { NeonOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getActiveRegions } from "./services/neon.ts";
-import type { NeonOpError } from "./protocol.ts";
 
 // getActiveRegions declares `{ regions: RegionResponse[] }`.
 const run = (body: string) =>
   runValidationModes(
-    getActiveRegions({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getActiveRegions({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,6 +39,4 @@ describe("Neon response validation", () => {
 });
 
 // NeonParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [NeonParseError] extends [NeonOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [NeonParseError] extends [NeonOpError] ? true : false = true;

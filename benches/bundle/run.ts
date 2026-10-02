@@ -61,9 +61,7 @@ const ALL_VARIANTS = {
 };
 
 const defaultVariants = (f: Fixture): BuildVariant[] =>
-  f.name === "aws-s3-deep" || f.name === "cf-workers-deep"
-    ? [BUN, BUN_NOPURE]
-    : [BUN];
+  f.name === "aws-s3-deep" || f.name === "cf-workers-deep" ? [BUN, BUN_NOPURE] : [BUN];
 
 const variantsFor = (f: Fixture): BuildVariant[] => {
   const requested = flag("variants")?.split(",").filter(Boolean);
@@ -71,10 +69,7 @@ const variantsFor = (f: Fixture): BuildVariant[] => {
   if (requested) {
     return requested.map((v) => {
       const found = ALL_VARIANTS[v as keyof typeof ALL_VARIANTS];
-      if (!found)
-        throw new Error(
-          `unknown variant ${v}; known: ${Object.keys(ALL_VARIANTS)}`,
-        );
+      if (!found) throw new Error(`unknown variant ${v}; known: ${Object.keys(ALL_VARIANTS)}`);
       return found;
     });
   }
@@ -96,20 +91,12 @@ const OP_MARKER: Record<ServiceRef["pkg"], RegExp> = {
 const count = (text: string, re: RegExp) => text.match(re)?.length ?? 0;
 
 async function serviceOpTotal(ref: ServiceRef): Promise<number> {
-  const file = path.join(
-    repoRoot,
-    "packages",
-    ref.pkg,
-    "src/services",
-    ref.file,
-  );
+  const file = path.join(repoRoot, "packages", ref.pkg, "src/services", ref.file);
   return count(await fs.readFile(file, "utf8"), OP_MARKER[ref.pkg]);
 }
 
 /** Group rendered module sizes by owning package (workspace or node_modules). */
-function composition(
-  result: BuildResult,
-): Array<{ pkg: string; bytes: number; modules: number }> {
+function composition(result: BuildResult): Array<{ pkg: string; bytes: number; modules: number }> {
   const groups = new Map<string, { bytes: number; modules: number }>();
   for (const m of result.modules) {
     const id = m.id.replace(/\\/g, "/");
@@ -120,20 +107,14 @@ function composition(
       pkg = parts[0]!.startsWith("@") ? `${parts[0]}/${parts[1]}` : parts[0]!;
     } else {
       const ws = id.match(/\/packages\/([^/]+)\//);
-      pkg = ws
-        ? `@distilled.cloud/${ws[1]}`
-        : id.includes("/benches/bundle/")
-          ? "(entry)"
-          : id;
+      pkg = ws ? `@distilled.cloud/${ws[1]}` : id.includes("/benches/bundle/") ? "(entry)" : id;
     }
     const g = groups.get(pkg) ?? { bytes: 0, modules: 0 };
     g.bytes += m.renderedLength;
     g.modules += 1;
     groups.set(pkg, g);
   }
-  return [...groups.entries()]
-    .map(([pkg, g]) => ({ pkg, ...g }))
-    .sort((a, b) => b.bytes - a.bytes);
+  return [...groups.entries()].map(([pkg, g]) => ({ pkg, ...g })).sort((a, b) => b.bytes - a.bytes);
 }
 
 interface Row {
@@ -155,27 +136,19 @@ async function runOne(fixture: Fixture, variant: BuildVariant): Promise<Row> {
     variant,
     runs,
   };
-  const proc = Bun.spawn(
-    ["bun", path.join(here, "src/build.ts"), JSON.stringify(req)],
-    {
-      cwd: here,
-      stdout: "pipe",
-      stderr: "inherit",
-    },
-  );
+  const proc = Bun.spawn(["bun", path.join(here, "src/build.ts"), JSON.stringify(req)], {
+    cwd: here,
+    stdout: "pipe",
+    stderr: "inherit",
+  });
   const stdout = await new Response(proc.stdout).text();
   const code = await proc.exited;
-  if (code !== 0)
-    throw new Error(`${fixture.name}/${id}: build process exited ${code}`);
+  if (code !== 0) throw new Error(`${fixture.name}/${id}: build process exited ${code}`);
   const result = JSON.parse(stdout) as BuildResult;
 
   const bundle = await fs.readFile(result.outputFile, "utf8");
-  const expectMissing = fixture.expect
-    .filter((m) => !m.pattern.test(bundle))
-    .map((m) => m.label);
-  const forbidPresent = fixture.forbid
-    .filter((m) => m.pattern.test(bundle))
-    .map((m) => m.label);
+  const expectMissing = fixture.expect.filter((m) => !m.pattern.test(bundle)).map((m) => m.label);
+  const forbidPresent = fixture.forbid.filter((m) => m.pattern.test(bundle)).map((m) => m.label);
   const opsRetained = await Promise.all(
     fixture.services.map(async (s) => ({
       service: `${s.pkg}/${s.file.replace(/\.ts$/, "")}`,
@@ -197,14 +170,10 @@ async function runOne(fixture: Fixture, variant: BuildVariant): Promise<Row> {
 // --- report -----------------------------------------------------------------
 function shakeNotes(row: Row): string {
   const notes: string[] = [];
-  if (row.expectMissing.length)
-    notes.push(`❌ missing: ${row.expectMissing.join(", ")}`);
-  if (row.forbidPresent.length)
-    notes.push(`⚠️ leaked: ${row.forbidPresent.join("; ")}`);
-  for (const o of row.opsRetained)
-    notes.push(`${o.service}: ${o.retained}/${o.total} ops`);
-  if (!row.expectMissing.length && !row.forbidPresent.length)
-    notes.unshift("✅");
+  if (row.expectMissing.length) notes.push(`❌ missing: ${row.expectMissing.join(", ")}`);
+  if (row.forbidPresent.length) notes.push(`⚠️ leaked: ${row.forbidPresent.join("; ")}`);
+  for (const o of row.opsRetained) notes.push(`${o.service}: ${o.retained}/${o.total} ops`);
+  if (!row.expectMissing.length && !row.forbidPresent.length) notes.unshift("✅");
   return notes.join(" · ");
 }
 
@@ -216,9 +185,7 @@ function report(rows: Row[], rolldownVersion: string): string {
     `rolldown ${rolldownVersion} · bun ${Bun.version} · runs/fixture: ${runs} (cold = 1st build in a fresh process, warm = median of the rest) · conditions \`bun,module,default\` (resolves \`packages/*/src\`) · PURE annotator on unless \`+nopure\` · minify on unless \`+nominify\``,
   );
   lines.push("");
-  lines.push(
-    "| fixture | variant | cold | warm | bytes | gzip | modules | tree-shake |",
-  );
+  lines.push("| fixture | variant | cold | warm | bytes | gzip | modules | tree-shake |");
   lines.push("|---|---|---:|---:|---:|---:|---:|---|");
   for (const r of rows) {
     const [cold, ...rest] = r.result.timesMs;
@@ -229,12 +196,9 @@ function report(rows: Row[], rolldownVersion: string): string {
   lines.push("");
   lines.push("## Fixtures");
   lines.push("");
-  for (const f of fixtures)
-    lines.push(`- **${f.name}** (\`${f.entry}\`): ${f.description}`);
+  for (const f of fixtures) lines.push(`- **${f.name}** (\`${f.entry}\`): ${f.description}`);
   lines.push("");
-  lines.push(
-    "## Composition (rendered bytes per package, post-treeshake / pre-minify)",
-  );
+  lines.push("## Composition (rendered bytes per package, post-treeshake / pre-minify)");
   lines.push("");
   for (const r of rows) {
     const top = r.composition.slice(0, 8);
@@ -258,16 +222,10 @@ function report(rows: Row[], rolldownVersion: string): string {
         `**\`${path.relative(repoRoot, svc.id)}\`** — ${kb(svc.renderedBytes)} rendered, ${svc.decls} top-level bindings retained; ${svc.unreferenced} of them (${kb(svc.unreferencedBytes)}) are unreferenced — kept only because rolldown could not prove the initializer pure:`,
       );
       lines.push("");
-      lines.push(
-        "| kind | bytes | share | retained | unreferenced | unreferenced bytes |",
-      );
+      lines.push("| kind | bytes | share | retained | unreferenced | unreferenced bytes |");
       lines.push("|---|---:|---:|---:|---:|---:|");
-      const kinds = Object.keys(svc.bytesByKind) as Array<
-        keyof typeof svc.bytesByKind
-      >;
-      for (const k of kinds.sort(
-        (a, b) => svc.bytesByKind[b] - svc.bytesByKind[a],
-      )) {
+      const kinds = Object.keys(svc.bytesByKind) as Array<keyof typeof svc.bytesByKind>;
+      for (const k of kinds.sort((a, b) => svc.bytesByKind[b] - svc.bytesByKind[a])) {
         if (svc.countByKind[k] === 0) continue;
         lines.push(
           `| ${k} | ${kb(svc.bytesByKind[k])} | ${((100 * svc.bytesByKind[k]) / svc.renderedBytes).toFixed(1)}% | ${svc.countByKind[k]} | ${svc.unreferencedByKind[k]} | ${kb(svc.unreferencedBytesByKind[k])} |`,
@@ -350,12 +308,7 @@ if (selected.length === 0) {
 }
 
 const rolldownVersion = (
-  JSON.parse(
-    await fs.readFile(
-      path.join(here, "node_modules/rolldown/package.json"),
-      "utf8",
-    ),
-  ) as {
+  JSON.parse(await fs.readFile(path.join(here, "node_modules/rolldown/package.json"), "utf8")) as {
     version: string;
   }
 ).version;
@@ -407,10 +360,7 @@ await fs.writeFile(
 if (outFile !== undefined) {
   const target = path.resolve(process.cwd(), outFile);
   await fs.mkdir(path.dirname(target), { recursive: true });
-  await fs.writeFile(
-    target,
-    `${JSON.stringify(slimResults(rows, rolldownVersion), null, 2)}\n`,
-  );
+  await fs.writeFile(target, `${JSON.stringify(slimResults(rows, rolldownVersion), null, 2)}\n`);
   process.stderr.write(`wrote ${path.relative(process.cwd(), target)}\n`);
 }
 if (!keep) {

@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Elasticsearch credentials — hand-written.
  *
@@ -13,7 +14,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Default local Elasticsearch HTTP endpoint. */
 export const DEFAULT_API_BASE_URL = "http://localhost:9200";
@@ -23,10 +23,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ElasticsearchCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ElasticsearchCredentials",
+) {}
 
 /** Layer from a plain API key + optional base URL. */
 export const fromApiKey = (config: {
@@ -58,8 +57,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     return {
       apiKey: Redacted.make(apiKey),
-      apiBaseUrl:
-        process.env.ELASTICSEARCH_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+      apiBaseUrl: process.env.ELASTICSEARCH_API_BASE_URL ?? DEFAULT_API_BASE_URL,
     };
   }).pipe(Effect.orDie),
 );

@@ -3,17 +3,16 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ApacheSupersetParseError } from "./errors.ts";
+import type { ApacheSupersetOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getMe } from "./services/superset.ts";
-import type { ApacheSupersetOpError } from "./protocol.ts";
 
 // getMe declares `{ result?: UserResponseSchema }`; every member is optional,
 // so the mismatch is a wrong primitive (`result.id` must be a number).
 const run = (body: string) =>
-  runValidationModes(
-    getMe({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
-    { body },
-  );
+  runValidationModes(getMe({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))), {
+    body,
+  });
 
 describe("Apache Superset response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
@@ -40,8 +39,6 @@ describe("Apache Superset response validation", () => {
 });
 
 // ApacheSupersetParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ApacheSupersetParseError] extends [
-  ApacheSupersetOpError,
-]
+export const parseErrorIsDeclared: [ApacheSupersetParseError] extends [ApacheSupersetOpError]
   ? true
   : false = true;

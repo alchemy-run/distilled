@@ -26,10 +26,7 @@ import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const root = path.resolve(import.meta.dir, "..");
-const manifestPath = resolveSpecPath(
-  root,
-  "specs/spec-mirror-stackit/specs/_manifest.json",
-);
+const manifestPath = resolveSpecPath(root, "specs/spec-mirror-stackit/specs/_manifest.json");
 const specsDir = path.dirname(manifestPath);
 const outDir = path.join(root, ".generated-specs");
 
@@ -87,32 +84,22 @@ const deref = (spec: any, schema: any): any => {
  * `src/pagination.ts`'s `paginateByTotalPages` advances by one until
  * `page >= totalPages`.
  */
-const paginationFor = (
-  spec: any,
-  op: any,
-): Record<string, string> | undefined => {
+const paginationFor = (spec: any, op: any): Record<string, string> | undefined => {
   const params = [...((op.parameters ?? []) as any[])];
   const hasPage = params.some((p) => p?.in === "query" && p?.name === "page");
   const hasPageSize = params.some(
-    (p) =>
-      p?.in === "query" && (p?.name === "pageSize" || p?.name === "page_size"),
+    (p) => p?.in === "query" && (p?.name === "pageSize" || p?.name === "page_size"),
   );
   if (!hasPage || !hasPageSize) return undefined;
 
-  const schema = deref(
-    spec,
-    op.responses?.["200"]?.content?.["application/json"]?.schema,
-  );
+  const schema = deref(spec, op.responses?.["200"]?.content?.["application/json"]?.schema);
   const props = schema?.properties;
   if (!props || typeof props !== "object") return undefined;
   if (props.totalPages === undefined && props.total_pages === undefined) {
     return undefined;
   }
-  const totalPages =
-    props.totalPages !== undefined ? "totalPages" : "total_pages";
-  const pageSize = params.some(
-    (p) => p?.in === "query" && p?.name === "pageSize",
-  )
+  const totalPages = props.totalPages !== undefined ? "totalPages" : "total_pages";
+  const pageSize = params.some((p) => p?.in === "query" && p?.name === "pageSize")
     ? "pageSize"
     : "page_size";
 
@@ -165,9 +152,7 @@ let stampedUrls = 0;
 let stampedPages = 0;
 for (const entry of manifest) {
   const slug = entry.output.replace(/\.json$/, "");
-  const spec = JSON.parse(
-    fs.readFileSync(path.join(specsDir, entry.output), "utf8"),
-  );
+  const spec = JSON.parse(fs.readFileSync(path.join(specsDir, entry.output), "utf8"));
   const modelPath = path.join(outDir, `${slug}.json`);
   if (!fs.existsSync(modelPath)) continue;
   const model = JSON.parse(fs.readFileSync(modelPath, "utf8"));
@@ -184,9 +169,7 @@ for (const entry of manifest) {
   const serverUrl = specServerUrl(spec);
 
   const byRoute = new Map<string, Record<string, string>>();
-  for (const [pathTemplate, pathItem] of Object.entries<any>(
-    spec.paths ?? {},
-  )) {
+  for (const [pathTemplate, pathItem] of Object.entries<any>(spec.paths ?? {})) {
     for (const method of HTTP_METHODS) {
       const op = pathItem?.[method];
       if (!op) continue;
@@ -219,8 +202,6 @@ for (const entry of manifest) {
   fs.writeFileSync(modelPath, JSON.stringify(model, null, 2) + "\n");
 }
 
-console.log(
-  `🔗 stamped ${stampedUrls} operation baseUrl(s), ${stampedPages} paginated`,
-);
+console.log(`🔗 stamped ${stampedUrls} operation baseUrl(s), ${stampedPages} paginated`);
 
 await finalizeConvert({ root });

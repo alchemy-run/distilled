@@ -1,11 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import {
-  extractItems,
-  paginateCursor,
-  type PaginatedTrait,
-} from "./pagination.ts";
+import { extractItems, paginateCursor, type PaginatedTrait } from "./pagination.ts";
 
 const pagination: PaginatedTrait = {
   mode: "cursor",
@@ -106,8 +102,7 @@ const fixture = ({ pages, start }: Scenario) => {
       Effect.sync(() => {
         const page = pages[requests.length];
         requests.push(request);
-        if (!page)
-          throw new Error("Paginator made an unexpected extra request");
+        if (!page) throw new Error("Paginator made an unexpected extra request");
         return page;
       }),
     input,
@@ -126,9 +121,7 @@ describe("cursor pagination", () => {
         const { stream, requests, input } = fixture(scenario);
         const pages = yield* collect(stream);
         expect(Array.from(pages)).toEqual(scenario.pages);
-        expect(requests.map((request) => request.cursor)).toEqual(
-          scenario.cursors,
-        );
+        expect(requests.map((request) => request.cursor)).toEqual(scenario.cursors);
         expect(requests.every((request) => request.limit === 1)).toBe(true);
         expect(input.cursor).toBe(scenario.start);
       }),
@@ -139,15 +132,9 @@ describe("cursor pagination", () => {
     Effect.runPromise(
       Effect.gen(function* () {
         const { stream, requests } = fixture(scenario);
-        const items = yield* collect(
-          extractItems<Page, number, never, never>(stream, "items"),
-        );
-        expect(Array.from(items)).toEqual(
-          scenario.pages.flatMap((page) => page.items ?? []),
-        );
-        expect(requests.map((request) => request.cursor)).toEqual(
-          scenario.cursors,
-        );
+        const items = yield* collect(extractItems<Page, number, never, never>(stream, "items"));
+        expect(Array.from(items)).toEqual(scenario.pages.flatMap((page) => page.items ?? []));
+        expect(requests.map((request) => request.cursor)).toEqual(scenario.cursors);
       }),
     ),
   );
@@ -164,27 +151,18 @@ describe("cursor pagination", () => {
         const stream = paginateCursor(
           (input: { cursor?: string }) =>
             Effect.sync(() => {
-              if (++calls > 12)
-                throw new Error("Paginator exceeded the request bound");
-              return pages[
-                input.cursor === "a" ? 1 : input.cursor === "b" ? 2 : 0
-              ]!;
+              if (++calls > 12) throw new Error("Paginator exceeded the request bound");
+              return pages[input.cursor === "a" ? 1 : input.cursor === "b" ? 2 : 0]!;
             }),
           {},
           pagination,
         );
         expect(Array.from(yield* collect(stream))).toEqual(pages);
         expect(Array.from(yield* collect(stream))).toEqual(pages);
-        const concurrent = yield* Effect.all(
-          [collect(stream), collect(stream)],
-          {
-            concurrency: "unbounded",
-          },
-        );
-        expect(concurrent.map((result) => Array.from(result))).toEqual([
-          pages,
-          pages,
-        ]);
+        const concurrent = yield* Effect.all([collect(stream), collect(stream)], {
+          concurrency: "unbounded",
+        });
+        expect(concurrent.map((result) => Array.from(result))).toEqual([pages, pages]);
         expect(calls).toBe(12);
       }),
     ));

@@ -39,8 +39,7 @@ export const temporaryCredentialsSource = (
   Effect.gen(function* () {
     const params: AssumeRoleParams = {
       ...options.params,
-      RoleSessionName:
-        options.params.RoleSessionName ?? `aws-sdk-js-${Date.now()}`,
+      RoleSessionName: options.params.RoleSessionName ?? `aws-sdk-js-${Date.now()}`,
     };
     if (params.SerialNumber && params.TokenCode === undefined) {
       params.TokenCode = yield* mfaCode(
@@ -54,19 +53,13 @@ export const temporaryCredentialsSource = (
     return yield* assumeRole(sourceCredentials, params, region);
   });
 
-const hints = [
-  "Check that the source credentials are allowed to sts:AssumeRole the role.",
-];
+const hints = ["Check that the source credentials are allowed to sts:AssumeRole the role."];
 
 /** A role assumed with another set of credentials. */
-export const fromTemporaryCredentials = (
-  options: FromTemporaryCredentialsOptions,
-) =>
+export const fromTemporaryCredentials = (options: FromTemporaryCredentialsOptions) =>
   createLazyProvider(
     temporaryCredentialsSource(options),
     "temporary",
     hints,
-    options.region === undefined
-      ? regionFromEnv
-      : Effect.succeed(options.region as RegionName),
+    options.region === undefined ? regionFromEnv : Effect.succeed(options.region as RegionName),
   );

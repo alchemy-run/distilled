@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { SquarespaceParseError } from "./errors.ts";
+import type { SquarespaceOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listDiscounts } from "./services/squarespace.ts";
-import type { SquarespaceOpError } from "./protocol.ts";
 
 // listDiscounts declares `{ discounts: Discount[]; hasNextPage?; hasPreviousPage? }`.
 const run = (body: string) =>
   runValidationModes(
-    listDiscounts({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    listDiscounts({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -41,8 +38,6 @@ describe("Squarespace response validation", () => {
 });
 
 // SquarespaceParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [SquarespaceParseError] extends [
-  SquarespaceOpError,
-]
+export const parseErrorIsDeclared: [SquarespaceParseError] extends [SquarespaceOpError]
   ? true
   : false = true;

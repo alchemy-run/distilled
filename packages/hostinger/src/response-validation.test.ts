@@ -3,18 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { HostingerParseError } from "./errors.ts";
+import type { HostingerOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getVPSPublicKeysV1 } from "./services/hostinger.ts";
-import type { HostingerOpError } from "./protocol.ts";
 
 // getVPSPublicKeysV1 declares `{ data?: { id?: number; name?: string; key?: string }[]; meta?: ... }`.
 // Every Hostinger output member is optional, so the mismatch is a wrong primitive.
 const run = (body: string) =>
   runValidationModes(
-    getVPSPublicKeysV1({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getVPSPublicKeysV1({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,8 +39,5 @@ describe("Hostinger response validation", () => {
 });
 
 // HostingerParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [HostingerParseError] extends [
-  HostingerOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [HostingerParseError] extends [HostingerOpError] ? true : false =
+  true;

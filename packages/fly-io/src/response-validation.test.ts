@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { FlyIoParseError } from "./errors.ts";
+import type { FlyIoOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listApps } from "./services/machines.ts";
-import type { FlyIoOpError } from "./protocol.ts";
 
 // listApps (Machines REST) declares `{ apps?: App[]; total_apps?: number }`.
 const run = (body: string) =>
@@ -41,6 +41,4 @@ describe("Fly.io Machines response validation", () => {
 });
 
 // FlyIoParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [FlyIoParseError] extends [FlyIoOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [FlyIoParseError] extends [FlyIoOpError] ? true : false = true;

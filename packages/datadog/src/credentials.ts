@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Datadog credentials — hand-written.
  *
@@ -11,7 +12,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Default Datadog site (US1). */
 export const DEFAULT_SITE = "datadoghq.com";
@@ -20,8 +20,7 @@ export const DEFAULT_SITE = "datadoghq.com";
 export const DEFAULT_API_BASE_URL = "https://api.datadoghq.com";
 
 /** Map a Datadog site (`datadoghq.eu`, `us3.datadoghq.com`, …) to its API origin. */
-export const apiBaseUrlForSite = (site: string): string =>
-  `https://api.${site}`;
+export const apiBaseUrlForSite = (site: string): string => `https://api.${site}`;
 
 export interface Config {
   readonly apiKey: Redacted.Redacted<string>;
@@ -30,10 +29,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("DatadogCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "DatadogCredentials",
+) {}
 
 /** Layer from a plain API key + optional application key / site / base URL. */
 export const fromApiKey = (config: {
@@ -48,9 +46,7 @@ export const fromApiKey = (config: {
     Effect.succeed({
       apiKey: Redacted.make(config.apiKey),
       applicationKey:
-        config.applicationKey !== undefined
-          ? Redacted.make(config.applicationKey)
-          : undefined,
+        config.applicationKey !== undefined ? Redacted.make(config.applicationKey) : undefined,
       site,
       apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForSite(site),
     }),
@@ -77,10 +73,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     return {
       apiKey: Redacted.make(apiKey),
-      applicationKey:
-        applicationKey !== undefined
-          ? Redacted.make(applicationKey)
-          : undefined,
+      applicationKey: applicationKey !== undefined ? Redacted.make(applicationKey) : undefined,
       site,
       apiBaseUrl: process.env.DD_API_BASE_URL ?? apiBaseUrlForSite(site),
     };

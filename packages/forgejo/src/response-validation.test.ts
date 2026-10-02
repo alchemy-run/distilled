@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { ForgejoParseError } from "./errors.ts";
+import type { ForgejoOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getVersion } from "./services/miscellaneous.ts";
-import type { ForgejoOpError } from "./protocol.ts";
 
 // getVersion declares `{ version?: string }`; every member is optional, so the
 // mismatch is a wrong primitive type.
@@ -13,9 +13,7 @@ const run = (body: string) =>
   runValidationModes(
     getVersion({}).pipe(
       Retry.none,
-      Effect.provide(
-        credentials({ token: "test", baseUrl: "https://git.example.com" }),
-      ),
+      Effect.provide(credentials({ token: "test", baseUrl: "https://git.example.com" })),
     ),
     { body },
   );
@@ -45,6 +43,5 @@ describe("Forgejo response validation", () => {
 });
 
 // ForgejoParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ForgejoParseError] extends [ForgejoOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ForgejoParseError] extends [ForgejoOpError] ? true : false =
+  true;

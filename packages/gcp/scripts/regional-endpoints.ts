@@ -27,9 +27,7 @@ for (const file of fs.readdirSync(specsDir).sort()) {
   const servicePath: string = doc.servicePath ?? "";
   for (const endpoint of doc.endpoints as DiscoveryEndpoint[]) {
     if (!endpoint.endpointUrl.includes(endpoint.location)) continue;
-    const template =
-      endpoint.endpointUrl.replace(endpoint.location, "{location}") +
-      servicePath;
+    const template = endpoint.endpointUrl.replace(endpoint.location, "{location}") + servicePath;
     // Prefer `.rep.googleapis.com` (regional) over locational hosts: Google
     // recommends regional endpoints and they enforce data residency.
     const byTemplate = table.get(baseUrl) ?? new Map<string, Set<string>>();

@@ -1,3 +1,6 @@
+import { readFile } from "node:fs/promises";
+import { homedir } from "node:os";
+import { join, sep } from "node:path";
 /**
  * The shared `~/.aws/config` and `~/.aws/credentials` files, read the way the
  * AWS CLI reads them: `AWS_CONFIG_FILE` and `AWS_SHARED_CREDENTIALS_FILE`
@@ -7,9 +10,6 @@
  */
 import type { ParsedIniData, SharedConfigFiles } from "@smithy/types";
 import { IniSectionType } from "@smithy/types";
-import { readFile } from "node:fs/promises";
-import { homedir } from "node:os";
-import { join, sep } from "node:path";
 import { parseIni } from "./parse-ini.ts";
 
 const separator = ".";
@@ -28,8 +28,7 @@ export const getConfigFilepath = (): string =>
   process.env.AWS_CONFIG_FILE || join(getHomeDir(), ".aws", "config");
 
 export const getCredentialsFilepath = (): string =>
-  process.env.AWS_SHARED_CREDENTIALS_FILE ||
-  join(getHomeDir(), ".aws", "credentials");
+  process.env.AWS_SHARED_CREDENTIALS_FILE || join(getHomeDir(), ".aws", "credentials");
 
 const resolveHome = (path: string): string =>
   path.startsWith(homePrefix) ? join(getHomeDir(), path.slice(2)) : path;
@@ -56,8 +55,7 @@ const configSections = (data: ParsedIniData): ParsedIniData => {
     if (!Object.values(IniSectionType).includes(prefix as IniSectionType)) {
       continue;
     }
-    out[prefix === IniSectionType.PROFILE ? key.substring(index + 1) : key] =
-      value;
+    out[prefix === IniSectionType.PROFILE ? key.substring(index + 1) : key] = value;
   }
   return out;
 };

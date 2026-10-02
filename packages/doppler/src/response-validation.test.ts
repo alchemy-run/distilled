@@ -2,9 +2,9 @@ import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Redacted from "effect/Redacted";
 import { DopplerParseError } from "./errors.ts";
+import type { DopplerOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { generateCliAuth } from "./services/doppler.ts";
-import type { DopplerOpError } from "./protocol.ts";
 
 // generateCliAuth declares required `code`, `polling_code` (sensitive), and
 // `auth_url`. It uses the unauthenticated protocol, so no credentials.
@@ -32,8 +32,7 @@ describe("Doppler response validation", () => {
         _tag: "Success",
         success: { code: body.code, auth_url: body.auth_url },
       });
-      const pollingCode: Redacted.Redacted<string> = (result as any).success
-        .polling_code;
+      const pollingCode: Redacted.Redacted<string> = (result as any).success.polling_code;
       expect(Redacted.value(pollingCode)).toBe("secret");
     }
   });
@@ -54,6 +53,5 @@ describe("Doppler response validation", () => {
 });
 
 // DopplerParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [DopplerParseError] extends [DopplerOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [DopplerParseError] extends [DopplerOpError] ? true : false =
+  true;

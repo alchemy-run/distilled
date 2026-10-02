@@ -18,12 +18,12 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import {
   convertProtoToSmithy,
   parseProto,
   rpcGroupName,
 } from "@distilled.cloud/core/codegen/proto";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const ROOT = path.resolve(import.meta.dir, "..");
@@ -48,10 +48,7 @@ const toSlug = (group: string): string => {
 };
 
 const files = PROTO_FILES.map((name) => {
-  const specPath = resolveSpecPath(
-    ROOT,
-    `specs/spec-mirror-modal/specs/${name}`,
-  );
+  const specPath = resolveSpecPath(ROOT, `specs/spec-mirror-modal/specs/${name}`);
   if (!fs.existsSync(specPath)) {
     throw new Error(
       `${specPath} not found — run \`pnpm specs:local modal\` (or \`bun run specs:fetch\` once the mirror exists)`,

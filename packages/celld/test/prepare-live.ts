@@ -1,24 +1,21 @@
 import { createHash } from "node:crypto";
-import * as S3 from "@distilled.cloud/aws/s3";
 import { Credentials } from "@distilled.cloud/aws/Credentials";
 import * as AwsEndpoint from "@distilled.cloud/aws/Endpoint";
+import * as S3 from "@distilled.cloud/aws/s3";
 import * as Effect from "effect/Effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import { DeployPointer, Manifest } from "../src/services/node.ts";
 
 // Fixed credentials and peer key belong only to the disposable local test store.
 const endpoint = process.env.CELLD_TEST_STORAGE_URL;
 if (!endpoint || !/^http:\/\/127\.0\.0\.1:\d+$/.test(endpoint)) {
-  throw new Error(
-    "CELLD_TEST_STORAGE_URL must identify the disposable loopback S3 store",
-  );
+  throw new Error("CELLD_TEST_STORAGE_URL must identify the disposable loopback S3 store");
 }
 const bucket = "distilled-celld-sdk-test";
-const source =
-  "export default { fetch() { return new Response('celld sdk fixture'); } };";
+const source = "export default { fetch() { return new Response('celld sdk fixture'); } };";
 const metadata = {
   compatibility_date: "2026-09-15",
   bindings: [
@@ -38,9 +35,7 @@ await Effect.runPromise(
         .digest("hex")
         .slice(0, 16),
     );
-    const digest = yield* Effect.sync(() =>
-      createHash("sha256").update(source).digest("hex"),
-    );
+    const digest = yield* Effect.sync(() => createHash("sha256").update(source).digest("hex"));
     const prefix = `deploy/sdk-fixture/${version}`;
     const manifest: Manifest = {
       schema_version: 1,

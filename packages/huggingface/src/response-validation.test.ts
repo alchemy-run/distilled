@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { HuggingFaceParseError } from "./errors.ts";
+import type { HuggingFaceOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getJobHardware } from "./services/jobs.ts";
-import type { HuggingFaceOpError } from "./protocol.ts";
 
 // getJobHardware declares `Array<{ name: string; prettyName: string; cpu: string; … }>`.
 const run = (body: string) =>
   runValidationModes(
-    getJobHardware({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    getJobHardware({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -53,8 +50,6 @@ describe("HuggingFace response validation", () => {
 });
 
 // HuggingFaceParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [HuggingFaceParseError] extends [
-  HuggingFaceOpError,
-]
+export const parseErrorIsDeclared: [HuggingFaceParseError] extends [HuggingFaceOpError]
   ? true
   : false = true;

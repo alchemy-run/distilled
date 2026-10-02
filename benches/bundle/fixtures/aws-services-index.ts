@@ -5,14 +5,11 @@
 import * as Credentials from "@distilled.cloud/aws/Credentials";
 import * as AWS from "@distilled.cloud/aws/index";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
+import * as Layer from "effect/Layer";
 
 const layer = Layer.mergeAll(
-  Credentials.fromCredentials(
-    { accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" },
-    "us-east-1",
-  ),
+  Credentials.fromCredentials({ accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" }, "us-east-1"),
   FetchHttpClient.layer,
 );
 
@@ -23,7 +20,5 @@ const program = AWS.S3.getObject({
 
 export default {
   fetch: () =>
-    Effect.runPromise(program).then(
-      (out) => new Response(String(out.ContentLength ?? 0)),
-    ),
+    Effect.runPromise(program).then((out) => new Response(String(out.ContentLength ?? 0))),
 };

@@ -21,10 +21,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("OpencodeCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "OpencodeCredentials",
+) {}
 
 /** Layer from an optional password + optional base URL. */
 export const fromPassword = (config: {
@@ -36,10 +35,7 @@ export const fromPassword = (config: {
     Credentials,
     Effect.succeed({
       username: config.username ?? DEFAULT_USERNAME,
-      password:
-        config.password !== undefined
-          ? Redacted.make(config.password)
-          : undefined,
+      password: config.password !== undefined ? Redacted.make(config.password) : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

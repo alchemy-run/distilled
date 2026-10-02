@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { PosthogParseError } from "./errors.ts";
+import type { PosthogOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getAccountRelationshipDefinition } from "./services/account_relationship_definitions.ts";
-import type { PosthogOpError } from "./protocol.ts";
 
 // getAccountRelationshipDefinition declares required `id` and `name`.
 const run = (body: string) =>
@@ -41,6 +41,5 @@ describe("PostHog response validation", () => {
 });
 
 // PosthogParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PosthogParseError] extends [PosthogOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [PosthogParseError] extends [PosthogOpError] ? true : false =
+  true;

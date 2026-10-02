@@ -63,8 +63,7 @@ export type Policy = Options | Factory;
  * export class Retry extends makeRetryService("PlanetScaleRetry") {}
  * ```
  */
-export const makeRetryService = (name: string) =>
-  Context.Service<any, Policy>()(name);
+export const makeRetryService = (name: string) => Context.Service<any, Policy>()(name);
 
 // ============================================================================
 // Retry Schedule Utilities
@@ -143,9 +142,7 @@ const serverRetryHintCapMsConfig: Config.Config<number> = Config.String(
  */
 export const readServerRetryHintCapMsFromEnv = (): number =>
   Effect.runSync(
-    serverRetryHintCapMsConfig.pipe(
-      Effect.orElseSucceed(() => DEFAULT_SERVER_RETRY_HINT_CAP_MS),
-    ),
+    serverRetryHintCapMsConfig.pipe(Effect.orElseSucceed(() => DEFAULT_SERVER_RETRY_HINT_CAP_MS)),
   );
 
 const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, never> =>
@@ -167,12 +164,8 @@ const resolveServerRetryHintCapMs = (): Effect.Effect<number, never, never> =>
  *
  * Returns `undefined` when the error doesn't carry a hint.
  */
-const serverHintMillis = (
-  error: unknown,
-  capMs: number,
-): number | undefined => {
-  const hint = (error as { retryAfter?: unknown } | null | undefined)
-    ?.retryAfter;
+const serverHintMillis = (error: unknown, capMs: number): number | undefined => {
+  const hint = (error as { retryAfter?: unknown } | null | undefined)?.retryAfter;
   if (!Duration.isDuration(hint)) return undefined;
   return Math.min(Duration.toMillis(hint), capMs);
 };
@@ -266,11 +259,7 @@ export const throttlingFactory: Factory = (lastError) => ({
  */
 export const throttlingOptions: Options = {
   while: (error) => isThrottling(error),
-  schedule: pipe(
-    Schedule.exponential(1000, 2),
-    capped(Duration.seconds(5)),
-    jittered,
-  ),
+  schedule: pipe(Schedule.exponential(1000, 2), capped(Duration.seconds(5)), jittered),
 };
 
 /**
@@ -300,9 +289,5 @@ export const transientFactory: Factory = (lastError) => ({
  */
 export const transientOptions: Options = {
   while: isTransientError,
-  schedule: pipe(
-    Schedule.exponential(1000, 2),
-    capped(Duration.seconds(5)),
-    jittered,
-  ),
+  schedule: pipe(Schedule.exponential(1000, 2), capped(Duration.seconds(5)), jittered),
 };

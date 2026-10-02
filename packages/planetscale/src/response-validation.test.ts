@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromOAuth } from "./credentials.ts";
 import { PlanetScaleParseError } from "./errors.ts";
+import type { PlanetScaleOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getCurrentUser } from "./services/planetscale.ts";
-import type { PlanetScaleOpError } from "./protocol.ts";
 
 // getCurrentUser declares `User`: `{ id; display_name; email; avatar_url; … }`.
 const run = (body: string) =>
@@ -50,8 +50,6 @@ describe("PlanetScale response validation", () => {
 });
 
 // PlanetScaleParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PlanetScaleParseError] extends [
-  PlanetScaleOpError,
-]
+export const parseErrorIsDeclared: [PlanetScaleParseError] extends [PlanetScaleOpError]
   ? true
   : false = true;

@@ -3,18 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { CloudflareParseError } from "./errors.ts";
+import type { CloudflareOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { verifyToken } from "./services/user.ts";
-import type { CloudflareOpError } from "./protocol.ts";
 
 // verifyToken declares `{ id: string; status: string; expiresOn?: string | null; notBefore?: string | null }`,
 // unwrapped from the `{ success, errors, messages, result }` envelope.
 const run = (body: string) =>
   runValidationModes(
-    verifyToken({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ apiToken: "test" })),
-    ),
+    verifyToken({}).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
     { body },
   );
 
@@ -40,9 +37,7 @@ describe("Cloudflare response validation", () => {
   });
 
   test("a body missing required members: lenient returns it, strict fails", async () => {
-    const { lenient, strict } = await run(
-      envelope({ id: "ed17574386854bf78a67040be0a770b0" }),
-    );
+    const { lenient, strict } = await run(envelope({ id: "ed17574386854bf78a67040be0a770b0" }));
     expect(lenient).toMatchObject({
       _tag: "Success",
       success: { id: "ed17574386854bf78a67040be0a770b0" },
@@ -60,8 +55,6 @@ describe("Cloudflare response validation", () => {
 });
 
 // CloudflareParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [CloudflareParseError] extends [
-  CloudflareOpError,
-]
+export const parseErrorIsDeclared: [CloudflareParseError] extends [CloudflareOpError]
   ? true
   : false = true;

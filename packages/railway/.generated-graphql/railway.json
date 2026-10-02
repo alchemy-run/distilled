@@ -1776,14 +1776,7 @@
     "CloudAgentStatus": {
       "kind": "ENUM",
       "description": "The current lifecycle state of a cloud agent.",
-      "enumValues": [
-        "CRASHED",
-        "DELETING",
-        "FAILED",
-        "RUNNING",
-        "SLEEPING",
-        "STARTING"
-      ]
+      "enumValues": ["CRASHED", "DELETING", "FAILED", "RUNNING", "SLEEPING", "STARTING"]
     },
     "CnameCheck": {
       "kind": "OBJECT",
@@ -1966,14 +1959,7 @@
     },
     "CreditType": {
       "kind": "ENUM",
-      "enumValues": [
-        "APPLIED",
-        "CREDIT",
-        "DEBIT",
-        "STRIPE",
-        "TRANSFER",
-        "WAIVED"
-      ]
+      "enumValues": ["APPLIED", "CREDIT", "DEBIT", "STRIPE", "TRANSFER", "WAIVED"]
     },
     "CustomDomain": {
       "kind": "OBJECT",
@@ -2144,14 +2130,7 @@
     },
     "CustomDomainSyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "Customer": {
       "kind": "OBJECT",
@@ -8846,13 +8825,7 @@
     "NetworkFlowPeerKind": {
       "kind": "ENUM",
       "description": "The type of peer in a network flow",
-      "enumValues": [
-        "edge_proxy",
-        "internet",
-        "local_dns",
-        "service",
-        "unknown"
-      ]
+      "enumValues": ["edge_proxy", "internet", "local_dns", "service", "unknown"]
     },
     "NetworkFlowState": {
       "kind": "ENUM",
@@ -9079,10 +9052,7 @@
     },
     "NotificationDeliveryUpdate": {
       "kind": "UNION",
-      "possibleTypes": [
-        "NotificationDeliveryCreated",
-        "NotificationDeliveryResolved"
-      ]
+      "possibleTypes": ["NotificationDeliveryCreated", "NotificationDeliveryResolved"]
     },
     "NotificationInstance": {
       "kind": "OBJECT",
@@ -10479,14 +10449,7 @@
     },
     "PrivateNetworkEndpointSyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "Project": {
       "kind": "OBJECT",
@@ -15997,24 +15960,12 @@
     },
     "ReplicateVolumeInstanceSnapshotStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "COMPLETED",
-        "FAILED",
-        "INITIATED",
-        "TRANSFERRING",
-        "UNRECOGNIZED"
-      ]
+      "enumValues": ["COMPLETED", "FAILED", "INITIATED", "TRANSFERRING", "UNRECOGNIZED"]
     },
     "ReplicateVolumeInstanceStatus": {
       "kind": "ENUM",
       "description": "The status of a volume instance replication",
-      "enumValues": [
-        "COMPLETED",
-        "ERROR",
-        "QUEUED",
-        "TRANSFERRING_OFFLINE",
-        "TRANSFERRING_ONLINE"
-      ]
+      "enumValues": ["COMPLETED", "ERROR", "QUEUED", "TRANSFERRING_OFFLINE", "TRANSFERRING_ONLINE"]
     },
     "ResetPluginCredentialsInput": {
       "kind": "INPUT_OBJECT",
@@ -16791,14 +16742,7 @@
     },
     "ServiceDomainSyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "ServiceDomainUpdateInput": {
       "kind": "INPUT_OBJECT",
@@ -18347,14 +18291,7 @@
     },
     "TCPProxySyncStatus": {
       "kind": "ENUM",
-      "enumValues": [
-        "ACTIVE",
-        "CREATING",
-        "DELETED",
-        "DELETING",
-        "UNSPECIFIED",
-        "UPDATING"
-      ]
+      "enumValues": ["ACTIVE", "CREATING", "DELETED", "DELETING", "UNSPECIFIED", "UPDATING"]
     },
     "Team": {
       "kind": "OBJECT",

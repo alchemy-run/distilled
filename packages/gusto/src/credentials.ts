@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Gusto credentials — hand-written.
  *
@@ -17,7 +18,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.gusto.com";
 /** Dated REST API version this package is generated against. */
@@ -29,10 +29,9 @@ export interface Config {
   readonly apiVersion: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("GustoCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "GustoCredentials",
+) {}
 
 /** Layer from a plain access token + optional base URL and API version. */
 export const fromApiKey = (config: {
@@ -57,9 +56,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
   Effect.gen(function* () {
     const apiKey =
-      process.env.GUSTO_ACCESS_TOKEN ??
-      process.env.GUSTO_API_TOKEN ??
-      process.env.GUSTO_API_KEY;
+      process.env.GUSTO_ACCESS_TOKEN ?? process.env.GUSTO_API_TOKEN ?? process.env.GUSTO_API_KEY;
 
     if (!apiKey) {
       return yield* new ConfigError({

@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromToken } from "./credentials.ts";
 import { ArgocdParseError } from "./errors.ts";
+import type { ArgocdOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { versionServiceVersion } from "./services/argocd.ts";
-import type { ArgocdOpError } from "./protocol.ts";
 
 // versionServiceVersion declares `{ Version?: string; ... }` (all optional).
 const run = (body: string) =>
   runValidationModes(
-    versionServiceVersion({}).pipe(
-      Retry.none,
-      Effect.provide(fromToken({ token: "test" })),
-    ),
+    versionServiceVersion({}).pipe(Retry.none, Effect.provide(fromToken({ token: "test" }))),
     { body },
   );
 
@@ -41,6 +38,4 @@ describe("Argo CD response validation", () => {
 });
 
 // ArgocdParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ArgocdParseError] extends [ArgocdOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ArgocdParseError] extends [ArgocdOpError] ? true : false = true;

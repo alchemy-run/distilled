@@ -1,9 +1,9 @@
 import { describe, expect, test } from "bun:test";
+import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as ResponseValidation from "@distilled.cloud/core/response-validation";
+import * as Layer from "effect/Layer";
 import { credentials } from "./credentials.ts";
 import { BadRequest, FlyIoParseError, UnknownFlyIoError } from "./errors.ts";
 import type { FlyIoOpContext } from "./protocol.ts";
@@ -26,9 +26,7 @@ const respondWith = (status: number, body: string) =>
     Layer.succeed(
       HttpClient.HttpClient,
       HttpClient.make((request) =>
-        Effect.sync(() =>
-          HttpClientResponse.fromWeb(request, new Response(body, { status })),
-        ),
+        Effect.sync(() => HttpClientResponse.fromWeb(request, new Response(body, { status }))),
       ),
     ),
     credentials({
@@ -43,11 +41,7 @@ const decodeError = <A, E>(
   body: string,
 ) =>
   Effect.runPromise(
-    operation.pipe(
-      Retry.none,
-      Effect.provide(respondWith(status, body)),
-      Effect.flip,
-    ),
+    operation.pipe(Retry.none, Effect.provide(respondWith(status, body)), Effect.flip),
   );
 
 // The suite recorded the message, but not the HTTP status or raw envelope.
@@ -82,9 +76,7 @@ describe("Machines start precondition decoding", () => {
           status,
           JSON.stringify({ error: message }),
         );
-        expect(error).toBeInstanceOf(
-          status === 400 ? BadRequest : UnknownFlyIoError,
-        );
+        expect(error).toBeInstanceOf(status === 400 ? BadRequest : UnknownFlyIoError);
         expect(error).toMatchObject({ message });
       }
     });
@@ -119,11 +111,7 @@ describe("Machines wait timeout decoding", () => {
   }
 
   test("decodes the recorded waiter failure from plain text", async () => {
-    const error = await decodeError(
-      waitMachine(machine),
-      412,
-      recordedWaitMessage,
-    );
+    const error = await decodeError(waitMachine(machine), 412, recordedWaitMessage);
     expect(error).toBeInstanceOf(MachineWaitTimeout);
     expect(error).toMatchObject({ message: recordedWaitMessage });
   });
@@ -131,11 +119,7 @@ describe("Machines wait timeout decoding", () => {
   test("matches other desired and current machine states", async () => {
     const message =
       "deadline_exceeded: machine failed to reach desired state, stopped, currently stopping";
-    const error = await decodeError(
-      waitMachine(machine),
-      412,
-      JSON.stringify({ error: message }),
-    );
+    const error = await decodeError(waitMachine(machine), 412, JSON.stringify({ error: message }));
     expect(error).toBeInstanceOf(MachineWaitTimeout);
     expect(error).toMatchObject({ message });
   });
@@ -154,9 +138,7 @@ describe("Machines wait timeout decoding", () => {
           status,
           JSON.stringify({ error: message }),
         );
-        expect(error).toBeInstanceOf(
-          status === 400 ? BadRequest : UnknownFlyIoError,
-        );
+        expect(error).toBeInstanceOf(status === 400 ? BadRequest : UnknownFlyIoError);
         expect(error).toMatchObject({ message });
       }
     });
@@ -182,10 +164,7 @@ describe("GraphQL response validation", () => {
 
   test("lenient mode returns the payload as read", async () => {
     const result = await Effect.runPromise(
-      agreedToProviderTos(tos).pipe(
-        Retry.none,
-        Effect.provide(respondWith(200, mismatched)),
-      ),
+      agreedToProviderTos(tos).pipe(Retry.none, Effect.provide(respondWith(200, mismatched))),
     );
     expect(result as unknown).toBe("yes");
   });

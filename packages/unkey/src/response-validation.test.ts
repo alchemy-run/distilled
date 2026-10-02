@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { UnkeyParseError } from "./errors.ts";
+import type { UnkeyOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { apisGetApi } from "./services/unkey.ts";
-import type { UnkeyOpError } from "./protocol.ts";
 
 // apisGetApi declares `{ meta: { requestId: string }; data: { id: string; name: string } }`;
 // Unkey success bodies keep their `{ meta, data }` envelope.
@@ -45,6 +45,4 @@ describe("Unkey response validation", () => {
 });
 
 // UnkeyParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [UnkeyParseError] extends [UnkeyOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [UnkeyParseError] extends [UnkeyOpError] ? true : false = true;

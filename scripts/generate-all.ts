@@ -43,9 +43,7 @@ if (jobs.length === 0) {
   process.exit(1);
 }
 
-console.log(
-  `generating ${jobs.length} package(s): ${jobs.map((j) => j.name).join(", ")}`,
-);
+console.log(`generating ${jobs.length} package(s): ${jobs.map((j) => j.name).join(", ")}`);
 
 const CONCURRENCY = 4;
 const failures: string[] = [];
@@ -84,9 +82,7 @@ await Promise.all(
 );
 
 if (failures.length) {
-  console.error(
-    `\n${failures.length} package(s) failed: ${failures.join(", ")}`,
-  );
+  console.error(`\n${failures.length} package(s) failed: ${failures.join(", ")}`);
   process.exit(1);
 }
 

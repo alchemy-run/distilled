@@ -33,10 +33,9 @@ import { REGIONAL_ENDPOINTS } from "./regional-endpoints.ts";
 /** A GCP region (`us-central1`) or multi-region (`us`, `eu`). */
 export type RegionName = string;
 
-export class Region extends Context.Service<
-  Region,
-  Effect.Effect<RegionName | undefined>
->()("GCP::Region") {}
+export class Region extends Context.Service<Region, Effect.Effect<RegionName | undefined>>()(
+  "GCP::Region",
+) {}
 
 /*
  * There is deliberately no environment source: Google's SDKs have no
@@ -45,32 +44,28 @@ export class Region extends Context.Service<
  */
 
 /** Default region for a scope, e.g. `Region.of("europe-west1")`. */
-export const of = (region: RegionName) =>
-  Layer.succeed(Region, Effect.succeed(region));
+export const of = (region: RegionName) => Layer.succeed(Region, Effect.succeed(region));
 
 /**
  * The default region: the {@link Region} override, else the credentials'
  * region, else `undefined`.
  */
-export const current: Effect.Effect<RegionName | undefined> = Effect.gen(
-  function* () {
-    const override = yield* Effect.serviceOption(Region);
-    if (Option.isSome(override)) {
-      const region = yield* override.value;
-      if (region !== undefined) return region;
-    }
-    const credentials = yield* Effect.serviceOption(Credentials);
-    if (Option.isNone(credentials)) return undefined;
-    return (yield* credentials.value).region;
-  },
-);
+export const current: Effect.Effect<RegionName | undefined> = Effect.gen(function* () {
+  const override = yield* Effect.serviceOption(Region);
+  if (Option.isSome(override)) {
+    const region = yield* override.value;
+    if (region !== undefined) return region;
+  }
+  const credentials = yield* Effect.serviceOption(Credentials);
+  if (Option.isNone(credentials)) return undefined;
+  return (yield* credentials.value).region;
+});
 
 export type RegionalEndpointMode = "required" | "prefer" | "never";
 
-export class RegionalEndpoints extends Context.Service<
-  RegionalEndpoints,
-  RegionalEndpointMode
->()("GCP::RegionalEndpoints") {}
+export class RegionalEndpoints extends Context.Service<RegionalEndpoints, RegionalEndpointMode>()(
+  "GCP::RegionalEndpoints",
+) {}
 
 /** Route requests to regional hosts, e.g. `RegionalEndpoints.of("prefer")`. */
 export const regionalEndpoints = (mode: RegionalEndpointMode) =>
@@ -92,11 +87,7 @@ const LOCATION = /(?:^|\/)locations\/([a-z0-9-]+)(?:\/|$)/;
  * The host for one request: the regional host of the location in its path
  * when `mode` calls for it and Google publishes one, else `baseUrl`.
  */
-export const endpointFor = (
-  baseUrl: string,
-  uri: string,
-  mode: RegionalEndpointMode,
-): string => {
+export const endpointFor = (baseUrl: string, uri: string, mode: RegionalEndpointMode): string => {
   if (mode === "never") return baseUrl;
   if (mode === "required" && !REGION_REQUIRED.has(baseUrl)) return baseUrl;
   const location = LOCATION.exec(uri)?.[1];

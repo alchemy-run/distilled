@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { OnepasswordParseError } from "./errors.ts";
+import type { OnepasswordOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getVaults } from "./services/onepassword.ts";
-import type { OnepasswordOpError } from "./protocol.ts";
 
 // getVaults declares `Vault[]` with every Vault member optional, so the mismatch is a wrong primitive.
 const run = (body: string) =>
   runValidationModes(
-    getVaults({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getVaults({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -41,8 +38,6 @@ describe("Onepassword response validation", () => {
 });
 
 // OnepasswordParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [OnepasswordParseError] extends [
-  OnepasswordOpError,
-]
+export const parseErrorIsDeclared: [OnepasswordParseError] extends [OnepasswordOpError]
   ? true
   : false = true;

@@ -1,22 +1,21 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Schema from "effect/Schema";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
+import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
 import * as API from "./api.ts";
 import { makeRestProtocol } from "./protocol-rest.ts";
 import * as ResponseValidation from "./response-validation.ts";
 
-class TestParseError extends Schema.TaggedError<TestParseError>()(
-  "TestParseError",
-  { body: Schema.Unknown, cause: Schema.Unknown },
-) {}
+class TestParseError extends Schema.TaggedError<TestParseError>()("TestParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}) {}
 
-class TestUnknownError extends Schema.TaggedError<TestUnknownError>()(
-  "TestUnknownError",
-  { message: Schema.String },
-) {}
+class TestUnknownError extends Schema.TaggedError<TestUnknownError>()("TestUnknownError", {
+  message: Schema.String,
+}) {}
 
 const TestProtocol = makeRestProtocol<{}>({
   credentials: Effect.succeed({}),
@@ -33,10 +32,7 @@ const decode = (body: string) =>
     const protocol = yield* API.Protocol;
     const request = HttpClientRequest.get("https://api.test/thing");
     return yield* protocol.decode({
-      response: HttpClientResponse.fromWeb(
-        request,
-        new Response(body, { status: 200 }),
-      ),
+      response: HttpClientResponse.fromWeb(request, new Response(body, { status: 200 })),
       outputAst: Output.ast,
       errors: [],
       config: {},
@@ -44,9 +40,7 @@ const decode = (body: string) =>
   }).pipe(Effect.provide(TestProtocol));
 
 const run = <A, E>(effect: Effect.Effect<A, E>, layer?: Layer.Layer<never>) =>
-  Effect.runPromise(
-    Effect.result(layer ? effect.pipe(Effect.provide(layer)) : effect),
-  );
+  Effect.runPromise(Effect.result(layer ? effect.pipe(Effect.provide(layer)) : effect));
 
 describe("makeRestProtocol response validation", () => {
   test("lenient (default) returns a non-JSON 2xx body as text", async () => {

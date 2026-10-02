@@ -1,3 +1,8 @@
+import * as API from "@distilled.cloud/core/api";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { getAnn } from "@distilled.cloud/core/protocol-http";
+import { failIfStrict, validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * ExpoGraphqlProtocol — hand-written.
  *
@@ -25,22 +30,14 @@
  *             `T.ResponsePath`) is returned verbatim.
  */
 import * as Effect from "effect/Effect";
-import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
-import * as Schema from "effect/Schema";
-import type * as AST from "effect/SchemaAST";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import { getAnn } from "@distilled.cloud/core/protocol-http";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import {
-  failIfStrict,
-  validateResponse,
-} from "@distilled.cloud/core/response-validation";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
+import * as Schema from "effect/Schema";
+import type * as AST from "effect/SchemaAST";
 import { type Config, Credentials } from "./credentials.ts";
 import {
   type DefaultErrors,
@@ -75,8 +72,7 @@ export type ExpoEasOpContext = Credentials | HttpClient.HttpClient;
 // EAS failures are real typed errors that the operation's explicit
 // `ExpoEasOpError` annotation re-surfaces. Fail with the instance and erase
 // the error type here.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // ============================================================================
 // Error envelope parsing (ported from distilled v0's client.ts)
@@ -200,13 +196,7 @@ const matchError = (
 // fiber's context on every request instead. The requirement is erased at this
 // boundary (Protocol effects are typed with no requirements) and reintroduced
 // for callers by the generated `ExpoEasOpContext` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect — resolving it here (per
     // request) picks up rotations.
@@ -223,9 +213,7 @@ const encode = ({
     // The operation's input IS the GraphQL variables object (variable names
     // are emitted verbatim — no wire renames).
     const variables: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(
-      (input ?? {}) as Record<string, unknown>,
-    )) {
+    for (const [k, v] of Object.entries((input ?? {}) as Record<string, unknown>)) {
       if (v !== undefined) variables[k] = v;
     }
 
@@ -308,9 +296,7 @@ const decode = ({
     // (core/response-validation) checks it against the output schema.
     const path = getAnn(outputAst, responsePathSymbol) as string | undefined;
     let payload: unknown =
-      envelope !== null && typeof envelope === "object"
-        ? envelope.data
-        : undefined;
+      envelope !== null && typeof envelope === "object" ? envelope.data : undefined;
     if (path !== undefined) {
       for (const seg of path.split(".")) {
         payload =
@@ -333,8 +319,7 @@ export const ExpoGraphqlProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

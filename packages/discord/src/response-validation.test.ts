@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { DiscordParseError } from "./errors.ts";
+import type { DiscordOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getGateway } from "./services/discord.ts";
-import type { DiscordOpError } from "./protocol.ts";
 
 // getGateway declares `{ url: string }`.
 const run = (body: string) =>
   runValidationModes(
-    getGateway({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    getGateway({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -40,6 +37,5 @@ describe("Discord response validation", () => {
 });
 
 // DiscordParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [DiscordParseError] extends [DiscordOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [DiscordParseError] extends [DiscordOpError] ? true : false =
+  true;

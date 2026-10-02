@@ -206,19 +206,14 @@ const ITEMS_OVERRIDE: Readonly<Record<string, string>> = {
  * member) stay plain rather than guessing — enriching them is patch
  * territory.
  */
-const buildPagination = (
-  name: string,
-  page: MethodPage,
-): Record<string, string> | undefined => {
+const buildPagination = (name: string, page: MethodPage): Record<string, string> | undefined => {
   const args = page.args?.properties ?? {};
   if (!("cursor" in args)) return undefined;
   const props = page.output?.properties ?? {};
   const arrays = Object.entries(props).filter(
-    ([k, p]) =>
-      (p as DocsSchema)?.type === "array" && k !== "response_metadata",
+    ([k, p]) => (p as DocsSchema)?.type === "array" && k !== "response_metadata",
   );
-  const items =
-    ITEMS_OVERRIDE[name] ?? (arrays.length === 1 ? arrays[0]![0] : undefined);
+  const items = ITEMS_OVERRIDE[name] ?? (arrays.length === 1 ? arrays[0]![0] : undefined);
   if (items === undefined) return undefined;
   return {
     mode: "cursor",
@@ -251,12 +246,6 @@ interface MethodPage {
   readonly errors?: Record<string, { readonly desc?: string }>;
 }
 
-/** `analytics.getFile` → `analyticsGetFile` (the family prefix already stripped). */
-const camelJoin = (segments: readonly string[]): string =>
-  segments
-    .map((s, i) => (i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1)))
-    .join("");
-
 /** `lists` → `Lists` — model/service naming. */
 const toPascal = (slug: string): string =>
   slug
@@ -268,9 +257,7 @@ const toPascal = (slug: string): string =>
 /** The operation's doc comment: description + scopes + rate tier + error slugs. */
 const buildDescription = (name: string, page: MethodPage): string => {
   const parts: string[] = [];
-  parts.push(
-    page.deprecated ? `(Deprecated) ${page.desc ?? ""}` : (page.desc ?? ""),
-  );
+  parts.push(page.deprecated ? `(Deprecated) ${page.desc ?? ""}` : (page.desc ?? ""));
 
   const scopeLines: string[] = [];
   for (const [kind, scopes] of Object.entries(page.scope ?? {})) {
@@ -289,9 +276,7 @@ const buildDescription = (name: string, page: MethodPage): string => {
   if (errors.length > 0) {
     parts.push(
       `Method-specific errors (the \`error\` slug on the SlackError):\n` +
-        errors
-          .map(([slug, e]) => `  - \`${slug}\`${e?.desc ? ` — ${e.desc}` : ""}`)
-          .join("\n"),
+        errors.map(([slug, e]) => `  - \`${slug}\`${e?.desc ? ` — ${e.desc}` : ""}`).join("\n"),
     );
   }
   parts.push(`See https://docs.slack.dev/reference/methods/${name}`);
@@ -312,9 +297,7 @@ const buildOperation = (
   const segments = name.split(".");
   const action = segments.at(-1)!;
   const object = segments.length > 2 ? segments.slice(1, -1) : [segments[0]!];
-  const operationId = /[A-Z]/.test(action)
-    ? action
-    : [...object, action].join("_");
+  const operationId = /[A-Z]/.test(action) ? action : [...object, action].join("_");
 
   const argEntries = Object.entries(page.args?.properties ?? {})
     .filter(
@@ -335,10 +318,7 @@ const buildOperation = (
           argName,
           {
             desc: (schema as { desc?: string }).desc,
-            anyOf: [
-              { type: "string" },
-              { type: "array", items: { type: "object" } },
-            ],
+            anyOf: [{ type: "string" }, { type: "array", items: { type: "object" } }],
           },
         ];
       }
@@ -385,9 +365,7 @@ const buildOperation = (
     // method accepts; SlackProtocol serializes the members Slack-style
     // (ID arrays comma-joined, objects JSON-encoded).
     const contentType =
-      page.json_input_supported === true
-        ? "application/json"
-        : "application/x-www-form-urlencoded";
+      page.json_input_supported === true ? "application/json" : "application/x-www-form-urlencoded";
     operation.requestBody = {
       required: requiredArgs.length > 0,
       content: {
@@ -395,10 +373,7 @@ const buildOperation = (
           schema: {
             type: "object",
             properties: Object.fromEntries(
-              argEntries.map(([argName, schema]) => [
-                argName,
-                toOpenApiSchema(schema),
-              ]),
+              argEntries.map(([argName, schema]) => [argName, toOpenApiSchema(schema)]),
             ),
             ...(requiredArgs.length > 0 ? { required: requiredArgs } : {}),
           },
@@ -416,10 +391,7 @@ const buildOperation = (
  * (auth.teams.list requires "team", the property is "teams") — those filter
  * out rather than fail.
  */
-const buildOutputSchema = (
-  name: string,
-  page: MethodPage,
-): Record<string, any> => {
+const buildOutputSchema = (name: string, page: MethodPage): Record<string, any> => {
   // Non-JSON response: the analytics export answers with a gzipped NDJSON
   // file. A bare Document output; the protocol returns the raw bytes.
   if (name === "admin.analytics.getFile") return {};
@@ -437,13 +409,11 @@ const buildOutputSchema = (
   if ("cursor" in (page.args?.properties ?? {})) {
     converted.response_metadata = {
       type: "object",
-      description:
-        "Pagination metadata. An empty `next_cursor` means the last page.",
+      description: "Pagination metadata. An empty `next_cursor` means the last page.",
       properties: {
         next_cursor: {
           type: "string",
-          description:
-            "Cursor for the next page — pass as `cursor` on the next call.",
+          description: "Cursor for the next page — pass as `cursor` on the next call.",
         },
       },
     };
@@ -454,8 +424,7 @@ const buildOutputSchema = (
     properties: {
       ok: {
         type: "boolean",
-        description:
-          "Always `true` (a failed call raises a typed error instead).",
+        description: "Always `true` (a failed call raises a typed error instead).",
       },
       ...converted,
     },
@@ -469,9 +438,7 @@ const buildOutputSchema = (
 
 const indexPath = path.join(specsDir, "methods.json");
 if (!fs.existsSync(indexPath)) {
-  throw new Error(
-    `${indexPath} not found — run \`bun run download-docs\` first`,
-  );
+  throw new Error(`${indexPath} not found — run \`bun run download-docs\` first`);
 }
 const index = JSON.parse(fs.readFileSync(indexPath, "utf-8")) as ReadonlyArray<{
   readonly name: string;
@@ -495,9 +462,7 @@ for (const entry of index) {
   families.get(family)!.push({ name: entry.name, page });
 }
 if (missingPages > 0) {
-  console.warn(
-    `   ⚠️  ${missingPages} method page(s) missing from specs/methods`,
-  );
+  console.warn(`   ⚠️  ${missingPages} method page(s) missing from specs/methods`);
 }
 
 // ============================================================================
@@ -567,9 +532,7 @@ for (const family of [...families.keys()].sort()) {
   }
   totalPaginated += paginatedCount;
 
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   if (opCount === 0) continue;
   fs.writeFileSync(
     path.join(outDir, `${family.toLowerCase()}.json`),

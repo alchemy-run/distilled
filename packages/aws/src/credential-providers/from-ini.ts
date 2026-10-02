@@ -7,16 +7,12 @@
 import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
+import type * as HttpClient from "effect/http/HttpClient";
 import * as Path from "effect/Path";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/http/HttpClient";
 import * as Auth from "../auth.ts";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  chain,
-  type CredentialSource,
-  CredentialSourceError,
-} from "./credential-source.ts";
+import { chain, type CredentialSource, CredentialSourceError } from "./credential-source.ts";
 import { containerMetadataSource } from "./from-container-metadata.ts";
 import { envSource } from "./from-env.ts";
 import { httpSource } from "./from-http.node.ts";
@@ -34,12 +30,7 @@ import {
   profileRegion,
   profileStsRegion,
 } from "./profile.ts";
-import {
-  type AssumeRoleParams,
-  assumeRole,
-  type MfaCodeProvider,
-  mfaCode,
-} from "./sts.ts";
+import { type AssumeRoleParams, assumeRole, type MfaCodeProvider, mfaCode } from "./sts.ts";
 
 export interface FromIniOptions {
   readonly profile?: string;
@@ -48,8 +39,7 @@ export interface FromIniOptions {
 }
 
 const isString = (value: unknown): value is string => typeof value === "string";
-const isOptionalString = (value: unknown) =>
-  value === undefined || typeof value === "string";
+const isOptionalString = (value: unknown) => value === undefined || typeof value === "string";
 
 const isStaticCredsProfile = (profile: Profile) =>
   isString(profile.aws_access_key_id) &&
@@ -62,18 +52,15 @@ const isAssumeRoleProfile = (profile: Profile) =>
   isOptionalString(profile.role_session_name) &&
   isOptionalString(profile.external_id) &&
   isOptionalString(profile.mfa_serial) &&
-  ((isString(profile.source_profile) &&
-    profile.credential_source === undefined) ||
-    (isString(profile.credential_source) &&
-      profile.source_profile === undefined));
+  ((isString(profile.source_profile) && profile.credential_source === undefined) ||
+    (isString(profile.credential_source) && profile.source_profile === undefined));
 
 const isWebIdentityProfile = (profile: Profile) =>
   isString(profile.web_identity_token_file) &&
   isString(profile.role_arn) &&
   isOptionalString(profile.role_session_name);
 
-const isProcessProfile = (profile: Profile) =>
-  isString(profile.credential_process);
+const isProcessProfile = (profile: Profile) => isString(profile.credential_process);
 
 /** Signed in with `aws login` (AWS CLI v2.32+). */
 const isLoginProfile = (profile: Profile) => isString(profile.login_session);
@@ -99,10 +86,7 @@ const staticCredentials = (profile: Profile): AwsCredentialIdentity => ({
 });
 
 /** The `credential_source` of an assume-role profile. */
-const credentialSource = (
-  source: string | undefined,
-  profileName: string,
-): CredentialSource => {
+const credentialSource = (source: string | undefined, profileName: string): CredentialSource => {
   switch (source) {
     case "EcsContainer":
       return chain([httpSource(), containerMetadataSource()]);
@@ -122,11 +106,7 @@ const credentialSource = (
 };
 
 const provideNodeServices = <A, E>(
-  effect: Effect.Effect<
-    A,
-    E,
-    FileSystem.FileSystem | Path.Path | HttpClient.HttpClient
-  >,
+  effect: Effect.Effect<A, E, FileSystem.FileSystem | Path.Path | HttpClient.HttpClient>,
 ): Effect.Effect<A, E> =>
   effect.pipe(
     Effect.provideService(FileSystem.FileSystem, nodeFileSystem),
@@ -143,13 +123,8 @@ const ssoCredentials = (profileName: string): CredentialSource =>
     Effect.map((resolved): AwsCredentialIdentity => ({
       accessKeyId: Redacted.value(resolved.accessKeyId),
       secretAccessKey: Redacted.value(resolved.secretAccessKey),
-      sessionToken: resolved.sessionToken
-        ? Redacted.value(resolved.sessionToken)
-        : undefined,
-      expiration:
-        resolved.expiration === undefined
-          ? undefined
-          : new Date(resolved.expiration),
+      sessionToken: resolved.sessionToken ? Redacted.value(resolved.sessionToken) : undefined,
+      expiration: resolved.expiration === undefined ? undefined : new Date(resolved.expiration),
     })),
     Effect.mapError(
       (cause) =>
@@ -182,12 +157,7 @@ const resolveProfileData = (
     return Effect.succeed(staticCredentials(profile));
   }
   if (isAssumeRoleRecursiveCall || isAssumeRoleProfile(profile)) {
-    return resolveAssumeRoleCredentials(
-      profileName,
-      profiles,
-      options,
-      visited,
-    );
+    return resolveAssumeRoleCredentials(profileName, profiles, options, visited);
   }
   if (isStaticCredsProfile(profile)) {
     return Effect.succeed(staticCredentials(profile));
@@ -274,21 +244,11 @@ const resolveAssumeRoleCredentials = (
  */
 export const iniSource = (options: FromIniOptions = {}): CredentialSource =>
   Effect.flatMap(loadProfiles(), (profiles) =>
-    resolveProfileData(
-      getProfileName(options.profile),
-      profiles,
-      options,
-      new Set(),
-    ),
+    resolveProfileData(getProfileName(options.profile), profiles, options, new Set()),
   );
 
 const hints = ["Check ~/.aws/credentials and ~/.aws/config for the profile."];
 
 /** The shared config and credentials files. */
 export const fromIni = (options: FromIniOptions = {}) =>
-  createLazyProvider(
-    iniSource(options),
-    "ini",
-    hints,
-    profileRegion(undefined, options.profile),
-  );
+  createLazyProvider(iniSource(options), "ini", hints, profileRegion(undefined, options.profile));

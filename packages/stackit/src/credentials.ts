@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * STACKIT credentials — hand-written.
  *
@@ -21,7 +22,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** STACKIT's primary public region (Schwarz IT / Germany). */
 export const DEFAULT_REGION = "eu01";
@@ -38,21 +38,16 @@ export interface Config {
   readonly apiBaseUrl?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("StackitCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "StackitCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // `STACKIT_SERVICE_ACCOUNT_TOKEN` / `STACKIT_REGION` are what the
   // official Go SDK, CLI and Terraform provider read.
   token: EffectConfig.String("STACKIT_SERVICE_ACCOUNT_TOKEN"),
-  region: EffectConfig.String("STACKIT_REGION").pipe(
-    EffectConfig.withDefault(DEFAULT_REGION),
-  ),
-  apiBaseUrl: EffectConfig.String("STACKIT_API_BASE_URL").pipe(
-    EffectConfig.option,
-  ),
+  region: EffectConfig.String("STACKIT_REGION").pipe(EffectConfig.withDefault(DEFAULT_REGION)),
+  apiBaseUrl: EffectConfig.String("STACKIT_API_BASE_URL").pipe(EffectConfig.option),
 });
 
 export const CredentialsFromEnv = Layer.succeed(
@@ -61,8 +56,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "STACKIT_SERVICE_ACCOUNT_TOKEN environment variable is required",
+          message: "STACKIT_SERVICE_ACCOUNT_TOKEN environment variable is required",
         }),
     ),
     Effect.map(({ token, region, apiBaseUrl }) => ({

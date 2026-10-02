@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ClerkParseError } from "./errors.ts";
+import type { ClerkOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getInstance } from "./services/clerk.ts";
-import type { ClerkOpError } from "./protocol.ts";
 
 // getInstance declares `{ object; id; environment_type; allowed_origins; workspace_id }`, all required.
 const run = (body: string) =>
   runValidationModes(
-    getInstance({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getInstance({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -48,6 +45,4 @@ describe("Clerk response validation", () => {
 });
 
 // ClerkParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ClerkParseError] extends [ClerkOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ClerkParseError] extends [ClerkOpError] ? true : false = true;

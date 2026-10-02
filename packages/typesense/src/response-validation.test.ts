@@ -3,18 +3,16 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { TypesenseParseError } from "./errors.ts";
+import type { TypesenseOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getAliases } from "./services/typesense.ts";
-import type { TypesenseOpError } from "./protocol.ts";
 
 // getAliases declares `{ aliases: CollectionAlias[] }`.
 const run = (body: string) =>
   runValidationModes(
     getAliases({}).pipe(
       Retry.none,
-      Effect.provide(
-        credentials({ apiKey: "test", apiBaseUrl: "http://localhost:8108" }),
-      ),
+      Effect.provide(credentials({ apiKey: "test", apiBaseUrl: "http://localhost:8108" })),
     ),
     { body },
   );
@@ -44,8 +42,5 @@ describe("Typesense response validation", () => {
 });
 
 // TypesenseParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [TypesenseParseError] extends [
-  TypesenseOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [TypesenseParseError] extends [TypesenseOpError] ? true : false =
+  true;

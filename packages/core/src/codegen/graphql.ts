@@ -104,8 +104,7 @@ export const readIntrospection = (json: unknown): IntrospectionSchema => {
     __schema?: IntrospectionSchema;
     types?: unknown;
   };
-  const schema =
-    j?.data?.__schema ?? j?.__schema ?? (j?.types ? (j as any) : undefined);
+  const schema = j?.data?.__schema ?? j?.__schema ?? (j?.types ? (j as any) : undefined);
   if (!schema) {
     throw new Error(
       "introspection JSON has none of `data.__schema`, `__schema`, or a top-level `types`",
@@ -249,8 +248,7 @@ export interface GraphQLConvertResult {
 // Small helpers
 // ============================================================================
 
-const capitalize = (s: string): string =>
-  s.charAt(0).toUpperCase() + s.slice(1);
+const capitalize = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
 
 const toPascalCase = (s: string): string =>
   capitalize(s.replace(/[^a-zA-Z0-9]+(.)/g, (_, c: string) => c.toUpperCase()));
@@ -325,10 +323,7 @@ interface RelayCtx {
   readonly isPageInfo: (name: string | null | undefined) => boolean;
 }
 
-const makeRelayCtx = (
-  cfg: Relay,
-  typeMap: Map<string, IntrospectionType>,
-): RelayCtx => {
+const makeRelayCtx = (cfg: Relay, typeMap: Map<string, IntrospectionType>): RelayCtx => {
   const connections = new Map<string, boolean>();
   const edges = new Set<string>();
   const pageInfos = new Set<string>();
@@ -354,9 +349,7 @@ const makeRelayCtx = (
 
     const pageInfoName = namedType(pageInfoField.type).name;
     const pageInfoType = pageInfoName ? typeMap.get(pageInfoName) : undefined;
-    const hasCursor = (pageInfoType?.fields ?? []).some(
-      (f) => f.name === cfg.endCursor,
-    );
+    const hasCursor = (pageInfoType?.fields ?? []).some((f) => f.name === cfg.endCursor);
     if (!hasCursor) return false;
 
     connections.set(name, true);
@@ -548,8 +541,7 @@ const collectOperationPaths = (
   }
 
   const isObject =
-    (actualReturn.kind === "OBJECT" || actualReturn.kind === "INTERFACE") &&
-    !!actualReturn.name;
+    (actualReturn.kind === "OBJECT" || actualReturn.kind === "INTERFACE") && !!actualReturn.name;
 
   if (!isObject || chain.length >= maxNamespaceDepth) {
     return [chain];
@@ -563,15 +555,7 @@ const collectOperationPaths = (
   const paths: OperationStep[][] = [];
   for (const subfield of namespaceType.fields) {
     if (skipDeprecated && subfield.isDeprecated) continue;
-    paths.push(
-      ...collectOperationPaths(
-        subfield,
-        chain,
-        ctx,
-        maxNamespaceDepth,
-        skipDeprecated,
-      ),
-    );
+    paths.push(...collectOperationPaths(subfield, chain, ctx, maxNamespaceDepth, skipDeprecated));
   }
 
   return paths.length > 0 ? paths : [chain];
@@ -641,11 +625,7 @@ const buildPathDocument = (
     ? `${type} ${operationName}(${varDefs.join(", ")})`
     : `${type} ${operationName}`;
 
-  const renderStep = (
-    step: OperationStep,
-    inner: string,
-    indent: string,
-  ): string => {
+  const renderStep = (step: OperationStep, inner: string, indent: string): string => {
     const argList = step.args
       .map((arg) => {
         const varName = argRenames.get(`${step.name}.${arg.name}`) ?? arg.name;
@@ -753,9 +733,7 @@ const makeConverter = (
     return id;
   };
 
-  const inputTypeTarget = (
-    ref: TypeRef,
-  ): { target: string; nullable: boolean } => {
+  const inputTypeTarget = (ref: TypeRef): { target: string; nullable: boolean } => {
     const { type, nonNull } = unwrapNonNull(ref);
     const nullable = !nonNull;
     if (type.kind === "LIST" && type.ofType) {
@@ -850,11 +828,7 @@ const buildOutputTarget = (
   if (type.kind === "ENUM" && type.name) {
     return { target: conv.enumShape(type.name), nullable };
   }
-  if (
-    (type.kind === "OBJECT" || type.kind === "INTERFACE") &&
-    children &&
-    children.length > 0
-  ) {
+  if ((type.kind === "OBJECT" || type.kind === "INTERFACE") && children && children.length > 0) {
     const members = buildSelectionMembers(conv, children, hint);
     const target = addShape(conv.bag, hint, { type: "structure", members });
     return { target, nullable };
@@ -875,12 +849,7 @@ const buildSelectionMembers = (
 ): Record<string, any> => {
   const members: Record<string, any> = {};
   for (const f of fields) {
-    const sub = buildOutputTarget(
-      conv,
-      f.type,
-      f.children,
-      `${hint}${toPascalCase(f.name)}`,
-    );
+    const sub = buildOutputTarget(conv, f.type, f.children, `${hint}${toPascalCase(f.name)}`);
     const memberTraits: Record<string, any> = { "smithy.api#required": {} };
     if (sub.nullable) memberTraits[conv.traits.nullable] = {};
     members[memberIdent(f.name)] = { target: sub.target, traits: memberTraits };
@@ -907,9 +876,7 @@ interface PendingOp {
  * `POST /graphql` request/response pair, and nothing in the generated SDK
  * could speak them.
  */
-export const convertGraphQLToSmithy = (
-  options: GraphQLConvertOptions,
-): GraphQLConvertResult => {
+export const convertGraphQLToSmithy = (options: GraphQLConvertOptions): GraphQLConvertResult => {
   const {
     schema,
     namespace,
@@ -931,9 +898,7 @@ export const convertGraphQLToSmithy = (
   const typeMap = new Map<string, IntrospectionType>();
   for (const t of schema.types) typeMap.set(t.name, t);
 
-  const relayCfg: Relay | undefined = relay
-    ? { ...RELAY_DEFAULTS, ...relay }
-    : undefined;
+  const relayCfg: Relay | undefined = relay ? { ...RELAY_DEFAULTS, ...relay } : undefined;
   const ctx: SchemaCtx = {
     typeMap,
     relay: relayCfg ? makeRelayCtx(relayCfg, typeMap) : undefined,
@@ -950,19 +915,10 @@ export const convertGraphQLToSmithy = (
     for (const field of rootType.fields) {
       if (skipDeprecated && field.isDeprecated) continue;
       if (skipRootField(field.name)) continue;
-      const paths = collectOperationPaths(
-        field,
-        [],
-        ctx,
-        maxNamespaceDepth,
-        skipDeprecated,
-      );
+      const paths = collectOperationPaths(field, [], ctx, maxNamespaceDepth, skipDeprecated);
       for (const opPath of paths) {
         const functionName = pathToFunctionName(opPath);
-        const sdkName =
-          operationNaming === "verbNoun"
-            ? toVerbNoun(functionName)
-            : functionName;
+        const sdkName = operationNaming === "verbNoun" ? toVerbNoun(functionName) : functionName;
         if (seenNames.has(sdkName)) {
           // Two schema fields (or the same field under two paths) map to
           // one SDK name; the first wins. Silent drops hide real ops.
@@ -979,8 +935,7 @@ export const convertGraphQLToSmithy = (
           opName: toPascalCase(sdkName),
           type,
           path: opPath,
-          description:
-            opPath.length === 1 ? oneLineDoc(field.description) : undefined,
+          description: opPath.length === 1 ? oneLineDoc(field.description) : undefined,
         });
       }
     }
@@ -1011,20 +966,8 @@ export const convertGraphQLToSmithy = (
     try {
       const argRenames = buildArgRenames(op.path);
       const leaf = op.path[op.path.length - 1]!;
-      const selection = expandSelection(
-        leaf.returnType,
-        ctx,
-        1,
-        maxDepth,
-        new Set(),
-      );
-      const document = buildPathDocument(
-        op.type,
-        op.functionName,
-        op.path,
-        selection,
-        argRenames,
-      );
+      const selection = expandSelection(leaf.returnType, ctx, 1, maxDepth, new Set());
+      const document = buildPathDocument(op.type, op.functionName, op.path, selection, argRenames);
       const responsePath = op.path.map((s) => s.name).join(".");
 
       // ---- Input (the GraphQL variables) ----
@@ -1041,9 +984,7 @@ export const convertGraphQLToSmithy = (
           if (adoc) memberTraits["smithy.api#documentation"] = adoc;
           inputMembers[memberIdent(varName)] = {
             target,
-            ...(Object.keys(memberTraits).length
-              ? { traits: memberTraits }
-              : {}),
+            ...(Object.keys(memberTraits).length ? { traits: memberTraits } : {}),
           };
         }
       }
@@ -1072,11 +1013,7 @@ export const convertGraphQLToSmithy = (
         // Object result: the response struct's members ARE the selection.
         outputId = addExact(bag, `${op.opName}Response`, {
           type: "structure",
-          members: buildSelectionMembers(
-            conv,
-            selection!,
-            `${op.opName}Response`,
-          ),
+          members: buildSelectionMembers(conv, selection!, `${op.opName}Response`),
           traits: {
             "smithy.api#output": {},
             [traits.responsePath]: responsePath,
@@ -1087,12 +1024,7 @@ export const convertGraphQLToSmithy = (
         // List/scalar/enum/opaque result: a sole `result` member carries the
         // whole value; the payload trait makes the generated response type
         // the value itself.
-        const inner = buildOutputTarget(
-          conv,
-          leaf.returnType,
-          selection,
-          `${op.opName}Result`,
-        );
+        const inner = buildOutputTarget(conv, leaf.returnType, selection, `${op.opName}Result`);
         outputId = addExact(bag, `${op.opName}Response`, {
           type: "structure",
           members: {
@@ -1127,9 +1059,7 @@ export const convertGraphQLToSmithy = (
       // list, a connection reached through a namespace hop whose leaf we
       // didn't select) stays a one-shot call.
       const pg =
-        relayCfg && isBareObject
-          ? relayPaginatedTrait(relayCfg, ctx, leaf, argRenames)
-          : undefined;
+        relayCfg && isBareObject ? relayPaginatedTrait(relayCfg, ctx, leaf, argRenames) : undefined;
       if (pg) {
         opTraits["smithy.api#paginated"] = pg;
         paginated++;
@@ -1155,9 +1085,7 @@ export const convertGraphQLToSmithy = (
     operations: serviceOps,
     traits: {
       "smithy.api#title": serviceTitle,
-      ...(serviceDocumentation
-        ? { "smithy.api#documentation": serviceDocumentation }
-        : {}),
+      ...(serviceDocumentation ? { "smithy.api#documentation": serviceDocumentation } : {}),
     },
   });
 

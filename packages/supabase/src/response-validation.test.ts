@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { SupabaseParseError } from "./errors.ts";
+import type { SupabaseOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { v1GetProfile } from "./services/supabase.ts";
-import type { SupabaseOpError } from "./protocol.ts";
 
 // v1GetProfile declares `{ gotrue_id: string; primary_email: string; username: string }`.
 const run = (body: string) =>
   runValidationModes(
-    v1GetProfile({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ accessToken: "test" })),
-    ),
+    v1GetProfile({}).pipe(Retry.none, Effect.provide(credentials({ accessToken: "test" }))),
     { body },
   );
 
@@ -45,8 +42,5 @@ describe("Supabase response validation", () => {
 });
 
 // SupabaseParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [SupabaseParseError] extends [
-  SupabaseOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [SupabaseParseError] extends [SupabaseOpError] ? true : false =
+  true;

@@ -3,18 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { TemporalParseError } from "./errors.ts";
+import type { TemporalOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getSystemInfo } from "./services/temporal.ts";
-import type { TemporalOpError } from "./protocol.ts";
 
 // getSystemInfo declares only optional members (`serverVersion?: string`,
 // `capabilities?: {...}`), so the mismatch is a wrong primitive type.
 const run = (body: string) =>
   runValidationModes(
-    getSystemInfo({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    getSystemInfo({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -42,8 +39,5 @@ describe("Temporal response validation", () => {
 });
 
 // TemporalParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [TemporalParseError] extends [
-  TemporalOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [TemporalParseError] extends [TemporalOpError] ? true : false =
+  true;

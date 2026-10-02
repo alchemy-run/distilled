@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { GustoParseError } from "./errors.ts";
+import type { GustoOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getCompanies } from "./services/gusto.ts";
-import type { GustoOpError } from "./protocol.ts";
 
 // getCompanies declares a Company with a required `uuid: string`.
 const run = (body: string) =>
@@ -40,6 +40,4 @@ describe("Gusto response validation", () => {
 });
 
 // GustoParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [GustoParseError] extends [GustoOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [GustoParseError] extends [GustoOpError] ? true : false = true;

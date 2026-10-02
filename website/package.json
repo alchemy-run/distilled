@@ -9,9 +9,6 @@
     "directory": "website"
   },
   "type": "module",
-  "engines": {
-    "node": ">=24"
-  },
   "scripts": {
     "build": "bun scripts/og.ts --all && vite build && node build/finish.ts",
     "dev:site": "vite dev",
@@ -40,5 +37,8 @@
     "tailwindcss": "4.3.3",
     "typescript": "catalog:",
     "vite": "8.3.0"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

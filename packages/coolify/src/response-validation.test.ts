@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { CoolifyParseError } from "./errors.ts";
+import type { CoolifyOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getCloudToken } from "./services/coolify.ts";
-import type { CoolifyOpError } from "./protocol.ts";
 
 // getCloudToken declares only optional members (`uuid?: string`,
 // `team_id?: number`, …), so the mismatch is a wrong primitive type.
@@ -48,6 +48,5 @@ describe("Coolify response validation", () => {
 });
 
 // CoolifyParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [CoolifyParseError] extends [CoolifyOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [CoolifyParseError] extends [CoolifyOpError] ? true : false =
+  true;

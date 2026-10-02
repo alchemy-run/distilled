@@ -5,10 +5,7 @@
       "op": "replace",
       "path": "/components/schemas/DashboardResource/properties/version",
       "value": {
-        "oneOf": [
-          { "type": "string" },
-          { "type": "integer", "format": "int64" }
-        ],
+        "oneOf": [{ "type": "string" }, { "type": "integer", "format": "int64" }],
         "description": "64-bit server-assigned version (hybrid-logical-clock timestamp). Emitted as either JSON number or JSON string, sometimes exceeding JavaScript Number precision."
       }
     },
@@ -16,10 +13,7 @@
       "op": "replace",
       "path": "/components/schemas/DashboardUpsertRequest/properties/version",
       "value": {
-        "oneOf": [
-          { "type": "string" },
-          { "type": "integer", "format": "int64" }
-        ],
+        "oneOf": [{ "type": "string" }, { "type": "integer", "format": "int64" }],
         "description": "Required for updates when overwrite is false. Pass back the version value received from the server verbatim (string or number)."
       }
     }

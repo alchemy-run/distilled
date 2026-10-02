@@ -2,20 +2,17 @@ import { expect, test } from "bun:test";
 import { createHash, createHmac, randomBytes } from "node:crypto";
 import { buildRequest } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Result from "effect/Result";
 import type * as Schema from "effect/Schema";
-import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Endpoint from "../src/endpoint.ts";
 import * as Node from "../src/services/node.ts";
 import * as Runtime from "../src/services/runtime.ts";
 
 const endpoint = process.env.CELLD_TEST_NODE_URL;
-const d1 =
-  "__D1Database:498fd8c73de14627dc96027158c6cd561c0fc27929f02c7c0e2756789d764ebd";
-const kv =
-  "__KvNamespace:5d7042785ffa25ca16c13a7085cc42fec01216e0b3264843db2200dbaf09cf9c";
-const queue =
-  "__Queue:bcfaf0e2818d88911c6d98a13e53f91b6fc5e9f4f4b794e1b27864d5e59d6c61";
+const d1 = "__D1Database:498fd8c73de14627dc96027158c6cd561c0fc27929f02c7c0e2756789d764ebd";
+const kv = "__KvNamespace:5d7042785ffa25ca16c13a7085cc42fec01216e0b3264843db2200dbaf09cf9c";
+const queue = "__Queue:bcfaf0e2818d88911c6d98a13e53f91b6fc5e9f4f4b794e1b27864d5e59d6c61";
 
 // This signer uses only the fixed key in the disposable prepare-live.ts fixture.
 const signed = <T extends object>(schema: Schema.Top, input: T) =>
@@ -34,11 +31,8 @@ const signed = <T extends object>(schema: Schema.Top, input: T) =>
       inputAst: schema.ast,
       baseUrl: endpoint!,
     });
-    if (request.body._tag !== "Uint8Array")
-      throw new Error("Expected JSON request body");
-    peer.peer_body_sha256 = createHash("sha256")
-      .update(request.body.body)
-      .digest("hex");
+    if (request.body._tag !== "Uint8Array") throw new Error("Expected JSON request body");
+    peer.peer_body_sha256 = createHash("sha256").update(request.body.body).digest("hex");
     const url = new URL(request.url);
     const canonical = [
       "cells-peer-request-v1",
@@ -51,10 +45,7 @@ const signed = <T extends object>(schema: Schema.Top, input: T) =>
       peer.peer_timestamp,
       peer.peer_nonce,
     ].join("\n");
-    peer.peer_signature = createHmac(
-      "sha256",
-      Buffer.from("11".repeat(32), "hex"),
-    )
+    peer.peer_signature = createHmac("sha256", Buffer.from("11".repeat(32), "hex"))
       .update(canonical)
       .digest("hex");
     return { ...input, ...peer };
@@ -69,15 +60,11 @@ test.skipIf(!endpoint)(
       Effect.gen(function* () {
         const state = yield* Node.getNodeState({});
         expect(state.deployment?.version).toBeDefined();
-        expect(
-          state.deployment?.isolates.stateless.live,
-        ).toBeGreaterThanOrEqual(0);
+        expect(state.deployment?.isolates.stateless.live).toBeGreaterThanOrEqual(0);
         expect(state.allocator).not.toBeUndefined();
         expect(state.libc_malloc).not.toBeUndefined();
         expect((yield* Node.pauseRebalancing({})).rebalance_paused).toBe(true);
-        expect((yield* Node.resumeRebalancing({})).rebalance_paused).toBe(
-          false,
-        );
+        expect((yield* Node.resumeRebalancing({})).rebalance_paused).toBe(false);
         expect((yield* Node.reloadDeployment({})).ok).toBe(true);
 
         const exec = yield* Runtime.execD1(
@@ -148,10 +135,7 @@ test.skipIf(!endpoint)(
             limit: 10,
           }),
         );
-        expect(listed.result.keys.map((key) => key.name)).toEqual([
-          "sdk-base64",
-          "sdk-inline",
-        ]);
+        expect(listed.result.keys.map((key) => key.name)).toEqual(["sdk-base64", "sdk-inline"]);
         expect(
           (yield* Runtime.getKvInfo(
             yield* signed(Runtime.GetKvInfoInput, { scope: kv, op: "info" }),
@@ -235,19 +219,14 @@ test.skipIf(!endpoint)(
         yield* Runtime.getKv(replay);
         const rejected = yield* Runtime.getKv(replay).pipe(Effect.result);
         expect(Result.isFailure(rejected)).toBe(true);
-        if (Result.isFailure(rejected))
-          expect(rejected.failure._tag).toBe("PeerReplayRejected");
+        if (Result.isFailure(rejected)) expect(rejected.failure._tag).toBe("PeerReplayRejected");
 
         expect((yield* Node.routeCell({ scope: d1 })).route).toBe("local");
-        expect(
-          (yield* Node.evictCell({ scope: d1 }).pipe(
-            Effect.timeout("10 seconds"),
-          )).ok,
-        ).toBe(true);
+        expect((yield* Node.evictCell({ scope: d1 }).pipe(Effect.timeout("10 seconds"))).ok).toBe(
+          true,
+        );
         if (process.env.CELLD_TEST_SHUTDOWN === "1")
-          expect((yield* Node.shutdownNode({ handoff: "preserve" })).ok).toBe(
-            true,
-          );
+          expect((yield* Node.shutdownNode({ handoff: "preserve" })).ok).toBe(true);
       }).pipe(
         Effect.provide(Endpoint.of(endpoint!)),
         Effect.provide(FetchHttpClient.layer),

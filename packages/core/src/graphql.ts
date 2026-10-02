@@ -80,9 +80,7 @@ export const errorFields = {
   message: S.String,
   code: S.optional(S.String),
   path: S.optional(S.Array(S.Union([S.String, S.Number]))),
-  locations: S.optional(
-    S.Array(S.Struct({ line: S.Number, column: S.Number })),
-  ),
+  locations: S.optional(S.Array(S.Struct({ line: S.Number, column: S.Number }))),
   extensions: S.optional(S.Unknown),
   traceId: S.optional(S.String),
   status: S.optional(S.Number),
@@ -119,27 +117,22 @@ export class UnknownGraphQLError extends S.TaggedError<UnknownGraphQLError>()(
 ) {}
 
 /** One response carried errors with different tags; none is hidden. */
-export class GraphQLFailure<
-  E extends GraphQLIssue = GraphQLIssue,
-> extends Data.TaggedError("GraphQLFailure")<{
+export class GraphQLFailure<E extends GraphQLIssue = GraphQLIssue> extends Data.TaggedError(
+  "GraphQLFailure",
+)<{
   readonly errors: readonly [E, ...E[]];
   readonly data: unknown;
   readonly status?: number;
 }> {
   get message(): string {
     return this.errors
-      .map(
-        (e) =>
-          `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`,
-      )
+      .map((e) => `${e._tag}${e.path?.length ? ` at ${e.path.join(".")}` : ""}: ${e.message}`)
       .join("; ");
   }
 }
 
 /** The request never produced a GraphQL response (network, HTTP, non-JSON). */
-export class GraphQLTransportError extends Data.TaggedError(
-  "GraphQLTransportError",
-)<{
+export class GraphQLTransportError extends Data.TaggedError("GraphQLTransportError")<{
   readonly message: string;
   readonly status?: number;
   /** Server retry hint in seconds. */
@@ -148,9 +141,7 @@ export class GraphQLTransportError extends Data.TaggedError(
 }> {}
 
 /** A paginated connection reported more pages without a new cursor. */
-export class GraphQLPaginationError extends Data.TaggedError(
-  "GraphQLPaginationError",
-)<{
+export class GraphQLPaginationError extends Data.TaggedError("GraphQLPaginationError")<{
   readonly message: string;
   readonly cursor: string | null;
 }> {}
@@ -229,11 +220,7 @@ export const objectField = (name: string, objectType: TypeMeta): FieldMeta => ({
   kind: "object",
   of: objectType,
 });
-export const listField = (
-  name: string,
-  itemType: TypeMeta,
-  argTypes?: ArgMeta,
-): FieldMeta => ({
+export const listField = (name: string, itemType: TypeMeta, argTypes?: ArgMeta): FieldMeta => ({
   name,
   kind: "list",
   of: itemType,
@@ -268,9 +255,7 @@ const fieldResult = (parent: TypeRef, field: FieldMeta): TypeRef => {
     if (field.kind === "object") return objectRef(field.of!);
     return listRef(objectRef(field.of!)); // list | connection
   };
-  return parent.tag === "list"
-    ? listRef(fieldResult(parent.of, field))
-    : inner();
+  return parent.tag === "list" ? listRef(fieldResult(parent.of, field)) : inner();
 };
 
 const unwrapList = (typeRef: TypeRef): TypeRef => {
@@ -318,9 +303,7 @@ const log = (..._args: Array<unknown>): void => {};
  * `owner: Query<User>` again — TypeScript leaves the cycle lazy. Fields
  * inherit the errors of the root they were read from.
  */
-type QueryFields<Value, Error> = [NonNullable<Value>] extends [
-  ReadonlyArray<infer Item>,
-]
+type QueryFields<Value, Error> = [NonNullable<Value>] extends [ReadonlyArray<infer Item>]
   ? {
       readonly [Field in keyof NonNullable<Item>]: Query<
         NonNullable<Item>[Field] | Nullish<Item>,
@@ -345,8 +328,7 @@ type Nullish<Value> = Extract<Value, null | undefined>;
  * A lazy GraphQL selection. `Value` is the plain data after `Query.fn` runs;
  * `Error` is the union of typed errors the roots it reads can return.
  */
-export type Query<Value, Error = never> = QueryNode<Value, Error> &
-  QueryFields<Value, Error>;
+export type Query<Value, Error = never> = QueryNode<Value, Error> & QueryFields<Value, Error>;
 
 /** Strip Query/Effect wrappers from a returned plan down to plain data. */
 export type UnwrapPlan<Plan> =
@@ -461,11 +443,7 @@ export class QueryNode<out Value = unknown, out Error = never> {
   }
   pipe<Self>(this: Self): Self;
   pipe<Self, Out1>(this: Self, step1: (_: Self) => Out1): Out1;
-  pipe<Self, Out1, Out2>(
-    this: Self,
-    step1: (_: Self) => Out1,
-    step2: (_: Out1) => Out2,
-  ): Out2;
+  pipe<Self, Out1, Out2>(this: Self, step1: (_: Self) => Out1, step2: (_: Out1) => Out2): Out2;
   pipe<Self, Out1, Out2, Out3>(
     this: Self,
     step1: (_: Self) => Out1,
@@ -682,9 +660,7 @@ export const rootLeaf = <Value, Error = never>(
 const printExpr = (expr: Expr): string => {
   switch (expr._tag) {
     case "Root":
-      return expr.args
-        ? `${expr.field}(${JSON.stringify(expr.args)})`
-        : expr.field;
+      return expr.args ? `${expr.field}(${JSON.stringify(expr.args)})` : expr.field;
     case "Prop":
       return `${printExpr(expr.parent)}.${expr.field.name}`;
     case "Item":
@@ -765,15 +741,10 @@ const ensureChild = (
     isList?: boolean;
   },
 ): SelNode => {
-  const key =
-    options.args === undefined
-      ? field
-      : `${field}:${stableStringify(options.args)}`;
+  const key = options.args === undefined ? field : `${field}:${stableStringify(options.args)}`;
   const existing = parent.children.get(key);
   if (existing) return existing;
-  const taken = new Set(
-    [...parent.children.values()].map((c) => c.alias ?? c.field),
-  );
+  const taken = new Set([...parent.children.values()].map((c) => c.alias ?? c.field));
   let alias: string | undefined;
   if (taken.has(field)) {
     do {
@@ -804,9 +775,7 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
   switch (expr._tag) {
     case "Root": {
       if (forest.kind !== undefined && forest.kind !== expr.op) {
-        throw new GqlError(
-          `cannot mix ${forest.kind} and ${expr.op} in one document`,
-        );
+        throw new GqlError(`cannot mix ${forest.kind} and ${expr.op} in one document`);
       }
       forest.kind = expr.op;
       const node = ensureChild(forest, forest.roots, expr.field, {
@@ -814,8 +783,7 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         argTypes: expr.argTypes,
         // Leaf roots (`projectDelete: Boolean!`) take no sub-selection.
         isScalar:
-          expr.type.tag === "scalar" ||
-          (expr.type.tag === "list" && expr.type.of.tag === "scalar"),
+          expr.type.tag === "scalar" || (expr.type.tag === "list" && expr.type.of.tag === "scalar"),
         isList: expr.type.tag === "list" && !expr.connection,
       });
       const key = node.alias ?? node.field;
@@ -833,9 +801,7 @@ const paintAbs = (forest: Forest, expr: Expr): Path => {
         isList: expr.field.kind === "list",
       });
       const path = [...parentPath, node.alias ?? node.field];
-      return expr.field.kind === "connection"
-        ? [...path, ...paintConnection(forest, node)]
-        : path;
+      return expr.field.kind === "connection" ? [...path, ...paintConnection(forest, node)] : path;
     }
     default:
       throw new GqlError(`paintAbs: ${expr._tag}`);
@@ -858,12 +824,8 @@ const selAt = (roots: SelNode, path: Path): SelNode => {
 };
 
 const connectionNodeSel = (connection: SelNode): SelNode => {
-  const edges = [...connection.children.values()].find(
-    (c) => c.field === "edges",
-  );
-  const node = edges
-    ? [...edges.children.values()].find((c) => c.field === "node")
-    : undefined;
+  const edges = [...connection.children.values()].find((c) => c.field === "edges");
+  const node = edges ? [...edges.children.values()].find((c) => c.field === "node") : undefined;
   if (!node) throw new GqlError("internal: connection missing edges.node");
   return node;
 };
@@ -874,15 +836,11 @@ const relSel = (expr: Expr, listSel: SelNode): SelNode => {
       return listSel;
     case "Prop": {
       const parent = relSel(expr.parent, listSel);
-      const child = [...parent.children.values()].find(
-        (c) => c.field === expr.field.name,
-      );
+      const child = [...parent.children.values()].find((c) => c.field === expr.field.name);
       if (!child) {
         throw new GqlError(`missing ${expr.field.name} in list selection`);
       }
-      return expr.field.kind === "connection"
-        ? connectionNodeSel(child)
-        : child;
+      return expr.field.kind === "connection" ? connectionNodeSel(child) : child;
     }
     default:
       return listSel;
@@ -896,17 +854,12 @@ const paintRel = (forest: Forest, expr: Expr, listSel: SelNode): void => {
       return;
     case "Prop": {
       paintRel(forest, expr.parent, listSel);
-      const child = ensureChild(
-        forest,
-        relSel(expr.parent, listSel),
-        expr.field.name,
-        {
-          args: expr.args,
-          argTypes: expr.field.argTypes,
-          isScalar: expr.field.kind === "scalar",
-          isList: expr.field.kind === "list",
-        },
-      );
+      const child = ensureChild(forest, relSel(expr.parent, listSel), expr.field.name, {
+        args: expr.args,
+        argTypes: expr.field.argTypes,
+        isScalar: expr.field.kind === "scalar",
+        isList: expr.field.kind === "list",
+      });
       if (expr.field.kind === "connection") paintConnection(forest, child);
       return;
     }
@@ -1075,41 +1028,26 @@ const nodesFromConnection = (value: unknown): unknown => {
   if (Array.isArray(value)) return value.map(nodesFromConnection);
   const edges = (value as Record<string, unknown>).edges;
   if (!Array.isArray(edges)) return [];
-  return edges.map((edge) =>
-    edge == null ? edge : (edge as Record<string, unknown>).node,
-  );
+  return edges.map((edge) => (edge == null ? edge : (edge as Record<string, unknown>).node));
 };
 
 const readField = (parent: unknown, name: string): unknown => {
   if (parent == null) return parent;
   if (Array.isArray(parent)) {
-    return parent.map((item) =>
-      item == null ? item : (item as Record<string, unknown>)[name],
-    );
+    return parent.map((item) => (item == null ? item : (item as Record<string, unknown>)[name]));
   }
   return (parent as Record<string, unknown>)[name];
 };
 
-const extractAbs = (
-  expr: Expr,
-  data: unknown,
-  rootAlias: WeakMap<object, string>,
-): unknown => {
+const extractAbs = (expr: Expr, data: unknown, rootAlias: WeakMap<object, string>): unknown => {
   switch (expr._tag) {
     case "Root": {
-      const raw = (data as Record<string, unknown>)[
-        rootAlias.get(expr) ?? expr.field
-      ];
+      const raw = (data as Record<string, unknown>)[rootAlias.get(expr) ?? expr.field];
       return expr.connection ? nodesFromConnection(raw) : raw;
     }
     case "Prop": {
-      const value = readField(
-        extractAbs(expr.parent, data, rootAlias),
-        expr.field.name,
-      );
-      return expr.field.kind === "connection"
-        ? nodesFromConnection(value)
-        : value;
+      const value = readField(extractAbs(expr.parent, data, rootAlias), expr.field.name);
+      return expr.field.kind === "connection" ? nodesFromConnection(value) : value;
     }
     default:
       throw new GqlError(`extractAbs: ${expr._tag}`);
@@ -1122,9 +1060,7 @@ const extractRel = (expr: Expr, item: unknown): unknown => {
       return item;
     case "Prop": {
       const value = readField(extractRel(expr.parent, item), expr.field.name);
-      return expr.field.kind === "connection"
-        ? nodesFromConnection(value)
-        : value;
+      return expr.field.kind === "connection" ? nodesFromConnection(value) : value;
     }
     default:
       throw new GqlError(`extractRel: ${expr._tag}`);
@@ -1159,29 +1095,21 @@ const interpretExpr = (
       return item;
     case "Root":
     case "Prop":
-      return inItem(expr)
-        ? extractRel(expr, item)
-        : extractAbs(expr, data, rootAlias);
+      return inItem(expr) ? extractRel(expr, item) : extractAbs(expr, data, rootAlias);
     case "MapValue":
       return expr.mapFn(interpretExpr(expr.parent, data, rootAlias, item));
     case "Filter": {
       const list = interpretExpr(expr.parent, data, rootAlias, item);
       const arr = Array.isArray(list) ? list : [];
-      return arr.filter((row) =>
-        Boolean(interpretExpr(expr.predicate, data, rootAlias, row)),
-      );
+      return arr.filter((row) => Boolean(interpretExpr(expr.predicate, data, rootAlias, row)));
     }
     case "MapItems": {
       const list = interpretExpr(expr.parent, data, rootAlias, item);
       if (expr.single) {
-        return list == null
-          ? null
-          : interpretValueSync(expr.mapped, data, rootAlias, list);
+        return list == null ? null : interpretValueSync(expr.mapped, data, rootAlias, list);
       }
       const arr = Array.isArray(list) ? list : [];
-      return arr.map((row) =>
-        interpretValueSync(expr.mapped, data, rootAlias, row),
-      );
+      return arr.map((row) => interpretValueSync(expr.mapped, data, rootAlias, row));
     }
     case "FlatMap":
       throw new GqlError("FlatMap must be interpreted as Effect");
@@ -1199,9 +1127,7 @@ const interpretValueSync = (
   }
   if (plan !== null && typeof plan === "object" && !Effect.isEffect(plan)) {
     const out: Record<string, unknown> = {};
-    for (const [key, nested] of Object.entries(
-      plan as Record<string, unknown>,
-    )) {
+    for (const [key, nested] of Object.entries(plan as Record<string, unknown>)) {
       out[key] = interpretValueSync(nested, data, rootAlias, item);
     }
     return out;
@@ -1229,9 +1155,7 @@ const interpretPlan = (
     if (Effect.isEffect(plan)) return yield* plan;
     if (plan !== null && typeof plan === "object" && !Array.isArray(plan)) {
       const out: Record<string, unknown> = {};
-      for (const [key, nested] of Object.entries(
-        plan as Record<string, unknown>,
-      )) {
+      for (const [key, nested] of Object.entries(plan as Record<string, unknown>)) {
         out[key] = yield* interpretPlan(nested, data, rootAlias);
       }
       return out;
@@ -1258,20 +1182,14 @@ const evaluatePlan = <Plan>(
       rootAlias = compiled.rootAlias;
     }
     return (yield* interpretPlan(plan, data, rootAlias)) as UnwrapPlan<Plan>;
-  }) as Effect.Effect<
-    UnwrapPlan<Plan>,
-    QueryError<PlanError<Plan>>,
-    GqlTransport
-  >;
+  }) as Effect.Effect<UnwrapPlan<Plan>, QueryError<PlanError<Plan>>, GqlTransport>;
 
 /**
  * POST one compiled document and fail with its classified errors. Queries
  * are retried (bounded) while every failure is retryable; mutations never
  * are, since an error can follow a side effect that already happened.
  */
-const execute = (
-  compiled: Compiled,
-): Effect.Effect<unknown, ExecuteError, GqlTransport> => {
+const execute = (compiled: Compiled): Effect.Effect<unknown, ExecuteError, GqlTransport> => {
   const once = Effect.gen(function* () {
     const transport = yield* GqlTransport;
     const response = yield* transport.execute(compiled);
@@ -1304,9 +1222,7 @@ type ExecuteError = GraphQLIssue | GraphQLFailure | GraphQLTransportError;
 
 const isRetryable = (compiled: Compiled, error: ExecuteError): boolean => {
   if (error instanceof GraphQLTransportError) {
-    return (
-      error.status === undefined || error.status === 429 || error.status >= 500
-    );
+    return error.status === undefined || error.status === 429 || error.status >= 500;
   }
   const retryable = new Set(
     [...compiled.rootErrors.values()].flatMap((root) =>
@@ -1332,10 +1248,7 @@ const classify = (
   response: GraphQLResponse,
 ): GraphQLIssue => {
   const path = Array.isArray(raw.path) ? raw.path : undefined;
-  const root =
-    typeof path?.[0] === "string"
-      ? compiled.rootErrors.get(path[0])
-      : undefined;
+  const root = typeof path?.[0] === "string" ? compiled.rootErrors.get(path[0]) : undefined;
   const candidates = root
     ? root.errors
     : uniqueByTag(
@@ -1365,10 +1278,7 @@ const classify = (
           ? raw.traceId
           : undefined,
     status: response.status,
-    retryAfter:
-      retryHeader && /^\d+(\.\d+)?$/.test(retryHeader)
-        ? Number(retryHeader)
-        : undefined,
+    retryAfter: retryHeader && /^\d+(\.\d+)?$/.test(retryHeader) ? Number(retryHeader) : undefined,
   };
   const matches = candidates.flatMap((spec) =>
     spec.matchers
@@ -1376,24 +1286,19 @@ const classify = (
         (matcher) =>
           (matcher.code === undefined || matcher.code === code) &&
           (matcher.message === undefined || matcher.message === message) &&
-          (matcher.messageIncludes === undefined ||
-            message.includes(matcher.messageIncludes)),
+          (matcher.messageIncludes === undefined || message.includes(matcher.messageIncludes)),
       )
       .map((matcher) => ({
         spec,
         score:
-          (matcher.code ? 1 : 0) +
-          (matcher.message ? 4 : 0) +
-          (matcher.messageIncludes ? 2 : 0),
+          (matcher.code ? 1 : 0) + (matcher.message ? 4 : 0) + (matcher.messageIncludes ? 2 : 0),
       })),
   );
   matches.sort((a, b) => b.score - a.score);
   const best = matches[0];
   if (
     best &&
-    !matches.some(
-      (match) => match.score === best.score && match.spec.tag !== best.spec.tag,
-    )
+    !matches.some((match) => match.score === best.score && match.spec.tag !== best.spec.tag)
   ) {
     return best.spec.make(props);
   }
@@ -1428,9 +1333,7 @@ const filterImpl = (
 
 export function filterQuery<Item, Error = never>(
   predicate: (item: Query<Item>) => QueryNode<boolean, any>,
-): (
-  source: QueryNode<readonly Item[] | null, Error>,
-) => Query<readonly Item[], Error>;
+): (source: QueryNode<readonly Item[] | null, Error>) => Query<readonly Item[], Error>;
 export function filterQuery<Item, Error = never>(
   source: QueryNode<readonly Item[] | null, Error>,
   predicate: (item: Query<Item>) => QueryNode<boolean, any>,
@@ -1453,18 +1356,13 @@ type MapInput<Value> = [NonNullable<Value>] extends [ReadonlyArray<infer Item>]
     : Value;
 
 /** An object mapped through a `null` value stays `null`. */
-type MapOutput<Value, Mapped> = [NonNullable<Value>] extends [
-  ReadonlyArray<unknown>,
-]
+type MapOutput<Value, Mapped> = [NonNullable<Value>] extends [ReadonlyArray<unknown>]
   ? ReadonlyArray<UnwrapPlan<Mapped>>
   : [NonNullable<Value>] extends [object]
     ? UnwrapPlan<Mapped> | Nullish<Value>
     : Mapped;
 
-const mapImpl = (
-  source: QueryNode,
-  mapFn: (value: any) => unknown,
-): Query<unknown> => {
+const mapImpl = (source: QueryNode, mapFn: (value: any) => unknown): Query<unknown> => {
   if (source.expr.type.tag === "object") {
     const mapped = mapFn(
       new QueryNode({
@@ -1516,10 +1414,7 @@ export function mapQuery(sourceOrMapFn: any, mapFn?: any): any {
   return mapImpl(sourceOrMapFn, mapFn);
 }
 
-const flatMapImpl = (
-  source: QueryNode,
-  flatMapFn: (value: unknown) => unknown,
-): Query<unknown> => {
+const flatMapImpl = (source: QueryNode, flatMapFn: (value: unknown) => unknown): Query<unknown> => {
   log("flatMap", printExpr(source.expr));
   return make({
     _tag: "FlatMap",
@@ -1529,26 +1424,12 @@ const flatMapImpl = (
   });
 };
 
-export function flatMapQuery<
-  Value,
-  Result,
-  Error,
-  Requirements,
-  SourceError = never,
->(
+export function flatMapQuery<Value, Result, Error, Requirements, SourceError = never>(
   flatMapFn: (
     value: Value,
   ) => Effect.Effect<Result, Error, Requirements> | QueryNode<Result, Error>,
-): (
-  source: QueryNode<Value, SourceError>,
-) => Query<Result, SourceError | Error>;
-export function flatMapQuery<
-  Value,
-  Result,
-  Error,
-  Requirements,
-  SourceError = never,
->(
+): (source: QueryNode<Value, SourceError>) => Query<Result, SourceError | Error>;
+export function flatMapQuery<Value, Result, Error, Requirements, SourceError = never>(
   source: QueryNode<Value, SourceError>,
   flatMapFn: (
     value: Value,
@@ -1571,11 +1452,7 @@ export const queryFn =
     build: (...args: Arguments) => Plan,
   ): ((
     ...args: Arguments
-  ) => Effect.Effect<
-    UnwrapPlan<Plan>,
-    QueryError<PlanError<Plan>>,
-    GqlTransport
-  >) =>
+  ) => Effect.Effect<UnwrapPlan<Plan>, QueryError<PlanError<Plan>>, GqlTransport>) =>
   (...args) => {
     const plan = build(...args);
     return evaluatePlan(plan);
@@ -1595,9 +1472,7 @@ const connectionOf = (expr: Expr): RootExpr | PropExpr => {
     (base._tag === "Root" && base.connection === true) ||
     (base._tag === "Prop" && base.field.kind === "connection");
   if (!isConnection || inItem(base)) {
-    throw new GqlError(
-      `Query.pages needs a Relay connection, got ${printExpr(base)}`,
-    );
+    throw new GqlError(`Query.pages needs a Relay connection, got ${printExpr(base)}`);
   }
   const argTypes = base._tag === "Root" ? base.argTypes : base.field.argTypes;
   if (!argTypes || !("after" in argTypes)) {
@@ -1607,11 +1482,7 @@ const connectionOf = (expr: Expr): RootExpr | PropExpr => {
 };
 
 /** Rebuild `expr` with the connection's `after` argument set. */
-const withCursor = (
-  expr: Expr,
-  connection: Expr,
-  after: string | undefined,
-): Expr => {
+const withCursor = (expr: Expr, connection: Expr, after: string | undefined): Expr => {
   if (expr === connection) {
     const current = expr as RootExpr | PropExpr;
     return { ...current, args: { ...current.args, after } } as Expr;
@@ -1653,27 +1524,18 @@ const fetchPage = <Item>(
     const pageExpr = withCursor(query.expr, connection, state.after);
     const forest = emptyForest();
     visitExpr(forest, pageExpr);
-    const nodePath = paintAbs(
-      forest,
-      withCursor(connection, connection, state.after),
-    );
+    const nodePath = paintAbs(forest, withCursor(connection, connection, state.after));
     const connectionPath = nodePath.slice(0, -2);
-    const pageInfo = ensureChild(
-      forest,
-      selAt(forest.roots, connectionPath),
-      "pageInfo",
-      {},
-    );
+    const pageInfo = ensureChild(forest, selAt(forest.roots, connectionPath), "pageInfo", {});
     ensureChild(forest, pageInfo, "hasNextPage", { isScalar: true });
     ensureChild(forest, pageInfo, "endCursor", { isScalar: true });
     const compiled = emit(forest);
     log("page\n" + compiled.document);
     const data = yield* execute(compiled);
-    const items = (yield* interpretPlan(
-      make(pageExpr),
-      data,
-      compiled.rootAlias,
-    )) as ReadonlyArray<Item> | null | undefined;
+    const items = (yield* interpretPlan(make(pageExpr), data, compiled.rootAlias)) as
+      | ReadonlyArray<Item>
+      | null
+      | undefined;
     const info = readPath(data, [...connectionPath, "pageInfo"]) as
       | { hasNextPage?: boolean; endCursor?: string | null }
       | null
@@ -1702,11 +1564,7 @@ const fetchPage = <Item>(
  */
 export const pagesQuery = <Item, Error>(
   query: QueryNode<ReadonlyArray<Item> | null, Error>,
-): Stream.Stream<
-  ReadonlyArray<Item>,
-  QueryError<Error> | GraphQLPaginationError,
-  GqlTransport
-> =>
+): Stream.Stream<ReadonlyArray<Item>, QueryError<Error> | GraphQLPaginationError, GqlTransport> =>
   Stream.unwrap(
     Effect.sync(() => {
       const connection = connectionOf(query.expr);
@@ -1725,10 +1583,7 @@ export const pagesQuery = <Item, Error>(
           fetchPage(query, connection, state).pipe(
             Effect.map(([items, next]) => [[items], next] as const),
           ) as Effect.Effect<
-            readonly [
-              ReadonlyArray<ReadonlyArray<Item>>,
-              Option.Option<PageState>,
-            ],
+            readonly [ReadonlyArray<ReadonlyArray<Item>>, Option.Option<PageState>],
             QueryError<Error> | GraphQLPaginationError,
             GqlTransport
           >,
@@ -1739,8 +1594,5 @@ export const pagesQuery = <Item, Error>(
 /** Every node of a Relay connection, across all pages. */
 export const itemsQuery = <Item, Error>(
   query: QueryNode<ReadonlyArray<Item> | null, Error>,
-): Stream.Stream<
-  Item,
-  QueryError<Error> | GraphQLPaginationError,
-  GqlTransport
-> => pagesQuery(query).pipe(Stream.flatMap(Stream.fromIterable));
+): Stream.Stream<Item, QueryError<Error> | GraphQLPaginationError, GqlTransport> =>
+  pagesQuery(query).pipe(Stream.flatMap(Stream.fromIterable));

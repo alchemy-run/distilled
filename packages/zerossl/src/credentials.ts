@@ -22,10 +22,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ZeroSslCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ZeroSslCredentials",
+) {}
 
 const envConfig = EffectConfig.Redacted("ZEROSSL_ACCESS_KEY").pipe(
   EffectConfig.orElse(() => EffectConfig.Redacted("ZERO_SSL_KEY")),
@@ -37,8 +36,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "ZEROSSL_ACCESS_KEY (or ZERO_SSL_KEY) environment variable is required",
+          message: "ZEROSSL_ACCESS_KEY (or ZERO_SSL_KEY) environment variable is required",
         }),
     ),
     Effect.map((accessKey): Config => ({
@@ -51,7 +49,4 @@ export const CredentialsFromEnv = Layer.succeed(
 
 /** A fixed credentials layer. */
 export const layer = (config: Config | Effect.Effect<Config>) =>
-  Layer.succeed(
-    Credentials,
-    Effect.isEffect(config) ? config : Effect.succeed(config),
-  );
+  Layer.succeed(Credentials, Effect.isEffect(config) ? config : Effect.succeed(config));

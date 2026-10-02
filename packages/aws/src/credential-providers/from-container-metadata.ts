@@ -4,22 +4,14 @@
  */
 import * as Effect from "effect/Effect";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-  retry,
-} from "./credential-source.ts";
+import { type CredentialSource, CredentialSourceError, env, retry } from "./credential-source.ts";
 import {
   DEFAULT_LINK_LOCAL_HOST,
   ENV_CMDS_AUTH_TOKEN,
   ENV_CMDS_FULL_URI,
   ENV_CMDS_RELATIVE_URI,
 } from "./from-http.ts";
-import {
-  DEFAULT_TIMEOUT_MS,
-  getHttpCredentials,
-} from "./metadata-credentials.ts";
+import { DEFAULT_TIMEOUT_MS, getHttpCredentials } from "./metadata-credentials.ts";
 
 /**
  * The container credential endpoint (`AWS_CONTAINER_CREDENTIALS_*`). Differs
@@ -86,6 +78,5 @@ export const containerMetadataSource = (
 const hints = ["Ensure a container credential endpoint is available."];
 
 /** The container credential endpoint, as the ECS agent serves it. */
-export const fromContainerMetadata = (
-  options: { timeout?: number; maxRetries?: number } = {},
-) => createLazyProvider(containerMetadataSource(options), "container", hints);
+export const fromContainerMetadata = (options: { timeout?: number; maxRetries?: number } = {}) =>
+  createLazyProvider(containerMetadataSource(options), "container", hints);

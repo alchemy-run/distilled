@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * Modrinth Effect SDK.
@@ -12,7 +13,6 @@
  * member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -62,8 +62,7 @@ const modrinthSpec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  sourceNote:
-    ".generated-specs (specs/spec-mirror-modrinth/specs/openapi.json)",
+  sourceNote: ".generated-specs (specs/spec-mirror-modrinth/specs/openapi.json)",
 
   // Sensitive member types reference Redacted; pull the import in when used.
   postProcess: (code) =>

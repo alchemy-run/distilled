@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { WorkosParseError } from "./errors.ts";
+import type { WorkosOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { ApplicationsControllerFind } from "./services/workos.ts";
-import type { WorkosOpError } from "./protocol.ts";
 
 // ApplicationsControllerFind declares required `object`, `id`, `client_id`, `description`, `name`, `scopes`, `created_at`, `updated_at`.
 const run = (body: string) =>
@@ -50,6 +50,4 @@ describe("WorkOS response validation", () => {
 });
 
 // WorkosParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [WorkosParseError] extends [WorkosOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [WorkosParseError] extends [WorkosOpError] ? true : false = true;

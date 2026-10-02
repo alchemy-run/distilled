@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ArchilParseError } from "./errors.ts";
+import type { ArchilOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listApiTokens } from "./services/archil.ts";
-import type { ArchilOpError } from "./protocol.ts";
 
 // listApiTokens declares `{ success: boolean; data: { tokens?: ApiTokenResponse[] } }`.
 const run = (body: string) =>
   runValidationModes(
-    listApiTokens({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
+    listApiTokens({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))),
     { body },
   );
 
@@ -43,6 +40,4 @@ describe("Archil response validation", () => {
 });
 
 // ArchilParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ArchilParseError] extends [ArchilOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ArchilParseError] extends [ArchilOpError] ? true : false = true;

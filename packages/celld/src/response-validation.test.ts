@@ -3,15 +3,13 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import * as Endpoint from "./endpoint.ts";
 import { CelldParseError } from "./errors.ts";
-import { evictCell } from "./services/node.ts";
 import type { CelldOpError } from "./protocol.ts";
+import { evictCell } from "./services/node.ts";
 
 // evictCell declares `{ ok: boolean }`.
 const run = (body: string) =>
   runValidationModes(
-    evictCell({ scope: "cell-a" }).pipe(
-      Effect.provide(Endpoint.of("http://celld.test")),
-    ),
+    evictCell({ scope: "cell-a" }).pipe(Effect.provide(Endpoint.of("http://celld.test"))),
     { body },
   );
 
@@ -38,6 +36,4 @@ describe("Celld response validation", () => {
 });
 
 // CelldParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [CelldParseError] extends [CelldOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [CelldParseError] extends [CelldOpError] ? true : false = true;

@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { SurrealdbParseError } from "./errors.ts";
+import type { SurrealdbOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getKeyById } from "./services/surrealdb.ts";
-import type { SurrealdbOpError } from "./protocol.ts";
 
 // getKeyById declares `Array<{ result?: { id?: string; some?: boolean }[]; status?: string; time?: string }>` — every member is optional, so the mismatch is a wrong primitive.
 const run = (body: string) =>
@@ -19,9 +19,7 @@ const run = (body: string) =>
 
 describe("Surrealdb response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
-    const body = [
-      { result: [{ id: "person:tobie" }], status: "OK", time: "1ms" },
-    ];
+    const body = [{ result: [{ id: "person:tobie" }], status: "OK", time: "1ms" }];
     const { lenient, strict } = await run(JSON.stringify(body));
     expect(lenient).toMatchObject({ _tag: "Success", success: body });
     expect(strict).toMatchObject({ _tag: "Success", success: body });
@@ -43,8 +41,5 @@ describe("Surrealdb response validation", () => {
 });
 
 // SurrealdbParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [SurrealdbParseError] extends [
-  SurrealdbOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [SurrealdbParseError] extends [SurrealdbOpError] ? true : false =
+  true;

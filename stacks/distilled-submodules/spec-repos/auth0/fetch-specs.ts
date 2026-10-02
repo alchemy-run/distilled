@@ -59,9 +59,7 @@ const fetchText = async (url: string, accept: string): Promise<Response> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 };
@@ -87,16 +85,11 @@ async function main() {
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 
   console.log(`Fetching vendor docs index from ${DOCS_LLMS_URL}...`);
   const llms = await (await fetchText(DOCS_LLMS_URL, "text/plain")).text();
-  if (
-    !llms.includes("management-api-oas") &&
-    !llms.includes("/docs/api/management")
-  ) {
+  if (!llms.includes("management-api-oas") && !llms.includes("/docs/api/management")) {
     throw new Error(
       `${DOCS_LLMS_URL} did not mention the Management API — not the Auth0 docs index`,
     );

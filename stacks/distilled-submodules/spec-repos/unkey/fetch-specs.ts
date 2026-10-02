@@ -77,9 +77,7 @@ const rawUrl = (path: string) =>
 async function fetchText(url: string): Promise<string> {
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 }
@@ -95,9 +93,7 @@ async function main() {
   // or a gutted response is still valid YAML, but it is not an OpenAPI
   // document.
   if (typeof spec.openapi !== "string" || spec.paths === undefined) {
-    throw new Error(
-      `${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`,
-    );
+    throw new Error(`${url} returned YAML without \`openapi\`/\`paths\` — not an OpenAPI document`);
   }
 
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
@@ -107,18 +103,14 @@ async function main() {
     console.log(`Fetching ${doc.url}...`);
     const body = await fetchText(doc.url);
     if (body.trim().length === 0 || /^\s*<(!DOCTYPE|html)/i.test(body)) {
-      throw new Error(
-        `${doc.url} returned an empty or HTML body — not vendor docs`,
-      );
+      throw new Error(`${doc.url} returned an empty or HTML body — not vendor docs`);
     }
     const outputPath = `${SPECS_DIR}/${doc.output}`;
     console.log(`Writing ${outputPath}...`);
     await Bun.write(outputPath, body.endsWith("\n") ? body : body + "\n");
   }
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

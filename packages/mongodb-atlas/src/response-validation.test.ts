@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromAccessToken } from "./credentials.ts";
 import { MongodbAtlasParseError } from "./errors.ts";
+import type { MongodbAtlasOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getOrg } from "./services/atlas.ts";
-import type { MongodbAtlasOpError } from "./protocol.ts";
 
 // getOrg declares an organization with a required `name: string`.
 const run = (body: string) =>
@@ -40,8 +40,6 @@ describe("MongoDB Atlas response validation", () => {
 });
 
 // MongodbAtlasParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [MongodbAtlasParseError] extends [
-  MongodbAtlasOpError,
-]
+export const parseErrorIsDeclared: [MongodbAtlasParseError] extends [MongodbAtlasOpError]
   ? true
   : false = true;

@@ -5,9 +5,9 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import { AzureParseError } from "./errors.ts";
+import type { AzureOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { ListServiceBySubscription } from "./services/apicenter.ts";
-import type { AzureOpError } from "./protocol.ts";
 
 const TestCredentials = Layer.succeed(
   Credentials,
@@ -51,6 +51,4 @@ describe("Azure response validation", () => {
 });
 
 // AzureParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [AzureParseError] extends [AzureOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [AzureParseError] extends [AzureOpError] ? true : false = true;

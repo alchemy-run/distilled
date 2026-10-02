@@ -69,9 +69,7 @@ const fetchText = async (url: string, accept: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -98,18 +96,14 @@ async function fetchOpenApi(): Promise<void> {
   // produces no diff.
   await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function fetchDocs(): Promise<void> {
   console.log(`Fetching vendor docs catalog from ${DOCS_LLMS_URL}...`);
   const llms = await fetchText(DOCS_LLMS_URL, "text/plain");
   if (!llms.includes("Trigger.dev") || !llms.includes("v3-openapi")) {
-    throw new Error(
-      `${DOCS_LLMS_URL} did not look like Trigger.dev's llms.txt catalog`,
-    );
+    throw new Error(`${DOCS_LLMS_URL} did not look like Trigger.dev's llms.txt catalog`);
   }
   console.log(`Writing docs catalog to ${LLMS_OUTPUT}...`);
   await Bun.write(LLMS_OUTPUT, llms.endsWith("\n") ? llms : `${llms}\n`);
@@ -117,16 +111,9 @@ async function fetchDocs(): Promise<void> {
   mkdirSync(`${SPECS_DIR}/docs`, { recursive: true });
   for (const doc of DOCS) {
     console.log(`Fetching docs ${doc.url}...`);
-    const body = await fetchText(
-      doc.url,
-      "text/markdown, text/plain;q=0.9, */*;q=0.8",
-    );
+    const body = await fetchText(doc.url, "text/markdown, text/plain;q=0.9, */*;q=0.8");
     const trimmed = body.trim();
-    if (
-      trimmed.length < 80 ||
-      trimmed.startsWith("<!") ||
-      !/trigger\.dev/i.test(trimmed)
-    ) {
+    if (trimmed.length < 80 || trimmed.startsWith("<!") || !/trigger\.dev/i.test(trimmed)) {
       throw new Error(
         `${doc.url} did not look like Trigger.dev markdown docs (${trimmed.length} chars)`,
       );

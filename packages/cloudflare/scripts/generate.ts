@@ -12,16 +12,15 @@
  * injection, protocol/retry names, the import header, and route aliases.
  */
 
-import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
+import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import { camel, lowerFirst } from "@distilled.cloud/core/codegen/naming";
 
 const ENVELOPE_PAYLOAD_TRAIT = "com.cloudflare.protocols#envelopePayload";
 const NULLABLE_TRAIT = "com.cloudflare.protocols#nullable";
 const ERROR_MATCHERS_TRAIT = "com.cloudflare.protocols#errorMatchers";
 const FORM_DATA_FILE_TRAIT = "com.cloudflare.protocols#formDataFile";
-const BINARY_RESPONSE_BODY_TRAIT =
-  "com.cloudflare.protocols#binaryResponseBody";
+const BINARY_RESPONSE_BODY_TRAIT = "com.cloudflare.protocols#binaryResponseBody";
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
 
@@ -150,6 +149,5 @@ runGeneratorCli({
   manualSpecsDir: "manual-specs",
   // Per-service fallback key dictionary and route aliases arrive via the
   // model's metadata (baked into .generated-specs by spec-to-smithy).
-  spec: (model) =>
-    makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
+  spec: (model) => makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),
 });

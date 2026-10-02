@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Forgejo credentials — hand-written.
  *
@@ -14,7 +15,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Path prefix of the Forgejo REST API, relative to the instance origin. The
@@ -40,10 +40,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ForgejoCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ForgejoCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // `FORGEJO_URL` / `FORGEJO_TOKEN` are the names Forgejo's own Actions
@@ -58,8 +57,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "FORGEJO_URL and FORGEJO_TOKEN environment variables are required",
+          message: "FORGEJO_URL and FORGEJO_TOKEN environment variables are required",
         }),
     ),
     Effect.map(({ token, baseUrl }) => ({
@@ -80,10 +78,7 @@ export const credentials = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token:
-        typeof config.token === "string"
-          ? Redacted.make(config.token)
-          : config.token,
+      token: typeof config.token === "string" ? Redacted.make(config.token) : config.token,
       apiBaseUrl: normalizeBaseUrl(config.baseUrl),
     }),
   );

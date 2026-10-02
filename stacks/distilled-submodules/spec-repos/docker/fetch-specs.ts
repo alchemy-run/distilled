@@ -51,9 +51,7 @@ async function main() {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   // Bun.YAML rejects flow-map `example: { ... }` values that this spec uses;
@@ -77,9 +75,7 @@ async function main() {
   console.log(`Writing ${OUTPUT_PATH}...`);
   await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! Swagger ${spec.swagger} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

@@ -92,9 +92,7 @@ async function fetchPartitions() {
   console.log(`Fetching ${PARTITIONS_URL}...`);
   const response = await fetch(PARTITIONS_URL);
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${PARTITIONS_URL}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${PARTITIONS_URL}: ${response.status} ${response.statusText}`);
   }
   const outputPath = `${SPECS_DIR}/partitions.json`;
   console.log(`Writing ${outputPath}...`);

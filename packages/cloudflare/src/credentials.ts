@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Cloudflare credentials — hand-written.
  *
@@ -15,7 +16,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.cloudflare.com/client/v4";
 
@@ -40,9 +40,7 @@ export interface OAuthConfig {
 
 export interface OAuthProvider {
   readonly load: Effect.Effect<OAuthConfig, unknown>;
-  readonly refresh: (
-    credentials: OAuthConfig,
-  ) => Effect.Effect<OAuthConfig, unknown>;
+  readonly refresh: (credentials: OAuthConfig) => Effect.Effect<OAuthConfig, unknown>;
   readonly apiBaseUrl?: string;
 }
 
@@ -67,14 +65,9 @@ export interface OAuthCredentials {
   readonly apiBaseUrl: string;
 }
 
-export type ResolvedCredentials =
-  | ApiTokenCredentials
-  | ApiKeyCredentials
-  | OAuthCredentials;
+export type ResolvedCredentials = ApiTokenCredentials | ApiKeyCredentials | OAuthCredentials;
 
-export class OAuthRefreshError extends Data.TaggedError(
-  "CloudflareOAuthRefreshError",
-)<{
+export class OAuthRefreshError extends Data.TaggedError("CloudflareOAuthRefreshError")<{
   message: string;
   cause?: unknown;
 }> {}
@@ -86,12 +79,9 @@ export class Credentials extends Context.Service<
   Effect.Effect<ResolvedCredentials, CredentialsError, never>
 >()("CloudflareCredentials") {}
 
-const resolveApiBaseUrl = (apiBaseUrl?: string): string =>
-  apiBaseUrl ?? DEFAULT_API_BASE_URL;
+const resolveApiBaseUrl = (apiBaseUrl?: string): string => apiBaseUrl ?? DEFAULT_API_BASE_URL;
 
-export const apiTokenCredentials = (
-  config: ApiTokenConfig,
-): ApiTokenCredentials => ({
+export const apiTokenCredentials = (config: ApiTokenConfig): ApiTokenCredentials => ({
   type: "apiToken",
   apiToken: Redacted.make(config.apiToken),
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
@@ -104,15 +94,10 @@ export const apiKeyCredentials = (config: ApiKeyConfig): ApiKeyCredentials => ({
   apiBaseUrl: resolveApiBaseUrl(config.apiBaseUrl),
 });
 
-export const oauthCredentials = (
-  config: OAuthConfig,
-  apiBaseUrl?: string,
-): OAuthCredentials => ({
+export const oauthCredentials = (config: OAuthConfig, apiBaseUrl?: string): OAuthCredentials => ({
   type: "oauth",
   accessToken: Redacted.make(config.accessToken),
-  refreshToken: config.refreshToken
-    ? Redacted.make(config.refreshToken)
-    : undefined,
+  refreshToken: config.refreshToken ? Redacted.make(config.refreshToken) : undefined,
   expiresAt: config.expiresAt,
   apiBaseUrl: resolveApiBaseUrl(apiBaseUrl),
 });
@@ -127,8 +112,7 @@ const getRefreshAt = (credentials: ResolvedCredentials): number => {
 };
 
 const isExpired = (expiresAt?: number): boolean =>
-  expiresAt !== undefined &&
-  Date.now() >= expiresAt - CREDENTIAL_REFRESH_WINDOW_MS;
+  expiresAt !== undefined && Date.now() >= expiresAt - CREDENTIAL_REFRESH_WINDOW_MS;
 
 const createCachedCredentialsEffect = <E>(
   resolve: Effect.Effect<ResolvedCredentials, E>,
@@ -164,26 +148,19 @@ const wrapOAuthError = <A>(
     ),
   );
 
-export const fromApiToken = (
-  config: ApiTokenConfig,
-): Layer.Layer<Credentials> =>
+export const fromApiToken = (config: ApiTokenConfig): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, Effect.succeed(apiTokenCredentials(config)));
 
 export const fromApiKey = (config: ApiKeyConfig): Layer.Layer<Credentials> =>
   Layer.succeed(Credentials, Effect.succeed(apiKeyCredentials(config)));
 
-export const fromOAuth = (
-  provider: OAuthProvider,
-): Layer.Layer<Credentials> => {
+export const fromOAuth = (provider: OAuthProvider): Layer.Layer<Credentials> => {
   let currentCredentials: OAuthConfig | undefined;
 
   const resolve = Effect.gen(function* () {
     const loadedCredentials =
       currentCredentials ??
-      (yield* wrapOAuthError(
-        "Failed to load Cloudflare OAuth credentials.",
-        provider.load,
-      ));
+      (yield* wrapOAuthError("Failed to load Cloudflare OAuth credentials.", provider.load));
 
     const credentials = isExpired(loadedCredentials.expiresAt)
       ? yield* wrapOAuthError(
@@ -213,12 +190,10 @@ const envConfig = Config.all({
   ),
 });
 
-export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
-  Effect.gen(function* () {
+export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> = Effect.gen(
+  function* () {
     const config = yield* envConfig.pipe(
-      Effect.mapError(
-        fromConfigError("Failed to load Cloudflare credentials from config"),
-      ),
+      Effect.mapError(fromConfigError("Failed to load Cloudflare credentials from config")),
     );
     const apiToken = Option.getOrUndefined(config.apiToken);
     const apiKey = Option.getOrUndefined(config.apiKey);
@@ -235,15 +210,13 @@ export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
 
     if (apiKey && !email) {
       return yield* new ConfigError({
-        message:
-          "CLOUDFLARE_EMAIL environment variable is required when using CLOUDFLARE_API_KEY",
+        message: "CLOUDFLARE_EMAIL environment variable is required when using CLOUDFLARE_API_KEY",
       });
     }
 
     if (!apiKey && email) {
       return yield* new ConfigError({
-        message:
-          "CLOUDFLARE_API_KEY environment variable is required when using CLOUDFLARE_EMAIL",
+        message: "CLOUDFLARE_API_KEY environment variable is required when using CLOUDFLARE_EMAIL",
       });
     }
 
@@ -251,16 +224,14 @@ export const resolveFromEnv: Effect.Effect<ResolvedCredentials, ConfigError> =
       message:
         "Either CLOUDFLARE_API_TOKEN or CLOUDFLARE_API_KEY+CLOUDFLARE_EMAIL environment variables are required",
     });
-  });
+  },
+);
 
-export const fromEnv = (): Layer.Layer<Credentials> =>
-  Layer.succeed(Credentials, resolveFromEnv);
+export const fromEnv = (): Layer.Layer<Credentials> => Layer.succeed(Credentials, resolveFromEnv);
 
 export const CredentialsFromEnv = fromEnv();
 
-export const formatHeaders = (
-  credentials: ResolvedCredentials,
-): Record<string, string> => {
+export const formatHeaders = (credentials: ResolvedCredentials): Record<string, string> => {
   switch (credentials.type) {
     case "apiKey":
       return {

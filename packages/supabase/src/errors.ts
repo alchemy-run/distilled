@@ -22,10 +22,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 // Unknown Supabase error - returned when an error code is not recognized
 export class UnknownSupabaseError extends Schema.TaggedError<UnknownSupabaseError>()(
@@ -65,10 +64,7 @@ export class SupabaseParseError extends Schema.TaggedError<SupabaseParseError>()
  * Errors that any Supabase operation may surface in addition to the
  * status-matched API errors declared per endpoint.
  */
-export type ClientErrors =
-  | FreeProjectLimitReached
-  | SupabaseParseError
-  | UnknownSupabaseError;
+export type ClientErrors = FreeProjectLimitReached | SupabaseParseError | UnknownSupabaseError;
 
 /**
  * Default Supabase operation errors: the shared HTTP status errors from core

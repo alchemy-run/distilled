@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { StackitParseError } from "./errors.ts";
+import type { StackitOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listKeyPairs } from "./services/iaas.ts";
-import type { StackitOpError } from "./protocol.ts";
 
 // listKeyPairs declares `{ items: Keypair[] }`.
 const run = (body: string) =>
   runValidationModes(
-    listKeyPairs({}).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    listKeyPairs({}).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -40,6 +37,5 @@ describe("STACKIT response validation", () => {
 });
 
 // StackitParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [StackitParseError] extends [StackitOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [StackitParseError] extends [StackitOpError] ? true : false =
+  true;

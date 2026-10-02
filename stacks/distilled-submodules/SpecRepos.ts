@@ -36,12 +36,10 @@ export interface SpecRepo {
 }
 
 /** Stable identity for repository and scaffold logical IDs. */
-export const mirrorId = (specRepo: SpecRepo) =>
-  specRepo.mirror ?? specRepo.package;
+export const mirrorId = (specRepo: SpecRepo) => specRepo.mirror ?? specRepo.package;
 
 /** Repository name for a mirror. */
-export const repositoryName = (specRepo: SpecRepo) =>
-  `spec-mirror-${mirrorId(specRepo)}`;
+export const repositoryName = (specRepo: SpecRepo) => `spec-mirror-${mirrorId(specRepo)}`;
 
 export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "adyen" },

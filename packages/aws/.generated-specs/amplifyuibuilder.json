@@ -133,12 +133,7 @@
             "externalDocumentation": "${DocHomeURL}IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-tagkeys"
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {},
         "smithy.api#documentation": "<p>The Amplify UI Builder API provides a programmatic interface for creating\n      and configuring user interface (UI) component libraries and themes for use in your Amplify applications. You can then connect these UI components to an application's\n      backend Amazon Web Services resources.</p>\n         <p>You can also use the Amplify Studio visual designer to create UI components\n      and model data for an app. For more information, see <a href=\"https://docs.amplify.aws/console/adminui/intro\">Introduction</a> in the\n      <i>Amplify Docs</i>.</p>\n         <p>The Amplify Framework is a comprehensive set of SDKs, libraries, tools, and\n      documentation for client app development. For more information, see the <a href=\"https://docs.amplify.aws/\">Amplify Framework</a>. For more information about\n      deploying an Amplify application to Amazon Web Services, see the <a href=\"https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html\">Amplify User Guide</a>.</p>",
@@ -3045,10 +3040,7 @@
         }
       ],
       "traits": {
-        "aws.iam#requiredActions": [
-          "amplify:GetApp",
-          "amplifyuibuilder:UntagResource"
-        ],
+        "aws.iam#requiredActions": ["amplify:GetApp", "amplifyuibuilder:UntagResource"],
         "smithy.api#documentation": "<p>Deletes a component from an Amplify app.</p>",
         "smithy.api#http": {
           "uri": "/app/{appId}/environment/{environmentName}/components/{id}",
@@ -3171,10 +3163,7 @@
       ],
       "traits": {
         "aws.iam#iamAction": {
-          "requiredActions": [
-            "amplify:GetApp",
-            "amplifyuibuilder:UntagResource"
-          ]
+          "requiredActions": ["amplify:GetApp", "amplifyuibuilder:UntagResource"]
         },
         "smithy.api#documentation": "<p>Deletes a theme from an Amplify app.</p>",
         "smithy.api#http": {

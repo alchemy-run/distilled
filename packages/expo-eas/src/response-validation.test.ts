@@ -5,9 +5,9 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import { EasParseError } from "./errors.ts";
+import type { ExpoEasOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { accessTokenDeleteAccessToken } from "./services/eas.ts";
-import type { ExpoEasOpError } from "./protocol.ts";
 
 const TestCredentials = Layer.succeed(
   Credentials,
@@ -21,10 +21,7 @@ const TestCredentials = Layer.succeed(
 // `data.accessToken.deleteAccessToken`.
 const run = (body: string) =>
   runValidationModes(
-    accessTokenDeleteAccessToken({ id: "tok_1" }).pipe(
-      Retry.none,
-      Effect.provide(TestCredentials),
-    ),
+    accessTokenDeleteAccessToken({ id: "tok_1" }).pipe(Retry.none, Effect.provide(TestCredentials)),
     { body },
   );
 
@@ -54,6 +51,4 @@ describe("EAS response validation", () => {
 });
 
 // EasParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [EasParseError] extends [ExpoEasOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [EasParseError] extends [ExpoEasOpError] ? true : false = true;

@@ -5,9 +5,9 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, DEFAULT_API_BASE_URL } from "./credentials.ts";
 import { TursoParseError } from "./errors.ts";
+import type { TursoOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { validateAPIToken } from "./services/turso.ts";
-import type { TursoOpError } from "./protocol.ts";
 
 const TestCredentials = Layer.succeed(
   Credentials,
@@ -19,10 +19,9 @@ const TestCredentials = Layer.succeed(
 
 // validateAPIToken declares `{ exp?: number }` (all optional).
 const run = (body: string) =>
-  runValidationModes(
-    validateAPIToken({}).pipe(Retry.none, Effect.provide(TestCredentials)),
-    { body },
-  );
+  runValidationModes(validateAPIToken({}).pipe(Retry.none, Effect.provide(TestCredentials)), {
+    body,
+  });
 
 describe("Turso response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
@@ -48,6 +47,4 @@ describe("Turso response validation", () => {
 });
 
 // TursoParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [TursoParseError] extends [TursoOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [TursoParseError] extends [TursoOpError] ? true : false = true;

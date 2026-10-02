@@ -15,19 +15,13 @@ import * as Effect from "effect/Effect";
  * final (e.g. a malformed URL, an MFA prompt that cannot be answered) and
  * the chain stops there instead of trying the next source.
  */
-export class CredentialSourceError extends Data.TaggedError(
-  "AWS::CredentialSourceError",
-)<{
+export class CredentialSourceError extends Data.TaggedError("AWS::CredentialSourceError")<{
   message: string;
   tryNextLink?: boolean;
   cause?: unknown;
 }> {}
 
-export type CredentialSource = Effect.Effect<
-  AwsCredentialIdentity,
-  CredentialSourceError,
-  never
->;
+export type CredentialSource = Effect.Effect<AwsCredentialIdentity, CredentialSourceError, never>;
 
 /** `process.env[name]`, or `undefined` where there is no `process`. */
 export const env = (name: string): string | undefined =>
@@ -37,22 +31,16 @@ export const env = (name: string): string | undefined =>
 export const retry = <A, E>(
   effect: Effect.Effect<A, E>,
   maxRetries: number,
-): Effect.Effect<A, E> =>
-  maxRetries > 0 ? Effect.retry(effect, { times: maxRetries }) : effect;
+): Effect.Effect<A, E> => (maxRetries > 0 ? Effect.retry(effect, { times: maxRetries }) : effect);
 
 /**
  * Try each source in order. A source failing with `tryNextLink: false` stops
  * the chain; otherwise the next one runs. When every source fails, the last
  * failure is the chain's failure.
  */
-export const chain = (
-  sources: ReadonlyArray<CredentialSource>,
-): CredentialSource =>
+export const chain = (sources: ReadonlyArray<CredentialSource>): CredentialSource =>
   Effect.suspend(() => {
-    const step = (
-      index: number,
-      last: CredentialSourceError | undefined,
-    ): CredentialSource => {
+    const step = (index: number, last: CredentialSourceError | undefined): CredentialSource => {
       if (index >= sources.length) {
         return Effect.fail(
           last ??
@@ -64,9 +52,7 @@ export const chain = (
       }
       return sources[index].pipe(
         Effect.catch((error) =>
-          error.tryNextLink === false
-            ? Effect.fail(error)
-            : step(index + 1, error),
+          error.tryNextLink === false ? Effect.fail(error) : step(index + 1, error),
         ),
       );
     };

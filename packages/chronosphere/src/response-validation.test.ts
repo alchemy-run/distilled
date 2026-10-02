@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ChronosphereParseError } from "./errors.ts";
+import type { ChronosphereOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { listTeams } from "./services/chronosphere.ts";
-import type { ChronosphereOpError } from "./protocol.ts";
 
 // listTeams declares `{ teams: Team[]; page?: ... }`.
 const run = (body: string) =>
@@ -40,8 +40,6 @@ describe("Chronosphere response validation", () => {
 });
 
 // ChronosphereParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ChronosphereParseError] extends [
-  ChronosphereOpError,
-]
+export const parseErrorIsDeclared: [ChronosphereParseError] extends [ChronosphereOpError]
   ? true
   : false = true;

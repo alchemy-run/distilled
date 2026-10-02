@@ -3,19 +3,15 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { RenderParseError } from "./errors.ts";
+import type { RenderOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getUser } from "./services/render.ts";
-import type { RenderOpError } from "./protocol.ts";
 
 // getUser declares `{ email: string; name: string }`.
 const run = (body: string) =>
-  runValidationModes(
-    getUser({}).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({ apiKey: "test" })),
-    ),
-    { body },
-  );
+  runValidationModes(getUser({}).pipe(Retry.none, Effect.provide(fromApiKey({ apiKey: "test" }))), {
+    body,
+  });
 
 describe("Render response validation", () => {
   test("a matching body succeeds unchanged in both modes", async () => {
@@ -42,6 +38,4 @@ describe("Render response validation", () => {
 });
 
 // RenderParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [RenderParseError] extends [RenderOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [RenderParseError] extends [RenderOpError] ? true : false = true;

@@ -62,9 +62,7 @@ export function partition(region: RulesValue): PartitionInfo | undefined {
 
   // Return the default partition (aws)
   const defaultPartition = partitions.partitions.find((p) => p.id === "aws");
-  return defaultPartition
-    ? toPartitionInfo(defaultPartition.outputs)
-    : undefined;
+  return defaultPartition ? toPartitionInfo(defaultPartition.outputs) : undefined;
 }
 
 /** Parses an ARN string into its components. */
@@ -74,8 +72,7 @@ export function parseArn(value: RulesValue): ParsedArn | undefined {
   const segments = value.split(":");
   if (segments.length < 6) return undefined;
 
-  const [arn, arnPartition, service, region, accountId, ...resourcePath] =
-    segments;
+  const [arn, arnPartition, service, region, accountId, ...resourcePath] = segments;
   if (arn !== "arn" || !arnPartition || !service || !resourcePath.join(":")) {
     return undefined;
   }

@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiToken } from "./credentials.ts";
 import { PrismaParseError } from "./errors.ts";
+import type { PrismaOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getDatabaseUsage } from "./services/management.ts";
-import type { PrismaOpError } from "./protocol.ts";
 
 // getDatabaseUsage declares `{ period: { start; end }; metrics: { … }; generatedAt: string }`.
 const run = (body: string) =>
@@ -49,6 +49,4 @@ describe("Prisma response validation", () => {
 });
 
 // PrismaParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PrismaParseError] extends [PrismaOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [PrismaParseError] extends [PrismaOpError] ? true : false = true;

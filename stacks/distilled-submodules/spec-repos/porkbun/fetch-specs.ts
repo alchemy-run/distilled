@@ -50,9 +50,7 @@ async function fetchOpenApi(): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -70,9 +68,7 @@ async function fetchOpenApi(): Promise<void> {
   // produces no diff.
   await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function fetchText(
@@ -83,9 +79,7 @@ async function fetchText(
   console.log(`Fetching ${url}...`);
   const response = await fetch(url, { headers });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   const text = await response.text();
   const reason = validate(text);
@@ -104,9 +98,7 @@ async function main() {
       : "did not look like Porkbun's API documentation page",
   );
   await fetchText(LLMS_URL, LLMS_OUTPUT, (text) =>
-    /porkbun/i.test(text) && /api/i.test(text)
-      ? undefined
-      : "did not look like Porkbun's llms.txt",
+    /porkbun/i.test(text) && /api/i.test(text) ? undefined : "did not look like Porkbun's llms.txt",
   );
   await fetchText(LLMS_FULL_URL, LLMS_FULL_OUTPUT, (text) =>
     /porkbun/i.test(text) && (/\/ping/.test(text) || /openapi/i.test(text))

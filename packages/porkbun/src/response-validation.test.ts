@@ -3,9 +3,9 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { PorkbunParseError } from "./errors.ts";
+import type { PorkbunOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getPing } from "./services/porkbun.ts";
-import type { PorkbunOpError } from "./protocol.ts";
 
 // getPing declares `{ status: string; yourIp: string; xForwardedFor?: string; credentialsValid?: boolean }`.
 const run = (body: string) =>
@@ -41,6 +41,5 @@ describe("Porkbun response validation", () => {
 });
 
 // PorkbunParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [PorkbunParseError] extends [PorkbunOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [PorkbunParseError] extends [PorkbunOpError] ? true : false =
+  true;

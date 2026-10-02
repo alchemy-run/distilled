@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { fromApiKey } from "./credentials.ts";
 import { ModrinthParseError } from "./errors.ts";
+import type { ModrinthOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getUser } from "./services/modrinth.ts";
-import type { ModrinthOpError } from "./protocol.ts";
 
 // getUser declares required `username`, `id`, `avatar_url`, `created`, `role`.
 const run = (body: string) =>
   runValidationModes(
-    getUser({ id_username: "alice" }).pipe(
-      Retry.none,
-      Effect.provide(fromApiKey({})),
-    ),
+    getUser({ id_username: "alice" }).pipe(Retry.none, Effect.provide(fromApiKey({}))),
     { body },
   );
 
@@ -47,8 +44,5 @@ describe("Modrinth response validation", () => {
 });
 
 // ModrinthParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [ModrinthParseError] extends [
-  ModrinthOpError,
-]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [ModrinthParseError] extends [ModrinthOpError] ? true : false =
+  true;

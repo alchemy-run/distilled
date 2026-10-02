@@ -13,27 +13,20 @@
 import { Console, Effect } from "effect";
 
 /** Run a dev-time tool, failing the generate run if it does. */
-export const runTool = (
-  argv: readonly string[],
-): Effect.Effect<void, never, never> =>
+export const runTool = (argv: readonly string[]): Effect.Effect<void, never, never> =>
   Effect.tryPromise({
-    try: () =>
-      Bun.spawn([...argv], { stdout: "inherit", stderr: "inherit" }).exited,
+    try: () => Bun.spawn([...argv], { stdout: "inherit", stderr: "inherit" }).exited,
     catch: (cause) => new Error(`${argv[0]} failed to start: ${cause}`),
   }).pipe(
     Effect.flatMap((code) =>
-      code === 0
-        ? Effect.void
-        : Effect.die(new Error(`${argv.join(" ")} exited with ${code}`)),
+      code === 0 ? Effect.void : Effect.die(new Error(`${argv.join(" ")} exited with ${code}`)),
     ),
     Effect.catchCause((cause) => Effect.die(cause)),
   );
 
 /** Format a generated directory in place. */
 export const formatGenerated = (dir: string) =>
-  Effect.flatMap(Console.log(`\n🧹 Formatting ${dir}`), () =>
-    runTool(["bunx", "oxfmt", dir]),
-  );
+  Effect.flatMap(Console.log(`\n🧹 Formatting ${dir}`), () => runTool(["bunx", "oxfmt", dir]));
 
 /**
  * Lint-fix then format. `oxlint --fix` can leave its rewrites unformatted,

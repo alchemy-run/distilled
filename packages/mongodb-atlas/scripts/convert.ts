@@ -53,9 +53,7 @@ const acceptByRoute: Record<string, string> = {};
  * `application/json` (dates sort lexicographically). Returns the promoted
  * key, if any.
  */
-const promoteNewestJson = (
-  content: Record<string, any> | undefined,
-): string | undefined => {
+const promoteNewestJson = (content: Record<string, any> | undefined): string | undefined => {
   if (!content || typeof content !== "object") return undefined;
   let best: string | undefined;
   for (const key of Object.keys(content)) {
@@ -69,9 +67,7 @@ const promoteNewestJson = (
 };
 
 /** Newest vendor media type of any suffix (`+gzip`/`+csv` downloads). */
-const newestVendor = (
-  content: Record<string, any> | undefined,
-): string | undefined => {
+const newestVendor = (content: Record<string, any> | undefined): string | undefined => {
   if (!content || typeof content !== "object") return undefined;
   let best: string | undefined;
   for (const key of Object.keys(content)) {

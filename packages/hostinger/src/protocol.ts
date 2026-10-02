@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * HostingerProtocol — hand-written.
  *
@@ -15,13 +18,10 @@
  *             shared HTTP-status classes, then {@link UnknownHostingerError}.
  */
 import * as Effect from "effect/Effect";
-import type * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import type * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownHostingerError, HostingerParseError } from "./errors.ts";
 
@@ -41,30 +41,24 @@ export type HostingerOpError =
 /** Context (requirements) shared by every generated Hostinger operation. */
 export type HostingerOpContext = Credentials | HttpClient.HttpClient;
 
-export const HostingerProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const HostingerProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  // Hostinger's error body is `{ message: string, correlation_id?: string }`
+  // — the factory's default lenient envelope covers `message`.
+  unknownError: ({ code, message, body }) =>
+    new UnknownHostingerError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    // Hostinger's error body is `{ message: string, correlation_id?: string }`
-    // — the factory's default lenient envelope covers `message`.
-    unknownError: ({ code, message, body }) =>
-      new UnknownHostingerError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-    parseError: ({ body, cause }) => new HostingerParseError({ body, cause }),
-  });
+  parseError: ({ body, cause }) => new HostingerParseError({ body, cause }),
+});

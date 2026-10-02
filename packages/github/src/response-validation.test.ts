@@ -3,17 +3,14 @@ import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
 import { credentials } from "./credentials.ts";
 import { GithubParseError } from "./errors.ts";
+import type { GithubOpError } from "./protocol.ts";
 import * as Retry from "./retry.ts";
 import { getTemplate } from "./services/gitignore.ts";
-import type { GithubOpError } from "./protocol.ts";
 
 // getTemplate declares `{ name: string; source: string }`.
 const run = (body: string) =>
   runValidationModes(
-    getTemplate({ name: "Node" }).pipe(
-      Retry.none,
-      Effect.provide(credentials({ token: "test" })),
-    ),
+    getTemplate({ name: "Node" }).pipe(Retry.none, Effect.provide(credentials({ token: "test" }))),
     { body },
   );
 
@@ -41,6 +38,4 @@ describe("Github response validation", () => {
 });
 
 // GithubParseError is part of every operation's declared error type.
-export const parseErrorIsDeclared: [GithubParseError] extends [GithubOpError]
-  ? true
-  : false = true;
+export const parseErrorIsDeclared: [GithubParseError] extends [GithubOpError] ? true : false = true;
