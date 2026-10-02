@@ -107,7 +107,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ["Identity", ["auth0", "better-auth", "clerk", "workos", "okta"]],
   [
     "Secrets & certificates",
-    ["onepassword", "doppler", "infisical", "unkey", "acme", "zerossl"],
+    ["onepassword-connect", "doppler", "infisical", "unkey", "acme", "zerossl"],
   ],
   [
     "Payments",
@@ -191,6 +191,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   okta: "auth sso",
   "better-auth": "auth sessions self-hosted",
   onepassword: "secrets 1password",
+  "onepassword-connect": "1password connect secrets",
   doppler: "secrets env",
   infisical: "secrets env",
   unkey: "api keys",

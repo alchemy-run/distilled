@@ -363,10 +363,10 @@
       "path": "./packages/metabase/tsconfig.scripts.json"
     },
     {
-      "path": "./packages/onepassword/tsconfig.json"
+      "path": "./packages/onepassword-connect/tsconfig.json"
     },
     {
-      "path": "./packages/onepassword/tsconfig.scripts.json"
+      "path": "./packages/onepassword-connect/tsconfig.scripts.json"
     },
     {
       "path": "./packages/ovh/tsconfig.json"

@@ -1,7 +1,7 @@
 # spec-mirror-onepassword
 
 A git mirror of the 1Password Connect [OpenAPI spec](https://github.com/1Password/connect/blob/main/docs/openapi/spec.yaml), reduced to exactly the file the
-[`@distilled.cloud/onepassword`](https://github.com/alchemy-run/distilled) generator reads:
+[\`@distilled.cloud/onepassword-connect\`](https://github.com/alchemy-run/distilled) generator reads:
 
 - `specs/openapi.json` — Connect REST API (parsed from upstream YAML)
 - `specs/docs/` — vendor Connect API docs snapshotted at fetch time

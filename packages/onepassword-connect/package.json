@@ -1,10 +1,10 @@
 {
-  "name": "@distilled.cloud/onepassword",
+  "name": "@distilled.cloud/onepassword-connect",
   "version": "1.0.0-rc.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
-    "directory": "packages/onepassword"
+    "directory": "packages/onepassword-connect"
   },
   "license": "Apache-2.0",
   "type": "module",

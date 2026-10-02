@@ -1,11 +1,11 @@
-# @distilled.cloud/onepassword
+# @distilled.cloud/onepassword-connect
 
-Effect-native SDK for [onepassword](https://www.npmjs.com/package/@distilled.cloud/onepassword).
+Effect-native SDK for [onepassword-connect](https://www.npmjs.com/package/@distilled.cloud/onepassword-connect).
 
 ## Installation
 
 ```bash
-npm install @distilled.cloud/onepassword effect
+npm install @distilled.cloud/onepassword-connect effect
 ```
 
 ## Quick start
@@ -13,7 +13,7 @@ npm install @distilled.cloud/onepassword effect
 ```ts
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import * as Onepassword from "@distilled.cloud/onepassword";
+import * as Onepassword from "@distilled.cloud/onepassword-connect";
 
 const program = Effect.gen(function* () {
   const result = yield* Onepassword.getVaults({});

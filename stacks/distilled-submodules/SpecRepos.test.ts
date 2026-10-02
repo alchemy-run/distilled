@@ -26,11 +26,24 @@ describe("mirror identity", () => {
 
   test("all other providers retain their package-based identity", () => {
     for (const specRepo of SPEC_REPOS) {
-      if (specRepo.package === "prisma") continue;
-      expect(specRepo.mirror).toBeUndefined();
+      if (specRepo.mirror !== undefined) continue;
       expect(mirrorId(specRepo)).toBe(specRepo.package);
       expect(repositoryName(specRepo)).toBe(`spec-mirror-${specRepo.package}`);
     }
+  });
+
+  test("Onepassword Connect keeps its existing mirror after its rename", () => {
+    const onepassword = SPEC_REPOS.find(
+      (r) => r.package === "onepassword-connect",
+    )!;
+    expect(onepassword).toEqual({
+      package: "onepassword-connect",
+      mirror: "onepassword",
+    });
+    expect(mirrorId(onepassword)).toBe("onepassword");
+    expect(`scaffold-${mirrorId(onepassword)}`).toBe("scaffold-onepassword");
+    expect(repositoryName(onepassword)).toBe("spec-mirror-onepassword");
+    expect(SPEC_REPOS.some((r) => r.package === "onepassword")).toBe(false);
   });
 
   test("manifest packages and mirror identities are unique", () => {

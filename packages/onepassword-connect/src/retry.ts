@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import * as Onepassword from "@distilled.cloud/onepassword";
+ * import * as Onepassword from "@distilled.cloud/onepassword-connect";
  *
  * myEffect.pipe(Onepassword.Retry.transient);
  * Effect.provide(myEffect, Layer.succeed(Onepassword.Retry.Retry, customPolicy));

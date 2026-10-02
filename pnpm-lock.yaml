@@ -1106,7 +1106,7 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
-  packages/onepassword:
+  packages/onepassword-connect:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*

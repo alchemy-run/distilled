@@ -288,8 +288,8 @@
 	url = https://github.com/distilled-mirror/spec-mirror-metabase.git
 	ignore = dirty
 	shallow = true
-[submodule "packages/onepassword/specs/spec-mirror-onepassword"]
-	path = packages/onepassword/specs/spec-mirror-onepassword
+[submodule "packages/onepassword-connect/specs/spec-mirror-onepassword"]
+	path = packages/onepassword-connect/specs/spec-mirror-onepassword
 	url = https://github.com/distilled-mirror/spec-mirror-onepassword.git
 	ignore = dirty
 	shallow = true
