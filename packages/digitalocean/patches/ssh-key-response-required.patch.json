@@ -1,0 +1,15 @@
+{
+  "description": "The sshKeys component marks id and fingerprint optional because they are readOnly (server-assigned). Every response carries them, and the converter already strips readOnly members from request bodies, so marking them required only tightens the response types — consumers stop casting away the phantom undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/sshKeys/required/-",
+      "value": "id"
+    },
+    {
+      "op": "add",
+      "path": "/components/schemas/sshKeys/required/-",
+      "value": "fingerprint"
+    }
+  ]
+}
