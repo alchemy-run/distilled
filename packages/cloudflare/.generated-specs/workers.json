@@ -4810,6 +4810,15 @@
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
           }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -7728,6 +7737,15 @@
           "traits": {
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }
@@ -11338,6 +11356,15 @@
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
           }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -14935,6 +14962,15 @@
           "traits": {
             "smithy.api#documentation": "Select which Durable Object class should get this container attached.",
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }
@@ -56652,6 +56688,9 @@
           "traits": {
             "smithy.api#documentation": "Usage model for the Worker invocations."
           }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#BetaWorkersVersionsCreateResponseContainersList"
         }
       }
     },
@@ -57975,6 +58014,9 @@
           "traits": {
             "smithy.api#documentation": "Usage model for the Worker invocations."
           }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#BetaWorkersVersionsGetResponseContainersList"
         }
       }
     },
@@ -66306,6 +66348,15 @@
         "smithy.api#output": {}
       }
     },
+    "com.cloudflare.workers#ContainerImageMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.workers#CreateAssetUploadBodyMap": {
       "type": "map",
       "key": {
@@ -68334,6 +68385,15 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
+          }
         }
       }
     },
@@ -69043,6 +69103,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }
@@ -71443,6 +71512,15 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "images": {
+          "target": "com.cloudflare.workers#ContainerImageMap",
+          "traits": {
+            "com.cloudflare.protocols#keyDictionary": {}
           }
         }
       }

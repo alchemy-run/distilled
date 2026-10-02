@@ -385,6 +385,13 @@
           "class_name": {
             "target": "smithy.api#String",
             "traits": { "smithy.api#required": {} }
+          },
+          "name": { "target": "smithy.api#String" },
+          "images": {
+            "target": "com.cloudflare.workers#ContainerImageMap",
+            "traits": {
+              "com.cloudflare.protocols#keyDictionary": {}
+            }
           }
         }
       }
