@@ -1321,6 +1321,216 @@ export const ManagedServiceIdentityInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedServiceIdentityInput",
 }) as any as S.Schema<ManagedServiceIdentityInput>;
 
+/** Container group subnet information. */
+export interface DeploymentScriptContainerGroupSubnetId {
+  /** Resource ID of the subnet. */
+  id: string;
+  /** Friendly name for the subnet. */
+  name?: string;
+}
+export const DeploymentScriptContainerGroupSubnetId = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "DeploymentScriptContainerGroupSubnetId",
+}) as any as S.Schema<DeploymentScriptContainerGroupSubnetId>;
+
+/** The subnet IDs of the container group. */
+export type DeploymentScriptContainerGroupSubnetIdList =
+  Array<DeploymentScriptContainerGroupSubnetId>;
+export const DeploymentScriptContainerGroupSubnetIdList = /*@__PURE__*/ S.Array(
+  DeploymentScriptContainerGroupSubnetId,
+) as any as S.Schema<DeploymentScriptContainerGroupSubnetIdList>;
+
+/** Settings to customize ACI container instance. */
+export interface DeploymentScriptContainerConfiguration {
+  /** Container group name; if not specified the name is generated. */
+  containerGroupName?: string;
+  /** The subnet resource IDs for a container group. */
+  subnetIds?: DeploymentScriptContainerGroupSubnetIdList;
+}
+export const DeploymentScriptContainerConfiguration = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      containerGroupName: S.optional(S.String),
+      subnetIds: S.optional(DeploymentScriptContainerGroupSubnetIdList),
+    }),
+).annotate({
+  identifier: "DeploymentScriptContainerConfiguration",
+}) as any as S.Schema<DeploymentScriptContainerConfiguration>;
+
+/** Settings to use an existing storage account. */
+export interface DeploymentScriptStorageAccountConfiguration {
+  /** The storage account name. */
+  storageAccountName?: string;
+  /** The storage account access key. */
+  storageAccountKey?: string;
+}
+export const DeploymentScriptStorageAccountConfiguration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storageAccountName: S.optional(S.String),
+      storageAccountKey: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DeploymentScriptStorageAccountConfiguration",
+  }) as any as S.Schema<DeploymentScriptStorageAccountConfiguration>;
+
+/** The error detail. */
+export interface DeploymentScriptErrorDetail {
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+  /** The error target. */
+  target?: string;
+}
+export const DeploymentScriptErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    target: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptErrorDetail",
+}) as any as S.Schema<DeploymentScriptErrorDetail>;
+
+/** Error response. */
+export interface DeploymentScriptErrorResponse {
+  /** The error object. */
+  error?: DeploymentScriptErrorDetail;
+}
+export const DeploymentScriptErrorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.optional(DeploymentScriptErrorDetail),
+  }),
+).annotate({
+  identifier: "DeploymentScriptErrorResponse",
+}) as any as S.Schema<DeploymentScriptErrorResponse>;
+
+/** Generic object modeling results of script execution. */
+export interface DeploymentScriptStatus {
+  /** ACI resource Id. */
+  containerInstanceId?: string;
+  /** Storage account resource Id. */
+  storageAccountId?: string;
+  /** Start time of the script execution. */
+  startTime?: string;
+  /** End time of the script execution. */
+  endTime?: string;
+  /** Time the deployment script resource will expire. */
+  expirationTime?: string;
+  /** Error that is relayed from the script execution. */
+  error?: DeploymentScriptErrorResponse;
+}
+export const DeploymentScriptStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerInstanceId: S.optional(S.String),
+    storageAccountId: S.optional(S.String),
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    expirationTime: S.optional(S.String),
+    error: S.optional(DeploymentScriptErrorResponse),
+  }),
+).annotate({
+  identifier: "DeploymentScriptStatus",
+}) as any as S.Schema<DeploymentScriptStatus>;
+
+/** A list of strings. */
+export type DeploymentScriptStringList = Array<string>;
+export const DeploymentScriptStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeploymentScriptStringList>;
+
+/** The environment variable to pass to the script in the container instance. */
+export interface DeploymentScriptEnvironmentVariable {
+  /** The name of the environment variable. */
+  name: string;
+  /** The value of the environment variable. */
+  value?: string;
+  /** The value of the secure environment variable. */
+  secureValue?: string;
+}
+export const DeploymentScriptEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    value: S.optional(S.String),
+    secureValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptEnvironmentVariable",
+}) as any as S.Schema<DeploymentScriptEnvironmentVariable>;
+
+/** The environment variables to pass over to the script. */
+export type DeploymentScriptEnvironmentVariableList =
+  Array<DeploymentScriptEnvironmentVariable>;
+export const DeploymentScriptEnvironmentVariableList = /*@__PURE__*/ S.Array(
+  DeploymentScriptEnvironmentVariable,
+) as any as S.Schema<DeploymentScriptEnvironmentVariableList>;
+
+/** Properties of an AzureCLI or AzurePowerShell deployment script (union of both kinds). */
+export interface DeploymentScriptProperties {
+  /** Container settings. */
+  containerSettings?: DeploymentScriptContainerConfiguration;
+  /** Storage Account settings. */
+  storageAccountSettings?: DeploymentScriptStorageAccountConfiguration;
+  /** The clean up preference when the script execution gets in a terminal state: Always, OnSuccess or OnExpiration. */
+  cleanupPreference?: string;
+  /** State of the script execution (read-only). */
+  provisioningState?: string;
+  /** Contains the results of script execution (read-only). */
+  status?: DeploymentScriptStatus;
+  /** List of script outputs (read-only). */
+  outputs?: unknown;
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: DeploymentScriptStringList;
+  /** Script body. */
+  scriptContent?: string;
+  /** Command line arguments to pass to the script. */
+  arguments?: string;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: DeploymentScriptEnvironmentVariableList;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. */
+  forceUpdateTag?: string;
+  /** Interval for which the service retains the script resource after it reaches a terminal state (ISO 8601, e.g. P1D). */
+  retentionInterval?: string;
+  /** Maximum allowed script execution time (ISO 8601). Default is P1D. */
+  timeout?: string;
+  /** Azure CLI module version to be used (kind AzureCLI). */
+  azCliVersion?: string;
+  /** Azure PowerShell module version to be used (kind AzurePowerShell). */
+  azPowerShellVersion?: string;
+}
+export const DeploymentScriptProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerSettings: S.optional(DeploymentScriptContainerConfiguration),
+    storageAccountSettings: S.optional(
+      DeploymentScriptStorageAccountConfiguration,
+    ),
+    cleanupPreference: S.optional(S.String),
+    provisioningState: S.optional(S.String),
+    status: S.optional(DeploymentScriptStatus),
+    outputs: S.optional(S.Unknown),
+    primaryScriptUri: S.optional(S.String),
+    supportingScriptUris: S.optional(DeploymentScriptStringList),
+    scriptContent: S.optional(S.String),
+    arguments: S.optional(S.String),
+    environmentVariables: S.optional(DeploymentScriptEnvironmentVariableList),
+    forceUpdateTag: S.optional(S.String),
+    retentionInterval: S.optional(S.String),
+    timeout: S.optional(S.String),
+    azCliVersion: S.optional(S.String),
+    azPowerShellVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptProperties",
+}) as any as S.Schema<DeploymentScriptProperties>;
+
 export interface CreateDeploymentScriptRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1336,6 +1546,8 @@ export interface CreateDeploymentScriptRequest {
   kind: ScriptType | (string & {});
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentityInput;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const CreateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1346,6 +1558,7 @@ export const CreateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentityInput),
+    properties: S.optional(DeploymentScriptProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1473,6 +1686,8 @@ export interface CreateDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const CreateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1484,6 +1699,7 @@ export const CreateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "CreateDeploymentScriptResponse",
@@ -9528,6 +9744,8 @@ export interface GetDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const GetDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9539,6 +9757,7 @@ export const GetDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "GetDeploymentScriptResponse",
@@ -14008,6 +14227,8 @@ export interface DeploymentScript {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const DeploymentScript = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14019,6 +14240,7 @@ export const DeploymentScript = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "DeploymentScript",
@@ -19722,6 +19944,8 @@ export interface UpdateDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const UpdateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19733,6 +19957,7 @@ export const UpdateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "UpdateDeploymentScriptResponse",

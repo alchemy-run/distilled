@@ -3350,13 +3350,31 @@ export const ServiceKind = S.String;
 export type PartitionScheme = "Singleton" | "UniformInt64Range" | "Named";
 export const PartitionScheme = S.String;
 
+/** Partition names (Named scheme). */
+export type PartitionNamesList = Array<string>;
+export const PartitionNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PartitionNamesList>;
+
 /** Describes how the service is partitioned. */
 export interface Partition {
   partitionScheme: PartitionScheme | (string & {});
+  /** Number of partitions (UniformInt64Range / Named). */
+  count?: number;
+  /** Lower bound of the partition key range (UniformInt64Range). */
+  lowKey?: number;
+  /** Upper bound of the partition key range (UniformInt64Range). */
+  highKey?: number;
+  /** Partition names (Named). */
+  names?: PartitionNamesList;
 }
 export const Partition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     partitionScheme: PartitionScheme,
+    count: S.optional(S.Number),
+    lowKey: S.optional(S.Number),
+    highKey: S.optional(S.Number),
+    names: S.optional(PartitionNamesList),
   }),
 ).annotate({ identifier: "Partition" }) as any as S.Schema<Partition>;
 
@@ -3390,6 +3408,26 @@ export interface ServiceResourceProperties {
   servicePackageActivationMode?: ServicePackageActivationMode;
   /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
   serviceDnsName?: string;
+  /** Stateless: instance count per partition (-1 = every node). */
+  instanceCount?: number;
+  /** Stateless: minimum instance count. */
+  minInstanceCount?: number;
+  /** Stateless: minimum instance percentage. */
+  minInstancePercentage?: number;
+  /** Stateful: target replica set size. */
+  targetReplicaSetSize?: number;
+  /** Stateful: minimum replica set size. */
+  minReplicaSetSize?: number;
+  /** Stateful: whether the service persists state on disk. */
+  hasPersistedState?: boolean;
+  /** Stateful: ISO 8601 replica restart wait duration. */
+  replicaRestartWaitDuration?: string;
+  /** Stateful: ISO 8601 quorum loss wait duration. */
+  quorumLossWaitDuration?: string;
+  /** Stateful: ISO 8601 standby replica keep duration. */
+  standByReplicaKeepDuration?: string;
+  /** Stateful: ISO 8601 service placement time limit. */
+  servicePlacementTimeLimit?: string;
 }
 export const ServiceResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3411,6 +3449,16 @@ export const ServiceResourceProperties = /*@__PURE__*/ S.suspend(() =>
     partitionDescription: Partition,
     servicePackageActivationMode: S.optional(ServicePackageActivationMode),
     serviceDnsName: S.optional(S.String),
+    instanceCount: S.optional(S.Number),
+    minInstanceCount: S.optional(S.Number),
+    minInstancePercentage: S.optional(S.Number),
+    targetReplicaSetSize: S.optional(S.Number),
+    minReplicaSetSize: S.optional(S.Number),
+    hasPersistedState: S.optional(S.Boolean),
+    replicaRestartWaitDuration: S.optional(S.String),
+    quorumLossWaitDuration: S.optional(S.String),
+    standByReplicaKeepDuration: S.optional(S.String),
+    servicePlacementTimeLimit: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ServiceResourceProperties",
@@ -5543,6 +5591,26 @@ export interface ServiceResourcePropertiesInput {
   servicePackageActivationMode?: ServicePackageActivationMode | (string & {});
   /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
   serviceDnsName?: string;
+  /** Stateless: instance count per partition (-1 = every node). */
+  instanceCount?: number;
+  /** Stateless: minimum instance count. */
+  minInstanceCount?: number;
+  /** Stateless: minimum instance percentage. */
+  minInstancePercentage?: number;
+  /** Stateful: target replica set size. */
+  targetReplicaSetSize?: number;
+  /** Stateful: minimum replica set size. */
+  minReplicaSetSize?: number;
+  /** Stateful: whether the service persists state on disk. */
+  hasPersistedState?: boolean;
+  /** Stateful: ISO 8601 replica restart wait duration. */
+  replicaRestartWaitDuration?: string;
+  /** Stateful: ISO 8601 quorum loss wait duration. */
+  quorumLossWaitDuration?: string;
+  /** Stateful: ISO 8601 standby replica keep duration. */
+  standByReplicaKeepDuration?: string;
+  /** Stateful: ISO 8601 service placement time limit. */
+  servicePlacementTimeLimit?: string;
 }
 export const ServiceResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5565,6 +5633,16 @@ export const ServiceResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     partitionDescription: Partition,
     servicePackageActivationMode: S.optional(ServicePackageActivationMode),
     serviceDnsName: S.optional(S.String),
+    instanceCount: S.optional(S.Number),
+    minInstanceCount: S.optional(S.Number),
+    minInstancePercentage: S.optional(S.Number),
+    targetReplicaSetSize: S.optional(S.Number),
+    minReplicaSetSize: S.optional(S.Number),
+    hasPersistedState: S.optional(S.Boolean),
+    replicaRestartWaitDuration: S.optional(S.String),
+    quorumLossWaitDuration: S.optional(S.String),
+    standByReplicaKeepDuration: S.optional(S.String),
+    servicePlacementTimeLimit: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ServiceResourcePropertiesInput",
