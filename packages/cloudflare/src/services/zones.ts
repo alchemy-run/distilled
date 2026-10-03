@@ -905,6 +905,157 @@ export const DeleteHoldResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHoldResponse",
 }) as any as S.Schema<DeleteHoldResponse>;
 
+export interface DeleteObservabilityTracingRuleRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const DeleteObservabilityTracingRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+    })
+      .pipe(
+        T.Http({
+          method: "DELETE",
+          uri: "/zones/{zone_id}/observability/tracing/rules",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteObservabilityTracingRuleRequest",
+}) as any as S.Schema<DeleteObservabilityTracingRuleRequest>;
+
+export type DeleteObservabilityTracingRuleResponseRulesItemAction =
+  "set_trace_settings";
+export const DeleteObservabilityTracingRuleResponseRulesItemAction = S.String;
+
+export interface DeleteObservabilityTracingRuleResponseRulesItemActionParameters {
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const DeleteObservabilityTracingRuleResponseRulesItemActionParameters =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+    }),
+  ).annotate({
+    identifier:
+      "DeleteObservabilityTracingRuleResponseRulesItemActionParameters",
+  }) as any as S.Schema<DeleteObservabilityTracingRuleResponseRulesItemActionParameters>;
+
+export interface DeleteObservabilityTracingRuleResponseRulesItem {
+  action: DeleteObservabilityTracingRuleResponseRulesItemAction;
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const DeleteObservabilityTracingRuleResponseRulesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: DeleteObservabilityTracingRuleResponseRulesItemAction,
+      actionParameters:
+        DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+          T.Body("action_parameters"),
+        ),
+      description: S.String,
+      enabled: S.Boolean,
+      expression: S.String,
+    }),
+  ).annotate({
+    identifier: "DeleteObservabilityTracingRuleResponseRulesItem",
+  }) as any as S.Schema<DeleteObservabilityTracingRuleResponseRulesItem>;
+
+export type DeleteObservabilityTracingRuleResponseRulesList =
+  Array<DeleteObservabilityTracingRuleResponseRulesItem>;
+export const DeleteObservabilityTracingRuleResponseRulesList =
+  /*@__PURE__*/ S.Array(
+    DeleteObservabilityTracingRuleResponseRulesItem,
+  ) as any as S.Schema<DeleteObservabilityTracingRuleResponseRulesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteObservabilityTracingRuleResponse {
+  /** Trace rules in evaluation order. */
+  rules: DeleteObservabilityTracingRuleResponseRulesList;
+}
+export const DeleteObservabilityTracingRuleResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      rules: DeleteObservabilityTracingRuleResponseRulesList,
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeleteObservabilityTracingRuleResponse",
+}) as any as S.Schema<DeleteObservabilityTracingRuleResponse>;
+
+export interface DeleteObservabilityTracingSettingsRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const DeleteObservabilityTracingSettingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+    })
+      .pipe(
+        T.Http({
+          method: "DELETE",
+          uri: "/zones/{zone_id}/observability/tracing/settings",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  ).annotate({
+    identifier: "DeleteObservabilityTracingSettingsRequest",
+  }) as any as S.Schema<DeleteObservabilityTracingSettingsRequest>;
+
+export type DeleteObservabilityTracingSettingsResponseDestinationsList =
+  Array<string>;
+export const DeleteObservabilityTracingSettingsResponseDestinationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DeleteObservabilityTracingSettingsResponseDestinationsList>;
+
+export type DeleteObservabilityTracingSettingsResponsePropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const DeleteObservabilityTracingSettingsResponsePropagationPolicy =
+  S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface DeleteObservabilityTracingSettingsResponse {
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations: DeleteObservabilityTracingSettingsResponseDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy: DeleteObservabilityTracingSettingsResponsePropagationPolicy;
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const DeleteObservabilityTracingSettingsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      destinations: DeleteObservabilityTracingSettingsResponseDestinationsList,
+      enabled: S.Boolean,
+      forwardContext: S.Boolean.pipe(T.Body("forward_context")),
+      persist: S.Boolean,
+      propagationPolicy:
+        DeleteObservabilityTracingSettingsResponsePropagationPolicy.pipe(
+          T.Body("propagation_policy"),
+        ),
+      samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  ).annotate({
+    identifier: "DeleteObservabilityTracingSettingsResponse",
+  }) as any as S.Schema<DeleteObservabilityTracingSettingsResponse>;
+
 export interface DeleteZoneRequest {
   /** Identifier */
   zoneId: string;
@@ -1245,6 +1396,146 @@ export const GetNelResponse = /*@__PURE__*/ S.suspend(() =>
     value: EditNelRequestValue,
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetNelResponse" }) as any as S.Schema<GetNelResponse>;
+
+export interface GetObservabilityTracingRuleRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const GetObservabilityTracingRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/observability/tracing/rules",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingRuleRequest",
+}) as any as S.Schema<GetObservabilityTracingRuleRequest>;
+
+export type GetObservabilityTracingRuleResponseRulesItemAction =
+  "set_trace_settings";
+export const GetObservabilityTracingRuleResponseRulesItemAction = S.String;
+
+export type GetObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+export const GetObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+
+export interface GetObservabilityTracingRuleResponseRulesItem {
+  action: GetObservabilityTracingRuleResponseRulesItemAction;
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const GetObservabilityTracingRuleResponseRulesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: GetObservabilityTracingRuleResponseRulesItemAction,
+      actionParameters:
+        DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+          T.Body("action_parameters"),
+        ),
+      description: S.String,
+      enabled: S.Boolean,
+      expression: S.String,
+    }),
+  ).annotate({
+    identifier: "GetObservabilityTracingRuleResponseRulesItem",
+  }) as any as S.Schema<GetObservabilityTracingRuleResponseRulesItem>;
+
+export type GetObservabilityTracingRuleResponseRulesList =
+  Array<GetObservabilityTracingRuleResponseRulesItem>;
+export const GetObservabilityTracingRuleResponseRulesList =
+  /*@__PURE__*/ S.Array(
+    GetObservabilityTracingRuleResponseRulesItem,
+  ) as any as S.Schema<GetObservabilityTracingRuleResponseRulesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetObservabilityTracingRuleResponse {
+  /** Trace rules in evaluation order. */
+  rules: GetObservabilityTracingRuleResponseRulesList;
+}
+export const GetObservabilityTracingRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    rules: GetObservabilityTracingRuleResponseRulesList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingRuleResponse",
+}) as any as S.Schema<GetObservabilityTracingRuleResponse>;
+
+export interface GetObservabilityTracingSettingsRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+}
+export const GetObservabilityTracingSettingsRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+    })
+      .pipe(
+        T.Http({
+          method: "GET",
+          uri: "/zones/{zone_id}/observability/tracing/settings",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingSettingsRequest",
+}) as any as S.Schema<GetObservabilityTracingSettingsRequest>;
+
+export type GetObservabilityTracingSettingsResponseDestinationsList =
+  Array<string>;
+export const GetObservabilityTracingSettingsResponseDestinationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<GetObservabilityTracingSettingsResponseDestinationsList>;
+
+export type GetObservabilityTracingSettingsResponsePropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const GetObservabilityTracingSettingsResponsePropagationPolicy =
+  S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetObservabilityTracingSettingsResponse {
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations: GetObservabilityTracingSettingsResponseDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy: GetObservabilityTracingSettingsResponsePropagationPolicy;
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const GetObservabilityTracingSettingsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      destinations: GetObservabilityTracingSettingsResponseDestinationsList,
+      enabled: S.Boolean,
+      forwardContext: S.Boolean.pipe(T.Body("forward_context")),
+      persist: S.Boolean,
+      propagationPolicy:
+        GetObservabilityTracingSettingsResponsePropagationPolicy.pipe(
+          T.Body("propagation_policy"),
+        ),
+      samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetObservabilityTracingSettingsResponse",
+}) as any as S.Schema<GetObservabilityTracingSettingsResponse>;
 
 export interface GetPlanRequest {
   /** Identifier */
@@ -13745,6 +14036,231 @@ export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateEnvironmentResponse",
 }) as any as S.Schema<UpdateEnvironmentResponse>;
 
+export type UpdateObservabilityTracingRuleRequestRulesItemAction =
+  "set_trace_settings";
+export const UpdateObservabilityTracingRuleRequestRulesItemAction = S.String;
+
+export type UpdateObservabilityTracingRuleRequestRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+export const UpdateObservabilityTracingRuleRequestRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+
+export interface UpdateObservabilityTracingRuleRequestRulesItem {
+  action: UpdateObservabilityTracingRuleRequestRulesItemAction | (string & {});
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const UpdateObservabilityTracingRuleRequestRulesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: UpdateObservabilityTracingRuleRequestRulesItemAction,
+      actionParameters:
+        DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+          T.Body("action_parameters"),
+        ),
+      description: S.String,
+      enabled: S.Boolean,
+      expression: S.String,
+    }),
+  ).annotate({
+    identifier: "UpdateObservabilityTracingRuleRequestRulesItem",
+  }) as any as S.Schema<UpdateObservabilityTracingRuleRequestRulesItem>;
+
+export type UpdateObservabilityTracingRuleRequestRulesList =
+  Array<UpdateObservabilityTracingRuleRequestRulesItem>;
+export const UpdateObservabilityTracingRuleRequestRulesList =
+  /*@__PURE__*/ S.Array(
+    UpdateObservabilityTracingRuleRequestRulesItem,
+  ) as any as S.Schema<UpdateObservabilityTracingRuleRequestRulesList>;
+
+export interface UpdateObservabilityTracingRuleRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+  /** Trace rules in evaluation order. */
+  rules: UpdateObservabilityTracingRuleRequestRulesList;
+}
+export const UpdateObservabilityTracingRuleRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+      rules: UpdateObservabilityTracingRuleRequestRulesList,
+    })
+      .pipe(
+        T.Http({
+          method: "PUT",
+          uri: "/zones/{zone_id}/observability/tracing/rules",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateObservabilityTracingRuleRequest",
+}) as any as S.Schema<UpdateObservabilityTracingRuleRequest>;
+
+export type UpdateObservabilityTracingRuleResponseRulesItemAction =
+  "set_trace_settings";
+export const UpdateObservabilityTracingRuleResponseRulesItemAction = S.String;
+
+export type UpdateObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+export const UpdateObservabilityTracingRuleResponseRulesItemActionParameters =
+  DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+
+export interface UpdateObservabilityTracingRuleResponseRulesItem {
+  action: UpdateObservabilityTracingRuleResponseRulesItemAction;
+  actionParameters: DeleteObservabilityTracingRuleResponseRulesItemActionParameters;
+  description: string;
+  enabled: boolean;
+  /** A Rules language expression that selects requests. */
+  expression: string;
+}
+export const UpdateObservabilityTracingRuleResponseRulesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      action: UpdateObservabilityTracingRuleResponseRulesItemAction,
+      actionParameters:
+        DeleteObservabilityTracingRuleResponseRulesItemActionParameters.pipe(
+          T.Body("action_parameters"),
+        ),
+      description: S.String,
+      enabled: S.Boolean,
+      expression: S.String,
+    }),
+  ).annotate({
+    identifier: "UpdateObservabilityTracingRuleResponseRulesItem",
+  }) as any as S.Schema<UpdateObservabilityTracingRuleResponseRulesItem>;
+
+export type UpdateObservabilityTracingRuleResponseRulesList =
+  Array<UpdateObservabilityTracingRuleResponseRulesItem>;
+export const UpdateObservabilityTracingRuleResponseRulesList =
+  /*@__PURE__*/ S.Array(
+    UpdateObservabilityTracingRuleResponseRulesItem,
+  ) as any as S.Schema<UpdateObservabilityTracingRuleResponseRulesList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateObservabilityTracingRuleResponse {
+  /** Trace rules in evaluation order. */
+  rules: UpdateObservabilityTracingRuleResponseRulesList;
+}
+export const UpdateObservabilityTracingRuleResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      rules: UpdateObservabilityTracingRuleResponseRulesList,
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UpdateObservabilityTracingRuleResponse",
+}) as any as S.Schema<UpdateObservabilityTracingRuleResponse>;
+
+export type UpdateObservabilityTracingSettingsRequestDestinationsList =
+  Array<string>;
+export const UpdateObservabilityTracingSettingsRequestDestinationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateObservabilityTracingSettingsRequestDestinationsList>;
+
+export type UpdateObservabilityTracingSettingsRequestPropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const UpdateObservabilityTracingSettingsRequestPropagationPolicy =
+  S.String;
+
+export interface UpdateObservabilityTracingSettingsRequest {
+  /** Specify the zone ID. */
+  zoneId: string;
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations?: UpdateObservabilityTracingSettingsRequestDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled?: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext?: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist?: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy?:
+    | UpdateObservabilityTracingSettingsRequestPropagationPolicy
+    | (string & {});
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio?: number;
+}
+export const UpdateObservabilityTracingSettingsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      zoneId: S.String.pipe(T.Label("zone_id")),
+      destinations: S.optional(
+        UpdateObservabilityTracingSettingsRequestDestinationsList,
+      ),
+      enabled: S.optional(S.Boolean),
+      forwardContext: S.optional(S.Boolean.pipe(T.Body("forward_context"))),
+      persist: S.optional(S.Boolean),
+      propagationPolicy: S.optional(
+        UpdateObservabilityTracingSettingsRequestPropagationPolicy.pipe(
+          T.Body("propagation_policy"),
+        ),
+      ),
+      samplingRatio: S.optional(S.Number.pipe(T.Body("sampling_ratio"))),
+    })
+      .pipe(
+        T.Http({
+          method: "PATCH",
+          uri: "/zones/{zone_id}/observability/tracing/settings",
+          code: 200,
+        }),
+      )
+      .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  ).annotate({
+    identifier: "UpdateObservabilityTracingSettingsRequest",
+  }) as any as S.Schema<UpdateObservabilityTracingSettingsRequest>;
+
+export type UpdateObservabilityTracingSettingsResponseDestinationsList =
+  Array<string>;
+export const UpdateObservabilityTracingSettingsResponseDestinationsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<UpdateObservabilityTracingSettingsResponseDestinationsList>;
+
+export type UpdateObservabilityTracingSettingsResponsePropagationPolicy =
+  | "accept"
+  | "authenticated"
+  | "reject";
+export const UpdateObservabilityTracingSettingsResponsePropagationPolicy =
+  S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface UpdateObservabilityTracingSettingsResponse {
+  /** Up to 100 OpenTelemetry destination identifiers that receive traces. */
+  destinations: UpdateObservabilityTracingSettingsResponseDestinationsList;
+  /** Whether Cloudflare Traces is enabled for the zone. */
+  enabled: boolean;
+  /** Whether trace context is sent externally or across a zone boundary. */
+  forwardContext: boolean;
+  /** Whether traces are persisted in Cloudflare. */
+  persist: boolean;
+  /** When inbound trace context may be continued. Authenticated propagation is not supported yet. */
+  propagationPolicy: UpdateObservabilityTracingSettingsResponsePropagationPolicy;
+  /** The ratio of requests sampled for tracing, from 0 to 1. */
+  samplingRatio: number;
+}
+export const UpdateObservabilityTracingSettingsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      destinations: UpdateObservabilityTracingSettingsResponseDestinationsList,
+      enabled: S.Boolean,
+      forwardContext: S.Boolean.pipe(T.Body("forward_context")),
+      persist: S.Boolean,
+      propagationPolicy:
+        UpdateObservabilityTracingSettingsResponsePropagationPolicy.pipe(
+          T.Body("propagation_policy"),
+        ),
+      samplingRatio: S.Number.pipe(T.Body("sampling_ratio")),
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  ).annotate({
+    identifier: "UpdateObservabilityTracingSettingsResponse",
+  }) as any as S.Schema<UpdateObservabilityTracingSettingsResponse>;
+
 export type SubscriptionsUpdateRequestFrequency =
   | "weekly"
   | "monthly"
@@ -14059,6 +14575,36 @@ export const deleteHold: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteObservabilityTracingRuleError = CloudflareOpError;
+/** Delete every sampling override from a zone's managed Cloudflare Traces ruleset. */
+export const deleteObservabilityTracingRule: API.OperationMethod<
+  DeleteObservabilityTracingRuleRequest,
+  DeleteObservabilityTracingRuleResponse,
+  DeleteObservabilityTracingRuleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteObservabilityTracingRuleRequest,
+  output: DeleteObservabilityTracingRuleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteObservabilityTracingSettingsError = CloudflareOpError;
+/** Reset the zone-level Cloudflare Traces settings to their defaults while preserving the sampling rules. */
+export const deleteObservabilityTracingSettings: API.OperationMethod<
+  DeleteObservabilityTracingSettingsRequest,
+  DeleteObservabilityTracingSettingsResponse,
+  DeleteObservabilityTracingSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteObservabilityTracingSettingsRequest,
+  output: DeleteObservabilityTracingSettingsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteZoneError = InvalidZoneIdentifier | CloudflareOpError;
 /** Deletes an existing zone. */
 export const deleteZone: API.OperationMethod<
@@ -14190,6 +14736,36 @@ export const getNel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNelRequest,
   output: GetNelResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetObservabilityTracingRuleError = CloudflareOpError;
+/** Retrieve the ordered sampling overrides for a zone's managed Cloudflare Traces ruleset. */
+export const getObservabilityTracingRule: API.OperationMethod<
+  GetObservabilityTracingRuleRequest,
+  GetObservabilityTracingRuleResponse,
+  GetObservabilityTracingRuleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetObservabilityTracingRuleRequest,
+  output: GetObservabilityTracingRuleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetObservabilityTracingSettingsError = CloudflareOpError;
+/** Retrieve the zone-level Cloudflare Traces settings. */
+export const getObservabilityTracingSettings: API.OperationMethod<
+  GetObservabilityTracingSettingsRequest,
+  GetObservabilityTracingSettingsResponse,
+  GetObservabilityTracingSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetObservabilityTracingSettingsRequest,
+  output: GetObservabilityTracingSettingsResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -14569,6 +15145,36 @@ export const updateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
   output: UpdateEnvironmentResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateObservabilityTracingRuleError = CloudflareOpError;
+/** Replace all sampling overrides in a zone's managed Cloudflare Traces ruleset. Rules are evaluated in the supplied order. */
+export const updateObservabilityTracingRule: API.OperationMethod<
+  UpdateObservabilityTracingRuleRequest,
+  UpdateObservabilityTracingRuleResponse,
+  UpdateObservabilityTracingRuleError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateObservabilityTracingRuleRequest,
+  output: UpdateObservabilityTracingRuleResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateObservabilityTracingSettingsError = CloudflareOpError;
+/** Update the zone-level Cloudflare Traces settings. */
+export const updateObservabilityTracingSettings: API.OperationMethod<
+  UpdateObservabilityTracingSettingsRequest,
+  UpdateObservabilityTracingSettingsResponse,
+  UpdateObservabilityTracingSettingsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateObservabilityTracingSettingsRequest,
+  output: UpdateObservabilityTracingSettingsResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
