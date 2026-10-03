@@ -2398,6 +2398,18 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptObservabilityIssues",
+      "value": {
+        "type": "structure",
+        "members": {
+          "enabled": {
+            "target": "smithy.api#Boolean"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.workers#PutScriptObservabilityLogs",
       "value": {
         "type": "structure",
@@ -2500,6 +2512,12 @@
             "traits": {
               "com.cloudflare.protocols#nullable": {}
             }
+          },
+          "redact_query_string": {
+            "target": "smithy.api#Boolean"
+          },
+          "issues": {
+            "target": "com.cloudflare.workers#PutScriptObservabilityIssues"
           },
           "traces": {
             "target": "com.cloudflare.workers#PutScriptObservabilityTraces",

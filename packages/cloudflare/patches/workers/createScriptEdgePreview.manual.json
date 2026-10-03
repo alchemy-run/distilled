@@ -2410,6 +2410,18 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityIssues",
+      "value": {
+        "type": "structure",
+        "members": {
+          "enabled": {
+            "target": "smithy.api#Boolean"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityLogs",
       "value": {
         "type": "structure",
@@ -2467,6 +2479,12 @@
           },
           "logs": {
             "target": "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityLogs"
+          },
+          "redact_query_string": {
+            "target": "smithy.api#Boolean"
+          },
+          "issues": {
+            "target": "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityIssues"
           },
           "traces": {
             "target": "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityTraces"
