@@ -15,11 +15,20 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export { ClerkProtocol, type ClerkOpError, type ClerkOpContext } from "./protocol.ts";
+export {
+  ClerkProtocol,
+  ClerkPlatformProtocol,
+  type ClerkOpError,
+  type ClerkOpContext,
+  type ClerkPlatformOpContext,
+} from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
 export * from "./services/clerk.ts";
+// The Platform API shares shape names with the Backend API (`User`,
+// `JWTTemplate`, …), so it is a namespace rather than a flat re-export.
+export * as Platform from "./services/platform.ts";
 export {
   BadRequest,
   Conflict,
