@@ -23,6 +23,19 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** The If-Match config version is not the current version of the keys being written (Clerk `config_version_conflict`, HTTP 409). Re-read the config with `keys` set to the keys being written and retry with its config_version. */
+export class ConfigVersionConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ConfigVersionConflict>()(
+      "ConfigVersionConflict",
+      {
+        code: S.Union([S.Number, S.String]),
+        message: S.String,
+      },
+    ).pipe(C.withConflictError),
+    [{ status: 409, body: { "/errors/0/code": "config_version_conflict" } }],
+  ) {}
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -1279,7 +1292,7 @@ export interface PlatformApplicationTransferResponse {
   /** The unique identifier for the application transfer. */
   id: string;
   /** A unique code for the transfer that can be shared with the recipient to claim the application through the clerk dashboard: https://dashboard.clerk.com/apps/transfer?code=<CODE> */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The ID of the application being transferred. */
   application_id: string;
   /** The current status of the transfer. */
@@ -1297,7 +1310,7 @@ export const PlatformApplicationTransferResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     object: PlatformApplicationTransferResponseObject,
     id: S.String,
-    code: S.String,
+    code: S.String.pipe(T.SensitiveValue({})),
     application_id: S.String,
     status: PlatformApplicationTransferResponseStatus,
     expires_at: S.String,
@@ -1402,13 +1415,13 @@ export const PlatformDomainIntentResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ClaimAccountlessApplicationRequest {
   /** The single-use claim token for the accountless application. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The name to assign to the claimed application. */
   name: string;
 }
 export const ClaimAccountlessApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.String,
+    token: S.String.pipe(T.SensitiveValue({})),
     name: S.String,
   }).pipe(
     T.Http({
@@ -1745,13 +1758,26 @@ export const PlatformDomainResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PlatformDomainResponse",
 }) as any as S.Schema<PlatformDomainResponse>;
 
+/** Unused by Clerk. Leave unset; the SDK sends `{}` so the request carries `Content-Type: application/json`. */
+export type CreateApplicationTransferRequestBodyMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateApplicationTransferRequestBodyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateApplicationTransferRequestBodyMap>;
+
 export interface CreateApplicationTransferRequest {
   /** Application ID. */
   applicationID: string;
+  body?: CreateApplicationTransferRequestBodyMap;
 }
 export const CreateApplicationTransferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
+    body: S.optional(
+      CreateApplicationTransferRequestBodyMap.pipe(T.HttpBody()),
+    ),
   }).pipe(
     T.Http({
       method: "POST",
@@ -2125,7 +2151,7 @@ export interface CreateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null;
+  signing_key?: string | Redacted.Redacted<string> | null;
 }
 export const CreateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2137,7 +2163,7 @@ export const CreateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     allowed_clock_skew: S.optional(S.NullOr(S.Number)),
     custom_signing_key: S.optional(S.Boolean),
     signing_algorithm: S.optional(S.NullOr(S.String)),
-    signing_key: S.optional(S.NullOr(S.String)),
+    signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -2727,18 +2753,19 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetConfigRequest",
 }) as any as S.Schema<GetConfigRequest>;
 
-/** Instance configuration response containing key-value pairs and metadata. */
-export interface PlatformConfigResponse {
-  /** Configuration version for optimistic concurrency control. */
-  config_version?: string;
-}
-export const PlatformConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    config_version: S.optional(S.String),
-  }),
+/** Instance configuration: every config key, plus `config_version` for optimistic concurrency control. */
+export type PlatformConfigResponse = { [key: string]: unknown | undefined };
+export const PlatformConfigResponse = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PlatformConfigResponse>;
+
+export type GetConfigResponse = PlatformConfigResponse;
+export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  PlatformConfigResponse.pipe(T.RawResponseRoot()),
 ).annotate({
-  identifier: "PlatformConfigResponse",
-}) as any as S.Schema<PlatformConfigResponse>;
+  identifier: "GetConfigResponse",
+}) as any as S.Schema<GetConfigResponse>;
 
 export type GetConfigSchemaRequestKeysList = Array<string>;
 export const GetConfigSchemaRequestKeysList = /*@__PURE__*/ S.Array(
@@ -3656,7 +3683,7 @@ export interface PatchConfigRequest {
   destructive?: boolean;
   /** Config keys to return in the response. If not specified, only updated keys are returned. */
   keys?: PatchConfigRequestKeysList;
-  /** Config version for optimistic concurrency control. */
+  /** Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict. */
   ifMatch?: string;
   body: PlatformConfigPatchRequest;
 }
@@ -3729,7 +3756,7 @@ export interface PutConfigRequest {
   dry_run?: boolean;
   /** If true, allow clearing config keys by setting them to null. */
   destructive?: boolean;
-  /** Config version for optimistic concurrency control. */
+  /** Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict. */
   ifMatch?: string;
   body: PlatformConfigPatchRequest;
 }
@@ -4065,7 +4092,7 @@ export interface UpdateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null;
+  signing_key?: string | Redacted.Redacted<string> | null;
 }
 export const UpdateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4078,7 +4105,7 @@ export const UpdateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     allowed_clock_skew: S.optional(S.NullOr(S.Number)),
     custom_signing_key: S.optional(S.Boolean),
     signing_algorithm: S.optional(S.NullOr(S.String)),
-    signing_key: S.optional(S.NullOr(S.String)),
+    signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -4706,12 +4733,12 @@ export type GetConfigError = BadRequest | Forbidden | NotFound | ClerkOpError;
 /** Get instance config Get the configuration for an application instance. The `envOrInsID` parameter can be either an environment type (e.g., "development", "production") or an instance ID. Optionally filter to specific config keys using the `keys` query parameter. Requires the `applications:manage` scope. */
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
-  PlatformConfigResponse,
+  GetConfigResponse,
   GetConfigError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
-  output: PlatformConfigResponse,
+  output: GetConfigResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -5038,6 +5065,7 @@ export type PatchConfigError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | ConfigVersionConflict
   | ClerkOpError;
 /** Update instance config Update the configuration for an application instance. The `envOrInsID` parameter can be either an environment type (e.g., "development", "production") or an instance ID. Use the `dry_run` query parameter to preview changes without applying them. Use the `destructive` query parameter to allow clearing config keys by setting them to null. Use the `If-Match` header to provide optimistic concurrency control via config version. Requires the `applications:manage` scope. */
 export const patchConfig: API.OperationMethod<
@@ -5054,6 +5082,7 @@ export const patchConfig: API.OperationMethod<
     NotFound,
     Conflict,
     UnprocessableEntity,
+    ConfigVersionConflict,
     UnknownClerkError,
   ],
   protocol: ClerkPlatformProtocol,
@@ -5066,6 +5095,7 @@ export type PutConfigError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | ConfigVersionConflict
   | ClerkOpError;
 /** Replace instance config Replace the full configuration for an application instance. Unlike PATCH, PUT requires all config keys to be included in the request body. If any keys are missing, a 400 error is returned listing the missing keys. The `envOrInsID` parameter can be either an environment type (e.g., "development", "production") or an instance ID. Use the `dry_run` query parameter to preview changes without applying them. Use the `destructive` query parameter to allow clearing config keys by setting them to null. Use the `If-Match` header to provide optimistic concurrency control via config version. Requires the `applications:manage` scope. */
 export const putConfig: API.OperationMethod<
@@ -5082,6 +5112,7 @@ export const putConfig: API.OperationMethod<
     NotFound,
     Conflict,
     UnprocessableEntity,
+    ConfigVersionConflict,
     UnknownClerkError,
   ],
   protocol: ClerkPlatformProtocol,
