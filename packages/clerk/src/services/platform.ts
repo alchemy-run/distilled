@@ -23,6 +23,16 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** The If-Match config version is not the current version of the keys being written (Clerk `config_version_conflict`, HTTP 409). Re-read the config with `keys` set to the keys being written and retry with its config_version. */
+export class ConfigVersionConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ConfigVersionConflict>()("ConfigVersionConflict", {
+      code: S.Union([S.Number, S.String]),
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/errors/0/code": "config_version_conflict" } }],
+  ) {}
+
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
@@ -136,9 +146,7 @@ export const VerificationOtp = /*@__PURE__*/ S.suspend(() =>
     channel: S.optional(S.NullOr(S.String)),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationOtp",
-}) as any as S.Schema<VerificationOtp>;
+).annotate({ identifier: "VerificationOtp" }) as any as S.Schema<VerificationOtp>;
 
 export type VerificationAdminObject = "verification_admin";
 export const VerificationAdminObject = S.String;
@@ -166,9 +174,7 @@ export const VerificationAdmin = /*@__PURE__*/ S.suspend(() =>
     expire_at: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationAdmin",
-}) as any as S.Schema<VerificationAdmin>;
+).annotate({ identifier: "VerificationAdmin" }) as any as S.Schema<VerificationAdmin>;
 
 export type VerificationFromOauthObject = "verification_from_oauth";
 export const VerificationFromOauthObject = S.String;
@@ -216,9 +222,7 @@ export const VerificationFromOauth = /*@__PURE__*/ S.suspend(() =>
     attempts: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationFromOauth",
-}) as any as S.Schema<VerificationFromOauth>;
+).annotate({ identifier: "VerificationFromOauth" }) as any as S.Schema<VerificationFromOauth>;
 
 export type VerificationTicketObject = "verification_ticket";
 export const VerificationTicketObject = S.String;
@@ -246,9 +250,7 @@ export const VerificationTicket = /*@__PURE__*/ S.suspend(() =>
     expire_at: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationTicket",
-}) as any as S.Schema<VerificationTicket>;
+).annotate({ identifier: "VerificationTicket" }) as any as S.Schema<VerificationTicket>;
 
 export type VerificationSamlObject = "verification_saml";
 export const VerificationSamlObject = S.String;
@@ -285,9 +287,7 @@ export const VerificationSaml = /*@__PURE__*/ S.suspend(() =>
     attempts: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationSaml",
-}) as any as S.Schema<VerificationSaml>;
+).annotate({ identifier: "VerificationSaml" }) as any as S.Schema<VerificationSaml>;
 
 export type VerificationEmailLinkObject = "verification_email_link";
 export const VerificationEmailLinkObject = S.String;
@@ -315,9 +315,7 @@ export const VerificationEmailLink = /*@__PURE__*/ S.suspend(() =>
     expire_at: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationEmailLink",
-}) as any as S.Schema<VerificationEmailLink>;
+).annotate({ identifier: "VerificationEmailLink" }) as any as S.Schema<VerificationEmailLink>;
 
 export type VerificationScimObject = "verification_scim";
 export const VerificationScimObject = S.String;
@@ -343,9 +341,7 @@ export const VerificationScim = /*@__PURE__*/ S.suspend(() =>
     attempts: S.NullOr(S.Number),
     expire_at: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "VerificationScim",
-}) as any as S.Schema<VerificationScim>;
+).annotate({ identifier: "VerificationScim" }) as any as S.Schema<VerificationScim>;
 
 export type EmailAddressVerification =
   | VerificationOtp
@@ -366,9 +362,7 @@ export const IdentificationLink = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     id: S.String,
   }),
-).annotate({
-  identifier: "IdentificationLink",
-}) as any as S.Schema<IdentificationLink>;
+).annotate({ identifier: "IdentificationLink" }) as any as S.Schema<IdentificationLink>;
 
 export type EmailAddressLinkedToList = Array<IdentificationLink>;
 export const EmailAddressLinkedToList = /*@__PURE__*/ S.Array(
@@ -502,9 +496,7 @@ export const VerificationWeb3 = /*@__PURE__*/ S.suspend(() =>
     expire_at: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationWeb3",
-}) as any as S.Schema<VerificationWeb3>;
+).annotate({ identifier: "VerificationWeb3" }) as any as S.Schema<VerificationWeb3>;
 
 export type Web3WalletVerification = VerificationWeb3 | VerificationAdmin;
 export const Web3WalletVerification = S.Unknown as any as S.Schema<Web3WalletVerification>;
@@ -573,9 +565,7 @@ export const VerificationPasskey = /*@__PURE__*/ S.suspend(() =>
     expire_at: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationPasskey",
-}) as any as S.Schema<VerificationPasskey>;
+).annotate({ identifier: "VerificationPasskey" }) as any as S.Schema<VerificationPasskey>;
 
 export interface Passkey {
   id?: string;
@@ -646,9 +636,7 @@ export const VerificationOauth = /*@__PURE__*/ S.suspend(() =>
     attempts: S.NullOr(S.Number),
     verified_at_client: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "VerificationOauth",
-}) as any as S.Schema<VerificationOauth>;
+).annotate({ identifier: "VerificationOauth" }) as any as S.Schema<VerificationOauth>;
 
 export type VerificationGoogleOneTapObject = "verification_google_one_tap";
 export const VerificationGoogleOneTapObject = S.String;
@@ -678,9 +666,7 @@ export const VerificationGoogleOneTap = /*@__PURE__*/ S.suspend(() =>
     verified_at_client: S.optional(S.NullOr(S.String)),
     error: S.optional(S.NullOr(ClerkError)),
   }),
-).annotate({
-  identifier: "VerificationGoogleOneTap",
-}) as any as S.Schema<VerificationGoogleOneTap>;
+).annotate({ identifier: "VerificationGoogleOneTap" }) as any as S.Schema<VerificationGoogleOneTap>;
 
 export type ExternalAccountWithVerificationVerification =
   | VerificationOauth
@@ -750,9 +736,7 @@ export const UserExternalAccountsList = /*@__PURE__*/ S.Array(
 export type SAMLAccountObject = "saml_account";
 export const SAMLAccountObject = S.String;
 
-export type SAMLAccountPublicMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type SAMLAccountPublicMetadataMap = { [key: string]: unknown | undefined };
 export const SAMLAccountPublicMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -807,9 +791,7 @@ export const EnterpriseAccountObject = S.String;
 export type EnterpriseAccountProtocol = "oauth" | "saml";
 export const EnterpriseAccountProtocol = S.String;
 
-export type EnterpriseAccountPublicMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type EnterpriseAccountPublicMetadataMap = { [key: string]: unknown | undefined };
 export const EnterpriseAccountPublicMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -859,9 +841,7 @@ export const EnterpriseAccount = /*@__PURE__*/ S.suspend(() =>
     enterprise_connection: S.optional(S.NullOr(S.Unknown)),
     last_authenticated_at: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "EnterpriseAccount",
-}) as any as S.Schema<EnterpriseAccount>;
+).annotate({ identifier: "EnterpriseAccount" }) as any as S.Schema<EnterpriseAccount>;
 
 export type UserEnterpriseAccountsList = Array<EnterpriseAccount>;
 export const UserEnterpriseAccountsList = /*@__PURE__*/ S.Array(
@@ -878,18 +858,14 @@ export const OrganizationMembershipPermissionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<OrganizationMembershipPermissionsList>;
 
 /** Metadata saved on the organization membership, accessible from both Frontend and Backend APIs */
-export type OrganizationMembershipPublicMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type OrganizationMembershipPublicMetadataMap = { [key: string]: unknown | undefined };
 export const OrganizationMembershipPublicMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OrganizationMembershipPublicMetadataMap>;
 
 /** Metadata saved on the organization membership, accessible only from the Backend API */
-export type OrganizationMembershipPrivateMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type OrganizationMembershipPrivateMetadataMap = { [key: string]: unknown | undefined };
 export const OrganizationMembershipPrivateMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -898,17 +874,13 @@ export const OrganizationMembershipPrivateMetadataMap = /*@__PURE__*/ S.Record(
 export type OrganizationObject = "organization";
 export const OrganizationObject = S.String;
 
-export type OrganizationPublicMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type OrganizationPublicMetadataMap = { [key: string]: unknown | undefined };
 export const OrganizationPublicMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OrganizationPublicMetadataMap>;
 
-export type OrganizationPrivateMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type OrganizationPrivateMetadataMap = { [key: string]: unknown | undefined };
 export const OrganizationPrivateMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1027,9 +999,7 @@ export const OrganizationMembership = /*@__PURE__*/ S.suspend(() =>
     created_at: S.Number,
     updated_at: S.Number,
   }),
-).annotate({
-  identifier: "OrganizationMembership",
-}) as any as S.Schema<OrganizationMembership>;
+).annotate({ identifier: "OrganizationMembership" }) as any as S.Schema<OrganizationMembership>;
 
 export type UserOrganizationMembershipsList = Array<OrganizationMembership>;
 export const UserOrganizationMembershipsList = /*@__PURE__*/ S.Array(
@@ -1082,9 +1052,7 @@ export const SCIMUserMetadata = /*@__PURE__*/ S.suspend(() =>
     directory_enabled: S.Boolean,
     external_id: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "SCIMUserMetadata",
-}) as any as S.Schema<SCIMUserMetadata>;
+).annotate({ identifier: "SCIMUserMetadata" }) as any as S.Schema<SCIMUserMetadata>;
 
 /** All loaded directory links. Omitted when links were not loaded; an empty array means the user has no directory links. */
 export type UserDirectoriesList = Array<SCIMUserMetadata>;
@@ -1256,7 +1224,7 @@ export interface PlatformApplicationTransferResponse {
   /** The unique identifier for the application transfer. */
   id: string;
   /** A unique code for the transfer that can be shared with the recipient to claim the application through the clerk dashboard: https://dashboard.clerk.com/apps/transfer?code=<CODE> */
-  code: string;
+  code: string | Redacted.Redacted<string>;
   /** The ID of the application being transferred. */
   application_id: string;
   /** The current status of the transfer. */
@@ -1274,7 +1242,7 @@ export const PlatformApplicationTransferResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     object: PlatformApplicationTransferResponseObject,
     id: S.String,
-    code: S.String,
+    code: S.String.pipe(T.SensitiveValue({})),
     application_id: S.String,
     status: PlatformApplicationTransferResponseStatus,
     expires_at: S.String,
@@ -1294,11 +1262,7 @@ export const CancelDomainIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainIntentID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/platform/domain_intents/{domainIntentID}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/platform/domain_intents/{domainIntentID}", code: 200 }),
   ),
 ).annotate({
   identifier: "CancelDomainIntentRequest",
@@ -1337,9 +1301,7 @@ export const PlatformDNSTarget = /*@__PURE__*/ S.suspend(() =>
     automation_disposition: S.optional(PlatformDNSTargetAutomationDisposition),
     required: S.Boolean,
   }),
-).annotate({
-  identifier: "PlatformDNSTarget",
-}) as any as S.Schema<PlatformDNSTarget>;
+).annotate({ identifier: "PlatformDNSTarget" }) as any as S.Schema<PlatformDNSTarget>;
 
 /** DNS records to configure before completion. */
 export type PlatformDomainIntentResponseRecordsList = Array<PlatformDNSTarget>;
@@ -1376,21 +1338,15 @@ export const PlatformDomainIntentResponse = /*@__PURE__*/ S.suspend(() =>
 
 export interface ClaimAccountlessApplicationRequest {
   /** The single-use claim token for the accountless application. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The name to assign to the claimed application. */
   name: string;
 }
 export const ClaimAccountlessApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    token: S.String,
+    token: S.String.pipe(T.SensitiveValue({})),
     name: S.String,
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/platform/accountless_applications/claim",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/platform/accountless_applications/claim", code: 200 })),
 ).annotate({
   identifier: "ClaimAccountlessApplicationRequest",
 }) as any as S.Schema<ClaimAccountlessApplicationRequest>;
@@ -1551,9 +1507,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     environment_types: S.optional(CreateApplicationRequestEnvironmentTypesList),
     template: S.optional(S.String),
   }).pipe(T.Http({ method: "POST", uri: "/platform/applications", code: 200 })),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 
 export interface CreateApplicationDomainRequest {
   /** Application ID. */
@@ -1572,11 +1526,7 @@ export const CreateApplicationDomainRequest = /*@__PURE__*/ S.suspend(() =>
     proxy_path: S.optional(S.String),
     domain_intent_id: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/platform/applications/{applicationID}/domains",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/platform/applications/{applicationID}/domains", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateApplicationDomainRequest",
@@ -1596,9 +1546,7 @@ export const PlatformCNameTarget = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     required: S.Boolean,
   }),
-).annotate({
-  identifier: "PlatformCNameTarget",
-}) as any as S.Schema<PlatformCNameTarget>;
+).annotate({ identifier: "PlatformCNameTarget" }) as any as S.Schema<PlatformCNameTarget>;
 
 /** Legacy CNAME-only targets for the domain. New consumers should prefer `dns_targets` when present. Omitted for development domains, which do not use custom-domain DNS setup. */
 export type PlatformDomainResponseCnameTargetsList = Array<PlatformCNameTarget>;
@@ -1708,23 +1656,26 @@ export const PlatformDomainResponse = /*@__PURE__*/ S.suspend(() =>
     application: S.optional(PlatformDomainApplicationSummary),
     instance: S.optional(PlatformDomainInstanceSummary),
   }),
-).annotate({
-  identifier: "PlatformDomainResponse",
-}) as any as S.Schema<PlatformDomainResponse>;
+).annotate({ identifier: "PlatformDomainResponse" }) as any as S.Schema<PlatformDomainResponse>;
+
+/** Unused by Clerk. Leave unset; the SDK sends `{}` so the request carries `Content-Type: application/json`. */
+export type CreateApplicationTransferRequestBodyMap = { [key: string]: unknown | undefined };
+export const CreateApplicationTransferRequestBodyMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateApplicationTransferRequestBodyMap>;
 
 export interface CreateApplicationTransferRequest {
   /** Application ID. */
   applicationID: string;
+  body?: CreateApplicationTransferRequestBodyMap;
 }
 export const CreateApplicationTransferRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
+    body: S.optional(CreateApplicationTransferRequestBodyMap.pipe(T.HttpBody())),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/platform/applications/{applicationID}/transfers",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/platform/applications/{applicationID}/transfers", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateApplicationTransferRequest",
@@ -1766,15 +1717,9 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     environment_type: S.optional(CreateInstanceRequestEnvironmentType),
     clone_instance_id: S.optional(S.NullOr(S.String)),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/platform/applications/{applicationID}/instances",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/platform/applications/{applicationID}/instances", code: 200 }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 export type CreateInstanceResponseObject = "instance";
 export const CreateInstanceResponseObject = S.String;
@@ -1805,9 +1750,7 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     created_at: S.Number,
     updated_at: S.Number,
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 /** Email addresses to add to the user. Must be unique across your instance. The first email address will be set as the user's primary email address. Created verified by default; see `email_address_identification_status` to create them reserved. */
 export type CreateInstanceUserRequestEmailAddressList = Array<string>;
@@ -1856,27 +1799,21 @@ export const CreateInstanceUserRequestBackupCodesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CreateInstanceUserRequestBackupCodesList>;
 
 /** Metadata saved on the user that is visible to both the Frontend and Backend APIs. */
-export type CreateInstanceUserRequestPublicMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateInstanceUserRequestPublicMetadataMap = { [key: string]: unknown | undefined };
 export const CreateInstanceUserRequestPublicMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CreateInstanceUserRequestPublicMetadataMap>;
 
 /** Metadata saved on the user that is only visible to the Backend API. */
-export type CreateInstanceUserRequestPrivateMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateInstanceUserRequestPrivateMetadataMap = { [key: string]: unknown | undefined };
 export const CreateInstanceUserRequestPrivateMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<CreateInstanceUserRequestPrivateMetadataMap>;
 
 /** Metadata saved on the user that can be updated from both the Frontend and Backend APIs. It is not guaranteed to be safe because the frontend can modify it. */
-export type CreateInstanceUserRequestUnsafeMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreateInstanceUserRequestUnsafeMetadataMap = { [key: string]: unknown | undefined };
 export const CreateInstanceUserRequestUnsafeMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2054,9 +1991,7 @@ export const PlatformIOSApplication = /*@__PURE__*/ S.suspend(() =>
     created_at: S.Number,
     updated_at: S.Number,
   }),
-).annotate({
-  identifier: "PlatformIOSApplication",
-}) as any as S.Schema<PlatformIOSApplication>;
+).annotate({ identifier: "PlatformIOSApplication" }) as any as S.Schema<PlatformIOSApplication>;
 
 export interface CreateJWTTemplateRequest {
   /** Application ID. */
@@ -2076,7 +2011,7 @@ export interface CreateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null;
+  signing_key?: string | Redacted.Redacted<string> | null;
 }
 export const CreateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2088,7 +2023,7 @@ export const CreateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     allowed_clock_skew: S.optional(S.NullOr(S.Number)),
     custom_signing_key: S.optional(S.Boolean),
     signing_algorithm: S.optional(S.NullOr(S.String)),
-    signing_key: S.optional(S.NullOr(S.String)),
+    signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
   }).pipe(
     T.Http({
       method: "POST",
@@ -2096,9 +2031,7 @@ export const CreateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateJWTTemplateRequest",
-}) as any as S.Schema<CreateJWTTemplateRequest>;
+).annotate({ identifier: "CreateJWTTemplateRequest" }) as any as S.Schema<CreateJWTTemplateRequest>;
 
 export type JWTTemplateObject = "jwt_template";
 export const JWTTemplateObject = S.String;
@@ -2152,9 +2085,7 @@ export const CreateRedirectURLRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateRedirectURLRequest",
-}) as any as S.Schema<CreateRedirectURLRequest>;
+).annotate({ identifier: "CreateRedirectURLRequest" }) as any as S.Schema<CreateRedirectURLRequest>;
 
 export type RedirectURLObject = "redirect_url";
 export const RedirectURLObject = S.String;
@@ -2185,16 +2116,8 @@ export interface DeleteApplicationRequest {
 export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/platform/applications/{applicationID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+  }).pipe(T.Http({ method: "DELETE", uri: "/platform/applications/{applicationID}", code: 200 })),
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface PlatformDeletedObjectResponse {
   /** Whether the object was deleted. */
@@ -2242,11 +2165,7 @@ export const DeleteApplicationFaviconRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/platform/applications/{applicationID}/favicon",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/platform/applications/{applicationID}/favicon", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteApplicationFaviconRequest",
@@ -2260,11 +2179,7 @@ export const DeleteApplicationLogoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/platform/applications/{applicationID}/logo",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/platform/applications/{applicationID}/logo", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteApplicationLogoRequest",
@@ -2290,9 +2205,7 @@ export const DeleteJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteJWTTemplateRequest",
-}) as any as S.Schema<DeleteJWTTemplateRequest>;
+).annotate({ identifier: "DeleteJWTTemplateRequest" }) as any as S.Schema<DeleteJWTTemplateRequest>;
 
 export interface DeletedObject {
   object: string;
@@ -2331,9 +2244,7 @@ export const DeleteRedirectURLRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRedirectURLRequest",
-}) as any as S.Schema<DeleteRedirectURLRequest>;
+).annotate({ identifier: "DeleteRedirectURLRequest" }) as any as S.Schema<DeleteRedirectURLRequest>;
 
 export interface DeleteUserRequest {
   /** Application ID. */
@@ -2355,9 +2266,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserProfileImageRequest {
   /** Application ID. */
@@ -2393,16 +2302,8 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
     include_secret_keys: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/platform/applications/{applicationID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/platform/applications/{applicationID}", code: 200 })),
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 export interface GetApplicationDomainRequest {
   /** Application ID. */
@@ -2513,9 +2414,7 @@ export const DNSStatusCnames = /*@__PURE__*/ S.suspend(() =>
     clkmail: S.optional(CNAMEStatus),
     _dmarc: S.optional(CNAMEStatus),
   }),
-).annotate({
-  identifier: "DNSStatusCnames",
-}) as any as S.Schema<DNSStatusCnames>;
+).annotate({ identifier: "DNSStatusCnames" }) as any as S.Schema<DNSStatusCnames>;
 
 export interface DNSStatus {
   status: DNSStatusStatus;
@@ -2574,9 +2473,7 @@ export const SSLStatus = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "SSLStatus" }) as any as S.Schema<SSLStatus>;
 
-export type PlatformDomainStatusResponseSslHostsMap = {
-  [key: string]: SSLStatus | undefined;
-};
+export type PlatformDomainStatusResponseSslHostsMap = { [key: string]: SSLStatus | undefined };
 export const PlatformDomainStatusResponseSslHostsMap = /*@__PURE__*/ S.Record(
   S.String,
   SSLStatus,
@@ -2668,22 +2565,19 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetConfigRequest",
-}) as any as S.Schema<GetConfigRequest>;
+).annotate({ identifier: "GetConfigRequest" }) as any as S.Schema<GetConfigRequest>;
 
-/** Instance configuration response containing key-value pairs and metadata. */
-export interface PlatformConfigResponse {
-  /** Configuration version for optimistic concurrency control. */
-  config_version?: string;
-}
-export const PlatformConfigResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    config_version: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PlatformConfigResponse",
-}) as any as S.Schema<PlatformConfigResponse>;
+/** Instance configuration: every config key, plus `config_version` for optimistic concurrency control. */
+export type PlatformConfigResponse = { [key: string]: unknown | undefined };
+export const PlatformConfigResponse = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PlatformConfigResponse>;
+
+export type GetConfigResponse = PlatformConfigResponse;
+export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  PlatformConfigResponse.pipe(T.RawResponseRoot()),
+).annotate({ identifier: "GetConfigResponse" }) as any as S.Schema<GetConfigResponse>;
 
 export type GetConfigSchemaRequestKeysList = Array<string>;
 export const GetConfigSchemaRequestKeysList = /*@__PURE__*/ S.Array(
@@ -2710,14 +2604,10 @@ export const GetConfigSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetConfigSchemaRequest",
-}) as any as S.Schema<GetConfigSchemaRequest>;
+).annotate({ identifier: "GetConfigSchemaRequest" }) as any as S.Schema<GetConfigSchemaRequest>;
 
 /** Schema definitions for each configuration key. */
-export type PlatformConfigSchemaResponsePropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type PlatformConfigSchemaResponsePropertiesMap = { [key: string]: unknown | undefined };
 export const PlatformConfigSchemaResponsePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2751,16 +2641,8 @@ export interface GetDomainRequest {
 export const GetDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainIDOrName: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/platform/domains/{domainIDOrName}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainRequest",
-}) as any as S.Schema<GetDomainRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/platform/domains/{domainIDOrName}", code: 200 })),
+).annotate({ identifier: "GetDomainRequest" }) as any as S.Schema<GetDomainRequest>;
 
 export type GetDomainResponseObject = "domain";
 export const GetDomainResponseObject = S.String;
@@ -2826,9 +2708,7 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     application: PlatformDomainApplicationSummary,
     instance: PlatformDomainInstanceSummary,
   }),
-).annotate({
-  identifier: "GetDomainResponse",
-}) as any as S.Schema<GetDomainResponse>;
+).annotate({ identifier: "GetDomainResponse" }) as any as S.Schema<GetDomainResponse>;
 
 export interface GetDomainIntentRequest {
   /** Domain intent ID. */
@@ -2837,16 +2717,8 @@ export interface GetDomainIntentRequest {
 export const GetDomainIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domainIntentID: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/platform/domain_intents/{domainIntentID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetDomainIntentRequest",
-}) as any as S.Schema<GetDomainIntentRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/platform/domain_intents/{domainIntentID}", code: 200 })),
+).annotate({ identifier: "GetDomainIntentRequest" }) as any as S.Schema<GetDomainIntentRequest>;
 
 export interface GetInstanceUsageRequest {
   /** Application ID. */
@@ -2871,9 +2743,7 @@ export const GetInstanceUsageRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetInstanceUsageRequest",
-}) as any as S.Schema<GetInstanceUsageRequest>;
+).annotate({ identifier: "GetInstanceUsageRequest" }) as any as S.Schema<GetInstanceUsageRequest>;
 
 /** Usage totals for a meter that includes both total and billable quantities. */
 export interface InstanceUsageMeterWithBillable {
@@ -2900,9 +2770,7 @@ export const InstanceUsageMeter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     total_usage: S.Number,
   }),
-).annotate({
-  identifier: "InstanceUsageMeter",
-}) as any as S.Schema<InstanceUsageMeter>;
+).annotate({ identifier: "InstanceUsageMeter" }) as any as S.Schema<InstanceUsageMeter>;
 
 /** Total SMS usage with per-geographic-tier breakdowns. */
 export interface InstanceSMSUsage {
@@ -2925,9 +2793,7 @@ export const InstanceSMSUsage = /*@__PURE__*/ S.suspend(() =>
     tier_e: InstanceUsageMeter,
     tier_f: InstanceUsageMeter,
   }),
-).annotate({
-  identifier: "InstanceSMSUsage",
-}) as any as S.Schema<InstanceSMSUsage>;
+).annotate({ identifier: "InstanceSMSUsage" }) as any as S.Schema<InstanceSMSUsage>;
 
 /** Usage report for an application instance containing per-meter totals. */
 export interface PlatformInstanceUsageResponse {
@@ -2981,9 +2847,7 @@ export const GetJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetJWTTemplateRequest",
-}) as any as S.Schema<GetJWTTemplateRequest>;
+).annotate({ identifier: "GetJWTTemplateRequest" }) as any as S.Schema<GetJWTTemplateRequest>;
 
 export interface GetNativeSettingsRequest {
   /** Application ID. */
@@ -3002,9 +2866,7 @@ export const GetNativeSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetNativeSettingsRequest",
-}) as any as S.Schema<GetNativeSettingsRequest>;
+).annotate({ identifier: "GetNativeSettingsRequest" }) as any as S.Schema<GetNativeSettingsRequest>;
 
 /** The object type. */
 export type PlatformNativeSettingsObject = "native_settings";
@@ -3022,9 +2884,7 @@ export const PlatformNativeSettings = /*@__PURE__*/ S.suspend(() =>
     object: PlatformNativeSettingsObject,
     api_enabled: S.Boolean,
   }),
-).annotate({
-  identifier: "PlatformNativeSettings",
-}) as any as S.Schema<PlatformNativeSettings>;
+).annotate({ identifier: "PlatformNativeSettings" }) as any as S.Schema<PlatformNativeSettings>;
 
 export interface GetRedirectURLRequest {
   /** Application ID. */
@@ -3046,9 +2906,7 @@ export const GetRedirectURLRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRedirectURLRequest",
-}) as any as S.Schema<GetRedirectURLRequest>;
+).annotate({ identifier: "GetRedirectURLRequest" }) as any as S.Schema<GetRedirectURLRequest>;
 
 export interface ListAndroidApplicationsRequest {
   /** Application ID. */
@@ -3091,11 +2949,7 @@ export const ListApplicationDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/platform/applications/{applicationID}/domains",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/platform/applications/{applicationID}/domains", code: 200 }),
   ),
 ).annotate({
   identifier: "ListApplicationDomainsRequest",
@@ -3131,9 +2985,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     include_secret_keys: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/platform/applications", code: 200 })),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 
 export type PlatformListApplicationsResponse = Array<PlatformApplicationResponse>;
 export const PlatformListApplicationsResponse = /*@__PURE__*/ S.Array(
@@ -3143,9 +2995,7 @@ export const PlatformListApplicationsResponse = /*@__PURE__*/ S.Array(
 export type ListApplicationsResponse = PlatformListApplicationsResponse;
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
   PlatformListApplicationsResponse.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 
 export type ListApplicationTransfersRequestStatusItem =
   | "pending"
@@ -3177,13 +3027,7 @@ export const ListApplicationTransfersRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number.pipe(T.Query())),
     starting_after: S.optional(S.String.pipe(T.Query())),
     ending_before: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/platform/application_transfers",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/platform/application_transfers", code: 200 })),
 ).annotate({
   identifier: "ListApplicationTransfersRequest",
 }) as any as S.Schema<ListApplicationTransfersRequest>;
@@ -3241,9 +3085,7 @@ export const ListDomainIntentsRequest = /*@__PURE__*/ S.suspend(() =>
     starting_after: S.optional(S.String.pipe(T.Query())),
     ending_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/platform/domain_intents", code: 200 })),
-).annotate({
-  identifier: "ListDomainIntentsRequest",
-}) as any as S.Schema<ListDomainIntentsRequest>;
+).annotate({ identifier: "ListDomainIntentsRequest" }) as any as S.Schema<ListDomainIntentsRequest>;
 
 /** The list of domain intents. */
 export type PlatformListDomainIntentsResponseDataList = Array<PlatformDomainIntentResponse>;
@@ -3290,9 +3132,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
     starting_after: S.optional(S.String.pipe(T.Query())),
     ending_before: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/platform/domains", code: 200 })),
-).annotate({
-  identifier: "ListDomainsRequest",
-}) as any as S.Schema<ListDomainsRequest>;
+).annotate({ identifier: "ListDomainsRequest" }) as any as S.Schema<ListDomainsRequest>;
 
 export type PlatformWorkspaceDomainResponseObject = "domain";
 export const PlatformWorkspaceDomainResponseObject = S.String;
@@ -3413,9 +3253,7 @@ export const ListInstanceUsersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListInstanceUsersRequest",
-}) as any as S.Schema<ListInstanceUsersRequest>;
+).annotate({ identifier: "ListInstanceUsersRequest" }) as any as S.Schema<ListInstanceUsersRequest>;
 
 /** The list of users. */
 export type PlatformListInstanceUsersResponseDataList = Array<User>;
@@ -3489,9 +3327,7 @@ export const ListJWTTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListJWTTemplatesRequest",
-}) as any as S.Schema<ListJWTTemplatesRequest>;
+).annotate({ identifier: "ListJWTTemplatesRequest" }) as any as S.Schema<ListJWTTemplatesRequest>;
 
 export type ListJWTTemplatesResponseBodyList = Array<JWTTemplate>;
 export const ListJWTTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3501,9 +3337,7 @@ export const ListJWTTemplatesResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListJWTTemplatesResponse = ListJWTTemplatesResponseBodyList;
 export const ListJWTTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
   ListJWTTemplatesResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListJWTTemplatesResponse",
-}) as any as S.Schema<ListJWTTemplatesResponse>;
+).annotate({ identifier: "ListJWTTemplatesResponse" }) as any as S.Schema<ListJWTTemplatesResponse>;
 
 export interface ListRedirectURLsRequest {
   /** Application ID. */
@@ -3528,9 +3362,7 @@ export const ListRedirectURLsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListRedirectURLsRequest",
-}) as any as S.Schema<ListRedirectURLsRequest>;
+).annotate({ identifier: "ListRedirectURLsRequest" }) as any as S.Schema<ListRedirectURLsRequest>;
 
 /** The list of redirect URLs. */
 export type PlatformListRedirectURLsResponseDataList = Array<RedirectURL>;
@@ -3577,7 +3409,7 @@ export interface PatchConfigRequest {
   destructive?: boolean;
   /** Config keys to return in the response. If not specified, only updated keys are returned. */
   keys?: PatchConfigRequestKeysList;
-  /** Config version for optimistic concurrency control. */
+  /** Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict. */
   ifMatch?: string;
   body: PlatformConfigPatchRequest;
 }
@@ -3597,23 +3429,17 @@ export const PatchConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PatchConfigRequest",
-}) as any as S.Schema<PatchConfigRequest>;
+).annotate({ identifier: "PatchConfigRequest" }) as any as S.Schema<PatchConfigRequest>;
 
 /** Configuration state before the patch was applied. */
-export type PlatformConfigPatchResponseBeforeMap = {
-  [key: string]: unknown | undefined;
-};
+export type PlatformConfigPatchResponseBeforeMap = { [key: string]: unknown | undefined };
 export const PlatformConfigPatchResponseBeforeMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<PlatformConfigPatchResponseBeforeMap>;
 
 /** Configuration state after the patch was applied. */
-export type PlatformConfigPatchResponseAfterMap = {
-  [key: string]: unknown | undefined;
-};
+export type PlatformConfigPatchResponseAfterMap = { [key: string]: unknown | undefined };
 export const PlatformConfigPatchResponseAfterMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3650,7 +3476,7 @@ export interface PutConfigRequest {
   dry_run?: boolean;
   /** If true, allow clearing config keys by setting them to null. */
   destructive?: boolean;
-  /** Config version for optimistic concurrency control. */
+  /** Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict. */
   ifMatch?: string;
   body: PlatformConfigPatchRequest;
 }
@@ -3669,9 +3495,7 @@ export const PutConfigRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PutConfigRequest",
-}) as any as S.Schema<PutConfigRequest>;
+).annotate({ identifier: "PutConfigRequest" }) as any as S.Schema<PutConfigRequest>;
 
 export interface RotateInstanceSecretKeysRequest {
   /** Application ID. */
@@ -3767,9 +3591,7 @@ export const RotateSecretKeysRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RotateSecretKeysRequest",
-}) as any as S.Schema<RotateSecretKeysRequest>;
+).annotate({ identifier: "RotateSecretKeysRequest" }) as any as S.Schema<RotateSecretKeysRequest>;
 
 export interface SetUserProfileImageRequest {
   /** Application ID. */
@@ -3815,9 +3637,7 @@ export const TriggerDNSCheckRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TriggerDNSCheckRequest",
-}) as any as S.Schema<TriggerDNSCheckRequest>;
+).annotate({ identifier: "TriggerDNSCheckRequest" }) as any as S.Schema<TriggerDNSCheckRequest>;
 
 export type TriggerDNSCheckResponseSslStatus =
   | "complete"
@@ -3847,9 +3667,7 @@ export const TriggerDNSCheckResponseSsl = /*@__PURE__*/ S.suspend(() =>
   identifier: "TriggerDNSCheckResponseSsl",
 }) as any as S.Schema<TriggerDNSCheckResponseSsl>;
 
-export type TriggerDNSCheckResponseSslHostsMap = {
-  [key: string]: SSLStatus | undefined;
-};
+export type TriggerDNSCheckResponseSslHostsMap = { [key: string]: SSLStatus | undefined };
 export const TriggerDNSCheckResponseSslHostsMap = /*@__PURE__*/ S.Record(
   S.String,
   SSLStatus,
@@ -3887,9 +3705,7 @@ export const TriggerDNSCheckResponse = /*@__PURE__*/ S.suspend(() =>
     domain_id: S.String,
     last_run_at: S.NullOr(S.Number),
   }),
-).annotate({
-  identifier: "TriggerDNSCheckResponse",
-}) as any as S.Schema<TriggerDNSCheckResponse>;
+).annotate({ identifier: "TriggerDNSCheckResponse" }) as any as S.Schema<TriggerDNSCheckResponse>;
 
 export interface UnbanUserRequest {
   /** Application ID. */
@@ -3911,9 +3727,7 @@ export const UnbanUserRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UnbanUserRequest",
-}) as any as S.Schema<UnbanUserRequest>;
+).annotate({ identifier: "UnbanUserRequest" }) as any as S.Schema<UnbanUserRequest>;
 
 export interface UpdateApplicationRequest {
   /** Application ID. */
@@ -3925,16 +3739,8 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
     name: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/platform/applications/{applicationID}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+  }).pipe(T.Http({ method: "PATCH", uri: "/platform/applications/{applicationID}", code: 200 })),
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 export interface UpdateApplicationDomainRequest {
   /** Application ID. */
@@ -3950,11 +3756,7 @@ export const UpdateApplicationDomainRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     proxy_path: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/platform/applications/{applicationID}/domain",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/platform/applications/{applicationID}/domain", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateApplicationDomainRequest",
@@ -3980,7 +3782,7 @@ export interface UpdateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null;
+  signing_key?: string | Redacted.Redacted<string> | null;
 }
 export const UpdateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3993,7 +3795,7 @@ export const UpdateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     allowed_clock_skew: S.optional(S.NullOr(S.Number)),
     custom_signing_key: S.optional(S.Boolean),
     signing_algorithm: S.optional(S.NullOr(S.String)),
-    signing_key: S.optional(S.NullOr(S.String)),
+    signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -4001,9 +3803,7 @@ export const UpdateJWTTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateJWTTemplateRequest",
-}) as any as S.Schema<UpdateJWTTemplateRequest>;
+).annotate({ identifier: "UpdateJWTTemplateRequest" }) as any as S.Schema<UpdateJWTTemplateRequest>;
 
 export interface UpdateNativeSettingsRequest {
   /** Application ID. */
@@ -4511,12 +4311,12 @@ export type GetConfigError = BadRequest | Forbidden | NotFound | ClerkOpError;
 /** Get instance config Get the configuration for an application instance. The `envOrInsID` parameter can be either an environment type (e.g., "development", "production") or an instance ID. Optionally filter to specific config keys using the `keys` query parameter. Requires the `applications:manage` scope. */
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
-  PlatformConfigResponse,
+  GetConfigResponse,
   GetConfigError,
   ClerkPlatformOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
-  output: PlatformConfigResponse,
+  output: GetConfigResponse,
   errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
@@ -4793,6 +4593,7 @@ export type PatchConfigError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | ConfigVersionConflict
   | ClerkOpError;
 /** Update instance config Update the configuration for an application instance. The `envOrInsID` parameter can be either an environment type (e.g., "development", "production") or an instance ID. Use the `dry_run` query parameter to preview changes without applying them. Use the `destructive` query parameter to allow clearing config keys by setting them to null. Use the `If-Match` header to provide optimistic concurrency control via config version. Requires the `applications:manage` scope. */
 export const patchConfig: API.OperationMethod<
@@ -4803,7 +4604,15 @@ export const patchConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PatchConfigRequest,
   output: PlatformConfigPatchResponse,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    ConfigVersionConflict,
+    UnknownClerkError,
+  ],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
 }));
@@ -4814,6 +4623,7 @@ export type PutConfigError =
   | NotFound
   | Conflict
   | UnprocessableEntity
+  | ConfigVersionConflict
   | ClerkOpError;
 /** Replace instance config Replace the full configuration for an application instance. Unlike PATCH, PUT requires all config keys to be included in the request body. If any keys are missing, a 400 error is returned listing the missing keys. The `envOrInsID` parameter can be either an environment type (e.g., "development", "production") or an instance ID. Use the `dry_run` query parameter to preview changes without applying them. Use the `destructive` query parameter to allow clearing config keys by setting them to null. Use the `If-Match` header to provide optimistic concurrency control via config version. Requires the `applications:manage` scope. */
 export const putConfig: API.OperationMethod<
@@ -4824,7 +4634,15 @@ export const putConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutConfigRequest,
   output: PlatformConfigPatchResponse,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    Conflict,
+    UnprocessableEntity,
+    ConfigVersionConflict,
+    UnknownClerkError,
+  ],
   protocol: ClerkPlatformProtocol,
   retry: Retry.Retry,
 }));

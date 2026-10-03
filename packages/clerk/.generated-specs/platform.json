@@ -2822,7 +2822,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "A unique code for the transfer that can be shared with the recipient to claim the application through the clerk dashboard: https://dashboard.clerk.com/apps/transfer?code=<CODE>",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "application_id": {
@@ -2954,6 +2955,18 @@
         "smithy.api#documentation": "List application transfers\n\nList all transfer requests created by the authenticated workspace. Returns\ntransfers sorted by creation date in descending order (most recent first).\n\nUse the `status` parameter to filter by transfer status."
       }
     },
+    "com.clerk.platform#CreateApplicationTransferRequestBodyMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Unused by Clerk. Leave unset; the SDK sends `{}` so the request carries `Content-Type: application/json`."
+      }
+    },
     "com.clerk.platform#CreateApplicationTransferRequest": {
       "type": "structure",
       "members": {
@@ -2963,6 +2976,12 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
             "smithy.api#documentation": "Application ID."
+          }
+        },
+        "body": {
+          "target": "com.clerk.platform#CreateApplicationTransferRequestBodyMap",
+          "traits": {
+            "smithy.api#httpPayload": {}
           }
         }
       },
@@ -7282,7 +7301,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`.",
-            "com.distilled.openapi#nullable": {}
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -7453,7 +7473,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`.",
-            "com.distilled.openapi#nullable": {}
+            "com.distilled.openapi#nullable": {},
+            "smithy.api#sensitive": {}
           }
         }
       },
@@ -8532,17 +8553,30 @@
       }
     },
     "com.clerk.platform#PlatformConfigResponse": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {
+        "smithy.api#documentation": "Instance configuration: every config key, plus `config_version` for optimistic concurrency control."
+      }
+    },
+    "com.clerk.platform#GetConfigResponse": {
       "type": "structure",
       "members": {
-        "config_version": {
-          "target": "smithy.api#String",
+        "body": {
+          "target": "com.clerk.platform#PlatformConfigResponse",
           "traits": {
-            "smithy.api#documentation": "Configuration version for optimistic concurrency control."
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
           }
         }
       },
       "traits": {
-        "smithy.api#documentation": "Instance configuration response containing key-value pairs and metadata."
+        "smithy.api#output": {}
       }
     },
     "com.clerk.platform#GetConfig": {
@@ -8551,7 +8585,7 @@
         "target": "com.clerk.platform#GetConfigRequest"
       },
       "output": {
-        "target": "com.clerk.platform#PlatformConfigResponse"
+        "target": "com.clerk.platform#GetConfigResponse"
       },
       "errors": [
         {
@@ -8622,7 +8656,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "If-Match",
-            "smithy.api#documentation": "Config version for optimistic concurrency control."
+            "smithy.api#documentation": "Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict."
           }
         },
         "body": {
@@ -8716,6 +8750,9 @@
         },
         {
           "target": "com.clerk.platform#UnprocessableEntity"
+        },
+        {
+          "target": "com.clerk.platform#ConfigVersionConflict"
         }
       ],
       "traits": {
@@ -8778,7 +8815,7 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpHeader": "If-Match",
-            "smithy.api#documentation": "Config version for optimistic concurrency control."
+            "smithy.api#documentation": "Config version for optimistic concurrency control. Must be the config_version from getConfig with `keys` set to exactly the keys being written; the config_version of a full-document read is rejected with ConfigVersionConflict."
           }
         },
         "body": {
@@ -8816,6 +8853,9 @@
         },
         {
           "target": "com.clerk.platform#UnprocessableEntity"
+        },
+        {
+          "target": "com.clerk.platform#ConfigVersionConflict"
         }
       ],
       "traits": {
@@ -9107,7 +9147,8 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "The single-use claim token for the accountless application.",
-            "smithy.api#required": {}
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
           }
         },
         "name": {
@@ -9397,6 +9438,23 @@
       "traits": {
         "smithy.api#title": "Clerk Platform API",
         "smithy.api#documentation": "The Clerk REST Platform API, for programmatic management of resources of a workspace.\n\n> [!note]\n> This API is currently in private beta. If you'd like access for your workspace, please fill out and submit our [request form](https://clerkdev.notion.site/2df2b9ab44fe803f9031e9f3185c5e19)."
+      }
+    },
+    "com.clerk.platform#ConfigVersionConflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "smithy.api#documentation": "The If-Match config version is not the current version of the keys being written (Clerk `config_version_conflict`, HTTP 409). Re-read the config with `keys` set to the keys being written and retry with its config_version.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409,
+            "body": {
+              "/errors/0/code": "config_version_conflict"
+            }
+          }
+        ]
       }
     }
   }
