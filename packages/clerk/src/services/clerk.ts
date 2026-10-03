@@ -17,7 +17,7 @@ export type { ClerkOpError, ClerkOpContext };
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
@@ -26,7 +26,7 @@ export class BadRequest
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409 }],
@@ -35,7 +35,7 @@ export class Conflict
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withAuthError),
     [{ status: 403 }],
@@ -44,7 +44,7 @@ export class Forbidden
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
@@ -53,7 +53,7 @@ export class NotFound
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
