@@ -9467,6 +9467,19 @@ export const ServiceRunnersCreateOrUpdateRequestTagsMap =
     S.String,
   ) as any as S.Schema<ServiceRunnersCreateOrUpdateRequestTagsMap>;
 
+/** Properties of a service runner. */
+export interface ServiceRunnerProperties {
+  /** What the runner's identity is used for: `Environment` or `VirtualMachine`. */
+  identityUsageType?: string;
+}
+export const ServiceRunnerProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identityUsageType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ServiceRunnerProperties",
+}) as any as S.Schema<ServiceRunnerProperties>;
+
 export interface ServiceRunnersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -9482,6 +9495,8 @@ export interface ServiceRunnersCreateOrUpdateRequest {
   location?: string;
   /** The identity of the resource. */
   identity?: IdentityProperties;
+  /** Properties of the service runner. */
+  properties?: ServiceRunnerProperties;
 }
 export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9492,12 +9507,13 @@ export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ServiceRunnersCreateOrUpdateRequestTagsMap),
     location: S.optional(S.String),
     identity: S.optional(IdentityProperties),
+    properties: S.optional(ServiceRunnerProperties),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
       code: 200,
-      apiVersion: "2018-09-15",
+      apiVersion: "2018-10-15-preview",
     }),
   ),
 ).annotate({

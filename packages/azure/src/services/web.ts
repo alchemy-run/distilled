@@ -22029,23 +22029,19 @@ export const GetWebAppSiteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWebAppSiteExtensionRequest",
 }) as any as S.Schema<GetWebAppSiteExtensionRequest>;
 
-/** Site extension type. */
-export type SiteExtensionType = "Gallery" | "WebRoot";
-export const SiteExtensionType = S.String;
-
 /** List of authors. */
 export type SiteExtensionInfoPropertiesAuthorsList = Array<string>;
 export const SiteExtensionInfoPropertiesAuthorsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SiteExtensionInfoPropertiesAuthorsList>;
 
+/** Site extension type. */
+export type SiteExtensionType = "Gallery" | "WebRoot";
+export const SiteExtensionType = S.String;
+
 /** SiteExtensionInfo resource specific properties */
 export interface SiteExtensionInfoProperties {
-  /** Site extension ID. */
-  extension_id?: string;
   title?: string;
-  /** Site extension type. */
-  extension_type?: SiteExtensionType;
   /** Summary description. */
   summary?: string;
   /** Detailed description. */
@@ -22080,12 +22076,14 @@ export interface SiteExtensionInfoProperties {
   provisioningState?: string;
   /** Site Extension comment. */
   comment?: string;
+  /** Site extension ID. */
+  id?: string;
+  /** Site extension type. */
+  type?: SiteExtensionType;
 }
 export const SiteExtensionInfoProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extension_id: S.optional(S.String),
     title: S.optional(S.String),
-    extension_type: S.optional(SiteExtensionType),
     summary: S.optional(S.String),
     description: S.optional(S.String),
     version: S.optional(S.String),
@@ -22103,6 +22101,8 @@ export const SiteExtensionInfoProperties = /*@__PURE__*/ S.suspend(() =>
     installed_date_time: S.optional(S.String),
     provisioningState: S.optional(S.String),
     comment: S.optional(S.String),
+    id: S.optional(S.String),
+    type: S.optional(SiteExtensionType),
   }),
 ).annotate({
   identifier: "SiteExtensionInfoProperties",
@@ -25264,6 +25264,10 @@ export const GetWorkflowVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWorkflowVersionResponse",
 }) as any as S.Schema<GetWorkflowVersionResponse>;
 
+/** Site extension install request properties (none are required). */
+export type SiteExtensionInstallProperties = AiGatewayPropertiesInput;
+export const SiteExtensionInstallProperties = AiGatewayPropertiesInput;
+
 export interface InstallWebAppSiteExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -25273,6 +25277,8 @@ export interface InstallWebAppSiteExtensionRequest {
   name: string;
   /** Site extension name. */
   siteExtensionId: string;
+  /** Install properties; the request body must be present even when empty. */
+  properties?: AiGatewayPropertiesInput;
 }
 export const InstallWebAppSiteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -25280,6 +25286,7 @@ export const InstallWebAppSiteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
     resourceGroupName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
     siteExtensionId: S.String.pipe(T.Label()),
+    properties: S.optional(AiGatewayPropertiesInput),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -25330,6 +25337,8 @@ export interface InstallWebAppSiteExtensionSlotRequest {
   slot: string;
   /** Site extension name. */
   siteExtensionId: string;
+  /** Install properties; the request body must be present even when empty. */
+  properties?: AiGatewayPropertiesInput;
 }
 export const InstallWebAppSiteExtensionSlotRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -25339,6 +25348,7 @@ export const InstallWebAppSiteExtensionSlotRequest = /*@__PURE__*/ S.suspend(
       name: S.String.pipe(T.Label()),
       slot: S.String.pipe(T.Label()),
       siteExtensionId: S.String.pipe(T.Label()),
+      properties: S.optional(AiGatewayPropertiesInput),
     }).pipe(
       T.Http({
         method: "PUT",

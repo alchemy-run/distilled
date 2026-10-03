@@ -400,6 +400,15 @@ export class ShareNotFound extends Schema.TaggedError<ShareNotFound>()(
 ).pipe(Category.withNotFoundError) {}
 
 /**
+ * Returned when a MySQL flexible server firewall rule does not exist.
+ * Azure error code: `FirewallRuleNotExist`
+ */
+export class FirewallRuleNotExist extends Schema.TaggedError<FirewallRuleNotExist>()(
+  "FirewallRuleNotExist",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
  * Returned when a storage queue does not exist.
  * Azure error code: `QueueNotFound`
  */
@@ -790,6 +799,16 @@ export class AutomationSourceControlTokenInvalid extends Schema.TaggedError<Auto
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.DevTestLab when a lab service runner is created:
+ * service runners are deprecated in favour of lab identities. HTTP 400
+ * `ServiceRunnerIsDeprecatedEnvironment` / `ServiceRunnerIsDeprecatedVirtualMachine`.
+ */
+export class DevTestLabsServiceRunnerDeprecated extends Schema.TaggedError<DevTestLabsServiceRunnerDeprecated>()(
+  "DevTestLabsServiceRunnerDeprecated",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.ContainerRegistry when ACR Tasks are disabled for
  * the subscription (free-trial / free-credit subscriptions). Azure error
  * code: `TasksOperationsNotAllowed` (HTTP 400).
@@ -974,6 +993,28 @@ export class BotConnectionDeleteInProgress extends Schema.TaggedError<BotConnect
  * Used by the protocol's error matching to dispatch by ARM error code.
  */
 /**
+ * Microsoft.DevCenter: the subscription has no Dev Box network connection
+ * quota in the region. HTTP 409 `ResourceQuotaExceeded` "networkConnections
+ * cannot be created in the eastus region at this time, because the resource
+ * quota has been exceeded in that region." (matched by message).
+ */
+export class DevCenterNetworkConnectionQuotaExceeded extends Schema.TaggedError<DevCenterNetworkConnectionQuotaExceeded>()(
+  "DevCenterNetworkConnectionQuotaExceeded",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Microsoft.DevCenter: the dev center's managed identity cannot (yet) read
+ * the Azure Compute Gallery being attached — missing role assignment or
+ * RBAC propagation delay. HTTP 400 `ValidationError` whose `details[].code`
+ * is `DevCenterIsNotAuthorizedToGallery`.
+ */
+export class DevCenterNotAuthorizedToGallery extends Schema.TaggedError<DevCenterNotAuthorizedToGallery>()(
+  "DevCenterNotAuthorizedToGallery",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Microsoft.DevCenter: Dev Box stopped accepting new customers on
  * 2025-11-01, so a tenant not already onboarded cannot create dev box
  * definitions, pools, or schedules. HTTP 400 `ValidationError` "The request
@@ -1027,6 +1068,28 @@ export class IotDpsStateTransitioning extends Schema.TaggedError<IotDpsStateTran
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Microsoft.RecoveryServices (Site Recovery) rejects an ASR call with
+ * `BadRequest` "The resource with ID ... isn't registered with the service."
+ * while a freshly created vault is still being registered with ASR
+ * (transient; matched by message).
+ */
+export class SiteRecoveryVaultNotRegistered extends Schema.TaggedError<SiteRecoveryVaultNotRegistered>()(
+  "SiteRecoveryVaultNotRegistered",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Microsoft.RecoveryServices (Site Recovery) rejects vault-level settings
+ * (e.g. alert settings) with `BadRequest` "There are no servers registered
+ * to the Azure Site Recovery vault." until a fabric/server is registered
+ * (matched by message).
+ */
+export class SiteRecoveryNoRegisteredServers extends Schema.TaggedError<SiteRecoveryNoRegisteredServers>()(
+  "SiteRecoveryNoRegisteredServers",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Microsoft.DocumentDB rejects a database-account PUT with `BadRequest`
  * "...is in the process of being created" while an earlier create of the
  * same account is still running (matched by message).
@@ -1060,6 +1123,7 @@ export class HttpResponsePayloadAPISpecValidationFailed extends Schema.TaggedErr
 export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   {
     TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
+    DevCenterIsNotAuthorizedToGallery: DevCenterNotAuthorizedToGallery,
     // Not-found
     ResourceNotFound: ResourceNotFound,
     HttpResponsePayloadAPISpecValidationFailed:
@@ -1121,6 +1185,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     ManagementGroupNotFound: ManagementGroupNotFound,
     ServiceGroupNameNotFound: ServiceGroupNameNotFound,
     ShareNotFound: ShareNotFound,
+    FirewallRuleNotExist: FirewallRuleNotExist,
     QueueNotFound: QueueNotFound,
     ManagementPolicyNotFound: ManagementPolicyNotFound,
     BlobInventoryPolicyNotFound: BlobInventoryPolicyNotFound,
@@ -1154,6 +1219,8 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     BMSUserErrorRedundancySettingsUseVaultApi: BackupConfigManagedByVaultApi,
     SkuNotAvailable: SkuNotAvailable,
     TasksOperationsNotAllowed: TasksOperationsNotAllowed,
+    ServiceRunnerIsDeprecatedEnvironment: DevTestLabsServiceRunnerDeprecated,
+    ServiceRunnerIsDeprecatedVirtualMachine: DevTestLabsServiceRunnerDeprecated,
     AccountNotEnabledForAutoStorage: BatchAccountNotEnabledForAutoStorage,
     ResourceCreationValidateFailed: DatadogMonitorCreationValidateFailed,
     ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity:
@@ -1191,6 +1258,39 @@ export class HostNameVerificationFailed extends Schema.TaggedError<HostNameVerif
  */
 export class WebAppSlotsNotSupported extends Schema.TaggedError<WebAppSlotsNotSupported>()(
   "WebAppSlotsNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Web when a public certificate is uploaded to an app
+ * on a Free (F1) plan: "Adding a Public Certificate failed because it would
+ * exceed the allowed amount of Free connections." Error code: `Conflict`
+ * (matched by message).
+ */
+export class WebPublicCertificateNotAllowedOnTier extends Schema.TaggedError<WebPublicCertificateNotAllowedOnTier>()(
+  "WebPublicCertificateNotAllowedOnTier",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Web (HTTP 500) for an operation the service no
+ * longer implements, e.g. creating a Static Web Apps database connection
+ * (the retired database connections preview): "The requested method is not
+ * implemented." Not retryable (matched by message).
+ */
+export class WebMethodNotImplemented extends Schema.TaggedError<WebMethodNotImplemented>()(
+  "WebMethodNotImplemented",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Web (HTTP 502) when the subscription is barred from
+ * creating a plan type, e.g. Flex Consumption (FC1) on a restricted free
+ * trial: "The subscription '<id>' is not allowed to create or update the
+ * serverfarm." Not retryable (matched by message).
+ */
+export class ServerFarmCreateNotAllowed extends Schema.TaggedError<ServerFarmCreateNotAllowed>()(
+  "ServerFarmCreateNotAllowed",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
@@ -1667,6 +1767,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly error: new (props: any) => unknown;
 }> = [
   {
+    code: "ResourceQuotaExceeded",
+    includes: "networkConnections cannot be created",
+    error: DevCenterNetworkConnectionQuotaExceeded,
+  },
+  {
     code: "InvalidCreateAttestationRequest",
     includes: "No compliance data was found",
     error: AttestationComplianceDataNotFound,
@@ -1816,6 +1921,18 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "does not support slots",
     error: WebAppSlotsNotSupported,
+  },
+  {
+    includes: "Adding a Public Certificate failed because it would exceed",
+    error: WebPublicCertificateNotAllowedOnTier,
+  },
+  {
+    includes: "The requested method is not implemented.",
+    error: WebMethodNotImplemented,
+  },
+  {
+    includes: "is not allowed to create or update the serverfarm",
+    error: ServerFarmCreateNotAllowed,
   },
   {
     includes: "Encryption scope is not supported",
@@ -2037,6 +2154,14 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: CosmosAccountBeingCreated,
   },
   {
+    includes: "isn't registered with the service",
+    error: SiteRecoveryVaultNotRegistered,
+  },
+  {
+    includes: "There are no servers registered to the Azure Site Recovery vault",
+    error: SiteRecoveryNoRegisteredServers,
+  },
+  {
     includes: "as ManagedByTenantId",
     error: LighthouseManagedByTenantNotAllowed,
   },
@@ -2128,6 +2253,7 @@ export type AzureApiError =
   | ManagementGroupNotFound
   | ServiceGroupNameNotFound
   | ShareNotFound
+  | FirewallRuleNotExist
   | QueueNotFound
   | ManagementPolicyNotFound
   | BlobInventoryPolicyNotFound
@@ -2155,6 +2281,9 @@ export type AzureApiError =
   | AppServicePlanCreateThrottled
   | HostNameVerificationFailed
   | WebAppSlotsNotSupported
+  | WebPublicCertificateNotAllowedOnTier
+  | WebMethodNotImplemented
+  | ServerFarmCreateNotAllowed
   | EventHubApplicationGroupNotSupported
   | SentinelAnomaliesNotSupported
   | GuestConfigurationMachineInfoUnavailable
@@ -2179,6 +2308,7 @@ export type AzureApiError =
   | SearchSharedPrivateLinkBusy
   | AgcIpAccessRulesNotEnabled
   | TasksOperationsNotAllowed
+  | DevTestLabsServiceRunnerDeprecated
   | BatchAccountNotEnabledForAutoStorage
   | MetricsContainerNotReady
   | CustomLocationNotFound
@@ -2201,6 +2331,8 @@ export type AzureApiError =
   | PeeringServicePrefixValidationFailed
   | CosmosPostgresProvisioningRetired
   | DevBoxTenantNotOnboarded
+  | DevCenterNetworkConnectionQuotaExceeded
+  | DevCenterNotAuthorizedToGallery
   | HDInsightCoresQuotaExceeded
   | RedHatOpenShiftVmSkuRestricted
   | SqlOperationInProgress
@@ -2224,4 +2356,6 @@ export type AzureApiError =
   | DataTransferConnectionNotApproved
   | IotDpsStateTransitioning
   | CosmosAccountBeingCreated
+  | SiteRecoveryVaultNotRegistered
+  | SiteRecoveryNoRegisteredServers
   | HttpResponsePayloadAPISpecValidationFailed;

@@ -11820,6 +11820,8 @@ export interface GetVnetConnectionResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives. */
+  location?: string;
 }
 export const GetVnetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11828,6 +11830,7 @@ export const GetVnetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(VnetConnectionProperties),
+    location: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetVnetConnectionResponse",
@@ -16323,6 +16326,8 @@ export interface VnetConnection {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives. */
+  location?: string;
 }
 export const VnetConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16331,6 +16336,7 @@ export const VnetConnection = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(VnetConnectionProperties),
+    location: S.optional(S.String),
   }),
 ).annotate({ identifier: "VnetConnection" }) as any as S.Schema<VnetConnection>;
 
@@ -19154,6 +19160,8 @@ export interface VnetConnectionsCreateOrUpdateRequest {
   vnetConnectionName: string;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives; must match the sandbox group's location. */
+  location: string;
 }
 export const VnetConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -19163,6 +19171,7 @@ export const VnetConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       sandboxGroupName: S.String.pipe(T.Label()),
       vnetConnectionName: S.String.pipe(T.Label()),
       properties: S.optional(VnetConnectionProperties),
+      location: S.String,
     }).pipe(
       T.Http({
         method: "PUT",
@@ -19186,6 +19195,8 @@ export interface VnetConnectionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives. */
+  location?: string;
 }
 export const VnetConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -19195,6 +19206,7 @@ export const VnetConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(VnetConnectionProperties),
+      location: S.optional(S.String),
     }),
 ).annotate({
   identifier: "VnetConnectionsCreateOrUpdateResponse",
