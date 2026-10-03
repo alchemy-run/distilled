@@ -2318,14 +2318,32 @@ export type PartitionScheme =
   | "Named";
 export const PartitionScheme = S.String;
 
+/** Partition names (Named scheme). */
+export type PartitionNamesList = Array<string>;
+export const PartitionNamesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PartitionNamesList>;
+
 /** Describes how the service is partitioned. */
 export interface PartitionSchemeDescription {
   /** Specifies how the service is partitioned. */
   partitionScheme: PartitionScheme | (string & {});
+  /** Number of partitions (UniformInt64Range / Named). */
+  count?: number;
+  /** Lower bound of the partition key range (UniformInt64Range). */
+  lowKey?: string;
+  /** Upper bound of the partition key range (UniformInt64Range). */
+  highKey?: string;
+  /** Partition names (Named). */
+  names?: PartitionNamesList;
 }
 export const PartitionSchemeDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     partitionScheme: PartitionScheme,
+    count: S.optional(S.Number),
+    lowKey: S.optional(S.String),
+    highKey: S.optional(S.String),
+    names: S.optional(PartitionNamesList),
   }),
 ).annotate({
   identifier: "PartitionSchemeDescription",
@@ -2355,6 +2373,22 @@ export interface ServiceResourceProperties {
   servicePackageActivationMode?: ServiceResourcePropertiesServicePackageActivationMode;
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
   serviceDnsName?: string;
+  /** Stateless: number of instances per partition (-1 = one on every node). */
+  instanceCount?: number;
+  /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
+  instanceCloseDelayDuration?: string;
+  /** Stateful: target replica set size. */
+  targetReplicaSetSize?: number;
+  /** Stateful: minimum replica set size. */
+  minReplicaSetSize?: number;
+  /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
+  replicaRestartWaitDuration?: string;
+  /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
+  quorumLossWaitDuration?: string;
+  /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
+  standByReplicaKeepDuration?: string;
+  /** Stateful: whether the service persists state on local disk. */
+  hasPersistedState?: boolean;
 }
 export const ServiceResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2371,6 +2405,14 @@ export const ServiceResourceProperties = /*@__PURE__*/ S.suspend(() =>
       ServiceResourcePropertiesServicePackageActivationMode,
     ),
     serviceDnsName: S.optional(S.String),
+    instanceCount: S.optional(S.Number),
+    instanceCloseDelayDuration: S.optional(S.String),
+    targetReplicaSetSize: S.optional(S.Number),
+    minReplicaSetSize: S.optional(S.Number),
+    replicaRestartWaitDuration: S.optional(S.String),
+    quorumLossWaitDuration: S.optional(S.String),
+    standByReplicaKeepDuration: S.optional(S.String),
+    hasPersistedState: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ServiceResourceProperties",
@@ -3078,6 +3120,22 @@ export interface ServiceResourcePropertiesInput {
     | (string & {});
   /** Dns name used for the service. If this is specified, then the service can be accessed via its DNS name instead of service name. */
   serviceDnsName?: string;
+  /** Stateless: number of instances per partition (-1 = one on every node). */
+  instanceCount?: number;
+  /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
+  instanceCloseDelayDuration?: string;
+  /** Stateful: target replica set size. */
+  targetReplicaSetSize?: number;
+  /** Stateful: minimum replica set size. */
+  minReplicaSetSize?: number;
+  /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
+  replicaRestartWaitDuration?: string;
+  /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
+  quorumLossWaitDuration?: string;
+  /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
+  standByReplicaKeepDuration?: string;
+  /** Stateful: whether the service persists state on local disk. */
+  hasPersistedState?: boolean;
 }
 export const ServiceResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3093,6 +3151,14 @@ export const ServiceResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
       ServiceResourcePropertiesInputServicePackageActivationMode,
     ),
     serviceDnsName: S.optional(S.String),
+    instanceCount: S.optional(S.Number),
+    instanceCloseDelayDuration: S.optional(S.String),
+    targetReplicaSetSize: S.optional(S.Number),
+    minReplicaSetSize: S.optional(S.Number),
+    replicaRestartWaitDuration: S.optional(S.String),
+    quorumLossWaitDuration: S.optional(S.String),
+    standByReplicaKeepDuration: S.optional(S.String),
+    hasPersistedState: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ServiceResourcePropertiesInput",
@@ -3462,6 +3528,20 @@ export interface ServiceResourceUpdateProperties {
   servicePlacementPolicies?: ServicePlacementPoliciesList;
   defaultMoveCost?: MoveCost | (string & {});
   serviceKind: ServiceKind | (string & {});
+  /** Stateless: number of instances per partition (-1 = one on every node). */
+  instanceCount?: number;
+  /** Stateless: delay before closing instances during upgrade (ISO 8601 duration). */
+  instanceCloseDelayDuration?: string;
+  /** Stateful: target replica set size. */
+  targetReplicaSetSize?: number;
+  /** Stateful: minimum replica set size. */
+  minReplicaSetSize?: number;
+  /** Stateful: wait before a down replica is replaced (ISO 8601 duration). */
+  replicaRestartWaitDuration?: string;
+  /** Stateful: maximum time a partition may be in quorum loss (ISO 8601 duration). */
+  quorumLossWaitDuration?: string;
+  /** Stateful: how long standby replicas are kept (ISO 8601 duration). */
+  standByReplicaKeepDuration?: string;
 }
 export const ServiceResourceUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3471,6 +3551,13 @@ export const ServiceResourceUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     servicePlacementPolicies: S.optional(ServicePlacementPoliciesList),
     defaultMoveCost: S.optional(MoveCost),
     serviceKind: ServiceKind,
+    instanceCount: S.optional(S.Number),
+    instanceCloseDelayDuration: S.optional(S.String),
+    targetReplicaSetSize: S.optional(S.Number),
+    minReplicaSetSize: S.optional(S.Number),
+    replicaRestartWaitDuration: S.optional(S.String),
+    quorumLossWaitDuration: S.optional(S.String),
+    standByReplicaKeepDuration: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ServiceResourceUpdateProperties",

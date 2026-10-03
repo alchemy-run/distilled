@@ -1,0 +1,132 @@
+{
+  "description": "StorageClassTypeProperties is polymorphic on `type` (Native/RWX/Blob/NFS/SMB) in the REST spec, but the converter kept only the discriminator, so PUT could not send and GET dropped the per-type fields (backingStorageClassName, azureStorageAccountName/Key, server, share, ...). Flatten the subtype fields onto the base shape as optional members, and mark the storage-account key sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/backingStorageClassName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The backing storageclass used to create new storageclass"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/azureStorageAccountName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Azure Storage Account Name"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/azureStorageAccountKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Azure Storage Account Key",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/server",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "NFS Server"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/share",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "NFS share"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/subDir",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Sub directory under share. If the sub directory doesn't exist, driver will create it"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/mountPermissions",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/onDelete",
+      "value": {
+        "target": "com.azure.kubernetesruntime#NfsDirectoryActionOnVolumeDeletion",
+        "traits": {
+          "smithy.api#documentation": "The action to take when a NFS volume is deleted. Default is Delete"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/source",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SMB Source"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/username",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Server username"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/password",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Server password",
+          "smithy.api#sensitive": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypeProperties/members/domain",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Server domain"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.kubernetesruntime#StorageClassTypePropertiesUpdate/members/azureStorageAccountKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

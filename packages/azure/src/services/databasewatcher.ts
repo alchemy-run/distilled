@@ -726,6 +726,18 @@ export interface TargetProperties {
   connectionServerName: string;
   /** The provisioning state of the resource. */
   provisioningState?: AzureResourceManagerResourceProvisioningState;
+  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
+  sqlDbResourceId?: string;
+  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
+  sqlEpResourceId?: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
+  anchorDatabaseResourceId?: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
+  sqlMiResourceId?: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
+  connectionTcpPort?: number;
+  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  readIntent?: boolean;
 }
 export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -736,6 +748,12 @@ export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(
       AzureResourceManagerResourceProvisioningState,
     ),
+    sqlDbResourceId: S.optional(S.String),
+    sqlEpResourceId: S.optional(S.String),
+    anchorDatabaseResourceId: S.optional(S.String),
+    sqlMiResourceId: S.optional(S.String),
+    connectionTcpPort: S.optional(S.Number),
+    readIntent: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "TargetProperties",
@@ -1640,6 +1658,18 @@ export interface TargetPropertiesInput {
   targetVault?: VaultSecret;
   /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
+  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
+  sqlDbResourceId?: string;
+  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
+  sqlEpResourceId?: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
+  anchorDatabaseResourceId?: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
+  sqlMiResourceId?: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
+  connectionTcpPort?: number;
+  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  readIntent?: boolean;
 }
 export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1647,6 +1677,12 @@ export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     targetAuthenticationType: TargetAuthenticationType,
     targetVault: S.optional(VaultSecret),
     connectionServerName: S.String,
+    sqlDbResourceId: S.optional(S.String),
+    sqlEpResourceId: S.optional(S.String),
+    anchorDatabaseResourceId: S.optional(S.String),
+    sqlMiResourceId: S.optional(S.String),
+    connectionTcpPort: S.optional(S.Number),
+    readIntent: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "TargetPropertiesInput",

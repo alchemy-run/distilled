@@ -585,13 +585,13 @@ export const ProvisioningState = S.String;
 /** The properties of a cluster role. */
 export interface RoleProperties {
   /** The password of the cluster role. */
-  password: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string>;
   /** Provisioning state of the role */
   provisioningState?: ProvisioningState;
 }
 export const RoleProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    password: S.String.pipe(T.SensitiveValue({})),
+    password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     provisioningState: S.optional(ProvisioningState),
   }),
 ).annotate({ identifier: "RoleProperties" }) as any as S.Schema<RoleProperties>;

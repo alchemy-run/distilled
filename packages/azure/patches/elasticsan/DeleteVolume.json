@@ -1,0 +1,27 @@
+{
+  "description": "DeleteVolume accepts x-ms-delete-snapshots and x-ms-force-delete headers (dropped by the converter). Without them a volume that has snapshots or an active iSCSI session cannot be deleted. Add both as optional header members.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.elasticsan#DeleteVolumeRequest/members/xMsDeleteSnapshots",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-delete-snapshots",
+          "smithy.api#documentation": "Optional, used to delete snapshots under volume. Allowed value are only true or false. Default value is false."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.elasticsan#DeleteVolumeRequest/members/xMsForceDelete",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-force-delete",
+          "smithy.api#documentation": "Optional, used to delete volume if active sessions present. Allowed value are only true or false. Default value is false."
+        }
+      }
+    }
+  ]
+}

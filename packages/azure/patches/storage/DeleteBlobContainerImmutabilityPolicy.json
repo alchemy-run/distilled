@@ -1,0 +1,17 @@
+{
+  "description": "Aborting an unlocked immutability policy requires an If-Match ETag header (the spec's ifMatch parameter was dropped by the converter), so the delete could not be called. Add the required ifMatch header member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.storage#DeleteBlobContainerImmutabilityPolicyRequest/members/ifMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-Match",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The entity state (ETag) version of the immutability policy to abort. A value of \"*\" applies to all."
+        }
+      }
+    }
+  ]
+}

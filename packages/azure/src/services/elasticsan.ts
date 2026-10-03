@@ -1211,6 +1211,10 @@ export interface DeleteVolumeRequest {
   volumeGroupName: string;
   /** The name of the Volume. */
   volumeName: string;
+  /** Optional, used to delete snapshots under volume. Allowed value are only true or false. Default value is false. */
+  xMsDeleteSnapshots?: string;
+  /** Optional, used to delete volume if active sessions present. Allowed value are only true or false. Default value is false. */
+  xMsForceDelete?: string;
 }
 export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1219,6 +1223,10 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     elasticSanName: S.String.pipe(T.Label()),
     volumeGroupName: S.String.pipe(T.Label()),
     volumeName: S.String.pipe(T.Label()),
+    xMsDeleteSnapshots: S.optional(
+      S.String.pipe(T.Header("x-ms-delete-snapshots")),
+    ),
+    xMsForceDelete: S.optional(S.String.pipe(T.Header("x-ms-force-delete"))),
   }).pipe(
     T.Http({
       method: "DELETE",

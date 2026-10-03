@@ -1590,14 +1590,52 @@ export const StorageConnectorDataSourceType = S.String;
 export type StorageConnectorSourceType = "DataShare";
 export const StorageConnectorSourceType = S.String;
 
+/** The connection properties of the backing data source */
+export interface StorageConnectorConnection {
+  /** Type of the connection, e.g. `DataShare`. Not mutable once the Storage Connector is created. */
+  type: string;
+  /** The URI of the backing DataShare, in the format `azds://<region>:<DataShareName>:<DataShareIdentifier>`. */
+  dataShareUri?: string;
+}
+export const StorageConnectorConnection = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    dataShareUri: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StorageConnectorConnection",
+}) as any as S.Schema<StorageConnectorConnection>;
+
+/** The authentication properties of the backing data source */
+export interface StorageConnectorAuthProperties {
+  /** Type of the authentication properties, e.g. `ManagedIdentity`. */
+  type: string;
+  /** ARM resource ID of the managed identity used to authenticate to the backing data source. */
+  identityResourceId?: string;
+}
+export const StorageConnectorAuthProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    identityResourceId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StorageConnectorAuthProperties",
+}) as any as S.Schema<StorageConnectorAuthProperties>;
+
 /** The storage connector backing data source information */
 export interface StorageConnectorSource {
   /** Type of the Storage Connector. Not mutable once the Storage Connector is created." */
   type: StorageConnectorSourceType | (string & {});
+  /** Details for how to connect to the backing data store. Not mutable once created. */
+  connection?: StorageConnectorConnection;
+  /** Details for how to authenticate to the backing data store. */
+  authProperties?: StorageConnectorAuthProperties;
 }
 export const StorageConnectorSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: StorageConnectorSourceType,
+    connection: S.optional(StorageConnectorConnection),
+    authProperties: S.optional(StorageConnectorAuthProperties),
   }),
 ).annotate({
   identifier: "StorageConnectorSource",
@@ -4512,6 +4550,8 @@ export interface DeleteBlobContainerImmutabilityPolicyRequest {
   accountName: string;
   /** The name of the blob container within the specified storage account. Blob container names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number. */
   containerName: string;
+  /** The entity state (ETag) version of the immutability policy to abort. A value of "*" applies to all. */
+  ifMatch: string;
 }
 export const DeleteBlobContainerImmutabilityPolicyRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -4520,6 +4560,7 @@ export const DeleteBlobContainerImmutabilityPolicyRequest =
       resourceGroupName: S.String.pipe(T.Label()),
       accountName: S.String.pipe(T.Label()),
       containerName: S.String.pipe(T.Label()),
+      ifMatch: S.String.pipe(T.Header("If-Match")),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -12206,8 +12247,20 @@ export type StorageConnectorPropertiesUpdateState = "Active" | "Inactive";
 export const StorageConnectorPropertiesUpdateState = S.String;
 
 /** The storage connector backing data source information */
-export type StorageConnectorSourceUpdate = StorageConnectorSource;
-export const StorageConnectorSourceUpdate = StorageConnectorSource;
+export interface StorageConnectorSourceUpdate {
+  /** Type of the Storage Connector. Not mutable once the Storage Connector is created." */
+  type: StorageConnectorSourceType | (string & {});
+  /** Details for how to authenticate to the backing data store. */
+  authProperties?: StorageConnectorAuthProperties;
+}
+export const StorageConnectorSourceUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: StorageConnectorSourceType,
+    authProperties: S.optional(StorageConnectorAuthProperties),
+  }),
+).annotate({
+  identifier: "StorageConnectorSourceUpdate",
+}) as any as S.Schema<StorageConnectorSourceUpdate>;
 
 /** The storage connector properties */
 export interface StorageConnectorPropertiesUpdate {
@@ -12218,14 +12271,14 @@ export interface StorageConnectorPropertiesUpdate {
   /** Test connection to backing data source before creating the storage connector. */
   testConnection?: boolean;
   /** Information about how to communicate with and authenticate to the backing data store. */
-  source?: StorageConnectorSource;
+  source?: StorageConnectorSourceUpdate;
 }
 export const StorageConnectorPropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(StorageConnectorPropertiesUpdateState),
     description: S.optional(S.String),
     testConnection: S.optional(S.Boolean),
-    source: S.optional(StorageConnectorSource),
+    source: S.optional(StorageConnectorSourceUpdate),
   }),
 ).annotate({
   identifier: "StorageConnectorPropertiesUpdate",

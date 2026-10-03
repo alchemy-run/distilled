@@ -96,6 +96,9 @@ interface ArmError {
   code?: string;
   message?: string;
   target?: string;
+  /** Codes/messages of `error.details[]` (e.g. a generic `ValidationError`
+   * whose real cause is a nested detail code). */
+  details?: ReadonlyArray<{ code?: string; message?: string }>;
 }
 
 /**
@@ -119,7 +122,25 @@ const parseArmError = (body: unknown): ArmError | undefined => {
   const message = field("message");
   const target = field("target");
   if (code === undefined && message === undefined) return undefined;
-  return { code, message, target };
+  const details = Array.isArray(inner.details)
+    ? inner.details.flatMap((d: unknown) =>
+        d !== null && typeof d === "object"
+          ? [
+              {
+                code:
+                  typeof (d as { code?: unknown }).code === "string"
+                    ? ((d as { code: string }).code as string)
+                    : undefined,
+                message:
+                  typeof (d as { message?: unknown }).message === "string"
+                    ? ((d as { message: string }).message as string)
+                    : undefined,
+              },
+            ]
+          : [],
+      )
+    : undefined;
+  return { code, message, target, details };
 };
 
 // ---------------------------------------------------------------------------
@@ -219,6 +240,22 @@ const decode = ({
           new AzureErrorClass({
             message: arm!.message,
             code: arm!.code,
+            target: arm!.target,
+          }),
+        );
+      }
+
+      // 1b. A generic top-level code (e.g. `ValidationError`) whose nested
+      //     `details[].code` is mapped.
+      const detail = arm?.details?.find(
+        (d) => d.code !== undefined && AZURE_ERROR_CODE_MAP[d.code],
+      );
+      if (detail !== undefined) {
+        const DetailErrorClass = AZURE_ERROR_CODE_MAP[detail.code!]!;
+        return yield* fail(
+          new DetailErrorClass({
+            message: detail.message ?? arm!.message,
+            code: detail.code,
             target: arm!.target,
           }),
         );

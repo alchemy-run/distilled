@@ -396,14 +396,89 @@ export const CreateProviderInstanceRequestIdentity = /*@__PURE__*/ S.suspend(
   identifier: "CreateProviderInstanceRequestIdentity",
 }) as any as S.Schema<CreateProviderInstanceRequestIdentity>;
 
+/** Host file entries (SapNetWeaver). */
+export type ProviderSapHostFileEntriesList = Array<string>;
+export const ProviderSapHostFileEntriesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ProviderSapHostFileEntriesList>;
+
 /** Gets or sets the provider specific properties. */
 export interface ProviderSpecificProperties {
   /** The provider type. For example, the value can be SapHana. */
   providerType: string;
+  /** Host name (SapHana, MsSqlServer, Db2, PrometheusHaCluster). */
+  hostname?: string;
+  /** Database name (SapHana, Db2). */
+  dbName?: string;
+  /** SQL port (SapHana). */
+  sqlPort?: string;
+  /** Database instance number (SapHana). */
+  instanceNumber?: string;
+  /** Database port (MsSqlServer, Db2). */
+  dbPort?: string;
+  /** Database user name. */
+  dbUsername?: string;
+  /** Database password. */
+  dbPassword?: string;
+  /** Key Vault secret URI of the database password. */
+  dbPasswordUri?: string;
+  /** Host name in the SSL certificate (SapHana). */
+  sslHostNameInCertificate?: string;
+  /** SAP system identifier. */
+  sapSid?: string;
+  /** SAP NetWeaver host name. */
+  sapHostname?: string;
+  /** SAP NetWeaver instance number. */
+  sapInstanceNr?: string;
+  /** SAP NetWeaver user name. */
+  sapUsername?: string;
+  /** SAP NetWeaver password. */
+  sapPassword?: string;
+  /** Key Vault secret URI of the SAP password. */
+  sapPasswordUri?: string;
+  /** SAP client ID. */
+  sapClientId?: string;
+  /** SAP HTTP port number. */
+  sapPortNumber?: string;
+  /** URL of the node exporter / HA cluster exporter endpoint (PrometheusOS, PrometheusHaCluster). */
+  prometheusUrl?: string;
+  /** Cluster SID (PrometheusHaCluster). */
+  sid?: string;
+  /** Cluster name (PrometheusHaCluster). */
+  clusterName?: string;
+  /** Blob URI of the SSL certificate. */
+  sslCertificateUri?: string;
+  /** SSL preference: Disabled, RootCertificate or ServerCertificate. */
+  sslPreference?: string;
+  /** Host file entries (SapNetWeaver). */
+  sapHostFileEntries?: ProviderSapHostFileEntriesList;
 }
 export const ProviderSpecificProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     providerType: S.String,
+    hostname: S.optional(S.String),
+    dbName: S.optional(S.String),
+    sqlPort: S.optional(S.String),
+    instanceNumber: S.optional(S.String),
+    dbPort: S.optional(S.String),
+    dbUsername: S.optional(S.String),
+    dbPassword: S.optional(S.String),
+    dbPasswordUri: S.optional(S.String),
+    sslHostNameInCertificate: S.optional(S.String),
+    sapSid: S.optional(S.String),
+    sapHostname: S.optional(S.String),
+    sapInstanceNr: S.optional(S.String),
+    sapUsername: S.optional(S.String),
+    sapPassword: S.optional(S.String),
+    sapPasswordUri: S.optional(S.String),
+    sapClientId: S.optional(S.String),
+    sapPortNumber: S.optional(S.String),
+    prometheusUrl: S.optional(S.String),
+    sid: S.optional(S.String),
+    clusterName: S.optional(S.String),
+    sslCertificateUri: S.optional(S.String),
+    sslPreference: S.optional(S.String),
+    sapHostFileEntries: S.optional(ProviderSapHostFileEntriesList),
   }),
 ).annotate({
   identifier: "ProviderSpecificProperties",
@@ -2208,10 +2283,28 @@ export const SAPConfigurationType = S.String;
 export interface SAPConfiguration_2 {
   /** The configuration type. Eg: Deployment/Discovery */
   configurationType: SAPConfigurationType | (string & {});
+  /** Region of the SAP system's managed resources (Deployment, DeploymentWithOSConfig, Discovery). */
+  appLocation?: string;
+  /** ARM id of the central server VM of an existing SAP system (Discovery). */
+  centralServerVmId?: string;
+  /** Custom storage account name in the managed resource group (Discovery). */
+  managedRgStorageAccountName?: string;
+  /** Infrastructure configuration (Deployment, DeploymentWithOSConfig); polymorphic on `deploymentType`. */
+  infrastructureConfiguration?: unknown;
+  /** Software configuration (Deployment, DeploymentWithOSConfig); polymorphic on `softwareInstallationType`. */
+  softwareConfiguration?: unknown;
+  /** OS and SAP configuration (DeploymentWithOSConfig). */
+  osSapConfiguration?: unknown;
 }
 export const SAPConfiguration_2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     configurationType: SAPConfigurationType,
+    appLocation: S.optional(S.String),
+    centralServerVmId: S.optional(S.String),
+    managedRgStorageAccountName: S.optional(S.String),
+    infrastructureConfiguration: S.optional(S.Unknown),
+    softwareConfiguration: S.optional(S.Unknown),
+    osSapConfiguration: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SAPConfiguration_2",

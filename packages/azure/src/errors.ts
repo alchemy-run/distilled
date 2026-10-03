@@ -714,6 +714,18 @@ export class SkuNotAvailable extends Schema.TaggedError<SkuNotAvailable>()(
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned by Microsoft.ServiceNetworking (Application Gateway for
+ * Containers) when an `ipAccessRules` security policy is created on a
+ * subscription without the preview feature enabled. Azure error code:
+ * `BadRequest` (HTTP 400, "...IP Access Rules security policy feature is
+ * not enabled.").
+ */
+export class AgcIpAccessRulesNotEnabled extends Schema.TaggedError<AgcIpAccessRulesNotEnabled>()(
+  "AgcIpAccessRulesNotEnabled",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.Search when deleting a shared private link resource
  * that is still provisioning. Azure error code: `BadRequest` (HTTP 400,
  * "...as it is still being provisioned. Try again later.").
@@ -780,6 +792,39 @@ export class CognitiveServicesEncryptionScopeNotSupported extends Schema.TaggedE
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
+/**
+ * Returned by Microsoft.SignalRService when a feature (custom certificates,
+ * custom domains, replicas, ...) is written to a service whose tier lacks
+ * it. Azure returns HTTP 409 `Conflict` "The resource SKU does not support
+ * ..." (matched by message).
+ */
+export class SignalRSkuFeatureNotSupported extends Schema.TaggedError<SignalRSkuFeatureNotSupported>()(
+  "SignalRSkuFeatureNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.SignalRService when a shared private link resource
+ * is written to a replica before the primary's link of the same name has
+ * replicated to it. Azure returns HTTP 409 `Conflict` "Cannot create a new
+ * shared private link resource for replicas directly" (matched by message).
+ */
+export class SignalRReplicaLinkNotReplicated extends Schema.TaggedError<SignalRReplicaLinkNotReplicated>()(
+  "SignalRReplicaLinkNotReplicated",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.Datadog when the Datadog Marketplace SaaS purchase
+ * behind a monitor cannot be validated, e.g. on a Free Trial subscription
+ * or before the Datadog Marketplace terms are accepted. HTTP 400
+ * `ResourceCreationValidateFailed` "The resource validation failed."
+ */
+export class DatadogMonitorCreationValidateFailed extends Schema.TaggedError<DatadogMonitorCreationValidateFailed>()(
+  "DatadogMonitorCreationValidateFailed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
 // ---------------------------------------------------------------------------
 // Azure error code → typed error class mapping
 // ---------------------------------------------------------------------------
@@ -788,8 +833,20 @@ export class CognitiveServicesEncryptionScopeNotSupported extends Schema.TaggedE
  * Azure error code to typed error class mapping.
  * Used by the protocol's error matching to dispatch by ARM error code.
  */
+/**
+ * Microsoft.DevCenter: Dev Box stopped accepting new customers on
+ * 2025-11-01, so a tenant not already onboarded cannot create dev box
+ * definitions, pools, or schedules. HTTP 400 `ValidationError` "The request
+ * is not valid." whose `details[].code` is `TenantNotOnboardedToLegacy`.
+ */
+export class DevBoxTenantNotOnboarded extends Schema.TaggedError<DevBoxTenantNotOnboarded>()(
+  "DevBoxTenantNotOnboarded",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
 export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   {
+    TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
     // Not-found
     ResourceNotFound: ResourceNotFound,
     ResourceGroupNotFound: ResourceGroupNotFound,
@@ -877,6 +934,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     BMSUserErrorRedundancySettingsUseVaultApi: BackupConfigManagedByVaultApi,
     SkuNotAvailable: SkuNotAvailable,
     TasksOperationsNotAllowed: TasksOperationsNotAllowed,
+    ResourceCreationValidateFailed: DatadogMonitorCreationValidateFailed,
     ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity:
       FederatedIdentityCredentialWriteConflict,
   };
@@ -985,6 +1043,73 @@ export class AzureLocalArcMachineRequired extends Schema.TaggedError<AzureLocalA
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.Peering when a peering references a peer ASN that
+ * Microsoft has not approved for the subscription. HTTP 400 without an
+ * error code (matched by message).
+ */
+export class PeeringPeerAsnNotApproved extends Schema.TaggedError<PeeringPeerAsnNotApproved>()(
+  "PeeringPeerAsnNotApproved",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Peering when a peering service prefix carries no
+ * or an unknown provider prefix key. HTTP 400 without an error code
+ * (matched by message).
+ */
+export class PeeringServicePrefixKeyInvalid extends Schema.TaggedError<PeeringServicePrefixKeyInvalid>()(
+  "PeeringServicePrefixKeyInvalid",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Peering when the provider cannot validate a
+ * peering service prefix ("Prefix validation failed. ErrorCode=...").
+ * Azure uses HTTP 404 without an error code, so it must not be read as
+ * "resource not found" (matched by message).
+ */
+export class PeeringServicePrefixValidationFailed extends Schema.TaggedError<PeeringServicePrefixValidationFailed>()(
+  "PeeringServicePrefixValidationFailed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.DBforPostgreSQL/serverGroupsv2 when creating a new
+ * Cosmos DB for PostgreSQL cluster: the service is retiring and no longer
+ * provisions new clusters (existing clusters, restores and read replicas
+ * still work). HTTP 400 "Provisioning new Azure Cosmos DB for PostgreSQL
+ * clusters is no longer supported" (matched by message).
+ */
+export class CosmosPostgresProvisioningRetired extends Schema.TaggedError<CosmosPostgresProvisioningRetired>()(
+  "CosmosPostgresProvisioningRetired",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.HDInsight when creating or resizing a cluster
+ * exceeds the subscription's regional HDInsight cores quota (0 on free
+ * trials). HTTP 400 "User SubscriptionId '...' does not have cores left to
+ * create resource '...'. Required: N, Available: M." without an error code
+ * (matched by message).
+ */
+export class HDInsightCoresQuotaExceeded extends Schema.TaggedError<HDInsightCoresQuotaExceeded>()(
+  "HDInsightCoresQuotaExceeded",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Storage when a storage task assignment is written
+ * while its previous asynchronous PUT is still running (GET may already
+ * report `Succeeded`). HTTP 409 `InvalidResourceOperation` with "Another
+ * 'PUT' operation ... is active/in-progress ... storageTaskAssignments";
+ * retry until it settles.
+ */
+export class StorageTaskAssignmentOperationInProgress extends Schema.TaggedError<StorageTaskAssignmentOperationInProgress>()(
+  "StorageTaskAssignmentOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned by Microsoft.HybridNetwork (Azure Operator Service Manager) when
  * a write arrives while the previous asynchronous operation on the same
  * resource is still running (GET may already report `Succeeded`). Azure
@@ -996,6 +1121,27 @@ export class HybridNetworkOperationInProgress extends Schema.TaggedError<HybridN
   "HybridNetworkOperationInProgress",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.HybridCompute when an Arc gateway is written or
+ * deleted while it is still provisioning. HTTP 409 without an error code
+ * ("Gateway operation not allowed. The Gateway is a transitioning state.",
+ * matched by message); retry until it settles.
+ */
+export class HybridComputeGatewayTransitioning extends Schema.TaggedError<HybridComputeGatewayTransitioning>()(
+  "HybridComputeGatewayTransitioning",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.HybridCompute when a license profile is written to
+ * an Arc machine whose Connected Machine agent has not connected. HTTP 400
+ * without an error code (matched by message).
+ */
+export class ArcMachineNotConnected extends Schema.TaggedError<ArcMachineNotConnected>()(
+  "ArcMachineNotConnected",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.Sql when a write to a server/database setting
@@ -1119,6 +1265,29 @@ export class FrontDoorFreeTrialForbidden extends Schema.TaggedError<FrontDoorFre
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Azure Native ISV (Marketplace SaaS) resource providers such as
+ * Microsoft.Confluent when the subscription cannot purchase the offer's
+ * plan, e.g. "SaaS Purchase Payment Check Failed as validationResponse was
+ * {isEligible: false, errorMessage: The plan '...' can't be purchased using
+ * a free subscription}". HTTP 400 without a specific code (matched by
+ * message).
+ */
+export class MarketplacePurchaseNotEligible extends Schema.TaggedError<MarketplacePurchaseNotEligible>()(
+  "MarketplacePurchaseNotEligible",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Communication when deleting the last sender
+ * username of an email domain: HTTP 400 "Cannot remove all
+ * SenderUsernames." (matched by message). The sender goes with its domain.
+ */
+export class SenderUsernameLastRemaining extends Schema.TaggedError<SenderUsernameLastRemaining>()(
+  "SenderUsernameLastRemaining",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
  * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
  * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
@@ -1129,6 +1298,20 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly includes: string;
   readonly error: new (props: any) => unknown;
 }> = [
+  {
+    includes: "Cannot remove all SenderUsernames",
+    error: SenderUsernameLastRemaining,
+  },
+  {
+    code: "Conflict",
+    includes: "Cannot create a new shared private link resource for replicas",
+    error: SignalRReplicaLinkNotReplicated,
+  },
+  {
+    code: "Conflict",
+    includes: "The resource SKU does not support",
+    error: SignalRSkuFeatureNotSupported,
+  },
   {
     includes: "is transitioning at this time",
     error: ApiManagementServiceTransitioning,
@@ -1169,6 +1352,12 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   },
   {
     includes: "is not registered for feature:",
+    error: SubscriptionFeatureNotRegistered,
+  },
+  // Microsoft.Network previews: "Subscription X is not registered for
+  // feature Microsoft.Network/AllowServiceGateways required to ...".
+  {
+    includes: "is not registered for feature Microsoft.",
     error: SubscriptionFeatureNotRegistered,
   },
   // Microsoft.Network perimeter logging: "... tenant is not whitelisted and
@@ -1213,6 +1402,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: SearchSharedPrivateLinkBusy,
   },
   {
+    code: "BadRequest",
+    includes: "IP Access Rules security policy feature is not enabled",
+    error: AgcIpAccessRulesNotEnabled,
+  },
+  {
     includes: "record pointing from",
     error: HostNameVerificationFailed,
   },
@@ -1241,6 +1435,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "already in progress. Use Azure-AsyncOperation",
     error: SqlOperationInProgress,
+  },
+  {
+    code: "InvalidResourceOperation",
+    includes: "storageAccounts/storageTaskAssignments",
+    error: StorageTaskAssignmentOperationInProgress,
   },
   {
     code: "InvalidResourceOperation",
@@ -1301,6 +1500,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: FrontDoorFreeTrialForbidden,
   },
   {
+    includes: "SaaS Purchase Payment Check Failed",
+    error: MarketplacePurchaseNotEligible,
+  },
+  {
     includes: "is not supported in this group",
     error: MigrateAssessmentTypeNotSupported,
   },
@@ -1311,6 +1514,14 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "Run as account Id '",
     error: MigrateRunAsAccountInvalid,
+  },
+  {
+    includes: "The Gateway is a transitioning state",
+    error: HybridComputeGatewayTransitioning,
+  },
+  {
+    includes: "The Hybrid Compute machine is not connected to Azure",
+    error: ArcMachineNotConnected,
   },
   // Microsoft.AzureStackHCI (Arc VM instances): "The custom location '...'
   // does not exist or returned an invalid response."
@@ -1326,6 +1537,27 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "which is not supported for deployment.Supported SKUs",
     error: AzureLocalArcMachineRequired,
+  },
+  {
+    includes: "PeerAsn is not approved for the subscription",
+    error: PeeringPeerAsnNotApproved,
+  },
+  {
+    includes: "Prefix key is invalid",
+    error: PeeringServicePrefixKeyInvalid,
+  },
+  {
+    includes: "Prefix validation failed",
+    error: PeeringServicePrefixValidationFailed,
+  },
+  {
+    includes:
+      "Provisioning new Azure Cosmos DB for PostgreSQL clusters is no longer supported",
+    error: CosmosPostgresProvisioningRetired,
+  },
+  {
+    includes: "does not have cores left to create resource",
+    error: HDInsightCoresQuotaExceeded,
   },
 ];
 
@@ -1440,6 +1672,7 @@ export type AzureApiError =
   | MachineLearningModelNotAvailable
   | SkuNotAvailable
   | SearchSharedPrivateLinkBusy
+  | AgcIpAccessRulesNotEnabled
   | TasksOperationsNotAllowed
   | MetricsContainerNotReady
   | CustomLocationNotFound
@@ -1448,11 +1681,25 @@ export type AzureApiError =
   | EdgeContextCapabilityMissing
   | AgentSpaceNotAllowed
   | FrontDoorFreeTrialForbidden
+  | SenderUsernameLastRemaining
+  | MarketplacePurchaseNotEligible
+  | DatadogMonitorCreationValidateFailed
   | MigrateAssessmentTypeNotSupported
   | MigrateVcenterNotFound
   | MigrateRunAsAccountInvalid
   | AzureLocalArcMachineRequired
+  | PeeringPeerAsnNotApproved
+  | PeeringServicePrefixKeyInvalid
+  | PeeringServicePrefixValidationFailed
+  | CosmosPostgresProvisioningRetired
+  | DevBoxTenantNotOnboarded
+  | HDInsightCoresQuotaExceeded
   | SqlOperationInProgress
+  | SignalRSkuFeatureNotSupported
+  | SignalRReplicaLinkNotReplicated
   | HybridNetworkOperationInProgress
+  | StorageTaskAssignmentOperationInProgress
   | SqlServerKeyNameInvalid
-  | LinkedStorageAccountFaulted;
+  | LinkedStorageAccountFaulted
+  | HybridComputeGatewayTransitioning
+  | ArcMachineNotConnected;

@@ -649,12 +649,57 @@ export interface EndpointBasePropertiesInput {
   description?: string;
   /** The Endpoint resource kind source or target. */
   endpointKind?: EndpointKind | (string & {});
+  /** ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  storageAccountResourceId?: string;
+  /** Blob container name (AzureStorageBlobContainer). */
+  blobContainerName?: string;
+  /** File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  fileShareName?: string;
+  /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
+  enableCrossTenantTransfer?: boolean;
+  /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
+  allowedStorageAccounts?: unknown;
+  /** Host name or IP address of the server (NfsMount, SmbMount). */
+  host?: string;
+  /** NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount). */
+  nfsVersion?: string;
+  /** Directory exported from the NFS server (NfsMount). */
+  export?: string;
+  /** SMB share name (SmbMount). */
+  shareName?: string;
+  /** Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC). */
+  sourceType?: string;
+  /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
+  credentials?: unknown;
+  /** ARM ID of the multi-cloud connector (AzureMultiCloudConnector). */
+  multiCloudConnectorId?: string;
+  /** ARM ID of the AWS S3 bucket (AzureMultiCloudConnector). */
+  awsS3BucketId?: string;
+  /** Source URI (S3WithHMAC). */
+  sourceUri?: string;
+  /** Description of an `Other` source type (S3WithHMAC). */
+  otherSourceTypeDescription?: string;
 }
 export const EndpointBasePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: EndpointType,
     description: S.optional(S.String),
     endpointKind: S.optional(EndpointKind),
+    storageAccountResourceId: S.optional(S.String),
+    blobContainerName: S.optional(S.String),
+    fileShareName: S.optional(S.String),
+    enableCrossTenantTransfer: S.optional(S.Boolean),
+    allowedStorageAccounts: S.optional(S.Unknown),
+    host: S.optional(S.String),
+    nfsVersion: S.optional(S.String),
+    export: S.optional(S.String),
+    shareName: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    credentials: S.optional(S.Unknown),
+    multiCloudConnectorId: S.optional(S.String),
+    awsS3BucketId: S.optional(S.String),
+    sourceUri: S.optional(S.String),
+    otherSourceTypeDescription: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EndpointBasePropertiesInput",
@@ -744,6 +789,36 @@ export interface EndpointBaseProperties {
   endpointKind?: EndpointKind;
   /** The provisioning state of this resource. */
   provisioningState?: ProvisioningState;
+  /** ARM ID of the storage account (AzureStorageBlobContainer, AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  storageAccountResourceId?: string;
+  /** Blob container name (AzureStorageBlobContainer). */
+  blobContainerName?: string;
+  /** File share name (AzureStorageSmbFileShare, AzureStorageNfsFileShare). */
+  fileShareName?: string;
+  /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
+  enableCrossTenantTransfer?: boolean;
+  /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
+  allowedStorageAccounts?: unknown;
+  /** Host name or IP address of the server (NfsMount, SmbMount). */
+  host?: string;
+  /** NFS protocol version: NFSauto, NFSv3 or NFSv4 (NfsMount). */
+  nfsVersion?: string;
+  /** Directory exported from the NFS server (NfsMount). */
+  export?: string;
+  /** SMB share name (SmbMount). */
+  shareName?: string;
+  /** Source type, e.g. NfsMount, FSX-EFS, SmbMount, FSX-SMB (NfsMount, SmbMount, S3WithHMAC). */
+  sourceType?: string;
+  /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
+  credentials?: unknown;
+  /** ARM ID of the multi-cloud connector (AzureMultiCloudConnector). */
+  multiCloudConnectorId?: string;
+  /** ARM ID of the AWS S3 bucket (AzureMultiCloudConnector). */
+  awsS3BucketId?: string;
+  /** Source URI (S3WithHMAC). */
+  sourceUri?: string;
+  /** Description of an `Other` source type (S3WithHMAC). */
+  otherSourceTypeDescription?: string;
 }
 export const EndpointBaseProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -751,6 +826,21 @@ export const EndpointBaseProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     endpointKind: S.optional(EndpointKind),
     provisioningState: S.optional(ProvisioningState),
+    storageAccountResourceId: S.optional(S.String),
+    blobContainerName: S.optional(S.String),
+    fileShareName: S.optional(S.String),
+    enableCrossTenantTransfer: S.optional(S.Boolean),
+    allowedStorageAccounts: S.optional(S.Unknown),
+    host: S.optional(S.String),
+    nfsVersion: S.optional(S.String),
+    export: S.optional(S.String),
+    shareName: S.optional(S.String),
+    sourceType: S.optional(S.String),
+    credentials: S.optional(S.Unknown),
+    multiCloudConnectorId: S.optional(S.String),
+    awsS3BucketId: S.optional(S.String),
+    sourceUri: S.optional(S.String),
+    otherSourceTypeDescription: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EndpointBaseProperties",
@@ -2812,11 +2902,20 @@ export interface EndpointBaseUpdateProperties {
   endpointType: EndpointType | (string & {});
   /** A description for the Endpoint. */
   description?: string;
+  /** Key Vault credentials, e.g. `{ type: 'AzureKeyVaultSmb', usernameUri, passwordUri }` (SmbMount, S3WithHMAC). */
+  credentials?: unknown;
+  /** Allow cross-tenant transfers (AzureStorageBlobContainer, AzureStorageSmbFileShare). */
+  enableCrossTenantTransfer?: boolean;
+  /** Storage account ARM IDs allowed for cross-tenant transfers (string array). */
+  allowedStorageAccounts?: unknown;
 }
 export const EndpointBaseUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: EndpointType,
     description: S.optional(S.String),
+    credentials: S.optional(S.Unknown),
+    enableCrossTenantTransfer: S.optional(S.Boolean),
+    allowedStorageAccounts: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "EndpointBaseUpdateProperties",
