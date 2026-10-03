@@ -57,6 +57,10 @@ await runOpenApiConvert({
       options: {
         namespace: "com.clerk.platform",
         serviceName: "ClerkPlatform",
+        // The Platform spec's only header parameters are real per-call
+        // inputs: `If-Match` (config version on config writes) and
+        // `Idempotency-Key` (native application creates).
+        headerParams: true,
       },
     },
   ],

@@ -8216,6 +8216,13 @@
             "smithy.api#documentation": "Environment type or instance ID."
           }
         },
+        "idempotencyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "Optional key. If Clerk has cached a completed response for this exact\nrequest and key, Clerk replays that response. Reuse the same key only for\nthe same request. Concurrent in-flight requests are not guaranteed to be\ncoalesced, and server-error responses are not cached for this operation.\n"
+          }
+        },
         "namespace": {
           "target": "smithy.api#String",
           "traits": {
@@ -8429,6 +8436,13 @@
             "smithy.api#documentation": "Environment type or instance ID."
           }
         },
+        "idempotencyKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key",
+            "smithy.api#documentation": "Optional key. If Clerk has cached a completed response for this exact\nrequest and key, Clerk replays that response. Reuse the same key only for\nthe same request. Concurrent in-flight requests are not guaranteed to be\ncoalesced, and server-error responses are not cached for this operation.\n"
+          }
+        },
         "app_id_prefix": {
           "target": "smithy.api#String",
           "traits": {
@@ -8604,6 +8618,13 @@
             "smithy.api#documentation": "If true, allow clearing config keys by setting them to null."
           }
         },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "Config version for optimistic concurrency control."
+          }
+        },
         "body": {
           "target": "com.clerk.platform#PlatformConfigPatchRequest",
           "traits": {
@@ -8751,6 +8772,13 @@
           "traits": {
             "smithy.api#httpQuery": "keys",
             "smithy.api#documentation": "Config keys to return in the response. If not specified, only updated keys are returned."
+          }
+        },
+        "ifMatch": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "If-Match",
+            "smithy.api#documentation": "Config version for optimistic concurrency control."
           }
         },
         "body": {

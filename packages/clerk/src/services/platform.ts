@@ -1456,6 +1456,8 @@ export interface CreateAndroidApplicationRequest {
   applicationID: string;
   /** Environment type or instance ID. */
   envOrInsID: string;
+  /** Optional key. If Clerk has cached a completed response for this exact request and key, Clerk replays that response. Reuse the same key only for the same request. Concurrent in-flight requests are not guaranteed to be coalesced, and server-error responses are not cached for this operation. */
+  idempotencyKey?: string;
   /** The Digital Asset Links namespace, typically `android_app`. */
   namespace: string;
   /** The application's Android package name. */
@@ -1467,6 +1469,7 @@ export const CreateAndroidApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
     envOrInsID: S.String.pipe(T.Label()),
+    idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
     namespace: S.String,
     package_name: S.String,
     fingerprints: S.optional(CreateAndroidApplicationRequestFingerprintsList),
@@ -1998,6 +2001,8 @@ export interface CreateIOSApplicationRequest {
   applicationID: string;
   /** Environment type or instance ID. */
   envOrInsID: string;
+  /** Optional key. If Clerk has cached a completed response for this exact request and key, Clerk replays that response. Reuse the same key only for the same request. Concurrent in-flight requests are not guaranteed to be coalesced, and server-error responses are not cached for this operation. */
+  idempotencyKey?: string;
   /** The Apple App ID Prefix associated with the application. For most apps, this is the Team ID. Confirm it in the app's identifier in the Apple Developer portal. */
   app_id_prefix: string;
   /** The application's bundle identifier. */
@@ -2007,6 +2012,7 @@ export const CreateIOSApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationID: S.String.pipe(T.Label()),
     envOrInsID: S.String.pipe(T.Label()),
+    idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
     app_id_prefix: S.String,
     bundle_id: S.String,
   }).pipe(
@@ -3571,6 +3577,8 @@ export interface PatchConfigRequest {
   destructive?: boolean;
   /** Config keys to return in the response. If not specified, only updated keys are returned. */
   keys?: PatchConfigRequestKeysList;
+  /** Config version for optimistic concurrency control. */
+  ifMatch?: string;
   body: PlatformConfigPatchRequest;
 }
 export const PatchConfigRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3580,6 +3588,7 @@ export const PatchConfigRequest = /*@__PURE__*/ S.suspend(() =>
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
     destructive: S.optional(S.Boolean.pipe(T.Query())),
     keys: S.optional(PatchConfigRequestKeysList.pipe(T.Query())),
+    ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
     body: PlatformConfigPatchRequest.pipe(T.HttpBody()),
   }).pipe(
     T.Http({
@@ -3641,6 +3650,8 @@ export interface PutConfigRequest {
   dry_run?: boolean;
   /** If true, allow clearing config keys by setting them to null. */
   destructive?: boolean;
+  /** Config version for optimistic concurrency control. */
+  ifMatch?: string;
   body: PlatformConfigPatchRequest;
 }
 export const PutConfigRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3649,6 +3660,7 @@ export const PutConfigRequest = /*@__PURE__*/ S.suspend(() =>
     envOrInsID: S.String.pipe(T.Label()),
     dry_run: S.optional(S.Boolean.pipe(T.Query())),
     destructive: S.optional(S.Boolean.pipe(T.Query())),
+    ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
     body: PlatformConfigPatchRequest.pipe(T.HttpBody()),
   }).pipe(
     T.Http({
