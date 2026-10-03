@@ -17,7 +17,7 @@ export type { ClerkOpError, ClerkOpContext };
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
@@ -26,7 +26,7 @@ export class BadRequest
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409 }],
@@ -35,7 +35,7 @@ export class Conflict
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withAuthError),
     [{ status: 403 }],
@@ -44,7 +44,7 @@ export class Forbidden
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
@@ -53,7 +53,7 @@ export class NotFound
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
-      code: S.Number,
+      code: S.Union([S.Number, S.String]),
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
@@ -62,7 +62,7 @@ export class UnprocessableEntity
 export interface AddDomainRequest {
   /** The new domain name. Can contain the port for development instances. */
   name: string;
-  /** Marks the new domain as satellite. Only `true` is accepted at the moment. */
+  /** Marks the new domain as satellite. Set to `false` only when migrating a production instance from an active provider domain to a custom domain. */
   is_satellite: boolean;
   /** The full URL of the proxy which will forward requests to the Clerk Frontend API for this domain. Applicable only to production instances. */
   proxy_url?: string | null;
@@ -94,10 +94,44 @@ export const CNameTarget = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "CNameTarget" }) as any as S.Schema<CNameTarget>;
 
+/** Legacy CNAME-only DNS targets. Prefer `dns_targets` when present. */
 export type DomainCnameTargetsList = Array<CNameTarget>;
 export const DomainCnameTargetsList = /*@__PURE__*/ S.Array(
   CNameTarget,
 ) as any as S.Schema<DomainCnameTargetsList>;
+
+export type DNSTargetRecordType = "CNAME" | "TXT";
+export const DNSTargetRecordType = S.String;
+
+export type DNSTargetAutomationDisposition =
+  | "already_satisfied"
+  | "safe_to_create"
+  | "manual_resolution_required";
+export const DNSTargetAutomationDisposition = S.String;
+
+export interface DNSTarget {
+  host: string;
+  value: string;
+  record_type: DNSTargetRecordType;
+  automation_disposition?: DNSTargetAutomationDisposition;
+  /** Denotes whether this DNS target is required to be set in order for the domain to be considered deployed. */
+  required: boolean;
+}
+export const DNSTarget = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    host: S.String,
+    value: S.String,
+    record_type: DNSTargetRecordType,
+    automation_disposition: S.optional(DNSTargetAutomationDisposition),
+    required: S.Boolean,
+  }),
+).annotate({ identifier: "DNSTarget" }) as any as S.Schema<DNSTarget>;
+
+/** The complete typed DNS contract. Consumers should use this field instead of merging it with `cname_targets`. */
+export type DomainDnsTargetsList = Array<DNSTarget>;
+export const DomainDnsTargetsList = /*@__PURE__*/ S.Array(
+  DNSTarget,
+) as any as S.Schema<DomainDnsTargetsList>;
 
 export interface Domain {
   object: DomainObject;
@@ -109,7 +143,10 @@ export interface Domain {
   accounts_portal_url?: string | null;
   proxy_url?: string | null;
   development_origin: string;
+  /** Legacy CNAME-only DNS targets. Prefer `dns_targets` when present. */
   cname_targets?: DomainCnameTargetsList | null;
+  /** The complete typed DNS contract. Consumers should use this field instead of merging it with `cname_targets`. */
+  dns_targets?: DomainDnsTargetsList | null;
 }
 export const Domain = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -122,6 +159,7 @@ export const Domain = /*@__PURE__*/ S.suspend(() =>
     proxy_url: S.optional(S.NullOr(S.String)),
     development_origin: S.String,
     cname_targets: S.optional(S.NullOr(DomainCnameTargetsList)),
+    dns_targets: S.optional(S.NullOr(DomainDnsTargetsList)),
   }),
 ).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
 
@@ -1625,6 +1663,8 @@ export interface Organization {
   pending_invitations_count?: number;
   max_allowed_memberships: number;
   admin_delete_enabled: boolean;
+  /** Whether this organization can configure self-serve enterprise SSO. */
+  self_serve_sso_enabled?: boolean | null;
   public_metadata: OrganizationPublicMetadataMap;
   private_metadata?: OrganizationPrivateMetadataMap;
   created_by?: string;
@@ -1650,6 +1690,7 @@ export const Organization = /*@__PURE__*/ S.suspend(() =>
     pending_invitations_count: S.optional(S.Number),
     max_allowed_memberships: S.Number,
     admin_delete_enabled: S.Boolean,
+    self_serve_sso_enabled: S.optional(S.NullOr(S.Boolean)),
     public_metadata: OrganizationPublicMetadataMap,
     private_metadata: S.optional(OrganizationPrivateMetadataMap),
     created_by: S.optional(S.String),
@@ -1733,24 +1774,61 @@ export const UserOrganizationMembershipsList = /*@__PURE__*/ S.Array(
   OrganizationMembership,
 ) as any as S.Schema<UserOrganizationMembershipsList>;
 
-/** Metadata describing a user's linkage to a directory. This object is only delivered on `user.created` and `user.updated` webhook events, and only when the user is provisioned through a directory. Its absence does not necessarily mean the user is not managed by a directory. */
+export interface SCIMUserMetadataGroupsItem {
+  id: string;
+  display_name: string;
+}
+export const SCIMUserMetadataGroupsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    display_name: S.String,
+  }),
+).annotate({
+  identifier: "SCIMUserMetadataGroupsItem",
+}) as any as S.Schema<SCIMUserMetadataGroupsItem>;
+
+/** Omitted when groups were not loaded; an empty array means no group memberships. */
+export type SCIMUserMetadataGroupsList = Array<SCIMUserMetadataGroupsItem>;
+export const SCIMUserMetadataGroupsList = /*@__PURE__*/ S.Array(
+  SCIMUserMetadataGroupsItem,
+) as any as S.Schema<SCIMUserMetadataGroupsList>;
+
+/** Metadata describing a user's linkage to a directory. Included in user responses when directory data is requested, and in directory-triggered user webhooks. Its absence does not necessarily mean the user is not managed by a directory. */
 export interface SCIMUserMetadata {
+  /** The user's resource ID in this directory. */
+  id: string;
+  directory_name: string;
+  provider: string;
+  enterprise_connection_id: string | null;
+  /** Omitted when groups were not loaded; an empty array means no group memberships. */
+  groups?: SCIMUserMetadataGroupsList;
   /** The ID of the directory the user is provisioned from. */
   directory_id: string;
-  /** Whether the directory is currently enabled. Omitted when false. */
-  directory_enabled?: boolean;
+  /** Whether the directory is currently enabled. */
+  directory_enabled: boolean;
   /** The user's external ID as reported by the directory, if any. */
   external_id: string | null;
 }
 export const SCIMUserMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
+    id: S.String,
+    directory_name: S.String,
+    provider: S.String,
+    enterprise_connection_id: S.NullOr(S.String),
+    groups: S.optional(SCIMUserMetadataGroupsList),
     directory_id: S.String,
-    directory_enabled: S.optional(S.Boolean),
+    directory_enabled: S.Boolean,
     external_id: S.NullOr(S.String),
   }),
 ).annotate({
   identifier: "SCIMUserMetadata",
 }) as any as S.Schema<SCIMUserMetadata>;
+
+/** All loaded directory links. Omitted when links were not loaded; an empty array means the user has no directory links. */
+export type UserDirectoriesList = Array<SCIMUserMetadata>;
+export const UserDirectoriesList = /*@__PURE__*/ S.Array(
+  SCIMUserMetadata,
+) as any as S.Schema<UserDirectoriesList>;
 
 export interface User {
   id: string;
@@ -1816,6 +1894,11 @@ export interface User {
   legal_accepted_at: number | null;
   /** When set to `true`, the user will bypass Device Trust checks during sign-in. */
   bypass_client_trust?: boolean;
+  /** All loaded directory links. Omitted when links were not loaded; an empty array means the user has no directory links. */
+  directories?: UserDirectoriesList;
+  /** The most recently updated directory link. Use directories for all links. */
+  directory?: SCIMUserMetadata;
+  /** Alias of directory. Use directories for all links. */
   scim?: SCIMUserMetadata | null;
 }
 export const User = /*@__PURE__*/ S.suspend(() =>
@@ -1865,6 +1948,8 @@ export const User = /*@__PURE__*/ S.suspend(() =>
     last_active_at: S.NullOr(S.Number),
     legal_accepted_at: S.NullOr(S.Number),
     bypass_client_trust: S.optional(S.Boolean),
+    directories: S.optional(UserDirectoriesList),
+    directory: S.optional(SCIMUserMetadata),
     scim: S.optional(S.NullOr(SCIMUserMetadata)),
   }),
 ).annotate({ identifier: "User" }) as any as S.Schema<User>;
@@ -4885,12 +4970,14 @@ export interface CreateOAuthApplicationRequest {
   redirect_uris?: CreateOAuthApplicationRequestRedirectUrisList | null;
   /** The callback URL of the new OAuth application */
   callback_url?: string | null;
-  /** Define the allowed scopes for the new OAuth applications that dictate the user payload of the OAuth user info endpoint. Available scopes are `profile`, `email`, `public_metadata`, `private_metadata`. Provide the requested scopes as a string, separated by spaces. */
+  /** Define the application's built-in and custom scope ceiling. Provide scope keys as a space-delimited string. Custom keys must exist in the instance OAuth scope catalog. */
   scopes?: string | null;
   /** True to enable a consent screen to display in the authentication flow. */
   consent_screen_enabled?: boolean | null;
   /** True to require the Proof Key of Code Exchange (PKCE) flow. */
   pkce_required?: boolean | null;
+  /** True to enable the OAuth Device Authorization Grant for this application. Enabling requires the new OAuth IdP and a reachable device verification page. */
+  device_authorization_grant_enabled?: boolean | null;
   /** If true, this client is public and you can use the Proof Key of Code Exchange (PKCE) flow. */
   public?: boolean | null;
 }
@@ -4904,6 +4991,7 @@ export const CreateOAuthApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     scopes: S.optional(S.NullOr(S.String)),
     consent_screen_enabled: S.optional(S.NullOr(S.Boolean)),
     pkce_required: S.optional(S.NullOr(S.Boolean)),
+    device_authorization_grant_enabled: S.optional(S.NullOr(S.Boolean)),
     public: S.optional(S.NullOr(S.Boolean)),
   }).pipe(T.Http({ method: "POST", uri: "/oauth_applications", code: 200 })),
 ).annotate({
@@ -4930,7 +5018,9 @@ export interface CreateOAuthApplicationResponse {
   dynamically_registered: boolean;
   consent_screen_enabled: boolean;
   pkce_required: boolean;
+  device_authorization_grant_enabled: boolean;
   public: boolean;
+  /** The complete scope ceiling for the OAuth application, as a space-delimited list of built-in and assigned custom scope keys. */
   scopes: string;
   redirect_uris: CreateOAuthApplicationResponseRedirectUrisList;
   /** Deprecated: Use redirect_uris instead. */
@@ -4959,6 +5049,7 @@ export const CreateOAuthApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     dynamically_registered: S.Boolean,
     consent_screen_enabled: S.Boolean,
     pkce_required: S.Boolean,
+    device_authorization_grant_enabled: S.Boolean,
     public: S.Boolean,
     scopes: S.String,
     redirect_uris: CreateOAuthApplicationResponseRedirectUrisList,
@@ -6249,6 +6340,8 @@ export interface CreateUserRequest {
   skip_password_checks?: boolean | null;
   /** When set to `true`, `password` is not required anymore when creating the user and can be omitted. This is useful when you are trying to create a user that doesn't have a password, in an instance that is using passwords. Please note that you cannot use this flag if password is the only way for a user to sign into your instance. */
   skip_password_requirement?: boolean | null;
+  /** When set to `true`, the instance's restrictions are not applied to this user. Those settings are the allowlist, the blocklist, blocked disposable email domains and blocked email subaddresses, and they normally reject a matching identifier here just as they do at sign-up. Use this when your backend is creating a user it already trusts, such as during a migration or from an admin tool. */
+  skip_restriction_checks?: boolean | null;
   /** In case TOTP is configured on the instance, you can provide the secret to enable it on the newly created user without the need to reset it. Please note that currently the supported options are: * Period: 30 seconds * Code length: 6 digits * Algorithm: SHA1 */
   totp_secret?: string | Redacted.Redacted<string> | null;
   /** If Backup Codes are configured on the instance, you can provide them to enable it on the newly created user without the need to reset them. You must provide the backup codes in plain format or the corresponding bcrypt digest. */
@@ -6301,6 +6394,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     password_hasher: S.optional(S.String.pipe(T.SensitiveValue({}))),
     skip_password_checks: S.optional(S.NullOr(S.Boolean)),
     skip_password_requirement: S.optional(S.NullOr(S.Boolean)),
+    skip_restriction_checks: S.optional(S.NullOr(S.Boolean)),
     totp_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
     backup_codes: S.optional(CreateUserRequestBackupCodesList),
     public_metadata: S.optional(CreateUserRequestPublicMetadataMap),
@@ -6508,7 +6602,7 @@ export const DeleteDirectoryGroupRoleMappingResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<DeleteDirectoryGroupRoleMappingResponse>;
 
 export interface DeleteDomainRequest {
-  /** The ID of the domain that will be deleted. Must be a satellite domain. */
+  /** The ID of the domain that will be deleted. */
   domain_id: string;
 }
 export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
@@ -7845,12 +7939,22 @@ export const InstanceAllowedOriginsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InstanceAllowedOriginsList>;
 
+/** Subdomains of the instance's own domains that may originate requests, when the subdomain allowlist is enabled. Production instances only; always empty on a development instance. */
+export type InstanceAllowedSubdomainsList = Array<string>;
+export const InstanceAllowedSubdomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<InstanceAllowedSubdomainsList>;
+
 export interface Instance {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: InstanceObject;
   id: string;
   environment_type: string;
   allowed_origins: InstanceAllowedOriginsList | null;
+  /** Subdomains of the instance's own domains that may originate requests, when the subdomain allowlist is enabled. Production instances only; always empty on a development instance. */
+  allowed_subdomains: InstanceAllowedSubdomainsList;
+  /** Whether requests from subdomains of the instance's own domains are restricted to `allowed_subdomains`. When false, every subdomain of the instance's domain is accepted. Production instances only; always false on a development instance. */
+  subdomain_allowlist_enabled: boolean;
   /** The ID of the Clerk workspace that owns the instance's application. It is null when the application has no owner. */
   workspace_id: string | null;
 }
@@ -7860,6 +7964,8 @@ export const Instance = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     environment_type: S.String,
     allowed_origins: S.NullOr(InstanceAllowedOriginsList),
+    allowed_subdomains: InstanceAllowedSubdomainsList,
+    subdomain_allowlist_enabled: S.Boolean,
     workspace_id: S.NullOr(S.String),
   }),
 ).annotate({ identifier: "Instance" }) as any as S.Schema<Instance>;
@@ -7916,7 +8022,7 @@ export const GetInstanceOAuthApplicationSettingsRequest =
 export type OAuthApplicationSettingsObject = "oauth_application_settings";
 export const OAuthApplicationSettingsObject = S.String;
 
-/** Default scopes. */
+/** Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Contains built-in keys and custom catalog keys. Null means Clerk-provided defaults. `advertised` does not affect eligibility. An empty input array is stored and returned as null. */
 export type OAuthApplicationSettingsDefaultScopesList = Array<string>;
 export const OAuthApplicationSettingsDefaultScopesList = /*@__PURE__*/ S.Array(
   S.String,
@@ -7927,10 +8033,14 @@ export interface OAuthApplicationSettings {
   object: OAuthApplicationSettingsObject;
   /** Whether dynamic OAuth client registration is enabled for the instance (RFC 7591). */
   dynamic_oauth_client_registration: boolean;
-  /** Default scopes. */
+  /** Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Contains built-in keys and custom catalog keys. Null means Clerk-provided defaults. `advertised` does not affect eligibility. An empty input array is stored and returned as null. */
   default_scopes: OAuthApplicationSettingsDefaultScopesList | null;
   /** Whether OAuth JWT access tokens are enabled for the instance (disabled indicates opaque access tokens). */
   oauth_jwt_access_tokens: boolean;
+  /** Whether OAuth access tokens can include an aud claim derived from the RFC 8707 resource parameter. */
+  aud_claim_enabled: boolean;
+  /** Whether all new OAuth authorization-code requests must use PKCE with the S256 challenge method. */
+  pkce_required: boolean;
   /** Whether the instance advertises support for Client ID Metadata Documents in its OAuth authorization server metadata. */
   client_id_metadata_documents_advertised: boolean;
   /** When true, new unknown CIMD clients are rejected. Previously auto-connected and pre-registered clients remain admitted; deleting a client makes it unknown again. */
@@ -7944,6 +8054,8 @@ export const OAuthApplicationSettings = /*@__PURE__*/ S.suspend(() =>
     dynamic_oauth_client_registration: S.Boolean,
     default_scopes: S.NullOr(OAuthApplicationSettingsDefaultScopesList),
     oauth_jwt_access_tokens: S.Boolean,
+    aud_claim_enabled: S.Boolean,
+    pkce_required: S.Boolean,
     client_id_metadata_documents_advertised: S.Boolean,
     client_id_metadata_documents_only_allow_pre_registered_clients: S.Boolean,
     client_id_metadata_documents_block_implicitly_allowed_clients: S.Boolean,
@@ -8040,10 +8152,15 @@ export const InstanceProtectObject = S.String;
 
 export interface InstanceProtect {
   object: InstanceProtectObject;
+  /** Whether Protect rules are enforced on this instance. False does not mean the instance is outside Protect — by default it is still evaluated in shadow, where rules are scored and recorded but never block. */
   rules_enabled: boolean;
   specter_enabled: boolean;
   /** Whether the instance has opted out of the Protect prerequisite checks, asserting its setup already meets the requirements. */
   checks_bypassed: boolean;
+  /** Whether the Protect system has verified the instance's prerequisite checks. Protect rules are gated on checks being verified, bypassed or exempt. */
+  checks_verified: boolean;
+  /** Whether the instance was created into Protect and so was never subject to the prerequisite checks at all. */
+  checks_exempt: boolean;
 }
 export const InstanceProtect = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8051,6 +8168,8 @@ export const InstanceProtect = /*@__PURE__*/ S.suspend(() =>
     rules_enabled: S.Boolean,
     specter_enabled: S.Boolean,
     checks_bypassed: S.Boolean,
+    checks_verified: S.Boolean,
+    checks_exempt: S.Boolean,
   }),
 ).annotate({
   identifier: "InstanceProtect",
@@ -8730,7 +8849,9 @@ export interface OAuthApplication {
   dynamically_registered: boolean;
   consent_screen_enabled: boolean;
   pkce_required: boolean;
+  device_authorization_grant_enabled: boolean;
   public: boolean;
+  /** The complete scope ceiling for the OAuth application, as a space-delimited list of built-in and assigned custom scope keys. */
   scopes: string;
   redirect_uris: OAuthApplicationRedirectUrisList;
   /** Deprecated: Use redirect_uris instead. */
@@ -8757,6 +8878,7 @@ export const OAuthApplication = /*@__PURE__*/ S.suspend(() =>
     dynamically_registered: S.Boolean,
     consent_screen_enabled: S.Boolean,
     pkce_required: S.Boolean,
+    device_authorization_grant_enabled: S.Boolean,
     public: S.Boolean,
     scopes: S.String,
     redirect_uris: OAuthApplicationRedirectUrisList,
@@ -9035,6 +9157,78 @@ export const GetRedirectURLRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetRedirectURLRequest",
 }) as any as S.Schema<GetRedirectURLRequest>;
+
+export interface GetReverificationRequest {
+  /** The ID of the session the reverification belongs to */
+  session_id: string;
+  /** The ID of the reverification */
+  reverification_id: string;
+}
+export const GetReverificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    session_id: S.String.pipe(T.Label()),
+    reverification_id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/sessions/{session_id}/reverifications/{reverification_id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetReverificationRequest",
+}) as any as S.Schema<GetReverificationRequest>;
+
+/** String representing the object's type. Objects of the same type share the same value. */
+export type ReverificationObject = "reverification";
+export const ReverificationObject = S.String;
+
+/** The level used for the reverification */
+export type ReverificationLevel =
+  | "first_factor"
+  | "second_factor"
+  | "multi_factor";
+export const ReverificationLevel = S.String;
+
+export type ReverificationStatus =
+  | "needs_first_factor"
+  | "needs_second_factor"
+  | "complete";
+export const ReverificationStatus = S.String;
+
+/** A reverification scoped to a session. Returned so a resource server can validate a reverification id received from its client. */
+export interface Reverification {
+  /** String representing the object's type. Objects of the same type share the same value. */
+  object: ReverificationObject;
+  id: string;
+  session_id: string;
+  user_id: string;
+  /** The level used for the reverification */
+  level: ReverificationLevel;
+  status: ReverificationStatus;
+  /** Unix timestamp (ms) of the first factor verification, or null if not verified. */
+  first_factor_verified_at: number | null;
+  /** Unix timestamp (ms) of the second factor verification, or null if not verified. */
+  second_factor_verified_at: number | null;
+  /** Unix timestamp of creation. */
+  created_at: number;
+  /** Unix timestamp of last update. */
+  updated_at: number;
+}
+export const Reverification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    object: ReverificationObject,
+    id: S.String,
+    session_id: S.String,
+    user_id: S.String,
+    level: ReverificationLevel,
+    status: ReverificationStatus,
+    first_factor_verified_at: S.NullOr(S.Number),
+    second_factor_verified_at: S.NullOr(S.Number),
+    created_at: S.Number,
+    updated_at: S.Number,
+  }),
+).annotate({ identifier: "Reverification" }) as any as S.Schema<Reverification>;
 
 export interface GetRoleSetRequest {
   /** The key or ID of the role set */
@@ -10936,46 +11130,46 @@ export const ListSCIMGroupRoleMappingsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSCIMGroupRoleMappingsResponse",
 }) as any as S.Schema<ListSCIMGroupRoleMappingsResponse>;
 
-export interface ListUserTrustedDevicesRequest {
-  /** The ID of the user whose trusted devices are returned */
+export interface ListUserBiometricCredentialsRequest {
+  /** The ID of the user whose biometric credentials are returned */
   user_id: string;
 }
-export const ListUserTrustedDevicesRequest = /*@__PURE__*/ S.suspend(() =>
+export const ListUserBiometricCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     user_id: S.String.pipe(T.Label()),
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/users/{user_id}/trusted_devices",
+      uri: "/users/{user_id}/biometric_credentials",
       code: 200,
     }),
   ),
 ).annotate({
-  identifier: "ListUserTrustedDevicesRequest",
-}) as any as S.Schema<ListUserTrustedDevicesRequest>;
+  identifier: "ListUserBiometricCredentialsRequest",
+}) as any as S.Schema<ListUserBiometricCredentialsRequest>;
 
 /** String representing the object's type. */
-export type TrustedDeviceObject = "trusted_device";
-export const TrustedDeviceObject = S.String;
+export type BiometricCredentialObject = "trusted_device";
+export const BiometricCredentialObject = S.String;
 
-export type TrustedDevicePlatform = "ios" | "android";
-export const TrustedDevicePlatform = S.String;
+export type BiometricCredentialPlatform = "ios" | "android";
+export const BiometricCredentialPlatform = S.String;
 
-export type TrustedDeviceAlgorithm = "ES256";
-export const TrustedDeviceAlgorithm = S.String;
+export type BiometricCredentialAlgorithm = "ES256";
+export const BiometricCredentialAlgorithm = S.String;
 
-export type TrustedDeviceStatus = "active" | "revoked";
-export const TrustedDeviceStatus = S.String;
+export type BiometricCredentialStatus = "active" | "revoked";
+export const BiometricCredentialStatus = S.String;
 
-export interface TrustedDevice {
+export interface BiometricCredential {
   /** String representing the object's type. */
-  object: TrustedDeviceObject;
+  object: BiometricCredentialObject;
   id: string;
-  platform: TrustedDevicePlatform;
+  platform: BiometricCredentialPlatform;
   app_identifier: string;
   name?: string | null;
-  algorithm: TrustedDeviceAlgorithm;
-  status: TrustedDeviceStatus;
+  algorithm: BiometricCredentialAlgorithm;
+  status: BiometricCredentialStatus;
   /** Unix timestamp of creation in milliseconds. */
   created_at: number;
   /** Unix timestamp of the last update in milliseconds. */
@@ -10985,40 +11179,45 @@ export interface TrustedDevice {
   /** Unix timestamp of revocation in milliseconds. */
   revoked_at?: number | null;
 }
-export const TrustedDevice = /*@__PURE__*/ S.suspend(() =>
+export const BiometricCredential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    object: TrustedDeviceObject,
+    object: BiometricCredentialObject,
     id: S.String,
-    platform: TrustedDevicePlatform,
+    platform: BiometricCredentialPlatform,
     app_identifier: S.String,
     name: S.optional(S.NullOr(S.String)),
-    algorithm: TrustedDeviceAlgorithm,
-    status: TrustedDeviceStatus,
+    algorithm: BiometricCredentialAlgorithm,
+    status: BiometricCredentialStatus,
     created_at: S.Number,
     updated_at: S.Number,
     last_used_at: S.optional(S.NullOr(S.Number)),
     revoked_at: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({ identifier: "TrustedDevice" }) as any as S.Schema<TrustedDevice>;
+).annotate({
+  identifier: "BiometricCredential",
+}) as any as S.Schema<BiometricCredential>;
 
-export type ListUserTrustedDevicesResponseDataList = Array<TrustedDevice>;
-export const ListUserTrustedDevicesResponseDataList = /*@__PURE__*/ S.Array(
-  TrustedDevice,
-) as any as S.Schema<ListUserTrustedDevicesResponseDataList>;
+export type ListUserBiometricCredentialsResponseDataList =
+  Array<BiometricCredential>;
+export const ListUserBiometricCredentialsResponseDataList =
+  /*@__PURE__*/ S.Array(
+    BiometricCredential,
+  ) as any as S.Schema<ListUserBiometricCredentialsResponseDataList>;
 
-export interface ListUserTrustedDevicesResponse {
-  data: ListUserTrustedDevicesResponseDataList;
-  /** Total number of trusted devices */
+export interface ListUserBiometricCredentialsResponse {
+  data: ListUserBiometricCredentialsResponseDataList;
+  /** Total number of biometric credentials */
   total_count: number;
 }
-export const ListUserTrustedDevicesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    data: ListUserTrustedDevicesResponseDataList,
-    total_count: S.Number,
-  }),
+export const ListUserBiometricCredentialsResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      data: ListUserBiometricCredentialsResponseDataList,
+      total_count: S.Number,
+    }),
 ).annotate({
-  identifier: "ListUserTrustedDevicesResponse",
-}) as any as S.Schema<ListUserTrustedDevicesResponse>;
+  identifier: "ListUserBiometricCredentialsResponse",
+}) as any as S.Schema<ListUserBiometricCredentialsResponse>;
 
 export type ListWaitlistEntriesRequestStatus =
   | "pending"
@@ -12151,26 +12350,27 @@ export const RevokeSignInTokenRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RevokeSignInTokenRequest",
 }) as any as S.Schema<RevokeSignInTokenRequest>;
 
-export interface RevokeUserTrustedDeviceRequest {
-  /** The ID of the user that owns the trusted device */
+export interface RevokeUserBiometricCredentialRequest {
+  /** The ID of the user that owns the biometric credential */
   user_id: string;
-  /** The ID of the trusted device to revoke */
-  trusted_device_id: string;
+  /** The ID of the biometric credential to revoke */
+  biometric_credential_id: string;
 }
-export const RevokeUserTrustedDeviceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    user_id: S.String.pipe(T.Label()),
-    trusted_device_id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/users/{user_id}/trusted_devices/{trusted_device_id}",
-      code: 200,
-    }),
-  ),
+export const RevokeUserBiometricCredentialRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      user_id: S.String.pipe(T.Label()),
+      biometric_credential_id: S.String.pipe(T.Label()),
+    }).pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/users/{user_id}/biometric_credentials/{biometric_credential_id}",
+        code: 200,
+      }),
+    ),
 ).annotate({
-  identifier: "RevokeUserTrustedDeviceRequest",
-}) as any as S.Schema<RevokeUserTrustedDeviceRequest>;
+  identifier: "RevokeUserBiometricCredentialRequest",
+}) as any as S.Schema<RevokeUserBiometricCredentialRequest>;
 
 export interface RotateDirectoryAPIKeyRequest {
   /** The ID of the directory whose API key to rotate */
@@ -12269,7 +12469,9 @@ export interface RotateOAuthApplicationSecretResponse {
   dynamically_registered: boolean;
   consent_screen_enabled: boolean;
   pkce_required: boolean;
+  device_authorization_grant_enabled: boolean;
   public: boolean;
+  /** The complete scope ceiling for the OAuth application, as a space-delimited list of built-in and assigned custom scope keys. */
   scopes: string;
   redirect_uris: RotateOAuthApplicationSecretResponseRedirectUrisList;
   /** Deprecated: Use redirect_uris instead. */
@@ -12299,6 +12501,7 @@ export const RotateOAuthApplicationSecretResponse = /*@__PURE__*/ S.suspend(
       dynamically_registered: S.Boolean,
       consent_screen_enabled: S.Boolean,
       pkce_required: S.Boolean,
+      device_authorization_grant_enabled: S.Boolean,
       public: S.Boolean,
       scopes: S.String,
       redirect_uris: RotateOAuthApplicationSecretResponseRedirectUrisList,
@@ -12530,11 +12733,11 @@ export const UpdateApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Attribute-to-directory-path entries to merge into the directory's attribute mapping. Set a key to `null` to remove it from the mapping. */
 export type UpdateDirectoryRequestAttributeMappingMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateDirectoryRequestAttributeMappingMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateDirectoryRequestAttributeMappingMap>;
 
 export interface UpdateDirectoryRequest {
@@ -12765,11 +12968,17 @@ export const UpdateEnterpriseConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateEnterpriseConnectionRequest",
 }) as any as S.Schema<UpdateEnterpriseConnectionRequest>;
 
-/** For browser-like stacks such as browser extensions, Electron (not officially supported), or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps the default origin is http://localhost:3000. For Capacitor, the origin is capacitor://localhost. */
+/** For browser-like stacks such as browser extensions, Electron (not officially supported), or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps the default origin is http://localhost:3000. For Capacitor, the origin is capacitor://localhost. Send an empty array to remove all allowed origins. A null value leaves the current list unchanged. */
 export type UpdateInstanceRequestAllowedOriginsList = Array<string>;
 export const UpdateInstanceRequestAllowedOriginsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<UpdateInstanceRequestAllowedOriginsList>;
+
+/** Subdomains of the instance's own domains that may originate requests while `subdomain_allowlist_enabled` is true. Each entry is either an exact host (`app.example.com`) or a wildcard anchored on a host beneath one of the instance's domains (`*.preview.example.com`), which covers every host under that anchor but not the anchor itself. Entries are stored folded to lower case with any trailing dot removed, the form the origin check compares against, so entries differing only in those respects are one entry. Entries already stored are not validated again, so a list read back from the instance can always be written again unchanged. Send an empty array to remove all entries. A null value leaves the current list unchanged. Production instances only. */
+export type UpdateInstanceRequestAllowedSubdomainsList = Array<string>;
+export const UpdateInstanceRequestAllowedSubdomainsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateInstanceRequestAllowedSubdomainsList>;
 
 /** When password is required at the instance level, sets the preferred sign-in strategy surfaced to Clerk components. Has no effect when password is not required. Defaults to `password`. Set to an empty string to clear the override. */
 export type UpdateInstanceRequestPreferredSignInStrategyWhenPasswordRequired =
@@ -12787,8 +12996,12 @@ export interface UpdateInstanceRequest {
   support_email?: string | null;
   clerk_js_version?: string | null;
   development_origin?: string | null;
-  /** For browser-like stacks such as browser extensions, Electron (not officially supported), or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps the default origin is http://localhost:3000. For Capacitor, the origin is capacitor://localhost. */
-  allowed_origins?: UpdateInstanceRequestAllowedOriginsList;
+  /** For browser-like stacks such as browser extensions, Electron (not officially supported), or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps the default origin is http://localhost:3000. For Capacitor, the origin is capacitor://localhost. Send an empty array to remove all allowed origins. A null value leaves the current list unchanged. */
+  allowed_origins?: UpdateInstanceRequestAllowedOriginsList | null;
+  /** Subdomains of the instance's own domains that may originate requests while `subdomain_allowlist_enabled` is true. Each entry is either an exact host (`app.example.com`) or a wildcard anchored on a host beneath one of the instance's domains (`*.preview.example.com`), which covers every host under that anchor but not the anchor itself. Entries are stored folded to lower case with any trailing dot removed, the form the origin check compares against, so entries differing only in those respects are one entry. Entries already stored are not validated again, so a list read back from the instance can always be written again unchanged. Send an empty array to remove all entries. A null value leaves the current list unchanged. Production instances only. */
+  allowed_subdomains?: UpdateInstanceRequestAllowedSubdomainsList | null;
+  /** Whether requests from subdomains of the instance's own domains are restricted to `allowed_subdomains`. When false, every subdomain of the instance's domain is accepted. Production instances only. */
+  subdomain_allowlist_enabled?: boolean | null;
   /** Whether the instance should operate in cookieless development mode (i.e. without third-party cookies). Deprecated: Please use `url_based_session_syncing` instead. */
   cookieless_dev?: boolean | null;
   /** Whether the instance should use URL-based session syncing in development mode (i.e. without third-party cookies). */
@@ -12806,7 +13019,13 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     support_email: S.optional(S.NullOr(S.String)),
     clerk_js_version: S.optional(S.NullOr(S.String)),
     development_origin: S.optional(S.NullOr(S.String)),
-    allowed_origins: S.optional(UpdateInstanceRequestAllowedOriginsList),
+    allowed_origins: S.optional(
+      S.NullOr(UpdateInstanceRequestAllowedOriginsList),
+    ),
+    allowed_subdomains: S.optional(
+      S.NullOr(UpdateInstanceRequestAllowedSubdomainsList),
+    ),
+    subdomain_allowlist_enabled: S.optional(S.NullOr(S.Boolean)),
     cookieless_dev: S.optional(S.NullOr(S.Boolean)),
     url_based_session_syncing: S.optional(S.NullOr(S.Boolean)),
     preferred_sign_in_strategy_when_password_required: S.optional(
@@ -12864,7 +13083,7 @@ export interface UpdateInstanceAuthConfigResponse {
   restricted_to_allowlist?: boolean;
   from_email_address?: string;
   progressive_sign_up?: boolean;
-  /** Deprecated. When enabled, production authentication emails for this instance are sent through Clerk's legacy managed email delivery path. This setting is being retired; use the instance's configured email sending domain instead. */
+  /** Deprecated. This setting is retired and no longer affects email delivery; all email is sent through the instance's configured email sending domain. The field is preserved for API compatibility only and will be removed in a future version. */
   enhanced_email_deliverability?: boolean;
 }
 export const UpdateInstanceAuthConfigResponse = /*@__PURE__*/ S.suspend(() =>
@@ -12904,7 +13123,7 @@ export const UpdateInstanceCommunicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateInstanceCommunicationRequest",
 }) as any as S.Schema<UpdateInstanceCommunicationRequest>;
 
-/** Default scopes. Set to null to reset to Clerk-provided defaults. */
+/** Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Accepts built-in keys and current custom catalog keys. `advertised` does not affect eligibility. Duplicate keys, unknown keys, and `offline_access` are rejected. An empty array or null resets to Clerk-provided defaults. */
 export type UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList =
   Array<string>;
 export const UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList =
@@ -12915,10 +13134,14 @@ export const UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList =
 export interface UpdateInstanceOAuthApplicationSettingsRequest {
   /** Whether dynamic OAuth client registration is enabled for the instance (RFC 7591). */
   dynamic_oauth_client_registration?: boolean | null;
-  /** Default scopes. Set to null to reset to Clerk-provided defaults. */
+  /** Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Accepts built-in keys and current custom catalog keys. `advertised` does not affect eligibility. Duplicate keys, unknown keys, and `offline_access` are rejected. An empty array or null resets to Clerk-provided defaults. */
   default_scopes?: UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList | null;
   /** Whether OAuth JWT access tokens are enabled for the instance (disabled indicates opaque access tokens). */
   oauth_jwt_access_tokens?: boolean | null;
+  /** Whether OAuth access tokens can include an aud claim derived from the RFC 8707 resource parameter. */
+  aud_claim_enabled?: boolean | null;
+  /** Whether all new OAuth authorization-code requests must use PKCE with the S256 challenge method. */
+  pkce_required?: boolean | null;
   /** Whether the instance advertises support for Client ID Metadata Documents in its OAuth authorization server metadata. */
   client_id_metadata_documents_advertised?: boolean | null;
   /** When true, new unknown CIMD clients are rejected. Previously auto-connected and pre-registered clients remain admitted; deleting a client makes it unknown again. */
@@ -12940,6 +13163,8 @@ export const UpdateInstanceOAuthApplicationSettingsRequest =
         ),
       ),
       oauth_jwt_access_tokens: S.optional(S.NullOr(S.Boolean)),
+      aud_claim_enabled: S.optional(S.NullOr(S.Boolean)),
+      pkce_required: S.optional(S.NullOr(S.Boolean)),
       client_id_metadata_documents_advertised: S.optional(S.NullOr(S.Boolean)),
       client_id_metadata_documents_only_allow_pre_registered_clients:
         S.optional(S.NullOr(S.Boolean)),
@@ -13003,6 +13228,7 @@ export const UpdateInstanceOrganizationSettingsRequest =
   }) as any as S.Schema<UpdateInstanceOrganizationSettingsRequest>;
 
 export interface UpdateInstanceProtectRequest {
+  /** Set true to enforce Protect rules on this instance. Set false to stop enforcing and return the instance to its default posture, where traffic is still evaluated in shadow but nothing is blocked. This does not remove the instance from Protect. */
   rules_enabled?: boolean | null;
   specter_enabled?: boolean | null;
 }
@@ -13175,12 +13401,14 @@ export interface UpdateOAuthApplicationRequest {
   redirect_uris?: UpdateOAuthApplicationRequestRedirectUrisList | null;
   /** The new callback URL of the OAuth application */
   callback_url?: string | null;
-  /** Define the allowed scopes for the new OAuth applications that dictate the user payload of the OAuth user info endpoint. Available scopes are `profile`, `email`, `public_metadata`, `private_metadata`. Provide the requested scopes as a string, separated by spaces. */
+  /** Replace the application's complete built-in and custom scope ceiling. Provide scope keys as a space-delimited string. Custom keys must exist in the instance OAuth scope catalog. Required built-in scopes, such as `offline_access`, must be included in the replacement set, otherwise the request is rejected. Omit this field to leave all scope assignments unchanged. */
   scopes?: string | null;
   /** True to enable a consent screen to display in the authentication flow. This cannot be disabled for dynamically registered OAuth Applications. */
   consent_screen_enabled?: boolean | null;
   /** True to require the Proof Key of Code Exchange (PKCE) flow. */
   pkce_required?: boolean | null;
+  /** True to enable the OAuth Device Authorization Grant for this application. Enabling requires the new OAuth IdP and a reachable device verification page. Omit this field to leave the setting unchanged. */
+  device_authorization_grant_enabled?: boolean | null;
   /** If true, this client is public and you can use the Proof Key of Code Exchange (PKCE) flow. */
   public?: boolean | null;
 }
@@ -13195,6 +13423,7 @@ export const UpdateOAuthApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     scopes: S.optional(S.NullOr(S.String)),
     consent_screen_enabled: S.optional(S.NullOr(S.Boolean)),
     pkce_required: S.optional(S.NullOr(S.Boolean)),
+    device_authorization_grant_enabled: S.optional(S.NullOr(S.Boolean)),
     public: S.optional(S.NullOr(S.Boolean)),
   }).pipe(
     T.Http({
@@ -13218,6 +13447,8 @@ export interface UpdateOrganizationRequest {
   max_allowed_memberships?: number | null;
   /** If true, an admin can delete this organization with the Frontend API. */
   admin_delete_enabled?: boolean | null;
+  /** Whether this organization can configure self-serve enterprise SSO. Requires the instance to have the self-serve SSO entitlement enabled. */
+  self_serve_sso_enabled?: boolean | null;
   /** A custom date/time denoting _when_ the organization was created, specified in RFC3339 format (e.g. `2012-10-20T07:15:20.902Z`). */
   created_at?: string | null;
   /** The key of the [role set](https://clerk.com/docs/guides/organizations/control-access/role-sets) to assign to this organization. */
@@ -13230,6 +13461,7 @@ export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     slug: S.optional(S.NullOr(S.String)),
     max_allowed_memberships: S.optional(S.NullOr(S.Number)),
     admin_delete_enabled: S.optional(S.NullOr(S.Boolean)),
+    self_serve_sso_enabled: S.optional(S.NullOr(S.Boolean)),
     created_at: S.optional(S.NullOr(S.String)),
     role_set_key: S.optional(S.NullOr(S.String)),
   }).pipe(
@@ -13481,12 +13713,12 @@ export const UpdateRoleSetRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Attribute-to-SCIM-path entries to merge into the directory's attribute mapping. Set a key to `null` to remove it from the mapping. */
 export type UpdateSCIMDirectoryRequestAttributeMappingMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateSCIMDirectoryRequestAttributeMappingMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<UpdateSCIMDirectoryRequestAttributeMappingMap>;
 
 export interface UpdateSCIMDirectoryRequest {
@@ -13765,6 +13997,8 @@ export interface UploadOrganizationLogoResponse {
   pending_invitations_count?: number;
   max_allowed_memberships: number;
   admin_delete_enabled: boolean;
+  /** Whether this organization can configure self-serve enterprise SSO. */
+  self_serve_sso_enabled?: boolean | null;
   public_metadata: UploadOrganizationLogoResponsePublicMetadataMap;
   private_metadata?: UploadOrganizationLogoResponsePrivateMetadataMap;
   created_by?: string;
@@ -13791,6 +14025,7 @@ export const UploadOrganizationLogoResponse = /*@__PURE__*/ S.suspend(() =>
     pending_invitations_count: S.optional(S.Number),
     max_allowed_memberships: S.Number,
     admin_delete_enabled: S.Boolean,
+    self_serve_sso_enabled: S.optional(S.NullOr(S.Boolean)),
     public_metadata: UploadOrganizationLogoResponsePublicMetadataMap,
     private_metadata: S.optional(
       UploadOrganizationLogoResponsePrivateMetadataMap,
@@ -14075,12 +14310,21 @@ export const VerifyOAuthAccessTokenResponseBodyCase0ScopesList =
     S.String,
   ) as any as S.Schema<VerifyOAuthAccessTokenResponseBodyCase0ScopesList>;
 
+/** The audiences of the access token. Omitted when no audience is set. */
+export type VerifyOAuthAccessTokenResponseBodyCase0AudList = Array<string>;
+export const VerifyOAuthAccessTokenResponseBodyCase0AudList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<VerifyOAuthAccessTokenResponseBodyCase0AudList>;
+
 export interface VerifyOAuthAccessTokenResponseBodyCase0 {
   object: VerifyOAuthAccessTokenResponseBodyCase0Object;
   id: string;
   client_id: string;
   subject: string;
   scopes: VerifyOAuthAccessTokenResponseBodyCase0ScopesList;
+  /** The audiences of the access token. Omitted when no audience is set. */
+  aud?: VerifyOAuthAccessTokenResponseBodyCase0AudList;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -14096,6 +14340,7 @@ export const VerifyOAuthAccessTokenResponseBodyCase0 = /*@__PURE__*/ S.suspend(
       client_id: S.String,
       subject: S.String,
       scopes: VerifyOAuthAccessTokenResponseBodyCase0ScopesList,
+      aud: S.optional(VerifyOAuthAccessTokenResponseBodyCase0AudList),
       revoked: S.Boolean,
       revocation_reason: S.NullOr(S.String),
       expired: S.Boolean,
@@ -14221,7 +14466,7 @@ export const VerifyTOTPResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VerifyTOTPResponse>;
 
 export type AddDomainError = BadRequest | UnprocessableEntity | ClerkOpError;
-/** Add a domain Add a new domain for your instance. Useful in the case of multi-domain instances, allows adding satellite domains to an instance. The new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`. At the moment, instances can have only one primary domain, so the `is_satellite` parameter must be set to `true`. If you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly. */
+/** Add a domain Add a new domain for your instance. Useful in the case of multi-domain instances, allows adding satellite domains to an instance. The new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`. Set `is_satellite` to `true` to add a satellite domain. To migrate a production instance from an active provider domain to its first custom primary domain, set `is_satellite` to `false`. The custom domain becomes active and the provider domain stays attached. Additional custom primary domains are not supported. If you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly. */
 export const addDomain: API.OperationMethod<
   AddDomainRequest,
   Domain,
@@ -14387,8 +14632,9 @@ export type AttemptPhoneNumberVerificationError =
   | BadRequest
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | ClerkOpError;
-/** Verify a code sent to a phone number Checks a one-time code against the verification identified by verification_id, and returns the verification with its updated status (`verified`, `unverified`, `expired`, or `failed`) and attempt count, so a backend driving its own frontend can react on every attempt — an incorrect or expired code is reported through the status, not as an error. Resubmitting a verification whose code was already accepted is rejected with a `verification_already_verified` error. If the code is correct and the phone number is not already verified, it is also marked as verified as a side effect (just as it would be in a frontend verification flow); an already verified phone number is left unchanged. It never creates a session; to sign the user in afterwards, mint a sign-in token. */
+/** Verify a code sent to a phone number Checks a one-time code against the verification identified by verification_id, and returns the verification with its updated status (`verified`, `unverified`, `expired`, or `failed`) and attempt count, so a backend driving its own frontend can react on every attempt — an incorrect or expired code is reported through the status, not as an error. Resubmitting a verification whose code was already accepted is rejected with a `verification_already_verified` error. If the code for this verification could not be sent (the SMS provider refused or failed the send after prepare_verification had returned), the attempt is rejected with a `verification_code_not_sent` error and no attempt is counted; call prepare_verification again to send a new code. If too many codes have been checked for this phone number recently, the attempt is rejected with a `verification_code_too_many_attempts` error and no attempt is counted; the limit is per phone number, so wait for the `Retry-After` period rather than sending a new code. If the code is correct and the phone number is not already verified, it is also marked as verified as a side effect (just as it would be in a frontend verification flow); an already verified phone number is left unchanged. It never creates a session; to sign the user in afterwards, mint a sign-in token. */
 export const attemptPhoneNumberVerification: API.OperationMethod<
   AttemptPhoneNumberVerificationRequest,
   AttemptPhoneNumberVerificationResponse,
@@ -14397,7 +14643,13 @@ export const attemptPhoneNumberVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AttemptPhoneNumberVerificationRequest,
   output: AttemptPhoneNumberVerificationResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    UnknownClerkError,
+  ],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
 }));
@@ -14478,6 +14730,7 @@ export const changeProductionInstanceDomain: API.OperationMethod<
 
 export type CreateActorTokenError =
   | BadRequest
+  | Forbidden
   | UnprocessableEntity
   | ClerkOpError;
 /** Create actor token Create an actor token that can be used to impersonate the given user. The `actor` parameter needs to include at least a "sub" key whose value is the ID of the actor (impersonating) user. */
@@ -14489,7 +14742,7 @@ export const createActorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateActorTokenRequest,
   output: ActorToken,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
 }));
@@ -14691,7 +14944,7 @@ export type CreateDirectoryGroupRoleMappingError =
   | NotFound
   | UnprocessableEntity
   | ClerkOpError;
-/** Create a directory group role mapping Creates a new directory group to organization role mapping for a directory. Group role mapping must be enabled on the directory. */
+/** Create a directory group role mapping Creates a new directory group to organization role mapping for a directory. Mappings can be created while group role mapping is disabled on the directory, but they only take effect once it is enabled. */
 export const createDirectoryGroupRoleMapping: API.OperationMethod<
   CreateDirectoryGroupRoleMappingRequest,
   DirectoryGroupRoleMapping,
@@ -15163,7 +15416,7 @@ export type CreateSCIMGroupRoleMappingError =
   | NotFound
   | UnprocessableEntity
   | ClerkOpError;
-/** Create a SCIM group role mapping Creates a new SCIM group to organization role mapping for a directory. Group role mapping must be enabled on the directory. */
+/** Create a SCIM group role mapping Creates a new SCIM group to organization role mapping for a directory. Mappings can be created while group role mapping is disabled on the directory, but they only take effect once it is enabled. */
 export const createSCIMGroupRoleMapping: API.OperationMethod<
   CreateSCIMGroupRoleMappingRequest,
   SCIMGroupRoleMapping,
@@ -15398,7 +15651,7 @@ export type DeleteDirectoryGroupRoleMappingError =
   | Forbidden
   | NotFound
   | ClerkOpError;
-/** Delete a directory group role mapping Deletes a single directory group role mapping. Group role mapping must be enabled on the directory. */
+/** Delete a directory group role mapping Deletes a single directory group role mapping. Mappings can be deleted while group role mapping is disabled on the directory, but the change only takes effect once it is enabled. */
 export const deleteDirectoryGroupRoleMapping: API.OperationMethod<
   DeleteDirectoryGroupRoleMappingRequest,
   DeleteDirectoryGroupRoleMappingResponse,
@@ -15413,7 +15666,7 @@ export const deleteDirectoryGroupRoleMapping: API.OperationMethod<
 }));
 
 export type DeleteDomainError = Forbidden | NotFound | ClerkOpError;
-/** Delete a satellite domain Deletes a satellite domain for the instance. It is currently not possible to delete the instance's primary domain. */
+/** Delete a domain Deletes a domain for the instance. The instance's active domain cannot be deleted. */
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
   DeletedObject,
@@ -15724,7 +15977,7 @@ export type DeleteSCIMGroupRoleMappingError =
   | Forbidden
   | NotFound
   | ClerkOpError;
-/** Delete a SCIM group role mapping Deletes a single SCIM group role mapping. Group role mapping must be enabled on the directory. */
+/** Delete a SCIM group role mapping Deletes a single SCIM group role mapping. Mappings can be deleted while group role mapping is disabled on the directory, but the change only takes effect once it is enabled. */
 export const deleteSCIMGroupRoleMapping: API.OperationMethod<
   DeleteSCIMGroupRoleMappingRequest,
   DeleteSCIMGroupRoleMappingResponse,
@@ -15784,7 +16037,7 @@ export const deleteUser: API.OperationMethod<
 }));
 
 export type DeleteUserPasskeyError = Forbidden | NotFound | ClerkOpError;
-/** Delete a user passkey Delete the passkey identification for a given user and notify them through email. */
+/** Delete a user passkey Delete the passkey identification for a given user. The user is notified through email or SMS unless the passkey registration was never completed. */
 export const deleteUserPasskey: API.OperationMethod<
   DeleteUserPasskeyRequest,
   DeletedObject,
@@ -16505,6 +16758,21 @@ export const getRedirectURL: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetReverificationError = BadRequest | NotFound | ClerkOpError;
+/** Retrieve a reverification Retrieve a reverification scoped to a session. A resource server can use this to validate a reverification id it received from its client: confirm it is real, scoped to the expected session, completed, and how fresh each factor is. Single-use / replay detection is the caller's responsibility (the id is stable, so the caller dedups consumed ids). */
+export const getReverification: API.OperationMethod<
+  GetReverificationRequest,
+  Reverification,
+  GetReverificationError,
+  ClerkOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetReverificationRequest,
+  output: Reverification,
+  errors: [BadRequest, NotFound, UnknownClerkError],
+  protocol: ClerkProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetRoleSetError = Forbidden | NotFound | ClerkOpError;
 /** Retrieve a role set Retrieves an existing role set by its key or ID. */
 export const getRoleSet: API.OperationMethod<
@@ -17117,16 +17385,19 @@ export const listSCIMGroupRoleMappings: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListUserTrustedDevicesError = Forbidden | NotFound | ClerkOpError;
-/** List a user's trusted devices Returns the active trusted devices enrolled by the user. */
-export const listUserTrustedDevices: API.OperationMethod<
-  ListUserTrustedDevicesRequest,
-  ListUserTrustedDevicesResponse,
-  ListUserTrustedDevicesError,
+export type ListUserBiometricCredentialsError =
+  | Forbidden
+  | NotFound
+  | ClerkOpError;
+/** List a user's biometric credentials Returns the active biometric credentials enrolled by the user. */
+export const listUserBiometricCredentials: API.OperationMethod<
+  ListUserBiometricCredentialsRequest,
+  ListUserBiometricCredentialsResponse,
+  ListUserBiometricCredentialsError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: ListUserTrustedDevicesRequest,
-  output: ListUserTrustedDevicesResponse,
+  input: ListUserBiometricCredentialsRequest,
+  output: ListUserBiometricCredentialsResponse,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
@@ -17332,7 +17603,7 @@ export type ReplaceDirectoryGroupRoleMappingsError =
   | NotFound
   | UnprocessableEntity
   | ClerkOpError;
-/** Replace directory group role mappings Replaces the entire set of directory group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Group role mapping must be enabled on the directory. */
+/** Replace directory group role mappings Replaces the entire set of directory group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once it is enabled. */
 export const replaceDirectoryGroupRoleMappings: API.OperationMethod<
   ReplaceDirectoryGroupRoleMappingsRequest,
   ReplaceDirectoryGroupRoleMappingsResponse,
@@ -17429,7 +17700,7 @@ export type ReplaceSCIMGroupRoleMappingsError =
   | NotFound
   | UnprocessableEntity
   | ClerkOpError;
-/** Replace SCIM group role mappings Replaces the entire set of SCIM group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Group role mapping must be enabled on the directory. */
+/** Replace SCIM group role mappings Replaces the entire set of SCIM group role mappings for a directory. The position of each item in the `mappings` array determines its precedence (the first item gets precedence 1). Passing an empty array removes all mappings. Mappings can be replaced while group role mapping is disabled on the directory, but they only take effect once it is enabled. */
 export const replaceSCIMGroupRoleMappings: API.OperationMethod<
   ReplaceSCIMGroupRoleMappingsRequest,
   ReplaceSCIMGroupRoleMappingsResponse,
@@ -17689,22 +17960,29 @@ export const revokeSignInToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RevokeUserTrustedDeviceError = Forbidden | NotFound | ClerkOpError;
-/** Revoke a user's trusted device Revokes an active trusted device enrolled by the user. */
-export const revokeUserTrustedDevice: API.OperationMethod<
-  RevokeUserTrustedDeviceRequest,
-  TrustedDevice,
-  RevokeUserTrustedDeviceError,
+export type RevokeUserBiometricCredentialError =
+  | Forbidden
+  | NotFound
+  | ClerkOpError;
+/** Revoke a user's biometric credential Revokes an active biometric credential enrolled by the user. */
+export const revokeUserBiometricCredential: API.OperationMethod<
+  RevokeUserBiometricCredentialRequest,
+  BiometricCredential,
+  RevokeUserBiometricCredentialError,
   ClerkOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: RevokeUserTrustedDeviceRequest,
-  output: TrustedDevice,
+  input: RevokeUserBiometricCredentialRequest,
+  output: BiometricCredential,
   errors: [Forbidden, NotFound, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
 }));
 
-export type RotateDirectoryAPIKeyError = Forbidden | NotFound | ClerkOpError;
+export type RotateDirectoryAPIKeyError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | ClerkOpError;
 /** Rotate a directory's API key Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain the key after creation, so make sure to update it in your identity provider. The previous key remains valid for a short grace period before it expires. */
 export const rotateDirectoryAPIKey: API.OperationMethod<
   RotateDirectoryAPIKeyRequest,
@@ -17714,7 +17992,7 @@ export const rotateDirectoryAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RotateDirectoryAPIKeyRequest,
   output: Directory,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
 }));
@@ -17766,6 +18044,7 @@ export const rotateOAuthApplicationSecret: API.OperationMethod<
 export type RotateSCIMDirectoryAPIKeyError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | ClerkOpError;
 /** Rotate a directory's API key Generates a new API key for the directory and returns it in the `api_key` field. This is the only way to obtain the key after creation, so make sure to update it in your identity provider. The previous key remains valid for a short grace period before it expires. */
 export const rotateSCIMDirectoryAPIKey: API.OperationMethod<
@@ -17776,7 +18055,7 @@ export const rotateSCIMDirectoryAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RotateSCIMDirectoryAPIKeyRequest,
   output: SCIMDirectory,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
   protocol: ClerkProtocol,
   retry: Retry.Retry,
 }));
