@@ -218,6 +218,18 @@ export class DurableObjectMustBeSqlite
     [{ code: 10074, message: { includes: "not a SQLite Durable Object" } }],
   ) {}
 
+export class EventTriggerWorkflowNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EventTriggerWorkflowNotFound>()(
+      "EventTriggerWorkflowNotFound",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 10200, message: { includes: "workflow.not_found" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -249,6 +261,18 @@ export class HyperdriveConfigNotFound
       },
     ),
     [{ code: 10157 }],
+  ) {}
+
+export class InvalidEventTriggers
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidEventTriggers>()(
+      "InvalidEventTriggers",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 10002, message: { includes: "workflows.api.error.body" } }],
   ) {}
 
 export class InvalidRoute
@@ -18138,6 +18162,109 @@ export const GetScriptDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetScriptDeploymentResponse",
 }) as any as S.Schema<GetScriptDeploymentResponse>;
 
+export interface GetScriptEventTriggersRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the script. */
+  scriptName: string;
+}
+export const GetScriptEventTriggersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    scriptName: S.String.pipe(T.Label("script_name")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/triggers/{script_name}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetScriptEventTriggersRequest",
+}) as any as S.Schema<GetScriptEventTriggersRequest>;
+
+export interface EventTriggerFilter {
+  /** Only events from this Artifacts namespace. */
+  namespace?: string | null;
+  /** Only events from this Artifacts repository. */
+  repoName?: string | null;
+}
+export const EventTriggerFilter = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespace: S.optional(S.NullOr(S.String)),
+    repoName: S.optional(S.NullOr(S.String).pipe(T.Body("repo_name"))),
+  }),
+).annotate({
+  identifier: "EventTriggerFilter",
+}) as any as S.Schema<EventTriggerFilter>;
+
+export interface EventTriggerTarget {
+  /** Target kind: `workflow`. */
+  type: string;
+  /** The Workflow that receives the event as an instance's params. */
+  workflowName: string;
+  /** The script that hosts the Workflow: the script the trigger belongs to. */
+  scriptName?: string | null;
+}
+export const EventTriggerTarget = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    workflowName: S.String.pipe(T.Body("workflow_name")),
+    scriptName: S.optional(S.NullOr(S.String).pipe(T.Body("script_name"))),
+  }),
+).annotate({
+  identifier: "EventTriggerTarget",
+}) as any as S.Schema<EventTriggerTarget>;
+
+export type EventTriggerTargetList = Array<EventTriggerTarget>;
+export const EventTriggerTargetList = /*@__PURE__*/ S.Array(
+  EventTriggerTarget,
+) as any as S.Schema<EventTriggerTargetList>;
+
+export interface EventTrigger {
+  /** Event type, e.g. `cf.artifacts.repo.pushed`. */
+  type: string;
+  filter?: EventTriggerFilter | null;
+  targets: EventTriggerTargetList;
+}
+export const EventTrigger = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    filter: S.optional(S.NullOr(EventTriggerFilter)),
+    targets: EventTriggerTargetList,
+  }),
+).annotate({ identifier: "EventTrigger" }) as any as S.Schema<EventTrigger>;
+
+export type EventTriggerList = Array<EventTrigger>;
+export const EventTriggerList = /*@__PURE__*/ S.Array(
+  EventTrigger,
+) as any as S.Schema<EventTriggerList>;
+
+export interface ScriptEventTriggers {
+  scriptName: string;
+  triggers: EventTriggerList;
+}
+export const ScriptEventTriggers = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    scriptName: S.String.pipe(T.Body("script_name")),
+    triggers: EventTriggerList,
+  }),
+).annotate({
+  identifier: "ScriptEventTriggers",
+}) as any as S.Schema<ScriptEventTriggers>;
+
+export type GetScriptEventTriggersResponse = ScriptEventTriggers;
+export const GetScriptEventTriggersResponse = /*@__PURE__*/ S.suspend(() =>
+  ScriptEventTriggers.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "GetScriptEventTriggersResponse",
+}) as any as S.Schema<GetScriptEventTriggersResponse>;
+
 export interface GetScriptScheduleRequest {
   /** Identifier. */
   accountId: string;
@@ -32446,6 +32573,41 @@ export const PutScriptContentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutScriptContentResponse",
 }) as any as S.Schema<PutScriptContentResponse>;
 
+export interface PutScriptEventTriggersRequest {
+  /** Identifier. */
+  accountId: string;
+  /** Name of the script. */
+  scriptName: string;
+  body: EventTriggerList;
+}
+export const PutScriptEventTriggersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    scriptName: S.String.pipe(T.Label("script_name")),
+    body: EventTriggerList.pipe(T.HttpBody()),
+  })
+    .pipe(
+      T.Http({
+        method: "PUT",
+        uri: "/accounts/{account_id}/triggers/{script_name}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PutScriptEventTriggersRequest",
+}) as any as S.Schema<PutScriptEventTriggersRequest>;
+
+export type PutScriptEventTriggersResponse = ScriptEventTriggers;
+export const PutScriptEventTriggersResponse = /*@__PURE__*/ S.suspend(() =>
+  ScriptEventTriggers.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
+).annotate({
+  identifier: "PutScriptEventTriggersResponse",
+}) as any as S.Schema<PutScriptEventTriggersResponse>;
+
 export interface ScriptsSchedulesUpdateRequestBodyItem {
   cron: string;
   createdOn?: string;
@@ -37196,6 +37358,21 @@ export const getScriptDeployment: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetScriptEventTriggersError = CloudflareOpError;
+/** The script's event triggers. A script with none, or no script by that name, has an empty list. */
+export const getScriptEventTriggers: API.OperationMethod<
+  GetScriptEventTriggersRequest,
+  GetScriptEventTriggersResponse,
+  GetScriptEventTriggersError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetScriptEventTriggersRequest,
+  output: GetScriptEventTriggersResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetScriptScheduleError = WorkerNotFound | CloudflareOpError;
 /** Fetches Cron Triggers for a Worker. */
 export const getScriptSchedule: API.OperationMethod<
@@ -37804,6 +37981,29 @@ export const putScriptContent: API.OperationMethod<
     InvalidWorkerScript,
     ScriptStartupError,
     ScriptModuleNotFound,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutScriptEventTriggersError =
+  | EventTriggerWorkflowNotFound
+  | InvalidEventTriggers
+  | CloudflareOpError;
+/** Replace the script's event triggers; an empty list removes them. Each target names a Workflow the script hosts, which must exist first. */
+export const putScriptEventTriggers: API.OperationMethod<
+  PutScriptEventTriggersRequest,
+  PutScriptEventTriggersResponse,
+  PutScriptEventTriggersError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutScriptEventTriggersRequest,
+  output: PutScriptEventTriggersResponse,
+  errors: [
+    EventTriggerWorkflowNotFound,
+    InvalidEventTriggers,
     CloudflareRateLimited,
     CloudflareError,
   ],

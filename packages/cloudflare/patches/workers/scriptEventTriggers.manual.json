@@ -1,0 +1,326 @@
+{
+  "description": "Docs gap: Worker event triggers (wrangler's `triggers.events`: Artifacts events such as `cf.artifacts.repo.pushed` delivered straight to a Workflow) are absent from the API docs. Routes and shapes from wrangler's deploy (https://github.com/cloudflare/workers-sdk/blob/main/packages/deploy-helpers/src/triggers/deploy.ts and packages/wrangler/src/__tests__/deploy/workflows.test.ts), confirmed on the live API 2026-10-03 against a throwaway script and Workflow: GET and PUT both answer `{script_name, triggers}` (GET answers 200 with an empty list for a script with no triggers or no script at all); PUT replaces the list, `[]` clears it; a target Workflow that does not exist is 404 code 10200 `workflows.api.error.workflow.not_found`; an unknown event type is 400 code 10002 `workflows.api.error.body`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#EventTriggerFilter",
+      "value": {
+        "type": "structure",
+        "members": {
+          "namespace": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Only events from this Artifacts namespace."
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Only events from this Artifacts repository."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#EventTriggerTarget",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Target kind: `workflow`."
+            }
+          },
+          "workflow_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The Workflow that receives the event as an instance's params."
+            }
+          },
+          "script_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The script that hosts the Workflow: the script the trigger belongs to."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#EventTriggerTargetList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.cloudflare.workers#EventTriggerTarget"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#EventTrigger",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Event type, e.g. `cf.artifacts.repo.pushed`."
+            }
+          },
+          "filter": {
+            "target": "com.cloudflare.workers#EventTriggerFilter"
+          },
+          "targets": {
+            "target": "com.cloudflare.workers#EventTriggerTargetList",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#EventTriggerList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.cloudflare.workers#EventTrigger"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptEventTriggers",
+      "value": {
+        "type": "structure",
+        "members": {
+          "script_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "triggers": {
+            "target": "com.cloudflare.workers#EventTriggerList",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#GetScriptEventTriggersRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Identifier."
+            }
+          },
+          "script_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the script."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#GetScriptEventTriggersResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "result": {
+            "target": "com.cloudflare.workers#ScriptEventTriggers",
+            "traits": {
+              "com.cloudflare.protocols#envelopePayload": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#GetScriptEventTriggers",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#GetScriptEventTriggersRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#GetScriptEventTriggersResponse"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/accounts/{account_id}/triggers/{script_name}",
+            "code": 200
+          },
+          "smithy.api#documentation": "The script's event triggers. A script with none, or no script by that name, has an empty list."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptEventTriggersRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Identifier."
+            }
+          },
+          "script_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Name of the script."
+            }
+          },
+          "body": {
+            "target": "com.cloudflare.workers#EventTriggerList",
+            "traits": {
+              "smithy.api#httpPayload": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptEventTriggersResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "result": {
+            "target": "com.cloudflare.workers#ScriptEventTriggers",
+            "traits": {
+              "com.cloudflare.protocols#envelopePayload": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptEventTriggers",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#PutScriptEventTriggersRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#PutScriptEventTriggersResponse"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "PUT",
+            "uri": "/accounts/{account_id}/triggers/{script_name}",
+            "code": 200
+          },
+          "smithy.api#documentation": "Replace the script's event triggers; an empty list removes them. Each target names a Workflow the script hosts, which must exist first."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#EventTriggerWorkflowNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 10200,
+              "message": {
+                "includes": "workflow.not_found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#InvalidEventTriggers",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 10002,
+              "message": {
+                "includes": "workflows.api.error.body"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptEventTriggers/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.workers#EventTriggerWorkflowNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#InvalidEventTriggers"
+        }
+      ]
+    }
+  ]
+}
