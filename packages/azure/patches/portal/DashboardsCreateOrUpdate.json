@@ -1,0 +1,10 @@
+{
+  "description": "Dashboard part metadata is polymorphic on `type` (MarkdownPart carries `inputs`/`settings`, other part types carry their own payload); the converted model keeps only `type`, so S.Struct strips the part payload on encode and decode. Type it as an untyped document.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.portal#DashboardParts/members/metadata/target",
+      "value": "smithy.api#Document"
+    }
+  ]
+}

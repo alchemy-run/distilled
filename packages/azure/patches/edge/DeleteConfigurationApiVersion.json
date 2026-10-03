@@ -1,0 +1,15 @@
+{
+  "description": "DELETE Microsoft.Edge/configurations at api-version 2026-03-01 never deletes: ARM rejects the RP response ('Failed to create HTTP response as per the API specification ... Consider to retry operation with api-versions ''') and 2025-08-01 behaves the same. 2026-06-01 accepts the delete (provisioningState 'Deleting'). Pin DeleteConfiguration to 2026-06-01.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#DeleteConfiguration/traits/smithy.api#http/apiVersion",
+      "value": "2026-06-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#DeleteConfiguration/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-06-01"
+    }
+  ]
+}

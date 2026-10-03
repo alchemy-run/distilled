@@ -40,6 +40,8 @@ export interface DataFlow {
   annotations?: DataFlowAnnotationsList;
   /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
   folder?: DataFlowFolder;
+  /** Type-specific data flow properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const DataFlow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -47,6 +49,7 @@ export const DataFlow = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     annotations: S.optional(DataFlowAnnotationsList),
     folder: S.optional(DataFlowFolder),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "DataFlow" }) as any as S.Schema<DataFlow>;
 
@@ -177,6 +180,8 @@ export interface Dataset {
   annotations?: DatasetAnnotationsList;
   /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
   folder?: DatasetFolder;
+  /** Type-specific dataset properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const Dataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -188,6 +193,7 @@ export const Dataset = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(DatasetParametersMap),
     annotations: S.optional(DatasetAnnotationsList),
     folder: S.optional(DatasetFolder),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
 
@@ -276,6 +282,8 @@ export interface LinkedService {
   parameters?: LinkedServiceParametersMap;
   /** List of tags that can be used for describing the linked service. */
   annotations?: LinkedServiceAnnotationsList;
+  /** Type-specific linked service properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const LinkedService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -285,6 +293,7 @@ export const LinkedService = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     parameters: S.optional(LinkedServiceParametersMap),
     annotations: S.optional(LinkedServiceAnnotationsList),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "LinkedService" }) as any as S.Schema<LinkedService>;
 
@@ -1068,11 +1077,17 @@ export interface IntegrationRuntime {
   type: IntegrationRuntimeType | (string & {});
   /** Integration runtime description. */
   description?: string;
+  /** Type-specific integration runtime properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Managed Virtual Network reference (Managed integration runtimes). */
+  managedVirtualNetwork?: unknown;
 }
 export const IntegrationRuntime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: IntegrationRuntimeType,
     description: S.optional(S.String),
+    typeProperties: S.optional(S.Unknown),
+    managedVirtualNetwork: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "IntegrationRuntime",
@@ -1311,12 +1326,15 @@ export interface Credential {
   description?: string;
   /** List of tags that can be used for describing the Credential. */
   annotations?: CredentialAnnotationsList;
+  /** Type-specific credential properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const Credential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     description: S.optional(S.String),
     annotations: S.optional(CredentialAnnotationsList),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Credential" }) as any as S.Schema<Credential>;
 
@@ -4144,6 +4162,16 @@ export interface Activity {
   dependsOn?: ActivityDependsOnList;
   /** Activity user properties. */
   userProperties?: ActivityUserPropertiesList;
+  /** Type-specific activity properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Linked service reference (ExecutionActivity subtypes). */
+  linkedServiceName?: unknown;
+  /** Activity policy (ExecutionActivity subtypes). */
+  policy?: unknown;
+  /** List of inputs for the activity (Copy / data movement activities). */
+  inputs?: unknown;
+  /** List of outputs for the activity (Copy / data movement activities). */
+  outputs?: unknown;
 }
 export const Activity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4154,6 +4182,11 @@ export const Activity = /*@__PURE__*/ S.suspend(() =>
     onInactiveMarkAs: S.optional(ActivityOnInactiveMarkAs),
     dependsOn: S.optional(ActivityDependsOnList),
     userProperties: S.optional(ActivityUserPropertiesList),
+    typeProperties: S.optional(S.Unknown),
+    linkedServiceName: S.optional(S.Unknown),
+    policy: S.optional(S.Unknown),
+    inputs: S.optional(S.Unknown),
+    outputs: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Activity" }) as any as S.Schema<Activity>;
 
@@ -4679,6 +4712,12 @@ export interface Trigger {
   runtimeState?: TriggerRuntimeState | (string & {});
   /** List of tags that can be used for describing the trigger. */
   annotations?: TriggerAnnotationsList;
+  /** Type-specific trigger properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Pipelines that need to be started (MultiplePipelineTrigger subtypes). */
+  pipelines?: unknown;
+  /** Pipeline for which runs are created (TumblingWindowTrigger / ChainingTrigger). */
+  pipeline?: unknown;
 }
 export const Trigger = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4686,6 +4725,9 @@ export const Trigger = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     runtimeState: S.optional(TriggerRuntimeState),
     annotations: S.optional(TriggerAnnotationsList),
+    typeProperties: S.optional(S.Unknown),
+    pipelines: S.optional(S.Unknown),
+    pipeline: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Trigger" }) as any as S.Schema<Trigger>;
 

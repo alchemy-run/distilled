@@ -117,7 +117,7 @@ export const ApprovalCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -1636,7 +1636,7 @@ export const DeleteApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -2491,7 +2491,7 @@ export const GetApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -3490,7 +3490,7 @@ export const ListApprovalByParentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -4495,7 +4495,7 @@ export const NotifyApprovalInitiatorRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}/notifyInitiator",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}/notifyInitiator",
       code: 200,
       apiVersion: "2026-04-01",
     }),
@@ -4692,7 +4692,7 @@ export const UpdateApprovalRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.Mission/approvals/{approvalName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Mission/approvals/{approvalName}",
       code: 200,
       apiVersion: "2026-04-01",
     }),

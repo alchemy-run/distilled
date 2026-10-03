@@ -1,0 +1,27 @@
+{
+  "description": "Fabric agent customProperties is polymorphic on `instanceType` (VMware); the converted model keeps only the discriminator, so S.Struct strips every subtype field on encode and decode. Retype as an untyped document.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicesdatareplication#FabricAgentModelProperties/members/customProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Fabric agent model custom properties. Polymorphic on `instanceType` (VMware).",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicesdatareplication#FabricAgentModelPropertiesInput/members/customProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Fabric agent model custom properties. Polymorphic on `instanceType` (VMware).",
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

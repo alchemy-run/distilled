@@ -187,6 +187,47 @@ export const CreateSerialPortResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSerialPortResponse",
 }) as any as S.Schema<CreateSerialPortResponse>;
 
+export interface DeleteSerialPortRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. */
+  resourceGroupName: string;
+  /** The resource provider namespace of the parent resource. */
+  resourceProviderNamespace: string;
+  /** The resource type of the parent resource. For example: 'virtualMachines' or 'virtualMachineScaleSets' */
+  parentResourceType: string;
+  /** The name of the parent resource. */
+  parentResource: string;
+  /** The name of the serial port to delete. */
+  serialPort: string;
+}
+export const DeleteSerialPortRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceProviderNamespace: S.String.pipe(T.Label()),
+    parentResourceType: S.String.pipe(T.Label()),
+    parentResource: S.String.pipe(T.Label()),
+    serialPort: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourceType}/{parentResource}/providers/Microsoft.SerialConsole/serialPorts/{serialPort}",
+      code: 200,
+      apiVersion: "2024-07-01",
+    }),
+  ),
+).annotate({
+  identifier: "DeleteSerialPortRequest",
+}) as any as S.Schema<DeleteSerialPortRequest>;
+
+export interface DeleteSerialPortResponse {}
+export const DeleteSerialPortResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteSerialPortResponse",
+}) as any as S.Schema<DeleteSerialPortResponse>;
+
 export interface DisableConsoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -555,6 +596,21 @@ export const CreateSerialPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSerialPortRequest,
   output: CreateSerialPortResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSerialPortError = AzureOpError;
+/** Deletes a serial port */
+export const DeleteSerialPort: API.OperationMethod<
+  DeleteSerialPortRequest,
+  DeleteSerialPortResponse,
+  DeleteSerialPortError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSerialPortRequest,
+  output: DeleteSerialPortResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

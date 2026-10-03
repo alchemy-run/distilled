@@ -1927,11 +1927,11 @@ export interface ClustersCreateOrUpdateResponse {
   /** Resource tags. */
   tags?: ClustersCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
-  location: string;
+  location?: string;
   /** The cluster properties. */
   properties?: ClusterProperties;
   /** The SKU of the cluster. */
-  sku: AzureSku;
+  sku?: AzureSku;
   /** The availability zones. */
   zones?: ClustersCreateOrUpdateResponseZonesList;
   /** The identity of the cluster, if configured. */
@@ -1946,9 +1946,9 @@ export const ClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     tags: S.optional(ClustersCreateOrUpdateResponseTagsMap),
-    location: S.String,
+    location: S.optional(S.String),
     properties: S.optional(ClusterProperties),
-    sku: AzureSku,
+    sku: S.optional(AzureSku),
     zones: S.optional(ClustersCreateOrUpdateResponseZonesList),
     identity: S.optional(Identity),
     etag: S.optional(S.String),
@@ -2215,6 +2215,37 @@ export const DatabasesCreateOrUpdateRequestCallerRole = S.String;
 export type Kind = "ReadWrite" | "ReadOnlyFollowing";
 export const Kind = S.String;
 
+/** Properties of a ReadWrite database (the `kind: ReadWrite` variant of the polymorphic Database; ReadOnlyFollowing databases return a superset). */
+export interface ReadWriteDatabaseProperties {
+  /** The provisioned state of the resource. */
+  provisioningState?: string;
+  /** The time the data should be kept before it stops being accessible to queries (ISO-8601 duration). */
+  softDeletePeriod?: string;
+  /** The time the data should be kept in cache for fast queries (ISO-8601 duration). */
+  hotCachePeriod?: string;
+  /** The statistics of the database. */
+  statistics?: unknown;
+  /** Indicates whether the database is followed. */
+  isFollowed?: boolean;
+  /** KeyVault properties for the database encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** The database suspension details. */
+  suspensionDetails?: unknown;
+}
+export const ReadWriteDatabaseProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(S.String),
+    softDeletePeriod: S.optional(S.String),
+    hotCachePeriod: S.optional(S.String),
+    statistics: S.optional(S.Unknown),
+    isFollowed: S.optional(S.Boolean),
+    keyVaultProperties: S.optional(KeyVaultProperties),
+    suspensionDetails: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "ReadWriteDatabaseProperties",
+}) as any as S.Schema<ReadWriteDatabaseProperties>;
+
 export interface DatabasesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2230,6 +2261,8 @@ export interface DatabasesCreateOrUpdateRequest {
   location?: string;
   /** Kind of the database */
   kind: Kind | (string & {});
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const DatabasesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2242,6 +2275,7 @@ export const DatabasesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     location: S.optional(S.String),
     kind: Kind,
+    properties: S.optional(ReadWriteDatabaseProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -2266,7 +2300,9 @@ export interface DatabasesCreateOrUpdateResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the database */
-  kind: Kind;
+  kind?: Kind;
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const DatabasesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2275,7 +2311,8 @@ export const DatabasesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: Kind,
+    kind: S.optional(Kind),
+    properties: S.optional(ReadWriteDatabaseProperties),
   }),
 ).annotate({
   identifier: "DatabasesCreateOrUpdateResponse",
@@ -2290,6 +2327,87 @@ export type DataConnectionKind =
   | "EventHubWithManagedIdentity"
   | "EventGridWithManagedIdentity";
 export const DataConnectionKind = S.String;
+
+export type DataConnectionPropertiesEventSystemPropertiesList = Array<string>;
+export const DataConnectionPropertiesEventSystemPropertiesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<DataConnectionPropertiesEventSystemPropertiesList>;
+
+/** Union of the data connection `properties` across kinds (EventHub, EventGrid, IotHub, CosmosDb). */
+export interface DataConnectionProperties {
+  /** The resource ID of the event hub (EventHub, EventGrid kinds). */
+  eventHubResourceId?: string;
+  /** The event hub / IoT hub consumer group. */
+  consumerGroup?: string;
+  /** The table where the data should be ingested. */
+  tableName?: string;
+  /** The mapping rule to be used to ingest the data. */
+  mappingRuleName?: string;
+  /** The data format of the message. */
+  dataFormat?: string;
+  /** System properties of the event hub / IoT hub. */
+  eventSystemProperties?: DataConnectionPropertiesEventSystemPropertiesList;
+  /** The event hub messages compression type (`None` | `GZip`). */
+  compression?: string;
+  /** The provisioned state of the resource. */
+  provisioningState?: string;
+  /** The resource ID of a managed identity used to access the source. */
+  managedIdentityResourceId?: string;
+  /** The object ID of the managed identity. */
+  managedIdentityObjectId?: string;
+  /** Single or multi database routing (`Single` | `Multi`). */
+  databaseRouting?: string;
+  /** Retrieve events created after this date (ISO-8601). */
+  retrievalStartDate?: string;
+  /** The storage account resource ID (EventGrid kind). */
+  storageAccountResourceId?: string;
+  /** The Event Grid subscription resource ID (EventGrid kind). */
+  eventGridResourceId?: string;
+  /** Ignore the first record of every file (EventGrid kind). */
+  ignoreFirstRecord?: boolean;
+  /** The blob storage event type to process (EventGrid kind). */
+  blobStorageEventType?: string;
+  /** The IoT hub resource ID (IotHub kind). */
+  iotHubResourceId?: string;
+  /** The IoT hub shared access policy name (IotHub kind). */
+  sharedAccessPolicyName?: string;
+  /** The Cosmos DB account resource ID (CosmosDb kind). */
+  cosmosDbAccountResourceId?: string;
+  /** The Cosmos DB database name (CosmosDb kind). */
+  cosmosDbDatabase?: string;
+  /** The Cosmos DB container name (CosmosDb kind). */
+  cosmosDbContainer?: string;
+}
+export const DataConnectionProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventHubResourceId: S.optional(S.String),
+    consumerGroup: S.optional(S.String),
+    tableName: S.optional(S.String),
+    mappingRuleName: S.optional(S.String),
+    dataFormat: S.optional(S.String),
+    eventSystemProperties: S.optional(
+      DataConnectionPropertiesEventSystemPropertiesList,
+    ),
+    compression: S.optional(S.String),
+    provisioningState: S.optional(S.String),
+    managedIdentityResourceId: S.optional(S.String),
+    managedIdentityObjectId: S.optional(S.String),
+    databaseRouting: S.optional(S.String),
+    retrievalStartDate: S.optional(S.String),
+    storageAccountResourceId: S.optional(S.String),
+    eventGridResourceId: S.optional(S.String),
+    ignoreFirstRecord: S.optional(S.Boolean),
+    blobStorageEventType: S.optional(S.String),
+    iotHubResourceId: S.optional(S.String),
+    sharedAccessPolicyName: S.optional(S.String),
+    cosmosDbAccountResourceId: S.optional(S.String),
+    cosmosDbDatabase: S.optional(S.String),
+    cosmosDbContainer: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DataConnectionProperties",
+}) as any as S.Schema<DataConnectionProperties>;
 
 export interface DataConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2306,6 +2424,8 @@ export interface DataConnectionsCreateOrUpdateRequest {
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const DataConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -2317,6 +2437,7 @@ export const DataConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       dataConnectionName: S.String.pipe(T.Label()),
       location: S.optional(S.String),
       kind: DataConnectionKind,
+      properties: S.optional(DataConnectionProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -2341,7 +2462,9 @@ export interface DataConnectionsCreateOrUpdateResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
+  kind?: DataConnectionKind;
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const DataConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2351,7 +2474,8 @@ export const DataConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       location: S.optional(S.String),
-      kind: DataConnectionKind,
+      kind: S.optional(DataConnectionKind),
+      properties: S.optional(DataConnectionProperties),
     }),
 ).annotate({
   identifier: "DataConnectionsCreateOrUpdateResponse",
@@ -3071,6 +3195,8 @@ export interface GetDatabaseResponse {
   location?: string;
   /** Kind of the database */
   kind: Kind;
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3080,6 +3206,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
     kind: Kind,
+    properties: S.optional(ReadWriteDatabaseProperties),
   }),
 ).annotate({
   identifier: "GetDatabaseResponse",
@@ -3186,6 +3313,8 @@ export interface GetDataConnectionResponse {
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind;
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const GetDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3195,6 +3324,7 @@ export const GetDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
     kind: DataConnectionKind,
+    properties: S.optional(DataConnectionProperties),
   }),
 ).annotate({
   identifier: "GetDataConnectionResponse",
@@ -5806,11 +5936,11 @@ export interface UpdateClusterResponse {
   /** Resource tags. */
   tags?: UpdateClusterResponseTagsMap;
   /** The geo-location where the resource lives */
-  location: string;
+  location?: string;
   /** The cluster properties. */
   properties?: ClusterProperties;
   /** The SKU of the cluster. */
-  sku: AzureSku;
+  sku?: AzureSku;
   /** The availability zones. */
   zones?: UpdateClusterResponseZonesList;
   /** The identity of the cluster, if configured. */
@@ -5825,9 +5955,9 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     tags: S.optional(UpdateClusterResponseTagsMap),
-    location: S.String,
+    location: S.optional(S.String),
     properties: S.optional(ClusterProperties),
-    sku: AzureSku,
+    sku: S.optional(AzureSku),
     zones: S.optional(UpdateClusterResponseZonesList),
     identity: S.optional(Identity),
     etag: S.optional(S.String),
@@ -5854,6 +5984,8 @@ export interface UpdateDatabaseRequest {
   location?: string;
   /** Kind of the database */
   kind: Kind | (string & {});
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5864,6 +5996,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     callerRole: S.optional(UpdateDatabaseRequestCallerRole.pipe(T.Query())),
     location: S.optional(S.String),
     kind: Kind,
+    properties: S.optional(ReadWriteDatabaseProperties),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -5888,7 +6021,9 @@ export interface UpdateDatabaseResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the database */
-  kind: Kind;
+  kind?: Kind;
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5897,7 +6032,8 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: Kind,
+    kind: S.optional(Kind),
+    properties: S.optional(ReadWriteDatabaseProperties),
   }),
 ).annotate({
   identifier: "UpdateDatabaseResponse",
@@ -5918,6 +6054,8 @@ export interface UpdateDataConnectionRequest {
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const UpdateDataConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5928,6 +6066,7 @@ export const UpdateDataConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     dataConnectionName: S.String.pipe(T.Label()),
     location: S.optional(S.String),
     kind: DataConnectionKind,
+    properties: S.optional(DataConnectionProperties),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -5952,7 +6091,9 @@ export interface UpdateDataConnectionResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
+  kind?: DataConnectionKind;
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const UpdateDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5961,7 +6102,8 @@ export const UpdateDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: DataConnectionKind,
+    kind: S.optional(DataConnectionKind),
+    properties: S.optional(DataConnectionProperties),
   }),
 ).annotate({
   identifier: "UpdateDataConnectionResponse",

@@ -90,10 +90,22 @@ export const ReferenceType = S.String;
 export interface AssetReferenceBase {
   /** [Required] Specifies the type of asset reference. */
   referenceType: ReferenceType | (string & {});
+  /** Id: ARM resource ID of the asset. */
+  assetId?: string;
+  /** DataPath: ARM resource ID of the datastore. */
+  datastoreId?: string;
+  /** DataPath/OutputPath: the path. */
+  path?: string;
+  /** OutputPath: ARM resource ID of the job. */
+  jobId?: string;
 }
 export const AssetReferenceBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     referenceType: ReferenceType,
+    assetId: S.optional(S.String),
+    datastoreId: S.optional(S.String),
+    path: S.optional(S.String),
+    jobId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "AssetReferenceBase",
@@ -1746,6 +1758,8 @@ export interface ComputeInput {
   resourceId?: string | null;
   /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
   disableLocalAuth?: boolean;
+  /** Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings). */
+  properties?: unknown;
 }
 export const ComputeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1754,6 +1768,7 @@ export const ComputeInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     resourceId: S.optional(S.NullOr(S.String)),
     disableLocalAuth: S.optional(S.Boolean),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "ComputeInput" }) as any as S.Schema<ComputeInput>;
 
@@ -1925,6 +1940,8 @@ export interface Compute {
   isAttachedCompute?: boolean;
   /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
   disableLocalAuth?: boolean;
+  /** Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings, currentNodeCount). */
+  properties?: unknown;
 }
 export const Compute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1938,6 +1955,7 @@ export const Compute = /*@__PURE__*/ S.suspend(() =>
     provisioningErrors: S.optional(S.NullOr(ComputeProvisioningErrorsList)),
     isAttachedCompute: S.optional(S.Boolean),
     disableLocalAuth: S.optional(S.Boolean),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Compute" }) as any as S.Schema<Compute>;
 
@@ -2183,6 +2201,8 @@ export interface WorkspaceConnectionPropertiesV2Input {
   sharedUserList?: WorkspaceConnectionPropertiesV2InputSharedUserListList;
   target?: string;
   useWorkspaceManagedIdentity?: boolean;
+  /** Credentials for the authType (ApiKey: {key}; CustomKeys: {keys}; AccessKey: {accessKeyId, secretAccessKey}; ...). */
+  credentials?: unknown;
 }
 export const WorkspaceConnectionPropertiesV2Input = /*@__PURE__*/ S.suspend(
   () =>
@@ -2200,6 +2220,7 @@ export const WorkspaceConnectionPropertiesV2Input = /*@__PURE__*/ S.suspend(
       ),
       target: S.optional(S.String),
       useWorkspaceManagedIdentity: S.optional(S.Boolean),
+      credentials: S.optional(S.Unknown),
     }),
 ).annotate({
   identifier: "WorkspaceConnectionPropertiesV2Input",
@@ -2281,6 +2302,8 @@ export interface WorkspaceConnectionPropertiesV2 {
   sharedUserList?: WorkspaceConnectionPropertiesV2SharedUserListList;
   target?: string;
   useWorkspaceManagedIdentity?: boolean;
+  /** Credentials for the authType; only returned by listSecrets. */
+  credentials?: unknown;
 }
 export const WorkspaceConnectionPropertiesV2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2299,6 +2322,7 @@ export const WorkspaceConnectionPropertiesV2 = /*@__PURE__*/ S.suspend(() =>
     ),
     target: S.optional(S.String),
     useWorkspaceManagedIdentity: S.optional(S.Boolean),
+    credentials: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "WorkspaceConnectionPropertiesV2",
@@ -2510,10 +2534,25 @@ export const CredentialsType = S.String;
 export interface DatastoreCredentials {
   /** [Required] Credential type used to authentication with storage. */
   credentialsType: CredentialsType | (string & {});
+  /** Credential secrets (AccountKey: {secretsType,key}; Sas: {secretsType,sasToken}; ServicePrincipal: {secretsType,clientSecret}). */
+  secrets?: unknown;
+  /** ServicePrincipal/Certificate: client ID. */
+  clientId?: string;
+  /** ServicePrincipal/Certificate: tenant ID. */
+  tenantId?: string;
+  /** ServicePrincipal/Certificate: authority URL. */
+  authorityUrl?: string;
+  /** ServicePrincipal/Certificate: resource URL. */
+  resourceUrl?: string;
 }
 export const DatastoreCredentials = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     credentialsType: CredentialsType,
+    secrets: S.optional(S.Unknown),
+    clientId: S.optional(S.String),
+    tenantId: S.optional(S.String),
+    authorityUrl: S.optional(S.String),
+    resourceUrl: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatastoreCredentials",
@@ -2540,6 +2579,26 @@ export interface DatastorePropertiesInput {
   credentials: DatastoreCredentials;
   /** Enum to determine the datastore contents type. */
   datastoreType: DatastoreType | (string & {});
+  /** accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  accountName?: string;
+  /** containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  containerName?: string;
+  /** fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  fileShareName?: string;
+  /** filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  filesystem?: string;
+  /** storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  storeName?: string;
+  /** endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  endpoint?: string;
+  /** protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  protocol?: string;
+  /** serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  serviceDataAccessAuthIdentity?: string;
+  /** resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  resourceGroup?: string;
+  /** subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  subscriptionId?: string;
 }
 export const DatastorePropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2548,6 +2607,16 @@ export const DatastorePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(S.NullOr(DatastorePropertiesInputTagsMap)),
     credentials: DatastoreCredentials,
     datastoreType: DatastoreType,
+    accountName: S.optional(S.String),
+    containerName: S.optional(S.String),
+    fileShareName: S.optional(S.String),
+    filesystem: S.optional(S.String),
+    storeName: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    protocol: S.optional(S.String),
+    serviceDataAccessAuthIdentity: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatastorePropertiesInput",
@@ -2619,6 +2688,26 @@ export interface DatastoreProperties {
   datastoreType: DatastoreType;
   /** Readonly property to indicate if datastore is the workspace default datastore */
   isDefault?: boolean;
+  /** accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  accountName?: string;
+  /** containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  containerName?: string;
+  /** fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  fileShareName?: string;
+  /** filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  filesystem?: string;
+  /** storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  storeName?: string;
+  /** endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  endpoint?: string;
+  /** protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  protocol?: string;
+  /** serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  serviceDataAccessAuthIdentity?: string;
+  /** resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  resourceGroup?: string;
+  /** subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
+  subscriptionId?: string;
 }
 export const DatastoreProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2628,6 +2717,16 @@ export const DatastoreProperties = /*@__PURE__*/ S.suspend(() =>
     credentials: DatastoreCredentials,
     datastoreType: DatastoreType,
     isDefault: S.optional(S.Boolean),
+    accountName: S.optional(S.String),
+    containerName: S.optional(S.String),
+    fileShareName: S.optional(S.String),
+    filesystem: S.optional(S.String),
+    storeName: S.optional(S.String),
+    endpoint: S.optional(S.String),
+    protocol: S.optional(S.String),
+    serviceDataAccessAuthIdentity: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    subscriptionId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DatastoreProperties",
@@ -6927,6 +7026,8 @@ export interface OutboundRule {
   /** Error information about an outbound rule of a machine learning workspace if RuleStatus is failed. */
   errorInformation?: string;
   parentRuleNames?: OutboundRuleParentRuleNamesList;
+  /** FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}. */
+  destination?: unknown;
 }
 export const OutboundRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6935,6 +7036,7 @@ export const OutboundRule = /*@__PURE__*/ S.suspend(() =>
     type: RuleType,
     errorInformation: S.optional(S.String),
     parentRuleNames: S.optional(OutboundRuleParentRuleNamesList),
+    destination: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "OutboundRule" }) as any as S.Schema<OutboundRule>;
 
@@ -7527,10 +7629,25 @@ export const ScaleType = S.String;
 export interface OnlineScaleSettings {
   /** [Required] Type of deployment scaling algorithm */
   scaleType: ScaleType | (string & {});
+  /** TargetUtilization: minimum instances. */
+  minInstances?: number;
+  /** TargetUtilization: maximum instances. */
+  maxInstances?: number;
+  /** TargetUtilization: polling interval (ISO 8601). */
+  pollingInterval?: string;
+  /** TargetUtilization: scale-down delay. */
+  scaleDownDelay?: string;
+  /** TargetUtilization: target CPU utilization percentage. */
+  targetUtilizationPercentage?: number;
 }
 export const OnlineScaleSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scaleType: ScaleType,
+    minInstances: S.optional(S.Number),
+    maxInstances: S.optional(S.Number),
+    pollingInterval: S.optional(S.String),
+    scaleDownDelay: S.optional(S.String),
+    targetUtilizationPercentage: S.optional(S.Number),
   }),
 ).annotate({
   identifier: "OnlineScaleSettings",
@@ -9149,10 +9266,19 @@ export const ScheduleActionType = S.String;
 export interface ScheduleActionBase {
   /** [Required] Specifies the action type of the schedule */
   actionType: ScheduleActionType | (string & {});
+  /** CreateJob: the job definition. */
+  jobDefinition?: unknown;
+  /** CreateMonitor: the monitor definition. */
+  createMonitorRequest?: unknown;
+  /** InvokeBatchEndpoint: the endpoint invocation definition. */
+  endpointInvocationDefinition?: unknown;
 }
 export const ScheduleActionBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionType: ScheduleActionType,
+    jobDefinition: S.optional(S.Unknown),
+    createMonitorRequest: S.optional(S.Unknown),
+    endpointInvocationDefinition: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ScheduleActionBase",
@@ -9176,6 +9302,14 @@ export interface TriggerBase {
   timeZone?: string;
   /** [Required] */
   triggerType: TriggerType | (string & {});
+  /** Cron: the cron expression. */
+  expression?: string;
+  /** Recurrence: frequency (Minute, Hour, Day, Week, Month). */
+  frequency?: string;
+  /** Recurrence: interval. */
+  interval?: number;
+  /** Recurrence: the recurrence schedule (hours, minutes, weekDays, monthDays). */
+  schedule?: unknown;
 }
 export const TriggerBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9183,6 +9317,10 @@ export const TriggerBase = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.NullOr(S.String)),
     timeZone: S.optional(S.String),
     triggerType: TriggerType,
+    expression: S.optional(S.String),
+    frequency: S.optional(S.String),
+    interval: S.optional(S.Number),
+    schedule: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "TriggerBase" }) as any as S.Schema<TriggerBase>;
 
@@ -14967,12 +15105,15 @@ export interface OutboundRuleInput {
   status?: RuleStatus | (string & {});
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
   type: RuleType | (string & {});
+  /** FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}. */
+  destination?: unknown;
 }
 export const OutboundRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     category: S.optional(RuleCategory),
     status: S.optional(RuleStatus),
     type: RuleType,
+    destination: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "OutboundRuleInput",

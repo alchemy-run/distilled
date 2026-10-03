@@ -1,0 +1,195 @@
+{
+  "description": "IoT Operations models are polymorphic (x-ms-discriminator-value subtypes: dataflow graph nodes, registry endpoint authentication, Akri runtime/registry/tag settings, broker custom policies, header actions, OpenTelemetry auth, trusted signing keys). The converted model keeps only each base shape's discriminator, so S.Struct strips the subtype payload on encode and decode. Add every subtype's members to its base shape (optional; untyped Document where the subtype's own shape was not converted).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#AkriConnectorTemplateRuntimeConfiguration/members/managedConfigurationSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The managed configuration settings. Only for `ManagedConfiguration` (polymorphic subtype `AkriConnectorTemplateManagedConfiguration`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#AkriConnectorsMqttAuthentication/members/serviceAccountTokenSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The service account token for the MQTT connection. Only for `ServiceAccountToken` (polymorphic subtype `AkriConnectorsServiceAccountAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#BrokerRetainMessagesPolicy/members/retainSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerRetainMessagesCustomPolicy`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#BrokerStateStorePolicy/members/stateStoreSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerStateStoreCustomPolicy`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#BrokerSubscriberQueuePolicy/members/subscriberQueueSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Custom policy, required if mode is Custom. Subscriber queues from all groups are persisted to disk (logical OR). Only for `Custom` (polymorphic subtype `BrokerSubscriberQueueCustomPolicy`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowDestinationHeaderAction/members/key",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowDestinationHeaderAction/members/value",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The value of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowGraphNode/members/destinationSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Destination configuration. Only for `Destination` (polymorphic subtype `DataflowGraphDestinationNode`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowGraphNode/members/graphSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Graph configuration. Only for `Graph` (polymorphic subtype `DataflowGraphGraphNode`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowGraphNode/members/sourceSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Source configuration. Only for `Source` (polymorphic subtype `DataflowGraphSourceNode`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowOpenTelemetryAuthentication/members/anonymousSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Settings for the anonymous connection Only for `Anonymous` (polymorphic subtype `DataflowOpenTelemetryAnonymousAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowOpenTelemetryAuthentication/members/serviceAccountTokenSettings",
+      "value": {
+        "target": "com.azure.iotoperations#DataflowEndpointAuthenticationServiceAccountToken",
+        "traits": {
+          "smithy.api#documentation": "Kubernetes service account token authentication. Only for `ServiceAccountToken` (polymorphic subtype `DataflowOpenTelemetryServiceAccountAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#DataflowOpenTelemetryAuthentication/members/x509CertificateSettings",
+      "value": {
+        "target": "com.azure.iotoperations#DataflowEndpointAuthenticationX509",
+        "traits": {
+          "smithy.api#documentation": "X.509 certificate authentication settings. Only for `X509Certificate` (polymorphic subtype `DataflowOpenTelemetryX509CertificateAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#RegistryEndpointAuthentication/members/anonymousSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Anonymous authentication properties Only for `Anonymous` (polymorphic subtype `RegistryEndpointAnonymousAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#RegistryEndpointAuthentication/members/artifactPullSecretSettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Artifact Pull Secret authentication properties Only for `ArtifactPullSecret` (polymorphic subtype `RegistryEndpointArtifactPullSecretAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#RegistryEndpointAuthentication/members/systemAssignedManagedIdentitySettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "System assigned managed identity properties Only for `SystemAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointSystemAssignedIdentityAuthentication`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#RegistryEndpointTrustedSigningKey/members/configMapRef",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the configmap. Only for `ConfigMap` (polymorphic subtype `RegistryEndpointTrustedSigningKeyConfigMap`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#RegistryEndpointTrustedSigningKey/members/secretRef",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "The name of the secret. Only for `Secret` (polymorphic subtype `RegistryEndpointTrustedSigningKeySecret`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotoperations#RegistryEndpointAuthentication/members/userAssignedManagedIdentitySettings",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "User assigned managed identity properties Only for `UserAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointUserAssignedIdentityAuthentication`)."
+        }
+      }
+    }
+  ]
+}

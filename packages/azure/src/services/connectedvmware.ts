@@ -2024,7 +2024,7 @@ export const CreateVMInstanceGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -2326,7 +2326,7 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -2422,7 +2422,7 @@ export const DeleteVMInstanceGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -2626,7 +2626,7 @@ export const GetVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -3059,7 +3059,7 @@ export const GetVMInstanceGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents/default",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -3103,7 +3103,7 @@ export const GetVmInstanceHybridIdentityMetadataRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata/default",
+        uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata/default",
         code: 200,
         apiVersion: "2023-12-01",
       }),
@@ -3621,7 +3621,7 @@ export const ListVirtualMachineInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -3820,7 +3820,7 @@ export const ListVMInstanceGuestAgentsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/guestAgents",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -3883,7 +3883,7 @@ export const ListVmInstanceHybridIdentityMetadataRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata",
+        uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/hybridIdentityMetadata",
         code: 200,
         apiVersion: "2023-12-01",
       }),
@@ -3953,7 +3953,7 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/restart",
+        uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/restart",
         code: 200,
         apiVersion: "2023-12-01",
       }),
@@ -3979,7 +3979,7 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/start",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/start",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -4008,7 +4008,7 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/stop",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default/stop",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -4350,7 +4350,7 @@ export const UpdateVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
       code: 200,
       apiVersion: "2023-12-01",
     }),
@@ -4672,7 +4672,7 @@ export const VirtualMachineInstancesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
+        uri: "/{resourceUri+}/providers/Microsoft.ConnectedVMwarevSphere/virtualMachineInstances/default",
         code: 200,
         apiVersion: "2023-12-01",
       }),

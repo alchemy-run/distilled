@@ -5154,7 +5154,7 @@ export const DeleteDataControllerDataControllerRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
         code: 200,
-        apiVersion: "2026-01-01",
+        apiVersion: "2023-09-01-preview",
       }),
     ),
   ).annotate({
@@ -5539,7 +5539,7 @@ export const GetDataControllerDataControllerRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
         code: 200,
-        apiVersion: "2026-01-01",
+        apiVersion: "2023-09-01-preview",
       }),
     ),
 ).annotate({
@@ -6929,7 +6929,7 @@ export const ListDataControllerInGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers",
       code: 200,
-      apiVersion: "2026-01-01",
+      apiVersion: "2023-09-01-preview",
     }),
   ),
 ).annotate({
@@ -7022,7 +7022,7 @@ export const ListDataControllerInSubscriptionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureArcData/dataControllers",
         code: 200,
-        apiVersion: "2026-01-01",
+        apiVersion: "2023-09-01-preview",
       }),
     ),
 ).annotate({
@@ -8072,7 +8072,7 @@ export const PatchDataControllerDataControllerRequest = /*@__PURE__*/ S.suspend(
         method: "PATCH",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
         code: 200,
-        apiVersion: "2026-01-01",
+        apiVersion: "2023-09-01-preview",
       }),
     ),
 ).annotate({
@@ -8246,7 +8246,7 @@ export const PutDataControllerDataControllerRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureArcData/dataControllers/{dataControllerName}",
         code: 200,
-        apiVersion: "2026-01-01",
+        apiVersion: "2023-09-01-preview",
       }),
     ),
 ).annotate({

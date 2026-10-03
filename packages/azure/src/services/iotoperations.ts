@@ -284,11 +284,14 @@ export interface AkriConnectorTemplateRuntimeConfiguration {
   runtimeConfigurationType:
     | AkriConnectorTemplateRuntimeConfigurationType
     | (string & {});
+  /** The managed configuration settings. Only for `ManagedConfiguration` (polymorphic subtype `AkriConnectorTemplateManagedConfiguration`). */
+  managedConfigurationSettings?: unknown;
 }
 export const AkriConnectorTemplateRuntimeConfiguration =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       runtimeConfigurationType: AkriConnectorTemplateRuntimeConfigurationType,
+      managedConfigurationSettings: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "AkriConnectorTemplateRuntimeConfiguration",
@@ -356,10 +359,13 @@ export const AkriConnectorsMqttAuthenticationMethod = S.String;
 export interface AkriConnectorsMqttAuthentication {
   /** The authentication method for the MQTT connection. */
   method: AkriConnectorsMqttAuthenticationMethod | (string & {});
+  /** The service account token for the MQTT connection. Only for `ServiceAccountToken` (polymorphic subtype `AkriConnectorsServiceAccountAuthentication`). */
+  serviceAccountTokenSettings?: unknown;
 }
 export const AkriConnectorsMqttAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: AkriConnectorsMqttAuthenticationMethod,
+    serviceAccountTokenSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AkriConnectorsMqttAuthentication",
@@ -1764,10 +1770,13 @@ export const BrokerPersistencePolicyMode = S.String;
 export interface BrokerRetainMessagesPolicy {
   /** 'All' to persist all retain messages, 'None' to not persist any, 'Custom' to persist only the specified topics. */
   mode: BrokerPersistencePolicyMode | (string & {});
+  /** Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerRetainMessagesCustomPolicy`). */
+  retainSettings?: unknown;
 }
 export const BrokerRetainMessagesPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: BrokerPersistencePolicyMode,
+    retainSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BrokerRetainMessagesPolicy",
@@ -1777,10 +1786,13 @@ export const BrokerRetainMessagesPolicy = /*@__PURE__*/ S.suspend(() =>
 export interface BrokerStateStorePolicy {
   /** 'All' to persist all keys, 'None' to not persist any, 'Custom' to persist only the specified keys. */
   mode: BrokerPersistencePolicyMode | (string & {});
+  /** Settings for the policy. Only for `Custom` (polymorphic subtype `BrokerStateStoreCustomPolicy`). */
+  stateStoreSettings?: unknown;
 }
 export const BrokerStateStorePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: BrokerPersistencePolicyMode,
+    stateStoreSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BrokerStateStorePolicy",
@@ -1790,10 +1802,13 @@ export const BrokerStateStorePolicy = /*@__PURE__*/ S.suspend(() =>
 export interface BrokerSubscriberQueuePolicy {
   /** 'All' to persist all subscriber queues, 'None' to not persist any, 'Custom' to persist only the specified queues. */
   mode: BrokerPersistencePolicyMode | (string & {});
+  /** Custom policy, required if mode is Custom. Subscriber queues from all groups are persisted to disk (logical OR). Only for `Custom` (polymorphic subtype `BrokerSubscriberQueueCustomPolicy`). */
+  subscriberQueueSettings?: unknown;
 }
 export const BrokerSubscriberQueuePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: BrokerPersistencePolicyMode,
+    subscriberQueueSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BrokerSubscriberQueuePolicy",
@@ -2509,10 +2524,16 @@ export const DataflowHeaderActionType = S.String;
 export interface DataflowDestinationHeaderAction {
   /** The type of header operation to perform. */
   actionType: DataflowHeaderActionType | (string & {});
+  /** The name of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`). */
+  key?: string;
+  /** The value of the header to add. Only for `AddIfNotPresent` (polymorphic subtype `DataflowDestinationAddIfNotPresentHeaderAction`). */
+  value?: string;
 }
 export const DataflowDestinationHeaderAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionType: DataflowHeaderActionType,
+    key: S.optional(S.String),
+    value: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DataflowDestinationHeaderAction",
@@ -3259,10 +3280,21 @@ export const DataflowOpenTelemetryAuthenticationMethod = S.String;
 export interface DataflowOpenTelemetryAuthentication {
   /** The authentication method. */
   method: DataflowOpenTelemetryAuthenticationMethod | (string & {});
+  /** Settings for the anonymous connection Only for `Anonymous` (polymorphic subtype `DataflowOpenTelemetryAnonymousAuthentication`). */
+  anonymousSettings?: unknown;
+  /** Kubernetes service account token authentication. Only for `ServiceAccountToken` (polymorphic subtype `DataflowOpenTelemetryServiceAccountAuthentication`). */
+  serviceAccountTokenSettings?: DataflowEndpointAuthenticationServiceAccountToken;
+  /** X.509 certificate authentication settings. Only for `X509Certificate` (polymorphic subtype `DataflowOpenTelemetryX509CertificateAuthentication`). */
+  x509CertificateSettings?: DataflowEndpointAuthenticationX509;
 }
 export const DataflowOpenTelemetryAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: DataflowOpenTelemetryAuthenticationMethod,
+    anonymousSettings: S.optional(S.Unknown),
+    serviceAccountTokenSettings: S.optional(
+      DataflowEndpointAuthenticationServiceAccountToken,
+    ),
+    x509CertificateSettings: S.optional(DataflowEndpointAuthenticationX509),
   }),
 ).annotate({
   identifier: "DataflowOpenTelemetryAuthentication",
@@ -3455,11 +3487,20 @@ export interface DataflowGraphNode {
   name: string;
   /** Type of the node. */
   nodeType: DataflowGraphNodeType | (string & {});
+  /** Destination configuration. Only for `Destination` (polymorphic subtype `DataflowGraphDestinationNode`). */
+  destinationSettings?: unknown;
+  /** Graph configuration. Only for `Graph` (polymorphic subtype `DataflowGraphGraphNode`). */
+  graphSettings?: unknown;
+  /** Source configuration. Only for `Source` (polymorphic subtype `DataflowGraphSourceNode`). */
+  sourceSettings?: unknown;
 }
 export const DataflowGraphNode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     nodeType: DataflowGraphNodeType,
+    destinationSettings: S.optional(S.Unknown),
+    graphSettings: S.optional(S.Unknown),
+    sourceSettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DataflowGraphNode",
@@ -5222,10 +5263,22 @@ export const RegistryEndpointAuthenticationMethod = S.String;
 export interface RegistryEndpointAuthentication {
   /** The authentication method. */
   method: RegistryEndpointAuthenticationMethod | (string & {});
+  /** Anonymous authentication properties Only for `Anonymous` (polymorphic subtype `RegistryEndpointAnonymousAuthentication`). */
+  anonymousSettings?: unknown;
+  /** Artifact Pull Secret authentication properties Only for `ArtifactPullSecret` (polymorphic subtype `RegistryEndpointArtifactPullSecretAuthentication`). */
+  artifactPullSecretSettings?: unknown;
+  /** System assigned managed identity properties Only for `SystemAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointSystemAssignedIdentityAuthentication`). */
+  systemAssignedManagedIdentitySettings?: unknown;
+  /** User assigned managed identity properties Only for `UserAssignedManagedIdentity` (polymorphic subtype `RegistryEndpointUserAssignedIdentityAuthentication`). */
+  userAssignedManagedIdentitySettings?: unknown;
 }
 export const RegistryEndpointAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     method: RegistryEndpointAuthenticationMethod,
+    anonymousSettings: S.optional(S.Unknown),
+    artifactPullSecretSettings: S.optional(S.Unknown),
+    systemAssignedManagedIdentitySettings: S.optional(S.Unknown),
+    userAssignedManagedIdentitySettings: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "RegistryEndpointAuthentication",
@@ -5247,10 +5300,16 @@ export const RegistryEndpointTrustedSigningKeyType = S.String;
 export interface RegistryEndpointTrustedSigningKey {
   /** The trust type for the registry endpoint. */
   type: RegistryEndpointTrustedSigningKeyType | (string & {});
+  /** The name of the configmap. Only for `ConfigMap` (polymorphic subtype `RegistryEndpointTrustedSigningKeyConfigMap`). */
+  configMapRef?: string;
+  /** The name of the secret. Only for `Secret` (polymorphic subtype `RegistryEndpointTrustedSigningKeySecret`). */
+  secretRef?: string;
 }
 export const RegistryEndpointTrustedSigningKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: RegistryEndpointTrustedSigningKeyType,
+    configMapRef: S.optional(S.String),
+    secretRef: S.optional(S.String),
   }),
 ).annotate({
   identifier: "RegistryEndpointTrustedSigningKey",

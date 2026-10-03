@@ -170,6 +170,8 @@ export interface AlertRulesCreateOrUpdateRequest {
   kind: AlertRuleKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
+  properties?: unknown;
 }
 export const AlertRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -179,6 +181,7 @@ export const AlertRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.String.pipe(T.Label()),
     kind: AlertRuleKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -204,6 +207,8 @@ export interface AlertRulesCreateOrUpdateResponse {
   kind: AlertRuleKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
+  properties?: unknown;
 }
 export const AlertRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -213,6 +218,7 @@ export const AlertRulesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: AlertRuleKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AlertRulesCreateOrUpdateResponse",
@@ -235,10 +241,13 @@ export const ConditionType = S.String;
 /** Describes an automation rule condition. */
 export interface AutomationRuleCondition {
   conditionType: ConditionType | (string & {});
+  /** Condition properties (shape depends on `conditionType`). */
+  conditionProperties?: unknown;
 }
 export const AutomationRuleCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     conditionType: ConditionType,
+    conditionProperties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AutomationRuleCondition",
@@ -284,11 +293,14 @@ export interface AutomationRuleAction {
   order: number;
   /** The type of the automation rule action. */
   actionType: ActionType | (string & {});
+  /** Action configuration (shape depends on `actionType`). */
+  actionConfiguration?: unknown;
 }
 export const AutomationRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     order: S.Number,
     actionType: ActionType,
+    actionConfiguration: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "AutomationRuleAction",
@@ -2010,6 +2022,8 @@ export interface DataConnectorDefinitionsCreateOrUpdateRequest {
   kind: DataConnectorDefinitionKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
+  properties?: unknown;
 }
 export const DataConnectorDefinitionsCreateOrUpdateRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -2020,6 +2034,7 @@ export const DataConnectorDefinitionsCreateOrUpdateRequest =
       dataConnectorDefinitionName: S.String.pipe(T.Label()),
       kind: DataConnectorDefinitionKind,
       etag: S.optional(S.String),
+      properties: S.optional(S.Unknown),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -2045,6 +2060,8 @@ export interface DataConnectorDefinitionsCreateOrUpdateResponse {
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
+  properties?: unknown;
 }
 export const DataConnectorDefinitionsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -2055,6 +2072,7 @@ export const DataConnectorDefinitionsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       kind: DataConnectorDefinitionKind,
       etag: S.optional(S.String),
+      properties: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "DataConnectorDefinitionsCreateOrUpdateResponse",
@@ -2088,6 +2106,8 @@ export interface DataConnectorsCreateOrUpdateRequest {
   kind: DataConnectorKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector properties (polymorphic on `kind`). */
+  properties?: unknown;
 }
 export const DataConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2097,6 +2117,7 @@ export const DataConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     dataConnectorId: S.String.pipe(T.Label()),
     kind: DataConnectorKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -2122,6 +2143,8 @@ export interface DataConnectorsCreateOrUpdateResponse {
   kind: DataConnectorKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector properties (polymorphic on `kind`). */
+  properties?: unknown;
 }
 export const DataConnectorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -2132,6 +2155,7 @@ export const DataConnectorsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       kind: DataConnectorKind,
       etag: S.optional(S.String),
+      properties: S.optional(S.Unknown),
     }),
 ).annotate({
   identifier: "DataConnectorsCreateOrUpdateResponse",
@@ -2933,6 +2957,8 @@ export interface GetAlertRuleResponse {
   kind: AlertRuleKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Alert rule properties (polymorphic on `kind`: Scheduled, Fusion, MicrosoftSecurityIncidentCreation, NRT, ...). */
+  properties?: unknown;
 }
 export const GetAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2942,6 +2968,7 @@ export const GetAlertRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: AlertRuleKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetAlertRuleResponse",
@@ -3505,6 +3532,8 @@ export interface GetDataConnectorResponse {
   kind: DataConnectorKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector properties (polymorphic on `kind`). */
+  properties?: unknown;
 }
 export const GetDataConnectorResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3514,6 +3543,7 @@ export const GetDataConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: DataConnectorKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetDataConnectorResponse",
@@ -3560,6 +3590,8 @@ export interface GetDataConnectorDefinitionResponse {
   kind: DataConnectorDefinitionKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Data connector definition properties (polymorphic on `kind`, e.g. Customizable). */
+  properties?: unknown;
 }
 export const GetDataConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3569,6 +3601,7 @@ export const GetDataConnectorDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: DataConnectorDefinitionKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetDataConnectorDefinitionResponse",
@@ -4545,6 +4578,8 @@ export interface GetSecurityMLAnalyticsSettingsResponse {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const GetSecurityMLAnalyticsSettingsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -4555,6 +4590,7 @@ export const GetSecurityMLAnalyticsSettingsResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       kind: SecurityMLAnalyticsSettingsKind,
       etag: S.optional(S.String),
+      properties: S.optional(S.Unknown),
     }),
 ).annotate({
   identifier: "GetSecurityMLAnalyticsSettingsResponse",
@@ -7520,6 +7556,8 @@ export interface SecurityMLAnalyticsSetting {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7529,6 +7567,7 @@ export const SecurityMLAnalyticsSetting = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: SecurityMLAnalyticsSettingsKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SecurityMLAnalyticsSetting",
@@ -8307,6 +8346,8 @@ export interface SecurityMLAnalyticsSettingsCreateOrUpdateRequest {
   kind: SecurityMLAnalyticsSettingsKind | (string & {});
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSettingsCreateOrUpdateRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -8317,6 +8358,7 @@ export const SecurityMLAnalyticsSettingsCreateOrUpdateRequest =
       settingsResourceName: S.String.pipe(T.Label()),
       kind: SecurityMLAnalyticsSettingsKind,
       etag: S.optional(S.String),
+      properties: S.optional(S.Unknown),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -8342,6 +8384,8 @@ export interface SecurityMLAnalyticsSettingsCreateOrUpdateResponse {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSettingsCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
@@ -8352,6 +8396,7 @@ export const SecurityMLAnalyticsSettingsCreateOrUpdateResponse =
       systemData: S.optional(SystemData),
       kind: SecurityMLAnalyticsSettingsKind,
       etag: S.optional(S.String),
+      properties: S.optional(S.Unknown),
     }),
   ).annotate({
     identifier: "SecurityMLAnalyticsSettingsCreateOrUpdateResponse",

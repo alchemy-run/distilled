@@ -416,64 +416,20 @@ export const ConnectorInfoBase = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectorInfoBase",
 }) as any as S.Schema<ConnectorInfoBase>;
 
-/** The connector service type. */
-export type ConnectorServiceType =
-  | "AzureBlobStorageSinkConnector"
-  | "AzureBlobStorageSourceConnector"
-  | "AzureCosmosDBSinkConnector"
-  | "AzureCosmosDBSourceConnector"
-  | "AzureSynapseAnalyticsSinkConnector";
-export const ConnectorServiceType = S.String;
-
-/** The connector service type info */
-export interface ConnectorServiceTypeInfoBase {
-  /** The connector service type. */
-  connectorServiceType: ConnectorServiceType | (string & {});
-}
-export const ConnectorServiceTypeInfoBase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorServiceType: ConnectorServiceType,
-  }),
-).annotate({
-  identifier: "ConnectorServiceTypeInfoBase",
-}) as any as S.Schema<ConnectorServiceTypeInfoBase>;
-
-/** Partner Connector type. */
-export type PartnerConnectorType =
-  | "KafkaAzureBlobStorageSource"
-  | "KafkaAzureBlobStorageSink"
-  | "KafkaAzureCosmosDBSource"
-  | "KafkaAzureCosmosDBSink"
-  | "KafkaAzureSynapseAnalyticsSink";
-export const PartnerConnectorType = S.String;
-
-/** The partner info base */
-export interface PartnerInfoBase {
-  /** The partner connector type. */
-  partnerConnectorType: PartnerConnectorType | (string & {});
-}
-export const PartnerInfoBase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partnerConnectorType: PartnerConnectorType,
-  }),
-).annotate({
-  identifier: "PartnerInfoBase",
-}) as any as S.Schema<PartnerInfoBase>;
-
 /** The resource properties of the Connector */
 export interface ConnectorResourceProperties {
   /** Connector Info Base */
   connectorBasicInfo?: ConnectorInfoBase;
   /** Connector Service type info base properties. */
-  connectorServiceTypeInfo?: ConnectorServiceTypeInfoBase;
+  connectorServiceTypeInfo?: unknown;
   /** The connection information consumed by applications. */
-  partnerConnectorInfo?: PartnerInfoBase;
+  partnerConnectorInfo?: unknown;
 }
 export const ConnectorResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectorBasicInfo: S.optional(ConnectorInfoBase),
-    connectorServiceTypeInfo: S.optional(ConnectorServiceTypeInfoBase),
-    partnerConnectorInfo: S.optional(PartnerInfoBase),
+    connectorServiceTypeInfo: S.optional(S.Unknown),
+    partnerConnectorInfo: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ConnectorResourceProperties",

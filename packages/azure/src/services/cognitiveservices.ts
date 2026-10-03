@@ -622,7 +622,7 @@ export const AgentApplicationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
 ).annotate({
@@ -910,7 +910,7 @@ export const AgentDeploymentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
 ).annotate({
@@ -2929,6 +2929,8 @@ export interface ConnectionPropertiesV2Input {
   /** The connection URL to be used. */
   target?: string;
   useWorkspaceManagedIdentity?: boolean;
+  /** Auth-type-specific credentials (polymorphic on `authType`), e.g. `{ key }` for ApiKey or `{ keys: {...} }` for CustomKeys. Write-only. */
+  credentials?: unknown;
 }
 export const ConnectionPropertiesV2Input = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2943,6 +2945,7 @@ export const ConnectionPropertiesV2Input = /*@__PURE__*/ S.suspend(() =>
     sharedUserList: S.optional(ConnectionPropertiesV2InputSharedUserListList),
     target: S.optional(S.String),
     useWorkspaceManagedIdentity: S.optional(S.Boolean),
+    credentials: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ConnectionPropertiesV2Input",
@@ -3502,7 +3505,7 @@ export const DeleteAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3543,7 +3546,7 @@ export const DeleteAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3751,7 +3754,7 @@ export const DeleteManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -3789,7 +3792,7 @@ export const DeleteOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4082,7 +4085,7 @@ export const DeleteRaiExternalSafetyProviderRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
 ).annotate({
@@ -4216,7 +4219,7 @@ export const DeleteSubscriptionRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4564,7 +4567,7 @@ export const DisableAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/disable",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4602,7 +4605,7 @@ export const EnableAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/enable",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -4972,7 +4975,7 @@ export const GetAgentApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -5030,7 +5033,7 @@ export const GetAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -5583,7 +5586,7 @@ export const GetManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -5634,6 +5637,8 @@ export interface OutboundRule {
   /** Error information about an outbound rule of a cognitive services account if RuleStatus is failed. */
   errorInformation?: string;
   parentRuleNames?: OutboundRuleParentRuleNamesList;
+  /** Rule destination (polymorphic on `type`). */
+  destination?: unknown;
 }
 export const OutboundRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5642,6 +5647,7 @@ export const OutboundRule = /*@__PURE__*/ S.suspend(() =>
     type: RuleType,
     errorInformation: S.optional(S.String),
     parentRuleNames: S.optional(OutboundRuleParentRuleNamesList),
+    destination: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "OutboundRule" }) as any as S.Schema<OutboundRule>;
 
@@ -6125,7 +6131,7 @@ export const GetOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -6790,7 +6796,7 @@ export const GetRaiExternalSafetyProviderRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -7337,7 +7343,7 @@ export const GetSubscriptionRaiPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -8200,7 +8206,7 @@ export const ListAgentApplicationAgentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{name}/listAgents",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -8304,7 +8310,7 @@ export const ListAgentApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -8405,7 +8411,7 @@ export const ListAgentDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -9247,7 +9253,7 @@ export const ListManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -9581,7 +9587,7 @@ export const ListOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -10314,7 +10320,7 @@ export const ListRaiExternalSafetyProvidersRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
 ).annotate({
@@ -10862,12 +10868,15 @@ export interface OutboundRuleInput {
   status?: RuleStatus | (string & {});
   /** Type of a managed network Outbound Rule of a cognitive services account. */
   type: RuleType | (string & {});
+  /** Rule destination (polymorphic on `type`): an FQDN string, a `{ serviceResourceId, subresourceTarget }` private endpoint target, or a `{ serviceTag, protocol, portRanges, action }` service tag. */
+  destination?: unknown;
 }
 export const OutboundRuleInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     category: S.optional(RuleCategory),
     status: S.optional(RuleStatus),
     type: RuleType,
+    destination: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "OutboundRuleInput",
@@ -10900,7 +10909,7 @@ export const OutboundRuleCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/outboundRules/{ruleName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11005,7 +11014,7 @@ export const PatchManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11167,7 +11176,7 @@ export const PostOutboundRuleRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/batchOutboundRules",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11446,7 +11455,7 @@ export const ProvisionManagedNetworkProvisionManagedNetworkRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}/provision",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
   ).annotate({
@@ -11512,7 +11521,7 @@ export const PutManagedNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/managedNetworks/{managedNetworkName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -11828,7 +11837,7 @@ export const RaiExternalSafetyProviderCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiExternalSafetyProviders/{safetyProviderName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
   ).annotate({
@@ -12252,7 +12261,7 @@ export const StartAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/start",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -12293,7 +12302,7 @@ export const StopAgentDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/projects/{projectName}/applications/{appName}/agentDeployments/{deploymentName}/stop",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-07-15-preview",
     }),
   ),
 ).annotate({
@@ -12339,7 +12348,7 @@ export const SubscriptionRaiPolicyCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/raiPolicy/{raiPolicyName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-07-15-preview",
       }),
     ),
   ).annotate({

@@ -1,0 +1,35 @@
+{
+  "description": "DataSet is polymorphic on `kind`; the converted model keeps only the base members, so S.Struct strips the kind-specific `properties` bag on encode and decode. Add it as an untyped document.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#CreateDataSetRequest/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#CreateDataSetResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datashare#GetDataSetResponse/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`."
+        }
+      }
+    }
+  ]
+}

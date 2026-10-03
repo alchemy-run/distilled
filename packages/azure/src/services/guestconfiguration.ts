@@ -927,11 +927,28 @@ export const GetGuestConfigurationAssignmentsVMSSResponseSystemData =
     identifier: "GetGuestConfigurationAssignmentsVMSSResponseSystemData",
   }) as any as S.Schema<GetGuestConfigurationAssignmentsVMSSResponseSystemData>;
 
+/** Error the service embeds in a 200 response it could not fulfil. */
+export interface GuestConfigurationAssignmentResponseError {
+  /** Error code, e.g. `VMSSNotSupported`. */
+  code?: string;
+  /** Error message. */
+  message?: string;
+}
+export const GuestConfigurationAssignmentResponseError =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      code: S.optional(S.String),
+      message: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GuestConfigurationAssignmentResponseError",
+  }) as any as S.Schema<GuestConfigurationAssignmentResponseError>;
+
 export interface GetGuestConfigurationAssignmentsVMSSResponse {
   /** ARM resource id of the guest configuration assignment. */
   id?: string;
   /** The guest configuration assignment name. */
-  name: string;
+  name?: string;
   /** Region where the VM is located. */
   location?: string;
   /** The type of the resource. */
@@ -940,18 +957,21 @@ export interface GetGuestConfigurationAssignmentsVMSSResponse {
   properties?: GuestConfigurationAssignmentProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: GetGuestConfigurationAssignmentsVMSSResponseSystemData;
+  /** Error the service embeds in a 200 response, e.g. `VMSSNotSupported`. */
+  error?: GuestConfigurationAssignmentResponseError;
 }
 export const GetGuestConfigurationAssignmentsVMSSResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.optional(S.String),
-      name: S.String,
+      name: S.optional(S.String),
       location: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GuestConfigurationAssignmentProperties),
       systemData: S.optional(
         GetGuestConfigurationAssignmentsVMSSResponseSystemData,
       ),
+      error: S.optional(GuestConfigurationAssignmentResponseError),
     }),
   ).annotate({
     identifier: "GetGuestConfigurationAssignmentsVMSSResponse",
@@ -1623,7 +1643,7 @@ export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse {
   /** ARM resource id of the guest configuration assignment. */
   id?: string;
   /** The guest configuration assignment name. */
-  name: string;
+  name?: string;
   /** Region where the VM is located. */
   location?: string;
   /** The type of the resource. */
@@ -1632,18 +1652,21 @@ export interface GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse {
   properties?: GuestConfigurationAssignmentProperties;
   /** Metadata pertaining to creation and last modification of the resource. */
   systemData?: GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData;
+  /** Error the service embeds in a 200 response, e.g. `VMSSNotSupported`. */
+  error?: GuestConfigurationAssignmentResponseError;
 }
 export const GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.optional(S.String),
-      name: S.String,
+      name: S.optional(S.String),
       location: S.optional(S.String),
       type: S.optional(S.String),
       properties: S.optional(GuestConfigurationAssignmentProperties),
       systemData: S.optional(
         GuestConfigurationAssignmentsVMSSCreateOrUpdateResponseSystemData,
       ),
+      error: S.optional(GuestConfigurationAssignmentResponseError),
     }),
   ).annotate({
     identifier: "GuestConfigurationAssignmentsVMSSCreateOrUpdateResponse",

@@ -1,0 +1,65 @@
+{
+  "description": "ARM has not rolled out api-version 2026-03-01 for Microsoft.Edge/diagnostics (400: 'No registered resource provider found for location eastus and API version 2026-03-01 for type diagnostics'; supported 2025-06-01, 2025-08-01). Pin every diagnostic operation to 2025-08-01.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#DeleteDiagnostic/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#DeleteDiagnostic/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#DiagnosticsCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#DiagnosticsCreateOrUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#GetDiagnostic/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#GetDiagnostic/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#ListDiagnosticByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#ListDiagnosticByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#ListDiagnosticBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#ListDiagnosticBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#UpdateDiagnostic/traits/smithy.api#http/apiVersion",
+      "value": "2025-08-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.edge#UpdateDiagnostic/traits/com.distilled.openapi#apiVersion",
+      "value": "2025-08-01"
+    }
+  ]
+}

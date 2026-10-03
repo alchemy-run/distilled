@@ -172,34 +172,17 @@ export const DashboardPartsPosition = /*@__PURE__*/ S.suspend(() =>
   identifier: "DashboardPartsPosition",
 }) as any as S.Schema<DashboardPartsPosition>;
 
-/** The dashboard part metadata type. */
-export type DashboardPartMetadataType =
-  "Extension/HubsExtension/PartType/MarkdownPart";
-export const DashboardPartMetadataType = S.String;
-
-/** A dashboard part metadata. */
-export interface DashboardPartMetadata {
-  type: DashboardPartMetadataType | (string & {});
-}
-export const DashboardPartMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: DashboardPartMetadataType,
-  }),
-).annotate({
-  identifier: "DashboardPartMetadata",
-}) as any as S.Schema<DashboardPartMetadata>;
-
 /** A dashboard part. */
 export interface DashboardParts {
   /** The dashboard's part position. */
   position: DashboardPartsPosition;
   /** The dashboard part's metadata. */
-  metadata?: DashboardPartMetadata;
+  metadata?: unknown;
 }
 export const DashboardParts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     position: DashboardPartsPosition,
-    metadata: S.optional(DashboardPartMetadata),
+    metadata: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "DashboardParts" }) as any as S.Schema<DashboardParts>;
 
@@ -280,7 +263,7 @@ export const DashboardsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -374,7 +357,7 @@ export const DeleteDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -432,7 +415,7 @@ export const GetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -534,7 +517,7 @@ export const ListDashboardByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -611,7 +594,7 @@ export const ListDashboardBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Portal/dashboards",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -872,7 +855,7 @@ export const UpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({

@@ -70,7 +70,7 @@ export const CreateRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -215,7 +215,7 @@ export const CreateRoleAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{roleAssignmentId}",
+      uri: "/{roleAssignmentId+}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -264,7 +264,7 @@ export const DeleteRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -310,7 +310,7 @@ export const DeleteRoleAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{roleAssignmentId}",
+      uri: "/{roleAssignmentId+}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -356,7 +356,7 @@ export const DeleteRoleDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -492,7 +492,7 @@ export const GetDenyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -688,7 +688,7 @@ export const GetDenyAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{denyAssignmentId}",
+      uri: "/{denyAssignmentId+}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -835,7 +835,7 @@ export const GetRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -881,7 +881,7 @@ export const GetRoleAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{roleAssignmentId}",
+      uri: "/{roleAssignmentId+}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -927,7 +927,7 @@ export const GetRoleDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1035,7 +1035,7 @@ export const ListDenyAssignmentForScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/denyAssignments",
+      uri: "/{scope+}/providers/Microsoft.Authorization/denyAssignments",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1362,7 +1362,7 @@ export const ListRoleAssignmentForScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1410,7 +1410,7 @@ export const ListRoleDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1499,7 +1499,7 @@ export const RoleDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+        uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
         code: 200,
         apiVersion: "2022-04-01",
       }),

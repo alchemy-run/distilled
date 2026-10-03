@@ -919,7 +919,7 @@ export const ApplicationsCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{applicationId}",
+        uri: "/{applicationId+}",
         code: 200,
         apiVersion: "2019-07-01",
       }),
@@ -1055,7 +1055,7 @@ export const CancelDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1321,6 +1321,216 @@ export const ManagedServiceIdentityInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedServiceIdentityInput",
 }) as any as S.Schema<ManagedServiceIdentityInput>;
 
+/** Container group subnet information. */
+export interface DeploymentScriptContainerGroupSubnetId {
+  /** Resource ID of the subnet. */
+  id: string;
+  /** Friendly name for the subnet. */
+  name?: string;
+}
+export const DeploymentScriptContainerGroupSubnetId = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      id: S.String,
+      name: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "DeploymentScriptContainerGroupSubnetId",
+}) as any as S.Schema<DeploymentScriptContainerGroupSubnetId>;
+
+/** The subnet IDs of the container group. */
+export type DeploymentScriptContainerGroupSubnetIdList =
+  Array<DeploymentScriptContainerGroupSubnetId>;
+export const DeploymentScriptContainerGroupSubnetIdList = /*@__PURE__*/ S.Array(
+  DeploymentScriptContainerGroupSubnetId,
+) as any as S.Schema<DeploymentScriptContainerGroupSubnetIdList>;
+
+/** Settings to customize ACI container instance. */
+export interface DeploymentScriptContainerConfiguration {
+  /** Container group name; if not specified the name is generated. */
+  containerGroupName?: string;
+  /** The subnet resource IDs for a container group. */
+  subnetIds?: DeploymentScriptContainerGroupSubnetIdList;
+}
+export const DeploymentScriptContainerConfiguration = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      containerGroupName: S.optional(S.String),
+      subnetIds: S.optional(DeploymentScriptContainerGroupSubnetIdList),
+    }),
+).annotate({
+  identifier: "DeploymentScriptContainerConfiguration",
+}) as any as S.Schema<DeploymentScriptContainerConfiguration>;
+
+/** Settings to use an existing storage account. */
+export interface DeploymentScriptStorageAccountConfiguration {
+  /** The storage account name. */
+  storageAccountName?: string;
+  /** The storage account access key. */
+  storageAccountKey?: string;
+}
+export const DeploymentScriptStorageAccountConfiguration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storageAccountName: S.optional(S.String),
+      storageAccountKey: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DeploymentScriptStorageAccountConfiguration",
+  }) as any as S.Schema<DeploymentScriptStorageAccountConfiguration>;
+
+/** The error detail. */
+export interface DeploymentScriptErrorDetail {
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+  /** The error target. */
+  target?: string;
+}
+export const DeploymentScriptErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    target: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptErrorDetail",
+}) as any as S.Schema<DeploymentScriptErrorDetail>;
+
+/** Error response. */
+export interface DeploymentScriptErrorResponse {
+  /** The error object. */
+  error?: DeploymentScriptErrorDetail;
+}
+export const DeploymentScriptErrorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.optional(DeploymentScriptErrorDetail),
+  }),
+).annotate({
+  identifier: "DeploymentScriptErrorResponse",
+}) as any as S.Schema<DeploymentScriptErrorResponse>;
+
+/** Generic object modeling results of script execution. */
+export interface DeploymentScriptStatus {
+  /** ACI resource Id. */
+  containerInstanceId?: string;
+  /** Storage account resource Id. */
+  storageAccountId?: string;
+  /** Start time of the script execution. */
+  startTime?: string;
+  /** End time of the script execution. */
+  endTime?: string;
+  /** Time the deployment script resource will expire. */
+  expirationTime?: string;
+  /** Error that is relayed from the script execution. */
+  error?: DeploymentScriptErrorResponse;
+}
+export const DeploymentScriptStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerInstanceId: S.optional(S.String),
+    storageAccountId: S.optional(S.String),
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    expirationTime: S.optional(S.String),
+    error: S.optional(DeploymentScriptErrorResponse),
+  }),
+).annotate({
+  identifier: "DeploymentScriptStatus",
+}) as any as S.Schema<DeploymentScriptStatus>;
+
+/** A list of strings. */
+export type DeploymentScriptStringList = Array<string>;
+export const DeploymentScriptStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeploymentScriptStringList>;
+
+/** The environment variable to pass to the script in the container instance. */
+export interface DeploymentScriptEnvironmentVariable {
+  /** The name of the environment variable. */
+  name: string;
+  /** The value of the environment variable. */
+  value?: string;
+  /** The value of the secure environment variable. */
+  secureValue?: string;
+}
+export const DeploymentScriptEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    value: S.optional(S.String),
+    secureValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptEnvironmentVariable",
+}) as any as S.Schema<DeploymentScriptEnvironmentVariable>;
+
+/** The environment variables to pass over to the script. */
+export type DeploymentScriptEnvironmentVariableList =
+  Array<DeploymentScriptEnvironmentVariable>;
+export const DeploymentScriptEnvironmentVariableList = /*@__PURE__*/ S.Array(
+  DeploymentScriptEnvironmentVariable,
+) as any as S.Schema<DeploymentScriptEnvironmentVariableList>;
+
+/** Properties of an AzureCLI or AzurePowerShell deployment script (union of both kinds). */
+export interface DeploymentScriptProperties {
+  /** Container settings. */
+  containerSettings?: DeploymentScriptContainerConfiguration;
+  /** Storage Account settings. */
+  storageAccountSettings?: DeploymentScriptStorageAccountConfiguration;
+  /** The clean up preference when the script execution gets in a terminal state: Always, OnSuccess or OnExpiration. */
+  cleanupPreference?: string;
+  /** State of the script execution (read-only). */
+  provisioningState?: string;
+  /** Contains the results of script execution (read-only). */
+  status?: DeploymentScriptStatus;
+  /** List of script outputs (read-only). */
+  outputs?: unknown;
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: DeploymentScriptStringList;
+  /** Script body. */
+  scriptContent?: string;
+  /** Command line arguments to pass to the script. */
+  arguments?: string;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: DeploymentScriptEnvironmentVariableList;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. */
+  forceUpdateTag?: string;
+  /** Interval for which the service retains the script resource after it reaches a terminal state (ISO 8601, e.g. P1D). */
+  retentionInterval?: string;
+  /** Maximum allowed script execution time (ISO 8601). Default is P1D. */
+  timeout?: string;
+  /** Azure CLI module version to be used (kind AzureCLI). */
+  azCliVersion?: string;
+  /** Azure PowerShell module version to be used (kind AzurePowerShell). */
+  azPowerShellVersion?: string;
+}
+export const DeploymentScriptProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerSettings: S.optional(DeploymentScriptContainerConfiguration),
+    storageAccountSettings: S.optional(
+      DeploymentScriptStorageAccountConfiguration,
+    ),
+    cleanupPreference: S.optional(S.String),
+    provisioningState: S.optional(S.String),
+    status: S.optional(DeploymentScriptStatus),
+    outputs: S.optional(S.Unknown),
+    primaryScriptUri: S.optional(S.String),
+    supportingScriptUris: S.optional(DeploymentScriptStringList),
+    scriptContent: S.optional(S.String),
+    arguments: S.optional(S.String),
+    environmentVariables: S.optional(DeploymentScriptEnvironmentVariableList),
+    forceUpdateTag: S.optional(S.String),
+    retentionInterval: S.optional(S.String),
+    timeout: S.optional(S.String),
+    azCliVersion: S.optional(S.String),
+    azPowerShellVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptProperties",
+}) as any as S.Schema<DeploymentScriptProperties>;
+
 export interface CreateDeploymentScriptRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1336,6 +1546,8 @@ export interface CreateDeploymentScriptRequest {
   kind: ScriptType | (string & {});
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentityInput;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const CreateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1346,6 +1558,7 @@ export const CreateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentityInput),
+    properties: S.optional(DeploymentScriptProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1473,6 +1686,8 @@ export interface CreateDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const CreateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1484,6 +1699,7 @@ export const CreateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "CreateDeploymentScriptResponse",
@@ -1800,9 +2016,9 @@ export const CreatePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2092,7 +2308,7 @@ export const DeleteApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2019-07-01",
     }),
@@ -2214,7 +2430,7 @@ export const DeleteDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3026,7 +3242,7 @@ export const DeleteManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -3055,9 +3271,9 @@ export const DeletePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3109,7 +3325,7 @@ export const DeletePolicyDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3139,7 +3355,7 @@ export const DeletePolicyDefinitionAtManagementGroupRequest =
         method: "DELETE",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -3171,7 +3387,7 @@ export const DeletePolicyDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -3204,7 +3420,7 @@ export const DeletePolicyDefinitionVersionAtManagementGroupRequest =
         method: "DELETE",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -3232,7 +3448,7 @@ export const DeletePolicySetDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3262,7 +3478,7 @@ export const DeletePolicySetDefinitionAtManagementGroupRequest =
         method: "DELETE",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -3294,7 +3510,7 @@ export const DeletePolicySetDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -3327,7 +3543,7 @@ export const DeletePolicySetDefinitionVersionAtManagementGroupRequest =
         method: "DELETE",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -3419,7 +3635,7 @@ export const DeleteResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -3477,7 +3693,7 @@ export const DeleteResourceLinkRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{linkId}",
+      uri: "/{linkId+}",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -3596,7 +3812,7 @@ export const DeleteTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -4936,7 +5152,7 @@ export const DeploymentsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -7984,7 +8200,7 @@ export const ExportDeploymentTemplateAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -8224,7 +8440,7 @@ export const GetApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2019-07-01",
     }),
@@ -8508,7 +8724,7 @@ export const GetDataBoundaryScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/dataBoundaries/{default}",
+      uri: "/{scope+}/providers/Microsoft.Resources/dataBoundaries/{default}",
       code: 200,
       apiVersion: "2024-08-01",
     }),
@@ -8631,7 +8847,7 @@ export const GetDataPolicyManifestByPolicyModeRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/providers/Microsoft.Authorization/dataPolicyManifests/{policyMode}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -9042,7 +9258,7 @@ export const GetDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -9419,7 +9635,7 @@ export const GetDeploymentOperationAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -9528,6 +9744,8 @@ export interface GetDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const GetDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9539,6 +9757,7 @@ export const GetDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "GetDeploymentScriptResponse",
@@ -10497,7 +10716,7 @@ export const GetManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -10522,9 +10741,9 @@ export const GetPolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10576,7 +10795,7 @@ export const GetPolicyDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10797,7 +11016,7 @@ export const GetPolicyDefinitionAtManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -10841,7 +11060,7 @@ export const GetPolicyDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10890,7 +11109,7 @@ export const GetPolicyDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10989,7 +11208,7 @@ export const GetPolicyDefinitionVersionAtManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -11037,7 +11256,7 @@ export const GetPolicyDefinitionVersionBuiltInRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -11087,7 +11306,7 @@ export const GetPolicySetDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11279,7 +11498,7 @@ export const GetPolicySetDefinitionAtManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -11327,7 +11546,7 @@ export const GetPolicySetDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -11381,7 +11600,7 @@ export const GetPolicySetDefinitionVersionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -11499,7 +11718,7 @@ export const GetPolicySetDefinitionVersionAtManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -11550,7 +11769,7 @@ export const GetPolicySetDefinitionVersionBuiltInRequest =
         method: "GET",
         uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -11909,7 +12128,7 @@ export const GetResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -12062,7 +12281,7 @@ export const GetResourceLinkRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{linkId}",
+      uri: "/{linkId+}",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -12465,7 +12684,7 @@ export const GetTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -13566,7 +13785,7 @@ export const ListDataPolicyManifestsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Authorization/dataPolicyManifests",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13722,7 +13941,7 @@ export const ListDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -13874,7 +14093,7 @@ export const ListDeploymentOperationAtScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
+        uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -14008,6 +14227,8 @@ export interface DeploymentScript {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const DeploymentScript = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14019,6 +14240,7 @@ export const DeploymentScript = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "DeploymentScript",
@@ -14602,7 +14824,7 @@ export const ListManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -14702,7 +14924,7 @@ export const ListPolicyAssignmentForManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -14799,7 +15021,7 @@ export const ListPolicyAssignmentForResourceRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -14831,7 +15053,7 @@ export const ListPolicyAssignmentForResourceGroupRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -14859,7 +15081,7 @@ export const ListPolicyAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14881,7 +15103,7 @@ export const ListPolicyDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policyDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14954,7 +15176,7 @@ export const ListPolicyDefinitionByManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -14979,7 +15201,7 @@ export const ListPolicyDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14999,7 +15221,7 @@ export const ListPolicyDefinitionVersionAllRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/listPolicyDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -15067,7 +15289,7 @@ export const ListPolicyDefinitionVersionAllAtManagementGroupRequest =
         method: "POST",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/listPolicyDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15082,7 +15304,7 @@ export const ListPolicyDefinitionVersionAllBuiltinsRequest =
         method: "POST",
         uri: "/providers/Microsoft.Authorization/listPolicyDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15105,7 +15327,7 @@ export const ListPolicyDefinitionVersionBuiltInRequest =
         method: "GET",
         uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15131,7 +15353,7 @@ export const ListPolicyDefinitionVersionByManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15156,7 +15378,7 @@ export const ListPolicyDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -15182,7 +15404,7 @@ export const ListPolicySetDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/providers/Microsoft.Authorization/policySetDefinitions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -15258,7 +15480,7 @@ export const ListPolicySetDefinitionByManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15286,7 +15508,7 @@ export const ListPolicySetDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -15306,7 +15528,7 @@ export const ListPolicySetDefinitionVersionAllRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/listPolicySetDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -15376,7 +15598,7 @@ export const ListPolicySetDefinitionVersionAllAtManagementGroupRequest =
         method: "POST",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/listPolicySetDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15391,7 +15613,7 @@ export const ListPolicySetDefinitionVersionAllBuiltinsRequest =
         method: "POST",
         uri: "/providers/Microsoft.Authorization/listPolicySetDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15417,7 +15639,7 @@ export const ListPolicySetDefinitionVersionBuiltInRequest =
         method: "GET",
         uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15446,7 +15668,7 @@ export const ListPolicySetDefinitionVersionByManagementGroupRequest =
         method: "GET",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -15475,7 +15697,7 @@ export const ListPolicySetDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -15857,7 +16079,7 @@ export const ListResourceLinkAtSourceScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.Resources/links",
+        uri: "/{scope+}/providers/Microsoft.Resources/links",
         code: 200,
         apiVersion: "2016-09-01",
       }),
@@ -17013,7 +17235,7 @@ export const ManagementLocksCreateOrUpdateByScopeRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+        uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
         code: 200,
         apiVersion: "2020-05-01",
       }),
@@ -17082,7 +17304,7 @@ export const PolicyDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -17133,7 +17355,7 @@ export const PolicyDefinitionsCreateOrUpdateAtManagementGroupRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17187,7 +17409,7 @@ export const PolicyDefinitionVersionsCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17241,7 +17463,7 @@ export const PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17408,7 +17630,7 @@ export const PolicySetDefinitionsCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17459,7 +17681,7 @@ export const PolicySetDefinitionsCreateOrUpdateAtManagementGroupRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17579,7 +17801,7 @@ export const PolicySetDefinitionVersionsCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17633,7 +17855,7 @@ export const PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17704,7 +17926,7 @@ export const PolicyTokensAcquireRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/acquirePolicyToken",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -17916,7 +18138,7 @@ export const PolicyTokensAcquireAtManagementGroupRequest =
         method: "POST",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/acquirePolicyToken",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17945,7 +18167,7 @@ export const PolicyTokensAcquireAtResourceGroupRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/acquirePolicyToken",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -18470,7 +18692,7 @@ export const ResourceLinksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{linkId}",
+      uri: "/{linkId+}",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -18683,7 +18905,7 @@ export const ResourcesCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -19024,7 +19246,7 @@ export const TagsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -19599,7 +19821,7 @@ export const UpdateApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2019-07-01",
     }),
@@ -19722,6 +19944,8 @@ export interface UpdateDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const UpdateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19733,6 +19957,7 @@ export const UpdateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "UpdateDeploymentScriptResponse",
@@ -19869,9 +20094,9 @@ export const UpdatePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -20080,7 +20305,7 @@ export const UpdateResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceId}",
+      uri: "/{resourceId+}",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -20251,7 +20476,7 @@ export const UpdateTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -20686,7 +20911,7 @@ export const ValidateDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
       code: 200,
       apiVersion: "2026-06-01",
     }),

@@ -81,6 +81,18 @@ export const AlertProcessingRulePropertiesConditionsList =
 export type RecurrenceType = "Daily" | "Weekly" | "Monthly";
 export const RecurrenceType = S.String;
 
+/** Days of the week (only for `Weekly` recurrences). */
+export type RecurrenceDaysOfWeekList = Array<string>;
+export const RecurrenceDaysOfWeekList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<RecurrenceDaysOfWeekList>;
+
+/** Days of the month (only for `Monthly` recurrences). */
+export type RecurrenceDaysOfMonthList = Array<number>;
+export const RecurrenceDaysOfMonthList = /*@__PURE__*/ S.Array(
+  S.Number,
+) as any as S.Schema<RecurrenceDaysOfMonthList>;
+
 /** Recurrence object. */
 export interface Recurrence {
   /** Specifies when the recurrence should be applied. */
@@ -89,12 +101,18 @@ export interface Recurrence {
   startTime?: string;
   /** End time for recurrence. */
   endTime?: string;
+  /** Days of the week (only for `Weekly` recurrences). */
+  daysOfWeek?: RecurrenceDaysOfWeekList;
+  /** Days of the month (only for `Monthly` recurrences). */
+  daysOfMonth?: RecurrenceDaysOfMonthList;
 }
 export const Recurrence = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     recurrenceType: RecurrenceType,
     startTime: S.optional(S.String),
     endTime: S.optional(S.String),
+    daysOfWeek: S.optional(RecurrenceDaysOfWeekList),
+    daysOfMonth: S.optional(RecurrenceDaysOfMonthList),
   }),
 ).annotate({ identifier: "Recurrence" }) as any as S.Schema<Recurrence>;
 
@@ -128,14 +146,23 @@ export const Schedule = /*@__PURE__*/ S.suspend(() =>
 export type ActionType = "AddActionGroups" | "RemoveAllActionGroups";
 export const ActionType = S.String;
 
+/** Action group resource IDs to add (only for `AddActionGroups`). */
+export type ActionActionGroupIdsList = Array<string>;
+export const ActionActionGroupIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ActionActionGroupIdsList>;
+
 /** Action to be applied. */
 export interface Action {
   /** Action that should be applied. */
   actionType: ActionType | (string & {});
+  /** Action group resource IDs to add (only for `AddActionGroups`). */
+  actionGroupIds?: ActionActionGroupIdsList;
 }
 export const Action = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionType: ActionType,
+    actionGroupIds: S.optional(ActionActionGroupIdsList),
   }),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 
@@ -270,7 +297,7 @@ export const AlertsChangeStateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts/{alertId}/changestate",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -686,7 +713,7 @@ export const GetAlertAllRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -747,7 +774,7 @@ export const GetAlertByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts/{alertId}",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -789,7 +816,7 @@ export const GetAlertHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alerts/{alertId}/history",
       code: 200,
       apiVersion: "2019-03-01",
     }),
@@ -1040,7 +1067,7 @@ export const GetAlertSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.AlertsManagement/alertsSummary",
+      uri: "/{scope+}/providers/Microsoft.AlertsManagement/alertsSummary",
       code: 200,
       apiVersion: "2019-03-01",
     }),

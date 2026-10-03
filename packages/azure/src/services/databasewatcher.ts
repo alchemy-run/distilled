@@ -67,7 +67,7 @@ export const AlertRuleResourcesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -226,7 +226,7 @@ export const CreateSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -317,7 +317,7 @@ export const DeleteAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -353,7 +353,7 @@ export const DeleteSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -388,7 +388,7 @@ export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -420,7 +420,7 @@ export const DeleteWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -455,7 +455,7 @@ export const GetAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -507,7 +507,7 @@ export const GetHealthValidationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -633,7 +633,7 @@ export const GetSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -686,7 +686,7 @@ export const GetTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -726,6 +726,18 @@ export interface TargetProperties {
   connectionServerName: string;
   /** The provisioning state of the resource. */
   provisioningState?: AzureResourceManagerResourceProvisioningState;
+  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
+  sqlDbResourceId?: string;
+  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
+  sqlEpResourceId?: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
+  anchorDatabaseResourceId?: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
+  sqlMiResourceId?: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
+  connectionTcpPort?: number;
+  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  readIntent?: boolean;
 }
 export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -736,6 +748,12 @@ export const TargetProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(
       AzureResourceManagerResourceProvisioningState,
     ),
+    sqlDbResourceId: S.optional(S.String),
+    sqlEpResourceId: S.optional(S.String),
+    anchorDatabaseResourceId: S.optional(S.String),
+    sqlMiResourceId: S.optional(S.String),
+    connectionTcpPort: S.optional(S.Number),
+    readIntent: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "TargetProperties",
@@ -783,7 +801,7 @@ export const GetWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -973,7 +991,7 @@ export const ListAlertRuleResourceByParentRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -1045,7 +1063,7 @@ export const ListHealthValidationByParentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1206,7 +1224,7 @@ export const ListSharedPrivateLinkResourceByWatcherRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
   ).annotate({
@@ -1280,7 +1298,7 @@ export const ListTargetByWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1347,7 +1365,7 @@ export const ListWatcherByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1431,7 +1449,7 @@ export const ListWatcherBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DatabaseWatcher/watchers",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1460,7 +1478,7 @@ export const StartHealthValidationValidationRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -1510,7 +1528,7 @@ export const StartWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/start",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1579,7 +1597,7 @@ export const StopWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/stop",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1640,6 +1658,18 @@ export interface TargetPropertiesInput {
   targetVault?: VaultSecret;
   /** The FQDN host name of the server to use in the connection string when connecting to a target. For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be specified separately. */
   connectionServerName: string;
+  /** The Azure resource ID of an Azure SQL DB database target (targetType SqlDb). */
+  sqlDbResourceId?: string;
+  /** The Azure resource ID of an Azure SQL DB elastic pool target (targetType SqlEp). */
+  sqlEpResourceId?: string;
+  /** The Azure resource ID of the anchor database used to connect to an elastic pool (targetType SqlEp). */
+  anchorDatabaseResourceId?: string;
+  /** The Azure resource ID of an Azure SQL Managed Instance target (targetType SqlMi). */
+  sqlMiResourceId?: string;
+  /** The TCP port number to optionally use in the connection string when connecting to an Azure SQL Managed Instance target (targetType SqlMi). */
+  connectionTcpPort?: number;
+  /** Set to true to monitor a high availability replica of the specified target, if any (targetType SqlDb / SqlMi). */
+  readIntent?: boolean;
 }
 export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1647,6 +1677,12 @@ export const TargetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     targetAuthenticationType: TargetAuthenticationType,
     targetVault: S.optional(VaultSecret),
     connectionServerName: S.String,
+    sqlDbResourceId: S.optional(S.String),
+    sqlEpResourceId: S.optional(S.String),
+    anchorDatabaseResourceId: S.optional(S.String),
+    sqlMiResourceId: S.optional(S.String),
+    connectionTcpPort: S.optional(S.Number),
+    readIntent: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "TargetPropertiesInput",
@@ -1676,7 +1712,7 @@ export const TargetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1819,7 +1855,7 @@ export const UpdateWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1933,7 +1969,7 @@ export const WatchersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({

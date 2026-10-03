@@ -270,7 +270,7 @@ export const GetSystemAssignedIdentityByScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.ManagedIdentity/identities/default",
+        uri: "/{scope+}/providers/Microsoft.ManagedIdentity/identities/default",
         code: 200,
         apiVersion: "2024-11-30",
       }),

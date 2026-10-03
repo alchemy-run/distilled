@@ -5762,7 +5762,7 @@ export const DaprComponentResiliencyPoliciesCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-03-02-preview",
       }),
     ),
   ).annotate({
@@ -6458,7 +6458,7 @@ export const DeleteDaprComponentResiliencyPolicyRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-03-02-preview",
       }),
     ),
   ).annotate({
@@ -6492,7 +6492,7 @@ export const DeleteDotNetComponentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-03-02-preview",
     }),
   ),
 ).annotate({
@@ -6992,7 +6992,7 @@ export const DotNetComponentsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-03-02-preview",
       }),
     ),
 ).annotate({
@@ -9361,7 +9361,7 @@ export const GetDaprComponentResiliencyPolicyRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies/{name}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-03-02-preview",
       }),
     ),
 ).annotate({
@@ -9414,7 +9414,7 @@ export const GetDotNetComponentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-03-02-preview",
     }),
   ),
 ).annotate({
@@ -10284,6 +10284,8 @@ export interface GetLogicAppResponse {
   type?: string;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
+  /** Logic App extension properties (opaque). */
+  properties?: unknown;
 }
 export const GetLogicAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10291,6 +10293,7 @@ export const GetLogicAppResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetLogicAppResponse",
@@ -11706,12 +11709,18 @@ export interface SandboxGroupProperties {
   /** The default domain of the linked Azure Container Apps environment. Sandbox endpoints use subdomains of this domain. This read-only property is populated by the service and is omitted when no environment is linked. */
   defaultDomain?: string;
   provisioningState?: SandboxGroupProvisioningState;
+  /** Regional data-plane endpoint for managing sandboxes in the group. */
+  managementEndpoint?: string;
+  /** Whether detailed sandbox metrics are emitted. */
+  enableDetailedMetrics?: boolean;
 }
 export const SandboxGroupProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.optional(S.String),
     defaultDomain: S.optional(S.String),
     provisioningState: S.optional(SandboxGroupProvisioningState),
+    managementEndpoint: S.optional(S.String),
+    enableDetailedMetrics: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "SandboxGroupProperties",
@@ -11811,6 +11820,8 @@ export interface GetVnetConnectionResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives. */
+  location?: string;
 }
 export const GetVnetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11819,6 +11830,7 @@ export const GetVnetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(VnetConnectionProperties),
+    location: S.optional(S.String),
   }),
 ).annotate({
   identifier: "GetVnetConnectionResponse",
@@ -14666,7 +14678,7 @@ export const ListDaprComponentResiliencyPoliciesRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{componentName}/resiliencyPolicies",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-03-02-preview",
       }),
     ),
   ).annotate({
@@ -14794,7 +14806,7 @@ export const ListDotNetComponentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-03-02-preview",
     }),
   ),
 ).annotate({
@@ -16314,6 +16326,8 @@ export interface VnetConnection {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives. */
+  location?: string;
 }
 export const VnetConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16322,6 +16336,7 @@ export const VnetConnection = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     properties: S.optional(VnetConnectionProperties),
+    location: S.optional(S.String),
   }),
 ).annotate({ identifier: "VnetConnection" }) as any as S.Schema<VnetConnection>;
 
@@ -16356,6 +16371,8 @@ export interface LogicAppsCreateOrUpdateRequest {
   containerAppName: string;
   /** Name of the Logic App, the extension resource. */
   logicAppName: string;
+  /** Logic App extension properties (opaque). */
+  properties?: unknown;
 }
 export const LogicAppsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16363,6 +16380,7 @@ export const LogicAppsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     resourceGroupName: S.String.pipe(T.Label()),
     containerAppName: S.String.pipe(T.Label()),
     logicAppName: S.String.pipe(T.Label()),
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -16384,6 +16402,8 @@ export interface LogicAppsCreateOrUpdateResponse {
   type?: string;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData;
+  /** Logic App extension properties (opaque). */
+  properties?: unknown;
 }
 export const LogicAppsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -16391,6 +16411,7 @@ export const LogicAppsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "LogicAppsCreateOrUpdateResponse",
@@ -18593,7 +18614,7 @@ export const UpdateDotNetComponentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/dotNetComponents/{name}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-03-02-preview",
     }),
   ),
 ).annotate({
@@ -19139,6 +19160,8 @@ export interface VnetConnectionsCreateOrUpdateRequest {
   vnetConnectionName: string;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives; must match the sandbox group's location. */
+  location: string;
 }
 export const VnetConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -19148,6 +19171,7 @@ export const VnetConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
       sandboxGroupName: S.String.pipe(T.Label()),
       vnetConnectionName: S.String.pipe(T.Label()),
       properties: S.optional(VnetConnectionProperties),
+      location: S.String,
     }).pipe(
       T.Http({
         method: "PUT",
@@ -19171,6 +19195,8 @@ export interface VnetConnectionsCreateOrUpdateResponse {
   systemData?: SystemData;
   /** The resource-specific properties for this resource. */
   properties?: VnetConnectionProperties;
+  /** The geo-location where the resource lives. */
+  location?: string;
 }
 export const VnetConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -19180,6 +19206,7 @@ export const VnetConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
       type: S.optional(S.String),
       systemData: S.optional(SystemData),
       properties: S.optional(VnetConnectionProperties),
+      location: S.optional(S.String),
     }),
 ).annotate({
   identifier: "VnetConnectionsCreateOrUpdateResponse",

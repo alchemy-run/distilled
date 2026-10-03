@@ -1,0 +1,20 @@
+{
+  "description": "ARM serves `raiPolicy` only on preview api-versions; 2026-07-01 fails with InvalidResourceType. Pin these operations to 2026-07-15-preview.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#GetSubscriptionRaiPolicy/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#SubscriptionRaiPolicyCreateOrUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices#DeleteSubscriptionRaiPolicy/traits/smithy.api#http/apiVersion",
+      "value": "2026-07-15-preview"
+    }
+  ]
+}

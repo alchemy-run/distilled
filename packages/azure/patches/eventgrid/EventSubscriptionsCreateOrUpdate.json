@@ -1,0 +1,45 @@
+{
+  "description": "EventSubscriptionDestination, DeadLetterDestination, and AdvancedFilter are polymorphic (on endpointType / operatorType); the converted model keeps only the discriminator, so S.Struct strips the subtype payload (destination `properties`, filter `value`/`values`) on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#EventSubscriptionDestination/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Endpoint-type-specific destination properties (polymorphic on `endpointType`), e.g. `{ resourceId, queueName }` for StorageQueue."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#DeadLetterDestination/members/properties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Endpoint-type-specific dead-letter properties (polymorphic on `endpointType`), e.g. `{ resourceId, blobContainerName }` for StorageBlob."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#AdvancedFilter/members/value",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Single comparison value for NumberGreaterThan/NumberLessThan/BoolEquals-style operators (polymorphic on `operatorType`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventgrid#AdvancedFilter/members/values",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Comparison values for NumberIn/StringIn/StringContains/NumberInRange-style operators (polymorphic on `operatorType`)."
+        }
+      }
+    }
+  ]
+}

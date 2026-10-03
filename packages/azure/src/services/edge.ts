@@ -783,7 +783,7 @@ export const ConfigurationReferencesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
         code: 200,
         apiVersion: "2025-08-01",
       }),
@@ -1577,7 +1577,7 @@ export const DeleteConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}",
       code: 200,
-      apiVersion: "2025-08-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1604,7 +1604,7 @@ export const DeleteConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -1670,7 +1670,7 @@ export const DeleteDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -1810,7 +1810,7 @@ export const DeleteDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -1848,7 +1848,7 @@ export const DeleteDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -2021,9 +2021,9 @@ export const DeleteSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -2514,7 +2514,7 @@ export const DiagnosticsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -3095,7 +3095,7 @@ export const DynamicSchemasCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -3180,7 +3180,7 @@ export const DynamicSchemaVersionsCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
   ).annotate({
@@ -3836,7 +3836,7 @@ export const GetConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -3949,7 +3949,7 @@ export const GetDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -4197,7 +4197,7 @@ export const GetDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -4255,7 +4255,7 @@ export const GetDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -4463,7 +4463,7 @@ export const GetHierarchyConfigurationMetadatasRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -4531,7 +4531,7 @@ export const GetHierarchyConfigurationMetadataVersionRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions/{hierarchyConfigurationMetadataVersionName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions/{hierarchyConfigurationMetadataVersionName}",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -5081,7 +5081,7 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/jobs/{jobName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs/{jobName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -5469,9 +5469,9 @@ export const GetSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -5967,7 +5967,7 @@ export const GetSolutionMetadatasRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -6038,7 +6038,7 @@ export const GetSolutionMetadataVersionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions/{solutionMetadataVersionName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions/{solutionMetadataVersionName}",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -7858,7 +7858,7 @@ export const ListConfigurationReferencesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -8030,7 +8030,7 @@ export const ListDiagnosticByResourceGroupRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
 ).annotate({
@@ -8115,7 +8115,7 @@ export const ListDiagnosticBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/diagnostics",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -8463,7 +8463,7 @@ export const ListDynamicSchemaBySchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -8540,7 +8540,7 @@ export const ListDynamicSchemaVersionByDynamicSchemaRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
   ).annotate({
@@ -8766,7 +8766,7 @@ export const ListHierarchyConfigurationMetadatasByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -8839,7 +8839,7 @@ export const ListHierarchyConfigurationMetadataVersionByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -9157,7 +9157,7 @@ export const ListJobByTargetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/jobs",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs",
       code: 200,
       apiVersion: "2026-03-01",
     }),
@@ -9413,9 +9413,9 @@ export const ListSchemaReferenceByResourceGroupRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
   ).annotate({
@@ -9786,7 +9786,7 @@ export const ListSolutionMetadatasByParentRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -9856,7 +9856,7 @@ export const ListSolutionMetadataVersionByParentRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
         code: 200,
         apiVersion: "2026-03-01",
       }),
@@ -10836,9 +10836,9 @@ export const SchemaReferencesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+        uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2025-08-01",
       }),
     ),
 ).annotate({
@@ -12453,7 +12453,7 @@ export const UpdateConfigurationReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences/{configurationReferenceName}",
       code: 200,
       apiVersion: "2025-08-01",
     }),
@@ -12629,7 +12629,7 @@ export const UpdateDiagnosticRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics/{diagnosticName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -12991,7 +12991,7 @@ export const UpdateDynamicSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -13065,7 +13065,7 @@ export const UpdateDynamicSchemaVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions/{dynamicSchemaVersionName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({
@@ -13412,9 +13412,9 @@ export const UpdateSchemaReferenceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences/{schemaReferenceName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2025-08-01",
     }),
   ),
 ).annotate({

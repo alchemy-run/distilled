@@ -249,7 +249,7 @@ export const BudgetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -411,7 +411,7 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -972,7 +972,7 @@ export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1482,7 +1482,7 @@ export const GetReservationRecommendationDetailRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails",
+        uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationRecommendationDetails",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -1748,7 +1748,7 @@ export const GetTagRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/tags",
+      uri: "/{scope+}/providers/Microsoft.Consumption/tags",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1833,7 +1833,7 @@ export const ListBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1912,7 +1912,7 @@ export const ListChargesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/charges",
+      uri: "/{scope+}/providers/Microsoft.Consumption/charges",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2380,7 +2380,7 @@ export const ListMarketplacesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/marketplaces",
+      uri: "/{scope+}/providers/Microsoft.Consumption/marketplaces",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2624,7 +2624,7 @@ export const ListReservationRecommendationsRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendations",
+        uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationRecommendations",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -2908,7 +2908,7 @@ export const ListReservationsDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationDetails",
+      uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationDetails",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2948,7 +2948,7 @@ export const ListReservationsSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries",
+      uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationSummaries",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3457,7 +3457,7 @@ export const ListUsageDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/usageDetails",
+      uri: "/{scope+}/providers/Microsoft.Consumption/usageDetails",
       code: 200,
       apiVersion: "2026-06-01",
     }),

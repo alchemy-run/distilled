@@ -48,7 +48,7 @@ export const BgpPeersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -169,7 +169,7 @@ export const DeleteBgpPeerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -198,7 +198,7 @@ export const DeleteLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -227,7 +227,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -256,7 +256,7 @@ export const DeleteStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -285,7 +285,7 @@ export const GetBgpPeerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -331,7 +331,7 @@ export const GetLoadBalancerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -427,7 +427,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -489,7 +489,7 @@ export const GetStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -549,14 +549,54 @@ export const PerformanceTier = S.String;
 export type SCType = "Native" | "RWX" | "Blob" | "NFS" | "SMB";
 export const SCType = S.String;
 
+/** The action to take when a NFS volume is deleted */
+export type NfsDirectoryActionOnVolumeDeletion = "Delete" | "Retain";
+export const NfsDirectoryActionOnVolumeDeletion = S.String;
+
 /** The properties of storage class of the StorageClass */
 export interface StorageClassTypeProperties {
   /** Type of the storage class. */
   type: SCType | (string & {});
+  /** The backing storageclass used to create new storageclass */
+  backingStorageClassName?: string;
+  /** Azure Storage Account Name */
+  azureStorageAccountName?: string;
+  /** Azure Storage Account Key */
+  azureStorageAccountKey?: string | Redacted.Redacted<string>;
+  /** NFS Server */
+  server?: string;
+  /** NFS share */
+  share?: string;
+  /** Sub directory under share. If the sub directory doesn't exist, driver will create it */
+  subDir?: string;
+  /** Mounted folder permissions. Default is 0. If set as non-zero, driver will perform `chmod` after mount */
+  mountPermissions?: string;
+  /** The action to take when a NFS volume is deleted. Default is Delete */
+  onDelete?: NfsDirectoryActionOnVolumeDeletion | (string & {});
+  /** SMB Source */
+  source?: string;
+  /** Server username */
+  username?: string;
+  /** Server password */
+  password?: string | Redacted.Redacted<string>;
+  /** Server domain */
+  domain?: string;
 }
 export const StorageClassTypeProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SCType,
+    backingStorageClassName: S.optional(S.String),
+    azureStorageAccountName: S.optional(S.String),
+    azureStorageAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    server: S.optional(S.String),
+    share: S.optional(S.String),
+    subDir: S.optional(S.String),
+    mountPermissions: S.optional(S.String),
+    onDelete: S.optional(NfsDirectoryActionOnVolumeDeletion),
+    source: S.optional(S.String),
+    username: S.optional(S.String),
+    password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+    domain: S.optional(S.String),
   }),
 ).annotate({
   identifier: "StorageClassTypeProperties",
@@ -642,7 +682,7 @@ export const ListBgpPeersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/bgpPeers",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -706,7 +746,7 @@ export const ListLoadBalancersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -858,7 +898,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -924,7 +964,7 @@ export const ListStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1041,7 +1081,7 @@ export const LoadBalancersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1098,7 +1138,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/services/{serviceName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1211,7 +1251,7 @@ export const StorageClassCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),
@@ -1267,10 +1307,6 @@ export const StorageClassPropertiesUpdateLimitationsList =
     S.String,
   ) as any as S.Schema<StorageClassPropertiesUpdateLimitationsList>;
 
-/** The action to take when a NFS volume is deleted */
-export type NfsDirectoryActionOnVolumeDeletion = "Delete" | "Retain";
-export const NfsDirectoryActionOnVolumeDeletion = S.String;
-
 /** The model for update a storageClass */
 export interface StorageClassTypePropertiesUpdate {
   /** The backing storageclass used to create new storageclass */
@@ -1278,7 +1314,7 @@ export interface StorageClassTypePropertiesUpdate {
   /** Azure Storage Account Name */
   azureStorageAccountName?: string;
   /** Azure Storage Account Key */
-  azureStorageAccountKey?: string;
+  azureStorageAccountKey?: string | Redacted.Redacted<string>;
   /** NFS Server */
   server?: string;
   /** NFS share */
@@ -1302,7 +1338,7 @@ export const StorageClassTypePropertiesUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backingStorageClassName: S.optional(S.String),
     azureStorageAccountName: S.optional(S.String),
-    azureStorageAccountKey: S.optional(S.String),
+    azureStorageAccountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
     server: S.optional(S.String),
     share: S.optional(S.String),
     subDir: S.optional(S.String),
@@ -1370,7 +1406,7 @@ export const UpdateStorageClassRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
+      uri: "/{resourceUri+}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}",
       code: 200,
       apiVersion: "2024-03-01",
     }),

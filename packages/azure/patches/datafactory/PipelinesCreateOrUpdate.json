@@ -1,0 +1,55 @@
+{
+  "description": "Activity is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload (typeProperties, linkedServiceName, policy, inputs, outputs) on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Activity/members/typeProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Type-specific activity properties (polymorphic on `type`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Activity/members/linkedServiceName",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Linked service reference (ExecutionActivity subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Activity/members/policy",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Activity policy (ExecutionActivity subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Activity/members/inputs",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "List of inputs for the activity (Copy / data movement activities)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Activity/members/outputs",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "List of outputs for the activity (Copy / data movement activities)."
+        }
+      }
+    }
+  ]
+}

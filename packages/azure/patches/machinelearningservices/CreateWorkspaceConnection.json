@@ -1,0 +1,25 @@
+{
+  "description": "Workspace connection credentials are polymorphic on `authType`; the converted model keeps only the base members, so S.Struct strips `credentials` on encode (create/update) and decode (listSecrets). Add it as a document on the input and output property shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#WorkspaceConnectionPropertiesV2Input/members/credentials",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Credentials for the authType (ApiKey: {key}; CustomKeys: {keys}; AccessKey: {accessKeyId, secretAccessKey}; ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.machinelearningservices#WorkspaceConnectionPropertiesV2/members/credentials",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Credentials for the authType; only returned by listSecrets."
+        }
+      }
+    }
+  ]
+}

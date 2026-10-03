@@ -1941,12 +1941,45 @@ export interface TaskStepPropertiesInput {
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string;
+  /** Docker step: Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** Docker step: fully qualified image names including the repository and tag. */
+  imageNames?: unknown;
+  /** Docker step: whether the image built should be pushed to the registry. */
+  isPushEnabled?: boolean;
+  /** Docker step: whether the image cache is disabled. */
+  noCache?: boolean;
+  /** Docker step: the name of the target build stage. */
+  target?: string;
+  /** Docker step: build arguments ({ name, value, isSecret }[]). */
+  arguments?: unknown;
+  /** FileTask step: task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** FileTask step: task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** EncodedTask step: base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
+  values?: unknown;
 }
 export const TaskStepPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: TaskStepPropertiesInputType,
     contextPath: S.optional(S.String),
     contextAccessToken: S.optional(S.String),
+    dockerFilePath: S.optional(S.String),
+    imageNames: S.optional(S.Unknown),
+    isPushEnabled: S.optional(S.Boolean),
+    noCache: S.optional(S.Boolean),
+    target: S.optional(S.String),
+    arguments: S.optional(S.Unknown),
+    taskFilePath: S.optional(S.String),
+    valuesFilePath: S.optional(S.String),
+    encodedTaskContent: S.optional(S.String),
+    encodedValuesContent: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "TaskStepPropertiesInput",
@@ -2341,6 +2374,28 @@ export interface TaskStepProperties {
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string;
+  /** Docker step: Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** Docker step: fully qualified image names including the repository and tag. */
+  imageNames?: unknown;
+  /** Docker step: whether the image built should be pushed to the registry. */
+  isPushEnabled?: boolean;
+  /** Docker step: whether the image cache is disabled. */
+  noCache?: boolean;
+  /** Docker step: the name of the target build stage. */
+  target?: string;
+  /** Docker step: build arguments ({ name, value, isSecret }[]). */
+  arguments?: unknown;
+  /** FileTask step: task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** FileTask step: task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** EncodedTask step: base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
+  values?: unknown;
 }
 export const TaskStepProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2350,6 +2405,17 @@ export const TaskStepProperties = /*@__PURE__*/ S.suspend(() =>
     ),
     contextPath: S.optional(S.String),
     contextAccessToken: S.optional(S.String),
+    dockerFilePath: S.optional(S.String),
+    imageNames: S.optional(S.Unknown),
+    isPushEnabled: S.optional(S.Boolean),
+    noCache: S.optional(S.Boolean),
+    target: S.optional(S.String),
+    arguments: S.optional(S.Unknown),
+    taskFilePath: S.optional(S.String),
+    valuesFilePath: S.optional(S.String),
+    encodedTaskContent: S.optional(S.String),
+    encodedValuesContent: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "TaskStepProperties",
@@ -6809,12 +6875,45 @@ export interface TaskStepUpdateParameters {
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string;
+  /** Docker step: Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** Docker step: fully qualified image names including the repository and tag. */
+  imageNames?: unknown;
+  /** Docker step: whether the image built should be pushed to the registry. */
+  isPushEnabled?: boolean;
+  /** Docker step: whether the image cache is disabled. */
+  noCache?: boolean;
+  /** Docker step: the name of the target build stage. */
+  target?: string;
+  /** Docker step: build arguments ({ name, value, isSecret }[]). */
+  arguments?: unknown;
+  /** FileTask step: task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** FileTask step: task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** EncodedTask step: base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
+  values?: unknown;
 }
 export const TaskStepUpdateParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: TaskStepUpdateParametersType,
     contextPath: S.optional(S.String),
     contextAccessToken: S.optional(S.String),
+    dockerFilePath: S.optional(S.String),
+    imageNames: S.optional(S.Unknown),
+    isPushEnabled: S.optional(S.Boolean),
+    noCache: S.optional(S.Boolean),
+    target: S.optional(S.String),
+    arguments: S.optional(S.Unknown),
+    taskFilePath: S.optional(S.String),
+    valuesFilePath: S.optional(S.String),
+    encodedTaskContent: S.optional(S.String),
+    encodedValuesContent: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "TaskStepUpdateParameters",

@@ -1,0 +1,117 @@
+{
+  "description": "Database is polymorphic on `kind`; the converted model keeps only the base members, so the ReadWrite `properties` (softDeletePeriod, hotCachePeriod, keyVaultProperties, provisioningState) were stripped on encode and decode. Add them. The LRO PUT/PATCH may answer 202 with an empty body, so `kind` is not required on those responses.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#ReadWriteDatabaseProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "provisioningState": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The provisioned state of the resource."
+            }
+          },
+          "softDeletePeriod": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The time the data should be kept before it stops being accessible to queries (ISO-8601 duration)."
+            }
+          },
+          "hotCachePeriod": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The time the data should be kept in cache for fast queries (ISO-8601 duration)."
+            }
+          },
+          "statistics": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "The statistics of the database."
+            }
+          },
+          "isFollowed": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Indicates whether the database is followed."
+            }
+          },
+          "keyVaultProperties": {
+            "target": "com.azure.azure_kusto#KeyVaultProperties",
+            "traits": {
+              "smithy.api#documentation": "KeyVault properties for the database encryption."
+            }
+          },
+          "suspensionDetails": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "The database suspension details."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Properties of a ReadWrite database (the `kind: ReadWrite` variant of the polymorphic Database; ReadOnlyFollowing databases return a superset)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#DatabasesCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+        "traits": {
+          "smithy.api#documentation": "The database properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#UpdateDatabaseRequest/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+        "traits": {
+          "smithy.api#documentation": "The database properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#DatabasesCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+        "traits": {
+          "smithy.api#documentation": "The database properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#UpdateDatabaseResponse/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+        "traits": {
+          "smithy.api#documentation": "The database properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#GetDatabaseResponse/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#ReadWriteDatabaseProperties",
+        "traits": {
+          "smithy.api#documentation": "The database properties."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#DatabasesCreateOrUpdateResponse/members/kind/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#UpdateDatabaseResponse/members/kind/traits/smithy.api#required"
+    }
+  ]
+}

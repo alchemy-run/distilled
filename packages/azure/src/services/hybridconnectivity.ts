@@ -55,9 +55,9 @@ export const CreateServiceConfigurationOrupdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+        uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
   ).annotate({
@@ -175,9 +175,9 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -239,9 +239,9 @@ export const DeleteServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -268,7 +268,7 @@ export const DeleteSolutionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -320,9 +320,9 @@ export const EndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -385,9 +385,9 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -434,7 +434,7 @@ export const GetInventoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory/{inventoryId}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -730,9 +730,9 @@ export const GetServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -776,7 +776,7 @@ export const GetSolutionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -1006,9 +1006,9 @@ export const ListEndpointCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1076,9 +1076,9 @@ export const ListEndpointIngressGatewayCredentialsRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
+        uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
   ).annotate({
@@ -1156,9 +1156,9 @@ export const ListEndpointManagedProxyDetailsRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
+        uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
 ).annotate({
@@ -1191,9 +1191,9 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1259,7 +1259,7 @@ export const ListInventoryBySolutionConfigurationRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
+        uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory",
         code: 200,
         apiVersion: "2027-01-01",
       }),
@@ -1524,9 +1524,9 @@ export const ListServiceConfigurationByEndpointResourceRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
+        uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
   ).annotate({
@@ -1591,7 +1591,7 @@ export const ListSolutionConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -1974,7 +1974,7 @@ export const SolutionConfigurationsCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+        uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
         code: 200,
         apiVersion: "2027-01-01",
       }),
@@ -2021,7 +2021,7 @@ export const SyncSolutionConfigurationNowRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/syncNow",
       code: 200,
       apiVersion: "2027-01-01",
     }),
@@ -2260,9 +2260,9 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -2492,9 +2492,9 @@ export const UpdateServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -2558,7 +2558,7 @@ export const UpdateSolutionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
+      uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}",
       code: 200,
       apiVersion: "2027-01-01",
     }),

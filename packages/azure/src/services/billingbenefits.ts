@@ -5516,7 +5516,7 @@ export const ListConditionalCreditsScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
+      uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5702,7 +5702,7 @@ export const ListCreditApplicableRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.BillingBenefits/applicableCredits",
+      uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableCredits",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6012,7 +6012,7 @@ export const ListDiscountsScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.BillingBenefits/applicableDiscounts",
+      uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableDiscounts",
       code: 200,
       apiVersion: "2026-06-01",
     }),

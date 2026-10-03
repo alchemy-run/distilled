@@ -1,0 +1,25 @@
+{
+  "description": "ASR ReplicationProtectionCluster provider-specific details are polymorphic on instanceType (A2A, Azure, HyperVReplicaAzure, InMageRcm, ...); the converted model keeps only the `instanceType` discriminator, so S.Struct strips every subtype field on encode and decode. Retype them as untyped documents.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#ReplicationProtectionClusterPropertiesInput/members/providerSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicessiterecovery#ReplicationProtectionClusterProperties/members/providerSpecificDetails",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The Replication cluster provider custom settings. Polymorphic on `instanceType` (e.g. `{ instanceType: \"A2A\", ... }`)."
+        }
+      }
+    }
+  ]
+}

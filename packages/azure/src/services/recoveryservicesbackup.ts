@@ -1846,6 +1846,22 @@ export interface ProtectedItem {
   vaultId?: string;
   /** Source side threat information */
   sourceSideScanInfo?: SourceSideScanInfo;
+  /** Friendly name of the protected datasource (AzureFileShare / IaaS VM items). */
+  friendlyName?: string;
+  /** Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`. */
+  protectionState?: string;
+  /** Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs). */
+  extendedProperties?: unknown;
+  /** Backup status of the item (read-only). */
+  protectionStatus?: string;
+  /** Status of the last backup (read-only). */
+  lastBackupStatus?: string;
+  /** Timestamp of the last backup (read-only). */
+  lastBackupTime?: string;
+  /** Health status of the item (read-only). */
+  healthStatus?: string;
+  /** ARM ID of the protected VM (IaaS VM items, read-only). */
+  virtualMachineId?: string;
 }
 export const ProtectedItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1872,6 +1888,14 @@ export const ProtectedItem = /*@__PURE__*/ S.suspend(() =>
     sourceLocation: S.optional(S.String),
     vaultId: S.optional(S.String),
     sourceSideScanInfo: S.optional(SourceSideScanInfo),
+    friendlyName: S.optional(S.String),
+    protectionState: S.optional(S.String),
+    extendedProperties: S.optional(S.Unknown),
+    protectionStatus: S.optional(S.String),
+    lastBackupStatus: S.optional(S.String),
+    lastBackupTime: S.optional(S.String),
+    healthStatus: S.optional(S.String),
+    virtualMachineId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProtectedItem" }) as any as S.Schema<ProtectedItem>;
 
@@ -2106,6 +2130,24 @@ export interface ProtectionContainer {
   protectableObjectType?: string;
   /** Source location of the container */
   sourceLocation?: string;
+  /** ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer). */
+  sourceResourceId?: string;
+  /** Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer). */
+  acquireStorageAccountLock?: string;
+  /** Number of items backed up in this container (StorageContainer). */
+  protectedItemCount?: number;
+  /** Storage account version (StorageContainer). */
+  storageAccountVersion?: string;
+  /** Resource group of the registered resource (StorageContainer). */
+  resourceGroup?: string;
+  /** Workload type for the container (VMAppContainer). */
+  workloadType?: string;
+  /** Operation type, e.g. `Register` or `Reregister` (VMAppContainer). */
+  operationType?: string;
+  /** Additional container information (VMAppContainer). */
+  extendedInfo?: unknown;
+  /** Time the container was last refreshed (VMAppContainer). */
+  lastUpdatedTime?: string;
 }
 export const ProtectionContainer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2116,6 +2158,15 @@ export const ProtectionContainer = /*@__PURE__*/ S.suspend(() =>
     containerType: ProtectableContainerType,
     protectableObjectType: S.optional(S.String),
     sourceLocation: S.optional(S.String),
+    sourceResourceId: S.optional(S.String),
+    acquireStorageAccountLock: S.optional(S.String),
+    protectedItemCount: S.optional(S.Number),
+    storageAccountVersion: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    workloadType: S.optional(S.String),
+    operationType: S.optional(S.String),
+    extendedInfo: S.optional(S.Unknown),
+    lastUpdatedTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProtectionContainer",
@@ -2335,6 +2386,8 @@ export interface ProtectionIntent {
   policyId?: string;
   /** Backup state of this backup item. */
   protectionState?: ProtectionStatus | (string & {});
+  /** Workload item type to auto-protect, e.g. `SQLInstance` (AzureWorkloadSQLAutoProtectionIntent). */
+  workloadItemType?: string;
 }
 export const ProtectionIntent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2344,6 +2397,7 @@ export const ProtectionIntent = /*@__PURE__*/ S.suspend(() =>
     itemId: S.optional(S.String),
     policyId: S.optional(S.String),
     protectionState: S.optional(ProtectionStatus),
+    workloadItemType: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProtectionIntent",
@@ -2434,6 +2488,32 @@ export interface ProtectionPolicy {
   backupManagementType: string;
   /** ResourceGuard Operation Requests */
   resourceGuardOperationRequests?: ProtectionPolicyResourceGuardOperationRequestsList;
+  /** Workload type (AzureFileShare / AzureStorage and AzureWorkload policies). */
+  workLoadType?: string;
+  /** Backup schedule (polymorphic on `schedulePolicyType`: SimpleSchedulePolicy, SimpleSchedulePolicyV2, LongTermSchedulePolicy, LogSchedulePolicy). */
+  schedulePolicy?: unknown;
+  /** Retention policy (polymorphic on `retentionPolicyType`: LongTermRetentionPolicy, SimpleRetentionPolicy). */
+  retentionPolicy?: unknown;
+  /** Vaulted backup retention (AzureFileShare vault-tier policies). */
+  vaultRetentionPolicy?: unknown;
+  /** Time zone of the schedule, e.g. `UTC`. */
+  timeZone?: string;
+  /** Instant recovery point retention in days (AzureIaasVM). */
+  instantRpRetentionRangeInDays?: number;
+  /** Instant recovery point resource group settings (AzureIaasVM). */
+  instantRPDetails?: unknown;
+  /** IaaS VM policy type: `V1` (standard) or `V2` (enhanced). */
+  policyType?: string;
+  /** Archive tiering policy keyed by tier (AzureIaasVM). */
+  tieringPolicy?: unknown;
+  /** Snapshot consistency type (AzureIaasVM). */
+  snapshotConsistencyType?: string;
+  /** Workload settings such as time zone and compression (AzureWorkload). */
+  settings?: unknown;
+  /** Sub-policies per backup type (AzureWorkload). */
+  subProtectionPolicy?: unknown;
+  /** Fix a policy that is inconsistent with its sub-policies (AzureWorkload). */
+  makePolicyConsistent?: boolean;
 }
 export const ProtectionPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2442,6 +2522,19 @@ export const ProtectionPolicy = /*@__PURE__*/ S.suspend(() =>
     resourceGuardOperationRequests: S.optional(
       ProtectionPolicyResourceGuardOperationRequestsList,
     ),
+    workLoadType: S.optional(S.String),
+    schedulePolicy: S.optional(S.Unknown),
+    retentionPolicy: S.optional(S.Unknown),
+    vaultRetentionPolicy: S.optional(S.Unknown),
+    timeZone: S.optional(S.String),
+    instantRpRetentionRangeInDays: S.optional(S.Number),
+    instantRPDetails: S.optional(S.Unknown),
+    policyType: S.optional(S.String),
+    tieringPolicy: S.optional(S.Unknown),
+    snapshotConsistencyType: S.optional(S.String),
+    settings: S.optional(S.Unknown),
+    subProtectionPolicy: S.optional(S.Unknown),
+    makePolicyConsistent: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ProtectionPolicy",
@@ -4884,6 +4977,12 @@ export interface ProtectedItemInput {
   softDeleteRetentionPeriodInDays?: number;
   /** Source side threat information */
   sourceSideScanInfo?: SourceSideScanInfo;
+  /** Friendly name of the protected datasource (AzureFileShare / IaaS VM items). */
+  friendlyName?: string;
+  /** Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`. */
+  protectionState?: string;
+  /** Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs). */
+  extendedProperties?: unknown;
 }
 export const ProtectedItemInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4906,6 +5005,9 @@ export const ProtectedItemInput = /*@__PURE__*/ S.suspend(() =>
     policyName: S.optional(S.String),
     softDeleteRetentionPeriodInDays: S.optional(S.Number),
     sourceSideScanInfo: S.optional(SourceSideScanInfo),
+    friendlyName: S.optional(S.String),
+    protectionState: S.optional(S.String),
+    extendedProperties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ProtectedItemInput",
@@ -5642,6 +5744,24 @@ export interface ProtectionContainerInput {
   containerType: ProtectableContainerType | (string & {});
   /** Type of the protectable object associated with this container */
   protectableObjectType?: string;
+  /** ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer). */
+  sourceResourceId?: string;
+  /** Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer). */
+  acquireStorageAccountLock?: string;
+  /** Number of items backed up in this container (StorageContainer). */
+  protectedItemCount?: number;
+  /** Storage account version (StorageContainer). */
+  storageAccountVersion?: string;
+  /** Resource group of the registered resource (StorageContainer). */
+  resourceGroup?: string;
+  /** Workload type for the container (VMAppContainer). */
+  workloadType?: string;
+  /** Operation type, e.g. `Register` or `Reregister` (VMAppContainer). */
+  operationType?: string;
+  /** Additional container information (VMAppContainer). */
+  extendedInfo?: unknown;
+  /** Time the container was last refreshed (VMAppContainer). */
+  lastUpdatedTime?: string;
 }
 export const ProtectionContainerInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5651,6 +5771,15 @@ export const ProtectionContainerInput = /*@__PURE__*/ S.suspend(() =>
     healthStatus: S.optional(S.String),
     containerType: ProtectableContainerType,
     protectableObjectType: S.optional(S.String),
+    sourceResourceId: S.optional(S.String),
+    acquireStorageAccountLock: S.optional(S.String),
+    protectedItemCount: S.optional(S.Number),
+    storageAccountVersion: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    workloadType: S.optional(S.String),
+    operationType: S.optional(S.String),
+    extendedInfo: S.optional(S.Unknown),
+    lastUpdatedTime: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ProtectionContainerInput",

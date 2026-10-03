@@ -1204,10 +1204,16 @@ export const EventListenerFilterType = S.String;
 /** A base class for event filter which determines whether an event should be sent to an event listener. */
 export interface EventListenerFilter {
   type: EventListenerFilterType | (string & {});
+  /** EventNameFilter: system events to forward (`connected`, `disconnected`). */
+  systemEvents?: EventHandlerSystemEventsList;
+  /** EventNameFilter: matching pattern for user event names (`*`, `event1,event2`, or a single name). */
+  userEventPattern?: string;
 }
 export const EventListenerFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventListenerFilterType,
+    systemEvents: S.optional(EventHandlerSystemEventsList),
+    userEventPattern: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EventListenerFilter",
@@ -1219,10 +1225,16 @@ export const EventListenerEndpointType = S.String;
 /** An endpoint specifying where Web PubSub should send events to. */
 export interface EventListenerEndpoint {
   type: EventListenerEndpointType | (string & {});
+  /** EventHubEndpoint: fully qualified Event Hubs namespace, e.g. `my.servicebus.windows.net`. */
+  fullyQualifiedNamespace?: string;
+  /** EventHubEndpoint: name of the event hub. */
+  eventHubName?: string;
 }
 export const EventListenerEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventListenerEndpointType,
+    fullyQualifiedNamespace: S.optional(S.String),
+    eventHubName: S.optional(S.String),
   }),
 ).annotate({
   identifier: "EventListenerEndpoint",

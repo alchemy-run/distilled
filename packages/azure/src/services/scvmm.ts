@@ -86,7 +86,7 @@ export const AvailabilitySetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
 ).annotate({
@@ -268,7 +268,7 @@ export const CloudsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -470,9 +470,9 @@ export const CreateGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -585,7 +585,7 @@ export const CreateInventoryItemRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -661,9 +661,9 @@ export const CreateVirtualMachineInstanceCheckpointRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/createCheckpoint",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -697,7 +697,7 @@ export const DeleteAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -732,7 +732,7 @@ export const DeleteCloudRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -756,9 +756,9 @@ export const DeleteGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -793,7 +793,7 @@ export const DeleteInventoryItemRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -823,9 +823,9 @@ export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -853,9 +853,9 @@ export const DeleteVirtualMachineInstanceCheckpointRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/deleteCheckpoint",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -889,7 +889,7 @@ export const DeleteVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -924,7 +924,7 @@ export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -959,7 +959,7 @@ export const DeleteVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -991,7 +991,7 @@ export const GetAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1058,7 +1058,7 @@ export const GetCloudRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1115,9 +1115,9 @@ export const GetGuestAgentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1169,7 +1169,7 @@ export const GetInventoryItemRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1213,9 +1213,9 @@ export const GetVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1655,7 +1655,7 @@ export const GetVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1806,7 +1806,7 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -1891,9 +1891,9 @@ export const GetVmInstanceHybridIdentityMetadatasRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata/default",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -1963,7 +1963,7 @@ export const GetVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2074,7 +2074,7 @@ export const ListAvailabilitySetByResourceGroupRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -2157,7 +2157,7 @@ export const ListAvailabilitySetBySubscriptionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/availabilitySets",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
 ).annotate({
@@ -2179,7 +2179,7 @@ export const ListCloudByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2259,7 +2259,7 @@ export const ListCloudBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/clouds",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2277,9 +2277,9 @@ export const ListGuestAgentByVirtualMachineInstanceRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/guestAgents",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -2349,7 +2349,7 @@ export const ListInventoryItemByVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2411,7 +2411,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.ScVmm/operations",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2502,9 +2502,9 @@ export const ListVirtualMachineInstancesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2578,7 +2578,7 @@ export const ListVirtualMachineTemplateByResourceGroupRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -2664,7 +2664,7 @@ export const ListVirtualMachineTemplateBySubscriptionRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualMachineTemplates",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -2687,7 +2687,7 @@ export const ListVirtualNetworkByResourceGroupRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
 ).annotate({
@@ -2768,7 +2768,7 @@ export const ListVirtualNetworkBySubscriptionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/virtualNetworks",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
 ).annotate({
@@ -2786,9 +2786,9 @@ export const ListVmInstanceHybridIdentityMetadatasByVirtualMachineInstanceReques
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/hybridIdentityMetadata",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -2861,7 +2861,7 @@ export const ListVmmServerByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2941,7 +2941,7 @@ export const ListVmmServerBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ScVmm/vmmServers",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -2959,9 +2959,9 @@ export const RestartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restart",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
 ).annotate({
@@ -2989,9 +2989,9 @@ export const RestoreVirtualMachineInstanceCheckpointRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/restoreCheckpoint",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -3014,9 +3014,9 @@ export const StartVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/start",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3043,9 +3043,9 @@ export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default/stop",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3089,7 +3089,7 @@ export const UpdateAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3166,7 +3166,7 @@ export const UpdateCloudRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/clouds/{cloudResourceName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3407,9 +3407,9 @@ export const UpdateVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+      uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3475,7 +3475,7 @@ export const UpdateVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3556,7 +3556,7 @@ export const UpdateVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3635,7 +3635,7 @@ export const UpdateVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({
@@ -3900,9 +3900,9 @@ export const VirtualMachineInstancesCreateOrUpdateRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{resourceUri}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
+        uri: "/{resourceUri+}/providers/Microsoft.ScVmm/virtualMachineInstances/default",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -3998,7 +3998,7 @@ export const VirtualMachineTemplatesCreateOrUpdateRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualMachineTemplates/{virtualMachineTemplateName}",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
   ).annotate({
@@ -4109,7 +4109,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/virtualNetworks/{virtualNetworkName}",
         code: 200,
-        apiVersion: "2025-03-13",
+        apiVersion: "2024-06-01",
       }),
     ),
 ).annotate({
@@ -4218,7 +4218,7 @@ export const VmmServersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
       code: 200,
-      apiVersion: "2025-03-13",
+      apiVersion: "2024-06-01",
     }),
   ),
 ).annotate({

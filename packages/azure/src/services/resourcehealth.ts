@@ -733,7 +733,7 @@ export const GetAvailabilityStatusByResourceRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+        uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
         code: 200,
         apiVersion: "2025-05-01",
       }),
@@ -988,7 +988,7 @@ export const GetChildAvailabilityStatusByResourceRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
+        uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
         code: 200,
         apiVersion: "2025-05-01",
       }),
@@ -1688,7 +1688,7 @@ export const ListAvailabilityStatusesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/availabilityStatuses",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -1714,7 +1714,7 @@ export const ListChildAvailabilityStatusesRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
+        uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
         code: 200,
         apiVersion: "2025-05-01",
       }),
@@ -1739,7 +1739,7 @@ export const ListChildResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/childResources",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childResources",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -1822,7 +1822,7 @@ export const ListEventBySingleResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/events",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/events",
       code: 200,
       apiVersion: "2025-05-01",
     }),

@@ -22,11 +22,17 @@ export interface ApplicationGroupPolicy {
   name: string;
   /** Application Group Policy types */
   type: ApplicationGroupPolicyType | (string & {});
+  /** ThrottlingPolicy: the threshold limit above which the application group will be throttled. Rate limit is always per second. */
+  rateLimitThreshold?: number;
+  /** ThrottlingPolicy: metric to throttle on (IncomingBytes, OutgoingBytes, IncomingMessages, OutgoingMessages). */
+  metricId?: string;
 }
 export const ApplicationGroupPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     type: ApplicationGroupPolicyType,
+    rateLimitThreshold: S.optional(S.Number),
+    metricId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ApplicationGroupPolicy",

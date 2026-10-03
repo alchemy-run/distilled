@@ -4394,7 +4394,7 @@ export const CreateStaticSiteUserRolesInvitationLinkRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -4495,7 +4495,7 @@ export const CreateStaticSiteZipDeploymentForStaticSiteRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -4536,7 +4536,7 @@ export const CreateStaticSiteZipDeploymentForStaticSiteBuildRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -5305,7 +5305,7 @@ export const DeleteStaticSiteBuildDatabaseConnectionRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -5340,7 +5340,7 @@ export const DeleteStaticSiteDatabaseConnectionRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -5375,7 +5375,7 @@ export const DeleteStaticSitePrivateEndpointConnectionRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -5406,7 +5406,7 @@ export const DeleteStaticSiteStaticSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -5442,7 +5442,7 @@ export const DeleteStaticSiteStaticSiteBuildRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -5478,7 +5478,7 @@ export const DeleteStaticSiteStaticSiteCustomDomainRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -5513,7 +5513,7 @@ export const DeleteStaticSiteStaticSiteUserRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -7300,7 +7300,7 @@ export const DetachStaticSiteStaticSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -7336,7 +7336,7 @@ export const DetachStaticSiteUserProvidedFunctionAppFromStaticSiteRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -7374,7 +7374,7 @@ export const DetachStaticSiteUserProvidedFunctionAppFromStaticSiteBuildRequest =
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13180,7 +13180,7 @@ export const GetStaticSiteBasicAuthRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/basicAuth/{basicAuthName}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -13275,7 +13275,7 @@ export const GetStaticSiteBuildDatabaseConnectionRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13387,7 +13387,7 @@ export const GetStaticSiteBuildDatabaseConnectionsRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13466,7 +13466,7 @@ export const GetStaticSiteBuildDatabaseConnectionsWithDetailsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/showDatabaseConnections",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13498,7 +13498,7 @@ export const GetStaticSiteBuildDatabaseConnectionWithDetailsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}/show",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13555,7 +13555,7 @@ export const GetStaticSiteDatabaseConnectionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -13609,7 +13609,7 @@ export const GetStaticSiteDatabaseConnectionsRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -13635,7 +13635,7 @@ export const GetStaticSiteDatabaseConnectionsWithDetailsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/showDatabaseConnections",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13664,7 +13664,7 @@ export const GetStaticSiteDatabaseConnectionWithDetailsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}/show",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13720,7 +13720,7 @@ export const GetStaticSiteLinkedBackendRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -13802,7 +13802,7 @@ export const GetStaticSiteLinkedBackendForBuildRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13855,7 +13855,7 @@ export const GetStaticSiteLinkedBackendsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -13936,7 +13936,7 @@ export const GetStaticSiteLinkedBackendsForBuildRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -13965,7 +13965,7 @@ export const GetStaticSitePrivateEndpointConnectionRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -14021,7 +14021,7 @@ export const GetStaticSitePrivateLinkResourcesRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateLinkResources",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -14047,7 +14047,7 @@ export const GetStaticSitesAsyncOperationOperationResultRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/staticSitesOperationResults/{operationId}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -14095,7 +14095,7 @@ export const GetStaticSitesAsyncOperationOperationStatusRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/staticSitesOperationStatuses/{operationId}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -14601,7 +14601,7 @@ export const GetStaticSiteStaticSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -14677,7 +14677,7 @@ export const GetStaticSiteStaticSiteBuildRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -14813,7 +14813,7 @@ export const GetStaticSiteStaticSiteBuildsRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -14893,7 +14893,7 @@ export const GetStaticSiteStaticSiteCustomDomainRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -14982,7 +14982,7 @@ export const GetStaticSiteStaticSitesByResourceGroupRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -15082,7 +15082,7 @@ export const GetStaticSiteUserProvidedFunctionAppForStaticSiteRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -15148,7 +15148,7 @@ export const GetStaticSiteUserProvidedFunctionAppForStaticSiteBuildRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -15203,7 +15203,7 @@ export const GetStaticSiteUserProvidedFunctionAppsForStaticSiteRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -15286,7 +15286,7 @@ export const GetStaticSiteUserProvidedFunctionAppsForStaticSiteBuildRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -22029,23 +22029,19 @@ export const GetWebAppSiteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWebAppSiteExtensionRequest",
 }) as any as S.Schema<GetWebAppSiteExtensionRequest>;
 
-/** Site extension type. */
-export type SiteExtensionType = "Gallery" | "WebRoot";
-export const SiteExtensionType = S.String;
-
 /** List of authors. */
 export type SiteExtensionInfoPropertiesAuthorsList = Array<string>;
 export const SiteExtensionInfoPropertiesAuthorsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<SiteExtensionInfoPropertiesAuthorsList>;
 
+/** Site extension type. */
+export type SiteExtensionType = "Gallery" | "WebRoot";
+export const SiteExtensionType = S.String;
+
 /** SiteExtensionInfo resource specific properties */
 export interface SiteExtensionInfoProperties {
-  /** Site extension ID. */
-  extension_id?: string;
   title?: string;
-  /** Site extension type. */
-  extension_type?: SiteExtensionType;
   /** Summary description. */
   summary?: string;
   /** Detailed description. */
@@ -22080,12 +22076,14 @@ export interface SiteExtensionInfoProperties {
   provisioningState?: string;
   /** Site Extension comment. */
   comment?: string;
+  /** Site extension ID. */
+  id?: string;
+  /** Site extension type. */
+  type?: SiteExtensionType;
 }
 export const SiteExtensionInfoProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    extension_id: S.optional(S.String),
     title: S.optional(S.String),
-    extension_type: S.optional(SiteExtensionType),
     summary: S.optional(S.String),
     description: S.optional(S.String),
     version: S.optional(S.String),
@@ -22103,6 +22101,8 @@ export const SiteExtensionInfoProperties = /*@__PURE__*/ S.suspend(() =>
     installed_date_time: S.optional(S.String),
     provisioningState: S.optional(S.String),
     comment: S.optional(S.String),
+    id: S.optional(S.String),
+    type: S.optional(SiteExtensionType),
   }),
 ).annotate({
   identifier: "SiteExtensionInfoProperties",
@@ -25264,6 +25264,10 @@ export const GetWorkflowVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetWorkflowVersionResponse",
 }) as any as S.Schema<GetWorkflowVersionResponse>;
 
+/** Site extension install request properties (none are required). */
+export type SiteExtensionInstallProperties = AiGatewayPropertiesInput;
+export const SiteExtensionInstallProperties = AiGatewayPropertiesInput;
+
 export interface InstallWebAppSiteExtensionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -25273,6 +25277,8 @@ export interface InstallWebAppSiteExtensionRequest {
   name: string;
   /** Site extension name. */
   siteExtensionId: string;
+  /** Install properties; the request body must be present even when empty. */
+  properties?: AiGatewayPropertiesInput;
 }
 export const InstallWebAppSiteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -25280,6 +25286,7 @@ export const InstallWebAppSiteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
     resourceGroupName: S.String.pipe(T.Label()),
     name: S.String.pipe(T.Label()),
     siteExtensionId: S.String.pipe(T.Label()),
+    properties: S.optional(AiGatewayPropertiesInput),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -25330,6 +25337,8 @@ export interface InstallWebAppSiteExtensionSlotRequest {
   slot: string;
   /** Site extension name. */
   siteExtensionId: string;
+  /** Install properties; the request body must be present even when empty. */
+  properties?: AiGatewayPropertiesInput;
 }
 export const InstallWebAppSiteExtensionSlotRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -25339,6 +25348,7 @@ export const InstallWebAppSiteExtensionSlotRequest = /*@__PURE__*/ S.suspend(
       name: S.String.pipe(T.Label()),
       slot: S.String.pipe(T.Label()),
       siteExtensionId: S.String.pipe(T.Label()),
+      properties: S.optional(AiGatewayPropertiesInput),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -29500,7 +29510,7 @@ export const ListStaticSiteBasicAuthRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/basicAuth",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -29575,7 +29585,7 @@ export const ListStaticSitesRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/staticSites",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -29601,7 +29611,7 @@ export const ListStaticSiteStaticSiteAppSettingsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listAppSettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -29667,7 +29677,7 @@ export const ListStaticSiteStaticSiteBuildAppSettingsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listAppSettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -29733,7 +29743,7 @@ export const ListStaticSiteStaticSiteBuildFunctionAppSettingsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listFunctionAppSettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -29798,7 +29808,7 @@ export const ListStaticSiteStaticSiteBuildFunctionsRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -29896,7 +29906,7 @@ export const ListStaticSiteStaticSiteConfiguredRolesRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listConfiguredRoles",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -29957,7 +29967,7 @@ export const ListStaticSiteStaticSiteCustomDomainsRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -30039,7 +30049,7 @@ export const ListStaticSiteStaticSiteFunctionAppSettingsRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -30102,7 +30112,7 @@ export const ListStaticSiteStaticSiteFunctionsRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/functions",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -30128,7 +30138,7 @@ export const ListStaticSiteStaticSiteSecretsRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listSecrets",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -30193,7 +30203,7 @@ export const ListStaticSiteStaticSiteUsersRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/listUsers",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -37070,7 +37080,7 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -37143,7 +37153,7 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildRequest
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -37316,7 +37326,7 @@ export const ResetStaticSiteStaticSiteApiKeyRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -38749,7 +38759,7 @@ export const StaticSitesApproveOrRejectPrivateEndpointConnectionRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -38855,7 +38865,7 @@ export const StaticSitesCreateOrUpdateBasicAuthRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/basicAuth/{basicAuthName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -38945,7 +38955,7 @@ export const StaticSitesCreateOrUpdateBuildDatabaseConnectionRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39008,7 +39018,7 @@ export const StaticSitesCreateOrUpdateDatabaseConnectionRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39130,7 +39140,7 @@ export const StaticSitesCreateOrUpdateStaticSiteRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39223,7 +39233,7 @@ export const StaticSitesCreateOrUpdateStaticSiteAppSettingsRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39305,7 +39315,7 @@ export const StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39387,7 +39397,7 @@ export const StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsRequest 
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/functionappsettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39476,7 +39486,7 @@ export const StaticSitesCreateOrUpdateStaticSiteCustomDomainRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39549,7 +39559,7 @@ export const StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsRequest =
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/functionappsettings",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39612,7 +39622,7 @@ export const StaticSitesGetPrivateEndpointConnectionListRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -39663,7 +39673,7 @@ export const StaticSitesLinkBackendRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -39728,7 +39738,7 @@ export const StaticSitesLinkBackendToBuildRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -40471,7 +40481,7 @@ export const UnlinkStaticSiteBackendRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -40513,7 +40523,7 @@ export const UnlinkStaticSiteBackendFromBuildRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -41657,7 +41667,7 @@ export const UpdateStaticSiteBuildDatabaseConnectionRequest =
         method: "PATCH",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -41717,7 +41727,7 @@ export const UpdateStaticSiteDatabaseConnectionRequest =
         method: "PATCH",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -41776,7 +41786,7 @@ export const UpdateStaticSiteStaticSiteRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -41873,7 +41883,7 @@ export const UpdateStaticSiteStaticSiteUserRequest = /*@__PURE__*/ S.suspend(
         method: "PATCH",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -45303,7 +45313,7 @@ export const ValidateStaticSiteBackendRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}/validate",
       code: 200,
-      apiVersion: "2026-07-15",
+      apiVersion: "2025-05-01",
     }),
   ),
 ).annotate({
@@ -45348,7 +45358,7 @@ export const ValidateStaticSiteBackendForBuildRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/linkedBackends/{linkedBackendName}/validate",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
 ).annotate({
@@ -45391,7 +45401,7 @@ export const ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteRequest =
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
         code: 200,
-        apiVersion: "2026-07-15",
+        apiVersion: "2025-05-01",
       }),
     ),
   ).annotate({
@@ -46718,6 +46728,34 @@ export const WebAppsCreateMSDeployOperationSlotResponse =
     identifier: "WebAppsCreateMSDeployOperationSlotResponse",
   }) as any as S.Schema<WebAppsCreateMSDeployOperationSlotResponse>;
 
+/** OneDeploy request. */
+export interface OneDeployProperties {
+  /** URL (typically a SAS URL) of the package to deploy. */
+  packageUri?: string;
+  /** Package type, e.g. `zip`. */
+  type?: string;
+  /** Target path of the package on the app. */
+  path?: string;
+  /** Whether the platform builds the package. */
+  remoteBuild?: boolean;
+  /** Whether the app restarts after the deployment. */
+  restart?: boolean;
+  /** Whether files not in the package are removed. */
+  clean?: boolean;
+}
+export const OneDeployProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    packageUri: S.optional(S.String),
+    type: S.optional(S.String),
+    path: S.optional(S.String),
+    remoteBuild: S.optional(S.Boolean),
+    restart: S.optional(S.Boolean),
+    clean: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "OneDeployProperties",
+}) as any as S.Schema<OneDeployProperties>;
+
 export interface WebAppsCreateOneDeployOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -46725,6 +46763,8 @@ export interface WebAppsCreateOneDeployOperationRequest {
   resourceGroupName: string;
   /** Name of the app. */
   name: string;
+  /** The package to deploy. */
+  properties?: OneDeployProperties;
 }
 export const WebAppsCreateOneDeployOperationRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -46732,6 +46772,7 @@ export const WebAppsCreateOneDeployOperationRequest = /*@__PURE__*/ S.suspend(
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
       name: S.String.pipe(T.Label()),
+      properties: S.optional(OneDeployProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47246,6 +47287,22 @@ export const WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse =
     identifier: "WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse",
   }) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>;
 
+/** Function key to create or update. */
+export interface FunctionSecretProperties {
+  /** Key name */
+  name?: string;
+  /** Key value; omit it to have Azure generate one. */
+  value?: string;
+}
+export const FunctionSecretProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.optional(S.String),
+    value: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "FunctionSecretProperties",
+}) as any as S.Schema<FunctionSecretProperties>;
+
 export interface WebAppsCreateOrUpdateFunctionSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -47254,8 +47311,8 @@ export interface WebAppsCreateOrUpdateFunctionSecretRequest {
   name: string;
   functionName: string;
   keyName: string;
-  /** Key value */
-  value?: string;
+  /** The key to create or update. */
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateFunctionSecretRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -47265,7 +47322,7 @@ export const WebAppsCreateOrUpdateFunctionSecretRequest =
       name: S.String.pipe(T.Label()),
       functionName: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      value: S.optional(S.String),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47301,8 +47358,8 @@ export interface WebAppsCreateOrUpdateFunctionSecretSlotRequest {
   slot: string;
   functionName: string;
   keyName: string;
-  /** Key value */
-  value?: string;
+  /** The key to create or update. */
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateFunctionSecretSlotRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -47313,7 +47370,7 @@ export const WebAppsCreateOrUpdateFunctionSecretSlotRequest =
       slot: S.String.pipe(T.Label()),
       functionName: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      value: S.optional(S.String),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47489,6 +47546,10 @@ export const WebAppsCreateOrUpdateHostNameBindingSlotResponse =
     identifier: "WebAppsCreateOrUpdateHostNameBindingSlotResponse",
   }) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotResponse>;
 
+/** Host key to create or update. */
+export type HostSecretProperties = FunctionSecretProperties;
+export const HostSecretProperties = FunctionSecretProperties;
+
 export interface WebAppsCreateOrUpdateHostSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -47500,8 +47561,8 @@ export interface WebAppsCreateOrUpdateHostSecretRequest {
   keyType: string;
   /** The name of the key. */
   keyName: string;
-  /** Key value */
-  value?: string;
+  /** The key to create or update. */
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateHostSecretRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -47511,7 +47572,7 @@ export const WebAppsCreateOrUpdateHostSecretRequest = /*@__PURE__*/ S.suspend(
       name: S.String.pipe(T.Label()),
       keyType: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      value: S.optional(S.String),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -47537,8 +47598,8 @@ export interface WebAppsCreateOrUpdateHostSecretSlotRequest {
   keyType: string;
   /** The name of the key. */
   keyName: string;
-  /** Key value */
-  value?: string;
+  /** The key to create or update. */
+  properties?: FunctionSecretProperties;
 }
 export const WebAppsCreateOrUpdateHostSecretSlotRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -47549,7 +47610,7 @@ export const WebAppsCreateOrUpdateHostSecretSlotRequest =
       slot: S.String.pipe(T.Label()),
       keyType: S.String.pipe(T.Label()),
       keyName: S.String.pipe(T.Label()),
-      value: S.optional(S.String),
+      properties: S.optional(FunctionSecretProperties),
     }).pipe(
       T.Http({
         method: "PUT",

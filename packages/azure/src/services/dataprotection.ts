@@ -176,11 +176,14 @@ export interface DataStoreParameters {
   objectType: string;
   /** type of datastore; Operational/Vault/Archive */
   dataStoreType: DataStoreTypes | (string & {});
+  /** Snapshot resource group URI (AzureOperationalStoreParameters). */
+  resourceGroupId?: string;
 }
 export const DataStoreParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectType: S.String,
     dataStoreType: DataStoreTypes,
+    resourceGroupId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "DataStoreParameters",
@@ -198,10 +201,16 @@ export const PolicyParametersDataStoreParametersListList =
 export interface BackupDatasourceParameters {
   /** Type of the specific object - used for deserializing */
   objectType: string;
+  /** Blob containers to back up (BlobBackupDatasourceParameters / AdlsBlobBackupDatasourceParameters). */
+  containersList?: unknown;
+  /** Secret store resource (SecretStoreBasedAuthCredentials). */
+  secretStoreResource?: unknown;
 }
 export const BackupDatasourceParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectType: S.String,
+    containersList: S.optional(S.Unknown),
+    secretStoreResource: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BackupDatasourceParameters",
@@ -259,8 +268,17 @@ export const BackupInstanceInputResourceGuardOperationRequestsList =
   ) as any as S.Schema<BackupInstanceInputResourceGuardOperationRequestsList>;
 
 /** Base class for different types of authentication credentials. */
-export type AuthCredentials = BackupDatasourceParameters;
-export const AuthCredentials = BackupDatasourceParameters;
+export interface AuthCredentials {
+  /** Type of the specific object - used for deserializing */
+  objectType: string;
+}
+export const AuthCredentials = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    objectType: S.String,
+  }),
+).annotate({
+  identifier: "AuthCredentials",
+}) as any as S.Schema<AuthCredentials>;
 
 /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
 export type ValidationType = "ShallowValidation" | "DeepValidation";
@@ -294,7 +312,7 @@ export interface BackupInstanceInput {
   /** ResourceGuardOperationRequests on which LAC check will be performed */
   resourceGuardOperationRequests?: BackupInstanceInputResourceGuardOperationRequestsList;
   /** Credentials to use to authenticate with data source provider. */
-  datasourceAuthCredentials?: BackupDatasourceParameters;
+  datasourceAuthCredentials?: AuthCredentials;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
   validationType?: ValidationType | (string & {});
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
@@ -310,7 +328,7 @@ export const BackupInstanceInput = /*@__PURE__*/ S.suspend(() =>
     resourceGuardOperationRequests: S.optional(
       BackupInstanceInputResourceGuardOperationRequestsList,
     ),
-    datasourceAuthCredentials: S.optional(BackupDatasourceParameters),
+    datasourceAuthCredentials: S.optional(AuthCredentials),
     validationType: S.optional(ValidationType),
     identityDetails: S.optional(IdentityDetails),
     objectType: S.String,
@@ -572,7 +590,7 @@ export interface BackupInstance {
   /** Specifies the provisioning state of the resource i.e. provisioning/updating/Succeeded/Failed */
   provisioningState?: string;
   /** Credentials to use to authenticate with data source provider. */
-  datasourceAuthCredentials?: BackupDatasourceParameters;
+  datasourceAuthCredentials?: AuthCredentials;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
   validationType?: ValidationType;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
@@ -592,7 +610,7 @@ export const BackupInstance = /*@__PURE__*/ S.suspend(() =>
     currentProtectionState: S.optional(CurrentProtectionState),
     protectionErrorDetails: S.optional(UserFacingError),
     provisioningState: S.optional(S.String),
-    datasourceAuthCredentials: S.optional(BackupDatasourceParameters),
+    datasourceAuthCredentials: S.optional(AuthCredentials),
     validationType: S.optional(ValidationType),
     identityDetails: S.optional(IdentityDetails),
     objectType: S.String,
@@ -984,11 +1002,14 @@ export interface BaseBackupPolicy {
   /** Type of datasource for the backup management */
   datasourceTypes: BaseBackupPolicyDatasourceTypesList;
   objectType: string;
+  /** Policy rules (`AzureBackupRule` / `AzureRetentionRule`) of a `BackupPolicy`. */
+  policyRules?: unknown;
 }
 export const BaseBackupPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datasourceTypes: BaseBackupPolicyDatasourceTypesList,
     objectType: S.String,
+    policyRules: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "BaseBackupPolicy",
@@ -2617,7 +2638,7 @@ export interface DeletedBackupInstance {
   /** Specifies the provisioning state of the resource i.e. provisioning/updating/Succeeded/Failed */
   provisioningState?: string;
   /** Credentials to use to authenticate with data source provider. */
-  datasourceAuthCredentials?: BackupDatasourceParameters;
+  datasourceAuthCredentials?: AuthCredentials;
   /** Specifies the type of validation. In case of DeepValidation, all validations from /validateForBackup API will run again. */
   validationType?: ValidationType;
   /** Contains information of the Identity Details for the BI. If it is null, default will be considered as System Assigned. */
@@ -2639,7 +2660,7 @@ export const DeletedBackupInstance = /*@__PURE__*/ S.suspend(() =>
     currentProtectionState: S.optional(CurrentProtectionState),
     protectionErrorDetails: S.optional(UserFacingError),
     provisioningState: S.optional(S.String),
-    datasourceAuthCredentials: S.optional(BackupDatasourceParameters),
+    datasourceAuthCredentials: S.optional(AuthCredentials),
     validationType: S.optional(ValidationType),
     identityDetails: S.optional(IdentityDetails),
     objectType: S.String,
@@ -4010,7 +4031,7 @@ export const ListBackupInstancesExtensionRoutingRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{resourceId}/providers/Microsoft.DataProtection/backupInstances",
+        uri: "/{resourceId+}/providers/Microsoft.DataProtection/backupInstances",
         code: 200,
         apiVersion: "2026-06-01",
       }),

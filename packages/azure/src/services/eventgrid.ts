@@ -1619,7 +1619,7 @@ export const DeleteEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -2169,10 +2169,13 @@ export const EventSubscriptionDestinationEndpointType = S.String;
 export interface EventSubscriptionDestination {
   /** Type of the endpoint for the event subscription destination. */
   endpointType: EventSubscriptionDestinationEndpointType | (string & {});
+  /** Endpoint-type-specific destination properties (polymorphic on `endpointType`), e.g. `{ resourceId, queueName }` for StorageQueue. */
+  properties?: unknown;
 }
 export const EventSubscriptionDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: EventSubscriptionDestinationEndpointType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "EventSubscriptionDestination",
@@ -2250,11 +2253,17 @@ export interface AdvancedFilter {
   operatorType: AdvancedFilterOperatorType | (string & {});
   /** The field/property in the event based on which you want to filter. */
   key?: string;
+  /** Single comparison value for NumberGreaterThan/NumberLessThan/BoolEquals-style operators (polymorphic on `operatorType`). */
+  value?: unknown;
+  /** Comparison values for NumberIn/StringIn/StringContains/NumberInRange-style operators (polymorphic on `operatorType`). */
+  values?: unknown;
 }
 export const AdvancedFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operatorType: AdvancedFilterOperatorType,
     key: S.optional(S.String),
+    value: S.optional(S.Unknown),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "AdvancedFilter" }) as any as S.Schema<AdvancedFilter>;
 
@@ -2329,10 +2338,13 @@ export const DeadLetterDestinationEndpointType = S.String;
 export interface DeadLetterDestination {
   /** Type of the endpoint for the dead letter destination */
   endpointType: DeadLetterDestinationEndpointType | (string & {});
+  /** Endpoint-type-specific dead-letter properties (polymorphic on `endpointType`), e.g. `{ resourceId, blobContainerName }` for StorageBlob. */
+  properties?: unknown;
 }
 export const DeadLetterDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpointType: DeadLetterDestinationEndpointType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DeadLetterDestination",
@@ -2607,10 +2619,13 @@ export interface InputSchemaMapping {
   inputSchemaMappingType:
     | InputSchemaMappingInputSchemaMappingType
     | (string & {});
+  /** Mapping-type-specific properties (polymorphic on `inputSchemaMappingType`), e.g. JSON field mappings for `Json`. */
+  properties?: unknown;
 }
 export const InputSchemaMapping = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inputSchemaMappingType: InputSchemaMappingInputSchemaMappingType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "InputSchemaMapping",
@@ -3289,7 +3304,7 @@ export const EventSubscriptionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+        uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
         code: 200,
         apiVersion: "2025-02-15",
       }),
@@ -4404,7 +4419,7 @@ export const GetEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4501,7 +4516,7 @@ export const GetEventSubscriptionDeliveryAttributesRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+        uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
         code: 200,
         apiVersion: "2025-02-15",
       }),
@@ -4523,7 +4538,7 @@ export const GetEventSubscriptionFullUrlRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -4542,7 +4557,7 @@ export const GetExtensionTopicRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.EventGrid/extensionTopics/default",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/extensionTopics/default",
       code: 200,
       apiVersion: "2025-02-15",
     }),
@@ -5344,11 +5359,17 @@ export interface Filter {
   operatorType: FilterOperatorType | (string & {});
   /** The field/property in the event based on which you want to filter. */
   key?: string;
+  /** Single comparison value (polymorphic on `operatorType`). */
+  value?: unknown;
+  /** Comparison values (polymorphic on `operatorType`). */
+  values?: unknown;
 }
 export const Filter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     operatorType: FilterOperatorType,
     key: S.optional(S.String),
+    value: S.optional(S.Unknown),
+    values: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Filter" }) as any as S.Schema<Filter>;
 
@@ -14316,7 +14337,7 @@ export const UpdateEventSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
+      uri: "/{scope+}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
       code: 200,
       apiVersion: "2025-02-15",
     }),

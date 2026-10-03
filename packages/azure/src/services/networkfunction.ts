@@ -13,9 +13,14 @@ import * as Retry from "../retry.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource reference properties. */
-export interface ResourceReferenceInput {}
+export interface ResourceReferenceInput {
+  /** Resource ID. */
+  id?: string;
+}
 export const ResourceReferenceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    id: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ResourceReferenceInput",
 }) as any as S.Schema<ResourceReferenceInput>;
@@ -122,24 +127,15 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource reference properties. */
-export interface ResourceReference {
-  /** Resource ID. */
-  id?: string;
-}
-export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+export type ResourceReference = ResourceReferenceInput;
+export const ResourceReference = ResourceReferenceInput;
 
 /** Collector Policies for Azure Traffic Collector. */
 export type AzureTrafficCollectorPropertiesFormatCollectorPoliciesList =
-  Array<ResourceReference>;
+  Array<ResourceReferenceInput>;
 export const AzureTrafficCollectorPropertiesFormatCollectorPoliciesList =
   /*@__PURE__*/ S.Array(
-    ResourceReference,
+    ResourceReferenceInput,
   ) as any as S.Schema<AzureTrafficCollectorPropertiesFormatCollectorPoliciesList>;
 
 /** The current provisioning state. */
@@ -155,7 +151,7 @@ export interface AzureTrafficCollectorPropertiesFormat {
   /** Collector Policies for Azure Traffic Collector. */
   collectorPolicies?: AzureTrafficCollectorPropertiesFormatCollectorPoliciesList;
   /** The virtualHub to which the Azure Traffic Collector belongs. */
-  virtualHub?: ResourceReference;
+  virtualHub?: ResourceReferenceInput;
   /** The provisioning state of the application rule collection resource. */
   provisioningState?: ProvisioningState;
 }
@@ -165,7 +161,7 @@ export const AzureTrafficCollectorPropertiesFormat = /*@__PURE__*/ S.suspend(
       collectorPolicies: S.optional(
         AzureTrafficCollectorPropertiesFormatCollectorPoliciesList,
       ),
-      virtualHub: S.optional(ResourceReference),
+      virtualHub: S.optional(ResourceReferenceInput),
       provisioningState: S.optional(ProvisioningState),
     }),
 ).annotate({

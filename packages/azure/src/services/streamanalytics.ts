@@ -394,10 +394,13 @@ export const FunctionOutput = /*@__PURE__*/ S.suspend(() =>
 export interface FunctionBinding {
   /** Indicates the function binding type. */
   type: string;
+  /** Binding-type-specific properties (e.g. `{ script }` for `Microsoft.StreamAnalytics/JavascriptUdf`). */
+  properties?: unknown;
 }
 export const FunctionBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "FunctionBinding",
@@ -708,10 +711,13 @@ export const EventSerializationType = S.String;
 export interface Serialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType | (string & {});
+  /** Serialization-type-specific properties (e.g. `{ encoding: "UTF8", format: "LineSeparated" }` for Json). */
+  properties?: unknown;
 }
 export const Serialization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventSerializationType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Serialization" }) as any as S.Schema<Serialization>;
 
@@ -780,6 +786,8 @@ export interface InputProperties {
   compression?: Compression;
   /** partitionKey Describes a key in the input data which is used for partitioning the input data */
   partitionKey?: string;
+  /** Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`. */
+  datasource?: unknown;
 }
 export const InputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -789,6 +797,7 @@ export const InputProperties = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     compression: S.optional(Compression),
     partitionKey: S.optional(S.String),
+    datasource: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "InputProperties",
@@ -847,10 +856,13 @@ export const GetOutputRequest = /*@__PURE__*/ S.suspend(() =>
 export interface OutputDataSource {
   /** Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests. */
   type: string;
+  /** Data-source-type-specific properties (e.g. `storageAccounts`, `container`, `pathPattern` for `Microsoft.Storage/Blob`). */
+  properties?: unknown;
 }
 export const OutputDataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "OutputDataSource",
@@ -860,10 +872,13 @@ export const OutputDataSource = /*@__PURE__*/ S.suspend(() =>
 export interface OutputPropertiesSerialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType;
+  /** Serialization-type-specific properties. */
+  properties?: unknown;
 }
 export const OutputPropertiesSerialization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventSerializationType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "OutputPropertiesSerialization",
@@ -1524,6 +1539,8 @@ export interface InputPropertiesInput {
   compression?: Compression;
   /** partitionKey Describes a key in the input data which is used for partitioning the input data */
   partitionKey?: string;
+  /** Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`. */
+  datasource?: unknown;
 }
 export const InputPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1531,6 +1548,7 @@ export const InputPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     serialization: S.optional(Serialization),
     compression: S.optional(Compression),
     partitionKey: S.optional(S.String),
+    datasource: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "InputPropertiesInput",
@@ -2266,8 +2284,20 @@ export const SubscriptionQuotasListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SubscriptionQuotasListResult>;
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output. */
-export type OutputPropertiesInputSerialization = Serialization;
-export const OutputPropertiesInputSerialization = Serialization;
+export interface OutputPropertiesInputSerialization {
+  /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
+  type: EventSerializationType | (string & {});
+  /** Serialization-type-specific properties. */
+  properties?: unknown;
+}
+export const OutputPropertiesInputSerialization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: EventSerializationType,
+    properties: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "OutputPropertiesInputSerialization",
+}) as any as S.Schema<OutputPropertiesInputSerialization>;
 
 /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
 export type OutputPropertiesInputDiagnostics = ClusterPropertiesInput;
@@ -2282,7 +2312,7 @@ export interface OutputPropertiesInput {
   /** The size window to constrain a Stream Analytics output to. */
   sizeWindow?: number;
   /** Describes how data from an input is serialized or how data is serialized when written to an output. */
-  serialization?: Serialization;
+  serialization?: OutputPropertiesInputSerialization;
   /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
   diagnostics?: ClusterPropertiesInput;
 }
@@ -2291,7 +2321,7 @@ export const OutputPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     datasource: S.optional(OutputDataSource),
     timeWindow: S.optional(S.String),
     sizeWindow: S.optional(S.Number),
-    serialization: S.optional(Serialization),
+    serialization: S.optional(OutputPropertiesInputSerialization),
     diagnostics: S.optional(ClusterPropertiesInput),
   }),
 ).annotate({

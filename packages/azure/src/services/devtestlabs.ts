@@ -5154,6 +5154,32 @@ export type ManagedIdentityType =
   | "SystemAssigned,UserAssigned";
 export const ManagedIdentityType = S.String;
 
+/** A user-assigned identity attached to the resource. */
+export interface UserAssignedIdentityValue {
+  /** Principal ID of the user-assigned identity. */
+  principalId?: string;
+  /** Client ID of the user-assigned identity. */
+  clientId?: string;
+}
+export const UserAssignedIdentityValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UserAssignedIdentityValue",
+}) as any as S.Schema<UserAssignedIdentityValue>;
+
+/** User-assigned identities, keyed by ARM resource ID. */
+export type IdentityPropertiesUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityValue | undefined;
+};
+export const IdentityPropertiesUserAssignedIdentitiesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    UserAssignedIdentityValue,
+  ) as any as S.Schema<IdentityPropertiesUserAssignedIdentitiesMap>;
+
 /** Properties of a managed identity */
 export interface IdentityProperties {
   /** Managed identity. */
@@ -5164,6 +5190,8 @@ export interface IdentityProperties {
   tenantId?: string;
   /** The client secret URL of the identity. */
   clientSecretUrl?: string;
+  /** User-assigned identities, keyed by ARM resource ID. */
+  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap;
 }
 export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5171,6 +5199,9 @@ export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
     clientSecretUrl: S.optional(S.String),
+    userAssignedIdentities: S.optional(
+      IdentityPropertiesUserAssignedIdentitiesMap,
+    ),
   }),
 ).annotate({
   identifier: "IdentityProperties",
@@ -9436,6 +9467,19 @@ export const ServiceRunnersCreateOrUpdateRequestTagsMap =
     S.String,
   ) as any as S.Schema<ServiceRunnersCreateOrUpdateRequestTagsMap>;
 
+/** Properties of a service runner. */
+export interface ServiceRunnerProperties {
+  /** What the runner's identity is used for: `Environment` or `VirtualMachine`. */
+  identityUsageType?: string;
+}
+export const ServiceRunnerProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identityUsageType: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ServiceRunnerProperties",
+}) as any as S.Schema<ServiceRunnerProperties>;
+
 export interface ServiceRunnersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -9451,6 +9495,8 @@ export interface ServiceRunnersCreateOrUpdateRequest {
   location?: string;
   /** The identity of the resource. */
   identity?: IdentityProperties;
+  /** Properties of the service runner. */
+  properties?: ServiceRunnerProperties;
 }
 export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9461,12 +9507,13 @@ export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ServiceRunnersCreateOrUpdateRequestTagsMap),
     location: S.optional(S.String),
     identity: S.optional(IdentityProperties),
+    properties: S.optional(ServiceRunnerProperties),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
       code: 200,
-      apiVersion: "2018-09-15",
+      apiVersion: "2018-10-15-preview",
     }),
   ),
 ).annotate({

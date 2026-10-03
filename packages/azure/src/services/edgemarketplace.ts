@@ -50,7 +50,7 @@ export const GenerateOfferAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/generateAccessToken",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/generateAccessToken",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -91,7 +91,7 @@ export const GetOfferRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers/{offerId}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -446,7 +446,7 @@ export const GetOfferAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/getAccessToken",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers/{offerId}/getAccessToken",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -468,7 +468,7 @@ export const GetPublisherRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers/{publisherName}",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/publishers/{publisherName}",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -605,7 +605,7 @@ export const ListOffersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/offers",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/offers",
       code: 200,
       apiVersion: "2024-10-01",
     }),
@@ -791,7 +791,7 @@ export const ListPublishersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.EdgeMarketplace/publishers",
+      uri: "/{resourceUri+}/providers/Microsoft.EdgeMarketplace/publishers",
       code: 200,
       apiVersion: "2024-10-01",
     }),

@@ -291,10 +291,34 @@ export const GetVirtualMachineImageTemplateResponseTagsMap =
 export interface ImageTemplateSource {
   /** Specifies the type of source image you want to start with. */
   type: string;
+  /** PlatformImage: image publisher, e.g. `Canonical`. */
+  publisher?: string;
+  /** PlatformImage: image offer, e.g. `ubuntu-24_04-lts`. */
+  offer?: string;
+  /** PlatformImage: image SKU, e.g. `server`. */
+  sku?: string;
+  /** PlatformImage: image version or `latest`. */
+  version?: string;
+  /** PlatformImage: resolved image version (read-only). */
+  exactVersion?: string;
+  /** PlatformImage: marketplace purchase plan (`planName`, `planProduct`, `planPublisher`). */
+  planInfo?: unknown;
+  /** ManagedImage: ARM resource ID of the managed image. */
+  imageId?: string;
+  /** SharedImageVersion: ARM resource ID of the gallery image version. */
+  imageVersionId?: string;
 }
 export const ImageTemplateSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
+    publisher: S.optional(S.String),
+    offer: S.optional(S.String),
+    sku: S.optional(S.String),
+    version: S.optional(S.String),
+    exactVersion: S.optional(S.String),
+    planInfo: S.optional(S.Unknown),
+    imageId: S.optional(S.String),
+    imageVersionId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImageTemplateSource",
@@ -306,11 +330,53 @@ export interface ImageTemplateCustomizer {
   type: string;
   /** Friendly Name to provide context on what this customization step does */
   name?: string;
+  /** Shell/PowerShell: URI of the script to run. */
+  scriptUri?: string;
+  /** Shell/PowerShell/File: SHA256 checksum of the script or file. */
+  sha256Checksum?: string;
+  /** Shell/PowerShell: array of inline commands. */
+  inline?: unknown;
+  /** PowerShell: array of valid exit codes. */
+  validExitCodes?: unknown;
+  /** PowerShell: run with elevated privileges. */
+  runElevated?: boolean;
+  /** PowerShell: run as the Local System user. */
+  runAsSystem?: boolean;
+  /** WindowsRestart: command to execute the restart. */
+  restartCommand?: string;
+  /** WindowsRestart: command to check whether the restart succeeded. */
+  restartCheckCommand?: string;
+  /** WindowsRestart: restart timeout, e.g. `5m`. */
+  restartTimeout?: string;
+  /** WindowsUpdate: update search criteria. */
+  searchCriteria?: string;
+  /** WindowsUpdate: array of update filters. */
+  filters?: unknown;
+  /** WindowsUpdate: maximum number of updates to apply at a time. */
+  updateLimit?: number;
+  /** File: URI of the file to download. */
+  sourceUri?: string;
+  /** File: absolute destination path on the build VM. */
+  destination?: string;
 }
 export const ImageTemplateCustomizer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     name: S.optional(S.String),
+    scriptUri: S.optional(S.String),
+    sha256Checksum: S.optional(S.String),
+    inline: S.optional(S.Unknown),
+    validExitCodes: S.optional(S.Unknown),
+    runElevated: S.optional(S.Boolean),
+    runAsSystem: S.optional(S.Boolean),
+    restartCommand: S.optional(S.String),
+    restartCheckCommand: S.optional(S.String),
+    restartTimeout: S.optional(S.String),
+    searchCriteria: S.optional(S.String),
+    filters: S.optional(S.Unknown),
+    updateLimit: S.optional(S.Number),
+    sourceUri: S.optional(S.String),
+    destination: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImageTemplateCustomizer",
@@ -387,11 +453,35 @@ export interface ImageTemplateInVMValidator {
   type: string;
   /** Friendly Name to provide context on what this validation step does */
   name?: string;
+  /** Shell/PowerShell: URI of the script to run. */
+  scriptUri?: string;
+  /** Shell/PowerShell/File: SHA256 checksum of the script or file. */
+  sha256Checksum?: string;
+  /** Shell/PowerShell: array of inline commands. */
+  inline?: unknown;
+  /** PowerShell: array of valid exit codes. */
+  validExitCodes?: unknown;
+  /** PowerShell: run with elevated privileges. */
+  runElevated?: boolean;
+  /** PowerShell: run as the Local System user. */
+  runAsSystem?: boolean;
+  /** File: URI of the file to download. */
+  sourceUri?: string;
+  /** File: absolute destination path on the build VM. */
+  destination?: string;
 }
 export const ImageTemplateInVMValidator = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     name: S.optional(S.String),
+    scriptUri: S.optional(S.String),
+    sha256Checksum: S.optional(S.String),
+    inline: S.optional(S.Unknown),
+    validExitCodes: S.optional(S.Unknown),
+    runElevated: S.optional(S.Boolean),
+    runAsSystem: S.optional(S.Boolean),
+    sourceUri: S.optional(S.String),
+    destination: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImageTemplateInVMValidator",
@@ -443,12 +533,39 @@ export interface ImageTemplateDistributor {
   runOutputName: string;
   /** Tags that will be applied to the artifact once it has been created/updated by the distributor. */
   artifactTags?: ImageTemplateDistributorArtifactTagsMap;
+  /** ManagedImage: ARM resource ID of the managed image to create. */
+  imageId?: string;
+  /** ManagedImage: Azure location of the managed image. */
+  location?: string;
+  /** SharedImage: ARM resource ID of the gallery image definition or version. */
+  galleryImageId?: string;
+  /** SharedImage: (deprecated) regions to replicate to. */
+  replicationRegions?: unknown;
+  /** SharedImage: target regions with replica counts and storage types. */
+  targetRegions?: unknown;
+  /** SharedImage: version numbering scheme (`Latest` / `Source`). */
+  versioning?: unknown;
+  /** SharedImage: (deprecated) storage account type. */
+  storageAccountType?: string;
+  /** SharedImage: exclude the version from `latest`. */
+  excludeFromLatest?: boolean;
+  /** VHD: optional destination blob URI. */
+  uri?: string;
 }
 export const ImageTemplateDistributor = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     runOutputName: S.String,
     artifactTags: S.optional(ImageTemplateDistributorArtifactTagsMap),
+    imageId: S.optional(S.String),
+    location: S.optional(S.String),
+    galleryImageId: S.optional(S.String),
+    replicationRegions: S.optional(S.Unknown),
+    targetRegions: S.optional(S.Unknown),
+    versioning: S.optional(S.Unknown),
+    storageAccountType: S.optional(S.String),
+    excludeFromLatest: S.optional(S.Boolean),
+    uri: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ImageTemplateDistributor",

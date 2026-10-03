@@ -1026,7 +1026,7 @@ export const ApplicationsCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{applicationId}",
+        uri: "/{applicationId+}",
         code: 200,
         apiVersion: "2021-07-01",
       }),
@@ -1184,7 +1184,7 @@ export const DeleteApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2021-07-01",
     }),
@@ -1399,7 +1399,7 @@ export const GetApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2021-07-01",
     }),
@@ -3022,7 +3022,7 @@ export const UpdateApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{applicationId}",
+      uri: "/{applicationId+}",
       code: 200,
       apiVersion: "2021-07-01",
     }),

@@ -1862,10 +1862,13 @@ export const MatchVariable = S.String;
 export interface DeliveryRuleCondition {
   /** The name of the condition for the delivery rule. */
   name: MatchVariable | (string & {});
+  /** Condition parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
+  parameters?: unknown;
 }
 export const DeliveryRuleCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: MatchVariable,
+    parameters: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DeliveryRuleCondition",
@@ -1896,10 +1899,13 @@ export const DeliveryRuleActionName = S.String;
 export interface DeliveryRuleAction {
   /** The name of the action for the delivery rule. */
   name: DeliveryRuleActionName | (string & {});
+  /** Action parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
+  parameters?: unknown;
 }
 export const DeliveryRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: DeliveryRuleActionName,
+    parameters: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "DeliveryRuleAction",
@@ -3542,10 +3548,37 @@ export const SecretType = S.String;
 export interface SecretParameters {
   /** The type of the secret resource. */
   type: SecretType | (string & {});
+  /** UrlSigningKey / CustomerCertificate / MtlsCertificateChain / AzureFirstPartyManagedCertificate: Key Vault secret reference. */
+  secretSource?: ResourceReference;
+  /** Version of the Key Vault secret. */
+  secretVersion?: string;
+  /** CustomerCertificate / MtlsCertificateChain: use the latest secret version automatically. */
+  useLatestVersion?: boolean;
+  /** UrlSigningKey: key id used to sign URLs. */
+  keyId?: string;
+  /** CustomerCertificate: list of subject alternative names (string array). */
+  subjectAlternativeNames?: unknown;
+  /** Certificate subject (read-only). */
+  subject?: string;
+  /** Certificate expiration date (read-only). */
+  expirationDate?: string;
+  /** Certificate issuing authority (read-only). */
+  certificateAuthority?: string;
+  /** Certificate thumbprint (read-only). */
+  thumbprint?: string;
 }
 export const SecretParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SecretType,
+    secretSource: S.optional(ResourceReference),
+    secretVersion: S.optional(S.String),
+    useLatestVersion: S.optional(S.Boolean),
+    keyId: S.optional(S.String),
+    subjectAlternativeNames: S.optional(S.Unknown),
+    subject: S.optional(S.String),
+    expirationDate: S.optional(S.String),
+    certificateAuthority: S.optional(S.String),
+    thumbprint: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SecretParameters",
@@ -3648,10 +3681,16 @@ export const SecurityPolicyType = S.String;
 export interface SecurityPolicyPropertiesParameters {
   /** The type of the Security policy to create. */
   type: SecurityPolicyType | (string & {});
+  /** WebApplicationFirewall: the Front Door WAF policy (Microsoft.Network/frontDoorWebApplicationFirewallPolicies). */
+  wafPolicy?: ResourceReference;
+  /** WebApplicationFirewall: domains (`{ domains: [{ id }], patternsToMatch: string[] }[]`) the policy applies to. */
+  associations?: unknown;
 }
 export const SecurityPolicyPropertiesParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SecurityPolicyType,
+    wafPolicy: S.optional(ResourceReference),
+    associations: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SecurityPolicyPropertiesParameters",

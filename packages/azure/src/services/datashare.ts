@@ -372,6 +372,8 @@ export interface CreateDataSetRequest {
   dataSetName: string;
   /** Kind of data set. */
   kind: CreateDataSetRequestKind | (string & {});
+  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -381,6 +383,7 @@ export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
     shareName: S.String.pipe(T.Label()),
     dataSetName: S.String.pipe(T.Label()),
     kind: CreateDataSetRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -422,6 +425,8 @@ export interface CreateDataSetResponse {
   type?: string;
   /** Kind of data set. */
   kind: CreateDataSetResponseKind;
+  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -430,6 +435,7 @@ export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateDataSetResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateDataSetResponse",
@@ -464,6 +470,8 @@ export interface CreateDataSetMappingRequest {
   dataSetMappingName: string;
   /** Kind of data set mapping. */
   kind: CreateDataSetMappingRequestKind | (string & {});
+  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetMappingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -473,6 +481,7 @@ export const CreateDataSetMappingRequest = /*@__PURE__*/ S.suspend(() =>
     shareSubscriptionName: S.String.pipe(T.Label()),
     dataSetMappingName: S.String.pipe(T.Label()),
     kind: CreateDataSetMappingRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -512,6 +521,8 @@ export interface CreateDataSetMappingResponse {
   type?: string;
   /** Kind of data set mapping. */
   kind: CreateDataSetMappingResponseKind;
+  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -520,6 +531,7 @@ export const CreateDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateDataSetMappingResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateDataSetMappingResponse",
@@ -944,6 +956,8 @@ export interface CreateSynchronizationSettingsRequest {
   synchronizationSettingName: string;
   /** Kind of synchronization setting. */
   kind: CreateSynchronizationSettingsRequestKind | (string & {});
+  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateSynchronizationSettingsRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -954,6 +968,7 @@ export const CreateSynchronizationSettingsRequest = /*@__PURE__*/ S.suspend(
       shareName: S.String.pipe(T.Label()),
       synchronizationSettingName: S.String.pipe(T.Label()),
       kind: CreateSynchronizationSettingsRequestKind,
+      properties: S.optional(S.Unknown),
     }).pipe(
       T.Http({
         method: "PUT",
@@ -981,6 +996,8 @@ export interface CreateSynchronizationSettingsResponse {
   type?: string;
   /** Kind of synchronization setting. */
   kind: CreateSynchronizationSettingsResponseKind;
+  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(
   () =>
@@ -990,6 +1007,7 @@ export const CreateSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(
       systemData: S.optional(SystemData),
       type: S.optional(S.String),
       kind: CreateSynchronizationSettingsResponseKind,
+      properties: S.optional(S.Unknown),
     }),
 ).annotate({
   identifier: "CreateSynchronizationSettingsResponse",
@@ -1012,6 +1030,8 @@ export interface CreateTriggerRequest {
   triggerName: string;
   /** Kind of synchronization on trigger. */
   kind: CreateTriggerRequestKind | (string & {});
+  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1021,6 +1041,7 @@ export const CreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
     shareSubscriptionName: S.String.pipe(T.Label()),
     triggerName: S.String.pipe(T.Label()),
     kind: CreateTriggerRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1048,6 +1069,8 @@ export interface CreateTriggerResponse {
   type?: string;
   /** Kind of synchronization on trigger. */
   kind: CreateTriggerResponseKind;
+  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateTriggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1056,6 +1079,7 @@ export const CreateTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateTriggerResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateTriggerResponse",
@@ -1133,14 +1157,14 @@ export interface OperationResponse {
   /** start time */
   startTime?: string;
   /** Operation state of the long running operation. */
-  status: OperationResponseStatus;
+  status?: OperationResponseStatus;
 }
 export const OperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endTime: S.optional(S.String),
     error: S.optional(DataShareErrorInfo),
     startTime: S.optional(S.String),
-    status: OperationResponseStatus,
+    status: S.optional(OperationResponseStatus),
   }),
 ).annotate({
   identifier: "OperationResponse",
@@ -1613,6 +1637,8 @@ export interface GetDataSetResponse {
   type?: string;
   /** Kind of data set. */
   kind: GetDataSetResponseKind;
+  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1621,6 +1647,7 @@ export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetDataSetResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetDataSetResponse",
@@ -1684,6 +1711,8 @@ export interface GetDataSetMappingResponse {
   type?: string;
   /** Kind of data set mapping. */
   kind: GetDataSetMappingResponseKind;
+  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const GetDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1692,6 +1721,7 @@ export const GetDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetDataSetMappingResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetDataSetMappingResponse",
@@ -2010,6 +2040,8 @@ export interface GetSynchronizationSettingsResponse {
   type?: string;
   /** Kind of synchronization setting. */
   kind: GetSynchronizationSettingsResponseKind;
+  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const GetSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2018,6 +2050,7 @@ export const GetSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetSynchronizationSettingsResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetSynchronizationSettingsResponse",
@@ -2069,6 +2102,8 @@ export interface GetTriggerResponse {
   type?: string;
   /** Kind of synchronization on trigger. */
   kind: GetTriggerResponseKind;
+  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const GetTriggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2077,6 +2112,7 @@ export const GetTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetTriggerResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetTriggerResponse",

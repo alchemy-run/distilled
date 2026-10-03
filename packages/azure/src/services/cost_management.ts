@@ -262,7 +262,7 @@ export const BudgetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -526,7 +526,7 @@ export const CheckScheduledActionNameAvailabilityByScopeRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.CostManagement/checkNameAvailability",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/checkNameAvailability",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -815,7 +815,7 @@ export const CreateGenerateCostDetailsReportOperationRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/generateCostDetailsReport",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -999,7 +999,7 @@ export const CreateGenerateDetailedCostReportOperationRequest =
     }).pipe(
       T.Http({
         method: "POST",
-        uri: "/{scope}/providers/Microsoft.CostManagement/generateDetailedCostReport",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/generateDetailedCostReport",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -1063,7 +1063,7 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1121,7 +1121,7 @@ export const DeleteExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1208,7 +1208,7 @@ export const DeleteScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1240,7 +1240,7 @@ export const DeleteSettingsByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings/{type}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings/{type}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1295,7 +1295,7 @@ export const DeleteViewByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views/{viewName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views/{viewName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1721,7 +1721,7 @@ export const DismissAlertRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.CostManagement/alerts/{alertId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/alerts/{alertId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2016,7 +2016,7 @@ export const ExecuteExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/run",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}/run",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2334,7 +2334,7 @@ export const ExportsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2939,7 +2939,7 @@ export const ForecastUsageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/forecast",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/forecast",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3422,7 +3422,7 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/alerts/{alertId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/alerts/{alertId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3471,7 +3471,7 @@ export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3569,7 +3569,7 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3628,7 +3628,7 @@ export const GetExportExecutionHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3651,7 +3651,7 @@ export const GetGenerateCostDetailsReportOperationResultsRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -3674,7 +3674,7 @@ export const GetGenerateDetailedCostReportOperationResultRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.CostManagement/operationResults/{operationId}",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/operationResults/{operationId}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -3722,7 +3722,7 @@ export const GetGenerateDetailedCostReportOperationStatusRequest =
     }).pipe(
       T.Http({
         method: "GET",
-        uri: "/{scope}/providers/Microsoft.CostManagement/operationStatus/{operationId}",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/operationStatus/{operationId}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -4104,7 +4104,7 @@ export const GetScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4159,7 +4159,7 @@ export const GetSettingsByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings/{type}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings/{type}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4600,7 +4600,7 @@ export const GetViewByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views/{viewName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views/{viewName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4722,7 +4722,7 @@ export const ListAlertsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/alerts",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/alerts",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4750,7 +4750,7 @@ export const ListBenefitRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations",
+      uri: "/{billingScope+}/providers/Microsoft.CostManagement/benefitRecommendations",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5175,7 +5175,7 @@ export const ListBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5321,7 +5321,7 @@ export const ListDimensionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/dimensions",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/dimensions",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5343,7 +5343,7 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5581,7 +5581,7 @@ export const ListScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5672,7 +5672,7 @@ export const ListSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5733,7 +5733,7 @@ export const ListViewByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6016,7 +6016,7 @@ export const QueryUsageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/query",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/query",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6234,7 +6234,7 @@ export const RunScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}/execute",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}/execute",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6333,7 +6333,7 @@ export const ScheduledActionsCreateOrUpdateByScopeRequest =
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -6393,7 +6393,7 @@ export const SettingsCreateOrUpdateByScopeRequest = /*@__PURE__*/ S.suspend(
     }).pipe(
       T.Http({
         method: "PUT",
-        uri: "/{scope}/providers/Microsoft.CostManagement/settings/{type}",
+        uri: "/{scope+}/providers/Microsoft.CostManagement/settings/{type}",
         code: 200,
         apiVersion: "2026-06-01",
       }),
@@ -6550,7 +6550,7 @@ export const ViewsCreateOrUpdateByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views/{viewName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views/{viewName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),

@@ -654,7 +654,7 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -752,7 +752,7 @@ export const GetQuotaRequestStatusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotaRequests/{id}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotaRequests/{id}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -883,7 +883,7 @@ export const GetUsageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/usages/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/usages/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -1895,7 +1895,7 @@ export const ListQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -2038,7 +2038,7 @@ export const ListQuotaRequestStatusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotaRequests",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotaRequests",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -2104,7 +2104,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/usages",
+      uri: "/{scope+}/providers/Microsoft.Quota/usages",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -2209,7 +2209,7 @@ export const QuotaCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -2632,7 +2632,7 @@ export const UpdateQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
