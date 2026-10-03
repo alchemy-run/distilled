@@ -492,6 +492,24 @@ export interface DigitalTwinsEndpointResourceProperties {
   deadLetterUri?: string | null;
   /** Managed identity properties for the endpoint. */
   identity?: ManagedIdentityReference | null;
+  /** EventHub (KeyBased): primary connection string. */
+  connectionStringPrimaryKey?: string | null;
+  /** EventHub (KeyBased): secondary connection string. */
+  connectionStringSecondaryKey?: string | null;
+  /** ServiceBus (KeyBased): primary connection string. */
+  primaryConnectionString?: string | null;
+  /** ServiceBus (KeyBased): secondary connection string. */
+  secondaryConnectionString?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
+  endpointUri?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
+  entityPath?: string | null;
+  /** EventGrid: the topic endpoint URL. */
+  TopicEndpoint?: string | null;
+  /** EventGrid: primary access key. Obfuscated on read. */
+  accessKey1?: string | null;
+  /** EventGrid: secondary access key. Obfuscated on read. */
+  accessKey2?: string | null;
 }
 export const DigitalTwinsEndpointResourceProperties = /*@__PURE__*/ S.suspend(
   () =>
@@ -507,6 +525,15 @@ export const DigitalTwinsEndpointResourceProperties = /*@__PURE__*/ S.suspend(
       deadLetterSecret: S.optional(S.NullOr(S.String)),
       deadLetterUri: S.optional(S.NullOr(S.String)),
       identity: S.optional(S.NullOr(ManagedIdentityReference)),
+      connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
+      connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
+      primaryConnectionString: S.optional(S.NullOr(S.String)),
+      secondaryConnectionString: S.optional(S.NullOr(S.String)),
+      endpointUri: S.optional(S.NullOr(S.String)),
+      entityPath: S.optional(S.NullOr(S.String)),
+      TopicEndpoint: S.optional(S.NullOr(S.String)),
+      accessKey1: S.optional(S.NullOr(S.String)),
+      accessKey2: S.optional(S.NullOr(S.String)),
     }),
 ).annotate({
   identifier: "DigitalTwinsEndpointResourceProperties",
@@ -635,6 +662,28 @@ export interface TimeSeriesDatabaseConnectionProperties {
   provisioningState?: TimeSeriesDatabaseConnectionPropertiesProvisioningState;
   /** Managed identity properties for the time series database connection resource. */
   identity?: ManagedIdentityReference | null;
+  /** The resource ID of the Azure Data Explorer cluster. */
+  adxResourceId?: string | null;
+  /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
+  adxEndpointUri?: string | null;
+  /** The name of the Azure Data Explorer database. */
+  adxDatabaseName?: string | null;
+  /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
+  adxTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
+  adxTwinLifecycleEventsTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
+  adxRelationshipLifecycleEventsTableName?: string | null;
+  /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
+  eventHubEndpointUri?: string | null;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  eventHubEntityPath?: string | null;
+  /** The resource ID of the EventHub namespace. */
+  eventHubNamespaceResourceId?: string | null;
+  /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
+  eventHubConsumerGroup?: string | null;
+  /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
+  recordPropertyAndItemRemovals?: string | null;
 }
 export const TimeSeriesDatabaseConnectionProperties = /*@__PURE__*/ S.suspend(
   () =>
@@ -644,6 +693,17 @@ export const TimeSeriesDatabaseConnectionProperties = /*@__PURE__*/ S.suspend(
         TimeSeriesDatabaseConnectionPropertiesProvisioningState,
       ),
       identity: S.optional(S.NullOr(ManagedIdentityReference)),
+      adxResourceId: S.optional(S.NullOr(S.String)),
+      adxEndpointUri: S.optional(S.NullOr(S.String)),
+      adxDatabaseName: S.optional(S.NullOr(S.String)),
+      adxTableName: S.optional(S.NullOr(S.String)),
+      adxTwinLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+      adxRelationshipLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+      eventHubEndpointUri: S.optional(S.NullOr(S.String)),
+      eventHubEntityPath: S.optional(S.NullOr(S.String)),
+      eventHubNamespaceResourceId: S.optional(S.NullOr(S.String)),
+      eventHubConsumerGroup: S.optional(S.NullOr(S.String)),
+      recordPropertyAndItemRemovals: S.optional(S.NullOr(S.String)),
     }),
 ).annotate({
   identifier: "TimeSeriesDatabaseConnectionProperties",
@@ -915,6 +975,24 @@ export interface DigitalTwinsEndpointResourcePropertiesInput {
   deadLetterUri?: string | null;
   /** Managed identity properties for the endpoint. */
   identity?: ManagedIdentityReference | null;
+  /** EventHub (KeyBased): primary connection string. */
+  connectionStringPrimaryKey?: string | null;
+  /** EventHub (KeyBased): secondary connection string. */
+  connectionStringSecondaryKey?: string | null;
+  /** ServiceBus (KeyBased): primary connection string. */
+  primaryConnectionString?: string | null;
+  /** ServiceBus (KeyBased): secondary connection string. */
+  secondaryConnectionString?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net. */
+  endpointUri?: string | null;
+  /** EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name. */
+  entityPath?: string | null;
+  /** EventGrid: the topic endpoint URL. */
+  TopicEndpoint?: string | null;
+  /** EventGrid: primary access key. Obfuscated on read. */
+  accessKey1?: string | null;
+  /** EventGrid: secondary access key. Obfuscated on read. */
+  accessKey2?: string | null;
 }
 export const DigitalTwinsEndpointResourcePropertiesInput =
   /*@__PURE__*/ S.suspend(() =>
@@ -926,6 +1004,15 @@ export const DigitalTwinsEndpointResourcePropertiesInput =
       deadLetterSecret: S.optional(S.NullOr(S.String)),
       deadLetterUri: S.optional(S.NullOr(S.String)),
       identity: S.optional(S.NullOr(ManagedIdentityReference)),
+      connectionStringPrimaryKey: S.optional(S.NullOr(S.String)),
+      connectionStringSecondaryKey: S.optional(S.NullOr(S.String)),
+      primaryConnectionString: S.optional(S.NullOr(S.String)),
+      secondaryConnectionString: S.optional(S.NullOr(S.String)),
+      endpointUri: S.optional(S.NullOr(S.String)),
+      entityPath: S.optional(S.NullOr(S.String)),
+      TopicEndpoint: S.optional(S.NullOr(S.String)),
+      accessKey1: S.optional(S.NullOr(S.String)),
+      accessKey2: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier: "DigitalTwinsEndpointResourcePropertiesInput",
@@ -1760,12 +1847,45 @@ export interface TimeSeriesDatabaseConnectionPropertiesInput {
     | (string & {});
   /** Managed identity properties for the time series database connection resource. */
   identity?: ManagedIdentityReference | null;
+  /** The resource ID of the Azure Data Explorer cluster. */
+  adxResourceId?: string | null;
+  /** The URI of the Azure Data Explorer cluster, e.g. https://<cluster>.<region>.kusto.windows.net. */
+  adxEndpointUri?: string | null;
+  /** The name of the Azure Data Explorer database. */
+  adxDatabaseName?: string | null;
+  /** The name of the Azure Data Explorer table used for storing updates to properties of twins and relationships. Defaults to AdtPropertyEvents. */
+  adxTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording twin lifecycle events. The table will not be created if this property is left unspecified. */
+  adxTwinLifecycleEventsTableName?: string | null;
+  /** The name of the Azure Data Explorer table used for recording relationship lifecycle events. The table will not be created if this property is left unspecified. */
+  adxRelationshipLifecycleEventsTableName?: string | null;
+  /** The URL of the EventHub namespace for identity-based authentication, e.g. sb://<namespace>.servicebus.windows.net. */
+  eventHubEndpointUri?: string | null;
+  /** The EventHub name in the EventHub namespace for identity-based authentication. */
+  eventHubEntityPath?: string | null;
+  /** The resource ID of the EventHub namespace. */
+  eventHubNamespaceResourceId?: string | null;
+  /** The EventHub consumer group to use when ADX reads from EventHub. Defaults to $Default. */
+  eventHubConsumerGroup?: string | null;
+  /** Whether to record property and item removals ('true' / 'false'). Defaults to 'false'. */
+  recordPropertyAndItemRemovals?: string | null;
 }
 export const TimeSeriesDatabaseConnectionPropertiesInput =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       connectionType: TimeSeriesDatabaseConnectionPropertiesInputConnectionType,
       identity: S.optional(S.NullOr(ManagedIdentityReference)),
+      adxResourceId: S.optional(S.NullOr(S.String)),
+      adxEndpointUri: S.optional(S.NullOr(S.String)),
+      adxDatabaseName: S.optional(S.NullOr(S.String)),
+      adxTableName: S.optional(S.NullOr(S.String)),
+      adxTwinLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+      adxRelationshipLifecycleEventsTableName: S.optional(S.NullOr(S.String)),
+      eventHubEndpointUri: S.optional(S.NullOr(S.String)),
+      eventHubEntityPath: S.optional(S.NullOr(S.String)),
+      eventHubNamespaceResourceId: S.optional(S.NullOr(S.String)),
+      eventHubConsumerGroup: S.optional(S.NullOr(S.String)),
+      recordPropertyAndItemRemovals: S.optional(S.NullOr(S.String)),
     }),
   ).annotate({
     identifier: "TimeSeriesDatabaseConnectionPropertiesInput",

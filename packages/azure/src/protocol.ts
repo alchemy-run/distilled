@@ -107,6 +107,8 @@ interface ArmError {
  * `{ code, message }` shape as a fallback (v0 parity).
  */
 const parseArmError = (body: unknown): ArmError | undefined => {
+  // Some RPs (e.g. Microsoft.GuestConfiguration) return a bare JSON string.
+  if (typeof body === "string") return body ? { message: body } : undefined;
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const inner =

@@ -349,17 +349,45 @@ export const ExperimentsCreateOrUpdateRequestIdentity = /*@__PURE__*/ S.suspend(
 export type ExperimentActionType = "delay" | "discrete" | "continuous";
 export const ExperimentActionType = S.String;
 
+/** A map to describe the settings of an action. */
+export interface KeyValuePair {
+  /** The name of the setting for the action. */
+  key: string;
+  /** The value of the setting for the action. */
+  value: string;
+}
+export const KeyValuePair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    key: S.String,
+    value: S.String,
+  }),
+).annotate({ identifier: "KeyValuePair" }) as any as S.Schema<KeyValuePair>;
+
+export type KeyValuePairList = Array<KeyValuePair>;
+export const KeyValuePairList = /*@__PURE__*/ S.Array(
+  KeyValuePair,
+) as any as S.Schema<KeyValuePairList>;
+
 /** Model that represents the base action model. 9 total per experiment. */
 export interface ChaosExperimentAction {
   /** String that represents a Capability URN. */
   name: string;
   /** Chaos experiment action discriminator type */
   type: ExperimentActionType | (string & {});
+  /** ISO8601 duration of the action (continuous and delay actions). */
+  duration?: string;
+  /** Key/value settings of the action (continuous and discrete actions). */
+  parameters?: KeyValuePairList;
+  /** ID of the selector the action targets (continuous and discrete actions). */
+  selectorId?: string;
 }
 export const ChaosExperimentAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     type: ExperimentActionType,
+    duration: S.optional(S.String),
+    parameters: S.optional(KeyValuePairList),
+    selectorId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ChaosExperimentAction",
@@ -423,18 +451,60 @@ export const SelectorType = S.String;
 export type FilterType = "Simple";
 export const FilterType = S.String;
 
+export type StringList = Array<string>;
+export const StringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<StringList>;
+
+/** Parameters of a `Simple` target filter. */
+export interface ChaosTargetSimpleFilterParameters {
+  /** Availability zones to filter targets by. */
+  zones?: StringList;
+}
+export const ChaosTargetSimpleFilterParameters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zones: S.optional(StringList),
+  }),
+).annotate({
+  identifier: "ChaosTargetSimpleFilterParameters",
+}) as any as S.Schema<ChaosTargetSimpleFilterParameters>;
+
 /** Model that represents available filter types that can be applied to a targets list. */
 export interface ChaosTargetFilter {
   /** Chaos target filter discriminator type */
   type: FilterType | (string & {});
+  /** Parameters of a `Simple` filter. */
+  parameters?: ChaosTargetSimpleFilterParameters;
 }
 export const ChaosTargetFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: FilterType,
+    parameters: S.optional(ChaosTargetSimpleFilterParameters),
   }),
 ).annotate({
   identifier: "ChaosTargetFilter",
 }) as any as S.Schema<ChaosTargetFilter>;
+
+/** Model that represents a reference to a Target in the selector. */
+export interface TargetReference {
+  /** Reference type, `ChaosTarget`. */
+  type: string;
+  /** Resource ID of a Chaos target. */
+  id: string;
+}
+export const TargetReference = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    id: S.String,
+  }),
+).annotate({
+  identifier: "TargetReference",
+}) as any as S.Schema<TargetReference>;
+
+export type TargetReferenceList = Array<TargetReference>;
+export const TargetReferenceList = /*@__PURE__*/ S.Array(
+  TargetReference,
+) as any as S.Schema<TargetReferenceList>;
 
 /** Model that represents a selector in the Experiment resource. */
 export interface ChaosTargetSelector {
@@ -444,12 +514,21 @@ export interface ChaosTargetSelector {
   type: SelectorType | (string & {});
   /** Model that represents available filter types that can be applied to a targets list. */
   filter?: ChaosTargetFilter;
+  /** Targets of a `List` selector. */
+  targets?: TargetReferenceList;
+  /** Azure Resource Graph query of a `Query` selector. */
+  queryString?: string;
+  /** Subscriptions a `Query` selector runs against. */
+  subscriptionIds?: StringList;
 }
 export const ChaosTargetSelector = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     type: SelectorType,
     filter: S.optional(ChaosTargetFilter),
+    targets: S.optional(TargetReferenceList),
+    queryString: S.optional(S.String),
+    subscriptionIds: S.optional(StringList),
   }),
 ).annotate({
   identifier: "ChaosTargetSelector",

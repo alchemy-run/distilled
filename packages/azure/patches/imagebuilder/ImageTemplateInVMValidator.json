@@ -1,0 +1,85 @@
+{
+  "description": "ImageTemplateInVMValidator is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload on encode and decode. Add the subtype members as optional fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/scriptUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Shell/PowerShell: URI of the script to run."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/sha256Checksum",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Shell/PowerShell/File: SHA256 checksum of the script or file."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/inline",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Shell/PowerShell: array of inline commands."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/validExitCodes",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "PowerShell: array of valid exit codes."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/runElevated",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "PowerShell: run with elevated privileges."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/runAsSystem",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "PowerShell: run as the Local System user."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/sourceUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "File: URI of the file to download."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateInVMValidator/members/destination",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "File: absolute destination path on the build VM."
+        }
+      }
+    }
+  ]
+}

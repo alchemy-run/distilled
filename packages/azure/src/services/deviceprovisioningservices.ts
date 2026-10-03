@@ -91,6 +91,8 @@ export interface DeleteDpsCertificateRequest {
   certificate_hasPrivateKey?: boolean;
   /** Random number generated to indicate Proof of Possession. */
   certificate_nonce?: string;
+  /** ETag of the certificate. A value of "*" applies to any version. */
+  ifMatch: string;
 }
 export const DeleteDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -120,6 +122,7 @@ export const DeleteDpsCertificateRequest = /*@__PURE__*/ S.suspend(() =>
       S.Boolean.pipe(T.Query("certificate.hasPrivateKey")),
     ),
     certificate_nonce: S.optional(S.String.pipe(T.Query("certificate.nonce"))),
+    ifMatch: S.String.pipe(T.Header("If-Match")),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -350,6 +353,8 @@ export interface DpsCertificateCreateOrUpdateRequest {
   certificateName: string;
   /** properties of a certificate */
   properties?: CertificatePropertiesInput;
+  /** ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
+  ifMatch?: string;
 }
 export const DpsCertificateCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -358,6 +363,7 @@ export const DpsCertificateCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     provisioningServiceName: S.String.pipe(T.Label()),
     certificateName: S.String.pipe(T.Label()),
     properties: S.optional(CertificatePropertiesInput),
+    ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
   }).pipe(
     T.Http({
       method: "PUT",

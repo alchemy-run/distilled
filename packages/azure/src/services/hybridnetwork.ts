@@ -3691,11 +3691,28 @@ export const ListArtifactManifestCredentialResponseCredentialType = S.String;
 export interface ListArtifactManifestCredentialResponse {
   /** The credential type. */
   credentialType: ListArtifactManifestCredentialResponseCredentialType;
+  /** The username of the ACR scoped token (`AzureContainerRegistryScopedToken`). */
+  username?: string;
+  /** The ACR scoped token password (`AzureContainerRegistryScopedToken`). */
+  acrToken?: string | Redacted.Redacted<string>;
+  /** The ACR login server URL (`AzureContainerRegistryScopedToken`). */
+  acrServerUrl?: string;
+  /** The repositories the token may push to (`AzureContainerRegistryScopedToken`). */
+  repositories?: NetworkFunctionPropertiesFormatRoleOverrideValuesList;
+  /** The UTC time when the credential expires. */
+  expiry?: string;
 }
 export const ListArtifactManifestCredentialResponse = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       credentialType: ListArtifactManifestCredentialResponseCredentialType,
+      username: S.optional(S.String),
+      acrToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+      acrServerUrl: S.optional(S.String),
+      repositories: S.optional(
+        NetworkFunctionPropertiesFormatRoleOverrideValuesList,
+      ),
+      expiry: S.optional(S.String),
     }),
 ).annotate({
   identifier: "ListArtifactManifestCredentialResponse",

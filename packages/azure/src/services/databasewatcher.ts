@@ -67,7 +67,7 @@ export const AlertRuleResourcesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -226,7 +226,7 @@ export const CreateSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(
         method: "PUT",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -317,7 +317,7 @@ export const DeleteAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -353,7 +353,7 @@ export const DeleteSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(
         method: "DELETE",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -388,7 +388,7 @@ export const DeleteTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -420,7 +420,7 @@ export const DeleteWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -455,7 +455,7 @@ export const GetAlertRuleResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -507,7 +507,7 @@ export const GetHealthValidationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -633,7 +633,7 @@ export const GetSharedPrivateLinkResourceRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -686,7 +686,7 @@ export const GetTargetRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -801,7 +801,7 @@ export const GetWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -991,7 +991,7 @@ export const ListAlertRuleResourceByParentRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -1063,7 +1063,7 @@ export const ListHealthValidationByParentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1224,7 +1224,7 @@ export const ListSharedPrivateLinkResourceByWatcherRequest =
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
   ).annotate({
@@ -1298,7 +1298,7 @@ export const ListTargetByWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1365,7 +1365,7 @@ export const ListWatcherByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1449,7 +1449,7 @@ export const ListWatcherBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DatabaseWatcher/watchers",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1478,7 +1478,7 @@ export const StartHealthValidationValidationRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation",
         code: 200,
-        apiVersion: "2025-01-02",
+        apiVersion: "2024-10-01-preview",
       }),
     ),
 ).annotate({
@@ -1528,7 +1528,7 @@ export const StartWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/start",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1597,7 +1597,7 @@ export const StopWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/stop",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1712,7 +1712,7 @@ export const TargetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1855,7 +1855,7 @@ export const UpdateWatcherRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({
@@ -1969,7 +1969,7 @@ export const WatchersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}",
       code: 200,
-      apiVersion: "2025-01-02",
+      apiVersion: "2024-10-01-preview",
     }),
   ),
 ).annotate({

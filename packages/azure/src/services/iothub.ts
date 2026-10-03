@@ -39,6 +39,8 @@ export interface CertificatesCreateOrUpdateRequest {
   /** The name of the certificate */
   certificateName: string;
   properties?: CertificatePropertiesInput;
+  /** ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
+  ifMatch?: string;
 }
 export const CertificatesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -47,6 +49,7 @@ export const CertificatesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     resourceName: S.String.pipe(T.Label()),
     certificateName: S.String.pipe(T.Label()),
     properties: S.optional(CertificatePropertiesInput),
+    ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -250,6 +253,8 @@ export interface DeleteCertificateRequest {
   resourceName: string;
   /** The name of the certificate */
   certificateName: string;
+  /** ETag of the certificate. A value of "*" applies to any version. */
+  ifMatch: string;
 }
 export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -257,6 +262,7 @@ export const DeleteCertificateRequest = /*@__PURE__*/ S.suspend(() =>
     resourceGroupName: S.String.pipe(T.Label()),
     resourceName: S.String.pipe(T.Label()),
     certificateName: S.String.pipe(T.Label()),
+    ifMatch: S.String.pipe(T.Header("If-Match")),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -2882,6 +2888,8 @@ export interface IotHubResourceCreateOrUpdateRequest {
   sku: IotHubSkuInfoInput;
   /** The managed identities for the IotHub. */
   identity?: ArmIdentityInput;
+  /** ETag of the IoT hub. Do not specify for creating a brand new IoT hub. Required to update an existing IoT hub. */
+  ifMatch?: string;
 }
 export const IotHubResourceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2894,6 +2902,7 @@ export const IotHubResourceCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IotHubPropertiesInput),
     sku: IotHubSkuInfoInput,
     identity: S.optional(ArmIdentityInput),
+    ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
   }).pipe(
     T.Http({
       method: "PUT",

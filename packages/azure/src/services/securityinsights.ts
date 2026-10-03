@@ -7556,6 +7556,8 @@ export interface SecurityMLAnalyticsSetting {
   kind: SecurityMLAnalyticsSettingsKind;
   /** Etag of the azure resource */
   etag?: string;
+  /** Security ML analytics settings properties (polymorphic on `kind`, e.g. Anomaly). */
+  properties?: unknown;
 }
 export const SecurityMLAnalyticsSetting = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -7565,6 +7567,7 @@ export const SecurityMLAnalyticsSetting = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     kind: SecurityMLAnalyticsSettingsKind,
     etag: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SecurityMLAnalyticsSetting",

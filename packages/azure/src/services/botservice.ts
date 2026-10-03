@@ -797,12 +797,15 @@ export interface ChannelInput {
   etag?: string | null;
   /** Specifies the location of the resource. */
   location?: string;
+  /** Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel. */
+  properties?: unknown;
 }
 export const ChannelInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     channelName: S.String,
     etag: S.optional(S.NullOr(S.String)),
     location: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "ChannelInput" }) as any as S.Schema<ChannelInput>;
 
@@ -877,6 +880,8 @@ export interface Channel {
   provisioningState?: string;
   /** Specifies the location of the resource. */
   location?: string;
+  /** Channel-specific properties (polymorphic on `channelName`), e.g. `{ sites: [...] }` for DirectLineChannel/WebChatChannel. */
+  properties?: unknown;
 }
 export const Channel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -884,6 +889,7 @@ export const Channel = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.NullOr(S.String)),
     provisioningState: S.optional(S.String),
     location: S.optional(S.String),
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
 

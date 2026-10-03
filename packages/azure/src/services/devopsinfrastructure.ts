@@ -228,14 +228,48 @@ export type ProvisioningState =
   | "Accepted";
 export const ProvisioningState = S.String;
 
+/** A list of strings. */
+export type PoolStringList = Array<string>;
+export const PoolStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PoolStringList>;
+
+/** Defines the type of Azure DevOps pool permission. */
+export interface AzureDevOpsPermissionProfile {
+  /** Determines who has admin permissions to the Azure DevOps pool (CreatorOnly, Inherit, SpecificAccounts). */
+  kind: string;
+  /** User email addresses. */
+  users?: PoolStringList;
+  /** Group email addresses. */
+  groups?: PoolStringList;
+}
+export const AzureDevOpsPermissionProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kind: S.String,
+    users: S.optional(PoolStringList),
+    groups: S.optional(PoolStringList),
+  }),
+).annotate({
+  identifier: "AzureDevOpsPermissionProfile",
+}) as any as S.Schema<AzureDevOpsPermissionProfile>;
+
 /** Defines the organization in which the pool will be used. */
 export interface OrganizationProfile {
   /** Discriminator property for OrganizationProfile. */
   kind: string;
+  /** AzureDevOps: list of {url, projects?, parallelism?, openAccess?}; GitHub: list of {url, repositories?}. */
+  organizations?: unknown;
+  /** AzureDevOps only: the type of permission which determines which accounts are admins on the pool. */
+  permissionProfile?: AzureDevOpsPermissionProfile;
+  /** AzureDevOps only: an alias to reference the pool by. */
+  alias?: string;
 }
 export const OrganizationProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
+    organizations: S.optional(S.Unknown),
+    permissionProfile: S.optional(AzureDevOpsPermissionProfile),
+    alias: S.optional(S.String),
   }),
 ).annotate({
   identifier: "OrganizationProfile",
@@ -249,10 +283,13 @@ export const ResourcePredictionsProfileType = S.String;
 export interface ResourcePredictionsProfile {
   /** Determines how the stand-by scheme should be provided. */
   kind: ResourcePredictionsProfileType | (string & {});
+  /** Automatic only: determines the balance between cost and performance (Balanced, MostCostEffective, MoreCostEffective, MorePerformance, BestPerformance). */
+  predictionPreference?: string;
 }
 export const ResourcePredictionsProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: ResourcePredictionsProfileType,
+    predictionPreference: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ResourcePredictionsProfile",
@@ -266,23 +303,174 @@ export interface AgentProfile {
   resourcePredictions?: unknown;
   /** Defines how the pool buffer/stand-by agents is provided. */
   resourcePredictionsProfile?: ResourcePredictionsProfile;
+  /** Stateful only: how long should stateful machines be kept around (d.hh:mm:ss). */
+  maxAgentLifetime?: string;
+  /** Stateful only: how long should the machine be kept around after it ran a workload when there are no stand-by agents. */
+  gracePeriodTimeSpan?: string;
 }
 export const AgentProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
     resourcePredictions: S.optional(S.Unknown),
     resourcePredictionsProfile: S.optional(ResourcePredictionsProfile),
+    maxAgentLifetime: S.optional(S.String),
+    gracePeriodTimeSpan: S.optional(S.String),
   }),
 ).annotate({ identifier: "AgentProfile" }) as any as S.Schema<AgentProfile>;
+
+/** The Azure SKU of the machines in the pool. */
+export interface DevOpsAzureSku {
+  /** The Azure SKU name of the machines in the pool. */
+  name: string;
+}
+export const DevOpsAzureSku = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({ identifier: "DevOpsAzureSku" }) as any as S.Schema<DevOpsAzureSku>;
+
+/** The VM image of the machines in the pool. */
+export interface PoolImage {
+  /** The resource id of the image. */
+  resourceId?: string;
+  /** The image to use from a well-known set of images made available to customers. */
+  wellKnownImageName?: string;
+  /** List of aliases to reference the image by. */
+  aliases?: PoolStringList;
+  /** The percentage of the buffer to be allocated to this image. */
+  buffer?: string;
+  /** The ephemeral type of the image (Automatic, CacheDisk, ResourceDisk). */
+  ephemeralType?: string;
+}
+export const PoolImage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceId: S.optional(S.String),
+    wellKnownImageName: S.optional(S.String),
+    aliases: S.optional(PoolStringList),
+    buffer: S.optional(S.String),
+    ephemeralType: S.optional(S.String),
+  }),
+).annotate({ identifier: "PoolImage" }) as any as S.Schema<PoolImage>;
+
+/** The VM images of the machines in the pool. */
+export type PoolImageList = Array<PoolImage>;
+export const PoolImageList = /*@__PURE__*/ S.Array(
+  PoolImage,
+) as any as S.Schema<PoolImageList>;
+
+/** The secret management settings of the machines in the pool. */
+export interface SecretsManagementSettings {
+  /** Where to store certificates on the machine. */
+  certificateStoreLocation?: string;
+  /** Name of the certificate store to use on the machine (My, Root). */
+  certificateStoreName?: string;
+  /** The list of certificates to install on all machines in the pool. */
+  observedCertificates: PoolStringList;
+  /** Defines if the key of installed certificates should be exportable. */
+  keyExportable: boolean;
+}
+export const SecretsManagementSettings = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    certificateStoreLocation: S.optional(S.String),
+    certificateStoreName: S.optional(S.String),
+    observedCertificates: PoolStringList,
+    keyExportable: S.Boolean,
+  }),
+).annotate({
+  identifier: "SecretsManagementSettings",
+}) as any as S.Schema<SecretsManagementSettings>;
+
+/** The OS profile of the machines in the pool. */
+export interface OsProfile {
+  /** The secret management settings of the machines in the pool. */
+  secretsManagementSettings?: SecretsManagementSettings;
+  /** Determines how the service should be run (Service, Interactive). */
+  logonType?: string;
+}
+export const OsProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    secretsManagementSettings: S.optional(SecretsManagementSettings),
+    logonType: S.optional(S.String),
+  }),
+).annotate({ identifier: "OsProfile" }) as any as S.Schema<OsProfile>;
+
+/** The data disk of the VMSS. */
+export interface DataDisk {
+  /** The type of caching to be enabled for the data disks (None, ReadOnly, ReadWrite). */
+  caching?: string;
+  /** The initial disk size in gigabytes. */
+  diskSizeGiB?: number;
+  /** The storage Account type to be used for the data disk. */
+  storageAccountType?: string;
+  /** The drive letter for the empty data disk. */
+  driveLetter?: string;
+}
+export const DataDisk = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    caching: S.optional(S.String),
+    diskSizeGiB: S.optional(S.Number),
+    storageAccountType: S.optional(S.String),
+    driveLetter: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataDisk" }) as any as S.Schema<DataDisk>;
+
+/** A list of empty data disks to attach. */
+export type DataDiskList = Array<DataDisk>;
+export const DataDiskList = /*@__PURE__*/ S.Array(
+  DataDisk,
+) as any as S.Schema<DataDiskList>;
+
+/** The storage profile of the VMSS. */
+export interface StorageProfile {
+  /** The Azure SKU name of the OS disk (Standard, Premium, StandardSSD). */
+  osDiskStorageAccountType?: string;
+  /** A list of empty data disks to attach. */
+  dataDisks?: DataDiskList;
+}
+export const StorageProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    osDiskStorageAccountType: S.optional(S.String),
+    dataDisks: S.optional(DataDiskList),
+  }),
+).annotate({ identifier: "StorageProfile" }) as any as S.Schema<StorageProfile>;
+
+/** The network profile of the machines in the pool. */
+export interface NetworkProfile {
+  /** The subnet id on which to put all machines created in the pool. */
+  subnetId?: string;
+  /** The number of static public IP addresses for machines in the pool. */
+  staticIpAddressCount?: number;
+}
+export const NetworkProfile = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subnetId: S.optional(S.String),
+    staticIpAddressCount: S.optional(S.Number),
+  }),
+).annotate({ identifier: "NetworkProfile" }) as any as S.Schema<NetworkProfile>;
 
 /** Defines the type of fabric the agent will run on. */
 export interface FabricProfile {
   /** Discriminator property for FabricProfile. */
   kind: string;
+  /** Vmss only: the Azure SKU of the machines in the pool. */
+  sku?: DevOpsAzureSku;
+  /** Vmss only: the VM images of the machines in the pool. */
+  images?: PoolImageList;
+  /** Vmss only: the OS profile of the machines in the pool. */
+  osProfile?: OsProfile;
+  /** Vmss only: the storage profile of the machines in the pool. */
+  storageProfile?: StorageProfile;
+  /** Vmss only: the network profile of the machines in the pool. */
+  networkProfile?: NetworkProfile;
 }
 export const FabricProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.String,
+    sku: S.optional(DevOpsAzureSku),
+    images: S.optional(PoolImageList),
+    osProfile: S.optional(OsProfile),
+    storageProfile: S.optional(StorageProfile),
+    networkProfile: S.optional(NetworkProfile),
   }),
 ).annotate({ identifier: "FabricProfile" }) as any as S.Schema<FabricProfile>;
 

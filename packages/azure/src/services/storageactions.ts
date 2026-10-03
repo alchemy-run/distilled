@@ -212,7 +212,7 @@ export const CreateStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -406,7 +406,7 @@ export const DeleteStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -438,7 +438,7 @@ export const GetStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -498,7 +498,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.StorageActions/operations",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -600,7 +600,7 @@ export const ListStorageTaskAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/storageTaskAssignments",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -659,7 +659,7 @@ export const ListStorageTaskByResourceGroupRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2023-01-01",
       }),
     ),
 ).annotate({
@@ -744,7 +744,7 @@ export const ListStorageTaskBySubscriptionRequest = /*@__PURE__*/ S.suspend(
         method: "GET",
         uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/storageTasks",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2023-01-01",
       }),
     ),
 ).annotate({
@@ -775,7 +775,7 @@ export const ListStorageTasksReportRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/reports",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -1051,7 +1051,7 @@ export const PreviewStorageTaskActionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/locations/{location}/previewActions",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({
@@ -1090,7 +1090,7 @@ export const StopStorageTaskAllAssignmentsRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}/stopAllAssignments",
         code: 200,
-        apiVersion: "2026-03-01",
+        apiVersion: "2023-01-01",
       }),
     ),
 ).annotate({
@@ -1164,7 +1164,7 @@ export const UpdateStorageTaskRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
       code: 200,
-      apiVersion: "2026-03-01",
+      apiVersion: "2023-01-01",
     }),
   ),
 ).annotate({

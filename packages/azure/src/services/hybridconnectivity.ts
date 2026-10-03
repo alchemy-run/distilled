@@ -57,7 +57,7 @@ export const CreateServiceConfigurationOrupdateRequest =
         method: "PUT",
         uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
   ).annotate({
@@ -177,7 +177,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -241,7 +241,7 @@ export const DeleteServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -322,7 +322,7 @@ export const EndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -387,7 +387,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -732,7 +732,7 @@ export const GetServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1008,7 +1008,7 @@ export const ListEndpointCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1078,7 +1078,7 @@ export const ListEndpointIngressGatewayCredentialsRequest =
         method: "POST",
         uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
   ).annotate({
@@ -1158,7 +1158,7 @@ export const ListEndpointManagedProxyDetailsRequest = /*@__PURE__*/ S.suspend(
         method: "POST",
         uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
 ).annotate({
@@ -1193,7 +1193,7 @@ export const ListEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -1526,7 +1526,7 @@ export const ListServiceConfigurationByEndpointResourceRequest =
         method: "GET",
         uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
         code: 200,
-        apiVersion: "2027-01-01",
+        apiVersion: "2024-12-01",
       }),
     ),
   ).annotate({
@@ -2262,7 +2262,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({
@@ -2494,7 +2494,7 @@ export const UpdateServiceConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/{resourceUri+}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
       code: 200,
-      apiVersion: "2027-01-01",
+      apiVersion: "2024-12-01",
     }),
   ),
 ).annotate({

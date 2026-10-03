@@ -246,6 +246,17 @@ export class MissingRegistration extends Schema.TaggedError<MissingRegistration>
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
+/**
+ * Returned (HTTP 404) when the resource provider namespace is not available
+ * to the subscription at all, e.g. a preview/allow-listed provider such as
+ * `Microsoft.ManufacturingPlatform`. It is not a resource not-found.
+ * Azure error code: `InvalidResourceNamespace`
+ */
+export class InvalidResourceNamespace extends Schema.TaggedError<InvalidResourceNamespace>()(
+  "InvalidResourceNamespace",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
 // ---------------------------------------------------------------------------
 // Throttling / quota errors
 // ---------------------------------------------------------------------------
@@ -361,6 +372,25 @@ export class ContainerNotFound extends Schema.TaggedError<ContainerNotFound>()(
 ).pipe(Category.withNotFoundError) {}
 
 /**
+ * Returned when a management group does not exist.
+ * Azure error code: `ManagementGroupNotFound`
+ */
+export class ManagementGroupNotFound extends Schema.TaggedError<ManagementGroupNotFound>()(
+  "ManagementGroupNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned (as 404 on read, 400 on delete) when a service group was just
+ * deleted or does not exist.
+ * Azure error code: `ServiceGroupNameNotFound`
+ */
+export class ServiceGroupNameNotFound extends Schema.TaggedError<ServiceGroupNameNotFound>()(
+  "ServiceGroupNameNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
  * Returned when an Azure Files share does not exist.
  * Azure error code: `ShareNotFound`
  */
@@ -444,6 +474,18 @@ export class PendingTransactionAlreadyExists extends Schema.TaggedError<PendingT
  */
 export class StorageAccountOperationInProgress extends Schema.TaggedError<StorageAccountOperationInProgress>()(
   "StorageAccountOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.DeviceUpdate when an account or instance is written
+ * or deleted while a previous long-running operation on it is still
+ * running. HTTP 400 `{"code":"OperationInProgress","message":"ValidationException"}`;
+ * retry until it settles.
+ * Azure error code: `OperationInProgress`
+ */
+export class DeviceUpdateOperationInProgress extends Schema.TaggedError<DeviceUpdateOperationInProgress>()(
+  "DeviceUpdateOperationInProgress",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
 
@@ -550,6 +592,16 @@ export class CannotDeleteResource extends Schema.TaggedError<CannotDeleteResourc
 ).pipe(Category.withDependencyViolationError) {}
 
 /**
+ * Returned by Microsoft.ConnectedCache when deleting an enterprise MCC
+ * customer whose cache nodes still exist, including shortly after they
+ * were deleted. Azure error code: `FailedCustomerCacheNodesExist` (HTTP 400).
+ */
+export class ConnectedCacheCustomerCacheNodesExist extends Schema.TaggedError<ConnectedCacheCustomerCacheNodesExist>()(
+  "ConnectedCacheCustomerCacheNodesExist",
+  AzureErrorFields,
+).pipe(Category.withDependencyViolationError) {}
+
+/**
  * Returned by Microsoft.NetApp when the subscription may not create NetApp
  * accounts in the region (e.g. free-trial subscriptions, or regions closed
  * to new Azure NetApp Files customers). Azure error code:
@@ -624,6 +676,17 @@ export class SentinelRepositoryAccessDenied extends Schema.TaggedError<SentinelR
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.DevHub workflow create/update when the subscription
+ * has not authorized the Developer Hub GitHub app (no stored GitHub OAuth
+ * token): HTTP 401 `{"code":"401","message":"unauthorized request"}`
+ * (matched by code + message).
+ */
+export class DevHubGitHubNotAuthorized extends Schema.TaggedError<DevHubGitHubNotAuthorized>()(
+  "DevHubGitHubNotAuthorized",
+  AzureErrorFields,
+).pipe(Category.withAuthError) {}
+
+/**
  * Returned by Microsoft.SecurityInsights when creating ML analytics
  * (anomaly) settings in a workspace or region where Sentinel anomalies are
  * not enabled. HTTP 404 "Anomalies are not supported for workspace ... and
@@ -631,6 +694,40 @@ export class SentinelRepositoryAccessDenied extends Schema.TaggedError<SentinelR
  */
 export class SentinelAnomaliesNotSupported extends Schema.TaggedError<SentinelAnomaliesNotSupported>()(
   "SentinelAnomaliesNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned intermittently by Microsoft.GuestConfiguration assignment
+ * GET/PUT/DELETE on Azure Arc machines: HTTP 400 with a bare JSON string
+ * "Failed to pull machine information from provider with a
+ * HttpRequestException exception" (matched by message). Transient; retry.
+ */
+export class GuestConfigurationMachineInfoUnavailable extends Schema.TaggedError<GuestConfigurationMachineInfoUnavailable>()(
+  "GuestConfigurationMachineInfoUnavailable",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned intermittently by Microsoft.GuestConfiguration assignment
+ * GET/PUT/DELETE on Azure VMs and scale sets for several minutes after the
+ * host is created: HTTP 400 with a bare JSON string "Failed to pull machine
+ * information from provider with a CloudException exception" (matched by
+ * message). Transient; retry.
+ */
+export class GuestConfigurationMachineLookupFailed extends Schema.TaggedError<GuestConfigurationMachineLookupFailed>()(
+  "GuestConfigurationMachineLookupFailed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.GuestConfiguration assignment PUTs the service
+ * rejects, e.g. with configuration parameters the package does not define:
+ * HTTP 400 with a bare JSON string "Request to the agent service failed"
+ * (matched by message). Retrying does not help.
+ */
+export class GuestConfigurationAgentServiceFailed extends Schema.TaggedError<GuestConfigurationAgentServiceFailed>()(
+  "GuestConfigurationAgentServiceFailed",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
@@ -716,9 +813,8 @@ export class SkuNotAvailable extends Schema.TaggedError<SkuNotAvailable>()(
 /**
  * Returned by Microsoft.ServiceNetworking (Application Gateway for
  * Containers) when an `ipAccessRules` security policy is created on a
- * subscription without the preview feature enabled. Azure error code:
- * `BadRequest` (HTTP 400, "...IP Access Rules security policy feature is
- * not enabled.").
+ * subscription without the preview feature enabled. HTTP 400, matched by
+ * message ("...IP Access Rules security policy feature is not enabled.").
  */
 export class AgcIpAccessRulesNotEnabled extends Schema.TaggedError<AgcIpAccessRulesNotEnabled>()(
   "AgcIpAccessRulesNotEnabled",
@@ -732,6 +828,17 @@ export class AgcIpAccessRulesNotEnabled extends Schema.TaggedError<AgcIpAccessRu
  */
 export class SearchSharedPrivateLinkBusy extends Schema.TaggedError<SearchSharedPrivateLinkBusy>()(
   "SearchSharedPrivateLinkBusy",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.Batch for application and application-package
+ * operations on an account without a linked auto-storage account (an
+ * application cannot exist there). Azure error code:
+ * `AccountNotEnabledForAutoStorage` (HTTP 409).
+ */
+export class BatchAccountNotEnabledForAutoStorage extends Schema.TaggedError<BatchAccountNotEnabledForAutoStorage>()(
+  "BatchAccountNotEnabledForAutoStorage",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
 
@@ -815,6 +922,17 @@ export class SignalRReplicaLinkNotReplicated extends Schema.TaggedError<SignalRR
 ).pipe(Category.withConflictError) {}
 
 /**
+ * Returned by Microsoft.SignalRService (SignalR and Web PubSub) when a
+ * custom domain references a custom certificate that does not exist on the
+ * service: HTTP 400 "Referenced custom certificate \"x\" does not exist."
+ * (matched by message).
+ */
+export class SignalRCustomCertificateNotFound extends Schema.TaggedError<SignalRCustomCertificateNotFound>()(
+  "SignalRCustomCertificateNotFound",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.Datadog when the Datadog Marketplace SaaS purchase
  * behind a monitor cannot be validated, e.g. on a Free Trial subscription
  * or before the Datadog Marketplace terms are accepted. HTTP 400
@@ -824,6 +942,28 @@ export class DatadogMonitorCreationValidateFailed extends Schema.TaggedError<Dat
   "DatadogMonitorCreationValidateFailed",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.BotService when deleting an OAuth connection
+ * setting that is already gone (eventual consistency after a delete).
+ * HTTP 400 "connection resource with id ... is not found" (matched by
+ * message).
+ */
+export class BotConnectionNotFound extends Schema.TaggedError<BotConnectionNotFound>()(
+  "BotConnectionNotFound",
+  AzureErrorFields,
+).pipe(Category.withNotFoundError) {}
+
+/**
+ * Returned by Microsoft.BotService when deleting an OAuth connection
+ * setting whose previous delete is still propagating. HTTP 500 "Object
+ * reference not set to an instance of an object" from
+ * `ConnectionSettingConverters` (matched by message).
+ */
+export class BotConnectionDeleteInProgress extends Schema.TaggedError<BotConnectionDeleteInProgress>()(
+  "BotConnectionDeleteInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
 
 // ---------------------------------------------------------------------------
 // Azure error code → typed error class mapping
@@ -844,11 +984,86 @@ export class DevBoxTenantNotOnboarded extends Schema.TaggedError<DevBoxTenantNot
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
+/**
+ * Microsoft.AzureDataTransfer rejects pipeline creation for subscriptions
+ * that are not onboarded to Azure Data Transfer. HTTP 400 "You are not
+ * allowed to create a pipeline in this location or you are missing the
+ * appropriate permissions." (matched by message).
+ */
+export class DataTransferPipelineNotAllowed extends Schema.TaggedError<DataTransferPipelineNotAllowed>()(
+  "DataTransferPipelineNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Microsoft.AzureDataTransfer rejects a PUT on an existing connection (its
+ * PUT is create-only). HTTP 400 "A connection with ID '...' already exists.
+ * Please choose a different name." (matched by message).
+ */
+export class DataTransferConnectionAlreadyExists extends Schema.TaggedError<DataTransferConnectionAlreadyExists>()(
+  "DataTransferConnectionAlreadyExists",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Microsoft.AzureDataTransfer rejects creating a flow on a connection the
+ * pipeline owner has not approved. HTTP 400 "Connection has not been
+ * approved yet." (matched by message).
+ */
+export class DataTransferConnectionNotApproved extends Schema.TaggedError<DataTransferConnectionNotApproved>()(
+  "DataTransferConnectionNotApproved",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Microsoft.Devices (Device Provisioning Service) rejects writes while the
+ * service is still applying a previous change: HTTP 409 with numeric code
+ * 409301 "Invalid IotDpsState i.e. should be active/suspended, IotDpsState:
+ * Transitioning" (matched by message).
+ */
+export class IotDpsStateTransitioning extends Schema.TaggedError<IotDpsStateTransitioning>()(
+  "IotDpsStateTransitioning",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Microsoft.DocumentDB rejects a database-account PUT with `BadRequest`
+ * "...is in the process of being created" while an earlier create of the
+ * same account is still running (matched by message).
+ */
+export class CosmosAccountBeingCreated extends Schema.TaggedError<CosmosAccountBeingCreated>()(
+  "CosmosAccountBeingCreated",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Power BI Embedded rejects capacity creation when the tenant has never
+ * signed up for Microsoft Fabric / Power BI (matched by message).
+ */
+export class PowerBITenantNotSignedUp extends Schema.TaggedError<PowerBITenantNotSignedUp>()(
+  "PowerBITenantNotSignedUp",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * ARM rejected a resource provider's response because the payload did not
+ * match the provider's own API spec (e.g. Microsoft.VideoIndexer answers a
+ * PUT on an existing private endpoint connection with a malformed `id`).
+ * The request was not applied.
+ * Azure error code: `HttpResponsePayloadAPISpecValidationFailed`
+ */
+export class HttpResponsePayloadAPISpecValidationFailed extends Schema.TaggedError<HttpResponsePayloadAPISpecValidationFailed>()(
+  "HttpResponsePayloadAPISpecValidationFailed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
 export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   {
     TenantNotOnboardedToLegacy: DevBoxTenantNotOnboarded,
     // Not-found
     ResourceNotFound: ResourceNotFound,
+    HttpResponsePayloadAPISpecValidationFailed:
+      HttpResponsePayloadAPISpecValidationFailed,
     ResourceGroupNotFound: ResourceGroupNotFound,
     MissingSubscription: SubscriptionNotFound,
     SubscriptionNotFound: SubscriptionNotFound,
@@ -882,6 +1097,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     OperationNotAllowed: OperationNotAllowed,
     MissingRegistrationForType: MissingRegistration,
     MissingSubscriptionRegistration: MissingRegistration,
+    InvalidResourceNamespace: InvalidResourceNamespace,
 
     // Throttling / quota
     QuotaExceeded: QuotaExceeded,
@@ -902,6 +1118,8 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     RoleDefinitionWithSameNameExists: RoleDefinitionWithSameNameExists,
     RoleDefinitionHasAssignments: RoleDefinitionHasAssignments,
     ContainerNotFound: ContainerNotFound,
+    ManagementGroupNotFound: ManagementGroupNotFound,
+    ServiceGroupNameNotFound: ServiceGroupNameNotFound,
     ShareNotFound: ShareNotFound,
     QueueNotFound: QueueNotFound,
     ManagementPolicyNotFound: ManagementPolicyNotFound,
@@ -913,6 +1131,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     ResourceGroupBeingDeleted: ResourceGroupBeingDeleted,
     PendingTransactionAlreadyExists: PendingTransactionAlreadyExists,
     StorageAccountOperationInProgress: StorageAccountOperationInProgress,
+    OperationInProgress: DeviceUpdateOperationInProgress,
     ElasticJobAgentIsBusy: ElasticJobAgentIsBusy,
     AnotherOperationInProgress: NetworkOperationInProgress,
     RetryableError: NetworkOperationInProgress,
@@ -924,6 +1143,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     InUseNatGatewayCannotBeDeleted: NatGatewayInUse,
     NicInUse: NetworkInterfaceInUse,
     CannotDeleteResource: CannotDeleteResource,
+    FailedCustomerCacheNodesExist: ConnectedCacheCustomerCacheNodesExist,
     ResourceRestriction: NetAppCreationRestricted,
     ServiceNotFound: ApiManagementServiceNotFound,
     ApplicationGroupInvalidSku: EventHubApplicationGroupNotSupported,
@@ -934,6 +1154,7 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
     BMSUserErrorRedundancySettingsUseVaultApi: BackupConfigManagedByVaultApi,
     SkuNotAvailable: SkuNotAvailable,
     TasksOperationsNotAllowed: TasksOperationsNotAllowed,
+    AccountNotEnabledForAutoStorage: BatchAccountNotEnabledForAutoStorage,
     ResourceCreationValidateFailed: DatadogMonitorCreationValidateFailed,
     ConcurrentFederatedIdentityCredentialsWritesForSingleManagedIdentity:
       FederatedIdentityCredentialWriteConflict,
@@ -1031,6 +1252,17 @@ export class CustomLocationNotFound extends Schema.TaggedError<CustomLocationNot
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.ScVmm when a guest agent is created on an Arc
+ * machine that has no SCVMM VM instance: the agent inherits the instance's
+ * extended location, so Azure reports "has an invalid extended location
+ * '<null>'" (matched by message).
+ */
+export class ScVmmVmInstanceMissing extends Schema.TaggedError<ScVmmVmInstanceMissing>()(
+  "ScVmmVmInstanceMissing",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.AzureStackHCI when an edge machine or edge device
  * references no Arc-enabled server, or one whose agent has not reported a
  * supported Azure Local OS SKU (only real, connected Azure Local nodes
@@ -1098,6 +1330,18 @@ export class HDInsightCoresQuotaExceeded extends Schema.TaggedError<HDInsightCor
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.RedHatOpenShift when a cluster's control-plane or
+ * worker VM size is not offered to the subscription in the region (e.g.
+ * every D-series v5 size on free trials). HTTP 400 `InvalidParameter`
+ * "The selected SKU '...' is restricted in region '...' for selected
+ * subscription" (matched by message).
+ */
+export class RedHatOpenShiftVmSkuRestricted extends Schema.TaggedError<RedHatOpenShiftVmSkuRestricted>()(
+  "RedHatOpenShiftVmSkuRestricted",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.Storage when a storage task assignment is written
  * while its previous asynchronous PUT is still running (GET may already
  * report `Succeeded`). HTTP 409 `InvalidResourceOperation` with "Another
@@ -1108,6 +1352,30 @@ export class StorageTaskAssignmentOperationInProgress extends Schema.TaggedError
   "StorageTaskAssignmentOperationInProgress",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.Kubernetes (Azure Arc connected clusters) when a
+ * write arrives while the previous asynchronous PUT is still running. HTTP
+ * 409 `InvalidResourceOperation` with "... connectedClusters/{name}' is
+ * invalid as it is being provisioned with state: 'Accepted'"; retry until
+ * it settles.
+ */
+export class ConnectedClusterOperationInProgress extends Schema.TaggedError<ConnectedClusterOperationInProgress>()(
+  "ConnectedClusterOperationInProgress",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.ExtendedLocation when a custom location references
+ * a cluster extension that does not exist or cannot be read (e.g. on a
+ * cluster whose Arc agents are not connected). HTTP 400 with no code and
+ * "combined getting extension config errors ... error in trying to get
+ * cluster extension config" (matched by message).
+ */
+export class CustomLocationClusterExtensionNotFound extends Schema.TaggedError<CustomLocationClusterExtensionNotFound>()(
+  "CustomLocationClusterExtensionNotFound",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.HybridNetwork (Azure Operator Service Manager) when
@@ -1142,6 +1410,18 @@ export class ArcMachineNotConnected extends Schema.TaggedError<ArcMachineNotConn
   "ArcMachineNotConnected",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Databricks when a write or delete reaches a
+ * workspace ("appliance") that is still being provisioned, updated, or
+ * deleted. Azure returns HTTP 409 "The operation cannot be performed on the
+ * appliance '<name>' because it is being deleted" (matched by message);
+ * retry until it settles.
+ */
+export class DatabricksApplianceBusy extends Schema.TaggedError<DatabricksApplianceBusy>()(
+  "DatabricksApplianceBusy",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
 
 /**
  * Returned by Microsoft.Sql when a write to a server/database setting
@@ -1265,6 +1545,17 @@ export class FrontDoorFreeTrialForbidden extends Schema.TaggedError<FrontDoorFre
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.CodeSigning (Artifact Signing) account PUTs on a
+ * free-trial, free, or sponsored subscription: HTTP 400 "Artifact Signing is
+ * not available for free, trial or sponsored subscriptions" (matched by
+ * message). Retrying does not help.
+ */
+export class CodeSigningSubscriptionNotSupported extends Schema.TaggedError<CodeSigningSubscriptionNotSupported>()(
+  "CodeSigningSubscriptionNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Azure Native ISV (Marketplace SaaS) resource providers such as
  * Microsoft.Confluent when the subscription cannot purchase the offer's
  * plan, e.g. "SaaS Purchase Payment Check Failed as validationResponse was
@@ -1288,6 +1579,83 @@ export class SenderUsernameLastRemaining extends Schema.TaggedError<SenderUserna
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.Cache when a subscription may no longer create
+ * Azure Cache for Redis (Basic/Standard/Premium) caches — new customers, or
+ * regions where the subscription never had a cache, since the 2028
+ * retirement was announced. HTTP 400 `BadRequest` "Azure Cache for Redis is
+ * retiring, create Azure Managed Redis instance instead" (matched by
+ * message).
+ */
+export class RedisCacheRetiring extends Schema.TaggedError<RedisCacheRetiring>()(
+  "RedisCacheRetiring",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Automanage when the subscription may not create
+ * configuration profiles or assignments (e.g. free-trial subscriptions,
+ * Automanage Machine Best Practices onboarding closed). HTTP 400 "The
+ * operation was not allowed because the subscription is not in a state to
+ * support it. Subscription state: -1" (matched by message).
+ */
+export class AutomanageSubscriptionNotSupported extends Schema.TaggedError<AutomanageSubscriptionNotSupported>()(
+  "AutomanageSubscriptionNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Relationships `serviceGroupMember` writes in a
+ * tenant without Azure Service Groups enabled. HTTP 400 "Relationship
+ * lifecycle callbacks are not enabled for tenant '...'" (matched by
+ * message).
+ */
+export class RelationshipCallbacksNotEnabled extends Schema.TaggedError<RelationshipCallbacksNotEnabled>()(
+  "RelationshipCallbacksNotEnabled",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Azure Lighthouse rejects a registration definition whose
+ * `managedByTenantId` is the subscription's own tenant: "not allowed to use
+ * the '...' as ManagedByTenantId" (400, matched by message).
+ */
+export class LighthouseManagedByTenantNotAllowed extends Schema.TaggedError<LighthouseManagedByTenantNotAllowed>()(
+  "LighthouseManagedByTenantNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Azure Lighthouse rejects a `managedByTenantId` that is not an existing
+ * Entra tenant: "with given Managedby TenantId '...' is not valid tenant"
+ * (400, matched by message).
+ */
+export class LighthouseManagedByTenantInvalid extends Schema.TaggedError<LighthouseManagedByTenantInvalid>()(
+  "LighthouseManagedByTenantInvalid",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Azure Lighthouse rejects authorizations whose `principalId` is not an
+ * object in the managing tenant: "The resource contains invalid principal
+ * object identifiers" (400, matched by message).
+ */
+export class LighthouseInvalidPrincipal extends Schema.TaggedError<LighthouseInvalidPrincipal>()(
+  "LighthouseInvalidPrincipal",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Microsoft.PolicyInsights refuses an attestation until a compliance scan has
+ * produced state for the scope under a `manual`-effect assignment:
+ * "No compliance data was found for resource" (400
+ * `InvalidCreateAttestationRequest`, matched by message).
+ */
+export class AttestationComplianceDataNotFound extends Schema.TaggedError<AttestationComplianceDataNotFound>()(
+  "AttestationComplianceDataNotFound",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
  * Microsoft.Web reports exhausted SKU quota as `Unauthorized`). Checked
  * before {@link AZURE_ERROR_CODE_MAP}; the first matcher whose code (if
@@ -1299,6 +1667,20 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   readonly error: new (props: any) => unknown;
 }> = [
   {
+    code: "InvalidCreateAttestationRequest",
+    includes: "No compliance data was found",
+    error: AttestationComplianceDataNotFound,
+  },
+  {
+    includes: "wasn't recognized by Microsoft Fabric",
+    error: PowerBITenantNotSignedUp,
+  },
+  {
+    code: "InvalidRequest",
+    includes: "ServiceGroup name not found",
+    error: ServiceGroupNameNotFound,
+  },
+  {
     includes: "Cannot remove all SenderUsernames",
     error: SenderUsernameLastRemaining,
   },
@@ -1306,6 +1688,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     code: "Conflict",
     includes: "Cannot create a new shared private link resource for replicas",
     error: SignalRReplicaLinkNotReplicated,
+  },
+  {
+    includes: "Referenced custom certificate",
+    error: SignalRCustomCertificateNotFound,
   },
   {
     code: "Conflict",
@@ -1321,12 +1707,30 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: SentinelAnomaliesNotSupported,
   },
   {
+    includes:
+      "Failed to pull machine information from provider with a HttpRequestException",
+    error: GuestConfigurationMachineInfoUnavailable,
+  },
+  {
+    includes: "Failed to pull machine information from provider",
+    error: GuestConfigurationMachineLookupFailed,
+  },
+  {
+    includes: "Request to the agent service failed",
+    error: GuestConfigurationAgentServiceFailed,
+  },
+  {
     includes: "Rules Actions API has been deprecated",
     error: SentinelRuleActionsDeprecated,
   },
   {
     includes: "Unauthorized access due to bad credentials",
     error: SentinelRepositoryAccessDenied,
+  },
+  {
+    code: "401",
+    includes: "unauthorized request",
+    error: DevHubGitHubNotAuthorized,
   },
   // Microsoft.Web: "Operation cannot be completed without additional quota.
   // Current Limit (F1 VMs): 0" — the plan SKU has no quota in the region.
@@ -1402,7 +1806,6 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: SearchSharedPrivateLinkBusy,
   },
   {
-    code: "BadRequest",
     includes: "IP Access Rules security policy feature is not enabled",
     error: AgcIpAccessRulesNotEnabled,
   },
@@ -1437,9 +1840,22 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: SqlOperationInProgress,
   },
   {
+    includes: "The operation cannot be performed on the appliance",
+    error: DatabricksApplianceBusy,
+  },
+  {
     code: "InvalidResourceOperation",
     includes: "storageAccounts/storageTaskAssignments",
     error: StorageTaskAssignmentOperationInProgress,
+  },
+  {
+    code: "InvalidResourceOperation",
+    includes: "Microsoft.Kubernetes/connectedClusters/",
+    error: ConnectedClusterOperationInProgress,
+  },
+  {
+    includes: "error in trying to get cluster extension config",
+    error: CustomLocationClusterExtensionNotFound,
   },
   {
     code: "InvalidResourceOperation",
@@ -1500,6 +1916,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: FrontDoorFreeTrialForbidden,
   },
   {
+    includes: "Artifact Signing is not available for free, trial or sponsored",
+    error: CodeSigningSubscriptionNotSupported,
+  },
+  {
     includes: "SaaS Purchase Payment Check Failed",
     error: MarketplacePurchaseNotEligible,
   },
@@ -1530,6 +1950,16 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     includes: "does not exist",
     error: CustomLocationNotFound,
   },
+  // Microsoft.ScVmm: a missing custom location surfaces as the RP's app
+  // lacking "Microsoft.ExtendedLocation/customLocation/read" on its ID.
+  {
+    includes: "does not have 'Microsoft.ExtendedLocation/customLocation/read'",
+    error: CustomLocationNotFound,
+  },
+  {
+    includes: "has an invalid extended location '<null>'",
+    error: ScVmmVmInstanceMissing,
+  },
   {
     includes: "Arc Machine id is null cannot validate OS Sku",
     error: AzureLocalArcMachineRequired,
@@ -1558,6 +1988,65 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "does not have cores left to create resource",
     error: HDInsightCoresQuotaExceeded,
+  },
+  {
+    code: "InvalidParameter",
+    includes: "is restricted in region",
+    error: RedHatOpenShiftVmSkuRestricted,
+  },
+  {
+    includes: "Azure Cache for Redis is retiring",
+    error: RedisCacheRetiring,
+  },
+  {
+    includes:
+      "The operation was not allowed because the subscription is not in a state to support it",
+    error: AutomanageSubscriptionNotSupported,
+  },
+  {
+    includes: "Relationship lifecycle callbacks are not enabled",
+    error: RelationshipCallbacksNotEnabled,
+  },
+  {
+    includes: "connection resource with id",
+    error: BotConnectionNotFound,
+  },
+  {
+    includes: "ConnectionSettingConverters",
+    error: BotConnectionDeleteInProgress,
+  },
+  {
+    includes: "You are not allowed to create a pipeline",
+    error: DataTransferPipelineNotAllowed,
+  },
+  {
+    includes: "A connection with ID",
+    error: DataTransferConnectionAlreadyExists,
+  },
+  {
+    includes: "Connection has not been approved yet",
+    error: DataTransferConnectionNotApproved,
+  },
+  {
+    includes: "IotDpsState: Transitioning",
+    error: IotDpsStateTransitioning,
+  },
+  {
+    code: "BadRequest",
+    includes: "is in the process of being created",
+    error: CosmosAccountBeingCreated,
+  },
+  {
+    includes: "as ManagedByTenantId",
+    error: LighthouseManagedByTenantNotAllowed,
+  },
+  {
+    includes: "is not valid tenant",
+    error: LighthouseManagedByTenantInvalid,
+  },
+  {
+    includes: "contains invalid principal object identifiers",
+    error: LighthouseInvalidPrincipal,
   },
 ];
 
@@ -1597,6 +2086,13 @@ export class AzureParseError extends Schema.TaggedError<AzureParseError>()(
 
 /** Union of every ARM-code-mapped typed error class. */
 export type AzureApiError =
+  | AttestationComplianceDataNotFound
+  | PowerBITenantNotSignedUp
+  | AutomanageSubscriptionNotSupported
+  | LighthouseManagedByTenantNotAllowed
+  | LighthouseManagedByTenantInvalid
+  | LighthouseInvalidPrincipal
+  | RelationshipCallbacksNotEnabled
   | FederatedIdentityCredentialWriteConflict
   | ResourceNotFound
   | ResourceGroupNotFound
@@ -1617,6 +2113,7 @@ export type AzureApiError =
   | PreconditionFailed
   | OperationNotAllowed
   | MissingRegistration
+  | InvalidResourceNamespace
   | QuotaExceeded
   | RequestRateLimitExceeded
   | LocationNotAvailable
@@ -1628,6 +2125,8 @@ export type AzureApiError =
   | RoleDefinitionWithSameNameExists
   | RoleDefinitionHasAssignments
   | ContainerNotFound
+  | ManagementGroupNotFound
+  | ServiceGroupNameNotFound
   | ShareNotFound
   | QueueNotFound
   | ManagementPolicyNotFound
@@ -1647,6 +2146,7 @@ export type AzureApiError =
   | NatGatewayInUse
   | NetworkInterfaceInUse
   | CannotDeleteResource
+  | ConnectedCacheCustomerCacheNodesExist
   | NetAppCreationRestricted
   | SubscriptionFeatureNotRegistered
   | NetworkFeatureNotSupported
@@ -1657,10 +2157,15 @@ export type AzureApiError =
   | WebAppSlotsNotSupported
   | EventHubApplicationGroupNotSupported
   | SentinelAnomaliesNotSupported
+  | GuestConfigurationMachineInfoUnavailable
+  | GuestConfigurationMachineLookupFailed
+  | GuestConfigurationAgentServiceFailed
   | SentinelRuleActionsDeprecated
   | SentinelRepositoryAccessDenied
+  | DevHubGitHubNotAuthorized
   | AvdServicePrincipalAccessDenied
   | AutomationAccountRegionLimit
+  | RedisCacheRetiring
   | AutomationLocationNotAllowed
   | AutomationSourceControlTokenInvalid
   | CognitiveServicesRequestConflict
@@ -1674,13 +2179,16 @@ export type AzureApiError =
   | SearchSharedPrivateLinkBusy
   | AgcIpAccessRulesNotEnabled
   | TasksOperationsNotAllowed
+  | BatchAccountNotEnabledForAutoStorage
   | MetricsContainerNotReady
   | CustomLocationNotFound
+  | ScVmmVmInstanceMissing
   | EdgeSiteScopeTaken
   | EdgeContextAlreadyExists
   | EdgeContextCapabilityMissing
   | AgentSpaceNotAllowed
   | FrontDoorFreeTrialForbidden
+  | CodeSigningSubscriptionNotSupported
   | SenderUsernameLastRemaining
   | MarketplacePurchaseNotEligible
   | DatadogMonitorCreationValidateFailed
@@ -1694,12 +2202,26 @@ export type AzureApiError =
   | CosmosPostgresProvisioningRetired
   | DevBoxTenantNotOnboarded
   | HDInsightCoresQuotaExceeded
+  | RedHatOpenShiftVmSkuRestricted
   | SqlOperationInProgress
+  | DatabricksApplianceBusy
   | SignalRSkuFeatureNotSupported
   | SignalRReplicaLinkNotReplicated
+  | SignalRCustomCertificateNotFound
   | HybridNetworkOperationInProgress
+  | ConnectedClusterOperationInProgress
+  | CustomLocationClusterExtensionNotFound
   | StorageTaskAssignmentOperationInProgress
   | SqlServerKeyNameInvalid
   | LinkedStorageAccountFaulted
   | HybridComputeGatewayTransitioning
-  | ArcMachineNotConnected;
+  | DeviceUpdateOperationInProgress
+  | ArcMachineNotConnected
+  | BotConnectionNotFound
+  | BotConnectionDeleteInProgress
+  | DataTransferPipelineNotAllowed
+  | DataTransferConnectionAlreadyExists
+  | DataTransferConnectionNotApproved
+  | IotDpsStateTransitioning
+  | CosmosAccountBeingCreated
+  | HttpResponsePayloadAPISpecValidationFailed;

@@ -400,9 +400,14 @@ export const CreateAttestationProviderResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAttestationProviderResponse>;
 
 /** The Private Endpoint resource. */
-export interface PrivateEndpointInput {}
+export interface PrivateEndpointInput {
+  /** The ARM identifier for Private Endpoint. */
+  id?: string;
+}
 export const PrivateEndpointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+  S.Struct({
+    id: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "PrivateEndpointInput",
 }) as any as S.Schema<PrivateEndpointInput>;
@@ -435,6 +440,8 @@ export interface CreatePrivateEndpointConnectionRequest {
   privateEndpointConnectionName: string;
   /** Resource properties. */
   properties?: PrivateEndpointConnectionPropertiesInput;
+  /** Fully qualified ARM resource ID of the private endpoint connection. Required by the service. */
+  id?: string;
 }
 export const CreatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -444,6 +451,7 @@ export const CreatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(
       providerName: S.String.pipe(T.Label()),
       privateEndpointConnectionName: S.String.pipe(T.Label()),
       properties: S.optional(PrivateEndpointConnectionPropertiesInput),
+      id: S.optional(S.String),
     }).pipe(
       T.Http({
         method: "PUT",

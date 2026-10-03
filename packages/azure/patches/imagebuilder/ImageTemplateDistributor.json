@@ -1,0 +1,95 @@
+{
+  "description": "ImageTemplateDistributor is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload on encode and decode. Add the subtype members as optional fields.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/imageId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ManagedImage: ARM resource ID of the managed image to create."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/location",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ManagedImage: Azure location of the managed image."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/galleryImageId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SharedImage: ARM resource ID of the gallery image definition or version."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/replicationRegions",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "SharedImage: (deprecated) regions to replicate to."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/targetRegions",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "SharedImage: target regions with replica counts and storage types."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/versioning",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "SharedImage: version numbering scheme (`Latest` / `Source`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/storageAccountType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "SharedImage: (deprecated) storage account type."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/excludeFromLatest",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#documentation": "SharedImage: exclude the version from `latest`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.imagebuilder#ImageTemplateDistributor/members/uri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "VHD: optional destination blob URI."
+        }
+      }
+    }
+  ]
+}

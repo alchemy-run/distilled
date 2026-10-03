@@ -1,0 +1,203 @@
+{
+  "description": "DigitalTwinsEndpointResourceProperties is polymorphic on endpointType (EventHub / EventGrid / ServiceBus); the converted model keeps only the base members, so S.Struct strips the subtype fields (endpointUri, entityPath, connection strings, TopicEndpoint, access keys) on encode and decode. Add the flattened subtype members to the input and output property shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/connectionStringPrimaryKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub (KeyBased): primary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/connectionStringSecondaryKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub (KeyBased): secondary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/primaryConnectionString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServiceBus (KeyBased): primary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/secondaryConnectionString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServiceBus (KeyBased): secondary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/endpointUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/entityPath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/TopicEndpoint",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventGrid: the topic endpoint URL.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/accessKey1",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventGrid: primary access key. Obfuscated on read.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourcePropertiesInput/members/accessKey2",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventGrid: secondary access key. Obfuscated on read.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/connectionStringPrimaryKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub (KeyBased): primary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/connectionStringSecondaryKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub (KeyBased): secondary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/primaryConnectionString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServiceBus (KeyBased): primary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/secondaryConnectionString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "ServiceBus (KeyBased): secondary connection string.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/endpointUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the URL of the namespace, e.g. sb://<namespace>.servicebus.windows.net.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/entityPath",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHub/ServiceBus (IdentityBased): the event hub, queue, or topic name.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/TopicEndpoint",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventGrid: the topic endpoint URL.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/accessKey1",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventGrid: primary access key. Obfuscated on read.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins#DigitalTwinsEndpointResourceProperties/members/accessKey2",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventGrid: secondary access key. Obfuscated on read.",
+          "com.distilled.openapi#nullable": {}
+        }
+      }
+    }
+  ]
+}
