@@ -7,7 +7,8 @@ import * as Retry from "./retry.ts";
 import { getInstance } from "./services/clerk.ts";
 import type { ClerkOpError } from "./protocol.ts";
 
-// getInstance declares `{ object; id; environment_type; allowed_origins; workspace_id }`, all required.
+// getInstance declares `{ object; id; environment_type; allowed_origins; allowed_subdomains;
+// subdomain_allowlist_enabled; workspace_id }`, all required.
 const run = (body: string) =>
   runValidationModes(
     getInstance({}).pipe(
@@ -24,6 +25,8 @@ describe("Clerk response validation", () => {
       id: "ins_123",
       environment_type: "development",
       allowed_origins: null,
+      allowed_subdomains: [],
+      subdomain_allowlist_enabled: false,
       workspace_id: null,
     };
     const { lenient, strict } = await run(JSON.stringify(body));
