@@ -68272,6 +68272,14 @@
         }
       }
     },
+    "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityIssues": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
     "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityLogs": {
       "type": "structure",
       "members": {
@@ -68320,6 +68328,12 @@
         },
         "logs": {
           "target": "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityLogs"
+        },
+        "redact_query_string": {
+          "target": "smithy.api#Boolean"
+        },
+        "issues": {
+          "target": "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityIssues"
         },
         "traces": {
           "target": "com.cloudflare.workers#CreateScriptEdgePreviewMetadataObservabilityTraces"
@@ -71093,6 +71107,14 @@
         }
       }
     },
+    "com.cloudflare.workers#PutScriptObservabilityIssues": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
     "com.cloudflare.workers#PutScriptObservabilityLogs": {
       "type": "structure",
       "members": {
@@ -71182,6 +71204,12 @@
           "traits": {
             "com.cloudflare.protocols#nullable": {}
           }
+        },
+        "redact_query_string": {
+          "target": "smithy.api#Boolean"
+        },
+        "issues": {
+          "target": "com.cloudflare.workers#PutScriptObservabilityIssues"
         },
         "traces": {
           "target": "com.cloudflare.workers#PutScriptObservabilityTraces",
