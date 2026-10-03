@@ -114,6 +114,11 @@ operation's `errors`:
   wins, one point per field, so a message matcher beats a bare status
   matcher on the same status. Match on the stable part of the response — a
   numeric code or an error type — before free text.
+- A REST package whose protocol sets `forwardStringCodes` (Clerk) passes
+  string envelope codes to the constructor. Give its error shapes
+  `"members": {}` so they get the package's `code: number | string`
+  default. A `code` member targeting `smithy.api#Integer` rejects the
+  string, and the failure becomes a defect.
 - The error's category (`BadRequestError`, `ServerError`, `RetryableError`,
   …) comes from `smithy.api#httpError` and `smithy.api#retryable`
   (`errorCategories` in `packages/core/src/codegen/generator.ts`), and
