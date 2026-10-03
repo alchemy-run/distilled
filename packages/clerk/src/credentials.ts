@@ -62,3 +62,72 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     };
   }).pipe(Effect.orDie),
 );
+
+/**
+ * Default Platform API host. Host-only, matching Clerk's CLI
+ * (`CLERK_PLATFORM_API_URL`); the Platform protocol appends `/v1` (a base
+ * URL that already ends in `/v1` is accepted too).
+ */
+export const DEFAULT_PLATFORM_API_BASE_URL = "https://api.clerk.com";
+
+/**
+ * Resolved Platform API credentials: a workspace (`ak_`) key and the
+ * host-only API base URL.
+ */
+export interface PlatformConfig {
+  readonly apiKey: Redacted.Redacted<string>;
+  readonly apiBaseUrl: string;
+}
+
+/**
+ * Platform API credentials, separate from the Backend API {@link Credentials}
+ * so a workspace key can never be sent to an instance endpoint, or an
+ * instance secret key to a Platform endpoint. Like {@link Credentials} it
+ * holds an effect resolved on every request.
+ */
+export class PlatformCredentials extends Context.Service<
+  PlatformCredentials,
+  Effect.Effect<PlatformConfig>
+>()("ClerkPlatformCredentials") {}
+
+/**
+ * Layer from a plain Platform API key + optional host-only base URL
+ * (default {@link DEFAULT_PLATFORM_API_BASE_URL}; an empty string also means
+ * the default).
+ */
+export const platformFromApiKey = (config: {
+  readonly apiKey: string;
+  readonly apiBaseUrl?: string;
+}): Layer.Layer<PlatformCredentials> =>
+  Layer.succeed(
+    PlatformCredentials,
+    Effect.succeed({
+      apiKey: Redacted.make(config.apiKey),
+      apiBaseUrl: config.apiBaseUrl || DEFAULT_PLATFORM_API_BASE_URL,
+    }),
+  );
+
+/**
+ * Reads CLERK_PLATFORM_API_KEY (required) and CLERK_PLATFORM_API_URL
+ * (optional, host-only), the same variables Clerk's CLI uses.
+ */
+export const PlatformCredentialsFromEnv: Layer.Layer<PlatformCredentials> =
+  Layer.succeed(
+    PlatformCredentials,
+    Effect.gen(function* () {
+      const apiKey = process.env.CLERK_PLATFORM_API_KEY;
+
+      if (!apiKey) {
+        return yield* new ConfigError({
+          message: "CLERK_PLATFORM_API_KEY environment variable is required",
+        });
+      }
+
+      return {
+        apiKey: Redacted.make(apiKey),
+        // `||`: an empty CLERK_PLATFORM_API_URL means unset, not a relative URL.
+        apiBaseUrl:
+          process.env.CLERK_PLATFORM_API_URL || DEFAULT_PLATFORM_API_BASE_URL,
+      };
+    }).pipe(Effect.orDie),
+  );

@@ -12,7 +12,13 @@
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ errors: [{ code, message }] }` bodies
  *             map to the operation's typed error classes by status, then the
- *             shared HTTP-status classes, then {@link UnknownClerkError}.
+ *             shared HTTP-status classes, then {@link UnknownClerkError}. Typed
+ *             errors carry the envelope's string `code` (e.g.
+ *             `resource_not_found`).
+ *
+ * {@link ClerkPlatformProtocol} is the same shape for the Platform API: a
+ * workspace key from {@link PlatformCredentials}, no `Clerk-API-Version`
+ * header, and the host-only base URL with `/v1` appended.
  */
 import * as Effect from "effect/Effect";
 import type * as Layer from "effect/Layer";
@@ -23,9 +29,15 @@ import type * as API from "@distilled.cloud/core/api";
 import {
   makeRestProtocol,
   type RestErrorEnvelope,
+  type RestErrorInfo,
 } from "@distilled.cloud/core/protocol-rest";
 import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
-import { Credentials, type Config } from "./credentials.ts";
+import {
+  Credentials,
+  PlatformCredentials,
+  type Config,
+  type PlatformConfig,
+} from "./credentials.ts";
 import { UnknownClerkError, ClerkParseError } from "./errors.ts";
 
 /**
@@ -43,6 +55,15 @@ export type ClerkOpError =
 
 /** Context (requirements) shared by every generated Clerk operation. */
 export type ClerkOpContext = Credentials | HttpClient.HttpClient;
+
+/**
+ * Context (requirements) shared by every generated Clerk Platform operation.
+ * Distinct from {@link ClerkOpContext}: Backend API credentials do not
+ * satisfy it.
+ */
+export type ClerkPlatformOpContext =
+  | PlatformCredentials
+  | HttpClient.HttpClient;
 
 /**
  * Clerk's error body is `{ errors: [{ message, long_message?, code }],
@@ -73,6 +94,23 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
+/** Clerk's fallback for failures no typed error class matched. */
+const unknownError = ({ code, message, body }: RestErrorInfo) =>
+  new UnknownClerkError({
+    code:
+      typeof code === "string"
+        ? code
+        : code !== undefined
+          ? String(code)
+          : undefined,
+    message,
+    body,
+  });
+
+/** Strict-mode 2xx validation failure. */
+const parseError = ({ body, cause }: { body: unknown; cause: unknown }) =>
+  new ClerkParseError({ body, cause });
+
 export const ClerkProtocol: Layer.Layer<API.Protocol> =
   makeRestProtocol<Config>({
     // The Credentials service holds an effect — resolving it here (per
@@ -87,16 +125,32 @@ export const ClerkProtocol: Layer.Layer<API.Protocol> =
       "Clerk-API-Version": creds.apiVersion,
     }),
     errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownClerkError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-    parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
+    forwardStringCodes: true,
+    unknownError,
+    parseError,
+  });
+
+/**
+ * Protocol for the Clerk Platform API. The base URL is host-only (as in
+ * Clerk's CLI) and every Platform path is under `/v1/platform`, so `/v1` is
+ * appended after stripping trailing slashes and any trailing `/v1` (both
+ * `https://api.clerk.com` and `https://api.clerk.com/v1` work). No
+ * `Clerk-API-Version` header: the Platform spec declares none and Clerk's
+ * CLI sends none.
+ */
+export const ClerkPlatformProtocol: Layer.Layer<API.Protocol> =
+  makeRestProtocol<PlatformConfig>({
+    credentials: Effect.gen(function* () {
+      const resolve = yield* PlatformCredentials;
+      return yield* resolve;
+    }),
+    baseUrl: (creds) =>
+      `${creds.apiBaseUrl.replace(/\/+$/, "").replace(/\/v1$/, "")}/v1`,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope,
+    forwardStringCodes: true,
+    unknownError,
+    parseError,
   });

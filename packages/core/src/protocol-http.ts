@@ -729,7 +729,7 @@ const matcherSpecificity = (m: ErrorMatcher): number =>
 /** Every supplied constraint must match; an unconstrained matcher matches nothing. */
 export const matchesExpression = (
   m: ErrorMatcher,
-  code: number | undefined,
+  code: string | number | undefined,
   status: number,
   message: string,
   response: ErrorResponse = {},
@@ -778,11 +778,16 @@ export const matchesExpression = (
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
   status: number,
-  errors: ReadonlyArray<{ code?: number; message: string }>,
+  errors: ReadonlyArray<{ code?: string | number; message: string }>,
   response: ErrorResponse = {},
 ): unknown | undefined => {
   let best:
-    | { cls: unknown; specificity: number; code?: number; message: string }
+    | {
+        cls: unknown;
+        specificity: number;
+        code?: string | number;
+        message: string;
+      }
     | undefined;
   const wireErrors =
     errors.length > 0 ? errors : [{ message: `HTTP ${status}` }];
@@ -801,11 +806,28 @@ export const matchTypedError = (
     }
   }
   if (!best) return undefined;
-  return new (best.cls as new (args: any) => unknown)({
-    code: best.code ?? 0,
-    message: best.message,
-    body: response.body,
-    headers: response.headers,
-  });
+  const { cls, code, message } = best as {
+    cls: new (args: any) => unknown;
+    code?: string | number;
+    message: string;
+  };
+  const construct = (errorCode: string | number) =>
+    new cls({
+      code: errorCode,
+      message,
+      body: response.body,
+      headers: response.headers,
+    });
+  try {
+    return construct(code ?? 0);
+  } catch (cause) {
+    // A forwarded string code on a class that declares `code` as a number
+    // (`forwardStringCodes` enabled without string-capable error fields)
+    // fails construction. Degrade to `code: 0`, the same value the class
+    // gets when the code is not forwarded, rather than turning the typed
+    // error into a defect.
+    if (typeof code !== "string") throw cause;
+    return construct(0);
+  }
 };
 //#endregion

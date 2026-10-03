@@ -1,0 +1,14 @@
+{
+  "description": "Type GetConfig's response as the open map it is. The spec declares PlatformConfigResponse with one property (config_version) plus additionalProperties: true; convert keeps only the declared property, so the generated output type is { config_version?: string } and every config key is invisible to callers. Live GET .../instances/development/config on 2026-10-02 returned 50 top-level keys (auth_*, connection_oauth_*, session_settings, branding, …; some null, e.g. session) alongside config_version (e.g. `v1_45593ba3`). Replace the schema with a pure map so the whole document, config_version included, is typed as Record<string, unknown>.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/components/schemas/PlatformConfigResponse",
+      "value": {
+        "type": "object",
+        "description": "Instance configuration: every config key, plus `config_version` for optimistic concurrency control.",
+        "additionalProperties": true
+      }
+    }
+  ]
+}
