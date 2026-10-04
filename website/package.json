@@ -19,13 +19,13 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@effect/platform-bun": "catalog:alchemy",
-    "@effect/platform-node": "catalog:alchemy",
+    "@effect/platform-bun": "catalog:",
+    "@effect/platform-node": "catalog:",
     "@solidjs/meta": "0.29.4",
     "@solidjs/router": "1.0.0",
     "@solidjs/start": "2.0.5",
-    "alchemy": "catalog:alchemy",
-    "effect": "catalog:alchemy",
+    "alchemy": "catalog:",
+    "effect": "catalog:",
     "solid-js": "1.9.15",
     "torph": "0.1.3"
   },
