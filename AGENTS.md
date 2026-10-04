@@ -63,7 +63,7 @@ pnpm generate [<pkg>…]      # convert + generate + format; all packages if no 
 pnpm patches:audit <pkg>    # which of packages/<pkg>/patches/ the spec no longer needs
 ```
 
-Package manager is pnpm 11 (`packageManager` pins it), Node 24
+Package manager is pnpm 12 (`packageManager` pins it), Node 24
 (`.node-version`). Bun runs the scripts under `scripts/` and
 `packages/*/scripts/`, so you need both on PATH. A `pre-commit` hook runs
 `bun format`.
