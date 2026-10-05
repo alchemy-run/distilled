@@ -185,9 +185,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -207,9 +205,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -259,32 +255,24 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** The contents of the file. */
-export type PortalTenantCompilefileRequestContentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type PortalTenantCompilefileRequestContentsMap = { [key: string]: unknown | undefined };
 export const PortalTenantCompilefileRequestContentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<PortalTenantCompilefileRequestContentsMap>;
 
 /** The contents of the string source. */
-export type PortalTenantCompilefileRequestStringSourceMap = {
-  [key: string]: unknown | undefined;
-};
+export type PortalTenantCompilefileRequestStringSourceMap = { [key: string]: unknown | undefined };
 export const PortalTenantCompilefileRequestStringSourceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<PortalTenantCompilefileRequestStringSourceMap>;
 
 /** The contents of referenced files. The property name is the relative file path and the value is its contents. */
-export type PortalTenantCompilefileRequestFilesMap = {
-  [key: string]: unknown | undefined;
-};
+export type PortalTenantCompilefileRequestFilesMap = { [key: string]: unknown | undefined };
 export const PortalTenantCompilefileRequestFilesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -316,9 +304,7 @@ export const PortalTenantCompilefileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PortalTenantCompilefileRequest>;
 
 /** The contents of the file to compile. */
-export type PortalTenantCompileFileResult = {
-  [key: string]: unknown | undefined;
-};
+export type PortalTenantCompileFileResult = { [key: string]: unknown | undefined };
 export const PortalTenantCompileFileResult = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,

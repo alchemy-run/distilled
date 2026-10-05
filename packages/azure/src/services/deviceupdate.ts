@@ -197,9 +197,7 @@ export type UserAssignedIdentityInput = PrivateEndpointInput;
 export const UserAssignedIdentityInput = PrivateEndpointInput;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: PrivateEndpointInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: PrivateEndpointInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   PrivateEndpointInput,
@@ -252,9 +250,7 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -291,9 +287,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -322,9 +316,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Array of group IDs. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -466,14 +458,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -528,14 +516,10 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CreateAccountResponseProperties),
     identity: S.optional(CreateAccountResponseIdentity),
   }),
-).annotate({
-  identifier: "CreateAccountResponse",
-}) as any as S.Schema<CreateAccountResponse>;
+).annotate({ identifier: "CreateAccountResponse" }) as any as S.Schema<CreateAccountResponse>;
 
 /** Resource tags. */
-export type CreateInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -632,14 +616,10 @@ export const CreateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateInstanceRequest",
-}) as any as S.Schema<CreateInstanceRequest>;
+).annotate({ identifier: "CreateInstanceRequest" }) as any as S.Schema<CreateInstanceRequest>;
 
 /** Resource tags. */
-export type CreateInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const CreateInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -711,9 +691,7 @@ export const CreateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: CreateInstanceResponseProperties,
   }),
-).annotate({
-  identifier: "CreateInstanceResponse",
-}) as any as S.Schema<CreateInstanceResponse>;
+).annotate({ identifier: "CreateInstanceResponse" }) as any as S.Schema<CreateInstanceResponse>;
 
 export interface DeleteAccountRequest {
   /** The Azure subscription ID. */
@@ -736,9 +714,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -769,9 +745,7 @@ export const DeleteInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteInstanceRequest",
-}) as any as S.Schema<DeleteInstanceRequest>;
+).annotate({ identifier: "DeleteInstanceRequest" }) as any as S.Schema<DeleteInstanceRequest>;
 
 export interface DeleteInstanceResponse {}
 export const DeleteInstanceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -869,9 +843,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -983,9 +955,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GetAccountResponseProperties),
     identity: S.optional(CreateAccountResponseIdentity),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetInstanceRequest {
   /** The Azure subscription ID. */
@@ -1011,9 +981,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetInstanceRequest",
-}) as any as S.Schema<GetInstanceRequest>;
+).annotate({ identifier: "GetInstanceRequest" }) as any as S.Schema<GetInstanceRequest>;
 
 /** Resource tags. */
 export type GetInstanceResponseTagsMap = { [key: string]: string | undefined };
@@ -1088,9 +1056,7 @@ export const GetInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: GetInstanceResponseProperties,
   }),
-).annotate({
-  identifier: "GetInstanceResponse",
-}) as any as S.Schema<GetInstanceResponse>;
+).annotate({ identifier: "GetInstanceResponse" }) as any as S.Schema<GetInstanceResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The Azure subscription ID. */
@@ -1307,9 +1273,7 @@ export const PrivateLinkServiceProxy = /*@__PURE__*/ S.suspend(() =>
       PrivateLinkServiceProxyGroupConnectivityInformationList,
     ),
   }),
-).annotate({
-  identifier: "PrivateLinkServiceProxy",
-}) as any as S.Schema<PrivateLinkServiceProxy>;
+).annotate({ identifier: "PrivateLinkServiceProxy" }) as any as S.Schema<PrivateLinkServiceProxy>;
 
 /** List of private link service proxies. */
 export type RemotePrivateEndpointPrivateLinkServiceProxiesList = Array<PrivateLinkServiceProxy>;
@@ -1338,9 +1302,7 @@ export const ConnectionDetails = /*@__PURE__*/ S.suspend(() =>
     groupId: S.optional(S.String),
     memberName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionDetails",
-}) as any as S.Schema<ConnectionDetails>;
+).annotate({ identifier: "ConnectionDetails" }) as any as S.Schema<ConnectionDetails>;
 
 /** List of connection details. */
 export type RemotePrivateEndpointConnectionDetailsList = Array<ConnectionDetails>;
@@ -1385,9 +1347,7 @@ export const RemotePrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
     privateLinkServiceProxies: S.optional(RemotePrivateEndpointPrivateLinkServiceProxiesList),
     connectionDetails: S.optional(RemotePrivateEndpointConnectionDetailsList),
   }),
-).annotate({
-  identifier: "RemotePrivateEndpoint",
-}) as any as S.Schema<RemotePrivateEndpoint>;
+).annotate({ identifier: "RemotePrivateEndpoint" }) as any as S.Schema<RemotePrivateEndpoint>;
 
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProxyProvisioningState =
@@ -1626,9 +1586,7 @@ export const AccountProperties = /*@__PURE__*/ S.suspend(() =>
     encryption: S.optional(Encryption),
     locations: S.optional(AccountPropertiesLocationsList),
   }),
-).annotate({
-  identifier: "AccountProperties",
-}) as any as S.Schema<AccountProperties>;
+).annotate({ identifier: "AccountProperties" }) as any as S.Schema<AccountProperties>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type AccountIdentity = CreateAccountResponseIdentity;
@@ -1773,9 +1731,7 @@ export const InstanceProperties = /*@__PURE__*/ S.suspend(() =>
     enableDiagnostics: S.optional(S.Boolean),
     diagnosticStorageProperties: S.optional(DiagnosticStorageProperties),
   }),
-).annotate({
-  identifier: "InstanceProperties",
-}) as any as S.Schema<InstanceProperties>;
+).annotate({ identifier: "InstanceProperties" }) as any as S.Schema<InstanceProperties>;
 
 /** Device Update instance details. */
 export interface Instance {
@@ -1836,9 +1792,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1858,9 +1812,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1910,9 +1862,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionByAccountRequest {
   /** The Azure subscription ID. */
@@ -2098,9 +2048,7 @@ export const GroupInformation = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: GroupInformationProperties,
   }),
-).annotate({
-  identifier: "GroupInformation",
-}) as any as S.Schema<GroupInformation>;
+).annotate({ identifier: "GroupInformation" }) as any as S.Schema<GroupInformation>;
 
 /** The list of available private link resources for an Account */
 export type PrivateLinkResourceListResultValueList = Array<GroupInformation>;
@@ -2439,14 +2387,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2555,14 +2499,10 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(UpdateAccountResponseProperties),
     identity: S.optional(CreateAccountResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 /** List of key value pairs that describe the resource. This will overwrite the existing tags. */
-export type UpdateInstanceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateInstanceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2595,14 +2535,10 @@ export const UpdateInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateInstanceRequest",
-}) as any as S.Schema<UpdateInstanceRequest>;
+).annotate({ identifier: "UpdateInstanceRequest" }) as any as S.Schema<UpdateInstanceRequest>;
 
 /** Resource tags. */
-export type UpdateInstanceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInstanceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateInstanceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2674,9 +2610,7 @@ export const UpdateInstanceResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: UpdateInstanceResponseProperties,
   }),
-).annotate({
-  identifier: "UpdateInstanceResponse",
-}) as any as S.Schema<UpdateInstanceResponse>;
+).annotate({ identifier: "UpdateInstanceResponse" }) as any as S.Schema<UpdateInstanceResponse>;
 
 export interface UpdatePrivateEndpointConnectionProxyPrivateEndpointPropertiesRequest {
   /** The Azure subscription ID. */

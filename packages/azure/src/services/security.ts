@@ -43,7 +43,7 @@ export const DataScannersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -144,14 +144,12 @@ export const DeleteDataScannerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDataScannerRequest",
-}) as any as S.Schema<DeleteDataScannerRequest>;
+).annotate({ identifier: "DeleteDataScannerRequest" }) as any as S.Schema<DeleteDataScannerRequest>;
 
 export interface DeleteDataScannerResponse {}
 export const DeleteDataScannerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -171,14 +169,12 @@ export const GetDataScannerRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners/{scannerName}",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners/{scannerName}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataScannerRequest",
-}) as any as S.Schema<GetDataScannerRequest>;
+).annotate({ identifier: "GetDataScannerRequest" }) as any as S.Schema<GetDataScannerRequest>;
 
 /** Managed service identity (either system assigned, or none) */
 export type GetDataScannerResponseIdentity = DataScannersCreateOrUpdateResponseIdentity;
@@ -207,9 +203,7 @@ export const GetDataScannerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(S.Unknown),
     identity: S.optional(DataScannersCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "GetDataScannerResponse",
-}) as any as S.Schema<GetDataScannerResponse>;
+).annotate({ identifier: "GetDataScannerResponse" }) as any as S.Schema<GetDataScannerResponse>;
 
 export interface ListDataScannersRequest {
   /** The scope of the data scanner. Valid scopes are a subscription (format: 'subscriptions/{subscriptionId}') or a resource group (format: 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
@@ -221,14 +215,12 @@ export const ListDataScannersRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scopeId}/providers/Microsoft.Security/dataScanners",
+      uri: "/{scopeId+}/providers/Microsoft.Security/dataScanners",
       code: 200,
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListDataScannersRequest",
-}) as any as S.Schema<ListDataScannersRequest>;
+).annotate({ identifier: "ListDataScannersRequest" }) as any as S.Schema<ListDataScannersRequest>;
 
 /** Managed service identity (either system assigned, or none) */
 export type DataScannerIdentity = DataScannersCreateOrUpdateResponseIdentity;
@@ -278,9 +270,7 @@ export const DataScannerList = /*@__PURE__*/ S.suspend(() =>
     value: DataScannerListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataScannerList",
-}) as any as S.Schema<DataScannerList>;
+).annotate({ identifier: "DataScannerList" }) as any as S.Schema<DataScannerList>;
 
 export type DataScannersCreateOrUpdateError = AzureOpError;
 /** Creates or updates a data scanner resource for the specified scope. */

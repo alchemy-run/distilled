@@ -42,9 +42,7 @@ export const CalloutPolicyInput = /*@__PURE__*/ S.suspend(() =>
     calloutType: S.optional(CalloutType),
     outboundAccess: S.optional(OutboundAccess),
   }),
-).annotate({
-  identifier: "CalloutPolicyInput",
-}) as any as S.Schema<CalloutPolicyInput>;
+).annotate({ identifier: "CalloutPolicyInput" }) as any as S.Schema<CalloutPolicyInput>;
 
 /** The CalloutPolicy items on this page */
 export type AddClusterCalloutPoliciesRequestValueList = Array<CalloutPolicyInput>;
@@ -120,9 +118,7 @@ export const LanguageExtension = /*@__PURE__*/ S.suspend(() =>
     languageExtensionImageName: S.optional(LanguageExtensionImageName),
     languageExtensionCustomImageName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LanguageExtension",
-}) as any as S.Schema<LanguageExtension>;
+).annotate({ identifier: "LanguageExtension" }) as any as S.Schema<LanguageExtension>;
 
 /** The list of language extensions. */
 export type AddClusterLanguageExtensionsRequestValueList = Array<LanguageExtension>;
@@ -206,9 +202,7 @@ export const DatabasePrincipalInput = /*@__PURE__*/ S.suspend(() =>
     email: S.optional(S.String),
     appId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabasePrincipalInput",
-}) as any as S.Schema<DatabasePrincipalInput>;
+).annotate({ identifier: "DatabasePrincipalInput" }) as any as S.Schema<DatabasePrincipalInput>;
 
 /** The list of Kusto database principals. */
 export type AddDatabasePrincipalsRequestValueList = Array<DatabasePrincipalInput>;
@@ -274,9 +268,7 @@ export const DatabasePrincipal = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     tenantName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabasePrincipal",
-}) as any as S.Schema<DatabasePrincipal>;
+).annotate({ identifier: "DatabasePrincipal" }) as any as S.Schema<DatabasePrincipal>;
 
 /** The list of Kusto database principals. */
 export type DatabasePrincipalListResultValueList = Array<DatabasePrincipal>;
@@ -626,9 +618,7 @@ export const CheckNameResult = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     reason: S.optional(Reason),
   }),
-).annotate({
-  identifier: "CheckNameResult",
-}) as any as S.Schema<CheckNameResult>;
+).annotate({ identifier: "CheckNameResult" }) as any as S.Schema<CheckNameResult>;
 
 /** The type of resource, Microsoft.Kusto/clusters. */
 export type CheckClusterNameAvailabilityRequestType = "Microsoft.Kusto/clusters";
@@ -1046,9 +1036,7 @@ export const ClusterPrincipalAssignmentsCreateOrUpdateResponse = /*@__PURE__*/ S
 }) as any as S.Schema<ClusterPrincipalAssignmentsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1063,9 +1051,7 @@ export const TrustedExternalTenant = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrustedExternalTenant",
-}) as any as S.Schema<TrustedExternalTenant>;
+).annotate({ identifier: "TrustedExternalTenant" }) as any as S.Schema<TrustedExternalTenant>;
 
 /** The cluster's external tenants. */
 export type ClusterPropertiesInputTrustedExternalTenantsList = Array<TrustedExternalTenant>;
@@ -1091,9 +1077,7 @@ export const OptimizedAutoscale = /*@__PURE__*/ S.suspend(() =>
     minimum: S.Number,
     maximum: S.Number,
   }),
-).annotate({
-  identifier: "OptimizedAutoscale",
-}) as any as S.Schema<OptimizedAutoscale>;
+).annotate({ identifier: "OptimizedAutoscale" }) as any as S.Schema<OptimizedAutoscale>;
 
 /** When enabled, the cluster is deployed into the configured subnet, when disabled it will be removed from the subnet. */
 export type VirtualNetworkConfigurationState = "Enabled" | "Disabled";
@@ -1142,9 +1126,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     userIdentity: S.optional(S.String),
     federatedIdentityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** The list of language extensions. */
 export type LanguageExtensionsListValueList = Array<LanguageExtension>;
@@ -1164,9 +1146,7 @@ export const LanguageExtensionsList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(LanguageExtensionsListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LanguageExtensionsList",
-}) as any as S.Schema<LanguageExtensionsList>;
+).annotate({ identifier: "LanguageExtensionsList" }) as any as S.Schema<LanguageExtensionsList>;
 
 /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
 export type ClusterPropertiesInputPublicNetworkAccess =
@@ -1194,9 +1174,7 @@ export const AcceptedAudiences = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AcceptedAudiences",
-}) as any as S.Schema<AcceptedAudiences>;
+).annotate({ identifier: "AcceptedAudiences" }) as any as S.Schema<AcceptedAudiences>;
 
 /** The cluster's accepted audiences. */
 export type ClusterPropertiesInputAcceptedAudiencesList = Array<AcceptedAudiences>;
@@ -1289,9 +1267,7 @@ export const ClusterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     publicIPType: S.optional(ClusterPropertiesInputPublicIPType),
     virtualClusterGraduationProperties: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterPropertiesInput",
-}) as any as S.Schema<ClusterPropertiesInput>;
+).annotate({ identifier: "ClusterPropertiesInput" }) as any as S.Schema<ClusterPropertiesInput>;
 
 /** SKU name. */
 export type AzureSkuName =
@@ -1472,9 +1448,7 @@ export const ClustersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClustersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1569,9 +1543,7 @@ export const PrivateEndpointProperty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpointProperty",
-}) as any as S.Schema<PrivateEndpointProperty>;
+).annotate({ identifier: "PrivateEndpointProperty" }) as any as S.Schema<PrivateEndpointProperty>;
 
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
@@ -1762,9 +1734,7 @@ export const ClusterProperties = /*@__PURE__*/ S.suspend(() =>
     migrationCluster: S.optional(MigrationClusterProperties),
     zoneStatus: S.optional(ZoneStatus),
   }),
-).annotate({
-  identifier: "ClusterProperties",
-}) as any as S.Schema<ClusterProperties>;
+).annotate({ identifier: "ClusterProperties" }) as any as S.Schema<ClusterProperties>;
 
 /** The availability zones. */
 export type ClustersCreateOrUpdateResponseZonesList = Array<string>;
@@ -1832,11 +1802,11 @@ export interface ClustersCreateOrUpdateResponse {
   /** Resource tags. */
   tags?: ClustersCreateOrUpdateResponseTagsMap;
   /** The geo-location where the resource lives */
-  location: string;
+  location?: string;
   /** The cluster properties. */
   properties?: ClusterProperties;
   /** The SKU of the cluster. */
-  sku: AzureSku;
+  sku?: AzureSku;
   /** The availability zones. */
   zones?: ClustersCreateOrUpdateResponseZonesList;
   /** The identity of the cluster, if configured. */
@@ -1851,9 +1821,9 @@ export const ClustersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     tags: S.optional(ClustersCreateOrUpdateResponseTagsMap),
-    location: S.String,
+    location: S.optional(S.String),
     properties: S.optional(ClusterProperties),
-    sku: AzureSku,
+    sku: S.optional(AzureSku),
     zones: S.optional(ClustersCreateOrUpdateResponseZonesList),
     identity: S.optional(Identity),
     etag: S.optional(S.String),
@@ -2115,6 +2085,37 @@ export const DatabasesCreateOrUpdateRequestCallerRole = S.String;
 export type Kind = "ReadWrite" | "ReadOnlyFollowing";
 export const Kind = S.String;
 
+/** Properties of a ReadWrite database (the `kind: ReadWrite` variant of the polymorphic Database; ReadOnlyFollowing databases return a superset). */
+export interface ReadWriteDatabaseProperties {
+  /** The provisioned state of the resource. */
+  provisioningState?: string;
+  /** The time the data should be kept before it stops being accessible to queries (ISO-8601 duration). */
+  softDeletePeriod?: string;
+  /** The time the data should be kept in cache for fast queries (ISO-8601 duration). */
+  hotCachePeriod?: string;
+  /** The statistics of the database. */
+  statistics?: unknown;
+  /** Indicates whether the database is followed. */
+  isFollowed?: boolean;
+  /** KeyVault properties for the database encryption. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** The database suspension details. */
+  suspensionDetails?: unknown;
+}
+export const ReadWriteDatabaseProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    provisioningState: S.optional(S.String),
+    softDeletePeriod: S.optional(S.String),
+    hotCachePeriod: S.optional(S.String),
+    statistics: S.optional(S.Unknown),
+    isFollowed: S.optional(S.Boolean),
+    keyVaultProperties: S.optional(KeyVaultProperties),
+    suspensionDetails: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "ReadWriteDatabaseProperties",
+}) as any as S.Schema<ReadWriteDatabaseProperties>;
+
 export interface DatabasesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2130,6 +2131,8 @@ export interface DatabasesCreateOrUpdateRequest {
   location?: string;
   /** Kind of the database */
   kind: Kind | (string & {});
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const DatabasesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2140,6 +2143,7 @@ export const DatabasesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     callerRole: S.optional(DatabasesCreateOrUpdateRequestCallerRole.pipe(T.Query())),
     location: S.optional(S.String),
     kind: Kind,
+    properties: S.optional(ReadWriteDatabaseProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -2164,7 +2168,9 @@ export interface DatabasesCreateOrUpdateResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the database */
-  kind: Kind;
+  kind?: Kind;
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const DatabasesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2173,7 +2179,8 @@ export const DatabasesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: Kind,
+    kind: S.optional(Kind),
+    properties: S.optional(ReadWriteDatabaseProperties),
   }),
 ).annotate({
   identifier: "DatabasesCreateOrUpdateResponse",
@@ -2188,6 +2195,82 @@ export type DataConnectionKind =
   | "EventHubWithManagedIdentity"
   | "EventGridWithManagedIdentity";
 export const DataConnectionKind = S.String;
+
+export type DataConnectionPropertiesEventSystemPropertiesList = Array<string>;
+export const DataConnectionPropertiesEventSystemPropertiesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DataConnectionPropertiesEventSystemPropertiesList>;
+
+/** Union of the data connection `properties` across kinds (EventHub, EventGrid, IotHub, CosmosDb). */
+export interface DataConnectionProperties {
+  /** The resource ID of the event hub (EventHub, EventGrid kinds). */
+  eventHubResourceId?: string;
+  /** The event hub / IoT hub consumer group. */
+  consumerGroup?: string;
+  /** The table where the data should be ingested. */
+  tableName?: string;
+  /** The mapping rule to be used to ingest the data. */
+  mappingRuleName?: string;
+  /** The data format of the message. */
+  dataFormat?: string;
+  /** System properties of the event hub / IoT hub. */
+  eventSystemProperties?: DataConnectionPropertiesEventSystemPropertiesList;
+  /** The event hub messages compression type (`None` | `GZip`). */
+  compression?: string;
+  /** The provisioned state of the resource. */
+  provisioningState?: string;
+  /** The resource ID of a managed identity used to access the source. */
+  managedIdentityResourceId?: string;
+  /** The object ID of the managed identity. */
+  managedIdentityObjectId?: string;
+  /** Single or multi database routing (`Single` | `Multi`). */
+  databaseRouting?: string;
+  /** Retrieve events created after this date (ISO-8601). */
+  retrievalStartDate?: string;
+  /** The storage account resource ID (EventGrid kind). */
+  storageAccountResourceId?: string;
+  /** The Event Grid subscription resource ID (EventGrid kind). */
+  eventGridResourceId?: string;
+  /** Ignore the first record of every file (EventGrid kind). */
+  ignoreFirstRecord?: boolean;
+  /** The blob storage event type to process (EventGrid kind). */
+  blobStorageEventType?: string;
+  /** The IoT hub resource ID (IotHub kind). */
+  iotHubResourceId?: string;
+  /** The IoT hub shared access policy name (IotHub kind). */
+  sharedAccessPolicyName?: string;
+  /** The Cosmos DB account resource ID (CosmosDb kind). */
+  cosmosDbAccountResourceId?: string;
+  /** The Cosmos DB database name (CosmosDb kind). */
+  cosmosDbDatabase?: string;
+  /** The Cosmos DB container name (CosmosDb kind). */
+  cosmosDbContainer?: string;
+}
+export const DataConnectionProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    eventHubResourceId: S.optional(S.String),
+    consumerGroup: S.optional(S.String),
+    tableName: S.optional(S.String),
+    mappingRuleName: S.optional(S.String),
+    dataFormat: S.optional(S.String),
+    eventSystemProperties: S.optional(DataConnectionPropertiesEventSystemPropertiesList),
+    compression: S.optional(S.String),
+    provisioningState: S.optional(S.String),
+    managedIdentityResourceId: S.optional(S.String),
+    managedIdentityObjectId: S.optional(S.String),
+    databaseRouting: S.optional(S.String),
+    retrievalStartDate: S.optional(S.String),
+    storageAccountResourceId: S.optional(S.String),
+    eventGridResourceId: S.optional(S.String),
+    ignoreFirstRecord: S.optional(S.Boolean),
+    blobStorageEventType: S.optional(S.String),
+    iotHubResourceId: S.optional(S.String),
+    sharedAccessPolicyName: S.optional(S.String),
+    cosmosDbAccountResourceId: S.optional(S.String),
+    cosmosDbDatabase: S.optional(S.String),
+    cosmosDbContainer: S.optional(S.String),
+  }),
+).annotate({ identifier: "DataConnectionProperties" }) as any as S.Schema<DataConnectionProperties>;
 
 export interface DataConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2204,6 +2287,8 @@ export interface DataConnectionsCreateOrUpdateRequest {
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const DataConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2214,6 +2299,7 @@ export const DataConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
     dataConnectionName: S.String.pipe(T.Label()),
     location: S.optional(S.String),
     kind: DataConnectionKind,
+    properties: S.optional(DataConnectionProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -2238,7 +2324,9 @@ export interface DataConnectionsCreateOrUpdateResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
+  kind?: DataConnectionKind;
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const DataConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2247,7 +2335,8 @@ export const DataConnectionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: DataConnectionKind,
+    kind: S.optional(DataConnectionKind),
+    properties: S.optional(DataConnectionProperties),
   }),
 ).annotate({
   identifier: "DataConnectionsCreateOrUpdateResponse",
@@ -2265,9 +2354,7 @@ export const DataConnectionInput = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     kind: DataConnectionKind,
   }),
-).annotate({
-  identifier: "DataConnectionInput",
-}) as any as S.Schema<DataConnectionInput>;
+).annotate({ identifier: "DataConnectionInput" }) as any as S.Schema<DataConnectionInput>;
 
 export interface DataConnectionsDataConnectionValidationRequest {
   /** The ID of the target subscription. */
@@ -2391,9 +2478,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2459,9 +2544,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2674,9 +2757,7 @@ export const DeleteScriptRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "DeleteScriptRequest",
-}) as any as S.Schema<DeleteScriptRequest>;
+).annotate({ identifier: "DeleteScriptRequest" }) as any as S.Schema<DeleteScriptRequest>;
 
 export interface DeleteScriptResponse {}
 export const DeleteScriptResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2797,9 +2878,7 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 /** Resource tags. */
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2852,9 +2931,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(Identity),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetClusterPrincipalAssignmentRequest {
   /** The ID of the target subscription. */
@@ -2932,9 +3009,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2949,6 +3024,8 @@ export interface GetDatabaseResponse {
   location?: string;
   /** Kind of the database */
   kind: Kind;
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2958,10 +3035,9 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
     kind: Kind,
+    properties: S.optional(ReadWriteDatabaseProperties),
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetDatabasePrincipalAssignmentRequest {
   /** The ID of the target subscription. */
@@ -3045,9 +3121,7 @@ export const GetDataConnectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "GetDataConnectionRequest",
-}) as any as S.Schema<GetDataConnectionRequest>;
+).annotate({ identifier: "GetDataConnectionRequest" }) as any as S.Schema<GetDataConnectionRequest>;
 
 export interface GetDataConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3062,6 +3136,8 @@ export interface GetDataConnectionResponse {
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind;
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const GetDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3071,6 +3147,7 @@ export const GetDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
     kind: DataConnectionKind,
+    properties: S.optional(DataConnectionProperties),
   }),
 ).annotate({
   identifier: "GetDataConnectionResponse",
@@ -3247,9 +3324,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(OperationResultProperties),
     error: S.optional(OperationResultErrorProperties),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -3494,9 +3569,7 @@ export const GetScriptRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "GetScriptRequest",
-}) as any as S.Schema<GetScriptRequest>;
+).annotate({ identifier: "GetScriptRequest" }) as any as S.Schema<GetScriptRequest>;
 
 /** Differentiates between the type of script commands included - Database or Cluster. The default is Database. */
 export type ScriptLevel = "Database" | "Cluster";
@@ -3541,9 +3614,7 @@ export const ScriptProperties = /*@__PURE__*/ S.suspend(() =>
     principalPermissionsAction: S.optional(PrincipalPermissionsAction),
     managedIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScriptProperties",
-}) as any as S.Schema<ScriptProperties>;
+).annotate({ identifier: "ScriptProperties" }) as any as S.Schema<ScriptProperties>;
 
 export interface GetScriptResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3565,9 +3636,7 @@ export const GetScriptResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScriptProperties),
   }),
-).annotate({
-  identifier: "GetScriptResponse",
-}) as any as S.Schema<GetScriptResponse>;
+).annotate({ identifier: "GetScriptResponse" }) as any as S.Schema<GetScriptResponse>;
 
 export interface InviteDatabaseFollowerRequest {
   /** The ID of the target subscription. */
@@ -3785,9 +3854,7 @@ export const ClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClusterListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterListResult",
-}) as any as S.Schema<ClusterListResult>;
+).annotate({ identifier: "ClusterListResult" }) as any as S.Schema<ClusterListResult>;
 
 export interface ListClusterCalloutPoliciesRequest {
   /** The ID of the target subscription. */
@@ -3832,9 +3899,7 @@ export const CalloutPoliciesList = /*@__PURE__*/ S.suspend(() =>
     value: CalloutPoliciesListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CalloutPoliciesList",
-}) as any as S.Schema<CalloutPoliciesList>;
+).annotate({ identifier: "CalloutPoliciesList" }) as any as S.Schema<CalloutPoliciesList>;
 
 export interface ListClusterFollowerDatabasesRequest {
   /** The ID of the target subscription. */
@@ -3969,9 +4034,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     domainName: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints that the Kusto Service Environment reaches the service at. */
 export type OutboundNetworkDependenciesEndpointPropertiesEndpointsList = Array<EndpointDependency>;
@@ -4136,9 +4199,7 @@ export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "ListClustersRequest",
-}) as any as S.Schema<ListClustersRequest>;
+).annotate({ identifier: "ListClustersRequest" }) as any as S.Schema<ListClustersRequest>;
 
 export interface ListClusterSkusRequest {
   /** The ID of the target subscription. */
@@ -4155,9 +4216,7 @@ export const ListClusterSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "ListClusterSkusRequest",
-}) as any as S.Schema<ListClusterSkusRequest>;
+).annotate({ identifier: "ListClusterSkusRequest" }) as any as S.Schema<ListClusterSkusRequest>;
 
 /** The set of locations that the SKU is available */
 export type SkuDescriptionLocationsList = Array<string>;
@@ -4189,9 +4248,7 @@ export const ResourceSkuCapabilities = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCapabilities",
-}) as any as S.Schema<ResourceSkuCapabilities>;
+).annotate({ identifier: "ResourceSkuCapabilities" }) as any as S.Schema<ResourceSkuCapabilities>;
 
 /** A list of capabilities that are available for the SKU in the specified list of zones. */
 export type ResourceSkuZoneDetailsCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -4211,9 +4268,7 @@ export const ResourceSkuZoneDetails = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(ResourceSkuZoneDetailsNameList),
     capabilities: S.optional(ResourceSkuZoneDetailsCapabilitiesList),
   }),
-).annotate({
-  identifier: "ResourceSkuZoneDetails",
-}) as any as S.Schema<ResourceSkuZoneDetails>;
+).annotate({ identifier: "ResourceSkuZoneDetails" }) as any as S.Schema<ResourceSkuZoneDetails>;
 
 /** Gets details of capabilities available to a SKU in specific zones. */
 export type SkuLocationInfoItemZoneDetailsList = Array<ResourceSkuZoneDetails>;
@@ -4236,9 +4291,7 @@ export const SkuLocationInfoItem = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(SkuLocationInfoItemZonesList),
     zoneDetails: S.optional(SkuLocationInfoItemZoneDetailsList),
   }),
-).annotate({
-  identifier: "SkuLocationInfoItem",
-}) as any as S.Schema<SkuLocationInfoItem>;
+).annotate({ identifier: "SkuLocationInfoItem" }) as any as S.Schema<SkuLocationInfoItem>;
 
 /** Locations and zones */
 export type SkuDescriptionLocationInfoList = Array<SkuLocationInfoItem>;
@@ -4296,9 +4349,7 @@ export const SkuDescriptionList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SkuDescriptionListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SkuDescriptionList",
-}) as any as S.Schema<SkuDescriptionList>;
+).annotate({ identifier: "SkuDescriptionList" }) as any as S.Schema<SkuDescriptionList>;
 
 export interface ListClusterSkusByResourceRequest {
   /** The ID of the target subscription. */
@@ -4364,9 +4415,7 @@ export const AzureResourceSku = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(AzureSku),
     capacity: S.optional(AzureCapacity),
   }),
-).annotate({
-  identifier: "AzureResourceSku",
-}) as any as S.Schema<AzureResourceSku>;
+).annotate({ identifier: "AzureResourceSku" }) as any as S.Schema<AzureResourceSku>;
 
 /** The collection of available SKUs for an existing resource. */
 export type ListResourceSkusResultValueList = Array<AzureResourceSku>;
@@ -4386,9 +4435,7 @@ export const ListResourceSkusResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListResourceSkusResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListResourceSkusResult",
-}) as any as S.Schema<ListResourceSkusResult>;
+).annotate({ identifier: "ListResourceSkusResult" }) as any as S.Schema<ListResourceSkusResult>;
 
 export interface ListDatabaseByClusterRequest {
   /** The ID of the target subscription. */
@@ -4465,9 +4512,7 @@ export const DatabaseListResult = /*@__PURE__*/ S.suspend(() =>
     value: DatabaseListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseListResult",
-}) as any as S.Schema<DatabaseListResult>;
+).annotate({ identifier: "DatabaseListResult" }) as any as S.Schema<DatabaseListResult>;
 
 export interface ListDatabasePrincipalAssignmentsRequest {
   /** The ID of the target subscription. */
@@ -4644,9 +4689,7 @@ export const DataConnectionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DataConnectionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataConnectionListResult",
-}) as any as S.Schema<DataConnectionListResult>;
+).annotate({ identifier: "DataConnectionListResult" }) as any as S.Schema<DataConnectionListResult>;
 
 export interface ListManagedPrivateEndpointsRequest {
   /** The ID of the target subscription. */
@@ -4694,9 +4737,7 @@ export const ManagedPrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ManagedPrivateEndpointProperties),
   }),
-).annotate({
-  identifier: "ManagedPrivateEndpoint",
-}) as any as S.Schema<ManagedPrivateEndpoint>;
+).annotate({ identifier: "ManagedPrivateEndpoint" }) as any as S.Schema<ManagedPrivateEndpoint>;
 
 /** The list of managed private endpoints. */
 export type ManagedPrivateEndpointListResultValueList = Array<ManagedPrivateEndpoint>;
@@ -4730,9 +4771,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that describes the operation. */
 export interface OperationDisplay {
@@ -4752,9 +4791,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A REST API operation */
 export interface Operation {
@@ -4794,9 +4831,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -4891,9 +4926,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -4963,9 +4996,7 @@ export const SandboxCustomImage = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SandboxCustomImageProperties),
   }),
-).annotate({
-  identifier: "SandboxCustomImage",
-}) as any as S.Schema<SandboxCustomImage>;
+).annotate({ identifier: "SandboxCustomImage" }) as any as S.Schema<SandboxCustomImage>;
 
 /** The SandboxCustomImage items on this page */
 export type SandboxCustomImagesListResultValueList = Array<SandboxCustomImage>;
@@ -5058,9 +5089,7 @@ export const ScriptListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ScriptListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScriptListResult",
-}) as any as S.Schema<ScriptListResult>;
+).annotate({ identifier: "ScriptListResult" }) as any as S.Schema<ScriptListResult>;
 
 export interface ListSkusRequest {
   /** The ID of the target subscription. */
@@ -5080,9 +5109,7 @@ export const ListSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "ListSkusRequest",
-}) as any as S.Schema<ListSkusRequest>;
+).annotate({ identifier: "ListSkusRequest" }) as any as S.Schema<ListSkusRequest>;
 
 export interface ManagedPrivateEndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5163,9 +5190,7 @@ export const MigrateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "MigrateClusterRequest",
-}) as any as S.Schema<MigrateClusterRequest>;
+).annotate({ identifier: "MigrateClusterRequest" }) as any as S.Schema<MigrateClusterRequest>;
 
 export interface MigrateClusterResponse {}
 export const MigrateClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5506,9 +5531,7 @@ export const StartClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "StartClusterRequest",
-}) as any as S.Schema<StartClusterRequest>;
+).annotate({ identifier: "StartClusterRequest" }) as any as S.Schema<StartClusterRequest>;
 
 export interface StartClusterResponse {}
 export const StartClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5536,9 +5559,7 @@ export const StopClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "StopClusterRequest",
-}) as any as S.Schema<StopClusterRequest>;
+).annotate({ identifier: "StopClusterRequest" }) as any as S.Schema<StopClusterRequest>;
 
 export interface StopClusterResponse {}
 export const StopClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5597,14 +5618,10 @@ export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
+).annotate({ identifier: "UpdateClusterRequest" }) as any as S.Schema<UpdateClusterRequest>;
 
 /** Resource tags. */
-export type UpdateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5628,11 +5645,11 @@ export interface UpdateClusterResponse {
   /** Resource tags. */
   tags?: UpdateClusterResponseTagsMap;
   /** The geo-location where the resource lives */
-  location: string;
+  location?: string;
   /** The cluster properties. */
   properties?: ClusterProperties;
   /** The SKU of the cluster. */
-  sku: AzureSku;
+  sku?: AzureSku;
   /** The availability zones. */
   zones?: UpdateClusterResponseZonesList;
   /** The identity of the cluster, if configured. */
@@ -5647,16 +5664,14 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     tags: S.optional(UpdateClusterResponseTagsMap),
-    location: S.String,
+    location: S.optional(S.String),
     properties: S.optional(ClusterProperties),
-    sku: AzureSku,
+    sku: S.optional(AzureSku),
     zones: S.optional(UpdateClusterResponseZonesList),
     identity: S.optional(Identity),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
+).annotate({ identifier: "UpdateClusterResponse" }) as any as S.Schema<UpdateClusterResponse>;
 
 export type UpdateDatabaseRequestCallerRole = "Admin" | "None";
 export const UpdateDatabaseRequestCallerRole = S.String;
@@ -5676,6 +5691,8 @@ export interface UpdateDatabaseRequest {
   location?: string;
   /** Kind of the database */
   kind: Kind | (string & {});
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5686,6 +5703,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     callerRole: S.optional(UpdateDatabaseRequestCallerRole.pipe(T.Query())),
     location: S.optional(S.String),
     kind: Kind,
+    properties: S.optional(ReadWriteDatabaseProperties),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -5694,9 +5712,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "UpdateDatabaseRequest",
-}) as any as S.Schema<UpdateDatabaseRequest>;
+).annotate({ identifier: "UpdateDatabaseRequest" }) as any as S.Schema<UpdateDatabaseRequest>;
 
 export interface UpdateDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -5710,7 +5726,9 @@ export interface UpdateDatabaseResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the database */
-  kind: Kind;
+  kind?: Kind;
+  /** The database properties. */
+  properties?: ReadWriteDatabaseProperties;
 }
 export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5719,11 +5737,10 @@ export const UpdateDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: Kind,
+    kind: S.optional(Kind),
+    properties: S.optional(ReadWriteDatabaseProperties),
   }),
-).annotate({
-  identifier: "UpdateDatabaseResponse",
-}) as any as S.Schema<UpdateDatabaseResponse>;
+).annotate({ identifier: "UpdateDatabaseResponse" }) as any as S.Schema<UpdateDatabaseResponse>;
 
 export interface UpdateDataConnectionRequest {
   /** The ID of the target subscription. */
@@ -5740,6 +5757,8 @@ export interface UpdateDataConnectionRequest {
   location?: string;
   /** Kind of the endpoint for the data connection */
   kind: DataConnectionKind | (string & {});
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const UpdateDataConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5750,6 +5769,7 @@ export const UpdateDataConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     dataConnectionName: S.String.pipe(T.Label()),
     location: S.optional(S.String),
     kind: DataConnectionKind,
+    properties: S.optional(DataConnectionProperties),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -5774,7 +5794,9 @@ export interface UpdateDataConnectionResponse {
   /** Resource location. */
   location?: string;
   /** Kind of the endpoint for the data connection */
-  kind: DataConnectionKind;
+  kind?: DataConnectionKind;
+  /** The data connection properties. */
+  properties?: DataConnectionProperties;
 }
 export const UpdateDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5783,7 +5805,8 @@ export const UpdateDataConnectionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     systemData: S.optional(SystemData),
     location: S.optional(S.String),
-    kind: DataConnectionKind,
+    kind: S.optional(DataConnectionKind),
+    properties: S.optional(DataConnectionProperties),
   }),
 ).annotate({
   identifier: "UpdateDataConnectionResponse",
@@ -5929,9 +5952,7 @@ export const UpdateScriptRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-14",
     }),
   ),
-).annotate({
-  identifier: "UpdateScriptRequest",
-}) as any as S.Schema<UpdateScriptRequest>;
+).annotate({ identifier: "UpdateScriptRequest" }) as any as S.Schema<UpdateScriptRequest>;
 
 export interface UpdateScriptResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -5953,9 +5974,7 @@ export const UpdateScriptResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScriptProperties),
   }),
-).annotate({
-  identifier: "UpdateScriptResponse",
-}) as any as S.Schema<UpdateScriptResponse>;
+).annotate({ identifier: "UpdateScriptResponse" }) as any as S.Schema<UpdateScriptResponse>;
 
 export type AddClusterCalloutPoliciesError = AzureOpError;
 /** Adds a list of callout policies for engine services. */

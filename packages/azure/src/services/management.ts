@@ -185,9 +185,7 @@ export const ServiceGroupAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     criticality: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ServiceGroupAttributes",
-}) as any as S.Schema<ServiceGroupAttributes>;
+).annotate({ identifier: "ServiceGroupAttributes" }) as any as S.Schema<ServiceGroupAttributes>;
 
 /** The details of the parent serviceGroup. */
 export interface ParentServiceGroupProperties {
@@ -220,14 +218,10 @@ export const ServiceGroupProperties = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(ServiceGroupAttributes),
     parent: S.optional(ParentServiceGroupProperties),
   }),
-).annotate({
-  identifier: "ServiceGroupProperties",
-}) as any as S.Schema<ServiceGroupProperties>;
+).annotate({ identifier: "ServiceGroupProperties" }) as any as S.Schema<ServiceGroupProperties>;
 
 /** The serviceGroup tags. */
-export type CreateOrUpdateServiceGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrUpdateServiceGroupRequestTagsMap = { [key: string]: string | undefined };
 export const CreateOrUpdateServiceGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -262,9 +256,7 @@ export const CreateOrUpdateServiceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOrUpdateServiceGroupRequest>;
 
 /** The serviceGroup tags. */
-export type CreateOrUpdateServiceGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrUpdateServiceGroupResponseTagsMap = { [key: string]: string | undefined };
 export const CreateOrUpdateServiceGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -321,9 +313,7 @@ export const DeleteHierarchySettingsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteHierarchySettingsResponse {}
 export const DeleteHierarchySettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteHierarchySettingsResponse",
-  },
+  { identifier: "DeleteHierarchySettingsResponse" },
 ) as any as S.Schema<DeleteHierarchySettingsResponse>;
 
 export interface DeleteManagementGroupRequest {
@@ -511,9 +501,7 @@ export const ParentGroupInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ParentGroupInfo",
-}) as any as S.Schema<ParentGroupInfo>;
+).annotate({ identifier: "ParentGroupInfo" }) as any as S.Schema<ParentGroupInfo>;
 
 /** A path element of a management group ancestors. */
 export interface ManagementGroupPathElement {
@@ -581,9 +569,7 @@ export const ManagementGroupDetails = /*@__PURE__*/ S.suspend(() =>
       ManagementGroupDetailsManagementGroupAncestorsChainList,
     ),
   }),
-).annotate({
-  identifier: "ManagementGroupDetails",
-}) as any as S.Schema<ManagementGroupDetails>;
+).annotate({ identifier: "ManagementGroupDetails" }) as any as S.Schema<ManagementGroupDetails>;
 
 /** The type of child resource. */
 export type ManagementGroupChildType = "Microsoft.Management/managementGroups" | "/subscriptions";
@@ -616,9 +602,7 @@ export const ManagementGroupChildInfo = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     children: S.optional(ManagementGroupChildInfoChildrenList),
   }),
-).annotate({
-  identifier: "ManagementGroupChildInfo",
-}) as any as S.Schema<ManagementGroupChildInfo>;
+).annotate({ identifier: "ManagementGroupChildInfo" }) as any as S.Schema<ManagementGroupChildInfo>;
 
 /** The list of children. */
 export type ManagementGroupPropertiesChildrenList = Array<ManagementGroupChildInfo>;
@@ -709,9 +693,7 @@ export const DescendantInfoProperties = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.NullOr(S.String)),
     parent: S.optional(S.NullOr(DescendantParentGroupInfo)),
   }),
-).annotate({
-  identifier: "DescendantInfoProperties",
-}) as any as S.Schema<DescendantInfoProperties>;
+).annotate({ identifier: "DescendantInfoProperties" }) as any as S.Schema<DescendantInfoProperties>;
 
 /** The descendant. */
 export interface DescendantInfo {
@@ -751,9 +733,7 @@ export const DescendantListResult = /*@__PURE__*/ S.suspend(() =>
     value: DescendantListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescendantListResult",
-}) as any as S.Schema<DescendantListResult>;
+).annotate({ identifier: "DescendantListResult" }) as any as S.Schema<DescendantListResult>;
 
 export interface GetManagementGroupSubscriptionSubscriptionRequest {
   /** Management Group ID. */
@@ -886,14 +866,10 @@ export const GetServiceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceGroupRequest",
-}) as any as S.Schema<GetServiceGroupRequest>;
+).annotate({ identifier: "GetServiceGroupRequest" }) as any as S.Schema<GetServiceGroupRequest>;
 
 /** The serviceGroup tags. */
-export type GetServiceGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -925,9 +901,7 @@ export const GetServiceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     tags: S.optional(GetServiceGroupResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetServiceGroupResponse",
-}) as any as S.Schema<GetServiceGroupResponse>;
+).annotate({ identifier: "GetServiceGroupResponse" }) as any as S.Schema<GetServiceGroupResponse>;
 
 /** The properties of the request to create or update Management Group settings */
 export interface CreateOrUpdateSettingsProperties {
@@ -1042,9 +1016,7 @@ export const ListEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListEntitiesRequest",
-}) as any as S.Schema<ListEntitiesRequest>;
+).annotate({ identifier: "ListEntitiesRequest" }) as any as S.Schema<ListEntitiesRequest>;
 
 /** (Optional) The ID of the parent management group. */
 export type EntityParentGroupInfo = DescendantParentGroupInfo;
@@ -1102,9 +1074,7 @@ export const EntityInfoProperties = /*@__PURE__*/ S.suspend(() =>
     parentDisplayNameChain: S.optional(S.NullOr(EntityInfoPropertiesParentDisplayNameChainList)),
     parentNameChain: S.optional(S.NullOr(EntityInfoPropertiesParentNameChainList)),
   }),
-).annotate({
-  identifier: "EntityInfoProperties",
-}) as any as S.Schema<EntityInfoProperties>;
+).annotate({ identifier: "EntityInfoProperties" }) as any as S.Schema<EntityInfoProperties>;
 
 /** The entity. */
 export interface EntityInfo {
@@ -1147,9 +1117,7 @@ export const EntityListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "EntityListResult",
-}) as any as S.Schema<EntityListResult>;
+).annotate({ identifier: "EntityListResult" }) as any as S.Schema<EntityListResult>;
 
 export interface ListHierarchySettingsRequest {
   /** Management Group ID. */
@@ -1188,9 +1156,7 @@ export const HierarchySettingsInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(HierarchySettingsProperties),
   }),
-).annotate({
-  identifier: "HierarchySettingsInfo",
-}) as any as S.Schema<HierarchySettingsInfo>;
+).annotate({ identifier: "HierarchySettingsInfo" }) as any as S.Schema<HierarchySettingsInfo>;
 
 /** The list of hierarchy settings. */
 export type HierarchySettingsListValueList = Array<HierarchySettingsInfo>;
@@ -1210,9 +1176,7 @@ export const HierarchySettingsList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(HierarchySettingsListValueList),
     _nextLink: S.optional(S.String.pipe(T.Body("@nextLink"))),
   }),
-).annotate({
-  identifier: "HierarchySettingsList",
-}) as any as S.Schema<HierarchySettingsList>;
+).annotate({ identifier: "HierarchySettingsList" }) as any as S.Schema<HierarchySettingsList>;
 
 export interface ListManagementGroupsRequest {
   /** Page continuation token is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a token parameter that specifies a starting point to use for subsequent calls. */
@@ -1267,9 +1231,7 @@ export const ManagementGroupInfo = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ManagementGroupInfoProperties),
   }),
-).annotate({
-  identifier: "ManagementGroupInfo",
-}) as any as S.Schema<ManagementGroupInfo>;
+).annotate({ identifier: "ManagementGroupInfo" }) as any as S.Schema<ManagementGroupInfo>;
 
 /** The list of management groups. */
 export type ManagementGroupListResultValueList = Array<ManagementGroupInfo>;
@@ -1303,9 +1265,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1325,9 +1285,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1377,9 +1335,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** (Optional) The ID of the parent management group used during creation. */
 export type CreateParentGroupInfoInput = DescendantParentGroupInfo;
@@ -1613,9 +1569,7 @@ export const UpdateManagementGroupResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateManagementGroupResponse>;
 
 /** The serviceGroup tags. */
-export type UpdateServiceGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1650,9 +1604,7 @@ export const UpdateServiceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceGroupRequest>;
 
 /** The serviceGroup tags. */
-export type UpdateServiceGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

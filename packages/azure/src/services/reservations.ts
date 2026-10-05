@@ -72,9 +72,7 @@ export const AppliedReservationList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AppliedReservationListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppliedReservationList",
-}) as any as S.Schema<AppliedReservationList>;
+).annotate({ identifier: "AppliedReservationList" }) as any as S.Schema<AppliedReservationList>;
 
 /** Properties for applied reservations returned */
 export interface AppliedReservationsProperties {
@@ -107,9 +105,7 @@ export const AppliedReservations = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(AppliedReservationsProperties),
   }),
-).annotate({
-  identifier: "AppliedReservations",
-}) as any as S.Schema<AppliedReservations>;
+).annotate({ identifier: "AppliedReservations" }) as any as S.Schema<AppliedReservations>;
 
 export interface GetCatalogRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -150,9 +146,7 @@ export const GetCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetCatalogRequest",
-}) as any as S.Schema<GetCatalogRequest>;
+).annotate({ identifier: "GetCatalogRequest" }) as any as S.Schema<GetCatalogRequest>;
 
 /** Represent the billing plans. */
 export type ReservationBillingPlan = "Upfront" | "Monthly";
@@ -164,9 +158,7 @@ export const CatalogBillingPlansValueList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CatalogBillingPlansValueList>;
 
 /** The billing plan options available for this sku. */
-export type CatalogBillingPlansMap = {
-  [key: string]: CatalogBillingPlansValueList | undefined;
-};
+export type CatalogBillingPlansMap = { [key: string]: CatalogBillingPlansValueList | undefined };
 export const CatalogBillingPlansMap = /*@__PURE__*/ S.Record(
   S.String,
   CatalogBillingPlansValueList,
@@ -354,9 +346,7 @@ export const GetReservationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetReservationRequest",
-}) as any as S.Schema<GetReservationRequest>;
+).annotate({ identifier: "GetReservationRequest" }) as any as S.Schema<GetReservationRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -476,9 +466,7 @@ export const ExtendedStatusInfo = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(ReservationStatusCode),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtendedStatusInfo",
-}) as any as S.Schema<ExtendedStatusInfo>;
+).annotate({ identifier: "ExtendedStatusInfo" }) as any as S.Schema<ExtendedStatusInfo>;
 
 /** List of destination resource id that are created due to split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
 export type ReservationSplitPropertiesSplitDestinationsList = Array<string>;
@@ -561,9 +549,7 @@ export const AppliedScopeProperties = /*@__PURE__*/ S.suspend(() =>
     resourceGroupId: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppliedScopeProperties",
-}) as any as S.Schema<AppliedScopeProperties>;
+).annotate({ identifier: "AppliedScopeProperties" }) as any as S.Schema<AppliedScopeProperties>;
 
 /** The name of sku */
 export interface SkuName {
@@ -655,9 +641,7 @@ export const PurchaseRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(PurchaseRequestProperties),
   }),
-).annotate({
-  identifier: "PurchaseRequest",
-}) as any as S.Schema<PurchaseRequest>;
+).annotate({ identifier: "PurchaseRequest" }) as any as S.Schema<PurchaseRequest>;
 
 /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
 export type RenewPropertiesResponsePricingCurrencyTotal = Price;
@@ -682,9 +666,7 @@ export const RenewPropertiesResponse = /*@__PURE__*/ S.suspend(() =>
     pricingCurrencyTotal: S.optional(Price),
     billingCurrencyTotal: S.optional(Price),
   }),
-).annotate({
-  identifier: "RenewPropertiesResponse",
-}) as any as S.Schema<RenewPropertiesResponse>;
+).annotate({ identifier: "RenewPropertiesResponse" }) as any as S.Schema<RenewPropertiesResponse>;
 
 /** The aggregate values of reservation utilization */
 export interface ReservationUtilizationAggregates {
@@ -842,9 +824,7 @@ export const ReservationsProperties = /*@__PURE__*/ S.suspend(() =>
     userFriendlyRenewState: S.optional(S.String),
     utilization: S.optional(ReservationsPropertiesUtilization),
   }),
-).annotate({
-  identifier: "ReservationsProperties",
-}) as any as S.Schema<ReservationsProperties>;
+).annotate({ identifier: "ReservationsProperties" }) as any as S.Schema<ReservationsProperties>;
 
 /** Resource Provider type to be reserved. */
 export type GetReservationResponseKind = "Microsoft.Compute";
@@ -881,9 +861,7 @@ export const GetReservationResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(SkuName),
     kind: S.optional(GetReservationResponseKind),
   }),
-).annotate({
-  identifier: "GetReservationResponse",
-}) as any as S.Schema<GetReservationResponse>;
+).annotate({ identifier: "GetReservationResponse" }) as any as S.Schema<GetReservationResponse>;
 
 export interface GetReservationOrderRequest {
   /** Order Id of the reservation */
@@ -1001,9 +979,7 @@ export const ReservationResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(SkuName),
     kind: S.optional(ReservationResponseKind),
   }),
-).annotate({
-  identifier: "ReservationResponse",
-}) as any as S.Schema<ReservationResponse>;
+).annotate({ identifier: "ReservationResponse" }) as any as S.Schema<ReservationResponse>;
 
 export type ReservationOrderPropertiesReservationsList = Array<ReservationResponse>;
 export const ReservationOrderPropertiesReservationsList = /*@__PURE__*/ S.Array(
@@ -1094,9 +1070,7 @@ export const ListOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationRequest",
-}) as any as S.Schema<ListOperationRequest>;
+).annotate({ identifier: "ListOperationRequest" }) as any as S.Schema<ListOperationRequest>;
 
 /** Information about an operation */
 export interface OperationDisplay {
@@ -1112,9 +1086,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The response containing operation information */
 export interface OperationResponse {
@@ -1137,9 +1109,7 @@ export const OperationResponse = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OperationResponse",
-}) as any as S.Schema<OperationResponse>;
+).annotate({ identifier: "OperationResponse" }) as any as S.Schema<OperationResponse>;
 
 export type OperationListValueList = Array<OperationResponse>;
 export const OperationListValueList = /*@__PURE__*/ S.Array(
@@ -1173,9 +1143,7 @@ export const ListReservationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListReservationRequest",
-}) as any as S.Schema<ListReservationRequest>;
+).annotate({ identifier: "ListReservationRequest" }) as any as S.Schema<ListReservationRequest>;
 
 /** The ReservationResponse items on this page */
 export type ReservationListValueList = Array<ReservationResponse>;
@@ -1195,9 +1163,7 @@ export const ReservationList = /*@__PURE__*/ S.suspend(() =>
     value: ReservationListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReservationList",
-}) as any as S.Schema<ReservationList>;
+).annotate({ identifier: "ReservationList" }) as any as S.Schema<ReservationList>;
 
 export interface ListReservationAllRequest {
   /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, expiryDateTime, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
@@ -1272,9 +1238,7 @@ export const ReservationSummary = /*@__PURE__*/ S.suspend(() =>
     warningCount: S.optional(S.Number),
     noBenefitCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReservationSummary",
-}) as any as S.Schema<ReservationSummary>;
+).annotate({ identifier: "ReservationSummary" }) as any as S.Schema<ReservationSummary>;
 
 /** The list of reservations and summary of roll out count of reservations in each state. */
 export interface ReservationsListResult {
@@ -1291,9 +1255,7 @@ export const ReservationsListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     summary: S.optional(ReservationSummary),
   }),
-).annotate({
-  identifier: "ReservationsListResult",
-}) as any as S.Schema<ReservationsListResult>;
+).annotate({ identifier: "ReservationsListResult" }) as any as S.Schema<ReservationsListResult>;
 
 export interface ListReservationOrderRequest {}
 export const ListReservationOrderRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1332,9 +1294,7 @@ export const ReservationOrderResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ReservationOrderProperties),
     etag: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReservationOrderResponse",
-}) as any as S.Schema<ReservationOrderResponse>;
+).annotate({ identifier: "ReservationOrderResponse" }) as any as S.Schema<ReservationOrderResponse>;
 
 /** The ReservationOrderResponse items on this page */
 export type ReservationOrderListValueList = Array<ReservationOrderResponse>;
@@ -1354,9 +1314,7 @@ export const ReservationOrderList = /*@__PURE__*/ S.suspend(() =>
     value: ReservationOrderListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReservationOrderList",
-}) as any as S.Schema<ReservationOrderList>;
+).annotate({ identifier: "ReservationOrderList" }) as any as S.Schema<ReservationOrderList>;
 
 export interface ListReservationRevisionsRequest {
   /** Order Id of the reservation */
@@ -1395,9 +1353,7 @@ export const MergeProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sources: S.optional(MergePropertiesSourcesList),
   }),
-).annotate({
-  identifier: "MergeProperties",
-}) as any as S.Schema<MergeProperties>;
+).annotate({ identifier: "MergeProperties" }) as any as S.Schema<MergeProperties>;
 
 export interface MergeReservationRequest {
   /** Order Id of the reservation */
@@ -1417,9 +1373,7 @@ export const MergeReservationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "MergeReservationRequest",
-}) as any as S.Schema<MergeReservationRequest>;
+).annotate({ identifier: "MergeReservationRequest" }) as any as S.Schema<MergeReservationRequest>;
 
 export type MergeReservationResponseBodyList = Array<ReservationResponse>;
 export const MergeReservationResponseBodyList = /*@__PURE__*/ S.Array(
@@ -1429,9 +1383,7 @@ export const MergeReservationResponseBodyList = /*@__PURE__*/ S.Array(
 export type MergeReservationResponse = MergeReservationResponseBodyList;
 export const MergeReservationResponse = /*@__PURE__*/ S.suspend(() =>
   MergeReservationResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "MergeReservationResponse",
-}) as any as S.Schema<MergeReservationResponse>;
+).annotate({ identifier: "MergeReservationResponse" }) as any as S.Schema<MergeReservationResponse>;
 
 /** List of reservations that are being purchased in this exchange. */
 export type CalculateExchangeRequestPropertiesReservationsToPurchaseList = Array<PurchaseRequest>;
@@ -1533,9 +1485,7 @@ export const ReservationToReturn = /*@__PURE__*/ S.suspend(() =>
     reservationId: S.optional(S.String),
     quantity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ReservationToReturn",
-}) as any as S.Schema<ReservationToReturn>;
+).annotate({ identifier: "ReservationToReturn" }) as any as S.Schema<ReservationToReturn>;
 
 /** List of reservations that are being returned in this exchange. */
 export type CalculateExchangeRequestPropertiesReservationsToExchangeList =
@@ -1657,9 +1607,7 @@ export const BillingInformation = /*@__PURE__*/ S.suspend(() =>
     billingCurrencyProratedAmount: S.optional(Price),
     billingCurrencyRemainingCommitmentAmount: S.optional(Price),
   }),
-).annotate({
-  identifier: "BillingInformation",
-}) as any as S.Schema<BillingInformation>;
+).annotate({ identifier: "BillingInformation" }) as any as S.Schema<BillingInformation>;
 
 /** Reservation refund details */
 export interface ReservationToExchange {
@@ -1679,9 +1627,7 @@ export const ReservationToExchange = /*@__PURE__*/ S.suspend(() =>
     billingRefundAmount: S.optional(Price),
     billingInformation: S.optional(BillingInformation),
   }),
-).annotate({
-  identifier: "ReservationToExchange",
-}) as any as S.Schema<ReservationToExchange>;
+).annotate({ identifier: "ReservationToExchange" }) as any as S.Schema<ReservationToExchange>;
 
 /** Details of the reservations being returned */
 export type CalculateExchangeResponsePropertiesReservationsToExchangeList =
@@ -1700,9 +1646,7 @@ export const ExchangePolicyError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExchangePolicyError",
-}) as any as S.Schema<ExchangePolicyError>;
+).annotate({ identifier: "ExchangePolicyError" }) as any as S.Schema<ExchangePolicyError>;
 
 /** Exchange Policy errors */
 export type ExchangePolicyErrorsPolicyErrorsList = Array<ExchangePolicyError>;
@@ -1719,9 +1663,7 @@ export const ExchangePolicyErrors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     policyErrors: S.optional(ExchangePolicyErrorsPolicyErrorsList),
   }),
-).annotate({
-  identifier: "ExchangePolicyErrors",
-}) as any as S.Schema<ExchangePolicyErrors>;
+).annotate({ identifier: "ExchangePolicyErrors" }) as any as S.Schema<ExchangePolicyErrors>;
 
 /** CalculateExchange response properties */
 export interface CalculateExchangeResponseProperties {
@@ -1775,9 +1717,7 @@ export const OperationResultError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationResultError",
-}) as any as S.Schema<OperationResultError>;
+).annotate({ identifier: "OperationResultError" }) as any as S.Schema<OperationResultError>;
 
 /** CalculateExchange operation result */
 export interface CalculateExchangeOperationResultResponse {
@@ -1918,9 +1858,7 @@ export const RefundPolicyError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(ErrorResponseCode),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RefundPolicyError",
-}) as any as S.Schema<RefundPolicyError>;
+).annotate({ identifier: "RefundPolicyError" }) as any as S.Schema<RefundPolicyError>;
 
 /** Refund Policy errors */
 export type RefundPolicyResultPropertyPolicyErrorsList = Array<RefundPolicyError>;
@@ -1956,9 +1894,7 @@ export const RefundPolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(RefundPolicyResultProperty),
   }),
-).annotate({
-  identifier: "RefundPolicyResult",
-}) as any as S.Schema<RefundPolicyResult>;
+).annotate({ identifier: "RefundPolicyResult" }) as any as S.Schema<RefundPolicyResult>;
 
 /** billing information */
 export interface RefundBillingInformation {
@@ -1984,9 +1920,7 @@ export const RefundBillingInformation = /*@__PURE__*/ S.suspend(() =>
     billingCurrencyProratedAmount: S.optional(Price),
     billingCurrencyRemainingCommitmentAmount: S.optional(Price),
   }),
-).annotate({
-  identifier: "RefundBillingInformation",
-}) as any as S.Schema<RefundBillingInformation>;
+).annotate({ identifier: "RefundBillingInformation" }) as any as S.Schema<RefundBillingInformation>;
 
 /** The refund properties of reservation */
 export interface RefundResponseProperties {
@@ -2012,9 +1946,7 @@ export const RefundResponseProperties = /*@__PURE__*/ S.suspend(() =>
     policyResult: S.optional(RefundPolicyResult),
     billingInformation: S.optional(RefundBillingInformation),
   }),
-).annotate({
-  identifier: "RefundResponseProperties",
-}) as any as S.Schema<RefundResponseProperties>;
+).annotate({ identifier: "RefundResponseProperties" }) as any as S.Schema<RefundResponseProperties>;
 
 /** The response of calculate refund containing refund information of reservation */
 export interface CalculateRefundResponse {
@@ -2028,9 +1960,7 @@ export const CalculateRefundResponse = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     properties: S.optional(RefundResponseProperties),
   }),
-).annotate({
-  identifier: "CalculateRefundResponse",
-}) as any as S.Schema<CalculateRefundResponse>;
+).annotate({ identifier: "CalculateRefundResponse" }) as any as S.Schema<CalculateRefundResponse>;
 
 /** Exchange request properties */
 export interface ExchangeRequestProperties {
@@ -2060,9 +1990,7 @@ export const PostExchangeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "PostExchangeRequest",
-}) as any as S.Schema<PostExchangeRequest>;
+).annotate({ identifier: "PostExchangeRequest" }) as any as S.Schema<PostExchangeRequest>;
 
 /** Status of the operation. */
 export type ExchangeOperationResultStatus =
@@ -2250,9 +2178,7 @@ export const RefundRequestProperties = /*@__PURE__*/ S.suspend(() =>
     reservationToReturn: S.optional(ReservationToReturn),
     returnReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RefundRequestProperties",
-}) as any as S.Schema<RefundRequestProperties>;
+).annotate({ identifier: "RefundRequestProperties" }) as any as S.Schema<RefundRequestProperties>;
 
 export interface PostReturnRequest {
   /** Order Id of the reservation */
@@ -2272,9 +2198,7 @@ export const PostReturnRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "PostReturnRequest",
-}) as any as S.Schema<PostReturnRequest>;
+).annotate({ identifier: "PostReturnRequest" }) as any as S.Schema<PostReturnRequest>;
 
 export interface PostReturnResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2298,9 +2222,7 @@ export const PostReturnResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ReservationOrderProperties),
     etag: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PostReturnResponse",
-}) as any as S.Schema<PostReturnResponse>;
+).annotate({ identifier: "PostReturnResponse" }) as any as S.Schema<PostReturnResponse>;
 
 export type AvailableScopeRequestPropertiesScopesList = Array<string>;
 export const AvailableScopeRequestPropertiesScopesList = /*@__PURE__*/ S.Array(
@@ -2354,9 +2276,7 @@ export const ScopeProperties = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String),
     valid: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ScopeProperties",
-}) as any as S.Schema<ScopeProperties>;
+).annotate({ identifier: "ScopeProperties" }) as any as S.Schema<ScopeProperties>;
 
 export type SubscriptionScopePropertiesScopesList = Array<ScopeProperties>;
 export const SubscriptionScopePropertiesScopesList = /*@__PURE__*/ S.Array(
@@ -2384,9 +2304,7 @@ export const AvailableScopeProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(SubscriptionScopeProperties),
   }),
-).annotate({
-  identifier: "AvailableScopeProperties",
-}) as any as S.Schema<AvailableScopeProperties>;
+).annotate({ identifier: "AvailableScopeProperties" }) as any as S.Schema<AvailableScopeProperties>;
 
 export interface ReservationOrderCalculateRequest {
   /** The name of sku */
@@ -2489,9 +2407,7 @@ export const CalculatePriceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(CalculatePriceResponseProperties),
   }),
-).annotate({
-  identifier: "CalculatePriceResponse",
-}) as any as S.Schema<CalculatePriceResponse>;
+).annotate({ identifier: "CalculatePriceResponse" }) as any as S.Schema<CalculatePriceResponse>;
 
 export interface ReservationOrderChangeDirectoryRequest {
   /** Order Id of the reservation */
@@ -2533,9 +2449,7 @@ export const ChangeDirectoryResult = /*@__PURE__*/ S.suspend(() =>
     isSucceeded: S.optional(S.Boolean),
     error: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChangeDirectoryResult",
-}) as any as S.Schema<ChangeDirectoryResult>;
+).annotate({ identifier: "ChangeDirectoryResult" }) as any as S.Schema<ChangeDirectoryResult>;
 
 export type ChangeDirectoryResponseReservationsList = Array<ChangeDirectoryResult>;
 export const ChangeDirectoryResponseReservationsList = /*@__PURE__*/ S.Array(
@@ -2553,9 +2467,7 @@ export const ChangeDirectoryResponse = /*@__PURE__*/ S.suspend(() =>
     reservationOrder: S.optional(ChangeDirectoryResult),
     reservations: S.optional(ChangeDirectoryResponseReservationsList),
   }),
-).annotate({
-  identifier: "ChangeDirectoryResponse",
-}) as any as S.Schema<ChangeDirectoryResponse>;
+).annotate({ identifier: "ChangeDirectoryResponse" }) as any as S.Schema<ChangeDirectoryResponse>;
 
 export interface ReservationOrderPurchaseRequest {
   /** Order Id of the reservation */
@@ -2629,9 +2541,7 @@ export const SplitProperties = /*@__PURE__*/ S.suspend(() =>
     quantities: S.optional(SplitPropertiesQuantitiesList),
     reservationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SplitProperties",
-}) as any as S.Schema<SplitProperties>;
+).annotate({ identifier: "SplitProperties" }) as any as S.Schema<SplitProperties>;
 
 export interface ReservationSplitRequest {
   /** Order Id of the reservation */
@@ -2651,9 +2561,7 @@ export const ReservationSplitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "ReservationSplitRequest",
-}) as any as S.Schema<ReservationSplitRequest>;
+).annotate({ identifier: "ReservationSplitRequest" }) as any as S.Schema<ReservationSplitRequest>;
 
 export type ReservationSplitResponseBodyList = Array<ReservationResponse>;
 export const ReservationSplitResponseBodyList = /*@__PURE__*/ S.Array(
@@ -2663,9 +2571,7 @@ export const ReservationSplitResponseBodyList = /*@__PURE__*/ S.Array(
 export type ReservationSplitResponse = ReservationSplitResponseBodyList;
 export const ReservationSplitResponse = /*@__PURE__*/ S.suspend(() =>
   ReservationSplitResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ReservationSplitResponse",
-}) as any as S.Schema<ReservationSplitResponse>;
+).annotate({ identifier: "ReservationSplitResponse" }) as any as S.Schema<ReservationSplitResponse>;
 
 export interface UnarchiveReservationRequest {
   /** Order Id of the reservation */
@@ -2741,9 +2647,7 @@ export const PatchProperties = /*@__PURE__*/ S.suspend(() =>
     renewProperties: S.optional(PatchPropertiesRenewProperties),
     reviewDateTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PatchProperties",
-}) as any as S.Schema<PatchProperties>;
+).annotate({ identifier: "PatchProperties" }) as any as S.Schema<PatchProperties>;
 
 export interface UpdateReservationRequest {
   /** Order Id of the reservation */
@@ -2766,9 +2670,7 @@ export const UpdateReservationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateReservationRequest",
-}) as any as S.Schema<UpdateReservationRequest>;
+).annotate({ identifier: "UpdateReservationRequest" }) as any as S.Schema<UpdateReservationRequest>;
 
 /** Resource Provider type to be reserved. */
 export type UpdateReservationResponseKind = "Microsoft.Compute";

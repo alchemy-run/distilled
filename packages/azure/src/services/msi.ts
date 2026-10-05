@@ -251,7 +251,7 @@ export const GetSystemAssignedIdentityByScopeRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.ManagedIdentity/identities/default",
+      uri: "/{scope+}/providers/Microsoft.ManagedIdentity/identities/default",
       code: 200,
       apiVersion: "2024-11-30",
     }),
@@ -282,9 +282,7 @@ export const SystemAssignedIdentityProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "SystemAssignedIdentityProperties",
 }) as any as S.Schema<SystemAssignedIdentityProperties>;
 
-export type GetSystemAssignedIdentityByScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSystemAssignedIdentityByScopeResponseTagsMap = { [key: string]: string | undefined };
 export const GetSystemAssignedIdentityByScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -344,9 +342,7 @@ export const GetUserAssignedIdentityRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetUserAssignedIdentityRequest>;
 
 /** Resource tags. */
-export type GetUserAssignedIdentityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetUserAssignedIdentityResponseTagsMap = { [key: string]: string | undefined };
 export const GetUserAssignedIdentityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -496,9 +492,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-11-30",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for and operation. */
 export interface OperationDisplay {
@@ -518,9 +512,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
@@ -554,9 +546,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListUserAssignedIdentityByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -658,9 +648,7 @@ export const ListUserAssignedIdentityBySubscriptionRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<ListUserAssignedIdentityBySubscriptionRequest>;
 
 /** Resource tags */
-export type UpdateUserAssignedIdentityRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateUserAssignedIdentityRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateUserAssignedIdentityRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -701,9 +689,7 @@ export const UpdateUserAssignedIdentityRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateUserAssignedIdentityRequest>;
 
 /** Resource tags. */
-export type UpdateUserAssignedIdentityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateUserAssignedIdentityResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateUserAssignedIdentityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

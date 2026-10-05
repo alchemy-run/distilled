@@ -114,9 +114,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
+).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
 
 /** The result of the request or operation. */
 export interface DeleteOperationResult {
@@ -127,9 +125,7 @@ export const DeleteOperationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     boolean: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeleteOperationResult",
-}) as any as S.Schema<DeleteOperationResult>;
+).annotate({ identifier: "DeleteOperationResult" }) as any as S.Schema<DeleteOperationResult>;
 
 export interface DeleteProfileRequest {
   /** The ID of the target subscription. */
@@ -152,9 +148,7 @@ export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
+).annotate({ identifier: "DeleteProfileRequest" }) as any as S.Schema<DeleteProfileRequest>;
 
 export interface DeleteTrafficManagerUserMetricsKeyRequest {
   /** The ID of the target subscription. */
@@ -301,9 +295,7 @@ export const EndpointProperties = /*@__PURE__*/ S.suspend(() =>
     customHeaders: S.optional(EndpointPropertiesCustomHeadersList),
     alwaysServe: S.optional(AlwaysServe),
   }),
-).annotate({
-  identifier: "EndpointProperties",
-}) as any as S.Schema<EndpointProperties>;
+).annotate({ identifier: "EndpointProperties" }) as any as S.Schema<EndpointProperties>;
 
 export interface EndpointsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -402,9 +394,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 
 export interface GetEndpointResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName} */
@@ -423,9 +413,7 @@ export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
+).annotate({ identifier: "GetEndpointResponse" }) as any as S.Schema<GetEndpointResponse>;
 
 export interface GetGeographicHierarchyDefaultRequest {}
 export const GetGeographicHierarchyDefaultRequest = /*@__PURE__*/ S.suspend(() =>
@@ -541,9 +529,7 @@ export const GetHeatMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetHeatMapRequest",
-}) as any as S.Schema<GetHeatMapRequest>;
+).annotate({ identifier: "GetHeatMapRequest" }) as any as S.Schema<GetHeatMapRequest>;
 
 /** Class which is a sparse representation of a Traffic Manager endpoint. */
 export interface HeatMapEndpoint {
@@ -557,9 +543,7 @@ export const HeatMapEndpoint = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     endpointId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HeatMapEndpoint",
-}) as any as S.Schema<HeatMapEndpoint>;
+).annotate({ identifier: "HeatMapEndpoint" }) as any as S.Schema<HeatMapEndpoint>;
 
 /** The endpoints used in this HeatMap calculation. */
 export type HeatMapPropertiesEndpointsList = Array<HeatMapEndpoint>;
@@ -582,9 +566,7 @@ export const QueryExperience = /*@__PURE__*/ S.suspend(() =>
     queryCount: S.Number,
     latency: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueryExperience",
-}) as any as S.Schema<QueryExperience>;
+).annotate({ identifier: "QueryExperience" }) as any as S.Schema<QueryExperience>;
 
 /** The query experiences produced in this HeatMap calculation. */
 export type TrafficFlowQueryExperiencesList = Array<QueryExperience>;
@@ -636,9 +618,7 @@ export const HeatMapProperties = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(HeatMapPropertiesEndpointsList),
     trafficFlows: S.optional(HeatMapPropertiesTrafficFlowsList),
   }),
-).annotate({
-  identifier: "HeatMapProperties",
-}) as any as S.Schema<HeatMapProperties>;
+).annotate({ identifier: "HeatMapProperties" }) as any as S.Schema<HeatMapProperties>;
 
 export interface GetHeatMapResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName} */
@@ -657,9 +637,7 @@ export const GetHeatMapResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(HeatMapProperties),
   }),
-).annotate({
-  identifier: "GetHeatMapResponse",
-}) as any as S.Schema<GetHeatMapResponse>;
+).annotate({ identifier: "GetHeatMapResponse" }) as any as S.Schema<GetHeatMapResponse>;
 
 export interface GetProfileRequest {
   /** The ID of the target subscription. */
@@ -682,9 +660,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 
 /** Resource tags. */
 export type GetProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -875,9 +851,7 @@ export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
     allowedEndpointRecordTypes: S.optional(ProfilePropertiesAllowedEndpointRecordTypesList),
     maxReturn: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProfileProperties",
-}) as any as S.Schema<ProfileProperties>;
+).annotate({ identifier: "ProfileProperties" }) as any as S.Schema<ProfileProperties>;
 
 export interface GetProfileResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName} */
@@ -902,9 +876,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(ProfileProperties),
   }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export interface GetTrafficManagerUserMetricsKeyRequest {
   /** The ID of the target subscription. */
@@ -934,9 +906,7 @@ export const UserMetricsProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserMetricsProperties",
-}) as any as S.Schema<UserMetricsProperties>;
+).annotate({ identifier: "UserMetricsProperties" }) as any as S.Schema<UserMetricsProperties>;
 
 export interface GetTrafficManagerUserMetricsKeyResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName} */
@@ -1032,9 +1002,7 @@ export const ProfileListResult = /*@__PURE__*/ S.suspend(() =>
     value: ProfileListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProfileListResult",
-}) as any as S.Schema<ProfileListResult>;
+).annotate({ identifier: "ProfileListResult" }) as any as S.Schema<ProfileListResult>;
 
 export interface ListProfileBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1056,9 +1024,7 @@ export const ListProfileBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProfileBySubscriptionRequest>;
 
 /** Resource tags. */
-export type ProfilesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProfilesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ProfilesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1122,9 +1088,7 @@ export const ProfilePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     allowedEndpointRecordTypes: S.optional(ProfilePropertiesInputAllowedEndpointRecordTypesList),
     maxReturn: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProfilePropertiesInput",
-}) as any as S.Schema<ProfilePropertiesInput>;
+).annotate({ identifier: "ProfilePropertiesInput" }) as any as S.Schema<ProfilePropertiesInput>;
 
 export interface ProfilesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1170,9 +1134,7 @@ export const ProfilesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProfilesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ProfilesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProfilesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ProfilesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1290,9 +1252,7 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
 
 export interface UpdateEndpointResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName} */
@@ -1311,9 +1271,7 @@ export const UpdateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "UpdateEndpointResponse",
-}) as any as S.Schema<UpdateEndpointResponse>;
+).annotate({ identifier: "UpdateEndpointResponse" }) as any as S.Schema<UpdateEndpointResponse>;
 
 /** Resource tags. */
 export type UpdateProfileRequestTagsMap = { [key: string]: string | undefined };
@@ -1361,14 +1319,10 @@ export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProfileRequest",
-}) as any as S.Schema<UpdateProfileRequest>;
+).annotate({ identifier: "UpdateProfileRequest" }) as any as S.Schema<UpdateProfileRequest>;
 
 /** Resource tags. */
-export type UpdateProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1397,9 +1351,7 @@ export const UpdateProfileResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(ProfileProperties),
   }),
-).annotate({
-  identifier: "UpdateProfileResponse",
-}) as any as S.Schema<UpdateProfileResponse>;
+).annotate({ identifier: "UpdateProfileResponse" }) as any as S.Schema<UpdateProfileResponse>;
 
 export type CheckProfileTrafficManagerNameAvailabilityV2Error = AzureOpError;
 /** Checks the availability of a Traffic Manager Relative DNS name. */

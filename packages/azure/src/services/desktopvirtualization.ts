@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AppAttachPackageCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppAttachPackageCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AppAttachPackageCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -33,9 +31,7 @@ export const MsixPackageDependencies = /*@__PURE__*/ S.suspend(() =>
     publisher: S.optional(S.String),
     minVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MsixPackageDependencies",
-}) as any as S.Schema<MsixPackageDependencies>;
+).annotate({ identifier: "MsixPackageDependencies" }) as any as S.Schema<MsixPackageDependencies>;
 
 /** List of package dependencies. */
 export type AppAttachPackageInfoPropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
@@ -70,9 +66,7 @@ export const MsixPackageApplications = /*@__PURE__*/ S.suspend(() =>
     rawIcon: S.optional(S.String),
     rawPng: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MsixPackageApplications",
-}) as any as S.Schema<MsixPackageApplications>;
+).annotate({ identifier: "MsixPackageApplications" }) as any as S.Schema<MsixPackageApplications>;
 
 /** List of package applications. */
 export type AppAttachPackageInfoPropertiesPackageApplicationsList = Array<MsixPackageApplications>;
@@ -245,9 +239,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AppAttachPackageCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppAttachPackageCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AppAttachPackageCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -319,9 +311,7 @@ export const AppAttachPackageCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<AppAttachPackageCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ApplicationGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ApplicationGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -475,9 +465,7 @@ export const ApplicationGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ApplicationGroupsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ApplicationGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ApplicationGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -755,9 +743,7 @@ export const ApplicationProperties = /*@__PURE__*/ S.suspend(() =>
     iconHash: S.optional(S.String),
     iconContent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationProperties",
-}) as any as S.Schema<ApplicationProperties>;
+).annotate({ identifier: "ApplicationProperties" }) as any as S.Schema<ApplicationProperties>;
 
 export interface ApplicationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -784,9 +770,7 @@ export const ApplicationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type CreateScalingPlanRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateScalingPlanRequestTagsMap = { [key: string]: string | undefined };
 export const CreateScalingPlanRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -918,9 +902,7 @@ export const ScalingSchedule = /*@__PURE__*/ S.suspend(() =>
     offPeakStartTime: S.optional(Time),
     offPeakLoadBalancingAlgorithm: S.optional(ScalingScheduleOffPeakLoadBalancingAlgorithm),
   }),
-).annotate({
-  identifier: "ScalingSchedule",
-}) as any as S.Schema<ScalingSchedule>;
+).annotate({ identifier: "ScalingSchedule" }) as any as S.Schema<ScalingSchedule>;
 
 /** List of ScalingPlanPooledSchedule definitions. */
 export type ScalingPlanPropertiesInputSchedulesList = Array<ScalingSchedule>;
@@ -940,9 +922,7 @@ export const ScalingHostPoolReference = /*@__PURE__*/ S.suspend(() =>
     hostPoolArmPath: S.optional(S.String),
     scalingPlanEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ScalingHostPoolReference",
-}) as any as S.Schema<ScalingHostPoolReference>;
+).annotate({ identifier: "ScalingHostPoolReference" }) as any as S.Schema<ScalingHostPoolReference>;
 
 /** List of ScalingHostPoolReference definitions. */
 export type ScalingPlanPropertiesInputHostPoolReferencesList = Array<ScalingHostPoolReference>;
@@ -1026,14 +1006,10 @@ export const CreateScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "CreateScalingPlanRequest",
-}) as any as S.Schema<CreateScalingPlanRequest>;
+).annotate({ identifier: "CreateScalingPlanRequest" }) as any as S.Schema<CreateScalingPlanRequest>;
 
 /** Resource tags. */
-export type CreateScalingPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 export const CreateScalingPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1097,9 +1073,7 @@ export const ScalingPlanProperties = /*@__PURE__*/ S.suspend(() =>
     schedules: S.optional(ScalingPlanPropertiesSchedulesList),
     hostPoolReferences: S.optional(ScalingPlanPropertiesHostPoolReferencesList),
   }),
-).annotate({
-  identifier: "ScalingPlanProperties",
-}) as any as S.Schema<ScalingPlanProperties>;
+).annotate({ identifier: "ScalingPlanProperties" }) as any as S.Schema<ScalingPlanProperties>;
 
 export interface CreateScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1636,9 +1610,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1699,9 +1671,7 @@ export const DeleteHostPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteHostPoolRequest",
-}) as any as S.Schema<DeleteHostPoolRequest>;
+).annotate({ identifier: "DeleteHostPoolRequest" }) as any as S.Schema<DeleteHostPoolRequest>;
 
 export interface DeleteHostPoolResponse {}
 export const DeleteHostPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1732,9 +1702,7 @@ export const DeleteMSIXPackageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteMSIXPackageRequest",
-}) as any as S.Schema<DeleteMSIXPackageRequest>;
+).annotate({ identifier: "DeleteMSIXPackageRequest" }) as any as S.Schema<DeleteMSIXPackageRequest>;
 
 export interface DeleteMSIXPackageResponse {}
 export const DeleteMSIXPackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1832,9 +1800,7 @@ export const DeleteScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteScalingPlanRequest",
-}) as any as S.Schema<DeleteScalingPlanRequest>;
+).annotate({ identifier: "DeleteScalingPlanRequest" }) as any as S.Schema<DeleteScalingPlanRequest>;
 
 export interface DeleteScalingPlanResponse {}
 export const DeleteScalingPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1938,9 +1904,7 @@ export const DeleteSessionHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteSessionHostRequest",
-}) as any as S.Schema<DeleteSessionHostRequest>;
+).annotate({ identifier: "DeleteSessionHostRequest" }) as any as S.Schema<DeleteSessionHostRequest>;
 
 export interface DeleteSessionHostResponse {}
 export const DeleteSessionHostResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1977,9 +1941,7 @@ export const DeleteUserSessionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserSessionRequest",
-}) as any as S.Schema<DeleteUserSessionRequest>;
+).annotate({ identifier: "DeleteUserSessionRequest" }) as any as S.Schema<DeleteUserSessionRequest>;
 
 export interface DeleteUserSessionResponse {}
 export const DeleteUserSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2007,9 +1969,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2078,9 +2038,7 @@ export const GetAppAttachPackageRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAppAttachPackageRequest>;
 
 /** Resource tags. */
-export type GetAppAttachPackageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAppAttachPackageResponseTagsMap = { [key: string]: string | undefined };
 export const GetAppAttachPackageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2140,9 +2098,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 export interface GetApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2164,9 +2120,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ApplicationProperties,
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 
 export interface GetApplicationGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2194,9 +2148,7 @@ export const GetApplicationGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApplicationGroupRequest>;
 
 /** Resource tags. */
-export type GetApplicationGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2286,9 +2238,7 @@ export const GetDesktopRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetDesktopRequest",
-}) as any as S.Schema<GetDesktopRequest>;
+).annotate({ identifier: "GetDesktopRequest" }) as any as S.Schema<GetDesktopRequest>;
 
 /** Schema for Desktop properties. */
 export interface DesktopProperties {
@@ -2311,9 +2261,7 @@ export const DesktopProperties = /*@__PURE__*/ S.suspend(() =>
     iconHash: S.optional(S.String),
     iconContent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DesktopProperties",
-}) as any as S.Schema<DesktopProperties>;
+).annotate({ identifier: "DesktopProperties" }) as any as S.Schema<DesktopProperties>;
 
 export interface GetDesktopResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2335,9 +2283,7 @@ export const GetDesktopResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DesktopProperties),
   }),
-).annotate({
-  identifier: "GetDesktopResponse",
-}) as any as S.Schema<GetDesktopResponse>;
+).annotate({ identifier: "GetDesktopResponse" }) as any as S.Schema<GetDesktopResponse>;
 
 export interface GetHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2360,9 +2306,7 @@ export const GetHostPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetHostPoolRequest",
-}) as any as S.Schema<GetHostPoolRequest>;
+).annotate({ identifier: "GetHostPoolRequest" }) as any as S.Schema<GetHostPoolRequest>;
 
 /** Resource tags. */
 export type GetHostPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -2418,9 +2362,7 @@ export const RegistrationInfo = /*@__PURE__*/ S.suspend(() =>
     token: S.optional(S.String),
     registrationTokenOperation: S.optional(RegistrationInfoRegistrationTokenOperation),
   }),
-).annotate({
-  identifier: "RegistrationInfo",
-}) as any as S.Schema<RegistrationInfo>;
+).annotate({ identifier: "RegistrationInfo" }) as any as S.Schema<RegistrationInfo>;
 
 /** List of applicationGroup links. */
 export type HostPoolPropertiesApplicationGroupReferencesList = Array<string>;
@@ -2509,9 +2451,7 @@ export const AgentUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     maintenanceWindowTimeZone: S.optional(S.String),
     maintenanceWindows: S.optional(S.NullOr(AgentUpdatePropertiesMaintenanceWindowsList)),
   }),
-).annotate({
-  identifier: "AgentUpdateProperties",
-}) as any as S.Schema<AgentUpdateProperties>;
+).annotate({ identifier: "AgentUpdateProperties" }) as any as S.Schema<AgentUpdateProperties>;
 
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -2528,9 +2468,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -2701,9 +2639,7 @@ export const HostPoolProperties = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(HostPoolPropertiesPrivateEndpointConnectionsList),
     ),
   }),
-).annotate({
-  identifier: "HostPoolProperties",
-}) as any as S.Schema<HostPoolProperties>;
+).annotate({ identifier: "HostPoolProperties" }) as any as S.Schema<HostPoolProperties>;
 
 export interface GetHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2749,9 +2685,7 @@ export const GetHostPoolResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(ApplicationGroupsCreateOrUpdateRequestPlan),
     properties: HostPoolProperties,
   }),
-).annotate({
-  identifier: "GetHostPoolResponse",
-}) as any as S.Schema<GetHostPoolResponse>;
+).annotate({ identifier: "GetHostPoolResponse" }) as any as S.Schema<GetHostPoolResponse>;
 
 export interface GetHostPoolRegistrationTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2802,9 +2736,7 @@ export const GetMSIXPackageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetMSIXPackageRequest",
-}) as any as S.Schema<GetMSIXPackageRequest>;
+).annotate({ identifier: "GetMSIXPackageRequest" }) as any as S.Schema<GetMSIXPackageRequest>;
 
 /** List of package dependencies. */
 export type MSIXPackagePropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
@@ -2857,9 +2789,7 @@ export const MSIXPackageProperties = /*@__PURE__*/ S.suspend(() =>
     lastUpdated: S.optional(S.String),
     packageApplications: S.optional(MSIXPackagePropertiesPackageApplicationsList),
   }),
-).annotate({
-  identifier: "MSIXPackageProperties",
-}) as any as S.Schema<MSIXPackageProperties>;
+).annotate({ identifier: "MSIXPackageProperties" }) as any as S.Schema<MSIXPackageProperties>;
 
 export interface GetMSIXPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2881,9 +2811,7 @@ export const GetMSIXPackageResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: MSIXPackageProperties,
   }),
-).annotate({
-  identifier: "GetMSIXPackageResponse",
-}) as any as S.Schema<GetMSIXPackageResponse>;
+).annotate({ identifier: "GetMSIXPackageResponse" }) as any as S.Schema<GetMSIXPackageResponse>;
 
 export interface GetPrivateEndpointConnectionByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3070,14 +2998,10 @@ export const GetScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetScalingPlanRequest",
-}) as any as S.Schema<GetScalingPlanRequest>;
+).annotate({ identifier: "GetScalingPlanRequest" }) as any as S.Schema<GetScalingPlanRequest>;
 
 /** Resource tags. */
-export type GetScalingPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 export const GetScalingPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3139,9 +3063,7 @@ export const GetScalingPlanResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(ApplicationGroupsCreateOrUpdateRequestPlan),
     properties: ScalingPlanProperties,
   }),
-).annotate({
-  identifier: "GetScalingPlanResponse",
-}) as any as S.Schema<GetScalingPlanResponse>;
+).annotate({ identifier: "GetScalingPlanResponse" }) as any as S.Schema<GetScalingPlanResponse>;
 
 export interface GetScalingPlanPersonalScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3271,9 +3193,7 @@ export const GetSessionHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetSessionHostRequest",
-}) as any as S.Schema<GetSessionHostRequest>;
+).annotate({ identifier: "GetSessionHostRequest" }) as any as S.Schema<GetSessionHostRequest>;
 
 /** Status for a SessionHost. */
 export type SessionHostPropertiesStatus =
@@ -3427,9 +3347,7 @@ export const SessionHostProperties = /*@__PURE__*/ S.suspend(() =>
       SessionHostPropertiesSessionHostHealthCheckResultsList,
     ),
   }),
-).annotate({
-  identifier: "SessionHostProperties",
-}) as any as S.Schema<SessionHostProperties>;
+).annotate({ identifier: "SessionHostProperties" }) as any as S.Schema<SessionHostProperties>;
 
 export interface GetSessionHostResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3451,9 +3369,7 @@ export const GetSessionHostResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SessionHostProperties),
   }),
-).annotate({
-  identifier: "GetSessionHostResponse",
-}) as any as S.Schema<GetSessionHostResponse>;
+).annotate({ identifier: "GetSessionHostResponse" }) as any as S.Schema<GetSessionHostResponse>;
 
 export interface GetUserSessionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3482,9 +3398,7 @@ export const GetUserSessionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetUserSessionRequest",
-}) as any as S.Schema<GetUserSessionRequest>;
+).annotate({ identifier: "GetUserSessionRequest" }) as any as S.Schema<GetUserSessionRequest>;
 
 /** Application type of application. */
 export type UserSessionPropertiesApplicationType = "RemoteApp" | "Desktop";
@@ -3524,9 +3438,7 @@ export const UserSessionProperties = /*@__PURE__*/ S.suspend(() =>
     activeDirectoryUserName: S.optional(S.String),
     createTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSessionProperties",
-}) as any as S.Schema<UserSessionProperties>;
+).annotate({ identifier: "UserSessionProperties" }) as any as S.Schema<UserSessionProperties>;
 
 export interface GetUserSessionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3548,9 +3460,7 @@ export const GetUserSessionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(UserSessionProperties),
   }),
-).annotate({
-  identifier: "GetUserSessionResponse",
-}) as any as S.Schema<GetUserSessionResponse>;
+).annotate({ identifier: "GetUserSessionResponse" }) as any as S.Schema<GetUserSessionResponse>;
 
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3573,9 +3483,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -3650,9 +3558,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(WorkspacePropertiesPrivateEndpointConnectionsList),
     ),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3698,14 +3604,10 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(ApplicationGroupsCreateOrUpdateRequestPlan),
     properties: S.optional(WorkspaceProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 /** Resource tags. */
-export type HostPoolsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HostPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const HostPoolsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3828,9 +3730,7 @@ export const HostPoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(S.NullOr(HostPoolPropertiesInputPublicNetworkAccess)),
     agentUpdate: S.optional(S.NullOr(AgentUpdateProperties)),
   }),
-).annotate({
-  identifier: "HostPoolPropertiesInput",
-}) as any as S.Schema<HostPoolPropertiesInput>;
+).annotate({ identifier: "HostPoolPropertiesInput" }) as any as S.Schema<HostPoolPropertiesInput>;
 
 export interface HostPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3882,9 +3782,7 @@ export const HostPoolsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<HostPoolsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type HostPoolsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type HostPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const HostPoolsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4028,9 +3926,7 @@ export const AppAttachPackage = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: AppAttachPackageProperties,
   }),
-).annotate({
-  identifier: "AppAttachPackage",
-}) as any as S.Schema<AppAttachPackage>;
+).annotate({ identifier: "AppAttachPackage" }) as any as S.Schema<AppAttachPackage>;
 
 /** List of App Attach Package definitions. */
 export type AppAttachPackageListValueList = Array<AppAttachPackage>;
@@ -4050,9 +3946,7 @@ export const AppAttachPackageList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AppAttachPackageListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppAttachPackageList",
-}) as any as S.Schema<AppAttachPackageList>;
+).annotate({ identifier: "AppAttachPackageList" }) as any as S.Schema<AppAttachPackageList>;
 
 export interface ListAppAttachPackageByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4199,9 +4093,7 @@ export const ApplicationGroup = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(ApplicationGroupsCreateOrUpdateRequestPlan),
     properties: ApplicationGroupProperties,
   }),
-).annotate({
-  identifier: "ApplicationGroup",
-}) as any as S.Schema<ApplicationGroup>;
+).annotate({ identifier: "ApplicationGroup" }) as any as S.Schema<ApplicationGroup>;
 
 /** List of ApplicationGroup definitions. */
 export type ApplicationGroupListValueList = Array<ApplicationGroup>;
@@ -4221,9 +4113,7 @@ export const ApplicationGroupList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApplicationGroupListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationGroupList",
-}) as any as S.Schema<ApplicationGroupList>;
+).annotate({ identifier: "ApplicationGroupList" }) as any as S.Schema<ApplicationGroupList>;
 
 export interface ListApplicationGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4277,9 +4167,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 
 /** Schema for Application properties. */
 export interface Application {
@@ -4322,9 +4210,7 @@ export const ApplicationList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApplicationListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationList",
-}) as any as S.Schema<ApplicationList>;
+).annotate({ identifier: "ApplicationList" }) as any as S.Schema<ApplicationList>;
 
 export interface ListDesktopsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4356,9 +4242,7 @@ export const ListDesktopsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListDesktopsRequest",
-}) as any as S.Schema<ListDesktopsRequest>;
+).annotate({ identifier: "ListDesktopsRequest" }) as any as S.Schema<ListDesktopsRequest>;
 
 /** Schema for Desktop properties. */
 export interface Desktop {
@@ -4557,9 +4441,7 @@ export const RegistrationTokenMinimal = /*@__PURE__*/ S.suspend(() =>
     expirationTime: S.optional(S.NullOr(S.String)),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegistrationTokenMinimal",
-}) as any as S.Schema<RegistrationTokenMinimal>;
+).annotate({ identifier: "RegistrationTokenMinimal" }) as any as S.Schema<RegistrationTokenMinimal>;
 
 /** List of RegistrationToken definitions. */
 export type RegistrationTokenListValueList = Array<RegistrationTokenMinimal>;
@@ -4579,9 +4461,7 @@ export const RegistrationTokenList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RegistrationTokenListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegistrationTokenList",
-}) as any as S.Schema<RegistrationTokenList>;
+).annotate({ identifier: "RegistrationTokenList" }) as any as S.Schema<RegistrationTokenList>;
 
 export interface ListHostPoolsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4607,9 +4487,7 @@ export const ListHostPoolsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListHostPoolsRequest",
-}) as any as S.Schema<ListHostPoolsRequest>;
+).annotate({ identifier: "ListHostPoolsRequest" }) as any as S.Schema<ListHostPoolsRequest>;
 
 export interface ListMSIXPackagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4641,9 +4519,7 @@ export const ListMSIXPackagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListMSIXPackagesRequest",
-}) as any as S.Schema<ListMSIXPackagesRequest>;
+).annotate({ identifier: "ListMSIXPackagesRequest" }) as any as S.Schema<ListMSIXPackagesRequest>;
 
 /** Schema for MSIX Package properties. */
 export interface MSIXPackage {
@@ -4686,9 +4562,7 @@ export const MSIXPackageList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MSIXPackageListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MSIXPackageList",
-}) as any as S.Schema<MSIXPackageList>;
+).annotate({ identifier: "MSIXPackageList" }) as any as S.Schema<MSIXPackageList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4700,9 +4574,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
@@ -4741,9 +4613,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -4760,9 +4630,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Properties of the operation */
 export interface OperationProperties {
@@ -4772,9 +4640,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Supported operation of this resource provider. */
 export interface ResourceProviderOperation {
@@ -5040,9 +4906,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -5218,9 +5082,7 @@ export const ScalingPlanList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ScalingPlanListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScalingPlanList",
-}) as any as S.Schema<ScalingPlanList>;
+).annotate({ identifier: "ScalingPlanList" }) as any as S.Schema<ScalingPlanList>;
 
 export interface ListScalingPlanByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5473,9 +5335,7 @@ export const ListSessionHostsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListSessionHostsRequest",
-}) as any as S.Schema<ListSessionHostsRequest>;
+).annotate({ identifier: "ListSessionHostsRequest" }) as any as S.Schema<ListSessionHostsRequest>;
 
 /** Represents a SessionHost definition. */
 export interface SessionHost {
@@ -5518,9 +5378,7 @@ export const SessionHostList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SessionHostListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SessionHostList",
-}) as any as S.Schema<SessionHostList>;
+).annotate({ identifier: "SessionHostList" }) as any as S.Schema<SessionHostList>;
 
 export interface ListStartMenuItemsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5577,9 +5435,7 @@ export const StartMenuItemProperties = /*@__PURE__*/ S.suspend(() =>
     iconPath: S.optional(S.String),
     iconIndex: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StartMenuItemProperties",
-}) as any as S.Schema<StartMenuItemProperties>;
+).annotate({ identifier: "StartMenuItemProperties" }) as any as S.Schema<StartMenuItemProperties>;
 
 /** Represents a StartMenuItem definition. */
 export interface StartMenuItem {
@@ -5622,9 +5478,7 @@ export const StartMenuItemList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(StartMenuItemListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StartMenuItemList",
-}) as any as S.Schema<StartMenuItemList>;
+).annotate({ identifier: "StartMenuItemList" }) as any as S.Schema<StartMenuItemList>;
 
 export interface ListUserSessionByHostPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5704,9 +5558,7 @@ export const UserSessionList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(UserSessionListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSessionList",
-}) as any as S.Schema<UserSessionList>;
+).annotate({ identifier: "UserSessionList" }) as any as S.Schema<UserSessionList>;
 
 export interface ListUserSessionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5741,9 +5593,7 @@ export const ListUserSessionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "ListUserSessionsRequest",
-}) as any as S.Schema<ListUserSessionsRequest>;
+).annotate({ identifier: "ListUserSessionsRequest" }) as any as S.Schema<ListUserSessionsRequest>;
 
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5905,9 +5755,7 @@ export const MsixImagesExpandRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "MsixImagesExpandRequest",
-}) as any as S.Schema<MsixImagesExpandRequest>;
+).annotate({ identifier: "MsixImagesExpandRequest" }) as any as S.Schema<MsixImagesExpandRequest>;
 
 /** List of package dependencies. */
 export type ExpandMsixImagePropertiesPackageDependenciesList = Array<MsixPackageDependencies>;
@@ -5997,9 +5845,7 @@ export const ExpandMsixImage = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ExpandMsixImageProperties),
   }),
-).annotate({
-  identifier: "ExpandMsixImage",
-}) as any as S.Schema<ExpandMsixImage>;
+).annotate({ identifier: "ExpandMsixImage" }) as any as S.Schema<ExpandMsixImage>;
 
 /** List of MSIX package properties from give MSIX Image. */
 export type ExpandMsixImageListValueList = Array<ExpandMsixImage>;
@@ -6019,9 +5865,7 @@ export const ExpandMsixImageList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ExpandMsixImageListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExpandMsixImageList",
-}) as any as S.Schema<ExpandMsixImageList>;
+).annotate({ identifier: "ExpandMsixImageList" }) as any as S.Schema<ExpandMsixImageList>;
 
 export interface MSIXPackagesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6177,9 +6021,7 @@ export const UpdateAppAttachPackageRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAppAttachPackageRequest>;
 
 /** Resource tags. */
-export type UpdateAppAttachPackageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAppAttachPackageResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAppAttachPackageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6293,9 +6135,7 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 export interface UpdateApplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6322,9 +6162,7 @@ export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationResponse>;
 
 /** tags to be updated */
-export type UpdateApplicationGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6381,9 +6219,7 @@ export const UpdateApplicationGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationGroupRequest>;
 
 /** Resource tags. */
-export type UpdateApplicationGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6463,9 +6299,7 @@ export const DesktopPatchProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     friendlyName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DesktopPatchProperties",
-}) as any as S.Schema<DesktopPatchProperties>;
+).annotate({ identifier: "DesktopPatchProperties" }) as any as S.Schema<DesktopPatchProperties>;
 
 export interface UpdateDesktopRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6494,9 +6328,7 @@ export const UpdateDesktopRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateDesktopRequest",
-}) as any as S.Schema<UpdateDesktopRequest>;
+).annotate({ identifier: "UpdateDesktopRequest" }) as any as S.Schema<UpdateDesktopRequest>;
 
 export interface UpdateDesktopResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6518,14 +6350,10 @@ export const UpdateDesktopResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DesktopProperties),
   }),
-).annotate({
-  identifier: "UpdateDesktopResponse",
-}) as any as S.Schema<UpdateDesktopResponse>;
+).annotate({ identifier: "UpdateDesktopResponse" }) as any as S.Schema<UpdateDesktopResponse>;
 
 /** tags to be updated */
-export type UpdateHostPoolRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateHostPoolRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateHostPoolRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6559,9 +6387,7 @@ export const RegistrationInfoPatch = /*@__PURE__*/ S.suspend(() =>
     expirationTime: S.optional(S.NullOr(S.String)),
     registrationTokenOperation: S.optional(RegistrationInfoPatchRegistrationTokenOperation),
   }),
-).annotate({
-  identifier: "RegistrationInfoPatch",
-}) as any as S.Schema<RegistrationInfoPatch>;
+).annotate({ identifier: "RegistrationInfoPatch" }) as any as S.Schema<RegistrationInfoPatch>;
 
 /** The type of single sign on Secret Type. */
 export type HostPoolPatchPropertiesSsoSecretType =
@@ -6708,9 +6534,7 @@ export const HostPoolPatchProperties = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(S.NullOr(HostPoolPatchPropertiesPublicNetworkAccess)),
     agentUpdate: S.optional(S.NullOr(AgentUpdatePatchProperties)),
   }),
-).annotate({
-  identifier: "HostPoolPatchProperties",
-}) as any as S.Schema<HostPoolPatchProperties>;
+).annotate({ identifier: "HostPoolPatchProperties" }) as any as S.Schema<HostPoolPatchProperties>;
 
 /** Managed service identity (either system assigned, or none) */
 export type UpdateHostPoolRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
@@ -6746,14 +6570,10 @@ export const UpdateHostPoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateHostPoolRequest",
-}) as any as S.Schema<UpdateHostPoolRequest>;
+).annotate({ identifier: "UpdateHostPoolRequest" }) as any as S.Schema<UpdateHostPoolRequest>;
 
 /** Resource tags. */
-export type UpdateHostPoolResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateHostPoolResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateHostPoolResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6815,9 +6635,7 @@ export const UpdateHostPoolResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(ApplicationGroupsCreateOrUpdateRequestPlan),
     properties: HostPoolProperties,
   }),
-).annotate({
-  identifier: "UpdateHostPoolResponse",
-}) as any as S.Schema<UpdateHostPoolResponse>;
+).annotate({ identifier: "UpdateHostPoolResponse" }) as any as S.Schema<UpdateHostPoolResponse>;
 
 /** MSIX Package properties that can be patched. */
 export interface MSIXPackagePatchProperties {
@@ -6865,9 +6683,7 @@ export const UpdateMSIXPackageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateMSIXPackageRequest",
-}) as any as S.Schema<UpdateMSIXPackageRequest>;
+).annotate({ identifier: "UpdateMSIXPackageRequest" }) as any as S.Schema<UpdateMSIXPackageRequest>;
 
 export interface UpdateMSIXPackageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7096,9 +6912,7 @@ export const UpdatePrivateEndpointConnectionByWorkspaceResponse = /*@__PURE__*/ 
 }) as any as S.Schema<UpdatePrivateEndpointConnectionByWorkspaceResponse>;
 
 /** tags to be updated */
-export type UpdateScalingPlanRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateScalingPlanRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateScalingPlanRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7171,14 +6985,10 @@ export const UpdateScalingPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateScalingPlanRequest",
-}) as any as S.Schema<UpdateScalingPlanRequest>;
+).annotate({ identifier: "UpdateScalingPlanRequest" }) as any as S.Schema<UpdateScalingPlanRequest>;
 
 /** Resource tags. */
-export type UpdateScalingPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateScalingPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7403,9 +7213,7 @@ export const UpdateSessionHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateSessionHostRequest",
-}) as any as S.Schema<UpdateSessionHostRequest>;
+).annotate({ identifier: "UpdateSessionHostRequest" }) as any as S.Schema<UpdateSessionHostRequest>;
 
 export interface UpdateSessionHostResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7432,9 +7240,7 @@ export const UpdateSessionHostResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSessionHostResponse>;
 
 /** tags to be updated */
-export type UpdateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7470,9 +7276,7 @@ export const WorkspacePatchProperties = /*@__PURE__*/ S.suspend(() =>
     ),
     publicNetworkAccess: S.optional(S.NullOr(WorkspacePatchPropertiesPublicNetworkAccess)),
   }),
-).annotate({
-  identifier: "WorkspacePatchProperties",
-}) as any as S.Schema<WorkspacePatchProperties>;
+).annotate({ identifier: "WorkspacePatchProperties" }) as any as S.Schema<WorkspacePatchProperties>;
 
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7501,14 +7305,10 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-10-10",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7570,14 +7370,10 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     plan: S.optional(ApplicationGroupsCreateOrUpdateRequestPlan),
     properties: S.optional(WorkspaceProperties),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7627,9 +7423,7 @@ export const WorkspacePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     ),
     publicNetworkAccess: S.optional(S.NullOr(WorkspacePropertiesInputPublicNetworkAccess)),
   }),
-).annotate({
-  identifier: "WorkspacePropertiesInput",
-}) as any as S.Schema<WorkspacePropertiesInput>;
+).annotate({ identifier: "WorkspacePropertiesInput" }) as any as S.Schema<WorkspacePropertiesInput>;
 
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7681,9 +7475,7 @@ export const WorkspacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

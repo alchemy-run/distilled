@@ -42,14 +42,10 @@ export const CreateOuContainerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "CreateOuContainerRequest",
-}) as any as S.Schema<CreateOuContainerRequest>;
+).annotate({ identifier: "CreateOuContainerRequest" }) as any as S.Schema<CreateOuContainerRequest>;
 
 /** Resource tags */
-export type CreateOuContainerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOuContainerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateOuContainerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -114,9 +110,7 @@ export const ContainerAccount = /*@__PURE__*/ S.suspend(() =>
     spn: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ContainerAccount",
-}) as any as S.Schema<ContainerAccount>;
+).annotate({ identifier: "ContainerAccount" }) as any as S.Schema<ContainerAccount>;
 
 /** The list of container accounts */
 export type OuContainerPropertiesAccountsList = Array<ContainerAccount>;
@@ -154,9 +148,7 @@ export const OuContainerProperties = /*@__PURE__*/ S.suspend(() =>
     distinguishedName: S.optional(S.String),
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OuContainerProperties",
-}) as any as S.Schema<OuContainerProperties>;
+).annotate({ identifier: "OuContainerProperties" }) as any as S.Schema<OuContainerProperties>;
 
 export interface CreateOuContainerResponse {
   /** Resource Id */
@@ -245,9 +237,7 @@ export const DeleteOuContainerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOuContainerRequest",
-}) as any as S.Schema<DeleteOuContainerRequest>;
+).annotate({ identifier: "DeleteOuContainerRequest" }) as any as S.Schema<DeleteOuContainerRequest>;
 
 export interface DeleteOuContainerResponse {}
 export const DeleteOuContainerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -255,9 +245,7 @@ export const DeleteOuContainerResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<DeleteOuContainerResponse>;
 
 /** Resource tags */
-export type DomainServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DomainServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DomainServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -275,9 +263,7 @@ export const ReplicaSetInput = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     subnetId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaSetInput",
-}) as any as S.Schema<ReplicaSetInput>;
+).annotate({ identifier: "ReplicaSetInput" }) as any as S.Schema<ReplicaSetInput>;
 
 /** List of ReplicaSets */
 export type DomainServicePropertiesInputReplicaSetsList = Array<ReplicaSetInput>;
@@ -311,9 +297,7 @@ export const LdapsSettingsInput = /*@__PURE__*/ S.suspend(() =>
     pfxCertificatePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
     externalAccess: S.optional(LdapsSettingsInputExternalAccess),
   }),
-).annotate({
-  identifier: "LdapsSettingsInput",
-}) as any as S.Schema<LdapsSettingsInput>;
+).annotate({ identifier: "LdapsSettingsInput" }) as any as S.Schema<LdapsSettingsInput>;
 
 /** Forest Trust Setting */
 export interface ForestTrust {
@@ -356,9 +340,7 @@ export const ResourceForestSettings = /*@__PURE__*/ S.suspend(() =>
     settings: S.optional(ResourceForestSettingsSettingsList),
     resourceForest: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceForestSettings",
-}) as any as S.Schema<ResourceForestSettings>;
+).annotate({ identifier: "ResourceForestSettings" }) as any as S.Schema<ResourceForestSettings>;
 
 /** A flag to determine whether or not NtlmV1 is enabled or disabled. */
 export type DomainSecuritySettingsNtlmV1 = "Enabled" | "Disabled";
@@ -429,9 +411,7 @@ export const DomainSecuritySettings = /*@__PURE__*/ S.suspend(() =>
     ldapSigning: S.optional(DomainSecuritySettingsLdapSigning),
     channelBinding: S.optional(DomainSecuritySettingsChannelBinding),
   }),
-).annotate({
-  identifier: "DomainSecuritySettings",
-}) as any as S.Schema<DomainSecuritySettings>;
+).annotate({ identifier: "DomainSecuritySettings" }) as any as S.Schema<DomainSecuritySettings>;
 
 /** Enabled or Disabled flag to turn on Group-based filtered sync */
 export type DomainServicePropertiesInputFilteredSync = "Enabled" | "Disabled";
@@ -470,9 +450,7 @@ export const NotificationSettings = /*@__PURE__*/ S.suspend(() =>
     notifyDcAdmins: S.optional(NotificationSettingsNotifyDcAdmins),
     additionalRecipients: S.optional(NotificationSettingsAdditionalRecipientsList),
   }),
-).annotate({
-  identifier: "NotificationSettings",
-}) as any as S.Schema<NotificationSettings>;
+).annotate({ identifier: "NotificationSettings" }) as any as S.Schema<NotificationSettings>;
 
 /** Status for individual validator after running diagnostics. */
 export type ConfigDiagnosticsValidatorResultStatus =
@@ -553,9 +531,7 @@ export const ConfigDiagnostics = /*@__PURE__*/ S.suspend(() =>
     lastExecuted: S.optional(S.String),
     validatorResults: S.optional(ConfigDiagnosticsValidatorResultsList),
   }),
-).annotate({
-  identifier: "ConfigDiagnostics",
-}) as any as S.Schema<ConfigDiagnostics>;
+).annotate({ identifier: "ConfigDiagnostics" }) as any as S.Schema<ConfigDiagnostics>;
 
 /** Properties of the Domain Service. */
 export interface DomainServicePropertiesInput {
@@ -638,9 +614,7 @@ export const DomainServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DomainServicesCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type DomainServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DomainServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DomainServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -857,9 +831,7 @@ export const MigrationProgress = /*@__PURE__*/ S.suspend(() =>
     completionPercentage: S.optional(S.Number),
     progressMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MigrationProgress",
-}) as any as S.Schema<MigrationProgress>;
+).annotate({ identifier: "MigrationProgress" }) as any as S.Schema<MigrationProgress>;
 
 /** Migration Properties */
 export interface MigrationProperties {
@@ -876,9 +848,7 @@ export const MigrationProperties = /*@__PURE__*/ S.suspend(() =>
     oldVnetSiteId: S.optional(S.String),
     migrationProgress: S.optional(MigrationProgress),
   }),
-).annotate({
-  identifier: "MigrationProperties",
-}) as any as S.Schema<MigrationProperties>;
+).annotate({ identifier: "MigrationProperties" }) as any as S.Schema<MigrationProperties>;
 
 /** Properties of the Domain Service. */
 export interface DomainServiceProperties {
@@ -940,9 +910,7 @@ export const DomainServiceProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     configDiagnostics: S.optional(ConfigDiagnostics),
   }),
-).annotate({
-  identifier: "DomainServiceProperties",
-}) as any as S.Schema<DomainServiceProperties>;
+).annotate({ identifier: "DomainServiceProperties" }) as any as S.Schema<DomainServiceProperties>;
 
 export interface DomainServicesCreateOrUpdateResponse {
   /** Resource Id */
@@ -998,14 +966,10 @@ export const GetDomainServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetDomainServiceRequest",
-}) as any as S.Schema<GetDomainServiceRequest>;
+).annotate({ identifier: "GetDomainServiceRequest" }) as any as S.Schema<GetDomainServiceRequest>;
 
 /** Resource tags */
-export type GetDomainServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDomainServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetDomainServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1084,9 +1048,7 @@ export const GetDomainServiceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetDomainServiceResponseSystemData),
     properties: S.optional(DomainServiceProperties),
   }),
-).annotate({
-  identifier: "GetDomainServiceResponse",
-}) as any as S.Schema<GetDomainServiceResponse>;
+).annotate({ identifier: "GetDomainServiceResponse" }) as any as S.Schema<GetDomainServiceResponse>;
 
 export interface GetOuContainerRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1112,14 +1074,10 @@ export const GetOuContainerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetOuContainerRequest",
-}) as any as S.Schema<GetOuContainerRequest>;
+).annotate({ identifier: "GetOuContainerRequest" }) as any as S.Schema<GetOuContainerRequest>;
 
 /** Resource tags */
-export type GetOuContainerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetOuContainerResponseTagsMap = { [key: string]: string | undefined };
 export const GetOuContainerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1198,9 +1156,7 @@ export const GetOuContainerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetOuContainerResponseSystemData),
     properties: S.optional(OuContainerProperties),
   }),
-).annotate({
-  identifier: "GetOuContainerResponse",
-}) as any as S.Schema<GetOuContainerResponse>;
+).annotate({ identifier: "GetOuContainerResponse" }) as any as S.Schema<GetOuContainerResponse>;
 
 export interface ListDomainServiceByResourceGroupRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1271,9 +1227,7 @@ export const DomainServiceSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(DomainServiceSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainServiceSystemData",
-}) as any as S.Schema<DomainServiceSystemData>;
+).annotate({ identifier: "DomainServiceSystemData" }) as any as S.Schema<DomainServiceSystemData>;
 
 /** Domain service. */
 export interface DomainService {
@@ -1325,9 +1279,7 @@ export const DomainServiceListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DomainServiceListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DomainServiceListResult",
-}) as any as S.Schema<DomainServiceListResult>;
+).annotate({ identifier: "DomainServiceListResult" }) as any as S.Schema<DomainServiceListResult>;
 
 export interface ListDomainServiceOperationsRequest {}
 export const ListDomainServiceOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1361,9 +1313,7 @@ export const OperationDisplayInfo = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplayInfo",
-}) as any as S.Schema<OperationDisplayInfo>;
+).annotate({ identifier: "OperationDisplayInfo" }) as any as S.Schema<OperationDisplayInfo>;
 
 /** The operation supported by Domain Services. */
 export interface OperationEntity {
@@ -1380,9 +1330,7 @@ export const OperationEntity = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplayInfo),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationEntity",
-}) as any as S.Schema<OperationEntity>;
+).annotate({ identifier: "OperationEntity" }) as any as S.Schema<OperationEntity>;
 
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
@@ -1446,9 +1394,7 @@ export const ListOuContainerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOuContainerRequest",
-}) as any as S.Schema<ListOuContainerRequest>;
+).annotate({ identifier: "ListOuContainerRequest" }) as any as S.Schema<ListOuContainerRequest>;
 
 /** Resource tags */
 export type OuContainerTagsMap = { [key: string]: string | undefined };
@@ -1493,9 +1439,7 @@ export const OuContainerSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(OuContainerSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OuContainerSystemData",
-}) as any as S.Schema<OuContainerSystemData>;
+).annotate({ identifier: "OuContainerSystemData" }) as any as S.Schema<OuContainerSystemData>;
 
 /** Resource for OuContainer. */
 export interface OuContainer {
@@ -1547,9 +1491,7 @@ export const OuContainerListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OuContainerListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OuContainerListResult",
-}) as any as S.Schema<OuContainerListResult>;
+).annotate({ identifier: "OuContainerListResult" }) as any as S.Schema<OuContainerListResult>;
 
 export interface ListOuContainerOperationsRequest {}
 export const ListOuContainerOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1566,9 +1508,7 @@ export const ListOuContainerOperationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListOuContainerOperationsRequest>;
 
 /** Resource tags */
-export type UpdateDomainServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDomainServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDomainServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1612,9 +1552,7 @@ export const UpdateDomainServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDomainServiceRequest>;
 
 /** Resource tags */
-export type UpdateDomainServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDomainServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDomainServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1730,14 +1668,10 @@ export const UpdateOuContainerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateOuContainerRequest",
-}) as any as S.Schema<UpdateOuContainerRequest>;
+).annotate({ identifier: "UpdateOuContainerRequest" }) as any as S.Schema<UpdateOuContainerRequest>;
 
 /** Resource tags */
-export type UpdateOuContainerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOuContainerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateOuContainerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

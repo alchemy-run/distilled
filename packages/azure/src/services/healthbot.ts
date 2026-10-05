@@ -33,9 +33,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     keyVaultUri: S.String,
     userIdentity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** The properties of a Azure Health Bot. The Health Bot Service is a cloud platform that empowers developers in Healthcare organizations to build and deploy their compliant, AI-powered virtual health assistants and health bots, that help them improve processes and reduce costs. */
 export interface HealthBotPropertiesInput {
@@ -46,9 +44,7 @@ export const HealthBotPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyVaultProperties: S.optional(KeyVaultProperties),
   }),
-).annotate({
-  identifier: "HealthBotPropertiesInput",
-}) as any as S.Schema<HealthBotPropertiesInput>;
+).annotate({ identifier: "HealthBotPropertiesInput" }) as any as S.Schema<HealthBotPropertiesInput>;
 
 /** The name of the Azure Health Bot SKU */
 export type SkuName = "F0" | "C0" | "PES" | "C1";
@@ -138,9 +134,7 @@ export const CreateBotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateBotRequest",
-}) as any as S.Schema<CreateBotRequest>;
+).annotate({ identifier: "CreateBotRequest" }) as any as S.Schema<CreateBotRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -201,9 +195,7 @@ export const HealthBotProperties = /*@__PURE__*/ S.suspend(() =>
     keyVaultProperties: S.optional(KeyVaultProperties),
     accessControlMethod: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HealthBotProperties",
-}) as any as S.Schema<HealthBotProperties>;
+).annotate({ identifier: "HealthBotProperties" }) as any as S.Schema<HealthBotProperties>;
 
 /** The details of the user assigned managed identity used by the Video Analyzer resource. */
 export interface UserAssignedIdentity {
@@ -217,14 +209,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-export type IdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 export const IdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -282,9 +270,7 @@ export const CreateBotResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "CreateBotResponse",
-}) as any as S.Schema<CreateBotResponse>;
+).annotate({ identifier: "CreateBotResponse" }) as any as S.Schema<CreateBotResponse>;
 
 export interface DeleteBotRequest {
   /** The ID of the target subscription. */
@@ -307,9 +293,7 @@ export const DeleteBotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBotRequest",
-}) as any as S.Schema<DeleteBotRequest>;
+).annotate({ identifier: "DeleteBotRequest" }) as any as S.Schema<DeleteBotRequest>;
 
 export interface DeleteBotResponse {}
 export const DeleteBotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -462,9 +446,7 @@ export const BotResponseList = /*@__PURE__*/ S.suspend(() =>
     value: BotResponseListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BotResponseList",
-}) as any as S.Schema<BotResponseList>;
+).annotate({ identifier: "BotResponseList" }) as any as S.Schema<BotResponseList>;
 
 export interface ListBotsRequest {
   /** The ID of the target subscription. */
@@ -481,9 +463,7 @@ export const ListBotsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListBotsRequest",
-}) as any as S.Schema<ListBotsRequest>;
+).annotate({ identifier: "ListBotsRequest" }) as any as S.Schema<ListBotsRequest>;
 
 export interface ListBotSecretsRequest {
   /** The ID of the target subscription. */
@@ -506,9 +486,7 @@ export const ListBotSecretsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListBotSecretsRequest",
-}) as any as S.Schema<ListBotSecretsRequest>;
+).annotate({ identifier: "ListBotSecretsRequest" }) as any as S.Schema<ListBotSecretsRequest>;
 
 /** An entry of HealthBotKeysResponse */
 export interface HealthBotKey {
@@ -539,9 +517,7 @@ export const HealthBotKeysResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     secrets: S.optional(HealthBotKeysResponseSecretsList),
   }),
-).annotate({
-  identifier: "HealthBotKeysResponse",
-}) as any as S.Schema<HealthBotKeysResponse>;
+).annotate({ identifier: "HealthBotKeysResponse" }) as any as S.Schema<HealthBotKeysResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -553,9 +529,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Operation display payload */
 export interface OperationDisplay {
@@ -575,9 +549,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation detail payload */
 export interface OperationDetail {
@@ -600,9 +572,7 @@ export const OperationDetail = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OperationDetail",
-}) as any as S.Schema<OperationDetail>;
+).annotate({ identifier: "OperationDetail" }) as any as S.Schema<OperationDetail>;
 
 /** Collection of available operation details. */
 export type AvailableOperationsValueList = Array<OperationDetail>;
@@ -622,9 +592,7 @@ export const AvailableOperations = /*@__PURE__*/ S.suspend(() =>
     value: AvailableOperationsValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableOperations",
-}) as any as S.Schema<AvailableOperations>;
+).annotate({ identifier: "AvailableOperations" }) as any as S.Schema<AvailableOperations>;
 
 export interface RegenerateBotApiJwtSecretRequest {
   /** The ID of the target subscription. */
@@ -693,9 +661,7 @@ export const UpdateBotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateBotRequest",
-}) as any as S.Schema<UpdateBotRequest>;
+).annotate({ identifier: "UpdateBotRequest" }) as any as S.Schema<UpdateBotRequest>;
 
 /** Resource tags. */
 export type UpdateBotResponseTagsMap = { [key: string]: string | undefined };
@@ -736,9 +702,7 @@ export const UpdateBotResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "UpdateBotResponse",
-}) as any as S.Schema<UpdateBotResponse>;
+).annotate({ identifier: "UpdateBotResponse" }) as any as S.Schema<UpdateBotResponse>;
 
 export type CreateBotError = AzureOpError;
 /** Create a new Azure Health Bot. */

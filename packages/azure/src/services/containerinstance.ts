@@ -33,9 +33,7 @@ export const AttachContainerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "AttachContainerRequest",
-}) as any as S.Schema<AttachContainerRequest>;
+).annotate({ identifier: "AttachContainerRequest" }) as any as S.Schema<AttachContainerRequest>;
 
 /** The information for the output stream from container attach. */
 export interface ContainerAttachResponse {
@@ -49,9 +47,7 @@ export const ContainerAttachResponse = /*@__PURE__*/ S.suspend(() =>
     webSocketUri: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ContainerAttachResponse",
-}) as any as S.Schema<ContainerAttachResponse>;
+).annotate({ identifier: "ContainerAttachResponse" }) as any as S.Schema<ContainerAttachResponse>;
 
 /** The container group SKU. */
 export type ContainerGroupSku = "NotSpecified" | "Standard" | "Dedicated" | "Confidential";
@@ -75,9 +71,7 @@ export const EncryptionProperties = /*@__PURE__*/ S.suspend(() =>
     keyVersion: S.String,
     identity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionProperties",
-}) as any as S.Schema<EncryptionProperties>;
+).annotate({ identifier: "EncryptionProperties" }) as any as S.Schema<EncryptionProperties>;
 
 /** The commands to execute within the container instance in exec form. */
 export type ContainerPropertiesInputCommandList = Array<string>;
@@ -127,9 +121,7 @@ export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
     secureValue: S.optional(S.String),
     secureValueReference: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentVariable",
-}) as any as S.Schema<EnvironmentVariable>;
+).annotate({ identifier: "EnvironmentVariable" }) as any as S.Schema<EnvironmentVariable>;
 
 /** The environment variables to set in the container instance. */
 export type ContainerPropertiesInputEnvironmentVariablesList = Array<EnvironmentVariable>;
@@ -170,9 +162,7 @@ export const ResourceRequests = /*@__PURE__*/ S.suspend(() =>
     cpu: S.Number,
     gpu: S.optional(GpuResource),
   }),
-).annotate({
-  identifier: "ResourceRequests",
-}) as any as S.Schema<ResourceRequests>;
+).annotate({ identifier: "ResourceRequests" }) as any as S.Schema<ResourceRequests>;
 
 /** The resource limits. */
 export interface ResourceLimits {
@@ -203,9 +193,7 @@ export const ResourceRequirements = /*@__PURE__*/ S.suspend(() =>
     requests: ResourceRequests,
     limits: S.optional(ResourceLimits),
   }),
-).annotate({
-  identifier: "ResourceRequirements",
-}) as any as S.Schema<ResourceRequirements>;
+).annotate({ identifier: "ResourceRequirements" }) as any as S.Schema<ResourceRequirements>;
 
 /** The properties of the volume mount. */
 export interface VolumeMount {
@@ -289,9 +277,7 @@ export const ContainerHttpGet = /*@__PURE__*/ S.suspend(() =>
     scheme: S.optional(Scheme),
     httpHeaders: S.optional(ContainerHttpGetHttpHeadersList),
   }),
-).annotate({
-  identifier: "ContainerHttpGet",
-}) as any as S.Schema<ContainerHttpGet>;
+).annotate({ identifier: "ContainerHttpGet" }) as any as S.Schema<ContainerHttpGet>;
 
 /** The container probe, for liveness or readiness */
 export interface ContainerProbe {
@@ -432,9 +418,7 @@ export const ContainerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     securityContext: S.optional(SecurityContextDefinition),
     configMap: S.optional(ConfigMap),
   }),
-).annotate({
-  identifier: "ContainerPropertiesInput",
-}) as any as S.Schema<ContainerPropertiesInput>;
+).annotate({ identifier: "ContainerPropertiesInput" }) as any as S.Schema<ContainerPropertiesInput>;
 
 /** A container instance. */
 export interface ContainerInput {
@@ -559,9 +543,7 @@ export const DeploymentExtensionSpec = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: S.optional(DeploymentExtensionSpecProperties),
   }),
-).annotate({
-  identifier: "DeploymentExtensionSpec",
-}) as any as S.Schema<DeploymentExtensionSpec>;
+).annotate({ identifier: "DeploymentExtensionSpec" }) as any as S.Schema<DeploymentExtensionSpec>;
 
 /** extensions used by virtual kubelet */
 export type ContainerGroupProfilePropertiesInputExtensionsList = Array<DeploymentExtensionSpec>;
@@ -593,9 +575,7 @@ export const ImageRegistryCredential = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(S.String),
     identityUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageRegistryCredential",
-}) as any as S.Schema<ImageRegistryCredential>;
+).annotate({ identifier: "ImageRegistryCredential" }) as any as S.Schema<ImageRegistryCredential>;
 
 /** The image registry credentials by which the container group is created from. */
 export type ContainerGroupProfilePropertiesInputImageRegistryCredentialsList =
@@ -699,9 +679,7 @@ export const AzureFileVolume = /*@__PURE__*/ S.suspend(() =>
     storageAccountKeyReference: S.optional(S.String),
     userAssignedIdentityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AzureFileVolume",
-}) as any as S.Schema<AzureFileVolume>;
+).annotate({ identifier: "AzureFileVolume" }) as any as S.Schema<AzureFileVolume>;
 
 /** Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses. */
 export type VolumeSecretMap = { [key: string]: string | undefined };
@@ -894,9 +872,7 @@ export const ContainerGroupProfilePropertiesInput = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ContainerGroupProfilePropertiesInput>;
 
 /** Resource tags. */
-export type CGProfileCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CGProfileCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CGProfileCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1119,9 +1095,7 @@ export const ContainerProperties = /*@__PURE__*/ S.suspend(() =>
     securityContext: S.optional(SecurityContextDefinition),
     configMap: S.optional(ConfigMap),
   }),
-).annotate({
-  identifier: "ContainerProperties",
-}) as any as S.Schema<ContainerProperties>;
+).annotate({ identifier: "ContainerProperties" }) as any as S.Schema<ContainerProperties>;
 
 /** A container instance. */
 export interface Container {
@@ -1229,9 +1203,7 @@ export const InitContainerDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: InitContainerPropertiesDefinition,
   }),
-).annotate({
-  identifier: "InitContainerDefinition",
-}) as any as S.Schema<InitContainerDefinition>;
+).annotate({ identifier: "InitContainerDefinition" }) as any as S.Schema<InitContainerDefinition>;
 
 /** The init containers for a container group. */
 export type ContainerGroupProfilePropertiesInitContainersList = Array<InitContainerDefinition>;
@@ -1375,9 +1347,7 @@ export const ContainerGroupProfileProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ContainerGroupProfileProperties>;
 
 /** Resource tags. */
-export type CGProfileCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CGProfileCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CGProfileCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1462,14 +1432,10 @@ export const SandboxGroupAccessToken = /*@__PURE__*/ S.suspend(() =>
     accessToken: S.String.pipe(T.SensitiveValue({})),
     notAfter: S.String,
   }),
-).annotate({
-  identifier: "SandboxGroupAccessToken",
-}) as any as S.Schema<SandboxGroupAccessToken>;
+).annotate({ identifier: "SandboxGroupAccessToken" }) as any as S.Schema<SandboxGroupAccessToken>;
 
 /** The resource tags. */
-export type ContainerGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContainerGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ContainerGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1535,9 +1501,7 @@ export const SecretReference = /*@__PURE__*/ S.suspend(() =>
     identity: S.String,
     secretReferenceUri: S.String,
   }),
-).annotate({
-  identifier: "SecretReference",
-}) as any as S.Schema<SecretReference>;
+).annotate({ identifier: "SecretReference" }) as any as S.Schema<SecretReference>;
 
 /** The secret references that will be referenced within the container group. */
 export type ContainerGroupPropertiesPropertiesInputSecretReferencesList = Array<SecretReference>;
@@ -1577,9 +1541,7 @@ export const ContainerGroupSubnetId = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContainerGroupSubnetId",
-}) as any as S.Schema<ContainerGroupSubnetId>;
+).annotate({ identifier: "ContainerGroupSubnetId" }) as any as S.Schema<ContainerGroupSubnetId>;
 
 /** The subnet resource IDs for a container group. */
 export type ContainerGroupPropertiesPropertiesInputSubnetIdsList = Array<ContainerGroupSubnetId>;
@@ -1608,9 +1570,7 @@ export const DnsConfiguration = /*@__PURE__*/ S.suspend(() =>
     searchDomains: S.optional(S.String),
     options: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsConfiguration",
-}) as any as S.Schema<DnsConfiguration>;
+).annotate({ identifier: "DnsConfiguration" }) as any as S.Schema<DnsConfiguration>;
 
 /** The init containers for a container group. */
 export type ContainerGroupPropertiesPropertiesInputInitContainersList =
@@ -1641,9 +1601,7 @@ export const IdentityAccessControl = /*@__PURE__*/ S.suspend(() =>
     access: S.optional(IdentityAccessLevel),
     identity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IdentityAccessControl",
-}) as any as S.Schema<IdentityAccessControl>;
+).annotate({ identifier: "IdentityAccessControl" }) as any as S.Schema<IdentityAccessControl>;
 
 /** The access control levels for each identity. */
 export type IdentityAclsAclsList = Array<IdentityAccessControl>;
@@ -1807,9 +1765,7 @@ export const ContainerGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ContainerGroupsCreateOrUpdateRequest>;
 
 /** The resource tags. */
-export type ContainerGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContainerGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ContainerGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1833,9 +1789,7 @@ export const UserAssignedIdentities = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentities",
-}) as any as S.Schema<UserAssignedIdentities>;
+).annotate({ identifier: "UserAssignedIdentities" }) as any as S.Schema<UserAssignedIdentities>;
 
 /** The list of user identities associated with the container group. */
 export type ContainerGroupIdentityUserAssignedIdentitiesMap = {
@@ -1864,9 +1818,7 @@ export const ContainerGroupIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(ContainerGroupIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ContainerGroupIdentity",
-}) as any as S.Schema<ContainerGroupIdentity>;
+).annotate({ identifier: "ContainerGroupIdentity" }) as any as S.Schema<ContainerGroupIdentity>;
 
 /** The secret references that will be referenced within the container group. */
 export type ContainerGroupPropertiesPropertiesSecretReferencesList = Array<SecretReference>;
@@ -2068,9 +2020,7 @@ export const DeleteCGProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCGProfileRequest",
-}) as any as S.Schema<DeleteCGProfileRequest>;
+).annotate({ identifier: "DeleteCGProfileRequest" }) as any as S.Schema<DeleteCGProfileRequest>;
 
 export interface DeleteCGProfileResponse {}
 export const DeleteCGProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2103,9 +2053,7 @@ export const DeleteContainerGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteContainerGroupRequest>;
 
 /** The resource tags. */
-export type DeleteContainerGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeleteContainerGroupResponseTagsMap = { [key: string]: string | undefined };
 export const DeleteContainerGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2171,12 +2119,10 @@ export const DeleteNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "DeleteNGroupRequest",
-}) as any as S.Schema<DeleteNGroupRequest>;
+).annotate({ identifier: "DeleteNGroupRequest" }) as any as S.Schema<DeleteNGroupRequest>;
 
 export interface DeleteNGroupResponse {}
 export const DeleteNGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2310,9 +2256,7 @@ export const ContainerExecResponse = /*@__PURE__*/ S.suspend(() =>
     webSocketUri: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "ContainerExecResponse",
-}) as any as S.Schema<ContainerExecResponse>;
+).annotate({ identifier: "ContainerExecResponse" }) as any as S.Schema<ContainerExecResponse>;
 
 export interface GetCGProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2335,9 +2279,7 @@ export const GetCGProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetCGProfileRequest",
-}) as any as S.Schema<GetCGProfileRequest>;
+).annotate({ identifier: "GetCGProfileRequest" }) as any as S.Schema<GetCGProfileRequest>;
 
 /** Resource tags. */
 export type GetCGProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -2381,9 +2323,7 @@ export const GetCGProfileResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     zones: S.optional(GetCGProfileResponseZonesList),
   }),
-).annotate({
-  identifier: "GetCGProfileResponse",
-}) as any as S.Schema<GetCGProfileResponse>;
+).annotate({ identifier: "GetCGProfileResponse" }) as any as S.Schema<GetCGProfileResponse>;
 
 export interface GetCGProfileByRevisionNumberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2414,9 +2354,7 @@ export const GetCGProfileByRevisionNumberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCGProfileByRevisionNumberRequest>;
 
 /** Resource tags. */
-export type GetCGProfileByRevisionNumberResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCGProfileByRevisionNumberResponseTagsMap = { [key: string]: string | undefined };
 export const GetCGProfileByRevisionNumberResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2482,14 +2420,10 @@ export const GetContainerGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetContainerGroupRequest",
-}) as any as S.Schema<GetContainerGroupRequest>;
+).annotate({ identifier: "GetContainerGroupRequest" }) as any as S.Schema<GetContainerGroupRequest>;
 
 /** The resource tags. */
-export type GetContainerGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetContainerGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetContainerGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2594,12 +2528,10 @@ export const GetNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "GetNGroupRequest",
-}) as any as S.Schema<GetNGroupRequest>;
+).annotate({ identifier: "GetNGroupRequest" }) as any as S.Schema<GetNGroupRequest>;
 
 export interface ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy {
   /** The prefix can be used when there are tooling limitations (e.g. on the Azure portal where CGs from multiple NGroups exist in the same RG). The prefix with the suffixed resource name must still follow Azure resource naming guidelines. */
@@ -2651,9 +2583,7 @@ export const PlacementProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     faultDomainCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PlacementProfile",
-}) as any as S.Schema<PlacementProfile>;
+).annotate({ identifier: "PlacementProfile" }) as any as S.Schema<PlacementProfile>;
 
 /** The API entity reference. */
 export interface ApiEntityReference {
@@ -2664,9 +2594,7 @@ export const ApiEntityReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiEntityReference",
-}) as any as S.Schema<ApiEntityReference>;
+).annotate({ identifier: "ApiEntityReference" }) as any as S.Schema<ApiEntityReference>;
 
 /** NGroups load balancer backend address pool */
 export interface LoadBalancerBackendAddressPool {
@@ -2729,9 +2657,7 @@ export const ApplicationGateway = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     backendAddressPools: S.optional(ApplicationGatewayBackendAddressPoolsList),
   }),
-).annotate({
-  identifier: "ApplicationGateway",
-}) as any as S.Schema<ApplicationGateway>;
+).annotate({ identifier: "ApplicationGateway" }) as any as S.Schema<ApplicationGateway>;
 
 /** A network profile for network settings of a ContainerGroupProfile. Used to manage load balancer and application gateway backend pools, specifically updating the IP addresses of CGs within the backend pool. */
 export interface NetworkProfile {
@@ -2770,9 +2696,7 @@ export const FileShareProperties = /*@__PURE__*/ S.suspend(() =>
     shareAccessType: S.optional(AzureFileShareAccessType),
     shareAccessTier: S.optional(FileSharePropertiesShareAccessTier),
   }),
-).annotate({
-  identifier: "FileShareProperties",
-}) as any as S.Schema<FileShareProperties>;
+).annotate({ identifier: "FileShareProperties" }) as any as S.Schema<FileShareProperties>;
 
 /** File shares that can be mounted on container groups. */
 export interface FileShare {
@@ -2823,9 +2747,7 @@ export const NGroupCGPropertyVolume = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     azureFile: S.optional(AzureFileVolume),
   }),
-).annotate({
-  identifier: "NGroupCGPropertyVolume",
-}) as any as S.Schema<NGroupCGPropertyVolume>;
+).annotate({ identifier: "NGroupCGPropertyVolume" }) as any as S.Schema<NGroupCGPropertyVolume>;
 
 /** Contains information about the volumes that can be mounted by Containers in the Container Groups. */
 export type NGroupContainerGroupPropertiesVolumesList = Array<NGroupCGPropertyVolume>;
@@ -2992,9 +2914,7 @@ export const NGroupProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(NGroupProvisioningState),
     updateProfile: S.optional(UpdateProfile),
   }),
-).annotate({
-  identifier: "NGroupProperties",
-}) as any as S.Schema<NGroupProperties>;
+).annotate({ identifier: "NGroupProperties" }) as any as S.Schema<NGroupProperties>;
 
 /** Resource tags. */
 export type GetNGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -3070,9 +2990,7 @@ export const GetNGroupResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(GetNGroupResponseZonesList),
     identity: S.optional(NGroupIdentity),
   }),
-).annotate({
-  identifier: "GetNGroupResponse",
-}) as any as S.Schema<GetNGroupResponse>;
+).annotate({ identifier: "GetNGroupResponse" }) as any as S.Schema<GetNGroupResponse>;
 
 export interface GetSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3095,14 +3013,10 @@ export const GetSandboxGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetSandboxGroupRequest",
-}) as any as S.Schema<GetSandboxGroupRequest>;
+).annotate({ identifier: "GetSandboxGroupRequest" }) as any as S.Schema<GetSandboxGroupRequest>;
 
 /** Resource tags. */
-export type GetSandboxGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSandboxGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetSandboxGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3127,9 +3041,7 @@ export const SubnetReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "SubnetReference",
-}) as any as S.Schema<SubnetReference>;
+).annotate({ identifier: "SubnetReference" }) as any as S.Schema<SubnetReference>;
 
 /** The list of subnets associated with the SandboxGroup. */
 export type SandboxGroupNetworkProfileSubnetsList = Array<SubnetReference>;
@@ -3165,9 +3077,7 @@ export const SandboxGroupProperties = /*@__PURE__*/ S.suspend(() =>
     networkProfile: S.optional(SandboxGroupNetworkProfile),
     managementResourceGroupId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SandboxGroupProperties",
-}) as any as S.Schema<SandboxGroupProperties>;
+).annotate({ identifier: "SandboxGroupProperties" }) as any as S.Schema<SandboxGroupProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -3226,9 +3136,7 @@ export const GetSandboxGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SandboxGroupProperties),
     identity: S.optional(GetSandboxGroupResponseIdentity),
   }),
-).annotate({
-  identifier: "GetSandboxGroupResponse",
-}) as any as S.Schema<GetSandboxGroupResponse>;
+).annotate({ identifier: "GetSandboxGroupResponse" }) as any as S.Schema<GetSandboxGroupResponse>;
 
 export interface ListCGProfileAllRevisionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3256,9 +3164,7 @@ export const ListCGProfileAllRevisionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListCGProfileAllRevisionsRequest>;
 
 /** Resource tags. */
-export type ContainerGroupProfileTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContainerGroupProfileTagsMap = { [key: string]: string | undefined };
 export const ContainerGroupProfileTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3300,9 +3206,7 @@ export const ContainerGroupProfile = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     zones: S.optional(ContainerGroupProfileZonesList),
   }),
-).annotate({
-  identifier: "ContainerGroupProfile",
-}) as any as S.Schema<ContainerGroupProfile>;
+).annotate({ identifier: "ContainerGroupProfile" }) as any as S.Schema<ContainerGroupProfile>;
 
 /** The ContainerGroupProfile items on this page */
 export type ContainerGroupProfileListResultValueList = Array<ContainerGroupProfile>;
@@ -3390,9 +3294,7 @@ export const ListContainerGroupByResourceGroupRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListContainerGroupByResourceGroupRequest>;
 
 /** The resource tags. */
-export type ListResultContainerGroupTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ListResultContainerGroupTagsMap = { [key: string]: string | undefined };
 export const ListResultContainerGroupTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3575,9 +3477,7 @@ export const ListResultContainerGroup = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ContainerGroupIdentity),
     properties: ListResultContainerGroupPropertiesProperties,
   }),
-).annotate({
-  identifier: "ListResultContainerGroup",
-}) as any as S.Schema<ListResultContainerGroup>;
+).annotate({ identifier: "ListResultContainerGroup" }) as any as S.Schema<ListResultContainerGroup>;
 
 /** The ListResultContainerGroup items on this page */
 export type ContainerGroupListResultValueList = Array<ListResultContainerGroup>;
@@ -3597,9 +3497,7 @@ export const ContainerGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: ContainerGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContainerGroupListResult",
-}) as any as S.Schema<ContainerGroupListResult>;
+).annotate({ identifier: "ContainerGroupListResult" }) as any as S.Schema<ContainerGroupListResult>;
 
 export interface ListContainerGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3650,9 +3548,7 @@ export const ListContainerLogsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListContainerLogsRequest",
-}) as any as S.Schema<ListContainerLogsRequest>;
+).annotate({ identifier: "ListContainerLogsRequest" }) as any as S.Schema<ListContainerLogsRequest>;
 
 /** The logs. */
 export interface Logs {
@@ -3719,9 +3615,7 @@ export const CachedImagesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CachedImagesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CachedImagesListResult",
-}) as any as S.Schema<CachedImagesListResult>;
+).annotate({ identifier: "CachedImagesListResult" }) as any as S.Schema<CachedImagesListResult>;
 
 export interface ListLocationCapabilitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3760,9 +3654,7 @@ export const CapabilitiesCapabilities = /*@__PURE__*/ S.suspend(() =>
     maxCpu: S.optional(S.Number),
     maxGpuCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CapabilitiesCapabilities",
-}) as any as S.Schema<CapabilitiesCapabilities>;
+).annotate({ identifier: "CapabilitiesCapabilities" }) as any as S.Schema<CapabilitiesCapabilities>;
 
 /** The regional capabilities. */
 export interface Capabilities {
@@ -3808,9 +3700,7 @@ export const CapabilitiesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CapabilitiesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CapabilitiesListResult",
-}) as any as S.Schema<CapabilitiesListResult>;
+).annotate({ identifier: "CapabilitiesListResult" }) as any as S.Schema<CapabilitiesListResult>;
 
 export interface ListLocationUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3830,9 +3720,7 @@ export const ListLocationUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListLocationUsageRequest",
-}) as any as S.Schema<ListLocationUsageRequest>;
+).annotate({ identifier: "ListLocationUsageRequest" }) as any as S.Schema<ListLocationUsageRequest>;
 
 /** The name object of the resource */
 export interface UsageName {
@@ -3889,9 +3777,7 @@ export const UsageListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(UsageListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsageListResult",
-}) as any as S.Schema<UsageListResult>;
+).annotate({ identifier: "UsageListResult" }) as any as S.Schema<UsageListResult>;
 
 export interface ListNGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3908,7 +3794,7 @@ export const ListNGroupByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -3979,9 +3865,7 @@ export const NGroupsListResult = /*@__PURE__*/ S.suspend(() =>
     value: NGroupsListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NGroupsListResult",
-}) as any as S.Schema<NGroupsListResult>;
+).annotate({ identifier: "NGroupsListResult" }) as any as S.Schema<NGroupsListResult>;
 
 export interface ListNGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3995,12 +3879,10 @@ export const ListNGroupsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/ngroups",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "ListNGroupsRequest",
-}) as any as S.Schema<ListNGroupsRequest>;
+).annotate({ identifier: "ListNGroupsRequest" }) as any as S.Schema<ListNGroupsRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4012,9 +3894,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The display information of the operation. */
 export interface OperationDisplay {
@@ -4034,9 +3914,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation. */
 export type ContainerInstanceOperationsOrigin = "User" | "System";
@@ -4080,9 +3958,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListSandboxGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4167,9 +4043,7 @@ export const SandboxGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: SandboxGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SandboxGroupListResult",
-}) as any as S.Schema<SandboxGroupListResult>;
+).annotate({ identifier: "SandboxGroupListResult" }) as any as S.Schema<SandboxGroupListResult>;
 
 export interface ListSandboxGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4191,9 +4065,7 @@ export const ListSandboxGroupBySubscriptionRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListSandboxGroupBySubscriptionRequest>;
 
 /** Resource tags. */
-export type NGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4226,9 +4098,7 @@ export const NGroupIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(NGroupIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "NGroupIdentityInput",
-}) as any as S.Schema<NGroupIdentityInput>;
+).annotate({ identifier: "NGroupIdentityInput" }) as any as S.Schema<NGroupIdentityInput>;
 
 export interface NGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4263,7 +4133,7 @@ export const NGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
 ).annotate({
@@ -4271,9 +4141,7 @@ export const NGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NGroupsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4369,12 +4237,10 @@ export const RestartNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/restart",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "RestartNGroupRequest",
-}) as any as S.Schema<RestartNGroupRequest>;
+).annotate({ identifier: "RestartNGroupRequest" }) as any as S.Schema<RestartNGroupRequest>;
 
 export interface RestartNGroupResponse {}
 export const RestartNGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4382,9 +4248,7 @@ export const RestartNGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<RestartNGroupResponse>;
 
 /** Resource tags. */
-export type SandboxGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SandboxGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SandboxGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4455,9 +4319,7 @@ export const SandboxGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SandboxGroupsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SandboxGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SandboxGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SandboxGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4548,12 +4410,10 @@ export const StartNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/start",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "StartNGroupRequest",
-}) as any as S.Schema<StartNGroupRequest>;
+).annotate({ identifier: "StartNGroupRequest" }) as any as S.Schema<StartNGroupRequest>;
 
 export interface StartNGroupResponse {}
 export const StartNGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4608,12 +4468,10 @@ export const StopNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}/stop",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "StopNGroupRequest",
-}) as any as S.Schema<StopNGroupRequest>;
+).annotate({ identifier: "StopNGroupRequest" }) as any as S.Schema<StopNGroupRequest>;
 
 export interface StopNGroupResponse {}
 export const StopNGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4621,9 +4479,7 @@ export const StopNGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 }) as any as S.Schema<StopNGroupResponse>;
 
 /** Resource tags. */
-export type UpdateCGProfileRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCGProfileRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCGProfileRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4653,14 +4509,10 @@ export const UpdateCGProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCGProfileRequest",
-}) as any as S.Schema<UpdateCGProfileRequest>;
+).annotate({ identifier: "UpdateCGProfileRequest" }) as any as S.Schema<UpdateCGProfileRequest>;
 
 /** Resource tags. */
-export type UpdateCGProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCGProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCGProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4701,14 +4553,10 @@ export const UpdateCGProfileResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     zones: S.optional(UpdateCGProfileResponseZonesList),
   }),
-).annotate({
-  identifier: "UpdateCGProfileResponse",
-}) as any as S.Schema<UpdateCGProfileResponse>;
+).annotate({ identifier: "UpdateCGProfileResponse" }) as any as S.Schema<UpdateCGProfileResponse>;
 
 /** The resource tags. */
-export type UpdateContainerGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateContainerGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateContainerGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4755,9 +4603,7 @@ export const UpdateContainerGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateContainerGroupRequest>;
 
 /** The resource tags. */
-export type UpdateContainerGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateContainerGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateContainerGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4848,12 +4694,10 @@ export const UpdateNGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/ngroups/{ngroupsName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2024-11-01-preview",
     }),
   ),
-).annotate({
-  identifier: "UpdateNGroupRequest",
-}) as any as S.Schema<UpdateNGroupRequest>;
+).annotate({ identifier: "UpdateNGroupRequest" }) as any as S.Schema<UpdateNGroupRequest>;
 
 /** Resource tags. */
 export type UpdateNGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -4900,14 +4744,10 @@ export const UpdateNGroupResponse = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(UpdateNGroupResponseZonesList),
     identity: S.optional(NGroupIdentity),
   }),
-).annotate({
-  identifier: "UpdateNGroupResponse",
-}) as any as S.Schema<UpdateNGroupResponse>;
+).annotate({ identifier: "UpdateNGroupResponse" }) as any as S.Schema<UpdateNGroupResponse>;
 
 /** Resource tags. */
-export type UpdateSandboxGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSandboxGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSandboxGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4949,9 +4789,7 @@ export const UpdateSandboxGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSandboxGroupRequest>;
 
 /** Resource tags. */
-export type UpdateSandboxGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSandboxGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSandboxGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

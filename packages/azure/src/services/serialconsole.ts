@@ -39,9 +39,7 @@ export const ConnectSerialPortRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "ConnectSerialPortRequest",
-}) as any as S.Schema<ConnectSerialPortRequest>;
+).annotate({ identifier: "ConnectSerialPortRequest" }) as any as S.Schema<ConnectSerialPortRequest>;
 
 /** Returns a connection string to the serial port of the resource. */
 export interface SerialPortConnectResult {
@@ -52,9 +50,7 @@ export const SerialPortConnectResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "SerialPortConnectResult",
-}) as any as S.Schema<SerialPortConnectResult>;
+).annotate({ identifier: "SerialPortConnectResult" }) as any as S.Schema<SerialPortConnectResult>;
 
 /** Specifies whether the port is enabled for a serial console connection. */
 export type SerialPortState = "enabled" | "disabled";
@@ -76,9 +72,7 @@ export const SerialPortProperties = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(SerialPortState),
     connectionState: S.optional(SerialPortConnectionState),
   }),
-).annotate({
-  identifier: "SerialPortProperties",
-}) as any as S.Schema<SerialPortProperties>;
+).annotate({ identifier: "SerialPortProperties" }) as any as S.Schema<SerialPortProperties>;
 
 export interface CreateSerialPortRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -113,9 +107,7 @@ export const CreateSerialPortRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateSerialPortRequest",
-}) as any as S.Schema<CreateSerialPortRequest>;
+).annotate({ identifier: "CreateSerialPortRequest" }) as any as S.Schema<CreateSerialPortRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -171,9 +163,44 @@ export const CreateSerialPortResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SerialPortProperties),
   }),
-).annotate({
-  identifier: "CreateSerialPortResponse",
-}) as any as S.Schema<CreateSerialPortResponse>;
+).annotate({ identifier: "CreateSerialPortResponse" }) as any as S.Schema<CreateSerialPortResponse>;
+
+export interface DeleteSerialPortRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. */
+  resourceGroupName: string;
+  /** The resource provider namespace of the parent resource. */
+  resourceProviderNamespace: string;
+  /** The resource type of the parent resource. For example: 'virtualMachines' or 'virtualMachineScaleSets' */
+  parentResourceType: string;
+  /** The name of the parent resource. */
+  parentResource: string;
+  /** The name of the serial port to delete. */
+  serialPort: string;
+}
+export const DeleteSerialPortRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    subscriptionId: S.String.pipe(T.Label()),
+    resourceGroupName: S.String.pipe(T.Label()),
+    resourceProviderNamespace: S.String.pipe(T.Label()),
+    parentResourceType: S.String.pipe(T.Label()),
+    parentResource: S.String.pipe(T.Label()),
+    serialPort: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourceType}/{parentResource}/providers/Microsoft.SerialConsole/serialPorts/{serialPort}",
+      code: 200,
+      apiVersion: "2024-07-01",
+    }),
+  ),
+).annotate({ identifier: "DeleteSerialPortRequest" }) as any as S.Schema<DeleteSerialPortRequest>;
+
+export interface DeleteSerialPortResponse {}
+export const DeleteSerialPortResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "DeleteSerialPortResponse",
+}) as any as S.Schema<DeleteSerialPortResponse>;
 
 export interface DisableConsoleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -193,9 +220,7 @@ export const DisableConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "DisableConsoleRequest",
-}) as any as S.Schema<DisableConsoleRequest>;
+).annotate({ identifier: "DisableConsoleRequest" }) as any as S.Schema<DisableConsoleRequest>;
 
 export interface DisableSerialConsoleResultProperties {
   /** Whether or not Serial Console is disabled. */
@@ -239,9 +264,7 @@ export const EnableConsoleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "EnableConsoleRequest",
-}) as any as S.Schema<EnableConsoleRequest>;
+).annotate({ identifier: "EnableConsoleRequest" }) as any as S.Schema<EnableConsoleRequest>;
 
 export type EnableSerialConsoleResultProperties = DisableSerialConsoleResultProperties;
 export const EnableSerialConsoleResultProperties = DisableSerialConsoleResultProperties;
@@ -276,9 +299,7 @@ export const GetConsoleStatusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetConsoleStatusRequest",
-}) as any as S.Schema<GetConsoleStatusRequest>;
+).annotate({ identifier: "GetConsoleStatusRequest" }) as any as S.Schema<GetConsoleStatusRequest>;
 
 export type SerialConsoleStatusProperties = DisableSerialConsoleResultProperties;
 export const SerialConsoleStatusProperties = DisableSerialConsoleResultProperties;
@@ -291,9 +312,7 @@ export const SerialConsoleStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(DisableSerialConsoleResultProperties),
   }),
-).annotate({
-  identifier: "SerialConsoleStatus",
-}) as any as S.Schema<SerialConsoleStatus>;
+).annotate({ identifier: "SerialConsoleStatus" }) as any as S.Schema<SerialConsoleStatus>;
 
 export interface GetSerialPortRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -325,9 +344,7 @@ export const GetSerialPortRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetSerialPortRequest",
-}) as any as S.Schema<GetSerialPortRequest>;
+).annotate({ identifier: "GetSerialPortRequest" }) as any as S.Schema<GetSerialPortRequest>;
 
 export interface GetSerialPortResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -349,9 +366,7 @@ export const GetSerialPortResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SerialPortProperties),
   }),
-).annotate({
-  identifier: "GetSerialPortResponse",
-}) as any as S.Schema<GetSerialPortResponse>;
+).annotate({ identifier: "GetSerialPortResponse" }) as any as S.Schema<GetSerialPortResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -363,9 +378,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 export interface SerialConsoleOperationsValueItemDisplay {
   provider?: string;
@@ -414,9 +427,7 @@ export const SerialConsoleOperations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SerialConsoleOperationsValueList),
   }),
-).annotate({
-  identifier: "SerialConsoleOperations",
-}) as any as S.Schema<SerialConsoleOperations>;
+).annotate({ identifier: "SerialConsoleOperations" }) as any as S.Schema<SerialConsoleOperations>;
 
 export interface ListSerialPortBySubscriptionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -475,9 +486,7 @@ export const SerialPortListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SerialPortListResultValueList),
   }),
-).annotate({
-  identifier: "SerialPortListResult",
-}) as any as S.Schema<SerialPortListResult>;
+).annotate({ identifier: "SerialPortListResult" }) as any as S.Schema<SerialPortListResult>;
 
 export interface ListSerialPortsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -506,9 +515,7 @@ export const ListSerialPortsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListSerialPortsRequest",
-}) as any as S.Schema<ListSerialPortsRequest>;
+).annotate({ identifier: "ListSerialPortsRequest" }) as any as S.Schema<ListSerialPortsRequest>;
 
 export type ConnectSerialPortError = AzureOpError;
 /** Connect to serial port of the target resource */
@@ -535,6 +542,21 @@ export const CreateSerialPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateSerialPortRequest,
   output: CreateSerialPortResponse,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteSerialPortError = AzureOpError;
+/** Deletes a serial port */
+export const DeleteSerialPort: API.OperationMethod<
+  DeleteSerialPortRequest,
+  DeleteSerialPortResponse,
+  DeleteSerialPortError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteSerialPortRequest,
+  output: DeleteSerialPortResponse,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,

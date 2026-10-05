@@ -56,9 +56,7 @@ export const CheckCapacityNameAvailabilityResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CheckCapacityNameAvailabilityResult>;
 
 /** Resource tags. */
-export type CreateAutoScaleVCoreRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAutoScaleVCoreRequestTagsMap = { [key: string]: string | undefined };
 export const CreateAutoScaleVCoreRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -83,9 +81,7 @@ export const AutoScaleVCoreProperties = /*@__PURE__*/ S.suspend(() =>
     capacityObjectId: S.optional(S.String),
     provisioningState: S.optional(VCoreProvisioningState),
   }),
-).annotate({
-  identifier: "AutoScaleVCoreProperties",
-}) as any as S.Schema<AutoScaleVCoreProperties>;
+).annotate({ identifier: "AutoScaleVCoreProperties" }) as any as S.Schema<AutoScaleVCoreProperties>;
 
 /** The name of the Azure pricing tier to which the SKU applies. */
 export type VCoreSkuTier = "AutoScale";
@@ -106,9 +102,7 @@ export const AutoScaleVCoreSku = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(VCoreSkuTier),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoScaleVCoreSku",
-}) as any as S.Schema<AutoScaleVCoreSku>;
+).annotate({ identifier: "AutoScaleVCoreSku" }) as any as S.Schema<AutoScaleVCoreSku>;
 
 export interface CreateAutoScaleVCoreRequest {
   /** The ID of the target subscription. */
@@ -182,9 +176,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateAutoScaleVCoreResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAutoScaleVCoreResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAutoScaleVCoreResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -224,9 +216,7 @@ export const CreateAutoScaleVCoreResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAutoScaleVCoreResponse>;
 
 /** Resource tags. */
-export type CreateCapacityRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCapacityRequestTagsMap = { [key: string]: string | undefined };
 export const CreateCapacityRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -325,14 +315,10 @@ export const CreateCapacityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "CreateCapacityRequest",
-}) as any as S.Schema<CreateCapacityRequest>;
+).annotate({ identifier: "CreateCapacityRequest" }) as any as S.Schema<CreateCapacityRequest>;
 
 /** Resource tags. */
-export type CreateCapacityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCapacityResponseTagsMap = { [key: string]: string | undefined };
 export const CreateCapacityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -427,9 +413,7 @@ export const CreateCapacityResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DedicatedCapacityProperties),
     sku: CapacitySku,
   }),
-).annotate({
-  identifier: "CreateCapacityResponse",
-}) as any as S.Schema<CreateCapacityResponse>;
+).annotate({ identifier: "CreateCapacityResponse" }) as any as S.Schema<CreateCapacityResponse>;
 
 export interface DeleteAutoScaleVCoreRequest {
   /** The ID of the target subscription. */
@@ -482,9 +466,7 @@ export const DeleteCapacityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCapacityRequest",
-}) as any as S.Schema<DeleteCapacityRequest>;
+).annotate({ identifier: "DeleteCapacityRequest" }) as any as S.Schema<DeleteCapacityRequest>;
 
 export interface DeleteCapacityResponse {}
 export const DeleteCapacityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -512,14 +494,10 @@ export const GetAutoScaleVCoreRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetAutoScaleVCoreRequest",
-}) as any as S.Schema<GetAutoScaleVCoreRequest>;
+).annotate({ identifier: "GetAutoScaleVCoreRequest" }) as any as S.Schema<GetAutoScaleVCoreRequest>;
 
 /** Resource tags. */
-export type GetAutoScaleVCoreResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAutoScaleVCoreResponseTagsMap = { [key: string]: string | undefined };
 export const GetAutoScaleVCoreResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -584,9 +562,7 @@ export const GetCapacityDetailsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCapacityDetailsRequest>;
 
 /** Resource tags. */
-export type GetCapacityDetailsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCapacityDetailsResponseTagsMap = { [key: string]: string | undefined };
 export const GetCapacityDetailsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -703,9 +679,7 @@ export const AutoScaleVCoreListResult = /*@__PURE__*/ S.suspend(() =>
     value: AutoScaleVCoreListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoScaleVCoreListResult",
-}) as any as S.Schema<AutoScaleVCoreListResult>;
+).annotate({ identifier: "AutoScaleVCoreListResult" }) as any as S.Schema<AutoScaleVCoreListResult>;
 
 export interface ListAutoScaleVCoreBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -741,9 +715,7 @@ export const ListCapacitiesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListCapacitiesRequest",
-}) as any as S.Schema<ListCapacitiesRequest>;
+).annotate({ identifier: "ListCapacitiesRequest" }) as any as S.Schema<ListCapacitiesRequest>;
 
 /** Resource tags. */
 export type DedicatedCapacityTagsMap = { [key: string]: string | undefined };
@@ -782,9 +754,7 @@ export const DedicatedCapacity = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DedicatedCapacityProperties),
     sku: CapacitySku,
   }),
-).annotate({
-  identifier: "DedicatedCapacity",
-}) as any as S.Schema<DedicatedCapacity>;
+).annotate({ identifier: "DedicatedCapacity" }) as any as S.Schema<DedicatedCapacity>;
 
 /** An array of Dedicated capacities resources. */
 export type DedicatedCapacitiesValueList = Array<DedicatedCapacity>;
@@ -804,9 +774,7 @@ export const DedicatedCapacities = /*@__PURE__*/ S.suspend(() =>
     value: DedicatedCapacitiesValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedCapacities",
-}) as any as S.Schema<DedicatedCapacities>;
+).annotate({ identifier: "DedicatedCapacities" }) as any as S.Schema<DedicatedCapacities>;
 
 export interface ListCapacityByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -845,9 +813,7 @@ export const ListCapacitySkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListCapacitySkusRequest",
-}) as any as S.Schema<ListCapacitySkusRequest>;
+).annotate({ identifier: "ListCapacitySkusRequest" }) as any as S.Schema<ListCapacitySkusRequest>;
 
 /** The collection of available SKUs for new resources */
 export type SkuEnumerationForNewResourceResultValueList = Array<CapacitySku>;
@@ -938,9 +904,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -960,9 +924,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 export interface MetricSpecificationDimensionsItem {
   /** Dimension of the metric */
@@ -1012,9 +974,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     metricFilterPattern: S.optional(S.String),
     dimensions: S.optional(MetricSpecificationDimensionsList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Metric specifications for exposing performance metrics to shoebox. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1037,9 +997,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Log specifications for exposing diagnostic logs to shoebox. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1059,9 +1017,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Additional properties to expose performance metrics to shoebox. */
 export interface OperationProperties {
@@ -1072,9 +1028,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Capacities REST API operation. */
 export interface Operation {
@@ -1114,9 +1068,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ResumeCapacityRequest {
   /** The ID of the target subscription. */
@@ -1139,9 +1091,7 @@ export const ResumeCapacityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "ResumeCapacityRequest",
-}) as any as S.Schema<ResumeCapacityRequest>;
+).annotate({ identifier: "ResumeCapacityRequest" }) as any as S.Schema<ResumeCapacityRequest>;
 
 export interface ResumeCapacityResponse {}
 export const ResumeCapacityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1169,9 +1119,7 @@ export const SuspendCapacityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "SuspendCapacityRequest",
-}) as any as S.Schema<SuspendCapacityRequest>;
+).annotate({ identifier: "SuspendCapacityRequest" }) as any as S.Schema<SuspendCapacityRequest>;
 
 export interface SuspendCapacityResponse {}
 export const SuspendCapacityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1179,9 +1127,7 @@ export const SuspendCapacityResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}
 }) as any as S.Schema<SuspendCapacityResponse>;
 
 /** Key-value pairs of additional provisioning properties. */
-export type UpdateAutoScaleVCoreRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAutoScaleVCoreRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAutoScaleVCoreRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1235,9 +1181,7 @@ export const UpdateAutoScaleVCoreRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAutoScaleVCoreRequest>;
 
 /** Resource tags. */
-export type UpdateAutoScaleVCoreResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAutoScaleVCoreResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAutoScaleVCoreResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1277,9 +1221,7 @@ export const UpdateAutoScaleVCoreResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAutoScaleVCoreResponse>;
 
 /** Key-value pairs of additional provisioning properties. */
-export type UpdateCapacityRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCapacityRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCapacityRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1319,14 +1261,10 @@ export const UpdateCapacityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCapacityRequest",
-}) as any as S.Schema<UpdateCapacityRequest>;
+).annotate({ identifier: "UpdateCapacityRequest" }) as any as S.Schema<UpdateCapacityRequest>;
 
 /** Resource tags. */
-export type UpdateCapacityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCapacityResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCapacityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1361,9 +1299,7 @@ export const UpdateCapacityResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DedicatedCapacityProperties),
     sku: CapacitySku,
   }),
-).annotate({
-  identifier: "UpdateCapacityResponse",
-}) as any as S.Schema<UpdateCapacityResponse>;
+).annotate({ identifier: "UpdateCapacityResponse" }) as any as S.Schema<UpdateCapacityResponse>;
 
 export type CheckCapacityNameAvailabilityError = AzureOpError;
 /** Check the name availability in the target location. */

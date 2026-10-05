@@ -29,9 +29,7 @@ export const DeleteGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGraphQueryRequest",
-}) as any as S.Schema<DeleteGraphQueryRequest>;
+).annotate({ identifier: "DeleteGraphQueryRequest" }) as any as S.Schema<DeleteGraphQueryRequest>;
 
 export interface DeleteGraphQueryResponse {}
 export const DeleteGraphQueryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -59,9 +57,7 @@ export const GetGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetGraphQueryRequest",
-}) as any as S.Schema<GetGraphQueryRequest>;
+).annotate({ identifier: "GetGraphQueryRequest" }) as any as S.Schema<GetGraphQueryRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -119,14 +115,10 @@ export const GraphQueryProperties = /*@__PURE__*/ S.suspend(() =>
     query: S.String,
     resultKind: S.optional(ResultKind),
   }),
-).annotate({
-  identifier: "GraphQueryProperties",
-}) as any as S.Schema<GraphQueryProperties>;
+).annotate({ identifier: "GraphQueryProperties" }) as any as S.Schema<GraphQueryProperties>;
 
 /** Resource tags. */
-export type GetGraphQueryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetGraphQueryResponseTagsMap = { [key: string]: string | undefined };
 export const GetGraphQueryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -161,9 +153,7 @@ export const GetGraphQueryResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetGraphQueryResponse",
-}) as any as S.Schema<GetGraphQueryResponse>;
+).annotate({ identifier: "GetGraphQueryResponse" }) as any as S.Schema<GetGraphQueryResponse>;
 
 /** Properties that contain a graph query. */
 export interface GraphQueryPropertiesInput {
@@ -182,9 +172,7 @@ export const GraphQueryPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GraphQueryPropertiesInput>;
 
 /** Resource tags. */
-export type GraphQueryCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GraphQueryCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const GraphQueryCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -228,9 +216,7 @@ export const GraphQueryCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GraphQueryCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type GraphQueryCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GraphQueryCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const GraphQueryCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -287,9 +273,7 @@ export const ListGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListGraphQueryRequest",
-}) as any as S.Schema<ListGraphQueryRequest>;
+).annotate({ identifier: "ListGraphQueryRequest" }) as any as S.Schema<ListGraphQueryRequest>;
 
 /** Resource tags. */
 export type GraphQueryResourceTagsMap = { [key: string]: string | undefined };
@@ -328,9 +312,7 @@ export const GraphQueryResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GraphQueryResource",
-}) as any as S.Schema<GraphQueryResource>;
+).annotate({ identifier: "GraphQueryResource" }) as any as S.Schema<GraphQueryResource>;
 
 /** The GraphQueryResource items on this page */
 export type GraphQueryListResultValueList = Array<GraphQueryResource>;
@@ -350,9 +332,7 @@ export const GraphQueryListResult = /*@__PURE__*/ S.suspend(() =>
     value: GraphQueryListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GraphQueryListResult",
-}) as any as S.Schema<GraphQueryListResult>;
+).annotate({ identifier: "GraphQueryListResult" }) as any as S.Schema<GraphQueryListResult>;
 
 export interface ListGraphQueryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -383,9 +363,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -405,9 +383,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Resource Graph REST API operation definition. */
 export interface Operation {
@@ -444,9 +420,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 /** Azure subscriptions against which to execute the query. */
 export type ResourcesRequestSubscriptionsList = Array<string>;
@@ -496,9 +470,7 @@ export const QueryRequestOptions = /*@__PURE__*/ S.suspend(() =>
     allowPartialScopes: S.optional(S.Boolean),
     authorizationScopeFilter: S.optional(QueryRequestOptionsAuthorizationScopeFilter),
   }),
-).annotate({
-  identifier: "QueryRequestOptions",
-}) as any as S.Schema<QueryRequestOptions>;
+).annotate({ identifier: "QueryRequestOptions" }) as any as S.Schema<QueryRequestOptions>;
 
 /** The sorting order by the selected column (count by default). */
 export type FacetRequestOptionsSortOrder = "asc" | "desc";
@@ -522,9 +494,7 @@ export const FacetRequestOptions = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(S.String),
     _top: S.optional(S.Number.pipe(T.Body("$top"))),
   }),
-).annotate({
-  identifier: "FacetRequestOptions",
-}) as any as S.Schema<FacetRequestOptions>;
+).annotate({ identifier: "FacetRequestOptions" }) as any as S.Schema<FacetRequestOptions>;
 
 /** A request to compute additional statistics (facets) over the query results. */
 export interface FacetRequest {
@@ -573,9 +543,7 @@ export const ResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "ResourcesRequest",
-}) as any as S.Schema<ResourcesRequest>;
+).annotate({ identifier: "ResourcesRequest" }) as any as S.Schema<ResourcesRequest>;
 
 /** Indicates whether the query results are truncated. */
 export type ResultTruncated = "true" | "false";
@@ -628,9 +596,7 @@ export const QueryResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "QueryResponse" }) as any as S.Schema<QueryResponse>;
 
 /** Resource tags */
-export type UpdateGraphQueryRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGraphQueryRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateGraphQueryRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -682,14 +648,10 @@ export const UpdateGraphQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateGraphQueryRequest",
-}) as any as S.Schema<UpdateGraphQueryRequest>;
+).annotate({ identifier: "UpdateGraphQueryRequest" }) as any as S.Schema<UpdateGraphQueryRequest>;
 
 /** Resource tags. */
-export type UpdateGraphQueryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGraphQueryResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateGraphQueryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -724,9 +686,7 @@ export const UpdateGraphQueryResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateGraphQueryResponse",
-}) as any as S.Schema<UpdateGraphQueryResponse>;
+).annotate({ identifier: "UpdateGraphQueryResponse" }) as any as S.Schema<UpdateGraphQueryResponse>;
 
 export type DeleteGraphQueryError = AzureOpError;
 /** Delete a graph query. */

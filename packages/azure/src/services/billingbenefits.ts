@@ -68,9 +68,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CancelConditionalCreditResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CancelConditionalCreditResponseTagsMap = { [key: string]: string | undefined };
 export const CancelConditionalCreditResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -112,9 +110,7 @@ export const ProductDetailsBase = /*@__PURE__*/ S.suspend(() =>
     productFamily: S.optional(S.String),
     productType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductDetailsBase",
-}) as any as S.Schema<ProductDetailsBase>;
+).annotate({ identifier: "ProductDetailsBase" }) as any as S.Schema<ProductDetailsBase>;
 
 /** List of applied scope types supported for benefit resources. */
 export type BenefitAppliedScopeType = "BillingAccount" | "BillingProfile" | "Customer";
@@ -204,9 +200,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CancelConditionalCreditResponseIdentityUserAssignedIdentitiesMap = {
@@ -360,9 +354,7 @@ export const CancelCreditRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CancelCreditRequest",
-}) as any as S.Schema<CancelCreditRequest>;
+).annotate({ identifier: "CancelCreditRequest" }) as any as S.Schema<CancelCreditRequest>;
 
 /** Resource tags. */
 export type CancelCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -452,9 +444,7 @@ export const CreditDimension = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "CreditDimension",
-}) as any as S.Schema<CreditDimension>;
+).annotate({ identifier: "CreditDimension" }) as any as S.Schema<CreditDimension>;
 
 /** Key-value pairs for additional parameters and metadata */
 export type CreditBreakdownItemDimensionsList = Array<CreditDimension>;
@@ -480,9 +470,7 @@ export const CreditBreakdownItem = /*@__PURE__*/ S.suspend(() =>
     endAt: S.optional(S.String),
     dimensions: S.optional(CreditBreakdownItemDimensionsList),
   }),
-).annotate({
-  identifier: "CreditBreakdownItem",
-}) as any as S.Schema<CreditBreakdownItem>;
+).annotate({ identifier: "CreditBreakdownItem" }) as any as S.Schema<CreditBreakdownItem>;
 
 /** Credit line-items/milestones/no-charge services breakdown */
 export type CreditPropertiesBreakdownList = Array<CreditBreakdownItem>;
@@ -521,9 +509,7 @@ export const CreditProductDetails = /*@__PURE__*/ S.suspend(() =>
     appliedOn: S.optional(CreditProductDetailsAppliedOnList),
     appliedPrice: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreditProductDetails",
-}) as any as S.Schema<CreditProductDetails>;
+).annotate({ identifier: "CreditProductDetails" }) as any as S.Schema<CreditProductDetails>;
 
 /** Properties of a credit */
 export interface CreditProperties {
@@ -594,9 +580,7 @@ export const CreditProperties = /*@__PURE__*/ S.suspend(() =>
     productDetails: S.optional(CreditProductDetails),
     appliedScopeType: S.optional(BenefitAppliedScopeType),
   }),
-).annotate({
-  identifier: "CreditProperties",
-}) as any as S.Schema<CreditProperties>;
+).annotate({ identifier: "CreditProperties" }) as any as S.Schema<CreditProperties>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CancelCreditResponseIdentityUserAssignedIdentitiesMap = {
@@ -672,9 +656,7 @@ export const CancelCreditResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CancelCreditResponse",
-}) as any as S.Schema<CancelCreditResponse>;
+).annotate({ identifier: "CancelCreditResponse" }) as any as S.Schema<CancelCreditResponse>;
 
 export interface CancelDiscountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -697,14 +679,10 @@ export const CancelDiscountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CancelDiscountRequest",
-}) as any as S.Schema<CancelDiscountRequest>;
+).annotate({ identifier: "CancelDiscountRequest" }) as any as S.Schema<CancelDiscountRequest>;
 
 /** Resource tags. */
-export type CancelDiscountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CancelDiscountResponseTagsMap = { [key: string]: string | undefined };
 export const CancelDiscountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -769,9 +747,7 @@ export const DiscountProperties = /*@__PURE__*/ S.suspend(() =>
     appliedScopeType: S.optional(BenefitAppliedScopeType),
     productDetails: S.optional(ProductDetailsBase),
   }),
-).annotate({
-  identifier: "DiscountProperties",
-}) as any as S.Schema<DiscountProperties>;
+).annotate({ identifier: "DiscountProperties" }) as any as S.Schema<DiscountProperties>;
 
 /** User assigned identity properties */
 export type ManagedServiceIdentityUserAssignedIdentitiesValue = UserAssignedIdentity;
@@ -804,9 +780,7 @@ export const ManagedServiceIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(ManagedServiceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ManagedServiceIdentity",
-}) as any as S.Schema<ManagedServiceIdentity>;
+).annotate({ identifier: "ManagedServiceIdentity" }) as any as S.Schema<ManagedServiceIdentity>;
 
 export interface CancelDiscountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -852,9 +826,7 @@ export const CancelDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CancelDiscountResponse",
-}) as any as S.Schema<CancelDiscountResponse>;
+).annotate({ identifier: "CancelDiscountResponse" }) as any as S.Schema<CancelDiscountResponse>;
 
 export interface CancelMaccRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -877,9 +849,7 @@ export const CancelMaccRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CancelMaccRequest",
-}) as any as S.Schema<CancelMaccRequest>;
+).annotate({ identifier: "CancelMaccRequest" }) as any as S.Schema<CancelMaccRequest>;
 
 /** Resource tags. */
 export type CancelMaccResponseTagsMap = { [key: string]: string | undefined };
@@ -1078,9 +1048,7 @@ export const MaccModelProperties = /*@__PURE__*/ S.suspend(() =>
     invitationId: S.optional(S.String),
     consumed: S.optional(Price),
   }),
-).annotate({
-  identifier: "MaccModelProperties",
-}) as any as S.Schema<MaccModelProperties>;
+).annotate({ identifier: "MaccModelProperties" }) as any as S.Schema<MaccModelProperties>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CancelMaccResponseIdentityUserAssignedIdentitiesMap = {
@@ -1156,14 +1124,10 @@ export const CancelMaccResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CancelMaccResponse",
-}) as any as S.Schema<CancelMaccResponse>;
+).annotate({ identifier: "CancelMaccResponse" }) as any as S.Schema<CancelMaccResponse>;
 
 /** Resource tags. */
-export type ConditionalCreditsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConditionalCreditsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ConditionalCreditsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1292,9 +1256,7 @@ export const ConditionalCreditsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ConditionalCreditsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ConditionalCreditsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ConditionalCreditsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ConditionalCreditsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1442,9 +1404,7 @@ export const CreditPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     invitationId: S.optional(S.String),
     appliedScopeType: S.optional(BenefitAppliedScopeType),
   }),
-).annotate({
-  identifier: "CreditPropertiesInput",
-}) as any as S.Schema<CreditPropertiesInput>;
+).annotate({ identifier: "CreditPropertiesInput" }) as any as S.Schema<CreditPropertiesInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateCreditRequestIdentityUserAssignedIdentitiesMap = {
@@ -1515,9 +1475,7 @@ export const CreateCreditRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateCreditRequest",
-}) as any as S.Schema<CreateCreditRequest>;
+).annotate({ identifier: "CreateCreditRequest" }) as any as S.Schema<CreateCreditRequest>;
 
 /** Resource tags. */
 export type CreateCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -1600,14 +1558,10 @@ export const CreateCreditResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CreateCreditResponse",
-}) as any as S.Schema<CreateCreditResponse>;
+).annotate({ identifier: "CreateCreditResponse" }) as any as S.Schema<CreateCreditResponse>;
 
 /** Resource tags. */
-export type CreateDiscountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDiscountRequestTagsMap = { [key: string]: string | undefined };
 export const CreateDiscountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1643,9 +1597,7 @@ export const DiscountPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     appliedScopeType: S.optional(BenefitAppliedScopeType),
   }),
-).annotate({
-  identifier: "DiscountPropertiesInput",
-}) as any as S.Schema<DiscountPropertiesInput>;
+).annotate({ identifier: "DiscountPropertiesInput" }) as any as S.Schema<DiscountPropertiesInput>;
 
 /** User assigned identity properties */
 export type ManagedServiceIdentityInputUserAssignedIdentitiesValue = UserAssignedIdentityInput;
@@ -1721,14 +1673,10 @@ export const CreateDiscountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateDiscountRequest",
-}) as any as S.Schema<CreateDiscountRequest>;
+).annotate({ identifier: "CreateDiscountRequest" }) as any as S.Schema<CreateDiscountRequest>;
 
 /** Resource tags. */
-export type CreateDiscountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDiscountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateDiscountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1778,14 +1726,10 @@ export const CreateDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CreateDiscountResponse",
-}) as any as S.Schema<CreateDiscountResponse>;
+).annotate({ identifier: "CreateDiscountResponse" }) as any as S.Schema<CreateDiscountResponse>;
 
 /** Resource tags. */
-export type CreateFreeServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFreeServiceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateFreeServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1895,14 +1839,10 @@ export const CreateFreeServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateFreeServiceRequest",
-}) as any as S.Schema<CreateFreeServiceRequest>;
+).annotate({ identifier: "CreateFreeServiceRequest" }) as any as S.Schema<CreateFreeServiceRequest>;
 
 /** Resource tags. */
-export type CreateFreeServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateFreeServiceResponseTagsMap = { [key: string]: string | undefined };
 export const CreateFreeServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1950,9 +1890,7 @@ export const FreeServicesProperties = /*@__PURE__*/ S.suspend(() =>
     systemId: S.optional(S.String),
     productDetails: S.optional(ProductDetailsBase),
   }),
-).annotate({
-  identifier: "FreeServicesProperties",
-}) as any as S.Schema<FreeServicesProperties>;
+).annotate({ identifier: "FreeServicesProperties" }) as any as S.Schema<FreeServicesProperties>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateFreeServiceResponseIdentityUserAssignedIdentitiesMap = {
@@ -2108,9 +2046,7 @@ export const MaccModelPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     appliedScopeType: S.optional(BenefitAppliedScopeType),
     invitationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MaccModelPropertiesInput",
-}) as any as S.Schema<MaccModelPropertiesInput>;
+).annotate({ identifier: "MaccModelPropertiesInput" }) as any as S.Schema<MaccModelPropertiesInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateMaccRequestIdentityUserAssignedIdentitiesMap = {
@@ -2181,9 +2117,7 @@ export const CreateMaccRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateMaccRequest",
-}) as any as S.Schema<CreateMaccRequest>;
+).annotate({ identifier: "CreateMaccRequest" }) as any as S.Schema<CreateMaccRequest>;
 
 /** Resource tags. */
 export type CreateMaccResponseTagsMap = { [key: string]: string | undefined };
@@ -2266,9 +2200,7 @@ export const CreateMaccResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CreateMaccResponse",
-}) as any as S.Schema<CreateMaccResponse>;
+).annotate({ identifier: "CreateMaccResponse" }) as any as S.Schema<CreateMaccResponse>;
 
 export interface ResourceSku {
   name?: string;
@@ -2315,9 +2247,7 @@ export const AppliedScopeProperties = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     benefitFilter: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppliedScopeProperties",
-}) as any as S.Schema<AppliedScopeProperties>;
+).annotate({ identifier: "AppliedScopeProperties" }) as any as S.Schema<AppliedScopeProperties>;
 
 /** Represents the renewal action for a reservation to be a new purchase or existing renewal. */
 export type RenewAction = "CreateNew" | "RenewExisting";
@@ -2796,9 +2726,7 @@ export const CreateSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateSourceRequest",
-}) as any as S.Schema<CreateSourceRequest>;
+).annotate({ identifier: "CreateSourceRequest" }) as any as S.Schema<CreateSourceRequest>;
 
 /** Resource tags. */
 export type CreateSourceResponseTagsMap = { [key: string]: string | undefined };
@@ -2825,9 +2753,7 @@ export const CreditSourceProperties = /*@__PURE__*/ S.suspend(() =>
     impactedBillingPeriod: S.optional(S.String),
     credit: S.optional(Commitment),
   }),
-).annotate({
-  identifier: "CreditSourceProperties",
-}) as any as S.Schema<CreditSourceProperties>;
+).annotate({ identifier: "CreditSourceProperties" }) as any as S.Schema<CreditSourceProperties>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type CreateSourceResponseIdentityUserAssignedIdentitiesMap = {
@@ -2903,9 +2829,7 @@ export const CreateSourceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "CreateSourceResponse",
-}) as any as S.Schema<CreateSourceResponse>;
+).annotate({ identifier: "CreateSourceResponse" }) as any as S.Schema<CreateSourceResponse>;
 
 export interface CreditsChangeSponsorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2967,9 +2891,7 @@ export const DeleteConditionalCreditRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteConditionalCreditResponse {}
 export const DeleteConditionalCreditResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteConditionalCreditResponse",
-  },
+  { identifier: "DeleteConditionalCreditResponse" },
 ) as any as S.Schema<DeleteConditionalCreditResponse>;
 
 export interface DeleteCreditRequest {
@@ -2993,9 +2915,7 @@ export const DeleteCreditRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCreditRequest",
-}) as any as S.Schema<DeleteCreditRequest>;
+).annotate({ identifier: "DeleteCreditRequest" }) as any as S.Schema<DeleteCreditRequest>;
 
 export interface DeleteCreditResponse {}
 export const DeleteCreditResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3023,9 +2943,7 @@ export const DeleteDiscountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDiscountRequest",
-}) as any as S.Schema<DeleteDiscountRequest>;
+).annotate({ identifier: "DeleteDiscountRequest" }) as any as S.Schema<DeleteDiscountRequest>;
 
 export interface DeleteDiscountResponse {}
 export const DeleteDiscountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3053,9 +2971,7 @@ export const DeleteFreeServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFreeServiceRequest",
-}) as any as S.Schema<DeleteFreeServiceRequest>;
+).annotate({ identifier: "DeleteFreeServiceRequest" }) as any as S.Schema<DeleteFreeServiceRequest>;
 
 export interface DeleteFreeServiceResponse {}
 export const DeleteFreeServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3083,9 +2999,7 @@ export const DeleteMaccRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteMaccRequest",
-}) as any as S.Schema<DeleteMaccRequest>;
+).annotate({ identifier: "DeleteMaccRequest" }) as any as S.Schema<DeleteMaccRequest>;
 
 export interface DeleteMaccResponse {}
 export const DeleteMaccResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3116,9 +3030,7 @@ export const DeleteSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSourceRequest",
-}) as any as S.Schema<DeleteSourceRequest>;
+).annotate({ identifier: "DeleteSourceRequest" }) as any as S.Schema<DeleteSourceRequest>;
 
 export interface DeleteSourceResponse {}
 export const DeleteSourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3176,9 +3088,7 @@ export const CatalogGroupCapability = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "CatalogGroupCapability",
-}) as any as S.Schema<CatalogGroupCapability>;
+).annotate({ identifier: "CatalogGroupCapability" }) as any as S.Schema<CatalogGroupCapability>;
 
 /** Capabilities of the catalog group as key-value pairs. Omitted when a benefit type has no defined capabilities. */
 export type CatalogGroupPropertiesCapabilitiesList = Array<CatalogGroupCapability>;
@@ -3225,9 +3135,7 @@ export const CatalogGroupProperties = /*@__PURE__*/ S.suspend(() =>
     capabilities: S.optional(CatalogGroupPropertiesCapabilitiesList),
     disclaimers: S.optional(CatalogGroupPropertiesDisclaimersList),
   }),
-).annotate({
-  identifier: "CatalogGroupProperties",
-}) as any as S.Schema<CatalogGroupProperties>;
+).annotate({ identifier: "CatalogGroupProperties" }) as any as S.Schema<CatalogGroupProperties>;
 
 export interface GetBillingAccountCatalogGroupsOpsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3328,9 +3236,7 @@ export const GetConditionalCreditRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConditionalCreditRequest>;
 
 /** Resource tags. */
-export type GetConditionalCreditResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConditionalCreditResponseTagsMap = { [key: string]: string | undefined };
 export const GetConditionalCreditResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3704,9 +3610,7 @@ export const TransactionProperties = /*@__PURE__*/ S.suspend(() =>
     productCode: S.optional(S.String),
     productDetails: S.optional(TransactionProductDetails),
   }),
-).annotate({
-  identifier: "TransactionProperties",
-}) as any as S.Schema<TransactionProperties>;
+).annotate({ identifier: "TransactionProperties" }) as any as S.Schema<TransactionProperties>;
 
 export interface GetConditionalCreditTransactionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3805,9 +3709,7 @@ export const GetCreditRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetCreditRequest",
-}) as any as S.Schema<GetCreditRequest>;
+).annotate({ identifier: "GetCreditRequest" }) as any as S.Schema<GetCreditRequest>;
 
 /** Resource tags. */
 export type GetCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -3890,9 +3792,7 @@ export const GetCreditResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "GetCreditResponse",
-}) as any as S.Schema<GetCreditResponse>;
+).annotate({ identifier: "GetCreditResponse" }) as any as S.Schema<GetCreditResponse>;
 
 export interface GetCreditTransactionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3967,9 +3867,7 @@ export const GetDiscountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetDiscountRequest",
-}) as any as S.Schema<GetDiscountRequest>;
+).annotate({ identifier: "GetDiscountRequest" }) as any as S.Schema<GetDiscountRequest>;
 
 /** Resource tags. */
 export type GetDiscountResponseTagsMap = { [key: string]: string | undefined };
@@ -4022,9 +3920,7 @@ export const GetDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "GetDiscountResponse",
-}) as any as S.Schema<GetDiscountResponse>;
+).annotate({ identifier: "GetDiscountResponse" }) as any as S.Schema<GetDiscountResponse>;
 
 export interface GetFreeServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4047,14 +3943,10 @@ export const GetFreeServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetFreeServiceRequest",
-}) as any as S.Schema<GetFreeServiceRequest>;
+).annotate({ identifier: "GetFreeServiceRequest" }) as any as S.Schema<GetFreeServiceRequest>;
 
 /** Resource tags. */
-export type GetFreeServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFreeServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetFreeServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4134,9 +4026,7 @@ export const GetFreeServiceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "GetFreeServiceResponse",
-}) as any as S.Schema<GetFreeServiceResponse>;
+).annotate({ identifier: "GetFreeServiceResponse" }) as any as S.Schema<GetFreeServiceResponse>;
 
 export interface GetMaccRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4194,9 +4084,7 @@ export const GetMaccResponseIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(GetMaccResponseIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "GetMaccResponseIdentity",
-}) as any as S.Schema<GetMaccResponseIdentity>;
+).annotate({ identifier: "GetMaccResponseIdentity" }) as any as S.Schema<GetMaccResponseIdentity>;
 
 export interface GetMaccResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4242,9 +4130,7 @@ export const GetMaccResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "GetMaccResponse",
-}) as any as S.Schema<GetMaccResponse>;
+).annotate({ identifier: "GetMaccResponse" }) as any as S.Schema<GetMaccResponse>;
 
 export interface GetMaccTransactionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4368,9 +4254,7 @@ export const GetSavingsPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetSavingsPlanRequest",
-}) as any as S.Schema<GetSavingsPlanRequest>;
+).annotate({ identifier: "GetSavingsPlanRequest" }) as any as S.Schema<GetSavingsPlanRequest>;
 
 export interface ExtendedStatusInfo {
   /** Status code providing additional information. */
@@ -4383,9 +4267,7 @@ export const ExtendedStatusInfo = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtendedStatusInfo",
-}) as any as S.Schema<ExtendedStatusInfo>;
+).annotate({ identifier: "ExtendedStatusInfo" }) as any as S.Schema<ExtendedStatusInfo>;
 
 /** The aggregate values of savings plan utilization */
 export interface UtilizationAggregates {
@@ -4405,9 +4287,7 @@ export const UtilizationAggregates = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.Number),
     valueUnit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UtilizationAggregates",
-}) as any as S.Schema<UtilizationAggregates>;
+).annotate({ identifier: "UtilizationAggregates" }) as any as S.Schema<UtilizationAggregates>;
 
 /** The array of aggregates of a savings plan's utilization */
 export type UtilizationAggregatesList = Array<UtilizationAggregates>;
@@ -4478,9 +4358,7 @@ export const PurchaseRequest = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     properties: S.optional(PurchaseRequestProperties),
   }),
-).annotate({
-  identifier: "PurchaseRequest",
-}) as any as S.Schema<PurchaseRequest>;
+).annotate({ identifier: "PurchaseRequest" }) as any as S.Schema<PurchaseRequest>;
 
 export interface RenewProperties {
   purchaseProperties?: PurchaseRequest;
@@ -4489,9 +4367,7 @@ export const RenewProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     purchaseProperties: S.optional(PurchaseRequest),
   }),
-).annotate({
-  identifier: "RenewProperties",
-}) as any as S.Schema<RenewProperties>;
+).annotate({ identifier: "RenewProperties" }) as any as S.Schema<RenewProperties>;
 
 /** Savings plan properties */
 export interface SavingsPlanModelProperties {
@@ -4593,9 +4469,7 @@ export const GetSavingsPlanResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SavingsPlanModelProperties),
     sku: ResourceSku,
   }),
-).annotate({
-  identifier: "GetSavingsPlanResponse",
-}) as any as S.Schema<GetSavingsPlanResponse>;
+).annotate({ identifier: "GetSavingsPlanResponse" }) as any as S.Schema<GetSavingsPlanResponse>;
 
 export interface GetSavingsPlanOrderRequest {
   /** Order ID of the savings plan */
@@ -4673,9 +4547,7 @@ export const BillingPlanInformation = /*@__PURE__*/ S.suspend(() =>
     nextPaymentDueDate: S.optional(S.String),
     transactions: S.optional(BillingPlanInformationTransactionsList),
   }),
-).annotate({
-  identifier: "BillingPlanInformation",
-}) as any as S.Schema<BillingPlanInformation>;
+).annotate({ identifier: "BillingPlanInformation" }) as any as S.Schema<BillingPlanInformation>;
 
 export type SavingsPlanOrderModelPropertiesSavingsPlansList = Array<string>;
 export const SavingsPlanOrderModelPropertiesSavingsPlansList = /*@__PURE__*/ S.Array(
@@ -4829,9 +4701,7 @@ export const GetSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetSourceRequest",
-}) as any as S.Schema<GetSourceRequest>;
+).annotate({ identifier: "GetSourceRequest" }) as any as S.Schema<GetSourceRequest>;
 
 /** Resource tags. */
 export type GetSourceResponseTagsMap = { [key: string]: string | undefined };
@@ -4914,9 +4784,7 @@ export const GetSourceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "GetSourceResponse",
-}) as any as S.Schema<GetSourceResponse>;
+).annotate({ identifier: "GetSourceResponse" }) as any as S.Schema<GetSourceResponse>;
 
 export interface GetSubscriptionCatalogGroupsOpsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5024,9 +4892,7 @@ export const ApplicableMaccList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApplicableMaccListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicableMaccList",
-}) as any as S.Schema<ApplicableMaccList>;
+).annotate({ identifier: "ApplicableMaccList" }) as any as S.Schema<ApplicableMaccList>;
 
 export interface ListBillingAccountCatalogGroupsOpsRequest {
   /** The name of the billing account. */
@@ -5091,9 +4957,7 @@ export const CatalogGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: CatalogGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatalogGroupListResult",
-}) as any as S.Schema<CatalogGroupListResult>;
+).annotate({ identifier: "CatalogGroupListResult" }) as any as S.Schema<CatalogGroupListResult>;
 
 export interface ListBillingProfileCatalogGroupsOpsRequest {
   /** The name of the billing account. */
@@ -5224,9 +5088,7 @@ export const ConditionalCredit = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "ConditionalCredit",
-}) as any as S.Schema<ConditionalCredit>;
+).annotate({ identifier: "ConditionalCredit" }) as any as S.Schema<ConditionalCredit>;
 
 /** The ConditionalCredit items on this page */
 export type ConditionalCreditListValueList = Array<ConditionalCredit>;
@@ -5246,9 +5108,7 @@ export const ConditionalCreditList = /*@__PURE__*/ S.suspend(() =>
     value: ConditionalCreditListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConditionalCreditList",
-}) as any as S.Schema<ConditionalCreditList>;
+).annotate({ identifier: "ConditionalCreditList" }) as any as S.Schema<ConditionalCreditList>;
 
 export interface ListConditionalCreditBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5374,7 +5234,7 @@ export const ListConditionalCreditsScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
+      uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5518,9 +5378,7 @@ export const ContributorList = /*@__PURE__*/ S.suspend(() =>
     value: ContributorListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContributorList",
-}) as any as S.Schema<ContributorList>;
+).annotate({ identifier: "ContributorList" }) as any as S.Schema<ContributorList>;
 
 export interface ListContributorFromPrimaryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5557,7 +5415,7 @@ export const ListCreditApplicableRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.BillingBenefits/applicableCredits",
+      uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableCredits",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5756,9 +5614,7 @@ export const TransactionsList = /*@__PURE__*/ S.suspend(() =>
     value: TransactionsListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransactionsList",
-}) as any as S.Schema<TransactionsList>;
+).annotate({ identifier: "TransactionsList" }) as any as S.Schema<TransactionsList>;
 
 export interface ListDiscountsResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5866,7 +5722,7 @@ export const ListDiscountsScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.BillingBenefits/applicableDiscounts",
+      uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableDiscounts",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5949,9 +5805,7 @@ export const FreeServicesIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(FreeServicesIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "FreeServicesIdentity",
-}) as any as S.Schema<FreeServicesIdentity>;
+).annotate({ identifier: "FreeServicesIdentity" }) as any as S.Schema<FreeServicesIdentity>;
 
 /** Free Services resource definition */
 export interface FreeServices {
@@ -6018,9 +5872,7 @@ export const FreeServicesList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(FreeServicesListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FreeServicesList",
-}) as any as S.Schema<FreeServicesList>;
+).annotate({ identifier: "FreeServicesList" }) as any as S.Schema<FreeServicesList>;
 
 export interface ListFreeServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6229,9 +6081,7 @@ export const MaccTransactionsList = /*@__PURE__*/ S.suspend(() =>
     value: MaccTransactionsListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MaccTransactionsList",
-}) as any as S.Schema<MaccTransactionsList>;
+).annotate({ identifier: "MaccTransactionsList" }) as any as S.Schema<MaccTransactionsList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6243,9 +6093,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -6265,9 +6113,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -6317,9 +6163,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListSavingsPlanRequest {
   /** Order ID of the savings plan */
@@ -6336,9 +6180,7 @@ export const ListSavingsPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListSavingsPlanRequest",
-}) as any as S.Schema<ListSavingsPlanRequest>;
+).annotate({ identifier: "ListSavingsPlanRequest" }) as any as S.Schema<ListSavingsPlanRequest>;
 
 /** Savings plan */
 export interface SavingsPlanModel {
@@ -6364,9 +6206,7 @@ export const SavingsPlanModel = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SavingsPlanModelProperties),
     sku: ResourceSku,
   }),
-).annotate({
-  identifier: "SavingsPlanModel",
-}) as any as S.Schema<SavingsPlanModel>;
+).annotate({ identifier: "SavingsPlanModel" }) as any as S.Schema<SavingsPlanModel>;
 
 /** The SavingsPlanModel items on this page */
 export type SavingsPlanModelListValueList = Array<SavingsPlanModel>;
@@ -6386,9 +6226,7 @@ export const SavingsPlanModelList = /*@__PURE__*/ S.suspend(() =>
     value: SavingsPlanModelListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SavingsPlanModelList",
-}) as any as S.Schema<SavingsPlanModelList>;
+).annotate({ identifier: "SavingsPlanModelList" }) as any as S.Schema<SavingsPlanModelList>;
 
 export interface ListSavingsPlanAllRequest {
   /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
@@ -6463,9 +6301,7 @@ export const SavingsPlanSummaryCount = /*@__PURE__*/ S.suspend(() =>
     noBenefitCount: S.optional(S.Number),
     warningCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SavingsPlanSummaryCount",
-}) as any as S.Schema<SavingsPlanSummaryCount>;
+).annotate({ identifier: "SavingsPlanSummaryCount" }) as any as S.Schema<SavingsPlanSummaryCount>;
 
 /** Savings plans list summary */
 export interface SavingsPlanSummary {
@@ -6479,9 +6315,7 @@ export const SavingsPlanSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(SavingsPlanSummaryCount),
   }),
-).annotate({
-  identifier: "SavingsPlanSummary",
-}) as any as S.Schema<SavingsPlanSummary>;
+).annotate({ identifier: "SavingsPlanSummary" }) as any as S.Schema<SavingsPlanSummary>;
 
 /** The roll out count summary of the savings plans */
 export type SavingsPlanModelListResultAdditionalPropertiesList = Array<SavingsPlanSummary>;
@@ -6546,9 +6380,7 @@ export const SavingsPlanOrderModel = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SavingsPlanOrderModelProperties),
     sku: ResourceSku,
   }),
-).annotate({
-  identifier: "SavingsPlanOrderModel",
-}) as any as S.Schema<SavingsPlanOrderModel>;
+).annotate({ identifier: "SavingsPlanOrderModel" }) as any as S.Schema<SavingsPlanOrderModel>;
 
 /** The SavingsPlanOrderModel items on this page */
 export type SavingsPlanOrderModelListValueList = Array<SavingsPlanOrderModel>;
@@ -6686,9 +6518,7 @@ export const CreditSourceIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(CreditSourceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "CreditSourceIdentity",
-}) as any as S.Schema<CreditSourceIdentity>;
+).annotate({ identifier: "CreditSourceIdentity" }) as any as S.Schema<CreditSourceIdentity>;
 
 /** Credit source resource definition */
 export interface CreditSource {
@@ -6755,9 +6585,7 @@ export const CreditSourcesList = /*@__PURE__*/ S.suspend(() =>
     value: CreditSourcesListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreditSourcesList",
-}) as any as S.Schema<CreditSourcesList>;
+).annotate({ identifier: "CreditSourcesList" }) as any as S.Schema<CreditSourcesList>;
 
 export interface ListSubscriptionCatalogGroupsOpsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6810,9 +6638,7 @@ export const MaccsChargeShortfallRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MaccsChargeShortfallRequest>;
 
 /** Resource tags. */
-export type MaccsChargeShortfallResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MaccsChargeShortfallResponseTagsMap = { [key: string]: string | undefined };
 export const MaccsChargeShortfallResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6919,14 +6745,10 @@ export const MaccsWriteOffRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "MaccsWriteOffRequest",
-}) as any as S.Schema<MaccsWriteOffRequest>;
+).annotate({ identifier: "MaccsWriteOffRequest" }) as any as S.Schema<MaccsWriteOffRequest>;
 
 /** Resource tags. */
-export type MaccsWriteOffResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MaccsWriteOffResponseTagsMap = { [key: string]: string | undefined };
 export const MaccsWriteOffResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7006,9 +6828,7 @@ export const MaccsWriteOffResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "MaccsWriteOffResponse",
-}) as any as S.Schema<MaccsWriteOffResponse>;
+).annotate({ identifier: "MaccsWriteOffResponse" }) as any as S.Schema<MaccsWriteOffResponse>;
 
 export interface SavingsPlanOrderElevateRequest {
   /** Order ID of the savings plan */
@@ -7063,9 +6883,7 @@ export const RoleAssignmentEntity = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(RoleAssignmentEntityProperties),
   }),
-).annotate({
-  identifier: "RoleAssignmentEntity",
-}) as any as S.Schema<RoleAssignmentEntity>;
+).annotate({ identifier: "RoleAssignmentEntity" }) as any as S.Schema<RoleAssignmentEntity>;
 
 export interface PurchaseRequestPropertiesInput {
   /** Friendly name of the savings plan */
@@ -7113,9 +6931,7 @@ export const PurchaseRequestInput = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     properties: S.optional(PurchaseRequestPropertiesInput),
   }),
-).annotate({
-  identifier: "PurchaseRequestInput",
-}) as any as S.Schema<PurchaseRequestInput>;
+).annotate({ identifier: "PurchaseRequestInput" }) as any as S.Schema<PurchaseRequestInput>;
 
 export interface RenewPropertiesInput {
   purchaseProperties?: PurchaseRequestInput;
@@ -7124,9 +6940,7 @@ export const RenewPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     purchaseProperties: S.optional(PurchaseRequestInput),
   }),
-).annotate({
-  identifier: "RenewPropertiesInput",
-}) as any as S.Schema<RenewPropertiesInput>;
+).annotate({ identifier: "RenewPropertiesInput" }) as any as S.Schema<RenewPropertiesInput>;
 
 /** Savings plan patch request */
 export interface SavingsPlanUpdateRequestPropertiesInput {
@@ -7298,9 +7112,7 @@ export const ConditionalCreditPatchRequestPropertiesInput = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ConditionalCreditPatchRequestPropertiesInput>;
 
 /** Resource tags. */
-export type UpdateConditionalCreditRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConditionalCreditRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateConditionalCreditRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7338,9 +7150,7 @@ export const UpdateConditionalCreditRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateConditionalCreditRequest>;
 
 /** Resource tags. */
-export type UpdateConditionalCreditResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConditionalCreditResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConditionalCreditResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7455,9 +7265,7 @@ export const CreditPatchProperties = /*@__PURE__*/ S.suspend(() =>
     endAt: S.optional(S.String),
     breakdown: S.optional(CreditPatchPropertiesBreakdownList),
   }),
-).annotate({
-  identifier: "CreditPatchProperties",
-}) as any as S.Schema<CreditPatchProperties>;
+).annotate({ identifier: "CreditPatchProperties" }) as any as S.Schema<CreditPatchProperties>;
 
 export interface UpdateCreditRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7486,9 +7294,7 @@ export const UpdateCreditRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCreditRequest",
-}) as any as S.Schema<UpdateCreditRequest>;
+).annotate({ identifier: "UpdateCreditRequest" }) as any as S.Schema<UpdateCreditRequest>;
 
 /** Resource tags. */
 export type UpdateCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -7571,9 +7377,7 @@ export const UpdateCreditResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "UpdateCreditResponse",
-}) as any as S.Schema<UpdateCreditResponse>;
+).annotate({ identifier: "UpdateCreditResponse" }) as any as S.Schema<UpdateCreditResponse>;
 
 /** Discounts patch request properties */
 export interface DiscountPatchRequestProperties {
@@ -7592,9 +7396,7 @@ export const DiscountPatchRequestProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DiscountPatchRequestProperties>;
 
 /** Resource tags. */
-export type UpdateDiscountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDiscountRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDiscountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7627,14 +7429,10 @@ export const UpdateDiscountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDiscountRequest",
-}) as any as S.Schema<UpdateDiscountRequest>;
+).annotate({ identifier: "UpdateDiscountRequest" }) as any as S.Schema<UpdateDiscountRequest>;
 
 /** Resource tags. */
-export type UpdateDiscountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDiscountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDiscountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7684,9 +7482,7 @@ export const UpdateDiscountResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "UpdateDiscountResponse",
-}) as any as S.Schema<UpdateDiscountResponse>;
+).annotate({ identifier: "UpdateDiscountResponse" }) as any as S.Schema<UpdateDiscountResponse>;
 
 /** Free services patch request properties */
 export interface FreeServicesPatchRequestProperties {
@@ -7702,9 +7498,7 @@ export const FreeServicesPatchRequestProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FreeServicesPatchRequestProperties>;
 
 /** Resource tags. */
-export type UpdateFreeServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFreeServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFreeServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7737,14 +7531,10 @@ export const UpdateFreeServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateFreeServiceRequest",
-}) as any as S.Schema<UpdateFreeServiceRequest>;
+).annotate({ identifier: "UpdateFreeServiceRequest" }) as any as S.Schema<UpdateFreeServiceRequest>;
 
 /** Resource tags. */
-export type UpdateFreeServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFreeServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFreeServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7908,9 +7698,7 @@ export const UpdateMaccRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateMaccRequest",
-}) as any as S.Schema<UpdateMaccRequest>;
+).annotate({ identifier: "UpdateMaccRequest" }) as any as S.Schema<UpdateMaccRequest>;
 
 /** Resource tags. */
 export type UpdateMaccResponseTagsMap = { [key: string]: string | undefined };
@@ -7993,9 +7781,7 @@ export const UpdateMaccResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "UpdateMaccResponse",
-}) as any as S.Schema<UpdateMaccResponse>;
+).annotate({ identifier: "UpdateMaccResponse" }) as any as S.Schema<UpdateMaccResponse>;
 
 export interface UpdateSavingsPlanRequest {
   /** Order ID of the savings plan */
@@ -8018,9 +7804,7 @@ export const UpdateSavingsPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateSavingsPlanRequest",
-}) as any as S.Schema<UpdateSavingsPlanRequest>;
+).annotate({ identifier: "UpdateSavingsPlanRequest" }) as any as S.Schema<UpdateSavingsPlanRequest>;
 
 export interface UpdateSavingsPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -8083,9 +7867,7 @@ export const UpdateSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateSourceRequest",
-}) as any as S.Schema<UpdateSourceRequest>;
+).annotate({ identifier: "UpdateSourceRequest" }) as any as S.Schema<UpdateSourceRequest>;
 
 /** Resource tags. */
 export type UpdateSourceResponseTagsMap = { [key: string]: string | undefined };
@@ -8168,9 +7950,7 @@ export const UpdateSourceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     plan: S.optional(Plan),
   }),
-).annotate({
-  identifier: "UpdateSourceResponse",
-}) as any as S.Schema<UpdateSourceResponse>;
+).annotate({ identifier: "UpdateSourceResponse" }) as any as S.Schema<UpdateSourceResponse>;
 
 /** Represents benefit model type for validation. Includes all resource types plus legacy singular-form values used by the validate API. */
 export type BenefitType =
@@ -8194,9 +7974,7 @@ export const BenefitValidateModel = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     benefitType: BenefitType,
   }),
-).annotate({
-  identifier: "BenefitValidateModel",
-}) as any as S.Schema<BenefitValidateModel>;
+).annotate({ identifier: "BenefitValidateModel" }) as any as S.Schema<BenefitValidateModel>;
 
 /** Defines benefits for validation. */
 export type ValidateBenefitRequestBenefitsList = Array<BenefitValidateModel>;
@@ -8219,9 +7997,7 @@ export const ValidateBenefitRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ValidateBenefitRequest",
-}) as any as S.Schema<ValidateBenefitRequest>;
+).annotate({ identifier: "ValidateBenefitRequest" }) as any as S.Schema<ValidateBenefitRequest>;
 
 /** Benefit validate response property */
 export interface BenefitValidateResponseProperty {
@@ -8263,9 +8039,7 @@ export const BenefitValidateResponse = /*@__PURE__*/ S.suspend(() =>
     benefits: S.optional(BenefitValidateResponseBenefitsList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BenefitValidateResponse",
-}) as any as S.Schema<BenefitValidateResponse>;
+).annotate({ identifier: "BenefitValidateResponse" }) as any as S.Schema<BenefitValidateResponse>;
 
 export type CancelConditionalCreditError = AzureOpError;
 /** Cancel conditional credit. Stops applying the benefit. */

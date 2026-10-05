@@ -47,9 +47,7 @@ export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 
 /** Parameters required for profile upgrade. */
 export interface ProfileChangeSkuWafMapping {
@@ -136,9 +134,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AFDProfilesUpgradeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AFDProfilesUpgradeResponseTagsMap = { [key: string]: string | undefined };
 export const AFDProfilesUpgradeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -167,9 +163,7 @@ export type ProfileProvisioningState =
 export const ProfileProvisioningState = S.String;
 
 /** Key-Value pair representing additional properties for profiles. */
-export type ProfilePropertiesExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type ProfilePropertiesExtendedPropertiesMap = { [key: string]: string | undefined };
 export const ProfilePropertiesExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -212,9 +206,7 @@ export const ProfileScrubbingRules = /*@__PURE__*/ S.suspend(() =>
     selector: S.optional(S.String),
     state: S.optional(ScrubbingRuleEntryState),
   }),
-).annotate({
-  identifier: "ProfileScrubbingRules",
-}) as any as S.Schema<ProfileScrubbingRules>;
+).annotate({ identifier: "ProfileScrubbingRules" }) as any as S.Schema<ProfileScrubbingRules>;
 
 /** List of log scrubbing rules applied to the Azure Front Door profile logs. */
 export type ProfileLogScrubbingScrubbingRulesList = Array<ProfileScrubbingRules>;
@@ -234,9 +226,7 @@ export const ProfileLogScrubbing = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ProfileScrubbingState),
     scrubbingRules: S.optional(ProfileLogScrubbingScrubbingRulesList),
   }),
-).annotate({
-  identifier: "ProfileLogScrubbing",
-}) as any as S.Schema<ProfileLogScrubbing>;
+).annotate({ identifier: "ProfileLogScrubbing" }) as any as S.Schema<ProfileLogScrubbing>;
 
 /** The JSON object that contains the properties required to create a profile. */
 export interface ProfileProperties {
@@ -262,9 +252,7 @@ export const ProfileProperties = /*@__PURE__*/ S.suspend(() =>
     originResponseTimeoutSeconds: S.optional(S.Number),
     logScrubbing: S.optional(ProfileLogScrubbing),
   }),
-).annotate({
-  identifier: "ProfileProperties",
-}) as any as S.Schema<ProfileProperties>;
+).annotate({ identifier: "ProfileProperties" }) as any as S.Schema<ProfileProperties>;
 
 /** Name of the pricing tier. */
 export type SkuName =
@@ -314,9 +302,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AFDProfilesUpgradeResponseIdentityUserAssignedIdentitiesMap = {
@@ -609,9 +595,7 @@ export const CommitProfilesMigrationRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CommitProfilesMigrationResponse {}
 export const CommitProfilesMigrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CommitProfilesMigrationResponse",
-  },
+  { identifier: "CommitProfilesMigrationResponse" },
 ) as any as S.Schema<CommitProfilesMigrationResponse>;
 
 /** Defines the source of the SSL certificate. */
@@ -727,9 +711,7 @@ export const AFDDomainHttpsParameters = /*@__PURE__*/ S.suspend(() =>
     serverTlsGroups: S.optional(AFDDomainHttpsParametersServerTlsGroupsList),
     secret: S.optional(ResourceReference),
   }),
-).annotate({
-  identifier: "AFDDomainHttpsParameters",
-}) as any as S.Schema<AFDDomainHttpsParameters>;
+).annotate({ identifier: "AFDDomainHttpsParameters" }) as any as S.Schema<AFDDomainHttpsParameters>;
 
 /** Supported scenarios for establishing mTLS connection. */
 export type MtlsScenarioType =
@@ -748,14 +730,10 @@ export const AFDDomainMtlsParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scenario: MtlsScenarioType,
   }),
-).annotate({
-  identifier: "AFDDomainMtlsParameters",
-}) as any as S.Schema<AFDDomainMtlsParameters>;
+).annotate({ identifier: "AFDDomainMtlsParameters" }) as any as S.Schema<AFDDomainMtlsParameters>;
 
 /** Key-Value pair representing migration properties for domains. */
-export type AFDDomainPropertiesInputExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type AFDDomainPropertiesInputExtendedPropertiesMap = { [key: string]: string | undefined };
 export const AFDDomainPropertiesInputExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -785,9 +763,7 @@ export const AFDDomainPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     hostName: S.String,
     extendedProperties: S.optional(AFDDomainPropertiesInputExtendedPropertiesMap),
   }),
-).annotate({
-  identifier: "AFDDomainPropertiesInput",
-}) as any as S.Schema<AFDDomainPropertiesInput>;
+).annotate({ identifier: "AFDDomainPropertiesInput" }) as any as S.Schema<AFDDomainPropertiesInput>;
 
 export interface CreateAFDCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -841,9 +817,7 @@ export type DomainValidationState =
 export const DomainValidationState = S.String;
 
 /** Key-Value pair representing migration properties for domains. */
-export type AFDDomainPropertiesExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type AFDDomainPropertiesExtendedPropertiesMap = { [key: string]: string | undefined };
 export const AFDDomainPropertiesExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -903,9 +877,7 @@ export const AFDDomainProperties = /*@__PURE__*/ S.suspend(() =>
     extendedProperties: S.optional(AFDDomainPropertiesExtendedPropertiesMap),
     validationProperties: S.optional(DomainValidationProperties),
   }),
-).annotate({
-  identifier: "AFDDomainProperties",
-}) as any as S.Schema<AFDDomainProperties>;
+).annotate({ identifier: "AFDDomainProperties" }) as any as S.Schema<AFDDomainProperties>;
 
 export interface CreateAFDCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -932,9 +904,7 @@ export const CreateAFDCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateAFDCustomDomainResponse>;
 
 /** Resource tags. */
-export type CreateAFDEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAFDEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const CreateAFDEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1000,14 +970,10 @@ export const CreateAFDEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAFDEndpointRequest",
-}) as any as S.Schema<CreateAFDEndpointRequest>;
+).annotate({ identifier: "CreateAFDEndpointRequest" }) as any as S.Schema<CreateAFDEndpointRequest>;
 
 /** Resource tags. */
-export type CreateAFDEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAFDEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAFDEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1039,9 +1005,7 @@ export const AFDEndpointProperties = /*@__PURE__*/ S.suspend(() =>
     hostName: S.optional(S.String),
     autoGeneratedDomainNameLabelScope: S.optional(AutoGeneratedDomainNameLabelScope),
   }),
-).annotate({
-  identifier: "AFDEndpointProperties",
-}) as any as S.Schema<AFDEndpointProperties>;
+).annotate({ identifier: "AFDEndpointProperties" }) as any as S.Schema<AFDEndpointProperties>;
 
 export interface CreateAFDEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1162,9 +1126,7 @@ export const AFDOriginPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     certificateNameCheckValidationMode: S.optional(CertificateNameCheckValidationMode),
     customCertificateSubjects: S.optional(AFDOriginPropertiesInputCustomCertificateSubjectsList),
   }),
-).annotate({
-  identifier: "AFDOriginPropertiesInput",
-}) as any as S.Schema<AFDOriginPropertiesInput>;
+).annotate({ identifier: "AFDOriginPropertiesInput" }) as any as S.Schema<AFDOriginPropertiesInput>;
 
 export interface CreateAFDOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1196,9 +1158,7 @@ export const CreateAFDOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAFDOriginRequest",
-}) as any as S.Schema<CreateAFDOriginRequest>;
+).annotate({ identifier: "CreateAFDOriginRequest" }) as any as S.Schema<CreateAFDOriginRequest>;
 
 /** The list of custom certificate subjects to validate against. Only applicable when certificateNameCheckValidationMode is 'CustomCertificateSubject'. Must contain 1 or 2 entries. */
 export type AFDOriginPropertiesCustomCertificateSubjectsList = Array<string>;
@@ -1256,9 +1216,7 @@ export const AFDOriginProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(AfdProvisioningState),
     deploymentStatus: S.optional(DeploymentStatus),
   }),
-).annotate({
-  identifier: "AFDOriginProperties",
-}) as any as S.Schema<AFDOriginProperties>;
+).annotate({ identifier: "AFDOriginProperties" }) as any as S.Schema<AFDOriginProperties>;
 
 export interface CreateAFDOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1280,9 +1238,7 @@ export const CreateAFDOriginResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AFDOriginProperties),
   }),
-).annotate({
-  identifier: "CreateAFDOriginResponse",
-}) as any as S.Schema<CreateAFDOriginResponse>;
+).annotate({ identifier: "CreateAFDOriginResponse" }) as any as S.Schema<CreateAFDOriginResponse>;
 
 /** Round-Robin load balancing settings for a backend pool */
 export interface LoadBalancingSettingsParameters {
@@ -1329,9 +1285,7 @@ export const HealthProbeParameters = /*@__PURE__*/ S.suspend(() =>
     probeProtocol: S.optional(ProbeProtocol),
     probeIntervalInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HealthProbeParameters",
-}) as any as S.Schema<HealthProbeParameters>;
+).annotate({ identifier: "HealthProbeParameters" }) as any as S.Schema<HealthProbeParameters>;
 
 /** The type of the authentication for the origin. */
 export type OriginAuthenticationType = "SystemAssignedIdentity" | "UserAssignedIdentity";
@@ -1448,9 +1402,7 @@ export const AFDOriginGroupProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(AfdProvisioningState),
     deploymentStatus: S.optional(DeploymentStatus),
   }),
-).annotate({
-  identifier: "AFDOriginGroupProperties",
-}) as any as S.Schema<AFDOriginGroupProperties>;
+).annotate({ identifier: "AFDOriginGroupProperties" }) as any as S.Schema<AFDOriginGroupProperties>;
 
 export interface CreateAFDOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1608,9 +1560,7 @@ export const CustomDomainProperties = /*@__PURE__*/ S.suspend(() =>
     validationData: S.optional(S.String),
     provisioningState: S.optional(CustomHttpsProvisioningState),
   }),
-).annotate({
-  identifier: "CustomDomainProperties",
-}) as any as S.Schema<CustomDomainProperties>;
+).annotate({ identifier: "CustomDomainProperties" }) as any as S.Schema<CustomDomainProperties>;
 
 export interface CreateCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1637,9 +1587,7 @@ export const CreateCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCustomDomainResponse>;
 
 /** Resource tags. */
-export type CreateEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const CreateEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1778,14 +1726,15 @@ export const MatchVariable = S.String;
 export interface DeliveryRuleCondition {
   /** The name of the condition for the delivery rule. */
   name: MatchVariable | (string & {});
+  /** Condition parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
+  parameters?: unknown;
 }
 export const DeliveryRuleCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: MatchVariable,
+    parameters: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DeliveryRuleCondition",
-}) as any as S.Schema<DeliveryRuleCondition>;
+).annotate({ identifier: "DeliveryRuleCondition" }) as any as S.Schema<DeliveryRuleCondition>;
 
 /** A list of conditions that must be matched for the actions to be executed */
 export type DeliveryRuleConditionsList = Array<DeliveryRuleCondition>;
@@ -1812,14 +1761,15 @@ export const DeliveryRuleActionName = S.String;
 export interface DeliveryRuleAction {
   /** The name of the action for the delivery rule. */
   name: DeliveryRuleActionName | (string & {});
+  /** Action parameters (polymorphic on `name`, discriminated by `parameters.typeName`). */
+  parameters?: unknown;
 }
 export const DeliveryRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: DeliveryRuleActionName,
+    parameters: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DeliveryRuleAction",
-}) as any as S.Schema<DeliveryRuleAction>;
+).annotate({ identifier: "DeliveryRuleAction" }) as any as S.Schema<DeliveryRuleAction>;
 
 /** A list of actions that are executed when all the conditions of a rule are satisfied. */
 export type DeliveryRuleActionsList = Array<DeliveryRuleAction>;
@@ -1940,9 +1890,7 @@ export const DeepCreatedOrigin = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: S.optional(DeepCreatedOriginProperties),
   }),
-).annotate({
-  identifier: "DeepCreatedOrigin",
-}) as any as S.Schema<DeepCreatedOrigin>;
+).annotate({ identifier: "DeepCreatedOrigin" }) as any as S.Schema<DeepCreatedOrigin>;
 
 /** The source of the content being delivered via CDN. */
 export type EndpointPropertiesInputOriginsList = Array<DeepCreatedOrigin>;
@@ -1972,9 +1920,7 @@ export const HttpErrorRangeParameters = /*@__PURE__*/ S.suspend(() =>
     begin: S.optional(S.Number),
     end: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "HttpErrorRangeParameters",
-}) as any as S.Schema<HttpErrorRangeParameters>;
+).annotate({ identifier: "HttpErrorRangeParameters" }) as any as S.Schema<HttpErrorRangeParameters>;
 
 /** The list of Http status code ranges that are considered as server errors for origin and it is marked as unhealthy. */
 export type ResponseBasedOriginErrorDetectionParametersHttpErrorRangesList =
@@ -2038,9 +1984,7 @@ export const DeepCreatedOriginGroup = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: S.optional(DeepCreatedOriginGroupProperties),
   }),
-).annotate({
-  identifier: "DeepCreatedOriginGroup",
-}) as any as S.Schema<DeepCreatedOriginGroup>;
+).annotate({ identifier: "DeepCreatedOriginGroup" }) as any as S.Schema<DeepCreatedOriginGroup>;
 
 /** The origin groups comprising of origins that are used for load balancing the traffic based on availability. */
 export type EndpointPropertiesInputOriginGroupsList = Array<DeepCreatedOriginGroup>;
@@ -2102,9 +2046,7 @@ export const EndpointPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     origins: EndpointPropertiesInputOriginsList,
     originGroups: S.optional(EndpointPropertiesInputOriginGroupsList),
   }),
-).annotate({
-  identifier: "EndpointPropertiesInput",
-}) as any as S.Schema<EndpointPropertiesInput>;
+).annotate({ identifier: "EndpointPropertiesInput" }) as any as S.Schema<EndpointPropertiesInput>;
 
 export interface CreateEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2139,14 +2081,10 @@ export const CreateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateEndpointRequest",
-}) as any as S.Schema<CreateEndpointRequest>;
+).annotate({ identifier: "CreateEndpointRequest" }) as any as S.Schema<CreateEndpointRequest>;
 
 /** Resource tags. */
-export type CreateEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const CreateEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2218,9 +2156,7 @@ export const DeepCreatedCustomDomain = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     properties: S.optional(DeepCreatedCustomDomainProperties),
   }),
-).annotate({
-  identifier: "DeepCreatedCustomDomain",
-}) as any as S.Schema<DeepCreatedCustomDomain>;
+).annotate({ identifier: "DeepCreatedCustomDomain" }) as any as S.Schema<DeepCreatedCustomDomain>;
 
 /** The custom domains under the endpoint. */
 export type EndpointPropertiesCustomDomainsList = Array<DeepCreatedCustomDomain>;
@@ -2313,9 +2249,7 @@ export const EndpointProperties = /*@__PURE__*/ S.suspend(() =>
     resourceState: S.optional(EndpointResourceState),
     provisioningState: S.optional(EndpointProvisioningState),
   }),
-).annotate({
-  identifier: "EndpointProperties",
-}) as any as S.Schema<EndpointProperties>;
+).annotate({ identifier: "EndpointProperties" }) as any as S.Schema<EndpointProperties>;
 
 export interface CreateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2343,9 +2277,7 @@ export const CreateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "CreateEndpointResponse",
-}) as any as S.Schema<CreateEndpointResponse>;
+).annotate({ identifier: "CreateEndpointResponse" }) as any as S.Schema<CreateEndpointResponse>;
 
 /** Resource status of the origin. */
 export type OriginResourceState = "Creating" | "Active" | "Deleting";
@@ -2403,9 +2335,7 @@ export const OriginProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(OriginProvisioningState),
     privateEndpointStatus: S.optional(PrivateEndpointStatus),
   }),
-).annotate({
-  identifier: "OriginProperties",
-}) as any as S.Schema<OriginProperties>;
+).annotate({ identifier: "OriginProperties" }) as any as S.Schema<OriginProperties>;
 
 export interface CreateOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2437,9 +2367,7 @@ export const CreateOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateOriginRequest",
-}) as any as S.Schema<CreateOriginRequest>;
+).annotate({ identifier: "CreateOriginRequest" }) as any as S.Schema<CreateOriginRequest>;
 
 export interface CreateOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2461,9 +2389,7 @@ export const CreateOriginResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OriginProperties),
   }),
-).annotate({
-  identifier: "CreateOriginResponse",
-}) as any as S.Schema<CreateOriginResponse>;
+).annotate({ identifier: "CreateOriginResponse" }) as any as S.Schema<CreateOriginResponse>;
 
 /** The source of the content being delivered via CDN within given origin group. */
 export type OriginGroupPropertiesOriginsList = Array<ResourceReference>;
@@ -2510,9 +2436,7 @@ export const OriginGroupProperties = /*@__PURE__*/ S.suspend(() =>
     resourceState: S.optional(OriginGroupResourceState),
     provisioningState: S.optional(OriginGroupProvisioningState),
   }),
-).annotate({
-  identifier: "OriginGroupProperties",
-}) as any as S.Schema<OriginGroupProperties>;
+).annotate({ identifier: "OriginGroupProperties" }) as any as S.Schema<OriginGroupProperties>;
 
 export interface CreateOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2544,9 +2468,7 @@ export const CreateOriginGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateOriginGroupRequest",
-}) as any as S.Schema<CreateOriginGroupRequest>;
+).annotate({ identifier: "CreateOriginGroupRequest" }) as any as S.Schema<CreateOriginGroupRequest>;
 
 export interface CreateOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2591,9 +2513,7 @@ export const ProfilePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     originResponseTimeoutSeconds: S.optional(S.Number),
     logScrubbing: S.optional(ProfileLogScrubbing),
   }),
-).annotate({
-  identifier: "ProfilePropertiesInput",
-}) as any as S.Schema<ProfilePropertiesInput>;
+).annotate({ identifier: "ProfilePropertiesInput" }) as any as S.Schema<ProfilePropertiesInput>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -2661,14 +2581,10 @@ export const CreateProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateProfileRequest",
-}) as any as S.Schema<CreateProfileRequest>;
+).annotate({ identifier: "CreateProfileRequest" }) as any as S.Schema<CreateProfileRequest>;
 
 /** Resource tags. */
-export type CreateProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateProfileResponseTagsMap = { [key: string]: string | undefined };
 export const CreateProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2739,9 +2655,7 @@ export const CreateProfileResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     identity: S.optional(CreateProfileResponseIdentity),
   }),
-).annotate({
-  identifier: "CreateProfileResponse",
-}) as any as S.Schema<CreateProfileResponse>;
+).annotate({ identifier: "CreateProfileResponse" }) as any as S.Schema<CreateProfileResponse>;
 
 /** Reference to another resource along with its state. */
 export type ActivatedResourceReferenceInput = ResourceReference;
@@ -2803,9 +2717,7 @@ export const CompressionSettings = /*@__PURE__*/ S.suspend(() =>
     contentTypesToCompress: S.optional(CompressionSettingsContentTypesToCompressList),
     isCompressionEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CompressionSettings",
-}) as any as S.Schema<CompressionSettings>;
+).annotate({ identifier: "CompressionSettings" }) as any as S.Schema<CompressionSettings>;
 
 /** Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object. */
 export interface AfdRouteCacheConfiguration {
@@ -2877,9 +2789,7 @@ export const RoutePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     httpsRedirect: S.optional(RoutePropertiesInputHttpsRedirect),
     enabledState: S.optional(EnabledState),
   }),
-).annotate({
-  identifier: "RoutePropertiesInput",
-}) as any as S.Schema<RoutePropertiesInput>;
+).annotate({ identifier: "RoutePropertiesInput" }) as any as S.Schema<RoutePropertiesInput>;
 
 export interface CreateRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2911,9 +2821,7 @@ export const CreateRouteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateRouteRequest",
-}) as any as S.Schema<CreateRouteRequest>;
+).annotate({ identifier: "CreateRouteRequest" }) as any as S.Schema<CreateRouteRequest>;
 
 /** Reference to another resource along with its state. */
 export interface ActivatedResourceReference {
@@ -3014,9 +2922,7 @@ export const RouteProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(AfdProvisioningState),
     deploymentStatus: S.optional(DeploymentStatus),
   }),
-).annotate({
-  identifier: "RouteProperties",
-}) as any as S.Schema<RouteProperties>;
+).annotate({ identifier: "RouteProperties" }) as any as S.Schema<RouteProperties>;
 
 export interface CreateRouteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3038,9 +2944,7 @@ export const CreateRouteResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RouteProperties),
   }),
-).annotate({
-  identifier: "CreateRouteResponse",
-}) as any as S.Schema<CreateRouteResponse>;
+).annotate({ identifier: "CreateRouteResponse" }) as any as S.Schema<CreateRouteResponse>;
 
 /** A list of conditions that must be matched for the actions to be executed */
 export type RulePropertiesInputConditionsList = Array<DeliveryRuleCondition>;
@@ -3076,9 +2980,7 @@ export const RulePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(RulePropertiesInputActionsList),
     matchProcessingBehavior: S.optional(RulePropertiesInputMatchProcessingBehavior),
   }),
-).annotate({
-  identifier: "RulePropertiesInput",
-}) as any as S.Schema<RulePropertiesInput>;
+).annotate({ identifier: "RulePropertiesInput" }) as any as S.Schema<RulePropertiesInput>;
 
 export interface CreateRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3110,9 +3012,7 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateRuleRequest",
-}) as any as S.Schema<CreateRuleRequest>;
+).annotate({ identifier: "CreateRuleRequest" }) as any as S.Schema<CreateRuleRequest>;
 
 /** A list of conditions that must be matched for the actions to be executed */
 export type RulePropertiesConditionsList = Array<DeliveryRuleCondition>;
@@ -3178,9 +3078,7 @@ export const CreateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RuleProperties),
   }),
-).annotate({
-  identifier: "CreateRuleResponse",
-}) as any as S.Schema<CreateRuleResponse>;
+).annotate({ identifier: "CreateRuleResponse" }) as any as S.Schema<CreateRuleResponse>;
 
 /** A list of conditions that must be matched for the actions to be executed */
 export type BatchRulePropertiesInputConditionsList = Array<DeliveryRuleCondition>;
@@ -3219,9 +3117,7 @@ export const BatchRulePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(BatchRulePropertiesInputActionsList),
     matchProcessingBehavior: S.optional(BatchRulePropertiesInputMatchProcessingBehavior),
   }),
-).annotate({
-  identifier: "BatchRulePropertiesInput",
-}) as any as S.Schema<BatchRulePropertiesInput>;
+).annotate({ identifier: "BatchRulePropertiesInput" }) as any as S.Schema<BatchRulePropertiesInput>;
 
 /** A list of rules that are part of this rule set provided the rule set is in batch mode. This property will be ignored if the rule set is not in batch mode. */
 export type RuleSetPropertiesInputRulesList = Array<BatchRulePropertiesInput>;
@@ -3241,9 +3137,7 @@ export const RuleSetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     batchMode: S.optional(S.Boolean),
     rules: S.optional(RuleSetPropertiesInputRulesList),
   }),
-).annotate({
-  identifier: "RuleSetPropertiesInput",
-}) as any as S.Schema<RuleSetPropertiesInput>;
+).annotate({ identifier: "RuleSetPropertiesInput" }) as any as S.Schema<RuleSetPropertiesInput>;
 
 export interface CreateRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3272,9 +3166,7 @@ export const CreateRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateRuleSetRequest",
-}) as any as S.Schema<CreateRuleSetRequest>;
+).annotate({ identifier: "CreateRuleSetRequest" }) as any as S.Schema<CreateRuleSetRequest>;
 
 /** A list of conditions that must be matched for the actions to be executed */
 export type BatchRulePropertiesConditionsList = Array<DeliveryRuleCondition>;
@@ -3316,9 +3208,7 @@ export const BatchRuleProperties = /*@__PURE__*/ S.suspend(() =>
     actions: S.optional(BatchRulePropertiesActionsList),
     matchProcessingBehavior: S.optional(BatchRulePropertiesMatchProcessingBehavior),
   }),
-).annotate({
-  identifier: "BatchRuleProperties",
-}) as any as S.Schema<BatchRuleProperties>;
+).annotate({ identifier: "BatchRuleProperties" }) as any as S.Schema<BatchRuleProperties>;
 
 /** A list of rules that are part of this rule set provided the rule set is in batch mode. This property will be ignored if the rule set is not in batch mode. */
 export type RuleSetPropertiesRulesList = Array<BatchRuleProperties>;
@@ -3346,9 +3236,7 @@ export const RuleSetProperties = /*@__PURE__*/ S.suspend(() =>
     batchMode: S.optional(S.Boolean),
     rules: S.optional(RuleSetPropertiesRulesList),
   }),
-).annotate({
-  identifier: "RuleSetProperties",
-}) as any as S.Schema<RuleSetProperties>;
+).annotate({ identifier: "RuleSetProperties" }) as any as S.Schema<RuleSetProperties>;
 
 export interface CreateRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3370,9 +3258,7 @@ export const CreateRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RuleSetProperties),
   }),
-).annotate({
-  identifier: "CreateRuleSetResponse",
-}) as any as S.Schema<CreateRuleSetResponse>;
+).annotate({ identifier: "CreateRuleSetResponse" }) as any as S.Schema<CreateRuleSetResponse>;
 
 /** The type of the secret resource. */
 export type SecretType =
@@ -3387,14 +3273,39 @@ export const SecretType = S.String;
 export interface SecretParameters {
   /** The type of the secret resource. */
   type: SecretType | (string & {});
+  /** UrlSigningKey / CustomerCertificate / MtlsCertificateChain / AzureFirstPartyManagedCertificate: Key Vault secret reference. */
+  secretSource?: ResourceReference;
+  /** Version of the Key Vault secret. */
+  secretVersion?: string;
+  /** CustomerCertificate / MtlsCertificateChain: use the latest secret version automatically. */
+  useLatestVersion?: boolean;
+  /** UrlSigningKey: key id used to sign URLs. */
+  keyId?: string;
+  /** CustomerCertificate: list of subject alternative names (string array). */
+  subjectAlternativeNames?: unknown;
+  /** Certificate subject (read-only). */
+  subject?: string;
+  /** Certificate expiration date (read-only). */
+  expirationDate?: string;
+  /** Certificate issuing authority (read-only). */
+  certificateAuthority?: string;
+  /** Certificate thumbprint (read-only). */
+  thumbprint?: string;
 }
 export const SecretParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SecretType,
+    secretSource: S.optional(ResourceReference),
+    secretVersion: S.optional(S.String),
+    useLatestVersion: S.optional(S.Boolean),
+    keyId: S.optional(S.String),
+    subjectAlternativeNames: S.optional(S.Unknown),
+    subject: S.optional(S.String),
+    expirationDate: S.optional(S.String),
+    certificateAuthority: S.optional(S.String),
+    thumbprint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretParameters",
-}) as any as S.Schema<SecretParameters>;
+).annotate({ identifier: "SecretParameters" }) as any as S.Schema<SecretParameters>;
 
 /** The JSON object that contains the properties of the Secret to create. */
 export interface SecretPropertiesInput {
@@ -3405,9 +3316,7 @@ export const SecretPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     parameters: S.optional(SecretParameters),
   }),
-).annotate({
-  identifier: "SecretPropertiesInput",
-}) as any as S.Schema<SecretPropertiesInput>;
+).annotate({ identifier: "SecretPropertiesInput" }) as any as S.Schema<SecretPropertiesInput>;
 
 export interface CreateSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3436,9 +3345,7 @@ export const CreateSecretRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateSecretRequest",
-}) as any as S.Schema<CreateSecretRequest>;
+).annotate({ identifier: "CreateSecretRequest" }) as any as S.Schema<CreateSecretRequest>;
 
 /** The JSON object that contains the properties of the Secret to create. */
 export interface SecretProperties {
@@ -3457,9 +3364,7 @@ export const SecretProperties = /*@__PURE__*/ S.suspend(() =>
     profileName: S.optional(S.String),
     parameters: S.optional(SecretParameters),
   }),
-).annotate({
-  identifier: "SecretProperties",
-}) as any as S.Schema<SecretProperties>;
+).annotate({ identifier: "SecretProperties" }) as any as S.Schema<SecretProperties>;
 
 export interface CreateSecretResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3481,9 +3386,7 @@ export const CreateSecretResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SecretProperties),
   }),
-).annotate({
-  identifier: "CreateSecretResponse",
-}) as any as S.Schema<CreateSecretResponse>;
+).annotate({ identifier: "CreateSecretResponse" }) as any as S.Schema<CreateSecretResponse>;
 
 /** The type of the Security policy to create. */
 export type SecurityPolicyType = "WebApplicationFirewall";
@@ -3493,10 +3396,16 @@ export const SecurityPolicyType = S.String;
 export interface SecurityPolicyPropertiesParameters {
   /** The type of the Security policy to create. */
   type: SecurityPolicyType | (string & {});
+  /** WebApplicationFirewall: the Front Door WAF policy (Microsoft.Network/frontDoorWebApplicationFirewallPolicies). */
+  wafPolicy?: ResourceReference;
+  /** WebApplicationFirewall: domains (`{ domains: [{ id }], patternsToMatch: string[] }[]`) the policy applies to. */
+  associations?: unknown;
 }
 export const SecurityPolicyPropertiesParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: SecurityPolicyType,
+    wafPolicy: S.optional(ResourceReference),
+    associations: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "SecurityPolicyPropertiesParameters",
@@ -3563,9 +3472,7 @@ export const SecurityPolicyProperties = /*@__PURE__*/ S.suspend(() =>
     profileName: S.optional(S.String),
     parameters: S.optional(SecurityPolicyPropertiesParameters),
   }),
-).annotate({
-  identifier: "SecurityPolicyProperties",
-}) as any as S.Schema<SecurityPolicyProperties>;
+).annotate({ identifier: "SecurityPolicyProperties" }) as any as S.Schema<SecurityPolicyProperties>;
 
 export interface CreateSecurityPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3648,9 +3555,7 @@ export const DeleteAFDEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAFDEndpointRequest",
-}) as any as S.Schema<DeleteAFDEndpointRequest>;
+).annotate({ identifier: "DeleteAFDEndpointRequest" }) as any as S.Schema<DeleteAFDEndpointRequest>;
 
 export interface DeleteAFDEndpointResponse {}
 export const DeleteAFDEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3684,9 +3589,7 @@ export const DeleteAFDOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAFDOriginRequest",
-}) as any as S.Schema<DeleteAFDOriginRequest>;
+).annotate({ identifier: "DeleteAFDOriginRequest" }) as any as S.Schema<DeleteAFDOriginRequest>;
 
 export interface DeleteAFDOriginResponse {}
 export const DeleteAFDOriginResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3786,9 +3689,7 @@ export const DeleteEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEndpointRequest",
-}) as any as S.Schema<DeleteEndpointRequest>;
+).annotate({ identifier: "DeleteEndpointRequest" }) as any as S.Schema<DeleteEndpointRequest>;
 
 export interface DeleteEndpointResponse {}
 export const DeleteEndpointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3822,9 +3723,7 @@ export const DeleteOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOriginRequest",
-}) as any as S.Schema<DeleteOriginRequest>;
+).annotate({ identifier: "DeleteOriginRequest" }) as any as S.Schema<DeleteOriginRequest>;
 
 export interface DeleteOriginResponse {}
 export const DeleteOriginResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3858,9 +3757,7 @@ export const DeleteOriginGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOriginGroupRequest",
-}) as any as S.Schema<DeleteOriginGroupRequest>;
+).annotate({ identifier: "DeleteOriginGroupRequest" }) as any as S.Schema<DeleteOriginGroupRequest>;
 
 export interface DeleteOriginGroupResponse {}
 export const DeleteOriginGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3888,9 +3785,7 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3918,9 +3813,7 @@ export const DeleteProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProfileRequest",
-}) as any as S.Schema<DeleteProfileRequest>;
+).annotate({ identifier: "DeleteProfileRequest" }) as any as S.Schema<DeleteProfileRequest>;
 
 export interface DeleteProfileResponse {}
 export const DeleteProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3954,9 +3847,7 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRouteRequest",
-}) as any as S.Schema<DeleteRouteRequest>;
+).annotate({ identifier: "DeleteRouteRequest" }) as any as S.Schema<DeleteRouteRequest>;
 
 export interface DeleteRouteResponse {}
 export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3990,9 +3881,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {}
 export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4023,9 +3912,7 @@ export const DeleteRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRuleSetRequest",
-}) as any as S.Schema<DeleteRuleSetRequest>;
+).annotate({ identifier: "DeleteRuleSetRequest" }) as any as S.Schema<DeleteRuleSetRequest>;
 
 export interface DeleteRuleSetResponse {}
 export const DeleteRuleSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4056,9 +3943,7 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteSecretResponse {}
 export const DeleteSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4371,14 +4256,10 @@ export const GetAFDEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAFDEndpointRequest",
-}) as any as S.Schema<GetAFDEndpointRequest>;
+).annotate({ identifier: "GetAFDEndpointRequest" }) as any as S.Schema<GetAFDEndpointRequest>;
 
 /** Resource tags. */
-export type GetAFDEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAFDEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetAFDEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4410,9 +4291,7 @@ export const GetAFDEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(AFDEndpointProperties),
   }),
-).annotate({
-  identifier: "GetAFDEndpointResponse",
-}) as any as S.Schema<GetAFDEndpointResponse>;
+).annotate({ identifier: "GetAFDEndpointResponse" }) as any as S.Schema<GetAFDEndpointResponse>;
 
 export interface GetAFDOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4441,9 +4320,7 @@ export const GetAFDOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAFDOriginRequest",
-}) as any as S.Schema<GetAFDOriginRequest>;
+).annotate({ identifier: "GetAFDOriginRequest" }) as any as S.Schema<GetAFDOriginRequest>;
 
 export interface GetAFDOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4465,9 +4342,7 @@ export const GetAFDOriginResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AFDOriginProperties),
   }),
-).annotate({
-  identifier: "GetAFDOriginResponse",
-}) as any as S.Schema<GetAFDOriginResponse>;
+).annotate({ identifier: "GetAFDOriginResponse" }) as any as S.Schema<GetAFDOriginResponse>;
 
 export interface GetAFDOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4493,9 +4368,7 @@ export const GetAFDOriginGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetAFDOriginGroupRequest",
-}) as any as S.Schema<GetAFDOriginGroupRequest>;
+).annotate({ identifier: "GetAFDOriginGroupRequest" }) as any as S.Schema<GetAFDOriginGroupRequest>;
 
 export interface GetAFDOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4548,9 +4421,7 @@ export const GetCustomDomainRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetCustomDomainRequest",
-}) as any as S.Schema<GetCustomDomainRequest>;
+).annotate({ identifier: "GetCustomDomainRequest" }) as any as S.Schema<GetCustomDomainRequest>;
 
 export interface GetCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4572,9 +4443,7 @@ export const GetCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CustomDomainProperties),
   }),
-).annotate({
-  identifier: "GetCustomDomainResponse",
-}) as any as S.Schema<GetCustomDomainResponse>;
+).annotate({ identifier: "GetCustomDomainResponse" }) as any as S.Schema<GetCustomDomainResponse>;
 
 export interface GetEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4600,9 +4469,7 @@ export const GetEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetEndpointRequest",
-}) as any as S.Schema<GetEndpointRequest>;
+).annotate({ identifier: "GetEndpointRequest" }) as any as S.Schema<GetEndpointRequest>;
 
 /** Resource tags. */
 export type GetEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -4637,9 +4504,7 @@ export const GetEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "GetEndpointResponse",
-}) as any as S.Schema<GetEndpointResponse>;
+).annotate({ identifier: "GetEndpointResponse" }) as any as S.Schema<GetEndpointResponse>;
 
 export interface GetLogAnalyticsLogAnalyticsLocationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4710,9 +4575,7 @@ export const ContinentsResponse = /*@__PURE__*/ S.suspend(() =>
     continents: S.optional(ContinentsResponseContinentsList),
     countryOrRegions: S.optional(ContinentsResponseCountryOrRegionsList),
   }),
-).annotate({
-  identifier: "ContinentsResponse",
-}) as any as S.Schema<ContinentsResponse>;
+).annotate({ identifier: "ContinentsResponse" }) as any as S.Schema<ContinentsResponse>;
 
 export type GetLogAnalyticsLogAnalyticsMetricsRequestMetricsItem =
   | "clientRequestCount"
@@ -4893,9 +4756,7 @@ export const MetricsResponse = /*@__PURE__*/ S.suspend(() =>
     granularity: S.optional(MetricsGranularity),
     series: S.optional(MetricsResponseSeriesList),
   }),
-).annotate({
-  identifier: "MetricsResponse",
-}) as any as S.Schema<MetricsResponse>;
+).annotate({ identifier: "MetricsResponse" }) as any as S.Schema<MetricsResponse>;
 
 export type GetLogAnalyticsLogAnalyticsRankingsRequestRankingsItem =
   | "url"
@@ -5041,9 +4902,7 @@ export const RankingsResponse = /*@__PURE__*/ S.suspend(() =>
     dateTimeEnd: S.optional(S.String),
     tables: S.optional(RankingsResponseTablesList),
   }),
-).annotate({
-  identifier: "RankingsResponse",
-}) as any as S.Schema<RankingsResponse>;
+).annotate({ identifier: "RankingsResponse" }) as any as S.Schema<RankingsResponse>;
 
 export interface GetLogAnalyticsLogAnalyticsResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5134,9 +4993,7 @@ export const ResourcesResponse = /*@__PURE__*/ S.suspend(() =>
     endpoints: S.optional(ResourcesResponseEndpointsList),
     customDomains: S.optional(ResourcesResponseCustomDomainsList),
   }),
-).annotate({
-  identifier: "ResourcesResponse",
-}) as any as S.Schema<ResourcesResponse>;
+).annotate({ identifier: "ResourcesResponse" }) as any as S.Schema<ResourcesResponse>;
 
 export type GetLogAnalyticsWafLogAnalyticsMetricsRequestMetricsItem = "clientRequestCount";
 export const GetLogAnalyticsWafLogAnalyticsMetricsRequestMetricsItem = S.String;
@@ -5293,9 +5150,7 @@ export const WafMetricsResponse = /*@__PURE__*/ S.suspend(() =>
     granularity: S.optional(WafMetricsGranularity),
     series: S.optional(WafMetricsResponseSeriesList),
   }),
-).annotate({
-  identifier: "WafMetricsResponse",
-}) as any as S.Schema<WafMetricsResponse>;
+).annotate({ identifier: "WafMetricsResponse" }) as any as S.Schema<WafMetricsResponse>;
 
 export type GetLogAnalyticsWafLogAnalyticsRankingsRequestMetricsItem = "clientRequestCount";
 export const GetLogAnalyticsWafLogAnalyticsRankingsRequestMetricsItem = S.String;
@@ -5446,9 +5301,7 @@ export const WafRankingsResponse = /*@__PURE__*/ S.suspend(() =>
     groups: S.optional(WafRankingsResponseGroupsList),
     data: S.optional(WafRankingsResponseDataList),
   }),
-).annotate({
-  identifier: "WafRankingsResponse",
-}) as any as S.Schema<WafRankingsResponse>;
+).annotate({ identifier: "WafRankingsResponse" }) as any as S.Schema<WafRankingsResponse>;
 
 export interface GetOriginRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5477,9 +5330,7 @@ export const GetOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetOriginRequest",
-}) as any as S.Schema<GetOriginRequest>;
+).annotate({ identifier: "GetOriginRequest" }) as any as S.Schema<GetOriginRequest>;
 
 export interface GetOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5501,9 +5352,7 @@ export const GetOriginResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OriginProperties),
   }),
-).annotate({
-  identifier: "GetOriginResponse",
-}) as any as S.Schema<GetOriginResponse>;
+).annotate({ identifier: "GetOriginResponse" }) as any as S.Schema<GetOriginResponse>;
 
 export interface GetOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5532,9 +5381,7 @@ export const GetOriginGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetOriginGroupRequest",
-}) as any as S.Schema<GetOriginGroupRequest>;
+).annotate({ identifier: "GetOriginGroupRequest" }) as any as S.Schema<GetOriginGroupRequest>;
 
 export interface GetOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5556,9 +5403,7 @@ export const GetOriginGroupResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OriginGroupProperties),
   }),
-).annotate({
-  identifier: "GetOriginGroupResponse",
-}) as any as S.Schema<GetOriginGroupResponse>;
+).annotate({ identifier: "GetOriginGroupResponse" }) as any as S.Schema<GetOriginGroupResponse>;
 
 export interface GetPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5581,9 +5426,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 /** Resource tags. */
 export type GetPolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -5766,9 +5609,7 @@ export const RateLimitRuleList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rules: S.optional(RateLimitRuleListRulesList),
   }),
-).annotate({
-  identifier: "RateLimitRuleList",
-}) as any as S.Schema<RateLimitRuleList>;
+).annotate({ identifier: "RateLimitRuleList" }) as any as S.Schema<RateLimitRuleList>;
 
 /** List of match conditions. */
 export type CustomRuleMatchConditionsList = Array<MatchCondition>;
@@ -5835,9 +5676,7 @@ export const ManagedRuleOverride = /*@__PURE__*/ S.suspend(() =>
     enabledState: S.optional(ManagedRuleEnabledState),
     action: S.optional(ActionType),
   }),
-).annotate({
-  identifier: "ManagedRuleOverride",
-}) as any as S.Schema<ManagedRuleOverride>;
+).annotate({ identifier: "ManagedRuleOverride" }) as any as S.Schema<ManagedRuleOverride>;
 
 /** List of rules that will be enabled. If none specified, all rules in the group will be disabled. */
 export type ManagedRuleGroupOverrideRulesList = Array<ManagedRuleOverride>;
@@ -5857,9 +5696,7 @@ export const ManagedRuleGroupOverride = /*@__PURE__*/ S.suspend(() =>
     ruleGroupName: S.String,
     rules: S.optional(ManagedRuleGroupOverrideRulesList),
   }),
-).annotate({
-  identifier: "ManagedRuleGroupOverride",
-}) as any as S.Schema<ManagedRuleGroupOverride>;
+).annotate({ identifier: "ManagedRuleGroupOverride" }) as any as S.Schema<ManagedRuleGroupOverride>;
 
 /** Defines the rule overrides to apply to the rule set. */
 export type ManagedRuleSetRuleGroupOverridesList = Array<ManagedRuleGroupOverride>;
@@ -5902,9 +5739,7 @@ export const ManagedRuleSetList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     managedRuleSets: S.optional(ManagedRuleSetListManagedRuleSetsList),
   }),
-).annotate({
-  identifier: "ManagedRuleSetList",
-}) as any as S.Schema<ManagedRuleSetList>;
+).annotate({ identifier: "ManagedRuleSetList" }) as any as S.Schema<ManagedRuleSetList>;
 
 /** Defines the ARM Resource ID for the linked endpoints */
 export interface CdnEndpoint {
@@ -6013,9 +5848,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     sku: Sku,
   }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 
 export interface GetProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6038,9 +5871,7 @@ export const GetProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetProfileRequest",
-}) as any as S.Schema<GetProfileRequest>;
+).annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
 
 /** Resource tags. */
 export type GetProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -6114,9 +5945,7 @@ export const GetProfileResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     identity: S.optional(GetProfileResponseIdentity),
   }),
-).annotate({
-  identifier: "GetProfileResponse",
-}) as any as S.Schema<GetProfileResponse>;
+).annotate({ identifier: "GetProfileResponse" }) as any as S.Schema<GetProfileResponse>;
 
 export interface GetRouteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6145,9 +5974,7 @@ export const GetRouteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRouteRequest",
-}) as any as S.Schema<GetRouteRequest>;
+).annotate({ identifier: "GetRouteRequest" }) as any as S.Schema<GetRouteRequest>;
 
 export interface GetRouteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6169,9 +5996,7 @@ export const GetRouteResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RouteProperties),
   }),
-).annotate({
-  identifier: "GetRouteResponse",
-}) as any as S.Schema<GetRouteResponse>;
+).annotate({ identifier: "GetRouteResponse" }) as any as S.Schema<GetRouteResponse>;
 
 export interface GetRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6222,9 +6047,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RuleProperties),
   }),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface GetRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6250,9 +6073,7 @@ export const GetRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetRuleSetRequest",
-}) as any as S.Schema<GetRuleSetRequest>;
+).annotate({ identifier: "GetRuleSetRequest" }) as any as S.Schema<GetRuleSetRequest>;
 
 export interface GetRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6274,9 +6095,7 @@ export const GetRuleSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RuleSetProperties),
   }),
-).annotate({
-  identifier: "GetRuleSetResponse",
-}) as any as S.Schema<GetRuleSetResponse>;
+).annotate({ identifier: "GetRuleSetResponse" }) as any as S.Schema<GetRuleSetResponse>;
 
 export interface GetSecretRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6302,9 +6121,7 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetSecretRequest",
-}) as any as S.Schema<GetSecretRequest>;
+).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
 
 export interface GetSecretResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6326,9 +6143,7 @@ export const GetSecretResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SecretProperties),
   }),
-).annotate({
-  identifier: "GetSecretResponse",
-}) as any as S.Schema<GetSecretResponse>;
+).annotate({ identifier: "GetSecretResponse" }) as any as S.Schema<GetSecretResponse>;
 
 export interface GetSecurityPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6354,9 +6169,7 @@ export const GetSecurityPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetSecurityPolicyRequest",
-}) as any as S.Schema<GetSecurityPolicyRequest>;
+).annotate({ identifier: "GetSecurityPolicyRequest" }) as any as S.Schema<GetSecurityPolicyRequest>;
 
 export interface GetSecurityPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6448,9 +6261,7 @@ export const AFDDomainListResult = /*@__PURE__*/ S.suspend(() =>
     value: AFDDomainListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AFDDomainListResult",
-}) as any as S.Schema<AFDDomainListResult>;
+).annotate({ identifier: "AFDDomainListResult" }) as any as S.Schema<AFDDomainListResult>;
 
 export interface ListAFDEndpointByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6531,9 +6342,7 @@ export const AFDEndpointListResult = /*@__PURE__*/ S.suspend(() =>
     value: AFDEndpointListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AFDEndpointListResult",
-}) as any as S.Schema<AFDEndpointListResult>;
+).annotate({ identifier: "AFDEndpointListResult" }) as any as S.Schema<AFDEndpointListResult>;
 
 export interface ListAFDEndpointResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6622,9 +6431,7 @@ export const UsagesListResult = /*@__PURE__*/ S.suspend(() =>
     value: UsagesListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsagesListResult",
-}) as any as S.Schema<UsagesListResult>;
+).annotate({ identifier: "UsagesListResult" }) as any as S.Schema<UsagesListResult>;
 
 export interface ListAFDOriginByOriginGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6695,9 +6502,7 @@ export const AFDOriginListResult = /*@__PURE__*/ S.suspend(() =>
     value: AFDOriginListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AFDOriginListResult",
-}) as any as S.Schema<AFDOriginListResult>;
+).annotate({ identifier: "AFDOriginListResult" }) as any as S.Schema<AFDOriginListResult>;
 
 export interface ListAFDOriginGroupByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6765,9 +6570,7 @@ export const AFDOriginGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: AFDOriginGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AFDOriginGroupListResult",
-}) as any as S.Schema<AFDOriginGroupListResult>;
+).annotate({ identifier: "AFDOriginGroupListResult" }) as any as S.Schema<AFDOriginGroupListResult>;
 
 export interface ListAFDOriginGroupResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6891,9 +6694,7 @@ export const CustomDomainListResult = /*@__PURE__*/ S.suspend(() =>
     value: CustomDomainListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainListResult",
-}) as any as S.Schema<CustomDomainListResult>;
+).annotate({ identifier: "CustomDomainListResult" }) as any as S.Schema<CustomDomainListResult>;
 
 export interface ListEdgeNodesRequest {}
 export const ListEdgeNodesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -6905,9 +6706,7 @@ export const ListEdgeNodesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListEdgeNodesRequest",
-}) as any as S.Schema<ListEdgeNodesRequest>;
+).annotate({ identifier: "ListEdgeNodesRequest" }) as any as S.Schema<ListEdgeNodesRequest>;
 
 /** CIDR Ip address */
 export interface CidrIpAddress {
@@ -6967,9 +6766,7 @@ export const EdgeNodeProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ipAddressGroups: EdgeNodePropertiesIpAddressGroupsList,
   }),
-).annotate({
-  identifier: "EdgeNodeProperties",
-}) as any as S.Schema<EdgeNodeProperties>;
+).annotate({ identifier: "EdgeNodeProperties" }) as any as S.Schema<EdgeNodeProperties>;
 
 /** Edgenode is a global Point of Presence (POP) location used to deliver CDN content to end users. */
 export interface EdgeNode {
@@ -7093,9 +6890,7 @@ export const EndpointListResult = /*@__PURE__*/ S.suspend(() =>
     value: EndpointListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EndpointListResult",
-}) as any as S.Schema<EndpointListResult>;
+).annotate({ identifier: "EndpointListResult" }) as any as S.Schema<EndpointListResult>;
 
 export interface ListEndpointResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7167,9 +6962,7 @@ export const ResourceUsageListResult = /*@__PURE__*/ S.suspend(() =>
     value: ResourceUsageListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceUsageListResult",
-}) as any as S.Schema<ResourceUsageListResult>;
+).annotate({ identifier: "ResourceUsageListResult" }) as any as S.Schema<ResourceUsageListResult>;
 
 export interface ListManagedRuleSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7202,9 +6995,7 @@ export const ManagedRuleDefinition = /*@__PURE__*/ S.suspend(() =>
     ruleId: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedRuleDefinition",
-}) as any as S.Schema<ManagedRuleDefinition>;
+).annotate({ identifier: "ManagedRuleDefinition" }) as any as S.Schema<ManagedRuleDefinition>;
 
 /** List of rules within the managed rule group. */
 export type ManagedRuleGroupDefinitionRulesList = Array<ManagedRuleDefinition>;
@@ -7283,9 +7074,7 @@ export const ManagedRuleSetDefinition = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ManagedRuleSetDefinitionProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "ManagedRuleSetDefinition",
-}) as any as S.Schema<ManagedRuleSetDefinition>;
+).annotate({ identifier: "ManagedRuleSetDefinition" }) as any as S.Schema<ManagedRuleSetDefinition>;
 
 /** The ManagedRuleSetDefinition items on this page */
 export type ManagedRuleSetDefinitionListValueList = Array<ManagedRuleSetDefinition>;
@@ -7319,9 +7108,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -7341,9 +7128,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Log specification of operation. */
 export interface LogSpecification {
@@ -7363,9 +7148,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     blobDuration: S.optional(S.String),
     logFilterPattern: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Log specifications of operation. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -7383,9 +7166,7 @@ export const MetricAvailability = /*@__PURE__*/ S.suspend(() =>
     timeGrain: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricAvailability",
-}) as any as S.Schema<MetricAvailability>;
+).annotate({ identifier: "MetricAvailability" }) as any as S.Schema<MetricAvailability>;
 
 /** Retention policies of a resource metric. */
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
@@ -7414,9 +7195,7 @@ export const DimensionProperties = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     internalName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DimensionProperties",
-}) as any as S.Schema<DimensionProperties>;
+).annotate({ identifier: "DimensionProperties" }) as any as S.Schema<DimensionProperties>;
 
 /** The dimensions of metric */
 export type MetricSpecificationDimensionsList = Array<DimensionProperties>;
@@ -7463,9 +7242,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     metricFilterPattern: S.optional(S.String),
     isInternal: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -7485,9 +7262,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
@@ -7498,9 +7273,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** CDN REST API operation */
 export interface Operation {
@@ -7543,9 +7316,7 @@ export const OperationsListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationsListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationsListResult",
-}) as any as S.Schema<OperationsListResult>;
+).annotate({ identifier: "OperationsListResult" }) as any as S.Schema<OperationsListResult>;
 
 export interface ListOriginByEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7616,9 +7387,7 @@ export const OriginListResult = /*@__PURE__*/ S.suspend(() =>
     value: OriginListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OriginListResult",
-}) as any as S.Schema<OriginListResult>;
+).annotate({ identifier: "OriginListResult" }) as any as S.Schema<OriginListResult>;
 
 export interface ListOriginGroupByEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7689,9 +7458,7 @@ export const OriginGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: OriginGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OriginGroupListResult",
-}) as any as S.Schema<OriginGroupListResult>;
+).annotate({ identifier: "OriginGroupListResult" }) as any as S.Schema<OriginGroupListResult>;
 
 export interface ListPoliciesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7711,14 +7478,10 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 /** Resource tags. */
-export type CdnWebApplicationFirewallPolicyTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CdnWebApplicationFirewallPolicyTagsMap = { [key: string]: string | undefined };
 export const CdnWebApplicationFirewallPolicyTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7838,9 +7601,7 @@ export const ProfileIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(ProfileIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ProfileIdentity",
-}) as any as S.Schema<ProfileIdentity>;
+).annotate({ identifier: "ProfileIdentity" }) as any as S.Schema<ProfileIdentity>;
 
 /** A profile is a logical grouping of endpoints that share the same settings. */
 export interface Profile {
@@ -7898,9 +7659,7 @@ export const ProfileListResult = /*@__PURE__*/ S.suspend(() =>
     value: ProfileListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProfileListResult",
-}) as any as S.Schema<ProfileListResult>;
+).annotate({ identifier: "ProfileListResult" }) as any as S.Schema<ProfileListResult>;
 
 export interface ListProfileResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7942,9 +7701,7 @@ export const ListProfilesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListProfilesRequest",
-}) as any as S.Schema<ListProfilesRequest>;
+).annotate({ identifier: "ListProfilesRequest" }) as any as S.Schema<ListProfilesRequest>;
 
 export interface ListProfileSupportedOptimizationTypesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8009,9 +7766,7 @@ export const ListResourceUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListResourceUsageRequest",
-}) as any as S.Schema<ListResourceUsageRequest>;
+).annotate({ identifier: "ListResourceUsageRequest" }) as any as S.Schema<ListResourceUsageRequest>;
 
 export interface ListRouteByEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8082,9 +7837,7 @@ export const RouteListResult = /*@__PURE__*/ S.suspend(() =>
     value: RouteListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RouteListResult",
-}) as any as S.Schema<RouteListResult>;
+).annotate({ identifier: "RouteListResult" }) as any as S.Schema<RouteListResult>;
 
 export interface ListRuleByRuleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8110,9 +7863,7 @@ export const ListRuleByRuleSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListRuleByRuleSetRequest",
-}) as any as S.Schema<ListRuleByRuleSetRequest>;
+).annotate({ identifier: "ListRuleByRuleSetRequest" }) as any as S.Schema<ListRuleByRuleSetRequest>;
 
 /** Friendly Rules name mapping to the any Rules or secret related information. */
 export interface Rule {
@@ -8223,9 +7974,7 @@ export const RuleSetListResult = /*@__PURE__*/ S.suspend(() =>
     value: RuleSetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuleSetListResult",
-}) as any as S.Schema<RuleSetListResult>;
+).annotate({ identifier: "RuleSetListResult" }) as any as S.Schema<RuleSetListResult>;
 
 export interface ListRuleSetResourceUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8321,9 +8070,7 @@ export const SecretListResult = /*@__PURE__*/ S.suspend(() =>
     value: SecretListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretListResult",
-}) as any as S.Schema<SecretListResult>;
+).annotate({ identifier: "SecretListResult" }) as any as S.Schema<SecretListResult>;
 
 export interface ListSecurityPolicyByProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -8391,9 +8138,7 @@ export const SecurityPolicyListResult = /*@__PURE__*/ S.suspend(() =>
     value: SecurityPolicyListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecurityPolicyListResult",
-}) as any as S.Schema<SecurityPolicyListResult>;
+).annotate({ identifier: "SecurityPolicyListResult" }) as any as S.Schema<SecurityPolicyListResult>;
 
 /** Web Application Firewall Mapping */
 export interface MigrationWebApplicationFirewallMapping {
@@ -8451,9 +8196,7 @@ export const MigrateProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "MigrateProfileRequest",
-}) as any as S.Schema<MigrateProfileRequest>;
+).annotate({ identifier: "MigrateProfileRequest" }) as any as S.Schema<MigrateProfileRequest>;
 
 export interface MigrateResultProperties {
   /** Arm resource id of the migrated profile */
@@ -8463,9 +8206,7 @@ export const MigrateResultProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     migratedProfileResourceId: S.optional(ResourceReference),
   }),
-).annotate({
-  identifier: "MigrateResultProperties",
-}) as any as S.Schema<MigrateResultProperties>;
+).annotate({ identifier: "MigrateResultProperties" }) as any as S.Schema<MigrateResultProperties>;
 
 /** Result for migrate operation. */
 export interface MigrateResult {
@@ -8530,9 +8271,7 @@ export const MigrationErrorType = /*@__PURE__*/ S.suspend(() =>
     errorMessage: S.optional(S.String),
     nextSteps: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MigrationErrorType",
-}) as any as S.Schema<MigrationErrorType>;
+).annotate({ identifier: "MigrationErrorType" }) as any as S.Schema<MigrationErrorType>;
 
 export type CanMigratePropertiesErrorsList = Array<MigrationErrorType>;
 export const CanMigratePropertiesErrorsList = /*@__PURE__*/ S.Array(
@@ -8552,9 +8291,7 @@ export const CanMigrateProperties = /*@__PURE__*/ S.suspend(() =>
     defaultSku: S.optional(CanMigrateDefaultSku),
     errors: S.optional(CanMigratePropertiesErrorsList),
   }),
-).annotate({
-  identifier: "CanMigrateProperties",
-}) as any as S.Schema<CanMigrateProperties>;
+).annotate({ identifier: "CanMigrateProperties" }) as any as S.Schema<CanMigrateProperties>;
 
 /** Result for canMigrate operation. */
 export interface CanMigrateResult {
@@ -8570,9 +8307,7 @@ export const CanMigrateResult = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(CanMigrateProperties),
   }),
-).annotate({
-  identifier: "CanMigrateResult",
-}) as any as S.Schema<CanMigrateResult>;
+).annotate({ identifier: "CanMigrateResult" }) as any as S.Schema<CanMigrateResult>;
 
 /** The json object that contains properties required to update a security policy */
 export type SecurityPolicyUpdateProperties = SecurityPolicyPropertiesInput;
@@ -8634,9 +8369,7 @@ export const PatchSecurityPolicyResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchSecurityPolicyResponse>;
 
 /** Resource tags. */
-export type PoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8720,9 +8453,7 @@ export const PoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PoliciesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8801,9 +8532,7 @@ export const MigrationEndpointMapping = /*@__PURE__*/ S.suspend(() =>
     migratedFrom: S.optional(S.String),
     migratedTo: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MigrationEndpointMapping",
-}) as any as S.Schema<MigrationEndpointMapping>;
+).annotate({ identifier: "MigrationEndpointMapping" }) as any as S.Schema<MigrationEndpointMapping>;
 
 /** A name map between classic CDN endpoints and AFD Premium/Standard endpoints. */
 export type ProfilesCdnMigrateToAfdRequestMigrationEndpointMappingsList =
@@ -8893,9 +8622,7 @@ export const PurgeAFDEndpointContentRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface PurgeAFDEndpointContentResponse {}
 export const PurgeAFDEndpointContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "PurgeAFDEndpointContentResponse",
-  },
+  { identifier: "PurgeAFDEndpointContentResponse" },
 ) as any as S.Schema<PurgeAFDEndpointContentResponse>;
 
 /** The path to the content to be purged. Can describe a file path or a wild card directory. */
@@ -8999,14 +8726,10 @@ export const StartEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "StartEndpointRequest",
-}) as any as S.Schema<StartEndpointRequest>;
+).annotate({ identifier: "StartEndpointRequest" }) as any as S.Schema<StartEndpointRequest>;
 
 /** Resource tags. */
-export type StartEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StartEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const StartEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9038,9 +8761,7 @@ export const StartEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "StartEndpointResponse",
-}) as any as S.Schema<StartEndpointResponse>;
+).annotate({ identifier: "StartEndpointResponse" }) as any as S.Schema<StartEndpointResponse>;
 
 export interface StopEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9066,9 +8787,7 @@ export const StopEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "StopEndpointRequest",
-}) as any as S.Schema<StopEndpointRequest>;
+).annotate({ identifier: "StopEndpointRequest" }) as any as S.Schema<StopEndpointRequest>;
 
 /** Resource tags. */
 export type StopEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -9103,9 +8822,7 @@ export const StopEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "StopEndpointResponse",
-}) as any as S.Schema<StopEndpointResponse>;
+).annotate({ identifier: "StopEndpointResponse" }) as any as S.Schema<StopEndpointResponse>;
 
 /** The JSON object that contains the properties of the domain to create. */
 export interface AFDDomainUpdatePropertiesParametersInput {
@@ -9185,9 +8902,7 @@ export const UpdateAFDCustomDomainResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAFDCustomDomainResponse>;
 
 /** Endpoint tags. */
-export type UpdateAFDEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAFDEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAFDEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9239,14 +8954,10 @@ export const UpdateAFDEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAFDEndpointRequest",
-}) as any as S.Schema<UpdateAFDEndpointRequest>;
+).annotate({ identifier: "UpdateAFDEndpointRequest" }) as any as S.Schema<UpdateAFDEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateAFDEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAFDEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAFDEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9367,9 +9078,7 @@ export const UpdateAFDOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAFDOriginRequest",
-}) as any as S.Schema<UpdateAFDOriginRequest>;
+).annotate({ identifier: "UpdateAFDOriginRequest" }) as any as S.Schema<UpdateAFDOriginRequest>;
 
 export interface UpdateAFDOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -9391,9 +9100,7 @@ export const UpdateAFDOriginResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AFDOriginProperties),
   }),
-).annotate({
-  identifier: "UpdateAFDOriginResponse",
-}) as any as S.Schema<UpdateAFDOriginResponse>;
+).annotate({ identifier: "UpdateAFDOriginResponse" }) as any as S.Schema<UpdateAFDOriginResponse>;
 
 /** The JSON object that contains the properties of the origin group. */
 export type AFDOriginGroupUpdatePropertiesParametersInput = AFDOriginGroupPropertiesInput;
@@ -9455,9 +9162,7 @@ export const UpdateAFDOriginGroupResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAFDOriginGroupResponse>;
 
 /** Endpoint tags. */
-export type UpdateEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9577,14 +9282,10 @@ export const UpdateEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateEndpointRequest",
-}) as any as S.Schema<UpdateEndpointRequest>;
+).annotate({ identifier: "UpdateEndpointRequest" }) as any as S.Schema<UpdateEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9616,9 +9317,7 @@ export const UpdateEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(EndpointProperties),
   }),
-).annotate({
-  identifier: "UpdateEndpointResponse",
-}) as any as S.Schema<UpdateEndpointResponse>;
+).annotate({ identifier: "UpdateEndpointResponse" }) as any as S.Schema<UpdateEndpointResponse>;
 
 /** The JSON object that contains the properties of the origin. */
 export interface OriginUpdatePropertiesParameters {
@@ -9693,9 +9392,7 @@ export const UpdateOriginRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateOriginRequest",
-}) as any as S.Schema<UpdateOriginRequest>;
+).annotate({ identifier: "UpdateOriginRequest" }) as any as S.Schema<UpdateOriginRequest>;
 
 export interface UpdateOriginResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -9717,9 +9414,7 @@ export const UpdateOriginResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OriginProperties),
   }),
-).annotate({
-  identifier: "UpdateOriginResponse",
-}) as any as S.Schema<UpdateOriginResponse>;
+).annotate({ identifier: "UpdateOriginResponse" }) as any as S.Schema<UpdateOriginResponse>;
 
 /** The source of the content being delivered via CDN within given origin group. */
 export type OriginGroupUpdatePropertiesParametersOriginsList = Array<ResourceReference>;
@@ -9781,9 +9476,7 @@ export const UpdateOriginGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateOriginGroupRequest",
-}) as any as S.Schema<UpdateOriginGroupRequest>;
+).annotate({ identifier: "UpdateOriginGroupRequest" }) as any as S.Schema<UpdateOriginGroupRequest>;
 
 export interface UpdateOriginGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -9840,9 +9533,7 @@ export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdatePolicyRequest",
-}) as any as S.Schema<UpdatePolicyRequest>;
+).annotate({ identifier: "UpdatePolicyRequest" }) as any as S.Schema<UpdatePolicyRequest>;
 
 /** Resource tags. */
 export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -9883,9 +9574,7 @@ export const UpdatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     sku: Sku,
   }),
-).annotate({
-  identifier: "UpdatePolicyResponse",
-}) as any as S.Schema<UpdatePolicyResponse>;
+).annotate({ identifier: "UpdatePolicyResponse" }) as any as S.Schema<UpdatePolicyResponse>;
 
 /** Profile tags */
 export type UpdateProfileRequestTagsMap = { [key: string]: string | undefined };
@@ -9964,14 +9653,10 @@ export const UpdateProfileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProfileRequest",
-}) as any as S.Schema<UpdateProfileRequest>;
+).annotate({ identifier: "UpdateProfileRequest" }) as any as S.Schema<UpdateProfileRequest>;
 
 /** Resource tags. */
-export type UpdateProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10042,9 +9727,7 @@ export const UpdateProfileResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     identity: S.optional(UpdateProfileResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateProfileResponse",
-}) as any as S.Schema<UpdateProfileResponse>;
+).annotate({ identifier: "UpdateProfileResponse" }) as any as S.Schema<UpdateProfileResponse>;
 
 /** Domains referenced by this endpoint. */
 export type RouteUpdatePropertiesParametersInputCustomDomainsList = Array<ResourceReference>;
@@ -10160,9 +9843,7 @@ export const UpdateRouteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRouteRequest",
-}) as any as S.Schema<UpdateRouteRequest>;
+).annotate({ identifier: "UpdateRouteRequest" }) as any as S.Schema<UpdateRouteRequest>;
 
 export interface UpdateRouteResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -10184,9 +9865,7 @@ export const UpdateRouteResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RouteProperties),
   }),
-).annotate({
-  identifier: "UpdateRouteResponse",
-}) as any as S.Schema<UpdateRouteResponse>;
+).annotate({ identifier: "UpdateRouteResponse" }) as any as S.Schema<UpdateRouteResponse>;
 
 /** A list of conditions that must be matched for the actions to be executed */
 export type RuleUpdatePropertiesParametersInputConditionsList = Array<DeliveryRuleCondition>;
@@ -10258,9 +9937,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRuleRequest",
-}) as any as S.Schema<UpdateRuleRequest>;
+).annotate({ identifier: "UpdateRuleRequest" }) as any as S.Schema<UpdateRuleRequest>;
 
 export interface UpdateRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -10282,9 +9959,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RuleProperties),
   }),
-).annotate({
-  identifier: "UpdateRuleResponse",
-}) as any as S.Schema<UpdateRuleResponse>;
+).annotate({ identifier: "UpdateRuleResponse" }) as any as S.Schema<UpdateRuleResponse>;
 
 export interface ValidateAFDEndpointCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10386,9 +10061,7 @@ export const ValidateSecretOutput = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(Status),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ValidateSecretOutput",
-}) as any as S.Schema<ValidateSecretOutput>;
+).annotate({ identifier: "ValidateSecretOutput" }) as any as S.Schema<ValidateSecretOutput>;
 
 export interface ValidateEndpointCustomDomainRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10439,9 +10112,7 @@ export const ValidateProbeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-07-01",
     }),
   ),
-).annotate({
-  identifier: "ValidateProbeRequest",
-}) as any as S.Schema<ValidateProbeRequest>;
+).annotate({ identifier: "ValidateProbeRequest" }) as any as S.Schema<ValidateProbeRequest>;
 
 /** Output of the validate probe API. */
 export interface ValidateProbeOutput {
@@ -10458,9 +10129,7 @@ export const ValidateProbeOutput = /*@__PURE__*/ S.suspend(() =>
     errorCode: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ValidateProbeOutput",
-}) as any as S.Schema<ValidateProbeOutput>;
+).annotate({ identifier: "ValidateProbeOutput" }) as any as S.Schema<ValidateProbeOutput>;
 
 export type AbortProfilesMigrationError = AzureOpError;
 /** Abort the migration to Azure Frontdoor Premium/Standard. */

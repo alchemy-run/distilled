@@ -59,9 +59,7 @@ export const DeleteSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSchedulerRequest",
-}) as any as S.Schema<DeleteSchedulerRequest>;
+).annotate({ identifier: "DeleteSchedulerRequest" }) as any as S.Schema<DeleteSchedulerRequest>;
 
 export interface DeleteSchedulerResponse {}
 export const DeleteSchedulerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -127,9 +125,7 @@ export const DeleteTaskHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTaskHubRequest",
-}) as any as S.Schema<DeleteTaskHubRequest>;
+).annotate({ identifier: "DeleteTaskHubRequest" }) as any as S.Schema<DeleteTaskHubRequest>;
 
 export interface DeleteTaskHubResponse {}
 export const DeleteTaskHubResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -222,9 +218,7 @@ export const RetentionPolicyDetails = /*@__PURE__*/ S.suspend(() =>
     retentionPeriodInDays: S.Number,
     orchestrationState: S.optional(PurgeableOrchestrationState),
   }),
-).annotate({
-  identifier: "RetentionPolicyDetails",
-}) as any as S.Schema<RetentionPolicyDetails>;
+).annotate({ identifier: "RetentionPolicyDetails" }) as any as S.Schema<RetentionPolicyDetails>;
 
 /** The orchestration retention policies */
 export type RetentionPolicyPropertiesRetentionPoliciesList = Array<RetentionPolicyDetails>;
@@ -293,9 +287,7 @@ export const GetSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetSchedulerRequest",
-}) as any as S.Schema<GetSchedulerRequest>;
+).annotate({ identifier: "GetSchedulerRequest" }) as any as S.Schema<GetSchedulerRequest>;
 
 /** Resource tags. */
 export type GetSchedulerResponseTagsMap = { [key: string]: string | undefined };
@@ -354,9 +346,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -467,9 +457,7 @@ export const SchedulerProperties = /*@__PURE__*/ S.suspend(() =>
     publicNetworkAccess: S.optional(PublicNetworkAccess),
     privateEndpointConnections: S.optional(SchedulerPropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "SchedulerProperties",
-}) as any as S.Schema<SchedulerProperties>;
+).annotate({ identifier: "SchedulerProperties" }) as any as S.Schema<SchedulerProperties>;
 
 export interface GetSchedulerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -497,9 +485,7 @@ export const GetSchedulerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SchedulerProperties),
   }),
-).annotate({
-  identifier: "GetSchedulerResponse",
-}) as any as S.Schema<GetSchedulerResponse>;
+).annotate({ identifier: "GetSchedulerResponse" }) as any as S.Schema<GetSchedulerResponse>;
 
 export interface GetSchedulerPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -660,9 +646,7 @@ export const GetTaskHubRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetTaskHubRequest",
-}) as any as S.Schema<GetTaskHubRequest>;
+).annotate({ identifier: "GetTaskHubRequest" }) as any as S.Schema<GetTaskHubRequest>;
 
 /** The properties of Task Hub */
 export interface TaskHubProperties {
@@ -676,9 +660,7 @@ export const TaskHubProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     dashboardUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TaskHubProperties",
-}) as any as S.Schema<TaskHubProperties>;
+).annotate({ identifier: "TaskHubProperties" }) as any as S.Schema<TaskHubProperties>;
 
 export interface GetTaskHubResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -700,9 +682,7 @@ export const GetTaskHubResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TaskHubProperties),
   }),
-).annotate({
-  identifier: "GetTaskHubResponse",
-}) as any as S.Schema<GetTaskHubResponse>;
+).annotate({ identifier: "GetTaskHubResponse" }) as any as S.Schema<GetTaskHubResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -714,9 +694,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -736,9 +714,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -788,9 +764,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListRetentionPolicyBySchedulerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -838,9 +812,7 @@ export const RetentionPolicy = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RetentionPolicyProperties),
   }),
-).annotate({
-  identifier: "RetentionPolicy",
-}) as any as S.Schema<RetentionPolicy>;
+).annotate({ identifier: "RetentionPolicy" }) as any as S.Schema<RetentionPolicy>;
 
 /** The RetentionPolicy items on this page */
 export type RetentionPolicyListResultValueList = Array<RetentionPolicy>;
@@ -940,9 +912,7 @@ export const SchedulerListResult = /*@__PURE__*/ S.suspend(() =>
     value: SchedulerListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchedulerListResult",
-}) as any as S.Schema<SchedulerListResult>;
+).annotate({ identifier: "SchedulerListResult" }) as any as S.Schema<SchedulerListResult>;
 
 export interface ListSchedulerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1156,9 +1126,7 @@ export const TaskHubListResult = /*@__PURE__*/ S.suspend(() =>
     value: TaskHubListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TaskHubListResult",
-}) as any as S.Schema<TaskHubListResult>;
+).annotate({ identifier: "TaskHubListResult" }) as any as S.Schema<TaskHubListResult>;
 
 /** The orchestration retention policies */
 export type RetentionPolicyPropertiesInputRetentionPoliciesList = Array<RetentionPolicyDetails>;
@@ -1232,9 +1200,7 @@ export const RetentionPoliciesCreateOrReplaceResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<RetentionPoliciesCreateOrReplaceResponse>;
 
 /** Resource tags. */
-export type SchedulersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchedulersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SchedulersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1261,9 +1227,7 @@ export const SchedulerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     sku: SchedulerSku,
     publicNetworkAccess: S.optional(PublicNetworkAccess),
   }),
-).annotate({
-  identifier: "SchedulerPropertiesInput",
-}) as any as S.Schema<SchedulerPropertiesInput>;
+).annotate({ identifier: "SchedulerPropertiesInput" }) as any as S.Schema<SchedulerPropertiesInput>;
 
 export interface SchedulersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1300,9 +1264,7 @@ export const SchedulersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SchedulersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SchedulersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchedulersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SchedulersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1546,9 +1508,7 @@ export const SchedulerSkuUpdate = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(SchedulerSkuName),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SchedulerSkuUpdate",
-}) as any as S.Schema<SchedulerSkuUpdate>;
+).annotate({ identifier: "SchedulerSkuUpdate" }) as any as S.Schema<SchedulerSkuUpdate>;
 
 /** The Scheduler resource properties to be updated */
 export interface SchedulerPropertiesUpdateInput {
@@ -1570,9 +1530,7 @@ export const SchedulerPropertiesUpdateInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SchedulerPropertiesUpdateInput>;
 
 /** Resource tags. */
-export type UpdateSchedulerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSchedulerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSchedulerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1605,14 +1563,10 @@ export const UpdateSchedulerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateSchedulerRequest",
-}) as any as S.Schema<UpdateSchedulerRequest>;
+).annotate({ identifier: "UpdateSchedulerRequest" }) as any as S.Schema<UpdateSchedulerRequest>;
 
 /** Resource tags. */
-export type UpdateSchedulerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSchedulerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSchedulerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1644,9 +1598,7 @@ export const UpdateSchedulerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SchedulerProperties),
   }),
-).annotate({
-  identifier: "UpdateSchedulerResponse",
-}) as any as S.Schema<UpdateSchedulerResponse>;
+).annotate({ identifier: "UpdateSchedulerResponse" }) as any as S.Schema<UpdateSchedulerResponse>;
 
 /** The private endpoint resource. */
 export type UpdateSchedulerPrivateEndpointConnectionRequestPropertiesPrivateEndpoint =

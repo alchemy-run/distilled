@@ -833,9 +833,7 @@ export const GetBestPracticeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-04",
     }),
   ),
-).annotate({
-  identifier: "GetBestPracticeRequest",
-}) as any as S.Schema<GetBestPracticeRequest>;
+).annotate({ identifier: "GetBestPracticeRequest" }) as any as S.Schema<GetBestPracticeRequest>;
 
 /** The type of identity that created the resource. */
 export type BestPracticeSystemDataCreatedByType =
@@ -877,9 +875,7 @@ export const BestPracticeSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(BestPracticeSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BestPracticeSystemData",
-}) as any as S.Schema<BestPracticeSystemData>;
+).annotate({ identifier: "BestPracticeSystemData" }) as any as S.Schema<BestPracticeSystemData>;
 
 /** Definition of the Automanage best practice. */
 export interface BestPractice {
@@ -952,9 +948,7 @@ export const GetConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConfigurationProfileRequest>;
 
 /** Resource tags. */
-export type GetConfigurationProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConfigurationProfileResponseTagsMap = { [key: string]: string | undefined };
 export const GetConfigurationProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1366,9 +1360,7 @@ export const GetConfigurationProfilesVersionRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetConfigurationProfilesVersionRequest>;
 
 /** Resource tags. */
-export type GetConfigurationProfilesVersionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConfigurationProfilesVersionResponseTagsMap = { [key: string]: string | undefined };
 export const GetConfigurationProfilesVersionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1477,9 +1469,7 @@ export const GetHCIReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-04",
     }),
   ),
-).annotate({
-  identifier: "GetHCIReportRequest",
-}) as any as S.Schema<GetHCIReportRequest>;
+).annotate({ identifier: "GetHCIReportRequest" }) as any as S.Schema<GetHCIReportRequest>;
 
 /** The error details. */
 export type ErrorDetailDetailsList = Array<ErrorDetail>;
@@ -1499,9 +1489,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1565,9 +1553,7 @@ export const ReportResourceError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(ReportResourceErrorDetailsList),
     additionalInfo: S.optional(ReportResourceErrorAdditionalInfoList),
   }),
-).annotate({
-  identifier: "ReportResourceError",
-}) as any as S.Schema<ReportResourceError>;
+).annotate({ identifier: "ReportResourceError" }) as any as S.Schema<ReportResourceError>;
 
 /** Details about the resource processed by the configuration profile assignment */
 export interface ReportResource {
@@ -1739,9 +1725,7 @@ export const GetHCIReportResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssignmentReportProperties),
     systemData: S.optional(GetHCIReportResponseSystemData),
   }),
-).annotate({
-  identifier: "GetHCIReportResponse",
-}) as any as S.Schema<GetHCIReportResponse>;
+).annotate({ identifier: "GetHCIReportResponse" }) as any as S.Schema<GetHCIReportResponse>;
 
 export interface GetHCRPReportRequest {
   /** The ID of the target subscription. */
@@ -1770,9 +1754,7 @@ export const GetHCRPReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-04",
     }),
   ),
-).annotate({
-  identifier: "GetHCRPReportRequest",
-}) as any as S.Schema<GetHCRPReportRequest>;
+).annotate({ identifier: "GetHCRPReportRequest" }) as any as S.Schema<GetHCRPReportRequest>;
 
 /** The type of identity that created the resource. */
 export type GetHCRPReportResponseSystemDataCreatedByType =
@@ -1838,9 +1820,7 @@ export const GetHCRPReportResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssignmentReportProperties),
     systemData: S.optional(GetHCRPReportResponseSystemData),
   }),
-).annotate({
-  identifier: "GetHCRPReportResponse",
-}) as any as S.Schema<GetHCRPReportResponse>;
+).annotate({ identifier: "GetHCRPReportResponse" }) as any as S.Schema<GetHCRPReportResponse>;
 
 export interface GetReportRequest {
   /** The ID of the target subscription. */
@@ -1869,9 +1849,7 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-04",
     }),
   ),
-).annotate({
-  identifier: "GetReportRequest",
-}) as any as S.Schema<GetReportRequest>;
+).annotate({ identifier: "GetReportRequest" }) as any as S.Schema<GetReportRequest>;
 
 /** The type of identity that created the resource. */
 export type GetReportResponseSystemDataCreatedByType =
@@ -1937,9 +1915,7 @@ export const GetReportResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AssignmentReportProperties),
     systemData: S.optional(GetReportResponseSystemData),
   }),
-).annotate({
-  identifier: "GetReportResponse",
-}) as any as S.Schema<GetReportResponse>;
+).annotate({ identifier: "GetReportResponse" }) as any as S.Schema<GetReportResponse>;
 
 export interface GetServicePrincipalRequest {
   /** The ID of the target subscription. */
@@ -2073,9 +2049,7 @@ export const BestPracticeList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(BestPracticeListValueList),
   }),
-).annotate({
-  identifier: "BestPracticeList",
-}) as any as S.Schema<BestPracticeList>;
+).annotate({ identifier: "BestPracticeList" }) as any as S.Schema<BestPracticeList>;
 
 export interface ListBestPracticesVersionByTenantRequest {
   /** The Automanage best practice name. */
@@ -2404,9 +2378,7 @@ export const ConfigurationProfile = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ConfigurationProfileProperties),
     systemData: S.optional(ConfigurationProfileSystemData),
   }),
-).annotate({
-  identifier: "ConfigurationProfile",
-}) as any as S.Schema<ConfigurationProfile>;
+).annotate({ identifier: "ConfigurationProfile" }) as any as S.Schema<ConfigurationProfile>;
 
 /** Result of the list ConfigurationProfile operation. */
 export type ConfigurationProfileListValueList = Array<ConfigurationProfile>;
@@ -2423,9 +2395,7 @@ export const ConfigurationProfileList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ConfigurationProfileListValueList),
   }),
-).annotate({
-  identifier: "ConfigurationProfileList",
-}) as any as S.Schema<ConfigurationProfileList>;
+).annotate({ identifier: "ConfigurationProfileList" }) as any as S.Schema<ConfigurationProfileList>;
 
 export interface ListConfigurationProfileBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -2531,9 +2501,7 @@ export const ReportSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ReportSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportSystemData",
-}) as any as S.Schema<ReportSystemData>;
+).annotate({ identifier: "ReportSystemData" }) as any as S.Schema<ReportSystemData>;
 
 /** Definition of the report. */
 export interface Report {
@@ -2613,9 +2581,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-04",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2635,9 +2601,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2687,9 +2651,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListReportByConfigurationProfileAssignmentsRequest {
   /** The ID of the target subscription. */
@@ -2803,9 +2765,7 @@ export const ServicePrincipal = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServicePrincipalProperties),
     systemData: S.optional(ServicePrincipalSystemData),
   }),
-).annotate({
-  identifier: "ServicePrincipal",
-}) as any as S.Schema<ServicePrincipal>;
+).annotate({ identifier: "ServicePrincipal" }) as any as S.Schema<ServicePrincipal>;
 
 /** The list of servicePrincipals. */
 export type ServicePrincipalListResultValueList = Array<ServicePrincipal>;
@@ -2827,9 +2787,7 @@ export const ServicePrincipalListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicePrincipalListResult>;
 
 /** The tags of the resource. */
-export type UpdateConfigurationProfileRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConfigurationProfileRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateConfigurationProfileRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2867,9 +2825,7 @@ export const UpdateConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateConfigurationProfileRequest>;
 
 /** Resource tags. */
-export type UpdateConfigurationProfileResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConfigurationProfileResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConfigurationProfileResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

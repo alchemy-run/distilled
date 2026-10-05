@@ -144,9 +144,7 @@ export const CancelServiceTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "CancelServiceTaskRequest",
-}) as any as S.Schema<CancelServiceTaskRequest>;
+).annotate({ identifier: "CancelServiceTaskRequest" }) as any as S.Schema<CancelServiceTaskRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -366,9 +364,7 @@ export const ProjectTaskPropertiesCommandsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ProjectTaskPropertiesCommandsList>;
 
 /** Key value pairs of client data to attach meta data information to task */
-export type ProjectTaskPropertiesClientDataMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectTaskPropertiesClientDataMap = { [key: string]: string | undefined };
 export const ProjectTaskPropertiesClientDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -395,9 +391,7 @@ export const ProjectTaskProperties = /*@__PURE__*/ S.suspend(() =>
     commands: S.optional(ProjectTaskPropertiesCommandsList),
     clientData: S.optional(ProjectTaskPropertiesClientDataMap),
   }),
-).annotate({
-  identifier: "ProjectTaskProperties",
-}) as any as S.Schema<ProjectTaskProperties>;
+).annotate({ identifier: "ProjectTaskProperties" }) as any as S.Schema<ProjectTaskProperties>;
 
 export interface CancelServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -453,9 +447,7 @@ export const CancelTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "CancelTaskRequest",
-}) as any as S.Schema<CancelTaskRequest>;
+).annotate({ identifier: "CancelTaskRequest" }) as any as S.Schema<CancelTaskRequest>;
 
 export interface CancelTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -480,9 +472,7 @@ export const CancelTaskResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProjectTaskProperties),
   }),
-).annotate({
-  identifier: "CancelTaskResponse",
-}) as any as S.Schema<CancelTaskResponse>;
+).annotate({ identifier: "CancelTaskResponse" }) as any as S.Schema<CancelTaskResponse>;
 
 export interface CheckServiceChildrenNameAvailabilityRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -855,9 +845,7 @@ export const MongoMigrationCollection = /*@__PURE__*/ S.suspend(() =>
     targetCollection: S.optional(S.String),
     migrationProgressDetails: S.optional(MongoMigrationProgressDetails),
   }),
-).annotate({
-  identifier: "MongoMigrationCollection",
-}) as any as S.Schema<MongoMigrationCollection>;
+).annotate({ identifier: "MongoMigrationCollection" }) as any as S.Schema<MongoMigrationCollection>;
 
 /** List of Mongo Collections to be migrated. */
 export type DatabaseMigrationPropertiesCosmosDbMongoCollectionListList =
@@ -1023,9 +1011,7 @@ export const SqlConnectionInformation = /*@__PURE__*/ S.suspend(() =>
     encryptConnection: S.optional(S.Boolean),
     trustServerCertificate: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SqlConnectionInformation",
-}) as any as S.Schema<SqlConnectionInformation>;
+).annotate({ identifier: "SqlConnectionInformation" }) as any as S.Schema<SqlConnectionInformation>;
 
 /** List of tables to copy. */
 export type DatabaseMigrationPropertiesSqlDbInputTableListList = Array<string>;
@@ -1162,9 +1148,7 @@ export const CopyProgressDetails = /*@__PURE__*/ S.suspend(() =>
     copyThroughput: S.optional(S.Number),
     copyDuration: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CopyProgressDetails",
-}) as any as S.Schema<CopyProgressDetails>;
+).annotate({ identifier: "CopyProgressDetails" }) as any as S.Schema<CopyProgressDetails>;
 
 /** Details on progress of ADF copy activities. */
 export type SqlDbMigrationStatusDetailsListOfCopyProgressDetailsList = Array<CopyProgressDetails>;
@@ -1358,9 +1342,7 @@ export const AzureBlobInputIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(AzureBlobInputIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "AzureBlobInputIdentity",
-}) as any as S.Schema<AzureBlobInputIdentity>;
+).annotate({ identifier: "AzureBlobInputIdentity" }) as any as S.Schema<AzureBlobInputIdentity>;
 
 /** Azure Blob Details */
 export interface AzureBlobInput {
@@ -1397,9 +1379,7 @@ export const SourceLocationInput = /*@__PURE__*/ S.suspend(() =>
     fileShare: S.optional(SqlFileShare),
     azureBlob: S.optional(AzureBlobInput),
   }),
-).annotate({
-  identifier: "SourceLocationInput",
-}) as any as S.Schema<SourceLocationInput>;
+).annotate({ identifier: "SourceLocationInput" }) as any as S.Schema<SourceLocationInput>;
 
 /** Target Location details for optional copy of backups */
 export interface TargetLocation {
@@ -1427,9 +1407,7 @@ export const BackupConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     sourceLocation: S.optional(SourceLocationInput),
     targetLocation: S.optional(TargetLocation),
   }),
-).annotate({
-  identifier: "BackupConfigurationInput",
-}) as any as S.Schema<BackupConfigurationInput>;
+).annotate({ identifier: "BackupConfigurationInput" }) as any as S.Schema<BackupConfigurationInput>;
 
 /** Offline configuration */
 export interface OfflineConfiguration {
@@ -1443,9 +1421,7 @@ export const OfflineConfiguration = /*@__PURE__*/ S.suspend(() =>
     offline: S.optional(S.Boolean),
     lastBackupName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OfflineConfiguration",
-}) as any as S.Schema<OfflineConfiguration>;
+).annotate({ identifier: "OfflineConfiguration" }) as any as S.Schema<OfflineConfiguration>;
 
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMiInput {
@@ -1561,9 +1537,7 @@ export const SqlBackupFileInfo = /*@__PURE__*/ S.suspend(() =>
     copyDuration: S.optional(S.Number),
     familySequenceNumber: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SqlBackupFileInfo",
-}) as any as S.Schema<SqlBackupFileInfo>;
+).annotate({ identifier: "SqlBackupFileInfo" }) as any as S.Schema<SqlBackupFileInfo>;
 
 /** List of files in the backup set. */
 export type SqlBackupSetInfoListOfBackupFilesList = Array<SqlBackupFileInfo>;
@@ -1616,9 +1590,7 @@ export const SqlBackupSetInfo = /*@__PURE__*/ S.suspend(() =>
     familyCount: S.optional(S.Number),
     ignoreReasons: S.optional(SqlBackupSetInfoIgnoreReasonsList),
   }),
-).annotate({
-  identifier: "SqlBackupSetInfo",
-}) as any as S.Schema<SqlBackupSetInfo>;
+).annotate({ identifier: "SqlBackupSetInfo" }) as any as S.Schema<SqlBackupSetInfo>;
 
 /** Backup sets that are currently active. */
 export type MigrationStatusDetailsActiveBackupSetsList = Array<SqlBackupSetInfo>;
@@ -1683,9 +1655,7 @@ export const MigrationStatusDetails = /*@__PURE__*/ S.suspend(() =>
     lastRestoredFilename: S.optional(S.String),
     pendingLogBackupsCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MigrationStatusDetails",
-}) as any as S.Schema<MigrationStatusDetails>;
+).annotate({ identifier: "MigrationStatusDetails" }) as any as S.Schema<MigrationStatusDetails>;
 
 /** Authentication type used for accessing Azure Blob Storage. */
 export type AzureBlobAuthType = "AccountKey" | "ManagedIdentity";
@@ -1703,9 +1673,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AzureBlobIdentityUserAssignedIdentitiesMap = {
@@ -1733,9 +1701,7 @@ export const AzureBlobIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(AzureBlobIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "AzureBlobIdentity",
-}) as any as S.Schema<AzureBlobIdentity>;
+).annotate({ identifier: "AzureBlobIdentity" }) as any as S.Schema<AzureBlobIdentity>;
 
 /** Azure Blob Details */
 export interface AzureBlob {
@@ -1789,9 +1755,7 @@ export const BackupConfiguration = /*@__PURE__*/ S.suspend(() =>
     sourceLocation: S.optional(SourceLocation),
     targetLocation: S.optional(TargetLocation),
   }),
-).annotate({
-  identifier: "BackupConfiguration",
-}) as any as S.Schema<BackupConfiguration>;
+).annotate({ identifier: "BackupConfiguration" }) as any as S.Schema<BackupConfiguration>;
 
 /** Database Migration Resource properties for SQL Managed Instance. */
 export interface DatabaseMigrationPropertiesSqlMi {
@@ -2371,9 +2335,7 @@ export const DeleteFileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "DeleteFileRequest",
-}) as any as S.Schema<DeleteFileRequest>;
+).annotate({ identifier: "DeleteFileRequest" }) as any as S.Schema<DeleteFileRequest>;
 
 export interface DeleteFileResponse {}
 export const DeleteFileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2437,9 +2399,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2470,9 +2430,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2506,9 +2464,7 @@ export const DeleteServiceTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceTaskRequest",
-}) as any as S.Schema<DeleteServiceTaskRequest>;
+).annotate({ identifier: "DeleteServiceTaskRequest" }) as any as S.Schema<DeleteServiceTaskRequest>;
 
 export interface DeleteServiceTaskResponse {}
 export const DeleteServiceTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2622,9 +2578,7 @@ export const DeleteTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "DeleteTaskRequest",
-}) as any as S.Schema<DeleteTaskRequest>;
+).annotate({ identifier: "DeleteTaskRequest" }) as any as S.Schema<DeleteTaskRequest>;
 
 export interface DeleteTaskResponse {}
 export const DeleteTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2708,9 +2662,7 @@ export const ProjectFileProperties = /*@__PURE__*/ S.suspend(() =>
     mediaType: S.optional(S.String),
     size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProjectFileProperties",
-}) as any as S.Schema<ProjectFileProperties>;
+).annotate({ identifier: "ProjectFileProperties" }) as any as S.Schema<ProjectFileProperties>;
 
 export interface FilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3157,9 +3109,7 @@ export const GetFileResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProjectFileProperties),
   }),
-).annotate({
-  identifier: "GetFileResponse",
-}) as any as S.Schema<GetFileResponse>;
+).annotate({ identifier: "GetFileResponse" }) as any as S.Schema<GetFileResponse>;
 
 export interface GetMigrationServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3187,9 +3137,7 @@ export const GetMigrationServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetMigrationServiceRequest>;
 
 /** Resource tags. */
-export type GetMigrationServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetMigrationServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3273,9 +3221,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 /** Resource tags. */
 export type GetProjectResponseTagsMap = { [key: string]: string | undefined };
@@ -3394,9 +3340,7 @@ export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
     databasesInfo: S.optional(ProjectPropertiesDatabasesInfoList),
     provisioningState: S.optional(ProjectPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ProjectProperties",
-}) as any as S.Schema<ProjectProperties>;
+).annotate({ identifier: "ProjectProperties" }) as any as S.Schema<ProjectProperties>;
 
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3427,9 +3371,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProjectProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3452,9 +3394,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -3563,9 +3503,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataMigrationServiceProperties),
     sku: S.optional(ServiceSku),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3594,9 +3532,7 @@ export const GetServiceTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "GetServiceTaskRequest",
-}) as any as S.Schema<GetServiceTaskRequest>;
+).annotate({ identifier: "GetServiceTaskRequest" }) as any as S.Schema<GetServiceTaskRequest>;
 
 export interface GetServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3621,9 +3557,7 @@ export const GetServiceTaskResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProjectTaskProperties),
   }),
-).annotate({
-  identifier: "GetServiceTaskResponse",
-}) as any as S.Schema<GetServiceTaskResponse>;
+).annotate({ identifier: "GetServiceTaskResponse" }) as any as S.Schema<GetServiceTaskResponse>;
 
 export interface GetSqlMigrationServiceRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3651,9 +3585,7 @@ export const GetSqlMigrationServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSqlMigrationServiceRequest>;
 
 /** Resource tags. */
-export type GetSqlMigrationServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSqlMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetSqlMigrationServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3759,9 +3691,7 @@ export const GetTaskResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProjectTaskProperties),
   }),
-).annotate({
-  identifier: "GetTaskResponse",
-}) as any as S.Schema<GetTaskResponse>;
+).annotate({ identifier: "GetTaskResponse" }) as any as S.Schema<GetTaskResponse>;
 
 export interface ListFilesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3787,9 +3717,7 @@ export const ListFilesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListFilesRequest",
-}) as any as S.Schema<ListFilesRequest>;
+).annotate({ identifier: "ListFilesRequest" }) as any as S.Schema<ListFilesRequest>;
 
 /** A file resource */
 export interface ProjectFile {
@@ -3834,9 +3762,7 @@ export const ListFilesResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListFilesResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListFilesResponse",
-}) as any as S.Schema<ListFilesResponse>;
+).annotate({ identifier: "ListFilesResponse" }) as any as S.Schema<ListFilesResponse>;
 
 export interface ListMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -3893,9 +3819,7 @@ export const MigrationService = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MigrationServiceProperties),
   }),
-).annotate({
-  identifier: "MigrationService",
-}) as any as S.Schema<MigrationService>;
+).annotate({ identifier: "MigrationService" }) as any as S.Schema<MigrationService>;
 
 export type MigrationServiceListResultValueList = Array<MigrationService>;
 export const MigrationServiceListResultValueList = /*@__PURE__*/ S.Array(
@@ -4035,9 +3959,7 @@ export const DatabaseMigrationBase = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DatabaseMigrationBaseProperties),
   }),
-).annotate({
-  identifier: "DatabaseMigrationBase",
-}) as any as S.Schema<DatabaseMigrationBase>;
+).annotate({ identifier: "DatabaseMigrationBase" }) as any as S.Schema<DatabaseMigrationBase>;
 
 export type DatabaseMigrationBaseListResultValueList = Array<DatabaseMigrationBase>;
 export const DatabaseMigrationBaseListResultValueList = /*@__PURE__*/ S.Array(
@@ -4068,9 +3990,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 export interface OperationsDisplayDefinition {
   provider?: string;
@@ -4092,9 +4012,7 @@ export const OperationsDisplayDefinition = /*@__PURE__*/ S.suspend(() =>
 export type OperationsDefinitionOrigin = "user" | "system";
 export const OperationsDefinitionOrigin = S.String;
 
-export type OperationsDefinitionPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type OperationsDefinitionPropertiesMap = { [key: string]: unknown | undefined };
 export const OperationsDefinitionPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -4116,9 +4034,7 @@ export const OperationsDefinition = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(OperationsDefinitionOrigin),
     properties: S.optional(OperationsDefinitionPropertiesMap),
   }),
-).annotate({
-  identifier: "OperationsDefinition",
-}) as any as S.Schema<OperationsDefinition>;
+).annotate({ identifier: "OperationsDefinition" }) as any as S.Schema<OperationsDefinition>;
 
 export type OperationListResultValueList = Array<OperationsDefinition>;
 export const OperationListResultValueList = /*@__PURE__*/ S.Array(
@@ -4135,9 +4051,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListProjectsRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4160,9 +4074,7 @@ export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListProjectsRequest",
-}) as any as S.Schema<ListProjectsRequest>;
+).annotate({ identifier: "ListProjectsRequest" }) as any as S.Schema<ListProjectsRequest>;
 
 /** Resource tags. */
 export type ProjectTagsMap = { [key: string]: string | undefined };
@@ -4220,9 +4132,7 @@ export const ListProjectsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListProjectsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListProjectsResponse",
-}) as any as S.Schema<ListProjectsResponse>;
+).annotate({ identifier: "ListProjectsResponse" }) as any as S.Schema<ListProjectsResponse>;
 
 export interface ListResourceSkusSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4265,9 +4175,7 @@ export const ResourceSkuCapacity = /*@__PURE__*/ S.suspend(() =>
     default: S.optional(S.Number),
     scaleType: S.optional(ResourceSkuCapacityScaleType),
   }),
-).annotate({
-  identifier: "ResourceSkuCapacity",
-}) as any as S.Schema<ResourceSkuCapacity>;
+).annotate({ identifier: "ResourceSkuCapacity" }) as any as S.Schema<ResourceSkuCapacity>;
 
 /** The set of locations that the SKU is available. */
 export type ResourceSkuLocationsList = Array<string>;
@@ -4296,9 +4204,7 @@ export const ResourceSkuCosts = /*@__PURE__*/ S.suspend(() =>
     quantity: S.optional(S.Number),
     extendedUnit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCosts",
-}) as any as S.Schema<ResourceSkuCosts>;
+).annotate({ identifier: "ResourceSkuCosts" }) as any as S.Schema<ResourceSkuCosts>;
 
 /** Metadata for retrieving price info. */
 export type ResourceSkuCostsList = Array<ResourceSkuCosts>;
@@ -4318,9 +4224,7 @@ export const ResourceSkuCapabilities = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceSkuCapabilities",
-}) as any as S.Schema<ResourceSkuCapabilities>;
+).annotate({ identifier: "ResourceSkuCapabilities" }) as any as S.Schema<ResourceSkuCapabilities>;
 
 /** A name value pair to describe the capability. */
 export type ResourceSkuCapabilitiesList = Array<ResourceSkuCapabilities>;
@@ -4357,9 +4261,7 @@ export const ResourceSkuRestrictions = /*@__PURE__*/ S.suspend(() =>
     values: S.optional(ResourceSkuRestrictionsValuesList),
     reasonCode: S.optional(ResourceSkuRestrictionsReasonCode),
   }),
-).annotate({
-  identifier: "ResourceSkuRestrictions",
-}) as any as S.Schema<ResourceSkuRestrictions>;
+).annotate({ identifier: "ResourceSkuRestrictions" }) as any as S.Schema<ResourceSkuRestrictions>;
 
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuRestrictionsList = Array<ResourceSkuRestrictions>;
@@ -4497,9 +4399,7 @@ export const DataMigrationService = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataMigrationServiceProperties),
     sku: S.optional(ServiceSku),
   }),
-).annotate({
-  identifier: "DataMigrationService",
-}) as any as S.Schema<DataMigrationService>;
+).annotate({ identifier: "DataMigrationService" }) as any as S.Schema<DataMigrationService>;
 
 /** List of services */
 export type ListServiceByResourceGroupResponseValueList = Array<DataMigrationService>;
@@ -4537,9 +4437,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 /** List of services */
 export type ListServicesResponseValueList = Array<DataMigrationService>;
@@ -4558,9 +4456,7 @@ export const ListServicesResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListServicesResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListServicesResponse",
-}) as any as S.Schema<ListServicesResponse>;
+).annotate({ identifier: "ListServicesResponse" }) as any as S.Schema<ListServicesResponse>;
 
 export interface ListServiceSkusRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4583,9 +4479,7 @@ export const ListServiceSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListServiceSkusRequest",
-}) as any as S.Schema<ListServiceSkusRequest>;
+).annotate({ identifier: "ListServiceSkusRequest" }) as any as S.Schema<ListServiceSkusRequest>;
 
 /** SKU name, tier, etc. */
 export interface AvailableServiceSkuSku {
@@ -4605,9 +4499,7 @@ export const AvailableServiceSkuSku = /*@__PURE__*/ S.suspend(() =>
     size: S.optional(S.String),
     tier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableServiceSkuSku",
-}) as any as S.Schema<AvailableServiceSkuSku>;
+).annotate({ identifier: "AvailableServiceSkuSku" }) as any as S.Schema<AvailableServiceSkuSku>;
 
 /** The scalability approach */
 export type AvailableServiceSkuCapacityScaleType = "none" | "manual" | "automatic";
@@ -4650,9 +4542,7 @@ export const AvailableServiceSku = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(AvailableServiceSkuSku),
     capacity: S.optional(AvailableServiceSkuCapacity),
   }),
-).annotate({
-  identifier: "AvailableServiceSku",
-}) as any as S.Schema<AvailableServiceSku>;
+).annotate({ identifier: "AvailableServiceSku" }) as any as S.Schema<AvailableServiceSku>;
 
 /** List of service SKUs */
 export type ListServiceSkusResponseValueList = Array<AvailableServiceSku>;
@@ -4671,9 +4561,7 @@ export const ListServiceSkusResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListServiceSkusResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListServiceSkusResponse",
-}) as any as S.Schema<ListServiceSkusResponse>;
+).annotate({ identifier: "ListServiceSkusResponse" }) as any as S.Schema<ListServiceSkusResponse>;
 
 export interface ListServiceTasksRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4699,9 +4587,7 @@ export const ListServiceTasksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListServiceTasksRequest",
-}) as any as S.Schema<ListServiceTasksRequest>;
+).annotate({ identifier: "ListServiceTasksRequest" }) as any as S.Schema<ListServiceTasksRequest>;
 
 /** A task resource */
 export interface ProjectTask {
@@ -4746,9 +4632,7 @@ export const ListServiceTasksResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListServiceTasksResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListServiceTasksResponse",
-}) as any as S.Schema<ListServiceTasksResponse>;
+).annotate({ identifier: "ListServiceTasksResponse" }) as any as S.Schema<ListServiceTasksResponse>;
 
 export interface ListSqlMigrationServiceAuthKeysRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4787,9 +4671,7 @@ export const AuthenticationKeys = /*@__PURE__*/ S.suspend(() =>
     authKey1: S.optional(S.String),
     authKey2: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthenticationKeys",
-}) as any as S.Schema<AuthenticationKeys>;
+).annotate({ identifier: "AuthenticationKeys" }) as any as S.Schema<AuthenticationKeys>;
 
 export interface ListSqlMigrationServiceByResourceGroupRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4846,9 +4728,7 @@ export const SqlMigrationService = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SqlMigrationServiceProperties),
   }),
-).annotate({
-  identifier: "SqlMigrationService",
-}) as any as S.Schema<SqlMigrationService>;
+).annotate({ identifier: "SqlMigrationService" }) as any as S.Schema<SqlMigrationService>;
 
 export type SqlMigrationListResultValueList = Array<SqlMigrationService>;
 export const SqlMigrationListResultValueList = /*@__PURE__*/ S.Array(
@@ -4865,9 +4745,7 @@ export const SqlMigrationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SqlMigrationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlMigrationListResult",
-}) as any as S.Schema<SqlMigrationListResult>;
+).annotate({ identifier: "SqlMigrationListResult" }) as any as S.Schema<SqlMigrationListResult>;
 
 export interface ListSqlMigrationServiceBySubscriptionRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -4996,9 +4874,7 @@ export const DatabaseMigration = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DatabaseMigrationProperties),
   }),
-).annotate({
-  identifier: "DatabaseMigration",
-}) as any as S.Schema<DatabaseMigration>;
+).annotate({ identifier: "DatabaseMigration" }) as any as S.Schema<DatabaseMigration>;
 
 export type DatabaseMigrationListResultValueList = Array<DatabaseMigration>;
 export const DatabaseMigrationListResultValueList = /*@__PURE__*/ S.Array(
@@ -5045,9 +4921,7 @@ export const ListSqlMigrationServiceMonitoringDataRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ListSqlMigrationServiceMonitoringDataRequest>;
 
 /** Unmatched properties from the message are deserialized in this collection. */
-export type NodeMonitoringDataAdditionalPropertiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type NodeMonitoringDataAdditionalPropertiesMap = { [key: string]: unknown | undefined };
 export const NodeMonitoringDataAdditionalPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5085,9 +4959,7 @@ export const NodeMonitoringData = /*@__PURE__*/ S.suspend(() =>
     sentBytes: S.optional(S.Number),
     receivedBytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NodeMonitoringData",
-}) as any as S.Schema<NodeMonitoringData>;
+).annotate({ identifier: "NodeMonitoringData" }) as any as S.Schema<NodeMonitoringData>;
 
 /** Integration Runtime node monitoring data. */
 export type IntegrationRuntimeMonitoringDataNodesList = Array<NodeMonitoringData>;
@@ -5138,9 +5010,7 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
 /** List of tasks */
 export type ListTasksResponseValueList = Array<ProjectTask>;
@@ -5159,9 +5029,7 @@ export const ListTasksResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListTasksResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListTasksResponse",
-}) as any as S.Schema<ListTasksResponse>;
+).annotate({ identifier: "ListTasksResponse" }) as any as S.Schema<ListTasksResponse>;
 
 export interface ListUsagesRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -5181,9 +5049,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** The name of the quota */
 export interface QuotaName {
@@ -5239,14 +5105,10 @@ export const ListUsagesResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListUsagesResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUsagesResponse",
-}) as any as S.Schema<ListUsagesResponse>;
+).annotate({ identifier: "ListUsagesResponse" }) as any as S.Schema<ListUsagesResponse>;
 
 /** Resource tags. */
-export type MigrationServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MigrationServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const MigrationServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5290,9 +5152,7 @@ export const MigrationServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<MigrationServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type MigrationServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MigrationServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const MigrationServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5328,9 +5188,7 @@ export const MigrationServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<MigrationServicesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ProjectsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ProjectsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5380,9 +5238,7 @@ export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     targetConnectionInfo: S.optional(ProjectPropertiesSourceConnectionInfo),
     databasesInfo: S.optional(ProjectPropertiesInputDatabasesInfoList),
   }),
-).annotate({
-  identifier: "ProjectPropertiesInput",
-}) as any as S.Schema<ProjectPropertiesInput>;
+).annotate({ identifier: "ProjectPropertiesInput" }) as any as S.Schema<ProjectPropertiesInput>;
 
 export interface ProjectsCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -5425,9 +5281,7 @@ export const ProjectsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProjectsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ProjectsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ProjectsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5493,9 +5347,7 @@ export const ReadFileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ReadFileRequest",
-}) as any as S.Schema<ReadFileRequest>;
+).annotate({ identifier: "ReadFileRequest" }) as any as S.Schema<ReadFileRequest>;
 
 export type ReadFileResponseHeadersMap = { [key: string]: string | undefined };
 export const ReadFileResponseHeadersMap = /*@__PURE__*/ S.Record(
@@ -5513,9 +5365,7 @@ export const ReadFileResponse = /*@__PURE__*/ S.suspend(() =>
     uri: S.optional(S.String),
     headers: S.optional(ReadFileResponseHeadersMap),
   }),
-).annotate({
-  identifier: "ReadFileResponse",
-}) as any as S.Schema<ReadFileResponse>;
+).annotate({ identifier: "ReadFileResponse" }) as any as S.Schema<ReadFileResponse>;
 
 export interface ReadFileWriteRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -5544,13 +5394,9 @@ export const ReadFileWriteRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "ReadFileWriteRequest",
-}) as any as S.Schema<ReadFileWriteRequest>;
+).annotate({ identifier: "ReadFileWriteRequest" }) as any as S.Schema<ReadFileWriteRequest>;
 
-export type ReadFileWriteResponseHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type ReadFileWriteResponseHeadersMap = { [key: string]: string | undefined };
 export const ReadFileWriteResponseHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5566,9 +5412,7 @@ export const ReadFileWriteResponse = /*@__PURE__*/ S.suspend(() =>
     uri: S.optional(S.String),
     headers: S.optional(ReadFileWriteResponseHeadersMap),
   }),
-).annotate({
-  identifier: "ReadFileWriteResponse",
-}) as any as S.Schema<ReadFileWriteResponse>;
+).annotate({ identifier: "ReadFileWriteResponse" }) as any as S.Schema<ReadFileWriteResponse>;
 
 export interface RegenerateSqlMigrationServiceAuthKeysRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -5659,9 +5503,7 @@ export const RetryDatabaseMigrationsSqlDbResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<RetryDatabaseMigrationsSqlDbResponse>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5736,9 +5578,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5826,9 +5666,7 @@ export type ProjectTaskPropertiesInputTaskType =
 export const ProjectTaskPropertiesInputTaskType = S.String;
 
 /** Key value pairs of client data to attach meta data information to task */
-export type ProjectTaskPropertiesInputClientDataMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectTaskPropertiesInputClientDataMap = { [key: string]: string | undefined };
 export const ProjectTaskPropertiesInputClientDataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6016,9 +5854,7 @@ export const StartServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "StartServiceRequest",
-}) as any as S.Schema<StartServiceRequest>;
+).annotate({ identifier: "StartServiceRequest" }) as any as S.Schema<StartServiceRequest>;
 
 export interface StartServiceResponse {}
 export const StartServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6046,9 +5882,7 @@ export const StopServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "StopServiceRequest",
-}) as any as S.Schema<StopServiceRequest>;
+).annotate({ identifier: "StopServiceRequest" }) as any as S.Schema<StopServiceRequest>;
 
 export interface StopServiceResponse {}
 export const StopServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6094,9 +5928,7 @@ export const TasksCommandRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "TasksCommandRequest",
-}) as any as S.Schema<TasksCommandRequest>;
+).annotate({ identifier: "TasksCommandRequest" }) as any as S.Schema<TasksCommandRequest>;
 
 /** Command type. */
 export type TasksCommandResponseCommandType =
@@ -6156,9 +5988,7 @@ export const TasksCommandResponse = /*@__PURE__*/ S.suspend(() =>
     errors: S.optional(TasksCommandResponseErrorsList),
     state: S.optional(TasksCommandResponseState),
   }),
-).annotate({
-  identifier: "TasksCommandResponse",
-}) as any as S.Schema<TasksCommandResponse>;
+).annotate({ identifier: "TasksCommandResponse" }) as any as S.Schema<TasksCommandResponse>;
 
 export interface TasksCreateOrUpdateRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -6257,9 +6087,7 @@ export const UpdateFileRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "UpdateFileRequest",
-}) as any as S.Schema<UpdateFileRequest>;
+).annotate({ identifier: "UpdateFileRequest" }) as any as S.Schema<UpdateFileRequest>;
 
 export interface UpdateFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6284,13 +6112,9 @@ export const UpdateFileResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProjectFileProperties),
   }),
-).annotate({
-  identifier: "UpdateFileResponse",
-}) as any as S.Schema<UpdateFileResponse>;
+).annotate({ identifier: "UpdateFileResponse" }) as any as S.Schema<UpdateFileResponse>;
 
-export type UpdateMigrationServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMigrationServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMigrationServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6324,9 +6148,7 @@ export const UpdateMigrationServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMigrationServiceRequest>;
 
 /** Resource tags. */
-export type UpdateMigrationServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMigrationServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6404,14 +6226,10 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 /** Resource tags. */
-export type UpdateProjectResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProjectResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6446,9 +6264,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProjectProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 /** Resource tags. */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -6496,14 +6312,10 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 /** Resource tags. */
-export type UpdateServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6544,9 +6356,7 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DataMigrationServiceProperties),
     sku: S.optional(ServiceSku),
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 export interface UpdateServiceTaskRequest {
   /** Subscription ID that identifies an Azure subscription. */
@@ -6578,9 +6388,7 @@ export const UpdateServiceTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceTaskRequest",
-}) as any as S.Schema<UpdateServiceTaskRequest>;
+).annotate({ identifier: "UpdateServiceTaskRequest" }) as any as S.Schema<UpdateServiceTaskRequest>;
 
 export interface UpdateServiceTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6609,9 +6417,7 @@ export const UpdateServiceTaskResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateServiceTaskResponse",
 }) as any as S.Schema<UpdateServiceTaskResponse>;
 
-export type UpdateSqlMigrationServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSqlMigrationServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSqlMigrationServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6645,9 +6451,7 @@ export const UpdateSqlMigrationServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSqlMigrationServiceRequest>;
 
 /** Resource tags. */
-export type UpdateSqlMigrationServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSqlMigrationServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSqlMigrationServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6715,9 +6519,7 @@ export const UpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-30",
     }),
   ),
-).annotate({
-  identifier: "UpdateTaskRequest",
-}) as any as S.Schema<UpdateTaskRequest>;
+).annotate({ identifier: "UpdateTaskRequest" }) as any as S.Schema<UpdateTaskRequest>;
 
 export interface UpdateTaskResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6742,9 +6544,7 @@ export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ProjectTaskProperties),
   }),
-).annotate({
-  identifier: "UpdateTaskResponse",
-}) as any as S.Schema<UpdateTaskResponse>;
+).annotate({ identifier: "UpdateTaskResponse" }) as any as S.Schema<UpdateTaskResponse>;
 
 export type CancelDatabaseMigrationsSqlDbError = AzureOpError;
 /** Stop on going migration for the database. */

@@ -28,9 +28,7 @@ export const AttachNewDataDiskOptions = /*@__PURE__*/ S.suspend(() =>
     diskName: S.optional(S.String),
     diskType: S.optional(StorageType),
   }),
-).annotate({
-  identifier: "AttachNewDataDiskOptions",
-}) as any as S.Schema<AttachNewDataDiskOptions>;
+).annotate({ identifier: "AttachNewDataDiskOptions" }) as any as S.Schema<AttachNewDataDiskOptions>;
 
 /** Caching option for a data disk (i.e. None, ReadOnly, ReadWrite). */
 export type HostCachingOptions = "None" | "ReadOnly" | "ReadWrite";
@@ -220,9 +218,7 @@ export const ArtifactSourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ArtifactSourcePropertiesInput>;
 
 /** Resource tags. */
-export type ArtifactSourcesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ArtifactSourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ArtifactSourcesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -338,14 +334,10 @@ export const ArtifactSourceProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactSourceProperties",
-}) as any as S.Schema<ArtifactSourceProperties>;
+).annotate({ identifier: "ArtifactSourceProperties" }) as any as S.Schema<ArtifactSourceProperties>;
 
 /** Resource tags. */
-export type ArtifactSourcesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ArtifactSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ArtifactSourcesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -411,9 +403,7 @@ export const AttachDiskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "AttachDiskRequest",
-}) as any as S.Schema<AttachDiskRequest>;
+).annotate({ identifier: "AttachDiskRequest" }) as any as S.Schema<AttachDiskRequest>;
 
 export interface AttachDiskResponse {}
 export const AttachDiskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -441,9 +431,7 @@ export const ClaimLabAnyVmRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ClaimLabAnyVmRequest",
-}) as any as S.Schema<ClaimLabAnyVmRequest>;
+).annotate({ identifier: "ClaimLabAnyVmRequest" }) as any as S.Schema<ClaimLabAnyVmRequest>;
 
 export interface ClaimLabAnyVmResponse {}
 export const ClaimLabAnyVmResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -558,9 +546,7 @@ export const CostThresholdProperties = /*@__PURE__*/ S.suspend(() =>
     sendNotificationWhenExceeded: S.optional(CostThresholdStatus),
     notificationSent: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CostThresholdProperties",
-}) as any as S.Schema<CostThresholdProperties>;
+).annotate({ identifier: "CostThresholdProperties" }) as any as S.Schema<CostThresholdProperties>;
 
 /** Cost thresholds. */
 export type TargetCostPropertiesCostThresholdsList = Array<CostThresholdProperties>;
@@ -596,9 +582,7 @@ export const TargetCostProperties = /*@__PURE__*/ S.suspend(() =>
     cycleEndDateTime: S.optional(S.String),
     cycleType: S.optional(ReportingCycleType),
   }),
-).annotate({
-  identifier: "TargetCostProperties",
-}) as any as S.Schema<TargetCostProperties>;
+).annotate({ identifier: "TargetCostProperties" }) as any as S.Schema<TargetCostProperties>;
 
 /** Properties of a cost item. */
 export interface LabCostPropertiesInput {
@@ -621,14 +605,10 @@ export const LabCostPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     endDateTime: S.optional(S.String),
     createdDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabCostPropertiesInput",
-}) as any as S.Schema<LabCostPropertiesInput>;
+).annotate({ identifier: "LabCostPropertiesInput" }) as any as S.Schema<LabCostPropertiesInput>;
 
 /** Resource tags. */
-export type CostsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CostsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CostsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -680,9 +660,7 @@ export const LabCostSummaryProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     estimatedLabCost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LabCostSummaryProperties",
-}) as any as S.Schema<LabCostSummaryProperties>;
+).annotate({ identifier: "LabCostSummaryProperties" }) as any as S.Schema<LabCostSummaryProperties>;
 
 /** The type of the cost. */
 export type CostType = "Unavailable" | "Reported" | "Projected";
@@ -703,9 +681,7 @@ export const LabCostDetailsProperties = /*@__PURE__*/ S.suspend(() =>
     cost: S.optional(S.Number),
     costType: S.optional(CostType),
   }),
-).annotate({
-  identifier: "LabCostDetailsProperties",
-}) as any as S.Schema<LabCostDetailsProperties>;
+).annotate({ identifier: "LabCostDetailsProperties" }) as any as S.Schema<LabCostDetailsProperties>;
 
 /** The lab cost details component of the cost data. */
 export type LabCostPropertiesLabCostDetailsList = Array<LabCostDetailsProperties>;
@@ -792,14 +768,10 @@ export const LabCostProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabCostProperties",
-}) as any as S.Schema<LabCostProperties>;
+).annotate({ identifier: "LabCostProperties" }) as any as S.Schema<LabCostProperties>;
 
 /** Resource tags. */
-export type CostsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CostsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CostsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -844,9 +816,7 @@ export const BulkCreationParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     instanceCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BulkCreationParameters",
-}) as any as S.Schema<BulkCreationParameters>;
+).annotate({ identifier: "BulkCreationParameters" }) as any as S.Schema<BulkCreationParameters>;
 
 /** The artifacts to be installed on the virtual machine. */
 export type LabVirtualMachineCreationParameterPropertiesInputArtifactsList =
@@ -876,9 +846,7 @@ export const GalleryImageReference = /*@__PURE__*/ S.suspend(() =>
     osType: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GalleryImageReference",
-}) as any as S.Schema<GalleryImageReference>;
+).annotate({ identifier: "GalleryImageReference" }) as any as S.Schema<GalleryImageReference>;
 
 /** The transport protocol for the endpoint. */
 export type TransportProtocol = "Tcp" | "Udp";
@@ -972,9 +940,7 @@ export const DataDiskProperties = /*@__PURE__*/ S.suspend(() =>
     existingLabDiskId: S.optional(S.String),
     hostCaching: S.optional(HostCachingOptions),
   }),
-).annotate({
-  identifier: "DataDiskProperties",
-}) as any as S.Schema<DataDiskProperties>;
+).annotate({ identifier: "DataDiskProperties" }) as any as S.Schema<DataDiskProperties>;
 
 /** New or existing data disks to attach to the virtual machine after creation */
 export type LabVirtualMachineCreationParameterPropertiesInputDataDiskParametersList =
@@ -1055,9 +1021,7 @@ export const NotificationSettings = /*@__PURE__*/ S.suspend(() =>
     emailRecipient: S.optional(S.String),
     notificationLocale: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationSettings",
-}) as any as S.Schema<NotificationSettings>;
+).annotate({ identifier: "NotificationSettings" }) as any as S.Schema<NotificationSettings>;
 
 /** Properties for schedule creation. */
 export interface ScheduleCreationParameterProperties {
@@ -1094,9 +1058,7 @@ export const ScheduleCreationParameterProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ScheduleCreationParameterProperties>;
 
 /** The tags of the resource. */
-export type ScheduleCreationParameterInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ScheduleCreationParameterInputTagsMap = { [key: string]: string | undefined };
 export const ScheduleCreationParameterInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1216,9 +1178,7 @@ export const LabVirtualMachineCreationParameterPropertiesInput = /*@__PURE__*/ S
 }) as any as S.Schema<LabVirtualMachineCreationParameterPropertiesInput>;
 
 /** The tags of the resource. */
-export type CreateLabEnvironmentRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateLabEnvironmentRequestTagsMap = { [key: string]: string | undefined };
 export const CreateLabEnvironmentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1347,9 +1307,7 @@ export const DataDiskStorageTypeInfo = /*@__PURE__*/ S.suspend(() =>
     lun: S.optional(S.String),
     storageType: S.optional(StorageType),
   }),
-).annotate({
-  identifier: "DataDiskStorageTypeInfo",
-}) as any as S.Schema<DataDiskStorageTypeInfo>;
+).annotate({ identifier: "DataDiskStorageTypeInfo" }) as any as S.Schema<DataDiskStorageTypeInfo>;
 
 /** Storage information about the data disks present in the custom image */
 export type CustomImagePropertiesInputDataDiskStorageInfoList = Array<DataDiskStorageTypeInfo>;
@@ -1414,9 +1372,7 @@ export const CustomImagePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CustomImagePropertiesInput>;
 
 /** Resource tags. */
-export type CustomImagesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CustomImagesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CustomImagesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1507,14 +1463,10 @@ export const CustomImageProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomImageProperties",
-}) as any as S.Schema<CustomImageProperties>;
+).annotate({ identifier: "CustomImageProperties" }) as any as S.Schema<CustomImageProperties>;
 
 /** Resource tags. */
-export type CustomImagesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CustomImagesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CustomImagesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1607,9 +1559,7 @@ export const DeleteCustomImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteCustomImageRequest",
-}) as any as S.Schema<DeleteCustomImageRequest>;
+).annotate({ identifier: "DeleteCustomImageRequest" }) as any as S.Schema<DeleteCustomImageRequest>;
 
 export interface DeleteCustomImageResponse {}
 export const DeleteCustomImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1643,9 +1593,7 @@ export const DeleteDiskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteDiskRequest",
-}) as any as S.Schema<DeleteDiskRequest>;
+).annotate({ identifier: "DeleteDiskRequest" }) as any as S.Schema<DeleteDiskRequest>;
 
 export interface DeleteDiskResponse {}
 export const DeleteDiskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1679,9 +1627,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1712,9 +1658,7 @@ export const DeleteFormulasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteFormulasRequest",
-}) as any as S.Schema<DeleteFormulasRequest>;
+).annotate({ identifier: "DeleteFormulasRequest" }) as any as S.Schema<DeleteFormulasRequest>;
 
 export interface DeleteFormulasResponse {}
 export const DeleteFormulasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1772,9 +1716,7 @@ export const DeleteLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteLabRequest",
-}) as any as S.Schema<DeleteLabRequest>;
+).annotate({ identifier: "DeleteLabRequest" }) as any as S.Schema<DeleteLabRequest>;
 
 export interface DeleteLabResponse {}
 export const DeleteLabResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1843,9 +1785,7 @@ export const DeletePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeletePolicyRequest",
-}) as any as S.Schema<DeletePolicyRequest>;
+).annotate({ identifier: "DeletePolicyRequest" }) as any as S.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {}
 export const DeletePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1876,9 +1816,7 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteScheduleRequest",
-}) as any as S.Schema<DeleteScheduleRequest>;
+).annotate({ identifier: "DeleteScheduleRequest" }) as any as S.Schema<DeleteScheduleRequest>;
 
 export interface DeleteScheduleResponse {}
 export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1912,9 +1850,7 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteSecretRequest",
-}) as any as S.Schema<DeleteSecretRequest>;
+).annotate({ identifier: "DeleteSecretRequest" }) as any as S.Schema<DeleteSecretRequest>;
 
 export interface DeleteSecretResponse {}
 export const DeleteSecretResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2055,9 +1991,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2198,9 +2132,7 @@ export const DetachDiskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "DetachDiskRequest",
-}) as any as S.Schema<DetachDiskRequest>;
+).annotate({ identifier: "DetachDiskRequest" }) as any as S.Schema<DetachDiskRequest>;
 
 export interface DetachDiskResponse {}
 export const DetachDiskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2275,14 +2207,10 @@ export const DiskPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     hostCaching: S.optional(S.String),
     managedDiskId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskPropertiesInput",
-}) as any as S.Schema<DiskPropertiesInput>;
+).annotate({ identifier: "DiskPropertiesInput" }) as any as S.Schema<DiskPropertiesInput>;
 
 /** Resource tags. */
-export type DisksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DisksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DisksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2370,9 +2298,7 @@ export const DiskProperties = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "DiskProperties" }) as any as S.Schema<DiskProperties>;
 
 /** Resource tags. */
-export type DisksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DisksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DisksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2463,9 +2389,7 @@ export const EnvironmentPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnvironmentPropertiesInput>;
 
 /** Resource tags. */
-export type EnvironmentsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnvironmentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EnvironmentsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2535,14 +2459,10 @@ export const EnvironmentProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentProperties",
-}) as any as S.Schema<EnvironmentProperties>;
+).annotate({ identifier: "EnvironmentProperties" }) as any as S.Schema<EnvironmentProperties>;
 
 /** Resource tags. */
-export type EnvironmentsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnvironmentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EnvironmentsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2632,9 +2552,7 @@ export const ExecuteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ExecuteScheduleRequest",
-}) as any as S.Schema<ExecuteScheduleRequest>;
+).annotate({ identifier: "ExecuteScheduleRequest" }) as any as S.Schema<ExecuteScheduleRequest>;
 
 export interface ExecuteScheduleResponse {}
 export const ExecuteScheduleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2757,9 +2675,7 @@ export const ExportLabResourceUsageResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<ExportLabResourceUsageResponse>;
 
 /** The tags of the resource. */
-export type LabVirtualMachineCreationParameterInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabVirtualMachineCreationParameterInputTagsMap = { [key: string]: string | undefined };
 export const LabVirtualMachineCreationParameterInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2796,9 +2712,7 @@ export const FormulaPropertiesFromVm = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     labVmId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FormulaPropertiesFromVm",
-}) as any as S.Schema<FormulaPropertiesFromVm>;
+).annotate({ identifier: "FormulaPropertiesFromVm" }) as any as S.Schema<FormulaPropertiesFromVm>;
 
 /** Properties of a formula. */
 export interface FormulaPropertiesInput {
@@ -2818,14 +2732,10 @@ export const FormulaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     formulaContent: S.optional(LabVirtualMachineCreationParameterInput),
     vm: S.optional(FormulaPropertiesFromVm),
   }),
-).annotate({
-  identifier: "FormulaPropertiesInput",
-}) as any as S.Schema<FormulaPropertiesInput>;
+).annotate({ identifier: "FormulaPropertiesInput" }) as any as S.Schema<FormulaPropertiesInput>;
 
 /** Resource tags. */
-export type FormulasCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FormulasCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FormulasCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2884,9 +2794,7 @@ export const LabVirtualMachineCreationParameterPropertiesDataDiskParametersList 
   ) as any as S.Schema<LabVirtualMachineCreationParameterPropertiesDataDiskParametersList>;
 
 /** The tags of the resource. */
-export type ScheduleCreationParameterTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ScheduleCreationParameterTagsMap = { [key: string]: string | undefined };
 export const ScheduleCreationParameterTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3009,9 +2917,7 @@ export const LabVirtualMachineCreationParameterProperties = /*@__PURE__*/ S.susp
 }) as any as S.Schema<LabVirtualMachineCreationParameterProperties>;
 
 /** The tags of the resource. */
-export type LabVirtualMachineCreationParameterTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabVirtualMachineCreationParameterTagsMap = { [key: string]: string | undefined };
 export const LabVirtualMachineCreationParameterTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3069,14 +2975,10 @@ export const FormulaProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FormulaProperties",
-}) as any as S.Schema<FormulaProperties>;
+).annotate({ identifier: "FormulaProperties" }) as any as S.Schema<FormulaProperties>;
 
 /** Resource tags. */
-export type FormulasCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FormulasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FormulasCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3177,9 +3079,7 @@ export const ArmTemplateInfoTemplateMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<ArmTemplateInfoTemplateMap>;
 
 /** The parameters of the ARM template. */
-export type ArmTemplateInfoParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ArmTemplateInfoParametersMap = { [key: string]: unknown | undefined };
 export const ArmTemplateInfoParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3197,9 +3097,7 @@ export const ArmTemplateInfo = /*@__PURE__*/ S.suspend(() =>
     template: S.optional(ArmTemplateInfoTemplateMap),
     parameters: S.optional(ArmTemplateInfoParametersMap),
   }),
-).annotate({
-  identifier: "ArmTemplateInfo",
-}) as any as S.Schema<ArmTemplateInfo>;
+).annotate({ identifier: "ArmTemplateInfo" }) as any as S.Schema<ArmTemplateInfo>;
 
 export interface GetArmTemplateRequest {
   /** The ID of the target subscription. */
@@ -3231,23 +3129,17 @@ export const GetArmTemplateRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetArmTemplateRequest",
-}) as any as S.Schema<GetArmTemplateRequest>;
+).annotate({ identifier: "GetArmTemplateRequest" }) as any as S.Schema<GetArmTemplateRequest>;
 
 /** The contents of the ARM template. */
-export type ArmTemplatePropertiesContentsMap = {
-  [key: string]: unknown | undefined;
-};
+export type ArmTemplatePropertiesContentsMap = { [key: string]: unknown | undefined };
 export const ArmTemplatePropertiesContentsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<ArmTemplatePropertiesContentsMap>;
 
 /** Contents of the file. */
-export type ParametersValueFileInfoParametersValueInfoMap = {
-  [key: string]: unknown | undefined;
-};
+export type ParametersValueFileInfoParametersValueInfoMap = { [key: string]: unknown | undefined };
 export const ParametersValueFileInfoParametersValueInfoMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3265,9 +3157,7 @@ export const ParametersValueFileInfo = /*@__PURE__*/ S.suspend(() =>
     fileName: S.optional(S.String),
     parametersValueInfo: S.optional(ParametersValueFileInfoParametersValueInfoMap),
   }),
-).annotate({
-  identifier: "ParametersValueFileInfo",
-}) as any as S.Schema<ParametersValueFileInfo>;
+).annotate({ identifier: "ParametersValueFileInfo" }) as any as S.Schema<ParametersValueFileInfo>;
 
 /** File name and parameter values information from all azuredeploy.*.parameters.json for the ARM template. */
 export type ArmTemplatePropertiesParametersValueFilesInfoList = Array<ParametersValueFileInfo>;
@@ -3305,14 +3195,10 @@ export const ArmTemplateProperties = /*@__PURE__*/ S.suspend(() =>
     parametersValueFilesInfo: S.optional(ArmTemplatePropertiesParametersValueFilesInfoList),
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ArmTemplateProperties",
-}) as any as S.Schema<ArmTemplateProperties>;
+).annotate({ identifier: "ArmTemplateProperties" }) as any as S.Schema<ArmTemplateProperties>;
 
 /** Resource tags. */
-export type GetArmTemplateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetArmTemplateResponseTagsMap = { [key: string]: string | undefined };
 export const GetArmTemplateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3344,9 +3230,7 @@ export const GetArmTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetArmTemplateResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetArmTemplateResponse",
-}) as any as S.Schema<GetArmTemplateResponse>;
+).annotate({ identifier: "GetArmTemplateResponse" }) as any as S.Schema<GetArmTemplateResponse>;
 
 export interface GetArtifactRequest {
   /** The ID of the target subscription. */
@@ -3378,14 +3262,10 @@ export const GetArtifactRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetArtifactRequest",
-}) as any as S.Schema<GetArtifactRequest>;
+).annotate({ identifier: "GetArtifactRequest" }) as any as S.Schema<GetArtifactRequest>;
 
 /** The artifact's parameters. */
-export type ArtifactPropertiesParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ArtifactPropertiesParametersMap = { [key: string]: unknown | undefined };
 export const ArtifactPropertiesParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3421,9 +3301,7 @@ export const ArtifactProperties = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(ArtifactPropertiesParametersMap),
     createdDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactProperties",
-}) as any as S.Schema<ArtifactProperties>;
+).annotate({ identifier: "ArtifactProperties" }) as any as S.Schema<ArtifactProperties>;
 
 /** Resource tags. */
 export type GetArtifactResponseTagsMap = { [key: string]: string | undefined };
@@ -3458,9 +3336,7 @@ export const GetArtifactResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetArtifactResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetArtifactResponse",
-}) as any as S.Schema<GetArtifactResponse>;
+).annotate({ identifier: "GetArtifactResponse" }) as any as S.Schema<GetArtifactResponse>;
 
 export interface GetArtifactSourceRequest {
   /** The ID of the target subscription. */
@@ -3489,14 +3365,10 @@ export const GetArtifactSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetArtifactSourceRequest",
-}) as any as S.Schema<GetArtifactSourceRequest>;
+).annotate({ identifier: "GetArtifactSourceRequest" }) as any as S.Schema<GetArtifactSourceRequest>;
 
 /** Resource tags. */
-export type GetArtifactSourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetArtifactSourceResponseTagsMap = { [key: string]: string | undefined };
 export const GetArtifactSourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3594,9 +3466,7 @@ export const GetCostResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetCostResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetCostResponse",
-}) as any as S.Schema<GetCostResponse>;
+).annotate({ identifier: "GetCostResponse" }) as any as S.Schema<GetCostResponse>;
 
 export interface GetCustomImageRequest {
   /** The ID of the target subscription. */
@@ -3625,14 +3495,10 @@ export const GetCustomImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetCustomImageRequest",
-}) as any as S.Schema<GetCustomImageRequest>;
+).annotate({ identifier: "GetCustomImageRequest" }) as any as S.Schema<GetCustomImageRequest>;
 
 /** Resource tags. */
-export type GetCustomImageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCustomImageResponseTagsMap = { [key: string]: string | undefined };
 export const GetCustomImageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3664,9 +3530,7 @@ export const GetCustomImageResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetCustomImageResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetCustomImageResponse",
-}) as any as S.Schema<GetCustomImageResponse>;
+).annotate({ identifier: "GetCustomImageResponse" }) as any as S.Schema<GetCustomImageResponse>;
 
 export interface GetDiskRequest {
   /** The ID of the target subscription. */
@@ -3733,9 +3597,7 @@ export const GetDiskResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetDiskResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDiskResponse",
-}) as any as S.Schema<GetDiskResponse>;
+).annotate({ identifier: "GetDiskResponse" }) as any as S.Schema<GetDiskResponse>;
 
 export interface GetEnvironmentRequest {
   /** The ID of the target subscription. */
@@ -3767,14 +3629,10 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 /** Resource tags. */
-export type GetEnvironmentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export const GetEnvironmentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3806,9 +3664,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetEnvironmentResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 
 export interface GetFormulasRequest {
   /** The ID of the target subscription. */
@@ -3837,9 +3693,7 @@ export const GetFormulasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetFormulasRequest",
-}) as any as S.Schema<GetFormulasRequest>;
+).annotate({ identifier: "GetFormulasRequest" }) as any as S.Schema<GetFormulasRequest>;
 
 /** Resource tags. */
 export type GetFormulasResponseTagsMap = { [key: string]: string | undefined };
@@ -3874,9 +3728,7 @@ export const GetFormulasResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetFormulasResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetFormulasResponse",
-}) as any as S.Schema<GetFormulasResponse>;
+).annotate({ identifier: "GetFormulasResponse" }) as any as S.Schema<GetFormulasResponse>;
 
 export interface GetGlobalScheduleRequest {
   /** The ID of the target subscription. */
@@ -3902,9 +3754,7 @@ export const GetGlobalScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetGlobalScheduleRequest",
-}) as any as S.Schema<GetGlobalScheduleRequest>;
+).annotate({ identifier: "GetGlobalScheduleRequest" }) as any as S.Schema<GetGlobalScheduleRequest>;
 
 /** The status of the schedule (i.e. Enabled, Disabled) */
 export type SchedulePropertiesStatus = "Enabled" | "Disabled";
@@ -3949,14 +3799,10 @@ export const ScheduleProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleProperties",
-}) as any as S.Schema<ScheduleProperties>;
+).annotate({ identifier: "ScheduleProperties" }) as any as S.Schema<ScheduleProperties>;
 
 /** Resource tags. */
-export type GetGlobalScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetGlobalScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const GetGlobalScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4085,14 +3931,10 @@ export const LabSupportProperties = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(EnableStatus),
     markdown: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabSupportProperties",
-}) as any as S.Schema<LabSupportProperties>;
+).annotate({ identifier: "LabSupportProperties" }) as any as S.Schema<LabSupportProperties>;
 
 /** Extended properties of the lab used for experimental features */
-export type LabPropertiesExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type LabPropertiesExtendedPropertiesMap = { [key: string]: string | undefined };
 export const LabPropertiesExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4292,9 +4134,7 @@ export const NotificationChannelProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NotificationChannelProperties>;
 
 /** Resource tags. */
-export type GetNotificationChannelResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNotificationChannelResponseTagsMap = { [key: string]: string | undefined };
 export const GetNotificationChannelResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4351,9 +4191,7 @@ export const GetOperationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetOperationRequest",
-}) as any as S.Schema<GetOperationRequest>;
+).annotate({ identifier: "GetOperationRequest" }) as any as S.Schema<GetOperationRequest>;
 
 /** The status code for the operation. */
 export type HttpStatusCode =
@@ -4435,9 +4273,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(HttpStatusCode),
     error: S.optional(OperationError),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 export interface GetPolicyRequest {
   /** The ID of the target subscription. */
@@ -4469,9 +4305,7 @@ export const GetPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetPolicyRequest",
-}) as any as S.Schema<GetPolicyRequest>;
+).annotate({ identifier: "GetPolicyRequest" }) as any as S.Schema<GetPolicyRequest>;
 
 /** The status of the policy. */
 export type PolicyStatus = "Enabled" | "Disabled";
@@ -4528,9 +4362,7 @@ export const PolicyProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyProperties",
-}) as any as S.Schema<PolicyProperties>;
+).annotate({ identifier: "PolicyProperties" }) as any as S.Schema<PolicyProperties>;
 
 /** The tags of the resource. */
 export type GetPolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -4565,9 +4397,7 @@ export const GetPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetPolicyResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetPolicyResponse",
-}) as any as S.Schema<GetPolicyResponse>;
+).annotate({ identifier: "GetPolicyResponse" }) as any as S.Schema<GetPolicyResponse>;
 
 export interface GetScheduleRequest {
   /** The ID of the target subscription. */
@@ -4596,9 +4426,7 @@ export const GetScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetScheduleRequest",
-}) as any as S.Schema<GetScheduleRequest>;
+).annotate({ identifier: "GetScheduleRequest" }) as any as S.Schema<GetScheduleRequest>;
 
 /** Resource tags. */
 export type GetScheduleResponseTagsMap = { [key: string]: string | undefined };
@@ -4633,9 +4461,7 @@ export const GetScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetScheduleResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetScheduleResponse",
-}) as any as S.Schema<GetScheduleResponse>;
+).annotate({ identifier: "GetScheduleResponse" }) as any as S.Schema<GetScheduleResponse>;
 
 export interface GetSecretRequest {
   /** The ID of the target subscription. */
@@ -4667,9 +4493,7 @@ export const GetSecretRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetSecretRequest",
-}) as any as S.Schema<GetSecretRequest>;
+).annotate({ identifier: "GetSecretRequest" }) as any as S.Schema<GetSecretRequest>;
 
 /** Properties of a secret. */
 export interface SecretProperties {
@@ -4686,9 +4510,7 @@ export const SecretProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretProperties",
-}) as any as S.Schema<SecretProperties>;
+).annotate({ identifier: "SecretProperties" }) as any as S.Schema<SecretProperties>;
 
 /** Resource tags. */
 export type GetSecretResponseTagsMap = { [key: string]: string | undefined };
@@ -4723,9 +4545,7 @@ export const GetSecretResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetSecretResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSecretResponse",
-}) as any as S.Schema<GetSecretResponse>;
+).annotate({ identifier: "GetSecretResponse" }) as any as S.Schema<GetSecretResponse>;
 
 export interface GetServiceFabricRequest {
   /** The ID of the target subscription. */
@@ -4757,9 +4577,7 @@ export const GetServiceFabricRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetServiceFabricRequest",
-}) as any as S.Schema<GetServiceFabricRequest>;
+).annotate({ identifier: "GetServiceFabricRequest" }) as any as S.Schema<GetServiceFabricRequest>;
 
 /** The tags of the resource. */
 export type ApplicableScheduleTagsMap = { [key: string]: string | undefined };
@@ -4847,9 +4665,7 @@ export const ApplicableSchedule = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ApplicableScheduleTagsMap),
     properties: ApplicableScheduleProperties,
   }),
-).annotate({
-  identifier: "ApplicableSchedule",
-}) as any as S.Schema<ApplicableSchedule>;
+).annotate({ identifier: "ApplicableSchedule" }) as any as S.Schema<ApplicableSchedule>;
 
 /** Properties of a service fabric. */
 export interface ServiceFabricProperties {
@@ -4872,14 +4688,10 @@ export const ServiceFabricProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceFabricProperties",
-}) as any as S.Schema<ServiceFabricProperties>;
+).annotate({ identifier: "ServiceFabricProperties" }) as any as S.Schema<ServiceFabricProperties>;
 
 /** Resource tags. */
-export type GetServiceFabricResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceFabricResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceFabricResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4911,9 +4723,7 @@ export const GetServiceFabricResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetServiceFabricResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetServiceFabricResponse",
-}) as any as S.Schema<GetServiceFabricResponse>;
+).annotate({ identifier: "GetServiceFabricResponse" }) as any as S.Schema<GetServiceFabricResponse>;
 
 export interface GetServiceFabricScheduleRequest {
   /** The ID of the target subscription. */
@@ -4953,9 +4763,7 @@ export const GetServiceFabricScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetServiceFabricScheduleRequest>;
 
 /** Resource tags. */
-export type GetServiceFabricScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceFabricScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceFabricScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5015,14 +4823,10 @@ export const GetServiceRunnerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRunnerRequest",
-}) as any as S.Schema<GetServiceRunnerRequest>;
+).annotate({ identifier: "GetServiceRunnerRequest" }) as any as S.Schema<GetServiceRunnerRequest>;
 
 /** Resource tags. */
-export type GetServiceRunnerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetServiceRunnerResponseTagsMap = { [key: string]: string | undefined };
 export const GetServiceRunnerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5036,6 +4840,31 @@ export type ManagedIdentityType =
   | "SystemAssigned,UserAssigned";
 export const ManagedIdentityType = S.String;
 
+/** A user-assigned identity attached to the resource. */
+export interface UserAssignedIdentityValue {
+  /** Principal ID of the user-assigned identity. */
+  principalId?: string;
+  /** Client ID of the user-assigned identity. */
+  clientId?: string;
+}
+export const UserAssignedIdentityValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalId: S.optional(S.String),
+    clientId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "UserAssignedIdentityValue",
+}) as any as S.Schema<UserAssignedIdentityValue>;
+
+/** User-assigned identities, keyed by ARM resource ID. */
+export type IdentityPropertiesUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityValue | undefined;
+};
+export const IdentityPropertiesUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  UserAssignedIdentityValue,
+) as any as S.Schema<IdentityPropertiesUserAssignedIdentitiesMap>;
+
 /** Properties of a managed identity */
 export interface IdentityProperties {
   /** Managed identity. */
@@ -5046,6 +4875,8 @@ export interface IdentityProperties {
   tenantId?: string;
   /** The client secret URL of the identity. */
   clientSecretUrl?: string;
+  /** User-assigned identities, keyed by ARM resource ID. */
+  userAssignedIdentities?: IdentityPropertiesUserAssignedIdentitiesMap;
 }
 export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5053,10 +4884,9 @@ export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
     clientSecretUrl: S.optional(S.String),
+    userAssignedIdentities: S.optional(IdentityPropertiesUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "IdentityProperties",
-}) as any as S.Schema<IdentityProperties>;
+).annotate({ identifier: "IdentityProperties" }) as any as S.Schema<IdentityProperties>;
 
 export interface GetServiceRunnerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -5084,9 +4914,7 @@ export const GetServiceRunnerResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "GetServiceRunnerResponse",
-}) as any as S.Schema<GetServiceRunnerResponse>;
+).annotate({ identifier: "GetServiceRunnerResponse" }) as any as S.Schema<GetServiceRunnerResponse>;
 
 export interface GetUserRequest {
   /** The ID of the target subscription. */
@@ -5152,9 +4980,7 @@ export const UserSecretStore = /*@__PURE__*/ S.suspend(() =>
     keyVaultUri: S.optional(S.String),
     keyVaultId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserSecretStore",
-}) as any as S.Schema<UserSecretStore>;
+).annotate({ identifier: "UserSecretStore" }) as any as S.Schema<UserSecretStore>;
 
 /** Properties of a lab user profile. */
 export interface UserProperties {
@@ -5212,9 +5038,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetUserResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export interface GetVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -5243,9 +5067,7 @@ export const GetVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualMachineRequest",
-}) as any as S.Schema<GetVirtualMachineRequest>;
+).annotate({ identifier: "GetVirtualMachineRequest" }) as any as S.Schema<GetVirtualMachineRequest>;
 
 /** The artifacts to be installed on the virtual machine. */
 export type LabVirtualMachinePropertiesArtifactsList = Array<ArtifactInstallProperties>;
@@ -5321,9 +5143,7 @@ export const ComputeDataDisk = /*@__PURE__*/ S.suspend(() =>
     managedDiskId: S.optional(S.String),
     diskSizeGiB: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ComputeDataDisk",
-}) as any as S.Schema<ComputeDataDisk>;
+).annotate({ identifier: "ComputeDataDisk" }) as any as S.Schema<ComputeDataDisk>;
 
 /** Gets all data disks attached to the virtual machine. */
 export type ComputeVmPropertiesDataDisksList = Array<ComputeDataDisk>;
@@ -5358,9 +5178,7 @@ export const ComputeVmProperties = /*@__PURE__*/ S.suspend(() =>
     dataDiskIds: S.optional(ComputeVmPropertiesDataDiskIdsList),
     dataDisks: S.optional(ComputeVmPropertiesDataDisksList),
   }),
-).annotate({
-  identifier: "ComputeVmProperties",
-}) as any as S.Schema<ComputeVmProperties>;
+).annotate({ identifier: "ComputeVmProperties" }) as any as S.Schema<ComputeVmProperties>;
 
 /** Tells source of creation of lab virtual machine. Output property only. */
 export type VirtualMachineCreationSource =
@@ -5497,9 +5315,7 @@ export const LabVirtualMachineProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LabVirtualMachineProperties>;
 
 /** Resource tags. */
-export type GetVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5609,9 +5425,7 @@ export const GetVirtualMachineScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualMachineScheduleRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5674,9 +5488,7 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualNetworkRequest",
-}) as any as S.Schema<GetVirtualNetworkRequest>;
+).annotate({ identifier: "GetVirtualNetworkRequest" }) as any as S.Schema<GetVirtualNetworkRequest>;
 
 /** The permission policy of the subnet for allowing public IP addresses (i.e. Allow, Deny)). */
 export type UsagePermissionType = "Default" | "Deny" | "Allow";
@@ -5820,14 +5632,10 @@ export const VirtualNetworkProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     uniqueIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkProperties",
-}) as any as S.Schema<VirtualNetworkProperties>;
+).annotate({ identifier: "VirtualNetworkProperties" }) as any as S.Schema<VirtualNetworkProperties>;
 
 /** Resource tags. */
-export type GetVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5897,14 +5705,10 @@ export const SchedulePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     notificationSettings: S.optional(NotificationSettings),
     targetResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SchedulePropertiesInput",
-}) as any as S.Schema<SchedulePropertiesInput>;
+).annotate({ identifier: "SchedulePropertiesInput" }) as any as S.Schema<SchedulePropertiesInput>;
 
 /** Resource tags. */
-export type GlobalSchedulesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GlobalSchedulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const GlobalSchedulesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5945,9 +5749,7 @@ export const GlobalSchedulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<GlobalSchedulesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type GlobalSchedulesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GlobalSchedulesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const GlobalSchedulesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6016,9 +5818,7 @@ export const GlobalSchedulesRetargetRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GlobalSchedulesRetargetResponse {}
 export const GlobalSchedulesRetargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GlobalSchedulesRetargetResponse",
-  },
+  { identifier: "GlobalSchedulesRetargetResponse" },
 ) as any as S.Schema<GlobalSchedulesRetargetResponse>;
 
 export interface ImportLabVirtualMachineRequest {
@@ -6054,9 +5854,7 @@ export const ImportLabVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ImportLabVirtualMachineResponse {}
 export const ImportLabVirtualMachineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ImportLabVirtualMachineResponse",
-  },
+  { identifier: "ImportLabVirtualMachineResponse" },
 ) as any as S.Schema<ImportLabVirtualMachineResponse>;
 
 /** Type of storage used by the lab. It can be either Premium or Standard. Default is Premium. */
@@ -6101,9 +5899,7 @@ export const LabAnnouncementPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LabAnnouncementPropertiesInput>;
 
 /** Extended properties of the lab used for experimental features */
-export type LabPropertiesInputExtendedPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type LabPropertiesInputExtendedPropertiesMap = { [key: string]: string | undefined };
 export const LabPropertiesInputExtendedPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6143,14 +5939,10 @@ export const LabPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     support: S.optional(LabSupportProperties),
     extendedProperties: S.optional(LabPropertiesInputExtendedPropertiesMap),
   }),
-).annotate({
-  identifier: "LabPropertiesInput",
-}) as any as S.Schema<LabPropertiesInput>;
+).annotate({ identifier: "LabPropertiesInput" }) as any as S.Schema<LabPropertiesInput>;
 
 /** Resource tags. */
-export type LabsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LabsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6191,9 +5983,7 @@ export const LabsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LabsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LabsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LabsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6306,9 +6096,7 @@ export const ListArmTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListArmTemplatesRequest",
-}) as any as S.Schema<ListArmTemplatesRequest>;
+).annotate({ identifier: "ListArmTemplatesRequest" }) as any as S.Schema<ListArmTemplatesRequest>;
 
 /** Resource tags. */
 export type ArmTemplateTagsMap = { [key: string]: string | undefined };
@@ -6364,9 +6152,7 @@ export const ArmTemplateList = /*@__PURE__*/ S.suspend(() =>
     value: ArmTemplateListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArmTemplateList",
-}) as any as S.Schema<ArmTemplateList>;
+).annotate({ identifier: "ArmTemplateList" }) as any as S.Schema<ArmTemplateList>;
 
 export interface ListArtifactsRequest {
   /** The ID of the target subscription. */
@@ -6404,9 +6190,7 @@ export const ListArtifactsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListArtifactsRequest",
-}) as any as S.Schema<ListArtifactsRequest>;
+).annotate({ identifier: "ListArtifactsRequest" }) as any as S.Schema<ListArtifactsRequest>;
 
 /** Resource tags. */
 export type ArtifactTagsMap = { [key: string]: string | undefined };
@@ -6555,9 +6339,7 @@ export const ArtifactSourceList = /*@__PURE__*/ S.suspend(() =>
     value: ArtifactSourceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactSourceList",
-}) as any as S.Schema<ArtifactSourceList>;
+).annotate({ identifier: "ArtifactSourceList" }) as any as S.Schema<ArtifactSourceList>;
 
 export interface ListCustomImagesRequest {
   /** The ID of the target subscription. */
@@ -6592,9 +6374,7 @@ export const ListCustomImagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListCustomImagesRequest",
-}) as any as S.Schema<ListCustomImagesRequest>;
+).annotate({ identifier: "ListCustomImagesRequest" }) as any as S.Schema<ListCustomImagesRequest>;
 
 /** Resource tags. */
 export type CustomImageTagsMap = { [key: string]: string | undefined };
@@ -6650,9 +6430,7 @@ export const CustomImageList = /*@__PURE__*/ S.suspend(() =>
     value: CustomImageListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomImageList",
-}) as any as S.Schema<CustomImageList>;
+).annotate({ identifier: "CustomImageList" }) as any as S.Schema<CustomImageList>;
 
 export interface ListDisksRequest {
   /** The ID of the target subscription. */
@@ -6690,9 +6468,7 @@ export const ListDisksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListDisksRequest",
-}) as any as S.Schema<ListDisksRequest>;
+).annotate({ identifier: "ListDisksRequest" }) as any as S.Schema<ListDisksRequest>;
 
 /** Resource tags. */
 export type DiskTagsMap = { [key: string]: string | undefined };
@@ -6784,9 +6560,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 /** Resource tags. */
 export type DtlEnvironmentTagsMap = { [key: string]: string | undefined };
@@ -6842,9 +6616,7 @@ export const DtlEnvironmentList = /*@__PURE__*/ S.suspend(() =>
     value: DtlEnvironmentListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DtlEnvironmentList",
-}) as any as S.Schema<DtlEnvironmentList>;
+).annotate({ identifier: "DtlEnvironmentList" }) as any as S.Schema<DtlEnvironmentList>;
 
 export interface ListFormulasRequest {
   /** The ID of the target subscription. */
@@ -6879,9 +6651,7 @@ export const ListFormulasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListFormulasRequest",
-}) as any as S.Schema<ListFormulasRequest>;
+).annotate({ identifier: "ListFormulasRequest" }) as any as S.Schema<ListFormulasRequest>;
 
 /** Resource tags. */
 export type FormulaTagsMap = { [key: string]: string | undefined };
@@ -6972,9 +6742,7 @@ export const ListGalleryImagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListGalleryImagesRequest",
-}) as any as S.Schema<ListGalleryImagesRequest>;
+).annotate({ identifier: "ListGalleryImagesRequest" }) as any as S.Schema<ListGalleryImagesRequest>;
 
 /** Properties of a gallery image. */
 export interface GalleryImageProperties {
@@ -7006,9 +6774,7 @@ export const GalleryImageProperties = /*@__PURE__*/ S.suspend(() =>
     planId: S.optional(S.String),
     isPlanAuthorized: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GalleryImageProperties",
-}) as any as S.Schema<GalleryImageProperties>;
+).annotate({ identifier: "GalleryImageProperties" }) as any as S.Schema<GalleryImageProperties>;
 
 /** Resource tags. */
 export type GalleryImageTagsMap = { [key: string]: string | undefined };
@@ -7064,9 +6830,7 @@ export const GalleryImageList = /*@__PURE__*/ S.suspend(() =>
     value: GalleryImageListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GalleryImageList",
-}) as any as S.Schema<GalleryImageList>;
+).annotate({ identifier: "GalleryImageList" }) as any as S.Schema<GalleryImageList>;
 
 export interface ListGlobalScheduleByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -7290,9 +7054,7 @@ export const ListLabVhdsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListLabVhdsRequest",
-}) as any as S.Schema<ListLabVhdsRequest>;
+).annotate({ identifier: "ListLabVhdsRequest" }) as any as S.Schema<ListLabVhdsRequest>;
 
 /** Properties of a VHD in the lab. */
 export interface LabVhd {
@@ -7396,9 +7158,7 @@ export const NotificationChannel = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(NotificationChannelTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationChannel",
-}) as any as S.Schema<NotificationChannel>;
+).annotate({ identifier: "NotificationChannel" }) as any as S.Schema<NotificationChannel>;
 
 /** The NotificationChannel items on this page */
 export type NotificationChannelListValueList = Array<NotificationChannel>;
@@ -7418,9 +7178,7 @@ export const NotificationChannelList = /*@__PURE__*/ S.suspend(() =>
     value: NotificationChannelListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NotificationChannelList",
-}) as any as S.Schema<NotificationChannelList>;
+).annotate({ identifier: "NotificationChannelList" }) as any as S.Schema<NotificationChannelList>;
 
 export interface ListPoliciesRequest {
   /** The ID of the target subscription. */
@@ -7458,9 +7216,7 @@ export const ListPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListPoliciesRequest",
-}) as any as S.Schema<ListPoliciesRequest>;
+).annotate({ identifier: "ListPoliciesRequest" }) as any as S.Schema<ListPoliciesRequest>;
 
 /** The tags of the resource. */
 export type PolicyTagsMap = { [key: string]: string | undefined };
@@ -7550,9 +7306,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -7667,9 +7421,7 @@ export const ListSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListSchedulesRequest",
-}) as any as S.Schema<ListSchedulesRequest>;
+).annotate({ identifier: "ListSchedulesRequest" }) as any as S.Schema<ListSchedulesRequest>;
 
 export interface ListSecretsRequest {
   /** The ID of the target subscription. */
@@ -7707,9 +7459,7 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListSecretsRequest",
-}) as any as S.Schema<ListSecretsRequest>;
+).annotate({ identifier: "ListSecretsRequest" }) as any as S.Schema<ListSecretsRequest>;
 
 /** Resource tags. */
 export type SecretTagsMap = { [key: string]: string | undefined };
@@ -7931,9 +7681,7 @@ export const ServiceFabricList = /*@__PURE__*/ S.suspend(() =>
     value: ServiceFabricListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceFabricList",
-}) as any as S.Schema<ServiceFabricList>;
+).annotate({ identifier: "ServiceFabricList" }) as any as S.Schema<ServiceFabricList>;
 
 export interface ListServiceFabricSchedulesRequest {
   /** The ID of the target subscription. */
@@ -8011,9 +7759,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "ListUsersRequest",
-}) as any as S.Schema<ListUsersRequest>;
+).annotate({ identifier: "ListUsersRequest" }) as any as S.Schema<ListUsersRequest>;
 
 /** Resource tags. */
 export type UserTagsMap = { [key: string]: string | undefined };
@@ -8207,9 +7953,7 @@ export const LabVirtualMachine = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(LabVirtualMachineTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabVirtualMachine",
-}) as any as S.Schema<LabVirtualMachine>;
+).annotate({ identifier: "LabVirtualMachine" }) as any as S.Schema<LabVirtualMachine>;
 
 /** The LabVirtualMachine items on this page */
 export type LabVirtualMachineListValueList = Array<LabVirtualMachine>;
@@ -8229,9 +7973,7 @@ export const LabVirtualMachineList = /*@__PURE__*/ S.suspend(() =>
     value: LabVirtualMachineListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabVirtualMachineList",
-}) as any as S.Schema<LabVirtualMachineList>;
+).annotate({ identifier: "LabVirtualMachineList" }) as any as S.Schema<LabVirtualMachineList>;
 
 export interface ListVirtualMachineSchedulesRequest {
   /** The ID of the target subscription. */
@@ -8364,9 +8106,7 @@ export const VirtualNetworkList = /*@__PURE__*/ S.suspend(() =>
     value: VirtualNetworkListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkList",
-}) as any as S.Schema<VirtualNetworkList>;
+).annotate({ identifier: "VirtualNetworkList" }) as any as S.Schema<VirtualNetworkList>;
 
 /** The list of event for which this notification is enabled. */
 export type NotificationChannelPropertiesInputEventsList = Array<Event>;
@@ -8549,14 +8289,10 @@ export const PolicyPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     threshold: S.optional(S.String),
     evaluatorType: S.optional(PolicyEvaluatorType),
   }),
-).annotate({
-  identifier: "PolicyPropertiesInput",
-}) as any as S.Schema<PolicyPropertiesInput>;
+).annotate({ identifier: "PolicyPropertiesInput" }) as any as S.Schema<PolicyPropertiesInput>;
 
 /** The tags of the resource. */
-export type PoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8603,9 +8339,7 @@ export const PoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PoliciesCreateOrUpdateRequest>;
 
 /** The tags of the resource. */
-export type PoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8712,9 +8446,7 @@ export const PolicyViolation = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyViolation",
-}) as any as S.Schema<PolicyViolation>;
+).annotate({ identifier: "PolicyViolation" }) as any as S.Schema<PolicyViolation>;
 
 /** The list of policy violations. */
 export type PolicySetResultPolicyViolationsList = Array<PolicyViolation>;
@@ -8734,9 +8466,7 @@ export const PolicySetResult = /*@__PURE__*/ S.suspend(() =>
     hasError: S.optional(S.Boolean),
     policyViolations: S.optional(PolicySetResultPolicyViolationsList),
   }),
-).annotate({
-  identifier: "PolicySetResult",
-}) as any as S.Schema<PolicySetResult>;
+).annotate({ identifier: "PolicySetResult" }) as any as S.Schema<PolicySetResult>;
 
 /** Results of evaluating a policy set. */
 export type EvaluatePoliciesResponseResultsList = Array<PolicySetResult>;
@@ -8753,9 +8483,7 @@ export const EvaluatePoliciesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: S.optional(EvaluatePoliciesResponseResultsList),
   }),
-).annotate({
-  identifier: "EvaluatePoliciesResponse",
-}) as any as S.Schema<EvaluatePoliciesResponse>;
+).annotate({ identifier: "EvaluatePoliciesResponse" }) as any as S.Schema<EvaluatePoliciesResponse>;
 
 export interface RedeployVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -8860,9 +8588,7 @@ export const RestartVirtualMachineResponse = /*@__PURE__*/ S.suspend(() => S.Str
 }) as any as S.Schema<RestartVirtualMachineResponse>;
 
 /** Resource tags. */
-export type SchedulesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchedulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SchedulesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8906,9 +8632,7 @@ export const SchedulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SchedulesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SchedulesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SchedulesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SchedulesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8953,14 +8677,10 @@ export const SecretPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecretPropertiesInput",
-}) as any as S.Schema<SecretPropertiesInput>;
+).annotate({ identifier: "SecretPropertiesInput" }) as any as S.Schema<SecretPropertiesInput>;
 
 /** Resource tags. */
-export type SecretsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SecretsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SecretsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9007,9 +8727,7 @@ export const SecretsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SecretsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SecretsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SecretsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SecretsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9153,9 +8871,7 @@ export const ServiceFabricPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServiceFabricPropertiesInput>;
 
 /** Resource tags. */
-export type ServiceFabricsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceFabricsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServiceFabricsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9202,9 +8918,7 @@ export const ServiceFabricsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServiceFabricsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServiceFabricsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceFabricsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServiceFabricsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9241,13 +8955,22 @@ export const ServiceFabricsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ServiceFabricsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ServiceRunnersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceRunnersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServiceRunnersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ServiceRunnersCreateOrUpdateRequestTagsMap>;
+
+/** Properties of a service runner. */
+export interface ServiceRunnerProperties {
+  /** What the runner's identity is used for: `Environment` or `VirtualMachine`. */
+  identityUsageType?: string;
+}
+export const ServiceRunnerProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    identityUsageType: S.optional(S.String),
+  }),
+).annotate({ identifier: "ServiceRunnerProperties" }) as any as S.Schema<ServiceRunnerProperties>;
 
 export interface ServiceRunnersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -9264,6 +8987,8 @@ export interface ServiceRunnersCreateOrUpdateRequest {
   location?: string;
   /** The identity of the resource. */
   identity?: IdentityProperties;
+  /** Properties of the service runner. */
+  properties?: ServiceRunnerProperties;
 }
 export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9274,12 +8999,13 @@ export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ServiceRunnersCreateOrUpdateRequestTagsMap),
     location: S.optional(S.String),
     identity: S.optional(IdentityProperties),
+    properties: S.optional(ServiceRunnerProperties),
   }).pipe(
     T.Http({
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevTestLab/labs/{labName}/servicerunners/{name}",
       code: 200,
-      apiVersion: "2018-09-15",
+      apiVersion: "2018-10-15-preview",
     }),
   ),
 ).annotate({
@@ -9287,9 +9013,7 @@ export const ServiceRunnersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServiceRunnersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServiceRunnersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServiceRunnersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServiceRunnersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9421,9 +9145,7 @@ export const StopServiceFabricRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "StopServiceFabricRequest",
-}) as any as S.Schema<StopServiceFabricRequest>;
+).annotate({ identifier: "StopServiceFabricRequest" }) as any as S.Schema<StopServiceFabricRequest>;
 
 export interface StopServiceFabricResponse {}
 export const StopServiceFabricResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -9499,9 +9221,7 @@ export const TransferVirtualMachineDisksResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TransferVirtualMachineDisksResponse>;
 
 /** The tags of the resource. */
-export type UpdateArtifactSourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateArtifactSourceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateArtifactSourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9539,9 +9259,7 @@ export const UpdateArtifactSourceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateArtifactSourceRequest>;
 
 /** Resource tags. */
-export type UpdateArtifactSourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateArtifactSourceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateArtifactSourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9578,9 +9296,7 @@ export const UpdateArtifactSourceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateArtifactSourceResponse>;
 
 /** The tags of the resource. */
-export type UpdateCustomImageRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCustomImageRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCustomImageRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9613,14 +9329,10 @@ export const UpdateCustomImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateCustomImageRequest",
-}) as any as S.Schema<UpdateCustomImageRequest>;
+).annotate({ identifier: "UpdateCustomImageRequest" }) as any as S.Schema<UpdateCustomImageRequest>;
 
 /** Resource tags. */
-export type UpdateCustomImageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCustomImageResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCustomImageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9693,9 +9405,7 @@ export const UpdateDiskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateDiskRequest",
-}) as any as S.Schema<UpdateDiskRequest>;
+).annotate({ identifier: "UpdateDiskRequest" }) as any as S.Schema<UpdateDiskRequest>;
 
 /** Resource tags. */
 export type UpdateDiskResponseTagsMap = { [key: string]: string | undefined };
@@ -9730,14 +9440,10 @@ export const UpdateDiskResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateDiskResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateDiskResponse",
-}) as any as S.Schema<UpdateDiskResponse>;
+).annotate({ identifier: "UpdateDiskResponse" }) as any as S.Schema<UpdateDiskResponse>;
 
 /** The tags of the resource. */
-export type UpdateEnvironmentRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnvironmentRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEnvironmentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9773,14 +9479,10 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 
 /** Resource tags. */
-export type UpdateEnvironmentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEnvironmentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9817,9 +9519,7 @@ export const UpdateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEnvironmentResponse>;
 
 /** The tags of the resource. */
-export type UpdateFormulasRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFormulasRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFormulasRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9852,14 +9552,10 @@ export const UpdateFormulasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateFormulasRequest",
-}) as any as S.Schema<UpdateFormulasRequest>;
+).annotate({ identifier: "UpdateFormulasRequest" }) as any as S.Schema<UpdateFormulasRequest>;
 
 /** Resource tags. */
-export type UpdateFormulasResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFormulasResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFormulasResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9891,14 +9587,10 @@ export const UpdateFormulasResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateFormulasResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateFormulasResponse",
-}) as any as S.Schema<UpdateFormulasResponse>;
+).annotate({ identifier: "UpdateFormulasResponse" }) as any as S.Schema<UpdateFormulasResponse>;
 
 /** The tags of the resource. */
-export type UpdateGlobalScheduleRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGlobalScheduleRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateGlobalScheduleRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9933,9 +9625,7 @@ export const UpdateGlobalScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateGlobalScheduleRequest>;
 
 /** Resource tags. */
-export type UpdateGlobalScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGlobalScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateGlobalScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10002,9 +9692,7 @@ export const UpdateLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateLabRequest",
-}) as any as S.Schema<UpdateLabRequest>;
+).annotate({ identifier: "UpdateLabRequest" }) as any as S.Schema<UpdateLabRequest>;
 
 /** Resource tags. */
 export type UpdateLabResponseTagsMap = { [key: string]: string | undefined };
@@ -10039,14 +9727,10 @@ export const UpdateLabResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateLabResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateLabResponse",
-}) as any as S.Schema<UpdateLabResponse>;
+).annotate({ identifier: "UpdateLabResponse" }) as any as S.Schema<UpdateLabResponse>;
 
 /** The tags of the resource. */
-export type UpdateNotificationChannelRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNotificationChannelRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNotificationChannelRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10084,9 +9768,7 @@ export const UpdateNotificationChannelRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNotificationChannelRequest>;
 
 /** Resource tags. */
-export type UpdateNotificationChannelResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNotificationChannelResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNotificationChannelResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10159,9 +9841,7 @@ export const UpdatePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdatePolicyRequest",
-}) as any as S.Schema<UpdatePolicyRequest>;
+).annotate({ identifier: "UpdatePolicyRequest" }) as any as S.Schema<UpdatePolicyRequest>;
 
 /** The tags of the resource. */
 export type UpdatePolicyResponseTagsMap = { [key: string]: string | undefined };
@@ -10196,14 +9876,10 @@ export const UpdatePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdatePolicyResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdatePolicyResponse",
-}) as any as S.Schema<UpdatePolicyResponse>;
+).annotate({ identifier: "UpdatePolicyResponse" }) as any as S.Schema<UpdatePolicyResponse>;
 
 /** The tags of the resource. */
-export type UpdateScheduleRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateScheduleRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateScheduleRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10236,14 +9912,10 @@ export const UpdateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateScheduleRequest",
-}) as any as S.Schema<UpdateScheduleRequest>;
+).annotate({ identifier: "UpdateScheduleRequest" }) as any as S.Schema<UpdateScheduleRequest>;
 
 /** Resource tags. */
-export type UpdateScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10275,9 +9947,7 @@ export const UpdateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateScheduleResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateScheduleResponse",
-}) as any as S.Schema<UpdateScheduleResponse>;
+).annotate({ identifier: "UpdateScheduleResponse" }) as any as S.Schema<UpdateScheduleResponse>;
 
 /** The tags of the resource. */
 export type UpdateSecretRequestTagsMap = { [key: string]: string | undefined };
@@ -10316,9 +9986,7 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateSecretRequest",
-}) as any as S.Schema<UpdateSecretRequest>;
+).annotate({ identifier: "UpdateSecretRequest" }) as any as S.Schema<UpdateSecretRequest>;
 
 /** Resource tags. */
 export type UpdateSecretResponseTagsMap = { [key: string]: string | undefined };
@@ -10353,14 +10021,10 @@ export const UpdateSecretResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateSecretResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateSecretResponse",
-}) as any as S.Schema<UpdateSecretResponse>;
+).annotate({ identifier: "UpdateSecretResponse" }) as any as S.Schema<UpdateSecretResponse>;
 
 /** The tags of the resource. */
-export type UpdateServiceFabricRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceFabricRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceFabricRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10401,9 +10065,7 @@ export const UpdateServiceFabricRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceFabricRequest>;
 
 /** Resource tags. */
-export type UpdateServiceFabricResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceFabricResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceFabricResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10440,9 +10102,7 @@ export const UpdateServiceFabricResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceFabricResponse>;
 
 /** The tags of the resource. */
-export type UpdateServiceFabricScheduleRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceFabricScheduleRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceFabricScheduleRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10486,9 +10146,7 @@ export const UpdateServiceFabricScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServiceFabricScheduleRequest>;
 
 /** Resource tags. */
-export type UpdateServiceFabricScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceFabricScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceFabricScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10558,9 +10216,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-09-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 /** Resource tags. */
 export type UpdateUserResponseTagsMap = { [key: string]: string | undefined };
@@ -10595,14 +10251,10 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateUserResponseTagsMap),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 
 /** The tags of the resource. */
-export type UpdateVirtualMachineRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10640,9 +10292,7 @@ export const UpdateVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10679,9 +10329,7 @@ export const UpdateVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineResponse>;
 
 /** The tags of the resource. */
-export type UpdateVirtualMachineScheduleRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineScheduleRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineScheduleRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10722,9 +10370,7 @@ export const UpdateVirtualMachineScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineScheduleRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineScheduleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineScheduleResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineScheduleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10761,9 +10407,7 @@ export const UpdateVirtualMachineScheduleResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateVirtualMachineScheduleResponse>;
 
 /** The tags of the resource. */
-export type UpdateVirtualNetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10801,9 +10445,7 @@ export const UpdateVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10851,14 +10493,10 @@ export const UserPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(UserIdentity),
     secretStore: S.optional(UserSecretStore),
   }),
-).annotate({
-  identifier: "UserPropertiesInput",
-}) as any as S.Schema<UserPropertiesInput>;
+).annotate({ identifier: "UserPropertiesInput" }) as any as S.Schema<UserPropertiesInput>;
 
 /** Resource tags. */
-export type UsersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UsersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const UsersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10902,9 +10540,7 @@ export const UsersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UsersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type UsersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UsersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const UsersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11127,9 +10763,7 @@ export const LabVirtualMachinePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LabVirtualMachinePropertiesInput>;
 
 /** Resource tags. */
-export type VirtualMachinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualMachinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11173,9 +10807,7 @@ export const VirtualMachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualMachinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualMachinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11246,9 +10878,7 @@ export const VirtualNetworkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualNetworkPropertiesInput>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11292,9 +10922,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

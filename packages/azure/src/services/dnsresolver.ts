@@ -91,9 +91,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type BulkDnsResolverDomainListResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BulkDnsResolverDomainListResponseTagsMap = { [key: string]: string | undefined };
 export const BulkDnsResolverDomainListResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -223,9 +221,7 @@ export const DeleteDnsResolverRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDnsResolverRequest",
-}) as any as S.Schema<DeleteDnsResolverRequest>;
+).annotate({ identifier: "DeleteDnsResolverRequest" }) as any as S.Schema<DeleteDnsResolverRequest>;
 
 export interface DeleteDnsResolverResponse {}
 export const DeleteDnsResolverResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -291,9 +287,7 @@ export const DeleteDnsResolverPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteDnsResolverPolicyResponse {}
 export const DeleteDnsResolverPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteDnsResolverPolicyResponse",
-  },
+  { identifier: "DeleteDnsResolverPolicyResponse" },
 ) as any as S.Schema<DeleteDnsResolverPolicyResponse>;
 
 export interface DeleteDnsResolverPolicyVirtualNetworkLinkRequest {
@@ -746,9 +740,7 @@ export const DnsResolverDomainListsCreateOrUpdateResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<DnsResolverDomainListsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DnsResolverPoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsResolverPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DnsResolverPoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -963,9 +955,7 @@ export const DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse = /*@__P
 }) as any as S.Schema<DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DnsResolversCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsResolversCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DnsResolversCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1019,9 +1009,7 @@ export const DnsResolversCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DnsResolversCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DnsResolversCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsResolversCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DnsResolversCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1049,9 +1037,7 @@ export const DnsResolverProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     resourceGuid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsResolverProperties",
-}) as any as S.Schema<DnsResolverProperties>;
+).annotate({ identifier: "DnsResolverProperties" }) as any as S.Schema<DnsResolverProperties>;
 
 export interface DnsResolversCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1087,9 +1073,7 @@ export const DnsResolversCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DnsResolversCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DnsSecurityRulesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsSecurityRulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DnsSecurityRulesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1108,9 +1092,7 @@ export const DnsSecurityRuleAction = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionType: S.optional(ActionType),
   }),
-).annotate({
-  identifier: "DnsSecurityRuleAction",
-}) as any as S.Schema<DnsSecurityRuleAction>;
+).annotate({ identifier: "DnsSecurityRuleAction" }) as any as S.Schema<DnsSecurityRuleAction>;
 
 /** DNS resolver policy domains lists that the DNS security rule applies to. */
 export type DnsSecurityRulePropertiesDnsResolverDomainListsList = Array<SubResource>;
@@ -1185,9 +1167,7 @@ export const DnsSecurityRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DnsSecurityRulesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DnsSecurityRulesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsSecurityRulesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DnsSecurityRulesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1238,9 +1218,7 @@ export const TargetDnsServer = /*@__PURE__*/ S.suspend(() =>
     ipAddress: S.String,
     port: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TargetDnsServer",
-}) as any as S.Schema<TargetDnsServer>;
+).annotate({ identifier: "TargetDnsServer" }) as any as S.Schema<TargetDnsServer>;
 
 /** DNS servers to forward the DNS query to. */
 export type ForwardingRulePropertiesTargetDnsServersList = Array<TargetDnsServer>;
@@ -1249,9 +1227,7 @@ export const ForwardingRulePropertiesTargetDnsServersList = /*@__PURE__*/ S.Arra
 ) as any as S.Schema<ForwardingRulePropertiesTargetDnsServersList>;
 
 /** Metadata attached to the forwarding rule. */
-export type ForwardingRulePropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type ForwardingRulePropertiesMetadataMap = { [key: string]: string | undefined };
 export const ForwardingRulePropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1282,9 +1258,7 @@ export const ForwardingRuleProperties = /*@__PURE__*/ S.suspend(() =>
     forwardingRuleState: S.optional(ForwardingRuleState),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ForwardingRuleProperties",
-}) as any as S.Schema<ForwardingRuleProperties>;
+).annotate({ identifier: "ForwardingRuleProperties" }) as any as S.Schema<ForwardingRuleProperties>;
 
 export interface ForwardingRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1370,9 +1344,7 @@ export const GetDnsForwardingRulesetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDnsForwardingRulesetRequest>;
 
 /** Resource tags. */
-export type GetDnsForwardingRulesetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDnsForwardingRulesetResponseTagsMap = { [key: string]: string | undefined };
 export const GetDnsForwardingRulesetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1432,14 +1404,10 @@ export const GetDnsResolverRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetDnsResolverRequest",
-}) as any as S.Schema<GetDnsResolverRequest>;
+).annotate({ identifier: "GetDnsResolverRequest" }) as any as S.Schema<GetDnsResolverRequest>;
 
 /** Resource tags. */
-export type GetDnsResolverResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDnsResolverResponseTagsMap = { [key: string]: string | undefined };
 export const GetDnsResolverResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1474,9 +1442,7 @@ export const GetDnsResolverResponse = /*@__PURE__*/ S.suspend(() =>
     properties: DnsResolverProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDnsResolverResponse",
-}) as any as S.Schema<GetDnsResolverResponse>;
+).annotate({ identifier: "GetDnsResolverResponse" }) as any as S.Schema<GetDnsResolverResponse>;
 
 export interface GetDnsResolverDomainListRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1504,9 +1470,7 @@ export const GetDnsResolverDomainListRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDnsResolverDomainListRequest>;
 
 /** Resource tags. */
-export type GetDnsResolverDomainListResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDnsResolverDomainListResponseTagsMap = { [key: string]: string | undefined };
 export const GetDnsResolverDomainListResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1571,9 +1535,7 @@ export const GetDnsResolverPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDnsResolverPolicyRequest>;
 
 /** Resource tags. */
-export type GetDnsResolverPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDnsResolverPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetDnsResolverPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1711,9 +1673,7 @@ export const GetDnsSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDnsSecurityRuleRequest>;
 
 /** Resource tags. */
-export type GetDnsSecurityRuleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDnsSecurityRuleResponseTagsMap = { [key: string]: string | undefined };
 export const GetDnsSecurityRuleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1776,9 +1736,7 @@ export const GetForwardingRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetForwardingRuleRequest",
-}) as any as S.Schema<GetForwardingRuleRequest>;
+).annotate({ identifier: "GetForwardingRuleRequest" }) as any as S.Schema<GetForwardingRuleRequest>;
 
 export interface GetForwardingRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1836,9 +1794,7 @@ export const GetInboundEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetInboundEndpointRequest>;
 
 /** Resource tags. */
-export type GetInboundEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetInboundEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetInboundEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1863,9 +1819,7 @@ export const IpConfiguration = /*@__PURE__*/ S.suspend(() =>
     privateIpAddress: S.optional(S.String),
     privateIpAllocationMethod: S.optional(IpConfigurationPrivateIpAllocationMethod),
   }),
-).annotate({
-  identifier: "IpConfiguration",
-}) as any as S.Schema<IpConfiguration>;
+).annotate({ identifier: "IpConfiguration" }) as any as S.Schema<IpConfiguration>;
 
 /** IP configurations for the inbound endpoint. */
 export type InboundEndpointPropertiesIpConfigurationsList = Array<IpConfiguration>;
@@ -1954,9 +1908,7 @@ export const GetOutboundEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOutboundEndpointRequest>;
 
 /** Resource tags. */
-export type GetOutboundEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetOutboundEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const GetOutboundEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2043,9 +1995,7 @@ export const GetVirtualNetworkLinkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualNetworkLinkRequest>;
 
 /** Metadata attached to the virtual network link. */
-export type VirtualNetworkLinkPropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkLinkPropertiesMetadataMap = { [key: string]: string | undefined };
 export const VirtualNetworkLinkPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2098,9 +2048,7 @@ export const GetVirtualNetworkLinkResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualNetworkLinkResponse>;
 
 /** Resource tags. */
-export type InboundEndpointsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InboundEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const InboundEndpointsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2163,9 +2111,7 @@ export const InboundEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<InboundEndpointsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type InboundEndpointsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InboundEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const InboundEndpointsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2266,9 +2212,7 @@ export const DnsForwardingRuleset = /*@__PURE__*/ S.suspend(() =>
     properties: DnsForwardingRulesetProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsForwardingRuleset",
-}) as any as S.Schema<DnsForwardingRuleset>;
+).annotate({ identifier: "DnsForwardingRuleset" }) as any as S.Schema<DnsForwardingRuleset>;
 
 /** The DnsForwardingRuleset items on this page */
 export type DnsForwardingRulesetListResultValueList = Array<DnsForwardingRuleset>;
@@ -2476,9 +2420,7 @@ export const DnsResolverListResult = /*@__PURE__*/ S.suspend(() =>
     value: DnsResolverListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsResolverListResult",
-}) as any as S.Schema<DnsResolverListResult>;
+).annotate({ identifier: "DnsResolverListResult" }) as any as S.Schema<DnsResolverListResult>;
 
 export interface ListDnsResolverByVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2526,9 +2468,7 @@ export const SubResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: SubResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubResourceListResult",
-}) as any as S.Schema<SubResourceListResult>;
+).annotate({ identifier: "SubResourceListResult" }) as any as S.Schema<SubResourceListResult>;
 
 export interface ListDnsResolverDomainListByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2556,9 +2496,7 @@ export const ListDnsResolverDomainListByResourceGroupRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<ListDnsResolverDomainListByResourceGroupRequest>;
 
 /** Resource tags. */
-export type DnsResolverDomainListTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsResolverDomainListTagsMap = { [key: string]: string | undefined };
 export const DnsResolverDomainListTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2594,9 +2532,7 @@ export const DnsResolverDomainList = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DnsResolverDomainListProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsResolverDomainList",
-}) as any as S.Schema<DnsResolverDomainList>;
+).annotate({ identifier: "DnsResolverDomainList" }) as any as S.Schema<DnsResolverDomainList>;
 
 /** The DnsResolverDomainList items on this page */
 export type DnsResolverDomainListListResultValueList = Array<DnsResolverDomainList>;
@@ -2701,9 +2637,7 @@ export const DnsResolverPolicy = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DnsResolverPolicyProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsResolverPolicy",
-}) as any as S.Schema<DnsResolverPolicy>;
+).annotate({ identifier: "DnsResolverPolicy" }) as any as S.Schema<DnsResolverPolicy>;
 
 /** The DnsResolverPolicy items on this page */
 export type DnsResolverPolicyListResultValueList = Array<DnsResolverPolicy>;
@@ -2806,9 +2740,7 @@ export const ListDnsResolverPolicyVirtualNetworkLinksRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<ListDnsResolverPolicyVirtualNetworkLinksRequest>;
 
 /** Resource tags. */
-export type DnsResolverPolicyVirtualNetworkLinkTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DnsResolverPolicyVirtualNetworkLinkTagsMap = { [key: string]: string | undefined };
 export const DnsResolverPolicyVirtualNetworkLinkTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2889,9 +2821,7 @@ export const ListDnsResolversRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListDnsResolversRequest",
-}) as any as S.Schema<ListDnsResolversRequest>;
+).annotate({ identifier: "ListDnsResolversRequest" }) as any as S.Schema<ListDnsResolversRequest>;
 
 export interface ListDnsSecurityRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2958,9 +2888,7 @@ export const DnsSecurityRule = /*@__PURE__*/ S.suspend(() =>
     properties: DnsSecurityRuleProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DnsSecurityRule",
-}) as any as S.Schema<DnsSecurityRule>;
+).annotate({ identifier: "DnsSecurityRule" }) as any as S.Schema<DnsSecurityRule>;
 
 /** The DnsSecurityRule items on this page */
 export type DnsSecurityRuleListResultValueList = Array<DnsSecurityRule>;
@@ -3056,9 +2984,7 @@ export const ForwardingRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: ForwardingRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ForwardingRuleListResult",
-}) as any as S.Schema<ForwardingRuleListResult>;
+).annotate({ identifier: "ForwardingRuleListResult" }) as any as S.Schema<ForwardingRuleListResult>;
 
 export interface ListInboundEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3125,9 +3051,7 @@ export const InboundEndpoint = /*@__PURE__*/ S.suspend(() =>
     properties: InboundEndpointProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InboundEndpoint",
-}) as any as S.Schema<InboundEndpoint>;
+).annotate({ identifier: "InboundEndpoint" }) as any as S.Schema<InboundEndpoint>;
 
 /** The InboundEndpoint items on this page */
 export type InboundEndpointListResultValueList = Array<InboundEndpoint>;
@@ -3216,9 +3140,7 @@ export const OutboundEndpoint = /*@__PURE__*/ S.suspend(() =>
     properties: OutboundEndpointProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OutboundEndpoint",
-}) as any as S.Schema<OutboundEndpoint>;
+).annotate({ identifier: "OutboundEndpoint" }) as any as S.Schema<OutboundEndpoint>;
 
 /** The OutboundEndpoint items on this page */
 export type OutboundEndpointListResultValueList = Array<OutboundEndpoint>;
@@ -3294,9 +3216,7 @@ export const VirtualNetworkLink = /*@__PURE__*/ S.suspend(() =>
     properties: VirtualNetworkLinkProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualNetworkLink",
-}) as any as S.Schema<VirtualNetworkLink>;
+).annotate({ identifier: "VirtualNetworkLink" }) as any as S.Schema<VirtualNetworkLink>;
 
 /** The VirtualNetworkLink items on this page */
 export type VirtualNetworkLinkListResultValueList = Array<VirtualNetworkLink>;
@@ -3321,9 +3241,7 @@ export const VirtualNetworkLinkListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualNetworkLinkListResult>;
 
 /** Resource tags. */
-export type OutboundEndpointsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OutboundEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const OutboundEndpointsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3380,9 +3298,7 @@ export const OutboundEndpointsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<OutboundEndpointsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type OutboundEndpointsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OutboundEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const OutboundEndpointsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3429,9 +3345,7 @@ export const UpdateDnsForwardingRulesetRequestDnsResolverOutboundEndpointsList =
   ) as any as S.Schema<UpdateDnsForwardingRulesetRequestDnsResolverOutboundEndpointsList>;
 
 /** Tags for DNS Resolver. */
-export type UpdateDnsForwardingRulesetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsForwardingRulesetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsForwardingRulesetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3471,9 +3385,7 @@ export const UpdateDnsForwardingRulesetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDnsForwardingRulesetRequest>;
 
 /** Resource tags. */
-export type UpdateDnsForwardingRulesetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsForwardingRulesetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsForwardingRulesetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3513,9 +3425,7 @@ export const UpdateDnsForwardingRulesetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDnsForwardingRulesetResponse>;
 
 /** Tags for DNS Resolver. */
-export type UpdateDnsResolverRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsResolverRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsResolverRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3545,14 +3455,10 @@ export const UpdateDnsResolverRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDnsResolverRequest",
-}) as any as S.Schema<UpdateDnsResolverRequest>;
+).annotate({ identifier: "UpdateDnsResolverRequest" }) as any as S.Schema<UpdateDnsResolverRequest>;
 
 /** Resource tags. */
-export type UpdateDnsResolverResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsResolverResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsResolverResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3611,9 +3517,7 @@ export const DnsResolverDomainListPatchProperties = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<DnsResolverDomainListPatchProperties>;
 
 /** Tags for DNS resolver domain list. */
-export type UpdateDnsResolverDomainListRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsResolverDomainListRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsResolverDomainListRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3651,9 +3555,7 @@ export const UpdateDnsResolverDomainListRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDnsResolverDomainListRequest>;
 
 /** Resource tags. */
-export type UpdateDnsResolverDomainListResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsResolverDomainListResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsResolverDomainListResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3693,9 +3595,7 @@ export const UpdateDnsResolverDomainListResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDnsResolverDomainListResponse>;
 
 /** Tags for DNS resolver policy. */
-export type UpdateDnsResolverPolicyRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsResolverPolicyRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsResolverPolicyRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3730,9 +3630,7 @@ export const UpdateDnsResolverPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDnsResolverPolicyRequest>;
 
 /** Resource tags. */
-export type UpdateDnsResolverPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsResolverPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsResolverPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3882,9 +3780,7 @@ export const DnsSecurityRulePatchProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DnsSecurityRulePatchProperties>;
 
 /** Tags for DNS security rule. */
-export type UpdateDnsSecurityRuleRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsSecurityRuleRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsSecurityRuleRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3925,9 +3821,7 @@ export const UpdateDnsSecurityRuleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDnsSecurityRuleRequest>;
 
 /** Resource tags. */
-export type UpdateDnsSecurityRuleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDnsSecurityRuleResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDnsSecurityRuleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3973,9 +3867,7 @@ export const ForwardingRulePatchPropertiesTargetDnsServersList = /*@__PURE__*/ S
 ) as any as S.Schema<ForwardingRulePatchPropertiesTargetDnsServersList>;
 
 /** Metadata attached to the forwarding rule. */
-export type ForwardingRulePatchPropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type ForwardingRulePatchPropertiesMetadataMap = { [key: string]: string | undefined };
 export const ForwardingRulePatchPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4063,9 +3955,7 @@ export const UpdateForwardingRuleResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateForwardingRuleResponse>;
 
 /** Tags for inbound endpoint. */
-export type UpdateInboundEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInboundEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateInboundEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4103,9 +3993,7 @@ export const UpdateInboundEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInboundEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateInboundEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInboundEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateInboundEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4145,9 +4033,7 @@ export const UpdateInboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInboundEndpointResponse>;
 
 /** Tags for outbound endpoint. */
-export type UpdateOutboundEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOutboundEndpointRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateOutboundEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4185,9 +4071,7 @@ export const UpdateOutboundEndpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateOutboundEndpointRequest>;
 
 /** Resource tags. */
-export type UpdateOutboundEndpointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOutboundEndpointResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateOutboundEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4227,9 +4111,7 @@ export const UpdateOutboundEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateOutboundEndpointResponse>;
 
 /** Metadata attached to the virtual network link. */
-export type VirtualNetworkLinkPatchPropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworkLinkPatchPropertiesMetadataMap = { [key: string]: string | undefined };
 export const VirtualNetworkLinkPatchPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

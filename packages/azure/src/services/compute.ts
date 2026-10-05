@@ -87,9 +87,7 @@ export const ApproveVirtualMachineScaleSetVMRollingUpgradeResponse = /*@__PURE__
 }) as any as S.Schema<ApproveVirtualMachineScaleSetVMRollingUpgradeResponse>;
 
 /** Resource tags. */
-export type AvailabilitySetsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AvailabilitySetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AvailabilitySetsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -128,9 +126,7 @@ export const UserInitiatedRedeploy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     automaticallyApprove: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UserInitiatedRedeploy",
-}) as any as S.Schema<UserInitiatedRedeploy>;
+).annotate({ identifier: "UserInitiatedRedeploy" }) as any as S.Schema<UserInitiatedRedeploy>;
 
 /** Specifies Reboot related Scheduled Event related configurations. */
 export interface UserInitiatedReboot {
@@ -141,9 +137,7 @@ export const UserInitiatedReboot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     automaticallyApprove: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "UserInitiatedReboot",
-}) as any as S.Schema<UserInitiatedReboot>;
+).annotate({ identifier: "UserInitiatedReboot" }) as any as S.Schema<UserInitiatedReboot>;
 
 /** Specifies eventGridAndResourceGraph related Scheduled Event related configurations. */
 export interface EventGridAndResourceGraph {
@@ -182,9 +176,7 @@ export const AllInstancesDown = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     automaticallyApprove: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AllInstancesDown",
-}) as any as S.Schema<AllInstancesDown>;
+).annotate({ identifier: "AllInstancesDown" }) as any as S.Schema<AllInstancesDown>;
 
 /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations. */
 export interface ScheduledEventsPolicy {
@@ -206,9 +198,7 @@ export const ScheduledEventsPolicy = /*@__PURE__*/ S.suspend(() =>
     ),
     allInstancesDown: S.optional(AllInstancesDown),
   }),
-).annotate({
-  identifier: "ScheduledEventsPolicy",
-}) as any as S.Schema<ScheduledEventsPolicy>;
+).annotate({ identifier: "ScheduledEventsPolicy" }) as any as S.Schema<ScheduledEventsPolicy>;
 
 /** The instance view of a resource. */
 export interface AvailabilitySetPropertiesInput {
@@ -323,9 +313,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AvailabilitySetsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AvailabilitySetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AvailabilitySetsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -373,9 +361,7 @@ export const InstanceViewStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     time: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InstanceViewStatus",
-}) as any as S.Schema<InstanceViewStatus>;
+).annotate({ identifier: "InstanceViewStatus" }) as any as S.Schema<InstanceViewStatus>;
 
 /** The resource status information. */
 export type AvailabilitySetPropertiesStatusesList = Array<InstanceViewStatus>;
@@ -522,9 +508,7 @@ export const ExecutionParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     retryPolicy: S.optional(RetryPolicy),
   }),
-).annotate({
-  identifier: "ExecutionParameters",
-}) as any as S.Schema<ExecutionParameters>;
+).annotate({ identifier: "ExecutionParameters" }) as any as S.Schema<ExecutionParameters>;
 
 /** The resource ids used for the request */
 export type ResourcesIdsList = Array<string>;
@@ -613,9 +597,7 @@ export const ResourceOperationError = /*@__PURE__*/ S.suspend(() =>
     errorCode: S.String,
     errorDetails: S.String,
   }),
-).annotate({
-  identifier: "ResourceOperationError",
-}) as any as S.Schema<ResourceOperationError>;
+).annotate({ identifier: "ResourceOperationError" }) as any as S.Schema<ResourceOperationError>;
 
 /** Describes the fallback operation that was performed */
 export interface FallbackOperationInfo {
@@ -632,9 +614,7 @@ export const FallbackOperationInfo = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     error: S.optional(ResourceOperationError),
   }),
-).annotate({
-  identifier: "FallbackOperationInfo",
-}) as any as S.Schema<FallbackOperationInfo>;
+).annotate({ identifier: "FallbackOperationInfo" }) as any as S.Schema<FallbackOperationInfo>;
 
 /** The details of a response from an operation on a resource */
 export interface ResourceOperationDetails {
@@ -678,9 +658,7 @@ export const ResourceOperationDetails = /*@__PURE__*/ S.suspend(() =>
     completedAt: S.optional(S.String),
     retryPolicy: S.optional(RetryPolicy),
   }),
-).annotate({
-  identifier: "ResourceOperationDetails",
-}) as any as S.Schema<ResourceOperationDetails>;
+).annotate({ identifier: "ResourceOperationDetails" }) as any as S.Schema<ResourceOperationDetails>;
 
 /** High level response from an operation on a resource */
 export interface ResourceOperation {
@@ -700,9 +678,7 @@ export const ResourceOperation = /*@__PURE__*/ S.suspend(() =>
     errorDetails: S.optional(S.String),
     operation: S.optional(ResourceOperationDetails),
   }),
-).annotate({
-  identifier: "ResourceOperation",
-}) as any as S.Schema<ResourceOperation>;
+).annotate({ identifier: "ResourceOperation" }) as any as S.Schema<ResourceOperation>;
 
 /** The results from the deallocate request if no errors exist */
 export type DeallocateResourceOperationResponseResultsList = Array<ResourceOperation>;
@@ -884,9 +860,7 @@ export const ResourceSharingProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionIds: S.optional(ResourceSharingProfileSubscriptionIdsList),
   }),
-).annotate({
-  identifier: "ResourceSharingProfile",
-}) as any as S.Schema<ResourceSharingProfile>;
+).annotate({ identifier: "ResourceSharingProfile" }) as any as S.Schema<ResourceSharingProfile>;
 
 /** Indicates the type of capacity reservation. Allowed values are 'Block' for block capacity reservations that enable a VM to consume capacity only from this capacity block when it is associated using a capacity reservation group, 'Targeted' for reservations that enable a VM to consume capacity from an explicitly associated capacity reservation group and fall back to the publicly available capacity if the reservation is full, and 'Open' for reservations that a VM consumes when it is eligible from an implicitly associated capacity reservation group with the matching VM size and zone without associating that capacity reservation group and fall back to the publicly available capacity if the reservation is full. Future capacity reservations can be created in 'Targeted' or 'Open' capacity reservation groups. The reservation type is immutable and cannot be changed after the capacity reservation group is created. */
 export type ReservationType = "Targeted" | "Block" | "Open";
@@ -1208,9 +1182,7 @@ export const ScheduleProfileInput = /*@__PURE__*/ S.suspend(() =>
     end: S.optional(S.String),
     minimumCommitmentDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ScheduleProfileInput",
-}) as any as S.Schema<ScheduleProfileInput>;
+).annotate({ identifier: "ScheduleProfileInput" }) as any as S.Schema<ScheduleProfileInput>;
 
 /** Properties of the Capacity reservation. */
 export interface CapacityReservationPropertiesInput {
@@ -1338,9 +1310,7 @@ export const ScheduleProfile = /*@__PURE__*/ S.suspend(() =>
     minimumCommitmentDays: S.optional(S.Number),
     modifiableUntil: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleProfile",
-}) as any as S.Schema<ScheduleProfile>;
+).annotate({ identifier: "ScheduleProfile" }) as any as S.Schema<ScheduleProfile>;
 
 /** Properties of the Capacity reservation. */
 export interface CapacityReservationProperties {
@@ -1485,9 +1455,7 @@ export const CaptureVirtualMachineResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CaptureVirtualMachineResponse>;
 
 /** Resource tags */
-export type ContainerServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContainerServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ContainerServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1800,9 +1768,7 @@ export const ContainerServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ContainerServicesCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type ContainerServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ContainerServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ContainerServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2117,9 +2083,7 @@ export const ApiEntityReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiEntityReference",
-}) as any as S.Schema<ApiEntityReference>;
+).annotate({ identifier: "ApiEntityReference" }) as any as S.Schema<ApiEntityReference>;
 
 /** List of disk resource ids that the customer wishes to exclude from the restore point. If no disks are specified, all disks will be included. */
 export type RestorePointPropertiesInputExcludeDisksList = Array<ApiEntityReference>;
@@ -2160,9 +2124,7 @@ export const VMDiskSecurityProfile = /*@__PURE__*/ S.suspend(() =>
     securityEncryptionType: S.optional(SecurityEncryptionTypes),
     diskEncryptionSet: S.optional(AvailabilitySetPropertiesInputVirtualMachinesItem),
   }),
-).annotate({
-  identifier: "VMDiskSecurityProfile",
-}) as any as S.Schema<VMDiskSecurityProfile>;
+).annotate({ identifier: "VMDiskSecurityProfile" }) as any as S.Schema<VMDiskSecurityProfile>;
 
 /** Determines how to handle disks with slow I/O. */
 export type AvailabilityPolicyDiskDelay = "None" | "AutomaticReattach";
@@ -2177,9 +2139,7 @@ export const DiskAvailabilityPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionOnDiskDelay: S.optional(AvailabilityPolicyDiskDelay),
   }),
-).annotate({
-  identifier: "DiskAvailabilityPolicy",
-}) as any as S.Schema<DiskAvailabilityPolicy>;
+).annotate({ identifier: "DiskAvailabilityPolicy" }) as any as S.Schema<DiskAvailabilityPolicy>;
 
 /** Policy for accessing the disk via network. */
 export type NetworkAccessPolicy = "AllowAll" | "AllowPrivate" | "DenyAll";
@@ -2224,9 +2184,7 @@ export const ManagedDiskProperties = /*@__PURE__*/ S.suspend(() =>
     diskMBpsReadOnly: S.optional(S.Number),
     logicalSectorSize: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ManagedDiskProperties",
-}) as any as S.Schema<ManagedDiskProperties>;
+).annotate({ identifier: "ManagedDiskProperties" }) as any as S.Schema<ManagedDiskProperties>;
 
 /** Specifies additional properties for a managed disk that can be set at the time of implicit creation of the disk. */
 export interface AdditionalDiskProperties {
@@ -2237,9 +2195,7 @@ export const AdditionalDiskProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     managedDiskProperties: S.optional(ManagedDiskProperties),
   }),
-).annotate({
-  identifier: "AdditionalDiskProperties",
-}) as any as S.Schema<AdditionalDiskProperties>;
+).annotate({ identifier: "AdditionalDiskProperties" }) as any as S.Schema<AdditionalDiskProperties>;
 
 /** The parameters of a managed disk. */
 export interface ManagedDiskParameters {
@@ -2262,9 +2218,7 @@ export const ManagedDiskParameters = /*@__PURE__*/ S.suspend(() =>
     securityProfile: S.optional(VMDiskSecurityProfile),
     additionalDiskProperties: S.optional(AdditionalDiskProperties),
   }),
-).annotate({
-  identifier: "ManagedDiskParameters",
-}) as any as S.Schema<ManagedDiskParameters>;
+).annotate({ identifier: "ManagedDiskParameters" }) as any as S.Schema<ManagedDiskParameters>;
 
 /** The type of key used to encrypt the data of the disk restore point. */
 export type RestorePointEncryptionType =
@@ -2285,9 +2239,7 @@ export const RestorePointEncryption = /*@__PURE__*/ S.suspend(() =>
     diskEncryptionSet: S.optional(AvailabilitySetPropertiesInputVirtualMachinesItem),
     type: S.optional(RestorePointEncryptionType),
   }),
-).annotate({
-  identifier: "RestorePointEncryption",
-}) as any as S.Schema<RestorePointEncryption>;
+).annotate({ identifier: "RestorePointEncryption" }) as any as S.Schema<RestorePointEncryption>;
 
 /** Disk Restore Point details. */
 export interface DiskRestorePointAttributesInput {
@@ -2627,9 +2579,7 @@ export const VMSizeProperties = /*@__PURE__*/ S.suspend(() =>
     vCPUsAvailable: S.optional(S.Number),
     vCPUsPerCore: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VMSizeProperties",
-}) as any as S.Schema<VMSizeProperties>;
+).annotate({ identifier: "VMSizeProperties" }) as any as S.Schema<VMSizeProperties>;
 
 /** Specifies the processor frequency behavior for the virtual machine. See each member for the behavior it controls. */
 export type ProcessorMode = "Deterministic" | "Opportunistic";
@@ -2650,9 +2600,7 @@ export const HardwareProfile = /*@__PURE__*/ S.suspend(() =>
     vmSizeProperties: S.optional(VMSizeProperties),
     processorMode: S.optional(ProcessorMode),
   }),
-).annotate({
-  identifier: "HardwareProfile",
-}) as any as S.Schema<HardwareProfile>;
+).annotate({ identifier: "HardwareProfile" }) as any as S.Schema<HardwareProfile>;
 
 /** Gets the Operating System type. */
 export type OperatingSystemType = "Windows" | "Linux";
@@ -2672,9 +2620,7 @@ export const KeyVaultSecretReference = /*@__PURE__*/ S.suspend(() =>
     secretUrl: S.String,
     sourceVault: AvailabilitySetPropertiesInputVirtualMachinesItem,
   }),
-).annotate({
-  identifier: "KeyVaultSecretReference",
-}) as any as S.Schema<KeyVaultSecretReference>;
+).annotate({ identifier: "KeyVaultSecretReference" }) as any as S.Schema<KeyVaultSecretReference>;
 
 export type KeyVaultKeyReferenceSourceVault = AvailabilitySetPropertiesInputVirtualMachinesItem;
 export const KeyVaultKeyReferenceSourceVault = AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -2690,9 +2636,7 @@ export const KeyVaultKeyReference = /*@__PURE__*/ S.suspend(() =>
     keyUrl: S.String,
     sourceVault: AvailabilitySetPropertiesInputVirtualMachinesItem,
   }),
-).annotate({
-  identifier: "KeyVaultKeyReference",
-}) as any as S.Schema<KeyVaultKeyReference>;
+).annotate({ identifier: "KeyVaultKeyReference" }) as any as S.Schema<KeyVaultKeyReference>;
 
 /** Describes a Encryption Settings for a Disk */
 export interface DiskEncryptionSettings {
@@ -2709,9 +2653,7 @@ export const DiskEncryptionSettings = /*@__PURE__*/ S.suspend(() =>
     keyEncryptionKey: S.optional(KeyVaultKeyReference),
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DiskEncryptionSettings",
-}) as any as S.Schema<DiskEncryptionSettings>;
+).annotate({ identifier: "DiskEncryptionSettings" }) as any as S.Schema<DiskEncryptionSettings>;
 
 /** Specifies the caching requirements. Possible values are: **None,** **ReadOnly,** **ReadWrite.** The default values are: **None for Standard storage. ReadOnly for Premium storage** */
 export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
@@ -2953,9 +2895,7 @@ export const WinRMConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     listeners: S.optional(WinRMConfigurationListenersList),
   }),
-).annotate({
-  identifier: "WinRMConfiguration",
-}) as any as S.Schema<WinRMConfiguration>;
+).annotate({ identifier: "WinRMConfiguration" }) as any as S.Schema<WinRMConfiguration>;
 
 /** Specifies Windows operating system settings on the virtual machine. */
 export interface WindowsConfiguration {
@@ -2984,9 +2924,7 @@ export const WindowsConfiguration = /*@__PURE__*/ S.suspend(() =>
     winRM: S.optional(WinRMConfiguration),
     enableVMAgentPlatformUpdates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WindowsConfiguration",
-}) as any as S.Schema<WindowsConfiguration>;
+).annotate({ identifier: "WindowsConfiguration" }) as any as S.Schema<WindowsConfiguration>;
 
 /** Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. */
 export interface SshPublicKey {
@@ -3017,9 +2955,7 @@ export const SshConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicKeys: S.optional(SshConfigurationPublicKeysList),
   }),
-).annotate({
-  identifier: "SshConfiguration",
-}) as any as S.Schema<SshConfiguration>;
+).annotate({ identifier: "SshConfiguration" }) as any as S.Schema<SshConfiguration>;
 
 /** Specifies the mode of VM Guest Patching to IaaS virtual machine or virtual machines associated to virtual machine scale set with OrchestrationMode as Flexible.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - The virtual machine's default patching configuration is used. <br /><br /> **AutomaticByPlatform** - The virtual machine will be automatically updated by the platform. The property provisionVMAgent must be true */
 export type LinuxVMGuestPatchMode = "ImageDefault" | "AutomaticByPlatform";
@@ -3068,9 +3004,7 @@ export const LinuxPatchSettings = /*@__PURE__*/ S.suspend(() =>
     assessmentMode: S.optional(LinuxPatchAssessmentMode),
     automaticByPlatformSettings: S.optional(LinuxVMGuestPatchAutomaticByPlatformSettings),
   }),
-).annotate({
-  identifier: "LinuxPatchSettings",
-}) as any as S.Schema<LinuxPatchSettings>;
+).annotate({ identifier: "LinuxPatchSettings" }) as any as S.Schema<LinuxPatchSettings>;
 
 /** Specifies the Linux operating system settings on the virtual machine. For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros). */
 export interface LinuxConfiguration {
@@ -3093,9 +3027,7 @@ export const LinuxConfiguration = /*@__PURE__*/ S.suspend(() =>
     patchSettings: S.optional(LinuxPatchSettings),
     enableVMAgentPlatformUpdates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LinuxConfiguration",
-}) as any as S.Schema<LinuxConfiguration>;
+).annotate({ identifier: "LinuxConfiguration" }) as any as S.Schema<LinuxConfiguration>;
 
 export type VaultSecretGroupSourceVault = AvailabilitySetPropertiesInputVirtualMachinesItem;
 export const VaultSecretGroupSourceVault = AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -3112,9 +3044,7 @@ export const VaultCertificate = /*@__PURE__*/ S.suspend(() =>
     certificateUrl: S.optional(S.String),
     certificateStore: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VaultCertificate",
-}) as any as S.Schema<VaultCertificate>;
+).annotate({ identifier: "VaultCertificate" }) as any as S.Schema<VaultCertificate>;
 
 /** The list of key vault references in SourceVault which contain certificates. */
 export type VaultSecretGroupVaultCertificatesList = Array<VaultCertificate>;
@@ -3133,9 +3063,7 @@ export const VaultSecretGroup = /*@__PURE__*/ S.suspend(() =>
     sourceVault: S.optional(AvailabilitySetPropertiesInputVirtualMachinesItem),
     vaultCertificates: S.optional(VaultSecretGroupVaultCertificatesList),
   }),
-).annotate({
-  identifier: "VaultSecretGroup",
-}) as any as S.Schema<VaultSecretGroup>;
+).annotate({ identifier: "VaultSecretGroup" }) as any as S.Schema<VaultSecretGroup>;
 
 /** Specifies set of certificates that should be installed onto the virtual machine. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
 export type OSProfileSecretsList = Array<VaultSecretGroup>;
@@ -3190,9 +3118,7 @@ export const BootDiagnostics = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     storageUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BootDiagnostics",
-}) as any as S.Schema<BootDiagnostics>;
+).annotate({ identifier: "BootDiagnostics" }) as any as S.Schema<BootDiagnostics>;
 
 /** Specifies the boot diagnostic settings state. Minimum api-version: 2015-06-15. */
 export interface DiagnosticsProfile {
@@ -3203,9 +3129,7 @@ export const DiagnosticsProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     bootDiagnostics: S.optional(BootDiagnostics),
   }),
-).annotate({
-  identifier: "DiagnosticsProfile",
-}) as any as S.Schema<DiagnosticsProfile>;
+).annotate({ identifier: "DiagnosticsProfile" }) as any as S.Schema<DiagnosticsProfile>;
 
 /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Minimum api-version: 2020-12-01. */
 export interface UefiSettings {
@@ -3234,9 +3158,7 @@ export const EncryptionIdentity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userAssignedIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EncryptionIdentity",
-}) as any as S.Schema<EncryptionIdentity>;
+).annotate({ identifier: "EncryptionIdentity" }) as any as S.Schema<EncryptionIdentity>;
 
 /** Specifies the mode that ProxyAgent will execute on if the feature is enabled. ProxyAgent will start to audit or monitor but not enforce access control over requests to host endpoints in Audit mode, while in Enforce mode it will enforce access control. The default value is Enforce mode. */
 export type Mode = "Audit" | "Enforce";
@@ -3261,9 +3183,7 @@ export const HostEndpointSettings = /*@__PURE__*/ S.suspend(() =>
     inVMAccessControlProfileReferenceId: S.optional(S.String),
     useLocalFileRules: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "HostEndpointSettings",
-}) as any as S.Schema<HostEndpointSettings>;
+).annotate({ identifier: "HostEndpointSettings" }) as any as S.Schema<HostEndpointSettings>;
 
 /** Specifies ProxyAgent settings for the virtual machine or virtual machine scale set. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
@@ -3289,9 +3209,7 @@ export const ProxyAgentSettings = /*@__PURE__*/ S.suspend(() =>
     imds: S.optional(HostEndpointSettings),
     addProxyAgentExtension: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProxyAgentSettings",
-}) as any as S.Schema<ProxyAgentSettings>;
+).annotate({ identifier: "ProxyAgentSettings" }) as any as S.Schema<ProxyAgentSettings>;
 
 /** Specifies the Security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
@@ -3314,9 +3232,7 @@ export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
     encryptionIdentity: S.optional(EncryptionIdentity),
     proxyAgentSettings: S.optional(ProxyAgentSettings),
   }),
-).annotate({
-  identifier: "SecurityProfile",
-}) as any as S.Schema<SecurityProfile>;
+).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
 /** Specifies the HyperVGeneration Type */
 export type HyperVGenerationTypes = "V1" | "V2";
@@ -3430,9 +3346,7 @@ export const RestorePointInstanceView = /*@__PURE__*/ S.suspend(() =>
     diskRestorePoints: S.optional(RestorePointInstanceViewDiskRestorePointsList),
     statuses: S.optional(RestorePointInstanceViewStatusesList),
   }),
-).annotate({
-  identifier: "RestorePointInstanceView",
-}) as any as S.Schema<RestorePointInstanceView>;
+).annotate({ identifier: "RestorePointInstanceView" }) as any as S.Schema<RestorePointInstanceView>;
 
 /** The restore point properties. */
 export interface RestorePointProperties {
@@ -3464,9 +3378,7 @@ export const RestorePointProperties = /*@__PURE__*/ S.suspend(() =>
     instanceView: S.optional(RestorePointInstanceView),
     instantAccessDurationMinutes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RestorePointProperties",
-}) as any as S.Schema<RestorePointProperties>;
+).annotate({ identifier: "RestorePointProperties" }) as any as S.Schema<RestorePointProperties>;
 
 export interface CreateRestorePointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3493,9 +3405,7 @@ export const CreateRestorePointResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateRestorePointResponse>;
 
 /** Resource tags. */
-export type CreateSshPublicKeyRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSshPublicKeyRequestTagsMap = { [key: string]: string | undefined };
 export const CreateSshPublicKeyRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3549,9 +3459,7 @@ export const CreateSshPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSshPublicKeyRequest>;
 
 /** Resource tags. */
-export type CreateSshPublicKeyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateSshPublicKeyResponseTagsMap = { [key: string]: string | undefined };
 export const CreateSshPublicKeyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3588,9 +3496,7 @@ export const CreateSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateSshPublicKeyResponse>;
 
 /** Resource tags. */
-export type DedicatedHostGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DedicatedHostGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DedicatedHostGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3838,9 +3744,7 @@ export const DedicatedHostGroupsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<DedicatedHostGroupsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DedicatedHostsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DedicatedHostsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DedicatedHostsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3913,9 +3817,7 @@ export const DedicatedHostsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DedicatedHostsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DedicatedHostsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DedicatedHostsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DedicatedHostsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3991,9 +3893,7 @@ export const DedicatedHostProperties = /*@__PURE__*/ S.suspend(() =>
     instanceView: S.optional(DedicatedHostInstanceView),
     timeCreated: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedHostProperties",
-}) as any as S.Schema<DedicatedHostProperties>;
+).annotate({ identifier: "DedicatedHostProperties" }) as any as S.Schema<DedicatedHostProperties>;
 
 export interface DedicatedHostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -4241,9 +4141,7 @@ export const DeleteImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteImageRequest",
-}) as any as S.Schema<DeleteImageRequest>;
+).annotate({ identifier: "DeleteImageRequest" }) as any as S.Schema<DeleteImageRequest>;
 
 export interface DeleteImageResponse {}
 export const DeleteImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4277,9 +4175,7 @@ export const DeleteInterconnectBlockRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteInterconnectBlockResponse {}
 export const DeleteInterconnectBlockResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteInterconnectBlockResponse",
-  },
+  { identifier: "DeleteInterconnectBlockResponse" },
 ) as any as S.Schema<DeleteInterconnectBlockResponse>;
 
 export interface DeleteProximityPlacementGroupRequest {
@@ -4876,9 +4772,7 @@ export const LogAnalyticsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     output: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogAnalyticsOutput",
-}) as any as S.Schema<LogAnalyticsOutput>;
+).annotate({ identifier: "LogAnalyticsOutput" }) as any as S.Schema<LogAnalyticsOutput>;
 
 /** LogAnalytics operation status response */
 export interface LogAnalyticsOperationResult {
@@ -5016,9 +4910,7 @@ export const GetAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAvailabilitySetRequest>;
 
 /** Resource tags. */
-export type GetAvailabilitySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAvailabilitySetResponseTagsMap = { [key: string]: string | undefined };
 export const GetAvailabilitySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5092,9 +4984,7 @@ export const GetCapacityReservationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCapacityReservationRequest>;
 
 /** Resource tags. */
-export type GetCapacityReservationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCapacityReservationResponseTagsMap = { [key: string]: string | undefined };
 export const GetCapacityReservationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5174,9 +5064,7 @@ export const GetCapacityReservationGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCapacityReservationGroupRequest>;
 
 /** Resource tags. */
-export type GetCapacityReservationGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCapacityReservationGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetCapacityReservationGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5247,9 +5135,7 @@ export const GetContainerServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetContainerServiceRequest>;
 
 /** Resource tags */
-export type GetContainerServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetContainerServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetContainerServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5311,14 +5197,10 @@ export const GetDedicatedHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetDedicatedHostRequest",
-}) as any as S.Schema<GetDedicatedHostRequest>;
+).annotate({ identifier: "GetDedicatedHostRequest" }) as any as S.Schema<GetDedicatedHostRequest>;
 
 /** Resource tags. */
-export type GetDedicatedHostResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDedicatedHostResponseTagsMap = { [key: string]: string | undefined };
 export const GetDedicatedHostResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5353,9 +5235,7 @@ export const GetDedicatedHostResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DedicatedHostProperties),
     sku: Sku,
   }),
-).annotate({
-  identifier: "GetDedicatedHostResponse",
-}) as any as S.Schema<GetDedicatedHostResponse>;
+).annotate({ identifier: "GetDedicatedHostResponse" }) as any as S.Schema<GetDedicatedHostResponse>;
 
 export type GetDedicatedHostGroupRequestExpand = "instanceView" | "userData" | "resiliencyView";
 export const GetDedicatedHostGroupRequestExpand = S.String;
@@ -5389,9 +5269,7 @@ export const GetDedicatedHostGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDedicatedHostGroupRequest>;
 
 /** Resource tags. */
-export type GetDedicatedHostGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDedicatedHostGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetDedicatedHostGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5460,9 +5338,7 @@ export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 
 /** Resource tags. */
 export type GetImageResponseTagsMap = { [key: string]: string | undefined };
@@ -5579,9 +5455,7 @@ export const ImageStorageProfile = /*@__PURE__*/ S.suspend(() =>
     dataDisks: S.optional(ImageStorageProfileDataDisksList),
     zoneResilient: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ImageStorageProfile",
-}) as any as S.Schema<ImageStorageProfile>;
+).annotate({ identifier: "ImageStorageProfile" }) as any as S.Schema<ImageStorageProfile>;
 
 /** Describes the properties of an Image. */
 export interface ImageProperties {
@@ -5600,9 +5474,7 @@ export const ImageProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     hyperVGeneration: S.optional(HyperVGenerationTypes),
   }),
-).annotate({
-  identifier: "ImageProperties",
-}) as any as S.Schema<ImageProperties>;
+).annotate({ identifier: "ImageProperties" }) as any as S.Schema<ImageProperties>;
 
 /** The type of extendedLocation. */
 export type ExtendedLocationType = "EdgeZone";
@@ -5653,9 +5525,7 @@ export const GetImageResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ImageProperties),
     extendedLocation: S.optional(GetImageResponseExtendedLocation),
   }),
-).annotate({
-  identifier: "GetImageResponse",
-}) as any as S.Schema<GetImageResponse>;
+).annotate({ identifier: "GetImageResponse" }) as any as S.Schema<GetImageResponse>;
 
 export type GetInterconnectBlockRequestExpand = "instanceView";
 export const GetInterconnectBlockRequestExpand = S.String;
@@ -5689,9 +5559,7 @@ export const GetInterconnectBlockRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetInterconnectBlockRequest>;
 
 /** Resource tags. */
-export type GetInterconnectBlockResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetInterconnectBlockResponseTagsMap = { [key: string]: string | undefined };
 export const GetInterconnectBlockResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5869,9 +5737,7 @@ export const GetProximityPlacementGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProximityPlacementGroupRequest>;
 
 /** Resource tags. */
-export type GetProximityPlacementGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProximityPlacementGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetProximityPlacementGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6035,9 +5901,7 @@ export const GetRestorePointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetRestorePointRequest",
-}) as any as S.Schema<GetRestorePointRequest>;
+).annotate({ identifier: "GetRestorePointRequest" }) as any as S.Schema<GetRestorePointRequest>;
 
 export interface GetRestorePointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -6059,9 +5923,7 @@ export const GetRestorePointResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RestorePointProperties),
   }),
-).annotate({
-  identifier: "GetRestorePointResponse",
-}) as any as S.Schema<GetRestorePointResponse>;
+).annotate({ identifier: "GetRestorePointResponse" }) as any as S.Schema<GetRestorePointResponse>;
 
 export type GetRestorePointCollectionRequestExpand = "restorePoints";
 export const GetRestorePointCollectionRequestExpand = S.String;
@@ -6095,9 +5957,7 @@ export const GetRestorePointCollectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRestorePointCollectionRequest>;
 
 /** Resource tags. */
-export type GetRestorePointCollectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRestorePointCollectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetRestorePointCollectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6240,9 +6100,7 @@ export const DiagnosticProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     supportedResourceTypes: S.optional(DiagnosticPropertiesSupportedResourceTypesList),
   }),
-).annotate({
-  identifier: "DiagnosticProperties",
-}) as any as S.Schema<DiagnosticProperties>;
+).annotate({ identifier: "DiagnosticProperties" }) as any as S.Schema<DiagnosticProperties>;
 
 export interface GetSpotPlacementScoreResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6289,14 +6147,10 @@ export const GetSshPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetSshPublicKeyRequest",
-}) as any as S.Schema<GetSshPublicKeyRequest>;
+).annotate({ identifier: "GetSshPublicKeyRequest" }) as any as S.Schema<GetSshPublicKeyRequest>;
 
 /** Resource tags. */
-export type GetSshPublicKeyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSshPublicKeyResponseTagsMap = { [key: string]: string | undefined };
 export const GetSshPublicKeyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6328,9 +6182,7 @@ export const GetSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SshPublicKeyResourceProperties),
   }),
-).annotate({
-  identifier: "GetSshPublicKeyResponse",
-}) as any as S.Schema<GetSshPublicKeyResponse>;
+).annotate({ identifier: "GetSshPublicKeyResponse" }) as any as S.Schema<GetSshPublicKeyResponse>;
 
 export type GetVirtualMachineRequestExpand = "instanceView" | "userData" | "resiliencyView";
 export const GetVirtualMachineRequestExpand = S.String;
@@ -6359,14 +6211,10 @@ export const GetVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualMachineRequest",
-}) as any as S.Schema<GetVirtualMachineRequest>;
+).annotate({ identifier: "GetVirtualMachineRequest" }) as any as S.Schema<GetVirtualMachineRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6413,9 +6261,7 @@ export const VirtualHardDisk = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualHardDisk",
-}) as any as S.Schema<VirtualHardDisk>;
+).annotate({ identifier: "VirtualHardDisk" }) as any as S.Schema<VirtualHardDisk>;
 
 /** Specifies the ephemeral disk option for operating system disk. */
 export type DiffDiskOptions = "Local";
@@ -6440,9 +6286,7 @@ export const DiffDiskSettings = /*@__PURE__*/ S.suspend(() =>
     placement: S.optional(DiffDiskPlacement),
     enableFullCaching: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DiffDiskSettings",
-}) as any as S.Schema<DiffDiskSettings>;
+).annotate({ identifier: "DiffDiskSettings" }) as any as S.Schema<DiffDiskSettings>;
 
 /** Specifies how the virtual machine disk should be created. Possible values are **Attach:** This value is used when you are using a specialized disk to create the virtual machine. **FromImage:** This value is used when you are using an image to create the virtual machine. If you are using a platform image, you should also use the imageReference element described above. If you are using a marketplace image, you should also use the plan element previously described. **Empty:** This value is used when creating an empty data disk. **Copy:** This value is used to create a data disk from a snapshot or another disk. **Restore:** This value is used to create a data disk from a disk restore point. */
 export type DiskCreateOptionTypes = "FromImage" | "Empty" | "Attach" | "Copy" | "Restore";
@@ -6614,9 +6458,7 @@ export const AdditionalCapabilities = /*@__PURE__*/ S.suspend(() =>
     hibernationEnabled: S.optional(S.Boolean),
     enableFips1403Encryption: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AdditionalCapabilities",
-}) as any as S.Schema<AdditionalCapabilities>;
+).annotate({ identifier: "AdditionalCapabilities" }) as any as S.Schema<AdditionalCapabilities>;
 
 /** Specify what happens to the network interface when the VM is deleted */
 export type DeleteOptions = "Delete" | "Detach";
@@ -6733,9 +6575,7 @@ export const VirtualMachineIpTag = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     firstPartyServiceTagId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineIpTag",
-}) as any as S.Schema<VirtualMachineIpTag>;
+).annotate({ identifier: "VirtualMachineIpTag" }) as any as S.Schema<VirtualMachineIpTag>;
 
 /** The list of IP tags associated with the public IP address. */
 export type VirtualMachinePublicIPAddressConfigurationPropertiesIpTagsList =
@@ -6807,9 +6647,7 @@ export const PublicIPAddressSku = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(PublicIPAddressSkuName),
     tier: S.optional(PublicIPAddressSkuTier),
   }),
-).annotate({
-  identifier: "PublicIPAddressSku",
-}) as any as S.Schema<PublicIPAddressSku>;
+).annotate({ identifier: "PublicIPAddressSku" }) as any as S.Schema<PublicIPAddressSku>;
 
 /** Resource tags applied to the publicIP address created by this PublicIPAddressConfiguration */
 export type VirtualMachinePublicIPAddressConfigurationTagsMap = {
@@ -7061,9 +6899,7 @@ export const InterconnectGroupProfile = /*@__PURE__*/ S.suspend(() =>
     interconnectGroup: S.optional(AvailabilitySetPropertiesInputVirtualMachinesItem),
     subgroups: S.optional(InterconnectGroupProfileSubgroupsList),
   }),
-).annotate({
-  identifier: "InterconnectGroupProfile",
-}) as any as S.Schema<InterconnectGroupProfile>;
+).annotate({ identifier: "InterconnectGroupProfile" }) as any as S.Schema<InterconnectGroupProfile>;
 
 /** Specifies the network interfaces or the networking configuration of the virtual machine. */
 export interface NetworkProfile {
@@ -7253,9 +7089,7 @@ export const DiskInstanceView = /*@__PURE__*/ S.suspend(() =>
     statuses: S.optional(DiskInstanceViewStatusesList),
     storageAlignmentStatus: S.optional(StorageAlignmentStatus),
   }),
-).annotate({
-  identifier: "DiskInstanceView",
-}) as any as S.Schema<DiskInstanceView>;
+).annotate({ identifier: "DiskInstanceView" }) as any as S.Schema<DiskInstanceView>;
 
 /** The virtual machine disk information. */
 export type VirtualMachineInstanceViewDisksList = Array<DiskInstanceView>;
@@ -7445,9 +7279,7 @@ export const AvailablePatchSummary = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTime: S.optional(S.String),
     error: S.optional(AvailablePatchSummaryError),
   }),
-).annotate({
-  identifier: "AvailablePatchSummary",
-}) as any as S.Schema<AvailablePatchSummary>;
+).annotate({ identifier: "AvailablePatchSummary" }) as any as S.Schema<AvailablePatchSummary>;
 
 /** The Api error details */
 export type LastPatchInstallationSummaryErrorDetailsList = Array<ApiErrorBase>;
@@ -7557,9 +7389,7 @@ export const InterconnectInstanceView = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     interconnectSubgroupId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InterconnectInstanceView",
-}) as any as S.Schema<InterconnectInstanceView>;
+).annotate({ identifier: "InterconnectInstanceView" }) as any as S.Schema<InterconnectInstanceView>;
 
 /** Specifies which type of capacity reservation the virtual machine will consume capacity from if eligible or whether it is explicitly opted out from being associated and consuming capacity from any reserved capacity available in the subscription. Minimum api-version: 2026-04-01. */
 export type CapacityReservationType = "NotEligible" | "Targeted" | "Open" | "Disabled" | "Block";
@@ -7673,9 +7503,7 @@ export const ScheduledEventsProfile = /*@__PURE__*/ S.suspend(() =>
     terminateNotificationProfile: S.optional(TerminateNotificationProfile),
     osImageNotificationProfile: S.optional(OSImageNotificationProfile),
   }),
-).annotate({
-  identifier: "ScheduledEventsProfile",
-}) as any as S.Schema<ScheduledEventsProfile>;
+).annotate({ identifier: "ScheduledEventsProfile" }) as any as S.Schema<ScheduledEventsProfile>;
 
 export type CapacityReservationProfileCapacityReservationGroup =
   AvailabilitySetPropertiesInputVirtualMachinesItem;
@@ -7706,9 +7534,7 @@ export const InterconnectBlockProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     interconnectBlock: S.optional(ApiEntityReference),
   }),
-).annotate({
-  identifier: "InterconnectBlockProfile",
-}) as any as S.Schema<InterconnectBlockProfile>;
+).annotate({ identifier: "InterconnectBlockProfile" }) as any as S.Schema<InterconnectBlockProfile>;
 
 /** Specifies the required information to reference a compute gallery application version */
 export interface VMGalleryApplication {
@@ -7734,9 +7560,7 @@ export const VMGalleryApplication = /*@__PURE__*/ S.suspend(() =>
     treatFailureAsDeploymentFailure: S.optional(S.Boolean),
     enableAutomaticUpgrade: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "VMGalleryApplication",
-}) as any as S.Schema<VMGalleryApplication>;
+).annotate({ identifier: "VMGalleryApplication" }) as any as S.Schema<VMGalleryApplication>;
 
 /** Specifies the gallery applications that should be made available to the VM/VMSS */
 export type ApplicationProfileGalleryApplicationsList = Array<VMGalleryApplication>;
@@ -7753,9 +7577,7 @@ export const ApplicationProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     galleryApplications: S.optional(ApplicationProfileGalleryApplicationsList),
   }),
-).annotate({
-  identifier: "ApplicationProfile",
-}) as any as S.Schema<ApplicationProfile>;
+).annotate({ identifier: "ApplicationProfile" }) as any as S.Schema<ApplicationProfile>;
 
 /** Describes zone movement configuration. This allows VM to be moved across availability zones during an outage. */
 export interface ZoneMovement {
@@ -7777,9 +7599,7 @@ export const ResiliencyProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneMovement: S.optional(ZoneMovement),
   }),
-).annotate({
-  identifier: "ResiliencyProfile",
-}) as any as S.Schema<ResiliencyProfile>;
+).annotate({ identifier: "ResiliencyProfile" }) as any as S.Schema<ResiliencyProfile>;
 
 /** Describes the properties of a Virtual Machine. */
 export interface VirtualMachineProperties {
@@ -7869,9 +7689,7 @@ export const VirtualMachineProperties = /*@__PURE__*/ S.suspend(() =>
     timeCreated: S.optional(S.String),
     resiliencyProfile: S.optional(ResiliencyProfile),
   }),
-).annotate({
-  identifier: "VirtualMachineProperties",
-}) as any as S.Schema<VirtualMachineProperties>;
+).annotate({ identifier: "VirtualMachineProperties" }) as any as S.Schema<VirtualMachineProperties>;
 
 /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
 export interface Plan {
@@ -7894,9 +7712,7 @@ export const Plan = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Plan" }) as any as S.Schema<Plan>;
 
 /** Resource tags. */
-export type VirtualMachineExtensionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineExtensionTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineExtensionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7986,9 +7802,7 @@ export const VirtualMachineExtension = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VirtualMachineExtensionProperties),
   }),
-).annotate({
-  identifier: "VirtualMachineExtension",
-}) as any as S.Schema<VirtualMachineExtension>;
+).annotate({ identifier: "VirtualMachineExtension" }) as any as S.Schema<VirtualMachineExtension>;
 
 /** The virtual machine child extension resources. */
 export type GetVirtualMachineResponseResourcesList = Array<VirtualMachineExtension>;
@@ -8046,9 +7860,7 @@ export const VirtualMachineIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CommonResourceIdentityType),
     userAssignedIdentities: S.optional(VirtualMachineIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "VirtualMachineIdentity",
-}) as any as S.Schema<VirtualMachineIdentity>;
+).annotate({ identifier: "VirtualMachineIdentity" }) as any as S.Schema<VirtualMachineIdentity>;
 
 /** The availability zones. */
 export type GetVirtualMachineResponseZonesList = Array<string>;
@@ -8260,9 +8072,7 @@ export const RunCommandInputParameter = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "RunCommandInputParameter",
-}) as any as S.Schema<RunCommandInputParameter>;
+).annotate({ identifier: "RunCommandInputParameter" }) as any as S.Schema<RunCommandInputParameter>;
 
 /** The parameters used by the script. */
 export type VirtualMachineRunCommandPropertiesParametersList = Array<RunCommandInputParameter>;
@@ -8443,9 +8253,7 @@ export const GetVirtualMachineExtensionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualMachineExtensionRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineExtensionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineExtensionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8510,9 +8318,7 @@ export const GetVirtualMachineExtensionImageRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetVirtualMachineExtensionImageRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineExtensionImageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineExtensionImageResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineExtensionImageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8547,9 +8353,7 @@ export const ExtensionFeatureTag = /*@__PURE__*/ S.suspend(() =>
     key: S.String,
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtensionFeatureTag",
-}) as any as S.Schema<ExtensionFeatureTag>;
+).annotate({ identifier: "ExtensionFeatureTag" }) as any as S.Schema<ExtensionFeatureTag>;
 
 /** List of additional metadata properties (e.g., compliance flags, supported features). */
 export type ExtensionFeatureMetadataExtensionFeatureTagsList = Array<ExtensionFeatureTag>;
@@ -8566,9 +8370,7 @@ export const ExtensionFeatureMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     extensionFeatureTags: S.optional(ExtensionFeatureMetadataExtensionFeatureTagsList),
   }),
-).annotate({
-  identifier: "ExtensionFeatureMetadata",
-}) as any as S.Schema<ExtensionFeatureMetadata>;
+).annotate({ identifier: "ExtensionFeatureMetadata" }) as any as S.Schema<ExtensionFeatureMetadata>;
 
 /** Describes the properties of a Virtual Machine Extension Image. */
 export interface VirtualMachineExtensionImageProperties {
@@ -8675,9 +8477,7 @@ export const GetVirtualMachineImageRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualMachineImageRequest>;
 
 /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-export type GetVirtualMachineImageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineImageResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineImageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8758,9 +8558,7 @@ export const DisallowedConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vmDiskType: S.optional(VmDiskTypes),
   }),
-).annotate({
-  identifier: "DisallowedConfiguration",
-}) as any as S.Schema<DisallowedConfiguration>;
+).annotate({ identifier: "DisallowedConfiguration" }) as any as S.Schema<DisallowedConfiguration>;
 
 /** Specifies additional capabilities supported by the image */
 export interface VirtualMachineImageFeature {
@@ -8807,9 +8605,7 @@ export const AlternativeOption = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AlternativeType),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlternativeOption",
-}) as any as S.Schema<AlternativeOption>;
+).annotate({ identifier: "AlternativeOption" }) as any as S.Schema<AlternativeOption>;
 
 /** Describes image deprecation status properties on the image. */
 export interface ImageDeprecationStatus {
@@ -8826,9 +8622,7 @@ export const ImageDeprecationStatus = /*@__PURE__*/ S.suspend(() =>
     scheduledDeprecationTime: S.optional(S.String),
     alternativeOption: S.optional(AlternativeOption),
   }),
-).annotate({
-  identifier: "ImageDeprecationStatus",
-}) as any as S.Schema<ImageDeprecationStatus>;
+).annotate({ identifier: "ImageDeprecationStatus" }) as any as S.Schema<ImageDeprecationStatus>;
 
 /** Describes the properties of a Virtual Machine Image. */
 export interface VirtualMachineImageProperties {
@@ -8931,9 +8725,7 @@ export const GetVirtualMachineImagesEdgeZoneRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetVirtualMachineImagesEdgeZoneRequest>;
 
 /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-export type GetVirtualMachineImagesEdgeZoneResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineImagesEdgeZoneResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineImagesEdgeZoneResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9164,9 +8956,7 @@ export const GetVirtualMachineScaleSetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualMachineScaleSetRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineScaleSetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineScaleSetResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineScaleSetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9206,9 +8996,7 @@ export const RollingUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
     rollbackFailedInstancesOnPolicyBreach: S.optional(S.Boolean),
     maxSurge: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RollingUpgradePolicy",
-}) as any as S.Schema<RollingUpgradePolicy>;
+).annotate({ identifier: "RollingUpgradePolicy" }) as any as S.Schema<RollingUpgradePolicy>;
 
 /** The configuration parameters used for performing automatic OS upgrade. */
 export interface AutomaticOSUpgradePolicy {
@@ -9228,9 +9016,7 @@ export const AutomaticOSUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
     useRollingUpgradePolicy: S.optional(S.Boolean),
     osRollingUpgradeDeferral: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AutomaticOSUpgradePolicy",
-}) as any as S.Schema<AutomaticOSUpgradePolicy>;
+).annotate({ identifier: "AutomaticOSUpgradePolicy" }) as any as S.Schema<AutomaticOSUpgradePolicy>;
 
 /** Describes an upgrade policy - automatic, manual, or rolling. */
 export interface UpgradePolicy {
@@ -9268,9 +9054,7 @@ export const AutomaticRepairsPolicy = /*@__PURE__*/ S.suspend(() =>
     gracePeriod: S.optional(S.String),
     repairAction: S.optional(RepairAction),
   }),
-).annotate({
-  identifier: "AutomaticRepairsPolicy",
-}) as any as S.Schema<AutomaticRepairsPolicy>;
+).annotate({ identifier: "AutomaticRepairsPolicy" }) as any as S.Schema<AutomaticRepairsPolicy>;
 
 /** Specifies set of certificates that should be installed onto the virtual machines in the scale set. To install certificates on a virtual machine it is recommended to use the [Azure Key Vault virtual machine extension for Linux](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-linux) or the [Azure Key Vault virtual machine extension for Windows](https://docs.microsoft.com/azure/virtual-machines/extensions/key-vault-windows). */
 export type VirtualMachineScaleSetOSProfileSecretsList = Array<VaultSecretGroup>;
@@ -9931,9 +9715,7 @@ export const ServiceArtifactReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceArtifactReference",
-}) as any as S.Schema<ServiceArtifactReference>;
+).annotate({ identifier: "ServiceArtifactReference" }) as any as S.Schema<ServiceArtifactReference>;
 
 /** The list of virtual machine extension names to exclude when applying the security posture. */
 export type SecurityPostureReferenceExcludeExtensionsList = Array<string>;
@@ -9956,9 +9738,7 @@ export const SecurityPostureReference = /*@__PURE__*/ S.suspend(() =>
     excludeExtensions: S.optional(SecurityPostureReferenceExcludeExtensionsList),
     isOverridable: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SecurityPostureReference",
-}) as any as S.Schema<SecurityPostureReference>;
+).annotate({ identifier: "SecurityPostureReference" }) as any as S.Schema<SecurityPostureReference>;
 
 /** Describes a virtual machine scale set virtual machine profile. */
 export interface VirtualMachineScaleSetVMProfile {
@@ -10079,9 +9859,7 @@ export const SpotRestorePolicy = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     restoreTimeout: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SpotRestorePolicy",
-}) as any as S.Schema<SpotRestorePolicy>;
+).annotate({ identifier: "SpotRestorePolicy" }) as any as S.Schema<SpotRestorePolicy>;
 
 /** Specifies the target splits for Spot and Regular priority VMs within a scale set with flexible orchestration mode. With this property the customer is able to specify the base number of regular priority VMs created as the VMSS flex instance scales out and the split between Spot and Regular priority VMs after this base target has been reached. */
 export interface PriorityMixPolicy {
@@ -10095,9 +9873,7 @@ export const PriorityMixPolicy = /*@__PURE__*/ S.suspend(() =>
     baseRegularPriorityCount: S.optional(S.Number),
     regularPriorityPercentageAboveBase: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PriorityMixPolicy",
-}) as any as S.Schema<PriorityMixPolicy>;
+).annotate({ identifier: "PriorityMixPolicy" }) as any as S.Schema<PriorityMixPolicy>;
 
 /** The configuration parameters used while performing resilient VM creation. */
 export interface ResilientVMCreationPolicy {
@@ -10180,9 +9956,7 @@ export const ZoneAllocationPolicy = /*@__PURE__*/ S.suspend(() =>
     maxZoneCount: S.optional(S.Number),
     maxInstancePercentPerZonePolicy: S.optional(MaxInstancePercentPerZonePolicy),
   }),
-).annotate({
-  identifier: "ZoneAllocationPolicy",
-}) as any as S.Schema<ZoneAllocationPolicy>;
+).annotate({ identifier: "ZoneAllocationPolicy" }) as any as S.Schema<ZoneAllocationPolicy>;
 
 /** The configuration parameters used while performing restart recovery. */
 export interface RestartRecoveryPolicy {
@@ -10193,9 +9967,7 @@ export const RestartRecoveryPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RestartRecoveryPolicy",
-}) as any as S.Schema<RestartRecoveryPolicy>;
+).annotate({ identifier: "RestartRecoveryPolicy" }) as any as S.Schema<RestartRecoveryPolicy>;
 
 /** The configuration parameters used while performing start recovery. */
 export interface StartRecoveryPolicy {
@@ -10206,9 +9978,7 @@ export const StartRecoveryPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "StartRecoveryPolicy",
-}) as any as S.Schema<StartRecoveryPolicy>;
+).annotate({ identifier: "StartRecoveryPolicy" }) as any as S.Schema<StartRecoveryPolicy>;
 
 /** The configuration parameters used while performing reimage recovery. */
 export interface ReimageRecoveryPolicy {
@@ -10219,9 +9989,7 @@ export const ReimageRecoveryPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReimageRecoveryPolicy",
-}) as any as S.Schema<ReimageRecoveryPolicy>;
+).annotate({ identifier: "ReimageRecoveryPolicy" }) as any as S.Schema<ReimageRecoveryPolicy>;
 
 /** The configuration parameters used for operation recovery settings on a virtual machine scale set. */
 export interface OperationRecoverySettings {
@@ -10263,9 +10031,7 @@ export const ResiliencyPolicy = /*@__PURE__*/ S.suspend(() =>
     zoneAllocationPolicy: S.optional(ZoneAllocationPolicy),
     operationRecoverySettings: S.optional(OperationRecoverySettings),
   }),
-).annotate({
-  identifier: "ResiliencyPolicy",
-}) as any as S.Schema<ResiliencyPolicy>;
+).annotate({ identifier: "ResiliencyPolicy" }) as any as S.Schema<ResiliencyPolicy>;
 
 /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
 export type ZonalPlatformFaultDomainAlignMode = "Aligned" | "Unaligned" | "BestEffortAligned";
@@ -10283,9 +10049,7 @@ export const SkuProfileVMSize = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     rank: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SkuProfileVMSize",
-}) as any as S.Schema<SkuProfileVMSize>;
+).annotate({ identifier: "SkuProfileVMSize" }) as any as S.Schema<SkuProfileVMSize>;
 
 /** Specifies the VM sizes for the virtual machine scale set. */
 export type SkuProfileVmSizesList = Array<SkuProfileVMSize>;
@@ -10373,9 +10137,7 @@ export const LifecycleHooksProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     lifecycleHooks: S.optional(LifecycleHooksProfileLifecycleHooksList),
   }),
-).annotate({
-  identifier: "LifecycleHooksProfile",
-}) as any as S.Schema<LifecycleHooksProfile>;
+).annotate({ identifier: "LifecycleHooksProfile" }) as any as S.Schema<LifecycleHooksProfile>;
 
 /** Specifies the external health policy for the virtual machine scale set. */
 export interface ExternalHealthPolicy {
@@ -10392,9 +10154,7 @@ export const ExternalHealthPolicy = /*@__PURE__*/ S.suspend(() =>
     expiryDuration: S.optional(S.String),
     gracePeriod: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExternalHealthPolicy",
-}) as any as S.Schema<ExternalHealthPolicy>;
+).annotate({ identifier: "ExternalHealthPolicy" }) as any as S.Schema<ExternalHealthPolicy>;
 
 /** Describes the properties of a Virtual Machine Scale Set. */
 export interface VirtualMachineScaleSetProperties {
@@ -11070,9 +10830,7 @@ export const RollbackStatusInfo = /*@__PURE__*/ S.suspend(() =>
     failedRolledbackInstanceCount: S.optional(S.Number),
     rollbackError: S.optional(RollbackStatusInfoRollbackError),
   }),
-).annotate({
-  identifier: "RollbackStatusInfo",
-}) as any as S.Schema<RollbackStatusInfo>;
+).annotate({ identifier: "RollbackStatusInfo" }) as any as S.Schema<RollbackStatusInfo>;
 
 /** Describes each OS upgrade on the Virtual Machine Scale Set. */
 export interface UpgradeOperationHistoricalStatusInfoProperties {
@@ -11334,9 +11092,7 @@ export const GetVirtualMachineScaleSetVMRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetVirtualMachineScaleSetVMRequest>;
 
 /** Resource tags. */
-export type GetVirtualMachineScaleSetVMResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualMachineScaleSetVMResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualMachineScaleSetVMResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11883,9 +11639,7 @@ export const GetVirtualMachineScaleSetVMRunCommandResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<GetVirtualMachineScaleSetVMRunCommandResponse>;
 
 /** Resource tags. */
-export type ImagesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ImagesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ImagesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11910,9 +11664,7 @@ export const ImagePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     storageProfile: S.optional(ImageStorageProfile),
     hyperVGeneration: S.optional(HyperVGenerationTypes),
   }),
-).annotate({
-  identifier: "ImagePropertiesInput",
-}) as any as S.Schema<ImagePropertiesInput>;
+).annotate({ identifier: "ImagePropertiesInput" }) as any as S.Schema<ImagePropertiesInput>;
 
 /** The complex type of the extended location. */
 export interface ImagesCreateOrUpdateRequestExtendedLocation {
@@ -11968,9 +11720,7 @@ export const ImagesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ImagesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ImagesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ImagesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ImagesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12087,9 +11837,7 @@ export const WindowsParameters = /*@__PURE__*/ S.suspend(() =>
     patchNameMasksToInclude: S.optional(WindowsParametersPatchNameMasksToIncludeList),
     patchNameMasksToExclude: S.optional(WindowsParametersPatchNameMasksToExcludeList),
   }),
-).annotate({
-  identifier: "WindowsParameters",
-}) as any as S.Schema<WindowsParameters>;
+).annotate({ identifier: "WindowsParameters" }) as any as S.Schema<WindowsParameters>;
 
 export type VMGuestPatchClassificationLinux = "Critical" | "Security" | "Other";
 export const VMGuestPatchClassificationLinux = S.String;
@@ -12132,9 +11880,7 @@ export const LinuxParameters = /*@__PURE__*/ S.suspend(() =>
     packageNameMasksToExclude: S.optional(LinuxParametersPackageNameMasksToExcludeList),
     maintenanceRunId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinuxParameters",
-}) as any as S.Schema<LinuxParameters>;
+).annotate({ identifier: "LinuxParameters" }) as any as S.Schema<LinuxParameters>;
 
 export interface InstallVirtualMachinePatchesRequest {
   /** The ID of the target subscription. */
@@ -12223,9 +11969,7 @@ export const PatchInstallationDetail = /*@__PURE__*/ S.suspend(() =>
     classifications: S.optional(PatchInstallationDetailClassificationsList),
     installationState: S.optional(PatchInstallationState),
   }),
-).annotate({
-  identifier: "PatchInstallationDetail",
-}) as any as S.Schema<PatchInstallationDetail>;
+).annotate({ identifier: "PatchInstallationDetail" }) as any as S.Schema<PatchInstallationDetail>;
 
 /** The patches that were installed during the operation. */
 export type VirtualMachineInstallPatchesResultPatchesList = Array<PatchInstallationDetail>;
@@ -12311,9 +12055,7 @@ export const VirtualMachineInstallPatchesResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VirtualMachineInstallPatchesResult>;
 
 /** Resource tags. */
-export type InterconnectBlocksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InterconnectBlocksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const InterconnectBlocksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12382,9 +12124,7 @@ export const InterconnectBlocksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<InterconnectBlocksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type InterconnectBlocksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type InterconnectBlocksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const InterconnectBlocksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12484,9 +12224,7 @@ export const VirtualMachineSize = /*@__PURE__*/ S.suspend(() =>
     memoryInMB: S.optional(S.Number),
     maxDataDiskCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VirtualMachineSize",
-}) as any as S.Schema<VirtualMachineSize>;
+).annotate({ identifier: "VirtualMachineSize" }) as any as S.Schema<VirtualMachineSize>;
 
 /** The list of virtual machine sizes. */
 export type VirtualMachineSizeListResultValueList = Array<VirtualMachineSize>;
@@ -12569,9 +12307,7 @@ export const AvailabilitySet = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AvailabilitySetProperties),
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "AvailabilitySet",
-}) as any as S.Schema<AvailabilitySet>;
+).annotate({ identifier: "AvailabilitySet" }) as any as S.Schema<AvailabilitySet>;
 
 /** The list of availability sets. */
 export type AvailabilitySetListResultValueList = Array<AvailabilitySet>;
@@ -12699,9 +12435,7 @@ export const CapacityReservation = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     zones: S.optional(CapacityReservationZonesList),
   }),
-).annotate({
-  identifier: "CapacityReservation",
-}) as any as S.Schema<CapacityReservation>;
+).annotate({ identifier: "CapacityReservation" }) as any as S.Schema<CapacityReservation>;
 
 /** The list of capacity reservations. */
 export type CapacityReservationListResultValueList = Array<CapacityReservation>;
@@ -12758,9 +12492,7 @@ export const ListCapacityReservationGroupByResourceGroupRequest = /*@__PURE__*/ 
 }) as any as S.Schema<ListCapacityReservationGroupByResourceGroupRequest>;
 
 /** Resource tags. */
-export type CapacityReservationGroupTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CapacityReservationGroupTagsMap = { [key: string]: string | undefined };
 export const CapacityReservationGroupTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12802,9 +12534,7 @@ export const CapacityReservationGroup = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CapacityReservationGroupProperties),
     zones: S.optional(CapacityReservationGroupZonesList),
   }),
-).annotate({
-  identifier: "CapacityReservationGroup",
-}) as any as S.Schema<CapacityReservationGroup>;
+).annotate({ identifier: "CapacityReservationGroup" }) as any as S.Schema<CapacityReservationGroup>;
 
 /** The list of capacity reservation groups. */
 export type CapacityReservationGroupListResultValueList = Array<CapacityReservationGroup>;
@@ -12922,9 +12652,7 @@ export const ContainerService = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ContainerServiceTagsMap),
     properties: S.optional(ContainerServiceProperties),
   }),
-).annotate({
-  identifier: "ContainerService",
-}) as any as S.Schema<ContainerService>;
+).annotate({ identifier: "ContainerService" }) as any as S.Schema<ContainerService>;
 
 /** the list of container services. */
 export type ContainerServiceListResultValueList = Array<ContainerService>;
@@ -13099,9 +12827,7 @@ export const DedicatedHostListResult = /*@__PURE__*/ S.suspend(() =>
     value: DedicatedHostListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DedicatedHostListResult",
-}) as any as S.Schema<DedicatedHostListResult>;
+).annotate({ identifier: "DedicatedHostListResult" }) as any as S.Schema<DedicatedHostListResult>;
 
 export interface ListDedicatedHostGroupByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -13168,9 +12894,7 @@ export const DedicatedHostGroup = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DedicatedHostGroupProperties),
     zones: S.optional(DedicatedHostGroupZonesList),
   }),
-).annotate({
-  identifier: "DedicatedHostGroup",
-}) as any as S.Schema<DedicatedHostGroup>;
+).annotate({ identifier: "DedicatedHostGroup" }) as any as S.Schema<DedicatedHostGroup>;
 
 /** The list of dedicated host groups. */
 export type DedicatedHostGroupListResultValueList = Array<DedicatedHostGroup>;
@@ -13296,9 +13020,7 @@ export const ImageListResult = /*@__PURE__*/ S.suspend(() =>
     value: ImageListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageListResult",
-}) as any as S.Schema<ImageListResult>;
+).annotate({ identifier: "ImageListResult" }) as any as S.Schema<ImageListResult>;
 
 export interface ListImagesRequest {
   /** The ID of the target subscription. */
@@ -13315,9 +13037,7 @@ export const ListImagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListImagesRequest",
-}) as any as S.Schema<ListImagesRequest>;
+).annotate({ identifier: "ListImagesRequest" }) as any as S.Schema<ListImagesRequest>;
 
 export interface ListInterconnectBlockByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -13390,9 +13110,7 @@ export const InterconnectBlock = /*@__PURE__*/ S.suspend(() =>
     zones: S.optional(InterconnectBlockZonesList),
     placement: S.optional(Placement),
   }),
-).annotate({
-  identifier: "InterconnectBlock",
-}) as any as S.Schema<InterconnectBlock>;
+).annotate({ identifier: "InterconnectBlock" }) as any as S.Schema<InterconnectBlock>;
 
 /** The list of Interconnect Blocks. */
 export type InterconnectBlockListResultValueList = Array<InterconnectBlock>;
@@ -13445,9 +13163,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-06",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -13467,9 +13183,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -13519,9 +13233,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProximityPlacementGroupByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -13546,9 +13258,7 @@ export const ListProximityPlacementGroupByResourceGroupRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListProximityPlacementGroupByResourceGroupRequest>;
 
 /** Resource tags. */
-export type ProximityPlacementGroupTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProximityPlacementGroupTagsMap = { [key: string]: string | undefined };
 export const ProximityPlacementGroupTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13590,9 +13300,7 @@ export const ProximityPlacementGroup = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProximityPlacementGroupProperties),
     zones: S.optional(ProximityPlacementGroupZonesList),
   }),
-).annotate({
-  identifier: "ProximityPlacementGroup",
-}) as any as S.Schema<ProximityPlacementGroup>;
+).annotate({ identifier: "ProximityPlacementGroup" }) as any as S.Schema<ProximityPlacementGroup>;
 
 /** The list of proximity placement groups. */
 export type ProximityPlacementGroupListResultValueList = Array<ProximityPlacementGroup>;
@@ -13655,9 +13363,7 @@ export const ListRestorePointCollectionAllRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ListRestorePointCollectionAllRequest>;
 
 /** Resource tags. */
-export type RestorePointCollectionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RestorePointCollectionTagsMap = { [key: string]: string | undefined };
 export const RestorePointCollectionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13690,9 +13396,7 @@ export const RestorePointCollection = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(RestorePointCollectionProperties),
   }),
-).annotate({
-  identifier: "RestorePointCollection",
-}) as any as S.Schema<RestorePointCollection>;
+).annotate({ identifier: "RestorePointCollection" }) as any as S.Schema<RestorePointCollection>;
 
 /** Gets the list of restore point collections. */
 export type RestorePointCollectionListResultValueList = Array<RestorePointCollection>;
@@ -13794,9 +13498,7 @@ export const SshPublicKeyResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(SshPublicKeyResourceProperties),
   }),
-).annotate({
-  identifier: "SshPublicKeyResource",
-}) as any as S.Schema<SshPublicKeyResource>;
+).annotate({ identifier: "SshPublicKeyResource" }) as any as S.Schema<SshPublicKeyResource>;
 
 /** The list of SSH public keys. */
 export type SshPublicKeysGroupListResultValueList = Array<SshPublicKeyResource>;
@@ -13857,9 +13559,7 @@ export const ListUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsageRequest",
-}) as any as S.Schema<ListUsageRequest>;
+).annotate({ identifier: "ListUsageRequest" }) as any as S.Schema<ListUsageRequest>;
 
 /** An enum describing the unit of usage measurement. */
 export type UsageUnit = "Count";
@@ -13917,9 +13617,7 @@ export const ListUsagesResult = /*@__PURE__*/ S.suspend(() =>
     value: ListUsagesResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUsagesResult",
-}) as any as S.Schema<ListUsagesResult>;
+).annotate({ identifier: "ListUsagesResult" }) as any as S.Schema<ListUsagesResult>;
 
 export type ListVirtualMachineAllRequestExpand = "instanceView";
 export const ListVirtualMachineAllRequestExpand = S.String;
@@ -14046,9 +13744,7 @@ export const VirtualMachineListResult = /*@__PURE__*/ S.suspend(() =>
     value: VirtualMachineListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineListResult",
-}) as any as S.Schema<VirtualMachineListResult>;
+).annotate({ identifier: "VirtualMachineListResult" }) as any as S.Schema<VirtualMachineListResult>;
 
 export interface ListVirtualMachineAvailableSizesRequest {
   /** The ID of the target subscription. */
@@ -14122,9 +13818,7 @@ export const ListVirtualMachineExtensionImageTypesRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ListVirtualMachineExtensionImageTypesRequest>;
 
 /** Resource tags. */
-export type VirtualMachineExtensionImageTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineExtensionImageTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineExtensionImageTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14303,9 +13997,7 @@ export const ListVirtualMachineImageByEdgeZoneRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListVirtualMachineImageByEdgeZoneRequest>;
 
 /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
-export type VirtualMachineImageResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineImageResourceTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineImageResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14735,9 +14427,7 @@ export const ListVirtualMachineRunCommandByVirtualMachineRequest = /*@__PURE__*/
 }) as any as S.Schema<ListVirtualMachineRunCommandByVirtualMachineRequest>;
 
 /** Resource tags. */
-export type VirtualMachineRunCommandTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineRunCommandTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineRunCommandTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14770,9 +14460,7 @@ export const VirtualMachineRunCommand = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(VirtualMachineRunCommandProperties),
   }),
-).annotate({
-  identifier: "VirtualMachineRunCommand",
-}) as any as S.Schema<VirtualMachineRunCommand>;
+).annotate({ identifier: "VirtualMachineRunCommand" }) as any as S.Schema<VirtualMachineRunCommand>;
 
 /** The list of run commands. */
 export type VirtualMachineRunCommandsListResultValueList = Array<VirtualMachineRunCommand>;
@@ -14839,9 +14527,7 @@ export const RunCommandDocumentBase = /*@__PURE__*/ S.suspend(() =>
     label: S.String,
     description: S.String,
   }),
-).annotate({
-  identifier: "RunCommandDocumentBase",
-}) as any as S.Schema<RunCommandDocumentBase>;
+).annotate({ identifier: "RunCommandDocumentBase" }) as any as S.Schema<RunCommandDocumentBase>;
 
 /** The list of virtual machine run commands. */
 export type RunCommandListResultValueList = Array<RunCommandDocumentBase>;
@@ -14861,9 +14547,7 @@ export const RunCommandListResult = /*@__PURE__*/ S.suspend(() =>
     value: RunCommandListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunCommandListResult",
-}) as any as S.Schema<RunCommandListResult>;
+).annotate({ identifier: "RunCommandListResult" }) as any as S.Schema<RunCommandListResult>;
 
 export type ListVirtualMachinesRequestExpand = "instanceView";
 export const ListVirtualMachinesRequestExpand = S.String;
@@ -14916,9 +14600,7 @@ export const ListVirtualMachineScaleSetAllRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ListVirtualMachineScaleSetAllRequest>;
 
 /** Resource tags. */
-export type VirtualMachineScaleSetTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineScaleSetTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineScaleSetTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14982,9 +14664,7 @@ export const VirtualMachineScaleSet = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     placement: S.optional(Placement),
   }),
-).annotate({
-  identifier: "VirtualMachineScaleSet",
-}) as any as S.Schema<VirtualMachineScaleSet>;
+).annotate({ identifier: "VirtualMachineScaleSet" }) as any as S.Schema<VirtualMachineScaleSet>;
 
 /** The list of virtual machine scale sets. */
 export type VirtualMachineScaleSetListWithLinkResultValueList = Array<VirtualMachineScaleSet>;
@@ -15319,9 +14999,7 @@ export const ListVirtualMachineScaleSetVMDiagnosticRunCommandsRequest = /*@__PUR
 }) as any as S.Schema<ListVirtualMachineScaleSetVMDiagnosticRunCommandsRequest>;
 
 /** Resource tags. */
-export type VirtualMachineDiagnosticRunCommandTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineDiagnosticRunCommandTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineDiagnosticRunCommandTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15523,9 +15201,7 @@ export const ListVirtualMachineScaleSetVMsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ListVirtualMachineScaleSetVMsRequest>;
 
 /** Resource tags. */
-export type VirtualMachineScaleSetVMTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachineScaleSetVMTagsMap = { [key: string]: string | undefined };
 export const VirtualMachineScaleSetVMTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15591,9 +15267,7 @@ export const VirtualMachineScaleSetVM = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(VirtualMachineIdentity),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineScaleSetVM",
-}) as any as S.Schema<VirtualMachineScaleSetVM>;
+).annotate({ identifier: "VirtualMachineScaleSetVM" }) as any as S.Schema<VirtualMachineScaleSetVM>;
 
 /** The list of virtual machine scale sets VMs. */
 export type VirtualMachineScaleSetVMListResultValueList = Array<VirtualMachineScaleSetVM>;
@@ -16416,9 +16090,7 @@ export const RunCommandResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(RunCommandResultValueList),
   }),
-).annotate({
-  identifier: "RunCommandResult",
-}) as any as S.Schema<RunCommandResult>;
+).annotate({ identifier: "RunCommandResult" }) as any as S.Schema<RunCommandResult>;
 
 /** Optional. The script to be executed. When this value is given, the given script will override the default script of the command. */
 export type RunVirtualMachineScaleSetVMCommandRequestScriptList = Array<string>;
@@ -16775,9 +16447,7 @@ export const StartVirtualMachineScaleSetVMResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<StartVirtualMachineScaleSetVMResponse>;
 
 /** Resource tags */
-export type UpdateAvailabilitySetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAvailabilitySetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAvailabilitySetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16818,9 +16488,7 @@ export const UpdateAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAvailabilitySetRequest>;
 
 /** Resource tags. */
-export type UpdateAvailabilitySetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAvailabilitySetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAvailabilitySetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16860,9 +16528,7 @@ export const UpdateAvailabilitySetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAvailabilitySetResponse>;
 
 /** Resource tags */
-export type UpdateCapacityReservationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCapacityReservationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCapacityReservationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16906,9 +16572,7 @@ export const UpdateCapacityReservationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCapacityReservationRequest>;
 
 /** Resource tags. */
-export type UpdateCapacityReservationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCapacityReservationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCapacityReservationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16957,9 +16621,7 @@ export const UpdateCapacityReservationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCapacityReservationResponse>;
 
 /** Resource tags */
-export type UpdateCapacityReservationGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCapacityReservationGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCapacityReservationGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16997,9 +16659,7 @@ export const UpdateCapacityReservationGroupRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateCapacityReservationGroupRequest>;
 
 /** Resource tags. */
-export type UpdateCapacityReservationGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCapacityReservationGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCapacityReservationGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17045,9 +16705,7 @@ export const UpdateCapacityReservationGroupResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateCapacityReservationGroupResponse>;
 
 /** Resource tags */
-export type UpdateDedicatedHostRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDedicatedHostRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDedicatedHostRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17091,9 +16749,7 @@ export const UpdateDedicatedHostRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDedicatedHostRequest>;
 
 /** Resource tags. */
-export type UpdateDedicatedHostResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDedicatedHostResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDedicatedHostResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17133,9 +16789,7 @@ export const UpdateDedicatedHostResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDedicatedHostResponse>;
 
 /** Resource tags */
-export type UpdateDedicatedHostGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDedicatedHostGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDedicatedHostGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17182,9 +16836,7 @@ export const UpdateDedicatedHostGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDedicatedHostGroupRequest>;
 
 /** Resource tags. */
-export type UpdateDedicatedHostGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDedicatedHostGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDedicatedHostGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17263,9 +16915,7 @@ export const UpdateImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateImageRequest",
-}) as any as S.Schema<UpdateImageRequest>;
+).annotate({ identifier: "UpdateImageRequest" }) as any as S.Schema<UpdateImageRequest>;
 
 /** Resource tags. */
 export type UpdateImageResponseTagsMap = { [key: string]: string | undefined };
@@ -17307,14 +16957,10 @@ export const UpdateImageResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ImageProperties),
     extendedLocation: S.optional(GetImageResponseExtendedLocation),
   }),
-).annotate({
-  identifier: "UpdateImageResponse",
-}) as any as S.Schema<UpdateImageResponse>;
+).annotate({ identifier: "UpdateImageResponse" }) as any as S.Schema<UpdateImageResponse>;
 
 /** Resource tags */
-export type UpdateInterconnectBlockRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInterconnectBlockRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateInterconnectBlockRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17352,9 +16998,7 @@ export const UpdateInterconnectBlockRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInterconnectBlockRequest>;
 
 /** Resource tags. */
-export type UpdateInterconnectBlockResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateInterconnectBlockResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateInterconnectBlockResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17406,9 +17050,7 @@ export const UpdateInterconnectBlockResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateInterconnectBlockResponse>;
 
 /** Resource tags */
-export type UpdateProximityPlacementGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProximityPlacementGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateProximityPlacementGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17443,9 +17085,7 @@ export const UpdateProximityPlacementGroupRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateProximityPlacementGroupRequest>;
 
 /** Resource tags. */
-export type UpdateProximityPlacementGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProximityPlacementGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProximityPlacementGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17491,9 +17131,7 @@ export const UpdateProximityPlacementGroupResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateProximityPlacementGroupResponse>;
 
 /** Resource tags */
-export type UpdateRestorePointCollectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRestorePointCollectionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateRestorePointCollectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17531,9 +17169,7 @@ export const UpdateRestorePointCollectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateRestorePointCollectionRequest>;
 
 /** Resource tags. */
-export type UpdateRestorePointCollectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRestorePointCollectionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateRestorePointCollectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17570,9 +17206,7 @@ export const UpdateRestorePointCollectionResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateRestorePointCollectionResponse>;
 
 /** Resource tags */
-export type UpdateSshPublicKeyRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSshPublicKeyRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSshPublicKeyRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17610,9 +17244,7 @@ export const UpdateSshPublicKeyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSshPublicKeyRequest>;
 
 /** Resource tags. */
-export type UpdateSshPublicKeyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSshPublicKeyResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSshPublicKeyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17649,9 +17281,7 @@ export const UpdateSshPublicKeyResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSshPublicKeyResponse>;
 
 /** Resource tags */
-export type UpdateVirtualMachineRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17684,9 +17314,7 @@ export const ImageReferenceInput = /*@__PURE__*/ S.suspend(() =>
     sharedGalleryImageId: S.optional(S.String),
     communityGalleryImageId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageReferenceInput",
-}) as any as S.Schema<ImageReferenceInput>;
+).annotate({ identifier: "ImageReferenceInput" }) as any as S.Schema<ImageReferenceInput>;
 
 /** Specifies the parameters that are used to add a data disk to a virtual machine. For more information about disks, see [About disks and VHDs for Azure virtual machines](https://docs.microsoft.com/azure/virtual-machines/managed-disks-overview). */
 export type StorageProfileInputDataDisksList = Array<DataDisk>;
@@ -17718,9 +17346,7 @@ export const StorageProfileInput = /*@__PURE__*/ S.suspend(() =>
     alignRegionalDisksToVMZone: S.optional(S.Boolean),
     diskApiVersion: S.optional(DiskApiVersion),
   }),
-).annotate({
-  identifier: "StorageProfileInput",
-}) as any as S.Schema<StorageProfileInput>;
+).annotate({ identifier: "StorageProfileInput" }) as any as S.Schema<StorageProfileInput>;
 
 /** Specifies additional base-64 encoded XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. */
 export type WindowsConfigurationInputAdditionalUnattendContentList =
@@ -17980,9 +17606,7 @@ export const UpdateVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18200,9 +17824,7 @@ export const UpdateVirtualMachineDiagnosticRunCommandResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateVirtualMachineDiagnosticRunCommandResponse>;
 
 /** Resource tags */
-export type UpdateVirtualMachineExtensionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineExtensionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineExtensionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18283,9 +17905,7 @@ export const UpdateVirtualMachineExtensionRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateVirtualMachineExtensionRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineExtensionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineExtensionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineExtensionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18322,9 +17942,7 @@ export const UpdateVirtualMachineExtensionResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateVirtualMachineExtensionResponse>;
 
 /** Resource tags */
-export type UpdateVirtualMachineRunCommandRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineRunCommandRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineRunCommandRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18365,9 +17983,7 @@ export const UpdateVirtualMachineRunCommandRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateVirtualMachineRunCommandRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineRunCommandResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineRunCommandResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineRunCommandResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18404,9 +18020,7 @@ export const UpdateVirtualMachineRunCommandResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateVirtualMachineRunCommandResponse>;
 
 /** Resource tags */
-export type UpdateVirtualMachineScaleSetRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineScaleSetRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineScaleSetRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19107,9 +18721,7 @@ export const UpdateVirtualMachineScaleSetRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualMachineScaleSetRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineScaleSetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineScaleSetResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineScaleSetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19355,9 +18967,7 @@ export const UpdateVirtualMachineScaleSetLifeCycleHookEventResponse = /*@__PURE_
 }) as any as S.Schema<UpdateVirtualMachineScaleSetLifeCycleHookEventResponse>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineScaleSetVMRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineScaleSetVMRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineScaleSetVMRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19466,9 +19076,7 @@ export const UpdateVirtualMachineScaleSetVMRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<UpdateVirtualMachineScaleSetVMRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualMachineScaleSetVMResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualMachineScaleSetVMResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualMachineScaleSetVMResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19857,9 +19465,7 @@ export const CancelOperationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: CancelOperationsResponseResultsList,
   }),
-).annotate({
-  identifier: "CancelOperationsResponse",
-}) as any as S.Schema<CancelOperationsResponse>;
+).annotate({ identifier: "CancelOperationsResponse" }) as any as S.Schema<CancelOperationsResponse>;
 
 export interface VirtualMachineBulkOperationsBulkDeleteRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -20560,9 +20166,7 @@ export const DataDisksToAttach = /*@__PURE__*/ S.suspend(() =>
     diskEncryptionSet: S.optional(AvailabilitySetPropertiesInputVirtualMachinesItem),
     writeAcceleratorEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DataDisksToAttach",
-}) as any as S.Schema<DataDisksToAttach>;
+).annotate({ identifier: "DataDisksToAttach" }) as any as S.Schema<DataDisksToAttach>;
 
 /** The list of managed data disks to be attached. */
 export type VirtualMachinesAttachDetachDataDisksRequestDataDisksToAttachList =
@@ -20584,9 +20188,7 @@ export const DataDisksToDetach = /*@__PURE__*/ S.suspend(() =>
     diskId: S.String,
     detachOption: S.optional(DiskDetachOptionTypes),
   }),
-).annotate({
-  identifier: "DataDisksToDetach",
-}) as any as S.Schema<DataDisksToDetach>;
+).annotate({ identifier: "DataDisksToDetach" }) as any as S.Schema<DataDisksToDetach>;
 
 /** The list of managed data disks to be detached. */
 export type VirtualMachinesAttachDetachDataDisksRequestDataDisksToDetachList =
@@ -21144,9 +20746,7 @@ export const RecoveryWalkResponse = /*@__PURE__*/ S.suspend(() =>
     walkPerformed: S.optional(S.Boolean),
     nextPlatformUpdateDomain: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RecoveryWalkResponse",
-}) as any as S.Schema<RecoveryWalkResponse>;
+).annotate({ identifier: "RecoveryWalkResponse" }) as any as S.Schema<RecoveryWalkResponse>;
 
 /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
 export type VirtualMachineScaleSetsPerformMaintenanceRequestInstanceIdsList = Array<string>;
@@ -21902,9 +21502,7 @@ export const VirtualMachineScaleSetVMsSimulateEvictionResponse = /*@__PURE__*/ S
 }) as any as S.Schema<VirtualMachineScaleSetVMsSimulateEvictionResponse>;
 
 /** Resource tags. */
-export type VirtualMachinesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualMachinesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -21972,9 +21570,7 @@ export const VirtualMachinesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualMachinesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualMachinesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualMachinesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualMachinesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -22209,9 +21805,7 @@ export const VirtualMachinesPowerOffRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface VirtualMachinesPowerOffResponse {}
 export const VirtualMachinesPowerOffResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "VirtualMachinesPowerOffResponse",
-  },
+  { identifier: "VirtualMachinesPowerOffResponse" },
 ) as any as S.Schema<VirtualMachinesPowerOffResponse>;
 
 export interface VirtualMachinesReapplyRequest {

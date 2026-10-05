@@ -66,7 +66,7 @@ export const CreateRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -162,9 +162,7 @@ export const RoleAssignmentProperties = /*@__PURE__*/ S.suspend(() =>
     updatedBy: S.optional(S.String),
     delegatedManagedIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleAssignmentProperties",
-}) as any as S.Schema<RoleAssignmentProperties>;
+).annotate({ identifier: "RoleAssignmentProperties" }) as any as S.Schema<RoleAssignmentProperties>;
 
 export interface CreateRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -201,12 +199,7 @@ export const CreateRoleAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
     roleAssignmentId: S.String.pipe(T.Label()),
     properties: RoleAssignmentPropertiesInput,
   }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/{roleAssignmentId}",
-      code: 200,
-      apiVersion: "2022-04-01",
-    }),
+    T.Http({ method: "PUT", uri: "/{roleAssignmentId+}", code: 200, apiVersion: "2022-04-01" }),
   ),
 ).annotate({
   identifier: "CreateRoleAssignmentByIdRequest",
@@ -252,7 +245,7 @@ export const DeleteRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -296,12 +289,7 @@ export const DeleteRoleAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
     roleAssignmentId: S.String.pipe(T.Label()),
     tenantId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/{roleAssignmentId}",
-      code: 200,
-      apiVersion: "2022-04-01",
-    }),
+    T.Http({ method: "DELETE", uri: "/{roleAssignmentId+}", code: 200, apiVersion: "2022-04-01" }),
   ),
 ).annotate({
   identifier: "DeleteRoleAssignmentByIdRequest",
@@ -344,7 +332,7 @@ export const DeleteRoleDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -442,9 +430,7 @@ export const RoleDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(S.String),
     updatedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleDefinitionProperties",
-}) as any as S.Schema<RoleDefinitionProperties>;
+).annotate({ identifier: "RoleDefinitionProperties" }) as any as S.Schema<RoleDefinitionProperties>;
 
 /** Role definition. */
 export interface RoleDefinition {
@@ -479,14 +465,12 @@ export const GetDenyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetDenyAssignmentRequest",
-}) as any as S.Schema<GetDenyAssignmentRequest>;
+).annotate({ identifier: "GetDenyAssignmentRequest" }) as any as S.Schema<GetDenyAssignmentRequest>;
 
 /** Actions to which the deny assignment does not grant access. */
 export type DenyAssignmentPermissionActionsList = Array<string>;
@@ -536,9 +520,7 @@ export const DenyAssignmentPermission = /*@__PURE__*/ S.suspend(() =>
     condition: S.optional(S.String),
     conditionVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DenyAssignmentPermission",
-}) as any as S.Schema<DenyAssignmentPermission>;
+).annotate({ identifier: "DenyAssignmentPermission" }) as any as S.Schema<DenyAssignmentPermission>;
 
 /** An array of permissions that are denied by the deny assignment. */
 export type DenyAssignmentPropertiesPermissionsList = Array<DenyAssignmentPermission>;
@@ -633,9 +615,7 @@ export const DenyAssignmentProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(S.String),
     updatedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DenyAssignmentProperties",
-}) as any as S.Schema<DenyAssignmentProperties>;
+).annotate({ identifier: "DenyAssignmentProperties" }) as any as S.Schema<DenyAssignmentProperties>;
 
 /** Deny Assignment */
 export interface DenyAssignment {
@@ -665,12 +645,7 @@ export const GetDenyAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     denyAssignmentId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{denyAssignmentId}",
-      code: 200,
-      apiVersion: "2022-04-01",
-    }),
+    T.Http({ method: "GET", uri: "/{denyAssignmentId+}", code: 200, apiVersion: "2022-04-01" }),
   ),
 ).annotate({
   identifier: "GetDenyAssignmentByIdRequest",
@@ -722,9 +697,7 @@ export const ProviderOperation = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(S.Unknown),
     isDataAction: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProviderOperation",
-}) as any as S.Schema<ProviderOperation>;
+).annotate({ identifier: "ProviderOperation" }) as any as S.Schema<ProviderOperation>;
 
 /** The resource type operations. */
 export type ResourceTypeOperationsList = Array<ProviderOperation>;
@@ -804,14 +777,12 @@ export const GetRoleAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetRoleAssignmentRequest",
-}) as any as S.Schema<GetRoleAssignmentRequest>;
+).annotate({ identifier: "GetRoleAssignmentRequest" }) as any as S.Schema<GetRoleAssignmentRequest>;
 
 export interface GetRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -848,12 +819,7 @@ export const GetRoleAssignmentByIdRequest = /*@__PURE__*/ S.suspend(() =>
     roleAssignmentId: S.String.pipe(T.Label()),
     tenantId: S.optional(S.String.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{roleAssignmentId}",
-      code: 200,
-      apiVersion: "2022-04-01",
-    }),
+    T.Http({ method: "GET", uri: "/{roleAssignmentId+}", code: 200, apiVersion: "2022-04-01" }),
   ),
 ).annotate({
   identifier: "GetRoleAssignmentByIdRequest",
@@ -896,14 +862,12 @@ export const GetRoleDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetRoleDefinitionRequest",
-}) as any as S.Schema<GetRoleDefinitionRequest>;
+).annotate({ identifier: "GetRoleDefinitionRequest" }) as any as S.Schema<GetRoleDefinitionRequest>;
 
 export interface ListDenyAssignmentForResourceRequest {
   /** The ID of the target subscription. */
@@ -960,9 +924,7 @@ export const DenyAssignmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DenyAssignmentListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DenyAssignmentListResult",
-}) as any as S.Schema<DenyAssignmentListResult>;
+).annotate({ identifier: "DenyAssignmentListResult" }) as any as S.Schema<DenyAssignmentListResult>;
 
 export interface ListDenyAssignmentForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1002,7 +964,7 @@ export const ListDenyAssignmentForScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/denyAssignments",
+      uri: "/{scope+}/providers/Microsoft.Authorization/denyAssignments",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1085,9 +1047,7 @@ export const PermissionGetResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PermissionGetResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PermissionGetResult",
-}) as any as S.Schema<PermissionGetResult>;
+).annotate({ identifier: "PermissionGetResult" }) as any as S.Schema<PermissionGetResult>;
 
 export interface ListPermissionsForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1270,9 +1230,7 @@ export const RoleAssignmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: RoleAssignmentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleAssignmentListResult",
-}) as any as S.Schema<RoleAssignmentListResult>;
+).annotate({ identifier: "RoleAssignmentListResult" }) as any as S.Schema<RoleAssignmentListResult>;
 
 export interface ListRoleAssignmentForResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1321,7 +1279,7 @@ export const ListRoleAssignmentForScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleAssignments",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleAssignments",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1368,7 +1326,7 @@ export const ListRoleDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions",
       code: 200,
       apiVersion: "2022-04-01",
     }),
@@ -1395,9 +1353,7 @@ export const RoleDefinitionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RoleDefinitionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleDefinitionListResult",
-}) as any as S.Schema<RoleDefinitionListResult>;
+).annotate({ identifier: "RoleDefinitionListResult" }) as any as S.Schema<RoleDefinitionListResult>;
 
 /** Role definition permissions. */
 export type RoleDefinitionPropertiesInputPermissionsList = Array<Permission>;
@@ -1452,7 +1408,7 @@ export const RoleDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
       code: 200,
       apiVersion: "2022-04-01",
     }),

@@ -42,9 +42,7 @@ export const IdentityInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IdentityInput" }) as any as S.Schema<IdentityInput>;
 
 /** Tags on the azure resource. */
-export type AccountsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -94,9 +92,7 @@ export const AccountPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     ),
     publicNetworkAccess: S.optional(AccountPropertiesInputPublicNetworkAccess),
   }),
-).annotate({
-  identifier: "AccountPropertiesInput",
-}) as any as S.Schema<AccountPropertiesInput>;
+).annotate({ identifier: "AccountPropertiesInput" }) as any as S.Schema<AccountPropertiesInput>;
 
 export interface AccountsCreateOrUpdateRequest {
   /** The subscription identifier */
@@ -151,14 +147,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     clientId: S.optional(S.String),
     principalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** User Assigned Identities */
-export type IdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 export const IdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -219,9 +211,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Tags on the azure resource. */
-export type AccountsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -290,9 +280,7 @@ export const CloudConnectors = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     awsExternalId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudConnectors",
-}) as any as S.Schema<CloudConnectors>;
+).annotate({ identifier: "CloudConnectors" }) as any as S.Schema<CloudConnectors>;
 
 /** The account endpoints */
 export interface AccountEndpoints {
@@ -309,9 +297,7 @@ export const AccountEndpoints = /*@__PURE__*/ S.suspend(() =>
     guardian: S.optional(S.String),
     scan: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountEndpoints",
-}) as any as S.Schema<AccountEndpoints>;
+).annotate({ identifier: "AccountEndpoints" }) as any as S.Schema<AccountEndpoints>;
 
 /** Gets or sets the state of managed eventhub. If enabled managed eventhub will be created, if disabled the managed eventhub will be removed. */
 export type AccountPropertiesManagedEventHubState = "NotSpecified" | "Disabled" | "Enabled";
@@ -332,9 +318,7 @@ export const ManagedResources = /*@__PURE__*/ S.suspend(() =>
     resourceGroup: S.optional(S.String),
     storageAccount: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedResources",
-}) as any as S.Schema<ManagedResources>;
+).annotate({ identifier: "ManagedResources" }) as any as S.Schema<ManagedResources>;
 
 /** Gets or sets the public network access for managed resources. */
 export type AccountPropertiesManagedResourcesPublicNetworkAccess =
@@ -352,9 +336,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The status. */
 export type PrivateLinkServiceConnectionStateStatus =
@@ -501,9 +483,7 @@ export const AccountProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(AccountPropertiesProvisioningState),
     publicNetworkAccess: S.optional(AccountPropertiesPublicNetworkAccess),
   }),
-).annotate({
-  identifier: "AccountProperties",
-}) as any as S.Schema<AccountProperties>;
+).annotate({ identifier: "AccountProperties" }) as any as S.Schema<AccountProperties>;
 
 /** Gets or sets the sku name. */
 export type AccountSkuName = "Standard";
@@ -663,9 +643,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -763,9 +741,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Tags on the azure resource. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -806,9 +782,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AccountProperties),
     sku: S.optional(AccountSku),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export type GetDefaultAccountRequestScopeType = "Tenant" | "Subscription";
 export const GetDefaultAccountRequestScopeType = S.String;
@@ -834,9 +808,7 @@ export const GetDefaultAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetDefaultAccountRequest",
-}) as any as S.Schema<GetDefaultAccountRequest>;
+).annotate({ identifier: "GetDefaultAccountRequest" }) as any as S.Schema<GetDefaultAccountRequest>;
 
 /** The scope where the default account is set. */
 export type DefaultAccountPayloadScopeType = "Tenant" | "Subscription";
@@ -866,9 +838,7 @@ export const DefaultAccountPayload = /*@__PURE__*/ S.suspend(() =>
     scopeType: S.optional(DefaultAccountPayloadScopeType),
     subscriptionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DefaultAccountPayload",
-}) as any as S.Schema<DefaultAccountPayload>;
+).annotate({ identifier: "DefaultAccountPayload" }) as any as S.Schema<DefaultAccountPayload>;
 
 /** Set of features */
 export type GetFeaturesAccountRequestFeaturesList = Array<string>;
@@ -905,9 +875,7 @@ export const GetFeaturesAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetFeaturesAccountRequest>;
 
 /** Features with enabled status */
-export type BatchFeatureStatusFeaturesMap = {
-  [key: string]: boolean | undefined;
-};
+export type BatchFeatureStatusFeaturesMap = { [key: string]: boolean | undefined };
 export const BatchFeatureStatusFeaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean,
@@ -922,9 +890,7 @@ export const BatchFeatureStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     features: S.optional(BatchFeatureStatusFeaturesMap),
   }),
-).annotate({
-  identifier: "BatchFeatureStatus",
-}) as any as S.Schema<BatchFeatureStatus>;
+).annotate({ identifier: "BatchFeatureStatus" }) as any as S.Schema<BatchFeatureStatus>;
 
 /** Set of features */
 export type GetFeaturesSubscriptionRequestFeaturesList = Array<string>;
@@ -1198,9 +1164,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PrivateLinkResourceProperties),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 export interface GetUsageRequest {
   /** The subscription identifier */
@@ -1222,9 +1186,7 @@ export const GetUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetUsageRequest",
-}) as any as S.Schema<GetUsageRequest>;
+).annotate({ identifier: "GetUsageRequest" }) as any as S.Schema<GetUsageRequest>;
 
 /** Quota name */
 export interface QuotaName {
@@ -1471,9 +1433,7 @@ export const ListAccountKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountKeysRequest",
-}) as any as S.Schema<ListAccountKeysRequest>;
+).annotate({ identifier: "ListAccountKeysRequest" }) as any as S.Schema<ListAccountKeysRequest>;
 
 /** The Account access keys. */
 export interface AccessKeys {
@@ -1538,9 +1498,7 @@ export const KafkaConfiguration = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(KafkaConfigurationProperties),
   }),
-).annotate({
-  identifier: "KafkaConfiguration",
-}) as any as S.Schema<KafkaConfiguration>;
+).annotate({ identifier: "KafkaConfiguration" }) as any as S.Schema<KafkaConfiguration>;
 
 /** Collection of items of type results. */
 export type KafkaConfigurationListValueList = Array<KafkaConfiguration>;
@@ -1560,9 +1518,7 @@ export const KafkaConfigurationList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: KafkaConfigurationListValueList,
   }),
-).annotate({
-  identifier: "KafkaConfigurationList",
-}) as any as S.Schema<KafkaConfigurationList>;
+).annotate({ identifier: "KafkaConfigurationList" }) as any as S.Schema<KafkaConfigurationList>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1574,9 +1530,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The response model for get operation properties */
 export interface OperationDisplay {
@@ -1596,9 +1550,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** log specifications for operation api */
 export interface OperationMetaLogSpecification {
@@ -1641,9 +1593,7 @@ export const DimensionProperties = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     toBeExportedForCustomer: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DimensionProperties",
-}) as any as S.Schema<DimensionProperties>;
+).annotate({ identifier: "DimensionProperties" }) as any as S.Schema<DimensionProperties>;
 
 /** properties for dimension */
 export type OperationMetaMetricSpecificationDimensionsList = Array<DimensionProperties>;
@@ -1745,9 +1695,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(OperationMetaServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Operation resource */
 export interface Operation {
@@ -1885,9 +1833,7 @@ export const PrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: PrivateLinkResourceListValueList,
   }),
-).annotate({
-  identifier: "PrivateLinkResourceList",
-}) as any as S.Schema<PrivateLinkResourceList>;
+).annotate({ identifier: "PrivateLinkResourceList" }) as any as S.Schema<PrivateLinkResourceList>;
 
 /** A private endpoint connection properties class. */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -2027,9 +1973,7 @@ export const SetDefaultAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "SetDefaultAccountRequest",
-}) as any as S.Schema<SetDefaultAccountRequest>;
+).annotate({ identifier: "SetDefaultAccountRequest" }) as any as S.Schema<SetDefaultAccountRequest>;
 
 /** Tags on the azure resource. */
 export type UpdateAccountRequestTagsMap = { [key: string]: string | undefined };
@@ -2068,14 +2012,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-12-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Tags on the azure resource. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2113,9 +2053,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AccountProperties),
     sku: S.optional(AccountSku),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Create or update an account resource Creates or updates an account */

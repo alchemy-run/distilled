@@ -29,9 +29,7 @@ export const DeleteWorkbookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkbookRequest",
-}) as any as S.Schema<DeleteWorkbookRequest>;
+).annotate({ identifier: "DeleteWorkbookRequest" }) as any as S.Schema<DeleteWorkbookRequest>;
 
 export interface DeleteWorkbookResponse {}
 export const DeleteWorkbookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -62,9 +60,7 @@ export const GetWorkbookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkbookRequest",
-}) as any as S.Schema<GetWorkbookRequest>;
+).annotate({ identifier: "GetWorkbookRequest" }) as any as S.Schema<GetWorkbookRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -152,9 +148,7 @@ export const WorkbookProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.NullOr(S.String)),
     revision: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "WorkbookProperties",
-}) as any as S.Schema<WorkbookProperties>;
+).annotate({ identifier: "WorkbookProperties" }) as any as S.Schema<WorkbookProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -176,14 +170,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -205,9 +195,7 @@ export const WorkbookResourceIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ManagedServiceIdentityType,
     userAssignedIdentities: S.optional(UserAssignedIdentities),
   }),
-).annotate({
-  identifier: "WorkbookResourceIdentity",
-}) as any as S.Schema<WorkbookResourceIdentity>;
+).annotate({ identifier: "WorkbookResourceIdentity" }) as any as S.Schema<WorkbookResourceIdentity>;
 
 /** The kind of workbook. Only valid value is shared. */
 export type ApplicationInsightsCommonTypesWorkbookSharedTypeKind = "shared";
@@ -248,9 +236,7 @@ export const GetWorkbookResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ApplicationInsightsCommonTypesWorkbookSharedTypeKind),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWorkbookResponse",
-}) as any as S.Schema<GetWorkbookResponse>;
+).annotate({ identifier: "GetWorkbookResponse" }) as any as S.Schema<GetWorkbookResponse>;
 
 export interface GetWorkbooksRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -281,9 +267,7 @@ export const GetWorkbooksRevisionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetWorkbooksRevisionRequest>;
 
 /** Resource tags. */
-export type GetWorkbooksRevisionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetWorkbooksRevisionResponseTagsMap = { [key: string]: string | undefined };
 export const GetWorkbooksRevisionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -437,9 +421,7 @@ export const WorkbooksListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WorkbooksListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkbooksListResult",
-}) as any as S.Schema<WorkbooksListResult>;
+).annotate({ identifier: "WorkbooksListResult" }) as any as S.Schema<WorkbooksListResult>;
 
 export type ListWorkbookBySubscriptionRequestCategory =
   | "workbook"
@@ -511,9 +493,7 @@ export type WorkbookUpdateSharedTypeKind = "shared";
 export const WorkbookUpdateSharedTypeKind = S.String;
 
 /** Resource tags. */
-export type UpdateWorkbookRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkbookRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkbookRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -586,14 +566,10 @@ export const UpdateWorkbookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkbookRequest",
-}) as any as S.Schema<UpdateWorkbookRequest>;
+).annotate({ identifier: "UpdateWorkbookRequest" }) as any as S.Schema<UpdateWorkbookRequest>;
 
 /** Resource tags. */
-export type UpdateWorkbookResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkbookResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkbookResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -634,14 +610,10 @@ export const UpdateWorkbookResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ApplicationInsightsCommonTypesWorkbookSharedTypeKind),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateWorkbookResponse",
-}) as any as S.Schema<UpdateWorkbookResponse>;
+).annotate({ identifier: "UpdateWorkbookResponse" }) as any as S.Schema<UpdateWorkbookResponse>;
 
 /** Resource tags. */
-export type WorkbooksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkbooksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkbooksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -683,9 +655,7 @@ export const WorkbookPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     storageUri: S.optional(S.NullOr(S.String)),
     description: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "WorkbookPropertiesInput",
-}) as any as S.Schema<WorkbookPropertiesInput>;
+).annotate({ identifier: "WorkbookPropertiesInput" }) as any as S.Schema<WorkbookPropertiesInput>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -763,9 +733,7 @@ export const WorkbooksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkbooksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkbooksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkbooksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkbooksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

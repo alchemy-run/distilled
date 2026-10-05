@@ -1,0 +1,27 @@
+{
+  "description": "Fabric customProperties is polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI); the converted model keeps only the discriminator, so S.Struct strips every subtype field on encode and decode. Retype as an untyped document.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicesdatareplication#FabricModelProperties/members/customProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI).",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.recoveryservicesdatareplication#FabricModelPropertiesInput/members/customProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Fabric model custom properties. Polymorphic on `instanceType` (HyperVMigrate, VMwareMigrate, AzStackHCI).",
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

@@ -50,9 +50,7 @@ export const NameAvailabilityResponse = /*@__PURE__*/ S.suspend(() =>
     nameAvailable: S.optional(S.Boolean),
     reason: S.optional(NameAvailabilityReason),
   }),
-).annotate({
-  identifier: "NameAvailabilityResponse",
-}) as any as S.Schema<NameAvailabilityResponse>;
+).annotate({ identifier: "NameAvailabilityResponse" }) as any as S.Schema<NameAvailabilityResponse>;
 
 /** These properties are used to create the Azure AD B2C tenant. These properties are not part of the Azure resource. */
 export interface CreateTenantProperties {
@@ -65,9 +63,7 @@ export const CreateTenantProperties = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     countryCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateTenantProperties",
-}) as any as S.Schema<CreateTenantProperties>;
+).annotate({ identifier: "CreateTenantProperties" }) as any as S.Schema<CreateTenantProperties>;
 
 export interface CreateB2CTenantRequestProperties {
   createTenantProperties?: CreateTenantProperties;
@@ -103,9 +99,7 @@ export const B2CResourceSKU = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "B2CResourceSKU" }) as any as S.Schema<B2CResourceSKU>;
 
 /** Resource Tags */
-export type CreateB2CTenantRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateB2CTenantRequestTagsMap = { [key: string]: string | undefined };
 export const CreateB2CTenantRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -142,9 +136,7 @@ export const CreateB2CTenantRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "CreateB2CTenantRequest",
-}) as any as S.Schema<CreateB2CTenantRequest>;
+).annotate({ identifier: "CreateB2CTenantRequest" }) as any as S.Schema<CreateB2CTenantRequest>;
 
 /** The type of the B2C tenant resource. */
 export type B2CTenantResourceType = "Microsoft.AzureActiveDirectory/b2cDirectories";
@@ -265,14 +257,10 @@ export const B2CTenantResource = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(B2CTenantResourceTagsMap),
     systemData: S.optional(B2CTenantResourceSystemData),
   }),
-).annotate({
-  identifier: "B2CTenantResource",
-}) as any as S.Schema<B2CTenantResource>;
+).annotate({ identifier: "B2CTenantResource" }) as any as S.Schema<B2CTenantResource>;
 
 /** Key-value pairs of additional resource provisioning properties. */
-export type CreateGuestUsageRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateGuestUsageRequestTagsMap = { [key: string]: string | undefined };
 export const CreateGuestUsageRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -321,9 +309,7 @@ export const CreateGuestUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "CreateGuestUsageRequest",
-}) as any as S.Schema<CreateGuestUsageRequest>;
+).annotate({ identifier: "CreateGuestUsageRequest" }) as any as S.Schema<CreateGuestUsageRequest>;
 
 /** Key-value pairs of additional resource provisioning properties. */
 export type GuestUsagesResourceTagsMap = { [key: string]: string | undefined };
@@ -403,9 +389,7 @@ export const GuestUsagesResource = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GuestUsagesResourceProperties),
     systemData: S.optional(GuestUsagesResourceSystemData),
   }),
-).annotate({
-  identifier: "GuestUsagesResource",
-}) as any as S.Schema<GuestUsagesResource>;
+).annotate({ identifier: "GuestUsagesResource" }) as any as S.Schema<GuestUsagesResource>;
 
 export interface DeleteB2CTenantRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -428,9 +412,7 @@ export const DeleteB2CTenantRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteB2CTenantRequest",
-}) as any as S.Schema<DeleteB2CTenantRequest>;
+).annotate({ identifier: "DeleteB2CTenantRequest" }) as any as S.Schema<DeleteB2CTenantRequest>;
 
 export interface DeleteB2CTenantResponse {}
 export const DeleteB2CTenantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -458,9 +440,7 @@ export const DeleteGuestUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGuestUsageRequest",
-}) as any as S.Schema<DeleteGuestUsageRequest>;
+).annotate({ identifier: "DeleteGuestUsageRequest" }) as any as S.Schema<DeleteGuestUsageRequest>;
 
 export interface DeleteGuestUsageResponse {}
 export const DeleteGuestUsageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -488,9 +468,7 @@ export const GetB2CTenantRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetB2CTenantRequest",
-}) as any as S.Schema<GetB2CTenantRequest>;
+).annotate({ identifier: "GetB2CTenantRequest" }) as any as S.Schema<GetB2CTenantRequest>;
 
 export interface GetGuestUsageRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -513,9 +491,7 @@ export const GetGuestUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetGuestUsageRequest",
-}) as any as S.Schema<GetGuestUsageRequest>;
+).annotate({ identifier: "GetGuestUsageRequest" }) as any as S.Schema<GetGuestUsageRequest>;
 
 export interface ListB2CTenantByResourceGroupRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -554,9 +530,7 @@ export const B2CTenantResourceList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(B2CTenantResourceListValueList),
   }),
-).annotate({
-  identifier: "B2CTenantResourceList",
-}) as any as S.Schema<B2CTenantResourceList>;
+).annotate({ identifier: "B2CTenantResourceList" }) as any as S.Schema<B2CTenantResourceList>;
 
 export interface ListB2CTenantBySubscriptionRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -614,9 +588,7 @@ export const GuestUsagesResourceList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(GuestUsagesResourceListValueList),
   }),
-).annotate({
-  identifier: "GuestUsagesResourceList",
-}) as any as S.Schema<GuestUsagesResourceList>;
+).annotate({ identifier: "GuestUsagesResourceList" }) as any as S.Schema<GuestUsagesResourceList>;
 
 export interface ListGuestUsageBySubscriptionRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -647,9 +619,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Operation display payload */
 export interface OperationDisplay {
@@ -669,9 +639,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation detail payload */
 export interface OperationDetail {
@@ -691,9 +659,7 @@ export const OperationDetail = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDetail",
-}) as any as S.Schema<OperationDetail>;
+).annotate({ identifier: "OperationDetail" }) as any as S.Schema<OperationDetail>;
 
 /** Collection of available operation details */
 export type AvailableOperationsValueList = Array<OperationDetail>;
@@ -713,9 +679,7 @@ export const AvailableOperations = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AvailableOperationsValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableOperations",
-}) as any as S.Schema<AvailableOperations>;
+).annotate({ identifier: "AvailableOperations" }) as any as S.Schema<AvailableOperations>;
 
 /** The type of billing. Will be MAU for all new customers. If 'Auths', it can be updated to 'MAU'. Cannot be changed if value is 'MAU'. Learn more about Azure AD B2C billing at [aka.ms/b2cBilling](https://aka.ms/b2cbilling). */
 export type B2CTenantResourcePropertiesInputBillingConfigBillingType = "MAU" | "Auths";
@@ -751,9 +715,7 @@ export const B2CTenantResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<B2CTenantResourcePropertiesInput>;
 
 /** Resource Tags */
-export type UpdateB2CTenantRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateB2CTenantRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateB2CTenantRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -788,14 +750,10 @@ export const UpdateB2CTenantRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateB2CTenantRequest",
-}) as any as S.Schema<UpdateB2CTenantRequest>;
+).annotate({ identifier: "UpdateB2CTenantRequest" }) as any as S.Schema<UpdateB2CTenantRequest>;
 
 /** Key-value pairs of additional resource provisioning properties. */
-export type UpdateGuestUsageRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateGuestUsageRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateGuestUsageRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -825,9 +783,7 @@ export const UpdateGuestUsageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateGuestUsageRequest",
-}) as any as S.Schema<UpdateGuestUsageRequest>;
+).annotate({ identifier: "UpdateGuestUsageRequest" }) as any as S.Schema<UpdateGuestUsageRequest>;
 
 export type CheckB2CTenantNameAvailabilityError = AzureOpError;
 /** Checks the availability and validity of a domain name for the tenant. */

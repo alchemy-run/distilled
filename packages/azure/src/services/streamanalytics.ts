@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -78,9 +76,7 @@ export const ClustersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClustersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -110,9 +106,7 @@ export const ClusterProperties = /*@__PURE__*/ S.suspend(() =>
     capacityAllocated: S.optional(S.Number),
     capacityAssigned: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClusterProperties",
-}) as any as S.Schema<ClusterProperties>;
+).annotate({ identifier: "ClusterProperties" }) as any as S.Schema<ClusterProperties>;
 
 export interface ClustersCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -167,9 +161,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -200,9 +192,7 @@ export const DeleteFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFunctionRequest",
-}) as any as S.Schema<DeleteFunctionRequest>;
+).annotate({ identifier: "DeleteFunctionRequest" }) as any as S.Schema<DeleteFunctionRequest>;
 
 export interface DeleteFunctionResponse {}
 export const DeleteFunctionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -233,9 +223,7 @@ export const DeleteInputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteInputRequest",
-}) as any as S.Schema<DeleteInputRequest>;
+).annotate({ identifier: "DeleteInputRequest" }) as any as S.Schema<DeleteInputRequest>;
 
 export interface DeleteInputResponse {}
 export const DeleteInputResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -266,9 +254,7 @@ export const DeleteOutputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOutputRequest",
-}) as any as S.Schema<DeleteOutputRequest>;
+).annotate({ identifier: "DeleteOutputRequest" }) as any as S.Schema<DeleteOutputRequest>;
 
 export interface DeleteOutputResponse {}
 export const DeleteOutputResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -372,14 +358,15 @@ export const FunctionOutput = /*@__PURE__*/ S.suspend(() =>
 export interface FunctionBinding {
   /** Indicates the function binding type. */
   type: string;
+  /** Binding-type-specific properties (e.g. `{ script }` for `Microsoft.StreamAnalytics/JavascriptUdf`). */
+  properties?: unknown;
 }
 export const FunctionBinding = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "FunctionBinding",
-}) as any as S.Schema<FunctionBinding>;
+).annotate({ identifier: "FunctionBinding" }) as any as S.Schema<FunctionBinding>;
 
 export interface FunctionConfiguration {
   inputs?: FunctionConfigurationInputsList;
@@ -392,9 +379,7 @@ export const FunctionConfiguration = /*@__PURE__*/ S.suspend(() =>
     output: S.optional(FunctionOutput),
     binding: S.optional(FunctionBinding),
   }),
-).annotate({
-  identifier: "FunctionConfiguration",
-}) as any as S.Schema<FunctionConfiguration>;
+).annotate({ identifier: "FunctionConfiguration" }) as any as S.Schema<FunctionConfiguration>;
 
 /** The properties that are associated with a function. */
 export interface FunctionPropertiesInput {
@@ -407,9 +392,7 @@ export const FunctionPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     properties: S.optional(FunctionConfiguration),
   }),
-).annotate({
-  identifier: "FunctionPropertiesInput",
-}) as any as S.Schema<FunctionPropertiesInput>;
+).annotate({ identifier: "FunctionPropertiesInput" }) as any as S.Schema<FunctionPropertiesInput>;
 
 export interface FunctionsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -459,9 +442,7 @@ export const FunctionProperties = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(FunctionConfiguration),
   }),
-).annotate({
-  identifier: "FunctionProperties",
-}) as any as S.Schema<FunctionProperties>;
+).annotate({ identifier: "FunctionProperties" }) as any as S.Schema<FunctionProperties>;
 
 export interface FunctionsCreateOrReplaceResponse {
   /** Resource Id */
@@ -505,9 +486,7 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 /** Resource tags. */
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -544,9 +523,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ClusterProperties),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetFunctionRequest {
   /** The ID of the target subscription. */
@@ -572,9 +549,7 @@ export const GetFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetFunctionRequest",
-}) as any as S.Schema<GetFunctionRequest>;
+).annotate({ identifier: "GetFunctionRequest" }) as any as S.Schema<GetFunctionRequest>;
 
 export interface GetFunctionResponse {
   /** Resource Id */
@@ -593,9 +568,7 @@ export const GetFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(FunctionProperties),
   }),
-).annotate({
-  identifier: "GetFunctionResponse",
-}) as any as S.Schema<GetFunctionResponse>;
+).annotate({ identifier: "GetFunctionResponse" }) as any as S.Schema<GetFunctionResponse>;
 
 export interface GetFunctionDefaultDefinitionRequest {
   /** The ID of the target subscription. */
@@ -673,9 +646,7 @@ export const GetInputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetInputRequest",
-}) as any as S.Schema<GetInputRequest>;
+).annotate({ identifier: "GetInputRequest" }) as any as S.Schema<GetInputRequest>;
 
 /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
 export type EventSerializationType = "Csv" | "Avro" | "Json" | "Parquet";
@@ -685,10 +656,13 @@ export const EventSerializationType = S.String;
 export interface Serialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType | (string & {});
+  /** Serialization-type-specific properties (e.g. `{ encoding: "UTF8", format: "LineSeparated" }` for Json). */
+  properties?: unknown;
 }
 export const Serialization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventSerializationType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Serialization" }) as any as S.Schema<Serialization>;
 
@@ -707,9 +681,7 @@ export const DiagnosticCondition = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiagnosticCondition",
-}) as any as S.Schema<DiagnosticCondition>;
+).annotate({ identifier: "DiagnosticCondition" }) as any as S.Schema<DiagnosticCondition>;
 
 /** A collection of zero or more conditions applicable to the resource, or to the job overall, that warrant customer attention. */
 export type DiagnosticsConditionsList = Array<DiagnosticCondition>;
@@ -757,6 +729,8 @@ export interface InputProperties {
   compression?: Compression;
   /** partitionKey Describes a key in the input data which is used for partitioning the input data */
   partitionKey?: string;
+  /** Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`. */
+  datasource?: unknown;
 }
 export const InputProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -766,10 +740,9 @@ export const InputProperties = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     compression: S.optional(Compression),
     partitionKey: S.optional(S.String),
+    datasource: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "InputProperties",
-}) as any as S.Schema<InputProperties>;
+).annotate({ identifier: "InputProperties" }) as any as S.Schema<InputProperties>;
 
 export interface GetInputResponse {
   /** Resource Id */
@@ -788,9 +761,7 @@ export const GetInputResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(InputProperties),
   }),
-).annotate({
-  identifier: "GetInputResponse",
-}) as any as S.Schema<GetInputResponse>;
+).annotate({ identifier: "GetInputResponse" }) as any as S.Schema<GetInputResponse>;
 
 export interface GetOutputRequest {
   /** The ID of the target subscription. */
@@ -816,31 +787,33 @@ export const GetOutputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetOutputRequest",
-}) as any as S.Schema<GetOutputRequest>;
+).annotate({ identifier: "GetOutputRequest" }) as any as S.Schema<GetOutputRequest>;
 
 /** Describes the data source that output will be written to. */
 export interface OutputDataSource {
   /** Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests. */
   type: string;
+  /** Data-source-type-specific properties (e.g. `storageAccounts`, `container`, `pathPattern` for `Microsoft.Storage/Blob`). */
+  properties?: unknown;
 }
 export const OutputDataSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "OutputDataSource",
-}) as any as S.Schema<OutputDataSource>;
+).annotate({ identifier: "OutputDataSource" }) as any as S.Schema<OutputDataSource>;
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output. */
 export interface OutputPropertiesSerialization {
   /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
   type: EventSerializationType;
+  /** Serialization-type-specific properties. */
+  properties?: unknown;
 }
 export const OutputPropertiesSerialization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: EventSerializationType,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "OutputPropertiesSerialization",
@@ -889,9 +862,7 @@ export const OutputProperties = /*@__PURE__*/ S.suspend(() =>
     diagnostics: S.optional(OutputPropertiesDiagnostics),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OutputProperties",
-}) as any as S.Schema<OutputProperties>;
+).annotate({ identifier: "OutputProperties" }) as any as S.Schema<OutputProperties>;
 
 export interface GetOutputResponse {
   /** Resource Id */
@@ -910,9 +881,7 @@ export const GetOutputResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(OutputProperties),
   }),
-).annotate({
-  identifier: "GetOutputResponse",
-}) as any as S.Schema<GetOutputResponse>;
+).annotate({ identifier: "GetOutputResponse" }) as any as S.Schema<GetOutputResponse>;
 
 export interface GetPrivateEndpointRequest {
   /** The ID of the target subscription. */
@@ -1076,14 +1045,10 @@ export const GetStreamingJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetStreamingJobRequest",
-}) as any as S.Schema<GetStreamingJobRequest>;
+).annotate({ identifier: "GetStreamingJobRequest" }) as any as S.Schema<GetStreamingJobRequest>;
 
 /** Resource tags. */
-export type GetStreamingJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStreamingJobResponseTagsMap = { [key: string]: string | undefined };
 export const GetStreamingJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1176,9 +1141,7 @@ export const TransformationProperties = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TransformationProperties",
-}) as any as S.Schema<TransformationProperties>;
+).annotate({ identifier: "TransformationProperties" }) as any as S.Schema<TransformationProperties>;
 
 /** A transformation object, containing all information associated with the named transformation. All transformations are contained under a streaming job. */
 export interface StreamingJobPropertiesTransformation {
@@ -1277,9 +1240,7 @@ export const JobStorageAccount = /*@__PURE__*/ S.suspend(() =>
     accountKey: S.optional(S.String),
     authenticationMode: S.optional(JobStorageAccountAuthenticationMode),
   }),
-).annotate({
-  identifier: "JobStorageAccount",
-}) as any as S.Schema<JobStorageAccount>;
+).annotate({ identifier: "JobStorageAccount" }) as any as S.Schema<JobStorageAccount>;
 
 /** Valid values are JobStorageAccount and SystemAccount. If set to JobStorageAccount, this requires the user to also specify jobStorageAccount property. . */
 export type StreamingJobPropertiesContentStoragePolicy = "SystemAccount" | "JobStorageAccount";
@@ -1371,9 +1332,7 @@ export const StreamingJobProperties = /*@__PURE__*/ S.suspend(() =>
     contentStoragePolicy: S.optional(StreamingJobPropertiesContentStoragePolicy),
     cluster: S.optional(ClusterInfo),
   }),
-).annotate({
-  identifier: "StreamingJobProperties",
-}) as any as S.Schema<StreamingJobProperties>;
+).annotate({ identifier: "StreamingJobProperties" }) as any as S.Schema<StreamingJobProperties>;
 
 /** Describes how identity is verified */
 export interface Identity {
@@ -1418,9 +1377,7 @@ export const GetStreamingJobResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(StreamingJobProperties),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetStreamingJobResponse",
-}) as any as S.Schema<GetStreamingJobResponse>;
+).annotate({ identifier: "GetStreamingJobResponse" }) as any as S.Schema<GetStreamingJobResponse>;
 
 export interface GetTransformationRequest {
   /** The ID of the target subscription. */
@@ -1446,9 +1403,7 @@ export const GetTransformationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetTransformationRequest",
-}) as any as S.Schema<GetTransformationRequest>;
+).annotate({ identifier: "GetTransformationRequest" }) as any as S.Schema<GetTransformationRequest>;
 
 export interface GetTransformationResponse {
   /** Resource Id */
@@ -1481,6 +1436,8 @@ export interface InputPropertiesInput {
   compression?: Compression;
   /** partitionKey Describes a key in the input data which is used for partitioning the input data */
   partitionKey?: string;
+  /** Input data source (polymorphic on `type`, e.g. `Microsoft.Storage/Blob`) with its type-specific `properties`. */
+  datasource?: unknown;
 }
 export const InputPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1488,10 +1445,9 @@ export const InputPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     serialization: S.optional(Serialization),
     compression: S.optional(Compression),
     partitionKey: S.optional(S.String),
+    datasource: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "InputPropertiesInput",
-}) as any as S.Schema<InputPropertiesInput>;
+).annotate({ identifier: "InputPropertiesInput" }) as any as S.Schema<InputPropertiesInput>;
 
 export interface InputsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -1626,9 +1582,7 @@ export const ClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClusterListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterListResult",
-}) as any as S.Schema<ClusterListResult>;
+).annotate({ identifier: "ClusterListResult" }) as any as S.Schema<ClusterListResult>;
 
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1722,9 +1676,7 @@ export const ClusterJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClusterJobListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterJobListResult",
-}) as any as S.Schema<ClusterJobListResult>;
+).annotate({ identifier: "ClusterJobListResult" }) as any as S.Schema<ClusterJobListResult>;
 
 export interface ListFunctionByStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -1776,9 +1728,7 @@ export const FunctionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(FunctionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunctionListResult",
-}) as any as S.Schema<FunctionListResult>;
+).annotate({ identifier: "FunctionListResult" }) as any as S.Schema<FunctionListResult>;
 
 export interface ListInputByStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -1830,9 +1780,7 @@ export const InputListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(InputListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InputListResult",
-}) as any as S.Schema<InputListResult>;
+).annotate({ identifier: "InputListResult" }) as any as S.Schema<InputListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1844,9 +1792,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Contains the localized display information for this particular operation / action. */
 export interface OperationDisplay {
@@ -1866,9 +1812,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A Stream Analytics REST API operation */
 export interface Operation {
@@ -1905,9 +1849,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListOutputByStreamingJobRequest {
   /** The ID of the target subscription. */
@@ -1959,9 +1901,7 @@ export const OutputListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OutputListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OutputListResult",
-}) as any as S.Schema<OutputListResult>;
+).annotate({ identifier: "OutputListResult" }) as any as S.Schema<OutputListResult>;
 
 export interface ListPrivateEndpointByClusterRequest {
   /** The ID of the target subscription. */
@@ -2009,9 +1949,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(PrivateEndpointProperties),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** A list of private endpoints. */
 export type PrivateEndpointListResultValueList = Array<PrivateEndpoint>;
@@ -2114,9 +2052,7 @@ export const StreamingJobListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(StreamingJobListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StreamingJobListResult",
-}) as any as S.Schema<StreamingJobListResult>;
+).annotate({ identifier: "StreamingJobListResult" }) as any as S.Schema<StreamingJobListResult>;
 
 export interface ListStreamingJobsRequest {
   /** The ID of the target subscription. */
@@ -2136,9 +2072,7 @@ export const ListStreamingJobsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListStreamingJobsRequest",
-}) as any as S.Schema<ListStreamingJobsRequest>;
+).annotate({ identifier: "ListStreamingJobsRequest" }) as any as S.Schema<ListStreamingJobsRequest>;
 
 export interface ListSubscriptionQuotasRequest {
   /** The ID of the target subscription. */
@@ -2196,9 +2130,7 @@ export const SubscriptionQuota = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(SubscriptionQuotaProperties),
   }),
-).annotate({
-  identifier: "SubscriptionQuota",
-}) as any as S.Schema<SubscriptionQuota>;
+).annotate({ identifier: "SubscriptionQuota" }) as any as S.Schema<SubscriptionQuota>;
 
 /** List of quotas for the subscription in a particular region. */
 export type SubscriptionQuotasListResultValueList = Array<SubscriptionQuota>;
@@ -2220,8 +2152,20 @@ export const SubscriptionQuotasListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SubscriptionQuotasListResult>;
 
 /** Describes how data from an input is serialized or how data is serialized when written to an output. */
-export type OutputPropertiesInputSerialization = Serialization;
-export const OutputPropertiesInputSerialization = Serialization;
+export interface OutputPropertiesInputSerialization {
+  /** Indicates the type of serialization that the input or output uses. Required on PUT (CreateOrReplace) requests. */
+  type: EventSerializationType | (string & {});
+  /** Serialization-type-specific properties. */
+  properties?: unknown;
+}
+export const OutputPropertiesInputSerialization = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: EventSerializationType,
+    properties: S.optional(S.Unknown),
+  }),
+).annotate({
+  identifier: "OutputPropertiesInputSerialization",
+}) as any as S.Schema<OutputPropertiesInputSerialization>;
 
 /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
 export type OutputPropertiesInputDiagnostics = ClusterPropertiesInput;
@@ -2236,7 +2180,7 @@ export interface OutputPropertiesInput {
   /** The size window to constrain a Stream Analytics output to. */
   sizeWindow?: number;
   /** Describes how data from an input is serialized or how data is serialized when written to an output. */
-  serialization?: Serialization;
+  serialization?: OutputPropertiesInputSerialization;
   /** Describes conditions applicable to the Input, Output, or the job overall, that warrant customer attention. */
   diagnostics?: ClusterPropertiesInput;
 }
@@ -2245,12 +2189,10 @@ export const OutputPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     datasource: S.optional(OutputDataSource),
     timeWindow: S.optional(S.String),
     sizeWindow: S.optional(S.Number),
-    serialization: S.optional(Serialization),
+    serialization: S.optional(OutputPropertiesInputSerialization),
     diagnostics: S.optional(ClusterPropertiesInput),
   }),
-).annotate({
-  identifier: "OutputPropertiesInput",
-}) as any as S.Schema<OutputPropertiesInput>;
+).annotate({ identifier: "OutputPropertiesInput" }) as any as S.Schema<OutputPropertiesInput>;
 
 export interface OutputsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -2451,9 +2393,7 @@ export const ScaleStreamingJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "ScaleStreamingJobRequest",
-}) as any as S.Schema<ScaleStreamingJobRequest>;
+).annotate({ identifier: "ScaleStreamingJobRequest" }) as any as S.Schema<ScaleStreamingJobRequest>;
 
 export interface ScaleStreamingJobResponse {}
 export const ScaleStreamingJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2487,9 +2427,7 @@ export const StartStreamingJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "StartStreamingJobRequest",
-}) as any as S.Schema<StartStreamingJobRequest>;
+).annotate({ identifier: "StartStreamingJobRequest" }) as any as S.Schema<StartStreamingJobRequest>;
 
 export interface StartStreamingJobResponse {}
 export const StartStreamingJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2517,9 +2455,7 @@ export const StopStreamingJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "StopStreamingJobRequest",
-}) as any as S.Schema<StopStreamingJobRequest>;
+).annotate({ identifier: "StopStreamingJobRequest" }) as any as S.Schema<StopStreamingJobRequest>;
 
 export interface StopStreamingJobResponse {}
 export const StopStreamingJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2527,9 +2463,7 @@ export const StopStreamingJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({
 }) as any as S.Schema<StopStreamingJobResponse>;
 
 /** Resource tags. */
-export type StreamingJobsCreateOrReplaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StreamingJobsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 export const StreamingJobsCreateOrReplaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2761,9 +2695,7 @@ export const StreamingJobsCreateOrReplaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StreamingJobsCreateOrReplaceRequest>;
 
 /** Resource tags. */
-export type StreamingJobsCreateOrReplaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StreamingJobsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export const StreamingJobsCreateOrReplaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2829,9 +2761,7 @@ export const TestFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "TestFunctionRequest",
-}) as any as S.Schema<TestFunctionRequest>;
+).annotate({ identifier: "TestFunctionRequest" }) as any as S.Schema<TestFunctionRequest>;
 
 /** Describes the error that occurred. */
 export interface ErrorResponse {
@@ -2858,9 +2788,7 @@ export const TestFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     error: S.optional(ErrorResponse),
   }),
-).annotate({
-  identifier: "TestFunctionResponse",
-}) as any as S.Schema<TestFunctionResponse>;
+).annotate({ identifier: "TestFunctionResponse" }) as any as S.Schema<TestFunctionResponse>;
 
 export interface TestInputRequest {
   /** The ID of the target subscription. */
@@ -2892,9 +2820,7 @@ export const TestInputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "TestInputRequest",
-}) as any as S.Schema<TestInputRequest>;
+).annotate({ identifier: "TestInputRequest" }) as any as S.Schema<TestInputRequest>;
 
 /** Describes the status of the test operation along with error information, if applicable. */
 export interface ResourceTestStatus {
@@ -2908,9 +2834,7 @@ export const ResourceTestStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     error: S.optional(ErrorResponse),
   }),
-).annotate({
-  identifier: "ResourceTestStatus",
-}) as any as S.Schema<ResourceTestStatus>;
+).annotate({ identifier: "ResourceTestStatus" }) as any as S.Schema<ResourceTestStatus>;
 
 export interface TestOutputRequest {
   /** The ID of the target subscription. */
@@ -2942,9 +2866,7 @@ export const TestOutputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "TestOutputRequest",
-}) as any as S.Schema<TestOutputRequest>;
+).annotate({ identifier: "TestOutputRequest" }) as any as S.Schema<TestOutputRequest>;
 
 export interface TestOutputResponse {
   /** The status of the test operation. */
@@ -2957,9 +2879,7 @@ export const TestOutputResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     error: S.optional(ErrorResponse),
   }),
-).annotate({
-  identifier: "TestOutputResponse",
-}) as any as S.Schema<TestOutputResponse>;
+).annotate({ identifier: "TestOutputResponse" }) as any as S.Schema<TestOutputResponse>;
 
 export interface TransformationsCreateOrReplaceRequest {
   /** The ID of the target subscription. */
@@ -3055,14 +2975,10 @@ export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
+).annotate({ identifier: "UpdateClusterRequest" }) as any as S.Schema<UpdateClusterRequest>;
 
 /** Resource tags. */
-export type UpdateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3096,9 +3012,7 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ClusterProperties),
   }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
+).annotate({ identifier: "UpdateClusterResponse" }) as any as S.Schema<UpdateClusterResponse>;
 
 export interface UpdateFunctionRequest {
   /** The ID of the target subscription. */
@@ -3130,9 +3044,7 @@ export const UpdateFunctionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateFunctionRequest",
-}) as any as S.Schema<UpdateFunctionRequest>;
+).annotate({ identifier: "UpdateFunctionRequest" }) as any as S.Schema<UpdateFunctionRequest>;
 
 export interface UpdateFunctionResponse {
   /** Resource Id */
@@ -3151,9 +3063,7 @@ export const UpdateFunctionResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(FunctionProperties),
   }),
-).annotate({
-  identifier: "UpdateFunctionResponse",
-}) as any as S.Schema<UpdateFunctionResponse>;
+).annotate({ identifier: "UpdateFunctionResponse" }) as any as S.Schema<UpdateFunctionResponse>;
 
 export interface UpdateInputRequest {
   /** The ID of the target subscription. */
@@ -3185,9 +3095,7 @@ export const UpdateInputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateInputRequest",
-}) as any as S.Schema<UpdateInputRequest>;
+).annotate({ identifier: "UpdateInputRequest" }) as any as S.Schema<UpdateInputRequest>;
 
 export interface UpdateInputResponse {
   /** Resource Id */
@@ -3206,9 +3114,7 @@ export const UpdateInputResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(InputProperties),
   }),
-).annotate({
-  identifier: "UpdateInputResponse",
-}) as any as S.Schema<UpdateInputResponse>;
+).annotate({ identifier: "UpdateInputResponse" }) as any as S.Schema<UpdateInputResponse>;
 
 export interface UpdateOutputRequest {
   /** The ID of the target subscription. */
@@ -3240,9 +3146,7 @@ export const UpdateOutputRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateOutputRequest",
-}) as any as S.Schema<UpdateOutputRequest>;
+).annotate({ identifier: "UpdateOutputRequest" }) as any as S.Schema<UpdateOutputRequest>;
 
 export interface UpdateOutputResponse {
   /** Resource Id */
@@ -3261,14 +3165,10 @@ export const UpdateOutputResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(OutputProperties),
   }),
-).annotate({
-  identifier: "UpdateOutputResponse",
-}) as any as S.Schema<UpdateOutputResponse>;
+).annotate({ identifier: "UpdateOutputResponse" }) as any as S.Schema<UpdateOutputResponse>;
 
 /** Resource tags. */
-export type UpdateStreamingJobRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStreamingJobRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStreamingJobRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3312,9 +3212,7 @@ export const UpdateStreamingJobRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateStreamingJobRequest>;
 
 /** Resource tags. */
-export type UpdateStreamingJobResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStreamingJobResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateStreamingJobResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

@@ -1,0 +1,211 @@
+{
+  "description": "DataConnection is polymorphic on `kind`; the converted model keeps only the base members, so `properties` (eventHubResourceId, consumerGroup, tableName, mappingRuleName, dataFormat, ...) were stripped on encode and decode. Add the union of the per-kind properties. The LRO PUT/PATCH may answer 202 with an empty body, so `kind` is not required on those responses.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#DataConnectionPropertiesEventSystemPropertiesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#DataConnectionProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "eventHubResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The resource ID of the event hub (EventHub, EventGrid kinds)."
+            }
+          },
+          "consumerGroup": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The event hub / IoT hub consumer group."
+            }
+          },
+          "tableName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The table where the data should be ingested."
+            }
+          },
+          "mappingRuleName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The mapping rule to be used to ingest the data."
+            }
+          },
+          "dataFormat": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The data format of the message."
+            }
+          },
+          "eventSystemProperties": {
+            "target": "com.azure.azure_kusto#DataConnectionPropertiesEventSystemPropertiesList",
+            "traits": {
+              "smithy.api#documentation": "System properties of the event hub / IoT hub."
+            }
+          },
+          "compression": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The event hub messages compression type (`None` | `GZip`)."
+            }
+          },
+          "provisioningState": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The provisioned state of the resource."
+            }
+          },
+          "managedIdentityResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The resource ID of a managed identity used to access the source."
+            }
+          },
+          "managedIdentityObjectId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The object ID of the managed identity."
+            }
+          },
+          "databaseRouting": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Single or multi database routing (`Single` | `Multi`)."
+            }
+          },
+          "retrievalStartDate": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Retrieve events created after this date (ISO-8601)."
+            }
+          },
+          "storageAccountResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The storage account resource ID (EventGrid kind)."
+            }
+          },
+          "eventGridResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Event Grid subscription resource ID (EventGrid kind)."
+            }
+          },
+          "ignoreFirstRecord": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Ignore the first record of every file (EventGrid kind)."
+            }
+          },
+          "blobStorageEventType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The blob storage event type to process (EventGrid kind)."
+            }
+          },
+          "iotHubResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The IoT hub resource ID (IotHub kind)."
+            }
+          },
+          "sharedAccessPolicyName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The IoT hub shared access policy name (IotHub kind)."
+            }
+          },
+          "cosmosDbAccountResourceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Cosmos DB account resource ID (CosmosDb kind)."
+            }
+          },
+          "cosmosDbDatabase": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Cosmos DB database name (CosmosDb kind)."
+            }
+          },
+          "cosmosDbContainer": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Cosmos DB container name (CosmosDb kind)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Union of the data connection `properties` across kinds (EventHub, EventGrid, IotHub, CosmosDb)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#DataConnectionsCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#DataConnectionProperties",
+        "traits": {
+          "smithy.api#documentation": "The data connection properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#UpdateDataConnectionRequest/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#DataConnectionProperties",
+        "traits": {
+          "smithy.api#documentation": "The data connection properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#DataConnectionsCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#DataConnectionProperties",
+        "traits": {
+          "smithy.api#documentation": "The data connection properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#UpdateDataConnectionResponse/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#DataConnectionProperties",
+        "traits": {
+          "smithy.api#documentation": "The data connection properties."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.azure_kusto#GetDataConnectionResponse/members/properties",
+      "value": {
+        "target": "com.azure.azure_kusto#DataConnectionProperties",
+        "traits": {
+          "smithy.api#documentation": "The data connection properties."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#DataConnectionsCreateOrUpdateResponse/members/kind/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.azure_kusto#UpdateDataConnectionResponse/members/kind/traits/smithy.api#required"
+    }
+  ]
+}

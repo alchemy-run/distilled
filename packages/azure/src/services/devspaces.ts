@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Tags for the Azure resource. */
-export type CreateControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateControllerRequestTagsMap = { [key: string]: string | undefined };
 export const CreateControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -85,14 +83,10 @@ export const CreateControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "CreateControllerRequest",
-}) as any as S.Schema<CreateControllerRequest>;
+).annotate({ identifier: "CreateControllerRequest" }) as any as S.Schema<CreateControllerRequest>;
 
 /** Tags for the Azure resource. */
-export type CreateControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateControllerResponseTagsMap = { [key: string]: string | undefined };
 export const CreateControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -132,9 +126,7 @@ export const ControllerProperties = /*@__PURE__*/ S.suspend(() =>
     targetContainerHostResourceId: S.String,
     targetContainerHostCredentialsBase64: S.String,
   }),
-).annotate({
-  identifier: "ControllerProperties",
-}) as any as S.Schema<ControllerProperties>;
+).annotate({ identifier: "ControllerProperties" }) as any as S.Schema<ControllerProperties>;
 
 export interface CreateControllerResponse {
   /** Fully qualified resource Id for the resource. */
@@ -160,9 +152,7 @@ export const CreateControllerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: ControllerProperties,
     sku: Sku,
   }),
-).annotate({
-  identifier: "CreateControllerResponse",
-}) as any as S.Schema<CreateControllerResponse>;
+).annotate({ identifier: "CreateControllerResponse" }) as any as S.Schema<CreateControllerResponse>;
 
 export interface DeleteControllerRequest {
   /** Azure subscription ID. */
@@ -185,9 +175,7 @@ export const DeleteControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteControllerRequest",
-}) as any as S.Schema<DeleteControllerRequest>;
+).annotate({ identifier: "DeleteControllerRequest" }) as any as S.Schema<DeleteControllerRequest>;
 
 export interface DeleteControllerResponse {}
 export const DeleteControllerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -234,9 +222,7 @@ export const ContainerHostMapping = /*@__PURE__*/ S.suspend(() =>
     containerHostResourceId: S.optional(S.String),
     mappedControllerResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContainerHostMapping",
-}) as any as S.Schema<ContainerHostMapping>;
+).annotate({ identifier: "ContainerHostMapping" }) as any as S.Schema<ContainerHostMapping>;
 
 export interface GetControllerRequest {
   /** Azure subscription ID. */
@@ -259,14 +245,10 @@ export const GetControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetControllerRequest",
-}) as any as S.Schema<GetControllerRequest>;
+).annotate({ identifier: "GetControllerRequest" }) as any as S.Schema<GetControllerRequest>;
 
 /** Tags for the Azure resource. */
-export type GetControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetControllerResponseTagsMap = { [key: string]: string | undefined };
 export const GetControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -296,9 +278,7 @@ export const GetControllerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: ControllerProperties,
     sku: Sku,
   }),
-).annotate({
-  identifier: "GetControllerResponse",
-}) as any as S.Schema<GetControllerResponse>;
+).annotate({ identifier: "GetControllerResponse" }) as any as S.Schema<GetControllerResponse>;
 
 export interface ListControllerByResourceGroupRequest {
   /** Azure subscription ID. */
@@ -460,9 +440,7 @@ export const ListControllersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListControllersRequest",
-}) as any as S.Schema<ListControllersRequest>;
+).annotate({ identifier: "ListControllersRequest" }) as any as S.Schema<ListControllersRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -474,9 +452,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 export interface ResourceProviderOperationDisplay {
   /** Name of the resource provider. */
@@ -535,9 +511,7 @@ export const ResourceProviderOperationList = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResourceProviderOperationList>;
 
 /** Tags for the Azure Dev Spaces Controller. */
-export type UpdateControllerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateControllerRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateControllerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -581,14 +555,10 @@ export const UpdateControllerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateControllerRequest",
-}) as any as S.Schema<UpdateControllerRequest>;
+).annotate({ identifier: "UpdateControllerRequest" }) as any as S.Schema<UpdateControllerRequest>;
 
 /** Tags for the Azure resource. */
-export type UpdateControllerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateControllerResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateControllerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -618,9 +588,7 @@ export const UpdateControllerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: ControllerProperties,
     sku: Sku,
   }),
-).annotate({
-  identifier: "UpdateControllerResponse",
-}) as any as S.Schema<UpdateControllerResponse>;
+).annotate({ identifier: "UpdateControllerResponse" }) as any as S.Schema<UpdateControllerResponse>;
 
 export type CreateControllerError = AzureOpError;
 /** Creates an Azure Dev Spaces Controller. Creates an Azure Dev Spaces Controller with the specified create parameters. */

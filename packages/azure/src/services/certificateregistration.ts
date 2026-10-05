@@ -47,9 +47,7 @@ export const AppServiceCertificate = /*@__PURE__*/ S.suspend(() =>
     keyVaultSecretName: S.optional(S.String),
     provisioningState: S.optional(KeyVaultSecretStatus),
   }),
-).annotate({
-  identifier: "AppServiceCertificate",
-}) as any as S.Schema<AppServiceCertificate>;
+).annotate({ identifier: "AppServiceCertificate" }) as any as S.Schema<AppServiceCertificate>;
 
 /** State of the Key Vault secret. */
 export type AppServiceCertificateOrderPropertiesInputCertificatesMap = {
@@ -237,9 +235,7 @@ export const CertificateDetails = /*@__PURE__*/ S.suspend(() =>
     issuer: S.optional(S.String),
     rawData: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateDetails",
-}) as any as S.Schema<CertificateDetails>;
+).annotate({ identifier: "CertificateDetails" }) as any as S.Schema<CertificateDetails>;
 
 export type ResourceNotRenewableReason =
   | "RegistrationStatusNotSupportedForRenewal"
@@ -268,9 +264,7 @@ export const CertificateOrderContact = /*@__PURE__*/ S.suspend(() =>
     nameLast: S.optional(S.String),
     phone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateOrderContact",
-}) as any as S.Schema<CertificateOrderContact>;
+).annotate({ identifier: "CertificateOrderContact" }) as any as S.Schema<CertificateOrderContact>;
 
 /** AppServiceCertificateOrder resource specific properties */
 export interface AppServiceCertificateOrderProperties {
@@ -625,9 +619,7 @@ export const GetAppServiceCertificateOrderRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<GetAppServiceCertificateOrderRequest>;
 
 /** Resource tags. */
-export type GetAppServiceCertificateOrderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAppServiceCertificateOrderResponseTagsMap = { [key: string]: string | undefined };
 export const GetAppServiceCertificateOrderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -791,9 +783,7 @@ export const CertificateOrderAction = /*@__PURE__*/ S.suspend(() =>
     actionType: S.optional(CertificateOrderActionType),
     createdAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateOrderAction",
-}) as any as S.Schema<CertificateOrderAction>;
+).annotate({ identifier: "CertificateOrderAction" }) as any as S.Schema<CertificateOrderAction>;
 
 export type GetAppServiceCertificateOrderCertificateActionsResponseBodyList =
   Array<CertificateOrderAction>;
@@ -848,9 +838,7 @@ export const CertificateEmail = /*@__PURE__*/ S.suspend(() =>
     emailId: S.optional(S.String),
     timeStamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateEmail",
-}) as any as S.Schema<CertificateEmail>;
+).annotate({ identifier: "CertificateEmail" }) as any as S.Schema<CertificateEmail>;
 
 export type GetAppServiceCertificateOrderCertificateEmailHistoryResponseBodyList =
   Array<CertificateEmail>;
@@ -1028,9 +1016,7 @@ export const DataTableResponseColumn = /*@__PURE__*/ S.suspend(() =>
     dataType: S.optional(S.String),
     columnType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataTableResponseColumn",
-}) as any as S.Schema<DataTableResponseColumn>;
+).annotate({ identifier: "DataTableResponseColumn" }) as any as S.Schema<DataTableResponseColumn>;
 
 /** List of columns with data types */
 export type DataTableResponseObjectColumnsList = Array<DataTableResponseColumn>;
@@ -1064,9 +1050,7 @@ export const DataTableResponseObject = /*@__PURE__*/ S.suspend(() =>
     columns: S.optional(DataTableResponseObjectColumnsList),
     rows: S.optional(DataTableResponseObjectRowsList),
   }),
-).annotate({
-  identifier: "DataTableResponseObject",
-}) as any as S.Schema<DataTableResponseObject>;
+).annotate({ identifier: "DataTableResponseObject" }) as any as S.Schema<DataTableResponseObject>;
 
 /** Rendering Type */
 export type RenderingType =
@@ -1153,9 +1137,7 @@ export const Status = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Status" }) as any as S.Schema<Status>;
 
 /** Any object */
-export type KeyValuePairStringObjectValueMap = {
-  [key: string]: string | undefined;
-};
+export type KeyValuePairStringObjectValueMap = { [key: string]: string | undefined };
 export const KeyValuePairStringObjectValueMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1171,9 +1153,7 @@ export const KeyValuePairStringObject = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     value: S.optional(KeyValuePairStringObjectValueMap),
   }),
-).annotate({
-  identifier: "KeyValuePairStringObject",
-}) as any as S.Schema<KeyValuePairStringObject>;
+).annotate({ identifier: "KeyValuePairStringObject" }) as any as S.Schema<KeyValuePairStringObject>;
 
 /** Settings for the data provider */
 export type DataProviderMetadataPropertyBagList = Array<KeyValuePairStringObject>;
@@ -1192,9 +1172,7 @@ export const DataProviderMetadata = /*@__PURE__*/ S.suspend(() =>
     providerName: S.optional(S.String),
     propertyBag: S.optional(DataProviderMetadataPropertyBagList),
   }),
-).annotate({
-  identifier: "DataProviderMetadata",
-}) as any as S.Schema<DataProviderMetadata>;
+).annotate({ identifier: "DataProviderMetadata" }) as any as S.Schema<DataProviderMetadata>;
 
 /** Additional configuration for different data providers to be used by the UI */
 export type DetectorResponsePropertiesDataProvidersMetadataList = Array<DataProviderMetadata>;
@@ -1223,9 +1201,7 @@ export const SampleUtterance = /*@__PURE__*/ S.suspend(() =>
     links: S.optional(SampleUtteranceLinksList),
     qid: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SampleUtterance",
-}) as any as S.Schema<SampleUtterance>;
+).annotate({ identifier: "SampleUtterance" }) as any as S.Schema<SampleUtterance>;
 
 /** Result for utterances query. */
 export interface QueryUtterancesResult {
@@ -1239,9 +1215,7 @@ export const QueryUtterancesResult = /*@__PURE__*/ S.suspend(() =>
     sampleUtterance: S.optional(SampleUtterance),
     score: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueryUtterancesResult",
-}) as any as S.Schema<QueryUtterancesResult>;
+).annotate({ identifier: "QueryUtterancesResult" }) as any as S.Schema<QueryUtterancesResult>;
 
 /** Array of utterance results for search query. */
 export type QueryUtterancesResultsResultsList = Array<QueryUtterancesResult>;
@@ -1261,9 +1235,7 @@ export const QueryUtterancesResults = /*@__PURE__*/ S.suspend(() =>
     query: S.optional(S.String),
     results: S.optional(QueryUtterancesResultsResultsList),
   }),
-).annotate({
-  identifier: "QueryUtterancesResults",
-}) as any as S.Schema<QueryUtterancesResults>;
+).annotate({ identifier: "QueryUtterancesResults" }) as any as S.Schema<QueryUtterancesResults>;
 
 /** DetectorResponse resource specific properties */
 export interface DetectorResponseProperties {
@@ -1341,9 +1313,7 @@ export const ListAppServiceCertificateOrderByResourceGroupRequest = /*@__PURE__*
 }) as any as S.Schema<ListAppServiceCertificateOrderByResourceGroupRequest>;
 
 /** Resource tags. */
-export type AppServiceCertificateOrderTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppServiceCertificateOrderTagsMap = { [key: string]: string | undefined };
 export const AppServiceCertificateOrderTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1431,9 +1401,7 @@ export const ListAppServiceCertificateOrderCertificatesRequest = /*@__PURE__*/ S
 }) as any as S.Schema<ListAppServiceCertificateOrderCertificatesRequest>;
 
 /** Resource tags. */
-export type AppServiceCertificateResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppServiceCertificateResourceTagsMap = { [key: string]: string | undefined };
 export const AppServiceCertificateResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1564,9 +1532,7 @@ export const DetectorResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DetectorResponseProperties),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DetectorResponse",
-}) as any as S.Schema<DetectorResponse>;
+).annotate({ identifier: "DetectorResponse" }) as any as S.Schema<DetectorResponse>;
 
 /** The DetectorResponse items on this page */
 export type DetectorResponseCollectionValueList = Array<DetectorResponse>;
@@ -1618,9 +1584,7 @@ export const CsmOperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CsmOperationDisplay",
-}) as any as S.Schema<CsmOperationDisplay>;
+).annotate({ identifier: "CsmOperationDisplay" }) as any as S.Schema<CsmOperationDisplay>;
 
 /** Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app, where instance name is dimension of the metric HTTP request */
 export interface Dimension {
@@ -1653,9 +1617,7 @@ export const MetricAvailability = /*@__PURE__*/ S.suspend(() =>
     timeGrain: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricAvailability",
-}) as any as S.Schema<MetricAvailability>;
+).annotate({ identifier: "MetricAvailability" }) as any as S.Schema<MetricAvailability>;
 
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
 export const MetricSpecificationAvailabilitiesList = /*@__PURE__*/ S.Array(
@@ -1712,9 +1674,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     supportedTimeGrainTypes: S.optional(MetricSpecificationSupportedTimeGrainTypesList),
     supportedAggregationTypes: S.optional(MetricSpecificationSupportedAggregationTypesList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 export const ServiceSpecificationMetricSpecificationsList = /*@__PURE__*/ S.Array(
@@ -1735,9 +1695,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     blobDuration: S.optional(S.String),
     logFilterPattern: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 export const ServiceSpecificationLogSpecificationsList = /*@__PURE__*/ S.Array(
@@ -1754,9 +1712,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Properties available for a Microsoft.Web resource provider operation. */
 export interface CsmOperationDescriptionProperties {
@@ -1789,9 +1745,7 @@ export const CsmOperationDescription = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(CsmOperationDescriptionProperties),
   }),
-).annotate({
-  identifier: "CsmOperationDescription",
-}) as any as S.Schema<CsmOperationDescription>;
+).annotate({ identifier: "CsmOperationDescription" }) as any as S.Schema<CsmOperationDescription>;
 
 /** Collection of resources. */
 export type CsmOperationCollectionValueList = Array<CsmOperationDescription>;
@@ -1811,9 +1765,7 @@ export const CsmOperationCollection = /*@__PURE__*/ S.suspend(() =>
     value: CsmOperationCollectionValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CsmOperationCollection",
-}) as any as S.Schema<CsmOperationCollection>;
+).annotate({ identifier: "CsmOperationCollection" }) as any as S.Schema<CsmOperationCollection>;
 
 /** RenewCertificateOrderRequest resource specific properties */
 export interface RenewCertificateOrderRequestProperties {
@@ -2012,9 +1964,7 @@ export const UpdateAppServiceCertificateOrderRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<UpdateAppServiceCertificateOrderRequest>;
 
 /** Resource tags. */
-export type UpdateAppServiceCertificateOrderResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAppServiceCertificateOrderResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAppServiceCertificateOrderResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

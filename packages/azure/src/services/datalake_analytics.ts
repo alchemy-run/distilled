@@ -55,9 +55,7 @@ export const AddDataLakeStoreAccountRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface AddDataLakeStoreAccountResponse {}
 export const AddDataLakeStoreAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "AddDataLakeStoreAccountResponse",
-  },
+  { identifier: "AddDataLakeStoreAccountResponse" },
 ) as any as S.Schema<AddDataLakeStoreAccountResponse>;
 
 /** The Azure Storage account properties to use when adding a new Azure Storage account. */
@@ -103,9 +101,7 @@ export const AddStorageAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "AddStorageAccountRequest",
-}) as any as S.Schema<AddStorageAccountRequest>;
+).annotate({ identifier: "AddStorageAccountRequest" }) as any as S.Schema<AddStorageAccountRequest>;
 
 export interface AddStorageAccountResponse {}
 export const AddStorageAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -242,9 +238,7 @@ export const ComputePolicyProperties = /*@__PURE__*/ S.suspend(() =>
     maxDegreeOfParallelismPerJob: S.optional(S.Number),
     minPriorityPerJob: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ComputePolicyProperties",
-}) as any as S.Schema<ComputePolicyProperties>;
+).annotate({ identifier: "ComputePolicyProperties" }) as any as S.Schema<ComputePolicyProperties>;
 
 export interface ComputePoliciesCreateOrUpdateResponse {
   /** The resource identifier. */
@@ -486,14 +480,10 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 /** The resource tags. */
-export type CreateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -655,9 +645,7 @@ export const HiveMetastoreProperties = /*@__PURE__*/ S.suspend(() =>
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
     nestedResourceProvisioningState: S.optional(NestedResourceProvisioningState),
   }),
-).annotate({
-  identifier: "HiveMetastoreProperties",
-}) as any as S.Schema<HiveMetastoreProperties>;
+).annotate({ identifier: "HiveMetastoreProperties" }) as any as S.Schema<HiveMetastoreProperties>;
 
 export interface HiveMetastore {
   /** The resource identifier. */
@@ -722,9 +710,7 @@ export const VirtualNetworkRule = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(VirtualNetworkRuleProperties),
   }),
-).annotate({
-  identifier: "VirtualNetworkRule",
-}) as any as S.Schema<VirtualNetworkRule>;
+).annotate({ identifier: "VirtualNetworkRule" }) as any as S.Schema<VirtualNetworkRule>;
 
 /** The list of virtualNetwork rules associated with this account. */
 export type DataLakeAnalyticsAccountPropertiesVirtualNetworkRulesList = Array<VirtualNetworkRule>;
@@ -744,9 +730,7 @@ export const FirewallRuleProperties = /*@__PURE__*/ S.suspend(() =>
     startIpAddress: S.optional(S.String),
     endIpAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleProperties",
-}) as any as S.Schema<FirewallRuleProperties>;
+).annotate({ identifier: "FirewallRuleProperties" }) as any as S.Schema<FirewallRuleProperties>;
 
 /** Data Lake Analytics firewall rule information. */
 export interface FirewallRule {
@@ -934,9 +918,7 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CreateAccountResponseTagsMap),
     properties: S.optional(DataLakeAnalyticsAccountProperties),
   }),
-).annotate({
-  identifier: "CreateAccountResponse",
-}) as any as S.Schema<CreateAccountResponse>;
+).annotate({ identifier: "CreateAccountResponse" }) as any as S.Schema<CreateAccountResponse>;
 
 export interface DeleteAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -959,9 +941,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1175,9 +1155,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** The resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -1209,9 +1187,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetAccountResponseTagsMap),
     properties: S.optional(DataLakeAnalyticsAccountProperties),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetComputePolicyRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1237,9 +1213,7 @@ export const GetComputePolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetComputePolicyRequest",
-}) as any as S.Schema<GetComputePolicyRequest>;
+).annotate({ identifier: "GetComputePolicyRequest" }) as any as S.Schema<GetComputePolicyRequest>;
 
 export interface GetComputePolicyResponse {
   /** The resource identifier. */
@@ -1258,9 +1232,7 @@ export const GetComputePolicyResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ComputePolicyProperties),
   }),
-).annotate({
-  identifier: "GetComputePolicyResponse",
-}) as any as S.Schema<GetComputePolicyResponse>;
+).annotate({ identifier: "GetComputePolicyResponse" }) as any as S.Schema<GetComputePolicyResponse>;
 
 export interface GetDataLakeStoreAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1335,9 +1307,7 @@ export const GetFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallRuleRequest",
-}) as any as S.Schema<GetFirewallRuleRequest>;
+).annotate({ identifier: "GetFirewallRuleRequest" }) as any as S.Schema<GetFirewallRuleRequest>;
 
 export interface GetFirewallRuleResponse {
   /** The resource identifier. */
@@ -1356,9 +1326,7 @@ export const GetFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(FirewallRuleProperties),
   }),
-).annotate({
-  identifier: "GetFirewallRuleResponse",
-}) as any as S.Schema<GetFirewallRuleResponse>;
+).annotate({ identifier: "GetFirewallRuleResponse" }) as any as S.Schema<GetFirewallRuleResponse>;
 
 export interface GetLocationCapabilityRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1412,9 +1380,7 @@ export const CapabilityInformation = /*@__PURE__*/ S.suspend(() =>
     accountCount: S.optional(S.Number),
     migrationState: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CapabilityInformation",
-}) as any as S.Schema<CapabilityInformation>;
+).annotate({ identifier: "CapabilityInformation" }) as any as S.Schema<CapabilityInformation>;
 
 export interface GetStorageAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1440,9 +1406,7 @@ export const GetStorageAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetStorageAccountRequest",
-}) as any as S.Schema<GetStorageAccountRequest>;
+).annotate({ identifier: "GetStorageAccountRequest" }) as any as S.Schema<GetStorageAccountRequest>;
 
 export interface GetStorageAccountResponse {
   /** The resource identifier. */
@@ -1571,9 +1535,7 @@ export const ListAccountByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListAccountByResourceGroupRequest>;
 
 /** The resource tags. */
-export type DataLakeAnalyticsAccountBasicTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DataLakeAnalyticsAccountBasicTagsMap = { [key: string]: string | undefined };
 export const DataLakeAnalyticsAccountBasicTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1712,9 +1674,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 
 export interface ListComputePolicyByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1759,9 +1719,7 @@ export const ComputePolicyListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ComputePolicyListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComputePolicyListResult",
-}) as any as S.Schema<ComputePolicyListResult>;
+).annotate({ identifier: "ComputePolicyListResult" }) as any as S.Schema<ComputePolicyListResult>;
 
 export interface ListDataLakeStoreAccountByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1872,9 +1830,7 @@ export const FirewallRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(FirewallRuleListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleListResult",
-}) as any as S.Schema<FirewallRuleListResult>;
+).annotate({ identifier: "FirewallRuleListResult" }) as any as S.Schema<FirewallRuleListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1886,9 +1842,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The display information for a particular operation. */
 export interface OperationDisplay {
@@ -1908,9 +1862,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 export interface OperationMetaMetricAvailabilitiesSpecification {
   /** The timegrain for OperationMetaMetricAvailabilitiesSpecification. */
@@ -2062,9 +2014,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListStorageAccountByAccountRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -2171,9 +2121,7 @@ export const SasTokenInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "SasTokenInformation",
-}) as any as S.Schema<SasTokenInformation>;
+).annotate({ identifier: "SasTokenInformation" }) as any as S.Schema<SasTokenInformation>;
 
 /** The results of the list operation. */
 export type SasTokenInformationListResultValueList = Array<SasTokenInformation>;
@@ -2243,9 +2191,7 @@ export const StorageContainer = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(StorageContainerProperties),
   }),
-).annotate({
-  identifier: "StorageContainer",
-}) as any as S.Schema<StorageContainer>;
+).annotate({ identifier: "StorageContainer" }) as any as S.Schema<StorageContainer>;
 
 /** The results of the list operation. */
 export type StorageContainerListResultValueList = Array<StorageContainer>;
@@ -2519,14 +2465,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** The resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2555,9 +2497,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateAccountResponseTagsMap),
     properties: S.optional(DataLakeAnalyticsAccountProperties),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export interface UpdateComputePolicyRequest {
   /** Get subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */

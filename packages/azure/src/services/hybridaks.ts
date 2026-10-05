@@ -17,9 +17,7 @@ export type OSSKU = "CBLMariner" | "Windows2019" | "Windows2022";
 export const OSSKU = S.String;
 
 /** The node labels to be persisted across all nodes in agent pool. */
-export type AgentPoolPropertiesInputNodeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentPoolPropertiesInputNodeLabelsMap = { [key: string]: string | undefined };
 export const AgentPoolPropertiesInputNodeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -104,14 +102,10 @@ export const AgentPoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     vmSize: S.optional(S.String),
     status: S.optional(AgentPoolPropertiesInputStatus),
   }),
-).annotate({
-  identifier: "AgentPoolPropertiesInput",
-}) as any as S.Schema<AgentPoolPropertiesInput>;
+).annotate({ identifier: "AgentPoolPropertiesInput" }) as any as S.Schema<AgentPoolPropertiesInput>;
 
 /** Resource tags */
-export type AgentPoolCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentPoolCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AgentPoolCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -133,9 +127,7 @@ export const ExtendedLocation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ExtendedLocationType),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtendedLocation",
-}) as any as S.Schema<ExtendedLocation>;
+).annotate({ identifier: "ExtendedLocation" }) as any as S.Schema<ExtendedLocation>;
 
 export interface AgentPoolCreateOrUpdateRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -157,7 +149,7 @@ export const AgentPoolCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -201,9 +193,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** The node labels to be persisted across all nodes in agent pool. */
-export type AgentPoolPropertiesNodeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentPoolPropertiesNodeLabelsMap = { [key: string]: string | undefined };
 export const AgentPoolPropertiesNodeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -243,9 +233,7 @@ export const AgentPoolUpdateProfile = /*@__PURE__*/ S.suspend(() =>
     vmSize: S.optional(S.String),
     kubernetesVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AgentPoolUpdateProfile",
-}) as any as S.Schema<AgentPoolUpdateProfile>;
+).annotate({ identifier: "AgentPoolUpdateProfile" }) as any as S.Schema<AgentPoolUpdateProfile>;
 
 export type AgentPoolPropertiesStatusReadyReplicasList = Array<AgentPoolUpdateProfile>;
 export const AgentPoolPropertiesStatusReadyReplicasList = /*@__PURE__*/ S.Array(
@@ -313,14 +301,10 @@ export const AgentPoolProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     status: S.optional(AgentPoolPropertiesStatus),
   }),
-).annotate({
-  identifier: "AgentPoolProperties",
-}) as any as S.Schema<AgentPoolProperties>;
+).annotate({ identifier: "AgentPoolProperties" }) as any as S.Schema<AgentPoolProperties>;
 
 /** Resource tags */
-export type AgentPoolCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AgentPoolCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AgentPoolCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -367,14 +351,12 @@ export const DeleteAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
       code: 200,
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAgentPoolRequest",
-}) as any as S.Schema<DeleteAgentPoolRequest>;
+).annotate({ identifier: "DeleteAgentPoolRequest" }) as any as S.Schema<DeleteAgentPoolRequest>;
 
 export interface DeleteAgentPoolResponse {}
 export const DeleteAgentPoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -391,7 +373,7 @@ export const DeleteHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -417,7 +399,7 @@ export const DeleteKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -443,7 +425,7 @@ export const DeleteProvisionedClusterInstanceRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -499,14 +481,12 @@ export const DeleteVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVMSkusRequest",
-}) as any as S.Schema<DeleteVMSkusRequest>;
+).annotate({ identifier: "DeleteVMSkusRequest" }) as any as S.Schema<DeleteVMSkusRequest>;
 
 export interface DeleteVMSkusResponse {}
 export const DeleteVMSkusResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -526,14 +506,12 @@ export const GetAgentPoolRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
       code: 200,
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetAgentPoolRequest",
-}) as any as S.Schema<GetAgentPoolRequest>;
+).annotate({ identifier: "GetAgentPoolRequest" }) as any as S.Schema<GetAgentPoolRequest>;
 
 /** Resource tags */
 export type GetAgentPoolResponseTagsMap = { [key: string]: string | undefined };
@@ -566,9 +544,7 @@ export const GetAgentPoolResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetAgentPoolResponseTagsMap),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "GetAgentPoolResponse",
-}) as any as S.Schema<GetAgentPoolResponse>;
+).annotate({ identifier: "GetAgentPoolResponse" }) as any as S.Schema<GetAgentPoolResponse>;
 
 export interface GetHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -580,7 +556,7 @@ export const GetHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -641,7 +617,7 @@ export const GetKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -699,9 +675,7 @@ export const KubernetesPatchVersions = /*@__PURE__*/ S.suspend(() =>
     readiness: S.optional(KubernetesPatchVersionsReadinessList),
     upgrades: S.optional(KubernetesPatchVersionsUpgradesList),
   }),
-).annotate({
-  identifier: "KubernetesPatchVersions",
-}) as any as S.Schema<KubernetesPatchVersions>;
+).annotate({ identifier: "KubernetesPatchVersions" }) as any as S.Schema<KubernetesPatchVersions>;
 
 /** Patch versions of a Kubernetes release */
 export type KubernetesVersionPropertiesPatchVersionsMap = {
@@ -786,7 +760,7 @@ export const GetProvisionedClusterInstanceRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -836,9 +810,7 @@ export const LinuxProfileProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ssh: S.optional(LinuxProfilePropertiesSsh),
   }),
-).annotate({
-  identifier: "LinuxProfileProperties",
-}) as any as S.Schema<LinuxProfileProperties>;
+).annotate({ identifier: "LinuxProfileProperties" }) as any as S.Schema<LinuxProfileProperties>;
 
 /** IP Address of the Kubernetes API server */
 export interface ControlPlaneProfileControlPlaneEndpoint {
@@ -868,9 +840,7 @@ export const ControlPlaneProfile = /*@__PURE__*/ S.suspend(() =>
     vmSize: S.optional(S.String),
     controlPlaneEndpoint: S.optional(ControlPlaneProfileControlPlaneEndpoint),
   }),
-).annotate({
-  identifier: "ControlPlaneProfile",
-}) as any as S.Schema<ControlPlaneProfile>;
+).annotate({ identifier: "ControlPlaneProfile" }) as any as S.Schema<ControlPlaneProfile>;
 
 /** Profile of the HA Proxy load balancer. */
 export interface NetworkProfileLoadBalancerProfile {
@@ -955,14 +925,10 @@ export const ClusterVMAccessProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     authorizedIPRanges: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterVMAccessProfile",
-}) as any as S.Schema<ClusterVMAccessProfile>;
+).annotate({ identifier: "ClusterVMAccessProfile" }) as any as S.Schema<ClusterVMAccessProfile>;
 
 /** The node labels to be persisted across all nodes in agent pool. */
-export type NamedAgentPoolProfileNodeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type NamedAgentPoolProfileNodeLabelsMap = { [key: string]: string | undefined };
 export const NamedAgentPoolProfileNodeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1014,9 +980,7 @@ export const NamedAgentPoolProfile = /*@__PURE__*/ S.suspend(() =>
     kubernetesVersion: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NamedAgentPoolProfile",
-}) as any as S.Schema<NamedAgentPoolProfile>;
+).annotate({ identifier: "NamedAgentPoolProfile" }) as any as S.Schema<NamedAgentPoolProfile>;
 
 /** The agent pool properties for the provisioned cluster. */
 export type ProvisionedClusterPropertiesAgentPoolProfilesList = Array<NamedAgentPoolProfile>;
@@ -1052,9 +1016,7 @@ export const CloudProviderProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     infraNetworkProfile: S.optional(CloudProviderProfileInfraNetworkProfile),
   }),
-).annotate({
-  identifier: "CloudProviderProfile",
-}) as any as S.Schema<CloudProviderProfile>;
+).annotate({ identifier: "CloudProviderProfile" }) as any as S.Schema<CloudProviderProfile>;
 
 /** Observed phase of the addon or component on the provisioned cluster. Possible values include: 'pending', 'provisioning', 'provisioning {HelmChartInstalled}', 'provisioning {MSICertificateDownloaded}', 'provisioned', 'deleting', 'failed', 'upgrading' */
 export type AddonStatusProfilePhase =
@@ -1086,9 +1048,7 @@ export const AddonStatusProfile = /*@__PURE__*/ S.suspend(() =>
     ready: S.optional(S.Boolean),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddonStatusProfile",
-}) as any as S.Schema<AddonStatusProfile>;
+).annotate({ identifier: "AddonStatusProfile" }) as any as S.Schema<AddonStatusProfile>;
 
 /** The detailed status of the provisioned cluster components including addons. */
 export type ProvisionedClusterPropertiesStatusControlPlaneStatusList = Array<AddonStatusProfile>;
@@ -1290,7 +1250,7 @@ export const GetProvisionedClusterInstanceUpgradeProfileRequest = /*@__PURE__*/ 
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/upgradeProfiles/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -1400,14 +1360,10 @@ export const GetVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualNetworkRequest",
-}) as any as S.Schema<GetVirtualNetworkRequest>;
+).annotate({ identifier: "GetVirtualNetworkRequest" }) as any as S.Schema<GetVirtualNetworkRequest>;
 
 /** Resource tags. */
-export type GetVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const GetVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1570,9 +1526,7 @@ export const VirtualNetworkProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(VirtualNetworkPropertiesProvisioningState),
     status: S.optional(VirtualNetworkPropertiesStatus),
   }),
-).annotate({
-  identifier: "VirtualNetworkProperties",
-}) as any as S.Schema<VirtualNetworkProperties>;
+).annotate({ identifier: "VirtualNetworkProperties" }) as any as S.Schema<VirtualNetworkProperties>;
 
 /** The extended location type. Allowed value: 'CustomLocation' */
 export type GetVirtualNetworkResponseExtendedLocationType = "CustomLocation";
@@ -1636,14 +1590,12 @@ export const GetVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetVMSkusRequest",
-}) as any as S.Schema<GetVMSkusRequest>;
+).annotate({ identifier: "GetVMSkusRequest" }) as any as S.Schema<GetVMSkusRequest>;
 
 /** Describes the VM SKU capabilities like MemoryGB, vCPUs, etc. */
 export interface VmSkuCapabilities {
@@ -1657,9 +1609,7 @@ export const VmSkuCapabilities = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmSkuCapabilities",
-}) as any as S.Schema<VmSkuCapabilities>;
+).annotate({ identifier: "VmSkuCapabilities" }) as any as S.Schema<VmSkuCapabilities>;
 
 /** The list of name-value pairs to describe VM SKU capabilities like MemoryGB, vCPUs, etc. */
 export type VmSkuPropertiesCapabilitiesList = Array<VmSkuCapabilities>;
@@ -1688,9 +1638,7 @@ export const VmSkuProperties = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(S.String),
     size: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmSkuProperties",
-}) as any as S.Schema<VmSkuProperties>;
+).annotate({ identifier: "VmSkuProperties" }) as any as S.Schema<VmSkuProperties>;
 
 /** List of supported VM SKUs. */
 export type GetVMSkusResponsePropertiesValuesList = Array<VmSkuProperties>;
@@ -1733,9 +1681,7 @@ export const GetVMSkusResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     properties: S.optional(GetVMSkusResponseProperties),
   }),
-).annotate({
-  identifier: "GetVMSkusResponse",
-}) as any as S.Schema<GetVMSkusResponse>;
+).annotate({ identifier: "GetVMSkusResponse" }) as any as S.Schema<GetVMSkusResponse>;
 
 export interface ListAgentPoolByProvisionedClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -1747,7 +1693,7 @@ export const ListAgentPoolByProvisionedClusterRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -1805,9 +1751,7 @@ export const AgentPoolListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(AgentPoolListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AgentPoolListResult",
-}) as any as S.Schema<AgentPoolListResult>;
+).annotate({ identifier: "AgentPoolListResult" }) as any as S.Schema<AgentPoolListResult>;
 
 export interface ListHybridIdentityMetadataByClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -1819,7 +1763,7 @@ export const ListHybridIdentityMetadataByClusterRequest = /*@__PURE__*/ S.suspen
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -1849,9 +1793,7 @@ export const HybridIdentityMetadata = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: HybridIdentityMetadataProperties,
   }),
-).annotate({
-  identifier: "HybridIdentityMetadata",
-}) as any as S.Schema<HybridIdentityMetadata>;
+).annotate({ identifier: "HybridIdentityMetadata" }) as any as S.Schema<HybridIdentityMetadata>;
 
 /** Array of hybridIdentityMetadata */
 export type HybridIdentityMetadataListValueList = Array<HybridIdentityMetadata>;
@@ -1885,7 +1827,7 @@ export const ListKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -1936,9 +1878,7 @@ export const KubernetesVersionProfile = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     properties: S.optional(KubernetesVersionProfileProperties),
   }),
-).annotate({
-  identifier: "KubernetesVersionProfile",
-}) as any as S.Schema<KubernetesVersionProfile>;
+).annotate({ identifier: "KubernetesVersionProfile" }) as any as S.Schema<KubernetesVersionProfile>;
 
 export type KubernetesVersionProfileListValueList = Array<KubernetesVersionProfile>;
 export const KubernetesVersionProfileListValueList = /*@__PURE__*/ S.Array(
@@ -1969,9 +1909,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1991,9 +1929,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2043,9 +1979,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProvisionedClusterInstanceAdminKubeconfigRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -2057,7 +1991,7 @@ export const ListProvisionedClusterInstanceAdminKubeconfigRequest = /*@__PURE__*
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listAdminKubeconfig",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listAdminKubeconfig",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2091,9 +2025,7 @@ export const CredentialResult = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialResult",
-}) as any as S.Schema<CredentialResult>;
+).annotate({ identifier: "CredentialResult" }) as any as S.Schema<CredentialResult>;
 
 /** Base64-encoded Kubernetes configuration file. */
 export type ListCredentialResponsePropertiesKubeconfigsList = Array<CredentialResult>;
@@ -2134,9 +2066,7 @@ export const ListCredentialResponse = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(ListCredentialResponseError),
     properties: S.optional(ListCredentialResponseProperties),
   }),
-).annotate({
-  identifier: "ListCredentialResponse",
-}) as any as S.Schema<ListCredentialResponse>;
+).annotate({ identifier: "ListCredentialResponse" }) as any as S.Schema<ListCredentialResponse>;
 
 export interface ListProvisionedClusterInstancesRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
@@ -2148,7 +2078,7 @@ export const ListProvisionedClusterInstancesRequest = /*@__PURE__*/ S.suspend(()
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2179,9 +2109,7 @@ export const ProvisionedCluster = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProvisionedClusterProperties),
     extendedLocation: S.optional(ExtendedLocation),
   }),
-).annotate({
-  identifier: "ProvisionedCluster",
-}) as any as S.Schema<ProvisionedCluster>;
+).annotate({ identifier: "ProvisionedCluster" }) as any as S.Schema<ProvisionedCluster>;
 
 export type ProvisionedClusterListResultValueList = Array<ProvisionedCluster>;
 export const ProvisionedClusterListResultValueList = /*@__PURE__*/ S.Array(
@@ -2212,7 +2140,7 @@ export const ListProvisionedClusterInstanceUserKubeconfigRequest = /*@__PURE__*/
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listUserKubeconfig",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/listUserKubeconfig",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2349,14 +2277,12 @@ export const ListVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus",
       code: 200,
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListVMSkusRequest",
-}) as any as S.Schema<ListVMSkusRequest>;
+).annotate({ identifier: "ListVMSkusRequest" }) as any as S.Schema<ListVMSkusRequest>;
 
 /** List of supported VM SKUs. */
 export type VmSkuProfilePropertiesValuesList = Array<VmSkuProperties>;
@@ -2374,9 +2300,7 @@ export const VmSkuProfileProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     values: S.optional(VmSkuProfilePropertiesValuesList),
   }),
-).annotate({
-  identifier: "VmSkuProfileProperties",
-}) as any as S.Schema<VmSkuProfileProperties>;
+).annotate({ identifier: "VmSkuProfileProperties" }) as any as S.Schema<VmSkuProfileProperties>;
 
 /** The list of supported VM SKUs. */
 export interface VmSkuProfile {
@@ -2417,14 +2341,10 @@ export const VmSkuProfileList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(VmSkuProfileListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VmSkuProfileList",
-}) as any as S.Schema<VmSkuProfileList>;
+).annotate({ identifier: "VmSkuProfileList" }) as any as S.Schema<VmSkuProfileList>;
 
 /** The node labels to be persisted across all nodes in agent pool. */
-export type NamedAgentPoolProfileInputNodeLabelsMap = {
-  [key: string]: string | undefined;
-};
+export type NamedAgentPoolProfileInputNodeLabelsMap = { [key: string]: string | undefined };
 export const NamedAgentPoolProfileInputNodeLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2615,7 +2535,7 @@ export const ProvisionedClusterInstancesCreateOrUpdateRequest = /*@__PURE__*/ S.
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2678,7 +2598,7 @@ export const PutHybridIdentityMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
+      uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2723,7 +2643,7 @@ export const PutKubernetesVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
@@ -2789,14 +2709,12 @@ export const PutVMSkusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus/default",
+      uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus/default",
       code: 200,
       apiVersion: "2024-01-01",
     }),
   ),
-).annotate({
-  identifier: "PutVMSkusRequest",
-}) as any as S.Schema<PutVMSkusRequest>;
+).annotate({ identifier: "PutVMSkusRequest" }) as any as S.Schema<PutVMSkusRequest>;
 
 /** List of supported VM SKUs. */
 export type PutVMSkusResponsePropertiesValuesList = Array<VmSkuProperties>;
@@ -2839,14 +2757,10 @@ export const PutVMSkusResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     properties: S.optional(PutVMSkusResponseProperties),
   }),
-).annotate({
-  identifier: "PutVMSkusResponse",
-}) as any as S.Schema<PutVMSkusResponse>;
+).annotate({ identifier: "PutVMSkusResponse" }) as any as S.Schema<PutVMSkusResponse>;
 
 /** Resource tags */
-export type UpdateVirtualNetworkRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2881,9 +2795,7 @@ export const UpdateVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkRequest>;
 
 /** Resource tags. */
-export type UpdateVirtualNetworkResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateVirtualNetworkResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateVirtualNetworkResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2942,9 +2854,7 @@ export const UpdateVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateVirtualNetworkResponse>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3072,9 +2982,7 @@ export const VirtualNetworksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<VirtualNetworksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type VirtualNetworksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type VirtualNetworksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const VirtualNetworksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

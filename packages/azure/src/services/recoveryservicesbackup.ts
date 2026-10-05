@@ -300,9 +300,7 @@ export const OperationStatusError = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationStatusError",
-}) as any as S.Schema<OperationStatusError>;
+).annotate({ identifier: "OperationStatusError" }) as any as S.Schema<OperationStatusError>;
 
 /** Base class for additional information of operation status. */
 export interface OperationStatusExtendedInfo {
@@ -344,9 +342,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(OperationStatusError),
     properties: S.optional(OperationStatusExtendedInfo),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface ExportJobRequest {
   /** The ID of the target subscription. */
@@ -372,9 +368,7 @@ export const ExportJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ExportJobRequest",
-}) as any as S.Schema<ExportJobRequest>;
+).annotate({ identifier: "ExportJobRequest" }) as any as S.Schema<ExportJobRequest>;
 
 export interface ExportJobResponse {}
 export const ExportJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -411,9 +405,7 @@ export const GetBackupEngineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetBackupEngineRequest",
-}) as any as S.Schema<GetBackupEngineRequest>;
+).annotate({ identifier: "GetBackupEngineRequest" }) as any as S.Schema<GetBackupEngineRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -496,9 +488,7 @@ export const BackupEngineExtendedInfo = /*@__PURE__*/ S.suspend(() =>
     refreshedAt: S.optional(S.String),
     azureProtectedInstances: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BackupEngineExtendedInfo",
-}) as any as S.Schema<BackupEngineExtendedInfo>;
+).annotate({ identifier: "BackupEngineExtendedInfo" }) as any as S.Schema<BackupEngineExtendedInfo>;
 
 /** The base backup engine class. All workload specific backup engines derive from this class. */
 export interface BackupEngineBase {
@@ -545,14 +535,10 @@ export const BackupEngineBase = /*@__PURE__*/ S.suspend(() =>
     isDpmUpgradeAvailable: S.optional(S.Boolean),
     extendedInfo: S.optional(BackupEngineExtendedInfo),
   }),
-).annotate({
-  identifier: "BackupEngineBase",
-}) as any as S.Schema<BackupEngineBase>;
+).annotate({ identifier: "BackupEngineBase" }) as any as S.Schema<BackupEngineBase>;
 
 /** Resource tags. */
-export type GetBackupEngineResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBackupEngineResponseTagsMap = { [key: string]: string | undefined };
 export const GetBackupEngineResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -587,9 +573,7 @@ export const GetBackupEngineResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBackupEngineResponse",
-}) as any as S.Schema<GetBackupEngineResponse>;
+).annotate({ identifier: "GetBackupEngineResponse" }) as any as S.Schema<GetBackupEngineResponse>;
 
 export interface GetBackupOperationResultRequest {
   /** The ID of the target subscription. */
@@ -837,9 +821,7 @@ export const BackupResourceConfig = /*@__PURE__*/ S.suspend(() =>
     dedupState: S.optional(DedupState),
     xcoolState: S.optional(XcoolState),
   }),
-).annotate({
-  identifier: "BackupResourceConfig",
-}) as any as S.Schema<BackupResourceConfig>;
+).annotate({ identifier: "BackupResourceConfig" }) as any as S.Schema<BackupResourceConfig>;
 
 /** Resource tags. */
 export type GetBackupResourceStorageConfigsNonCRRResponseTagsMap = {
@@ -959,9 +941,7 @@ export const BackupResourceVaultConfig = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<BackupResourceVaultConfig>;
 
 /** Resource tags. */
-export type GetBackupResourceVaultConfigResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBackupResourceVaultConfigResponseTagsMap = { [key: string]: string | undefined };
 export const GetBackupResourceVaultConfigResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1047,9 +1027,7 @@ export const GetBackupStatusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetBackupStatusRequest",
-}) as any as S.Schema<GetBackupStatusRequest>;
+).annotate({ identifier: "GetBackupStatusRequest" }) as any as S.Schema<GetBackupStatusRequest>;
 
 /** Specifies whether the container is registered or not */
 export type ProtectionStatus =
@@ -1107,9 +1085,7 @@ export const BackupStatusResponse = /*@__PURE__*/ S.suspend(() =>
     protectedItemsCount: S.optional(S.Number),
     acquireStorageAccountLock: S.optional(AcquireStorageAccountLock),
   }),
-).annotate({
-  identifier: "BackupStatusResponse",
-}) as any as S.Schema<BackupStatusResponse>;
+).annotate({ identifier: "BackupStatusResponse" }) as any as S.Schema<BackupStatusResponse>;
 
 export interface GetBMSPrepareDataMoveOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1303,9 +1279,7 @@ export const TieringCostInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectType: S.String,
   }),
-).annotate({
-  identifier: "TieringCostInfo",
-}) as any as S.Schema<TieringCostInfo>;
+).annotate({ identifier: "TieringCostInfo" }) as any as S.Schema<TieringCostInfo>;
 
 export interface GetJobDetailRequest {
   /** The ID of the target subscription. */
@@ -1331,9 +1305,7 @@ export const GetJobDetailRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetJobDetailRequest",
-}) as any as S.Schema<GetJobDetailRequest>;
+).annotate({ identifier: "GetJobDetailRequest" }) as any as S.Schema<GetJobDetailRequest>;
 
 /** Defines workload agnostic properties for a job. */
 export interface Job {
@@ -1403,9 +1375,7 @@ export const GetJobDetailResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetJobDetailResponse",
-}) as any as S.Schema<GetJobDetailResponse>;
+).annotate({ identifier: "GetJobDetailResponse" }) as any as S.Schema<GetJobDetailResponse>;
 
 export interface GetJobOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1512,9 +1482,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** GroupId for the PrivateEndpointConnection - AzureBackup, AzureBackup_secondary or AzureSiteRecovery */
 export type VaultSubResourceType = "AzureBackup" | "AzureBackup_secondary" | "AzureSiteRecovery";
@@ -1572,9 +1540,7 @@ export const PrivateEndpointConnection = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateEndpointConnection>;
 
 /** Resource tags. */
-export type GetPrivateEndpointConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateEndpointConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1677,9 +1643,7 @@ export const GetProtectedItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetProtectedItemRequest",
-}) as any as S.Schema<GetProtectedItemRequest>;
+).annotate({ identifier: "GetProtectedItemRequest" }) as any as S.Schema<GetProtectedItemRequest>;
 
 /** Create mode to indicate recovery of existing soft deleted data source or creation of new data source. */
 export type CreateMode = "Invalid" | "Default" | "Recover";
@@ -1720,9 +1684,7 @@ export const SourceSideScanInfo = /*@__PURE__*/ S.suspend(() =>
     sourceSideScanStatus: S.optional(SourceSideScanStatus),
     sourceSideScanSummary: S.optional(SourceSideScanSummary),
   }),
-).annotate({
-  identifier: "SourceSideScanInfo",
-}) as any as S.Schema<SourceSideScanInfo>;
+).annotate({ identifier: "SourceSideScanInfo" }) as any as S.Schema<SourceSideScanInfo>;
 
 /** Base class for backup items. */
 export interface ProtectedItem {
@@ -1768,6 +1730,22 @@ export interface ProtectedItem {
   vaultId?: string;
   /** Source side threat information */
   sourceSideScanInfo?: SourceSideScanInfo;
+  /** Friendly name of the protected datasource (AzureFileShare / IaaS VM items). */
+  friendlyName?: string;
+  /** Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`. */
+  protectionState?: string;
+  /** Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs). */
+  extendedProperties?: unknown;
+  /** Backup status of the item (read-only). */
+  protectionStatus?: string;
+  /** Status of the last backup (read-only). */
+  lastBackupStatus?: string;
+  /** Timestamp of the last backup (read-only). */
+  lastBackupTime?: string;
+  /** Health status of the item (read-only). */
+  healthStatus?: string;
+  /** ARM ID of the protected VM (IaaS VM items, read-only). */
+  virtualMachineId?: string;
 }
 export const ProtectedItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1792,13 +1770,19 @@ export const ProtectedItem = /*@__PURE__*/ S.suspend(() =>
     sourceLocation: S.optional(S.String),
     vaultId: S.optional(S.String),
     sourceSideScanInfo: S.optional(SourceSideScanInfo),
+    friendlyName: S.optional(S.String),
+    protectionState: S.optional(S.String),
+    extendedProperties: S.optional(S.Unknown),
+    protectionStatus: S.optional(S.String),
+    lastBackupStatus: S.optional(S.String),
+    lastBackupTime: S.optional(S.String),
+    healthStatus: S.optional(S.String),
+    virtualMachineId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProtectedItem" }) as any as S.Schema<ProtectedItem>;
 
 /** Resource tags. */
-export type GetProtectedItemResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProtectedItemResponseTagsMap = { [key: string]: string | undefined };
 export const GetProtectedItemResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1833,9 +1817,7 @@ export const GetProtectedItemResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetProtectedItemResponse",
-}) as any as S.Schema<GetProtectedItemResponse>;
+).annotate({ identifier: "GetProtectedItemResponse" }) as any as S.Schema<GetProtectedItemResponse>;
 
 export interface GetProtectedItemOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1875,9 +1857,7 @@ export const GetProtectedItemOperationResultRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetProtectedItemOperationResultRequest>;
 
 /** Resource tags. */
-export type GetProtectedItemOperationResultResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProtectedItemOperationResultResponseTagsMap = { [key: string]: string | undefined };
 export const GetProtectedItemOperationResultResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2022,6 +2002,24 @@ export interface ProtectionContainer {
   protectableObjectType?: string;
   /** Source location of the container */
   sourceLocation?: string;
+  /** ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer). */
+  sourceResourceId?: string;
+  /** Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer). */
+  acquireStorageAccountLock?: string;
+  /** Number of items backed up in this container (StorageContainer). */
+  protectedItemCount?: number;
+  /** Storage account version (StorageContainer). */
+  storageAccountVersion?: string;
+  /** Resource group of the registered resource (StorageContainer). */
+  resourceGroup?: string;
+  /** Workload type for the container (VMAppContainer). */
+  workloadType?: string;
+  /** Operation type, e.g. `Register` or `Reregister` (VMAppContainer). */
+  operationType?: string;
+  /** Additional container information (VMAppContainer). */
+  extendedInfo?: unknown;
+  /** Time the container was last refreshed (VMAppContainer). */
+  lastUpdatedTime?: string;
 }
 export const ProtectionContainer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2032,15 +2030,20 @@ export const ProtectionContainer = /*@__PURE__*/ S.suspend(() =>
     containerType: ProtectableContainerType,
     protectableObjectType: S.optional(S.String),
     sourceLocation: S.optional(S.String),
+    sourceResourceId: S.optional(S.String),
+    acquireStorageAccountLock: S.optional(S.String),
+    protectedItemCount: S.optional(S.Number),
+    storageAccountVersion: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    workloadType: S.optional(S.String),
+    operationType: S.optional(S.String),
+    extendedInfo: S.optional(S.Unknown),
+    lastUpdatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectionContainer",
-}) as any as S.Schema<ProtectionContainer>;
+).annotate({ identifier: "ProtectionContainer" }) as any as S.Schema<ProtectionContainer>;
 
 /** Resource tags. */
-export type GetProtectionContainerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProtectionContainerResponseTagsMap = { [key: string]: string | undefined };
 export const GetProtectionContainerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2248,6 +2251,8 @@ export interface ProtectionIntent {
   policyId?: string;
   /** Backup state of this backup item. */
   protectionState?: ProtectionStatus | (string & {});
+  /** Workload item type to auto-protect, e.g. `SQLInstance` (AzureWorkloadSQLAutoProtectionIntent). */
+  workloadItemType?: string;
 }
 export const ProtectionIntent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2257,15 +2262,12 @@ export const ProtectionIntent = /*@__PURE__*/ S.suspend(() =>
     itemId: S.optional(S.String),
     policyId: S.optional(S.String),
     protectionState: S.optional(ProtectionStatus),
+    workloadItemType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectionIntent",
-}) as any as S.Schema<ProtectionIntent>;
+).annotate({ identifier: "ProtectionIntent" }) as any as S.Schema<ProtectionIntent>;
 
 /** Resource tags. */
-export type GetProtectionIntentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProtectionIntentResponseTagsMap = { [key: string]: string | undefined };
 export const GetProtectionIntentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2346,21 +2348,56 @@ export interface ProtectionPolicy {
   backupManagementType: string;
   /** ResourceGuard Operation Requests */
   resourceGuardOperationRequests?: ProtectionPolicyResourceGuardOperationRequestsList;
+  /** Workload type (AzureFileShare / AzureStorage and AzureWorkload policies). */
+  workLoadType?: string;
+  /** Backup schedule (polymorphic on `schedulePolicyType`: SimpleSchedulePolicy, SimpleSchedulePolicyV2, LongTermSchedulePolicy, LogSchedulePolicy). */
+  schedulePolicy?: unknown;
+  /** Retention policy (polymorphic on `retentionPolicyType`: LongTermRetentionPolicy, SimpleRetentionPolicy). */
+  retentionPolicy?: unknown;
+  /** Vaulted backup retention (AzureFileShare vault-tier policies). */
+  vaultRetentionPolicy?: unknown;
+  /** Time zone of the schedule, e.g. `UTC`. */
+  timeZone?: string;
+  /** Instant recovery point retention in days (AzureIaasVM). */
+  instantRpRetentionRangeInDays?: number;
+  /** Instant recovery point resource group settings (AzureIaasVM). */
+  instantRPDetails?: unknown;
+  /** IaaS VM policy type: `V1` (standard) or `V2` (enhanced). */
+  policyType?: string;
+  /** Archive tiering policy keyed by tier (AzureIaasVM). */
+  tieringPolicy?: unknown;
+  /** Snapshot consistency type (AzureIaasVM). */
+  snapshotConsistencyType?: string;
+  /** Workload settings such as time zone and compression (AzureWorkload). */
+  settings?: unknown;
+  /** Sub-policies per backup type (AzureWorkload). */
+  subProtectionPolicy?: unknown;
+  /** Fix a policy that is inconsistent with its sub-policies (AzureWorkload). */
+  makePolicyConsistent?: boolean;
 }
 export const ProtectionPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     protectedItemsCount: S.optional(S.Number),
     backupManagementType: S.String,
     resourceGuardOperationRequests: S.optional(ProtectionPolicyResourceGuardOperationRequestsList),
+    workLoadType: S.optional(S.String),
+    schedulePolicy: S.optional(S.Unknown),
+    retentionPolicy: S.optional(S.Unknown),
+    vaultRetentionPolicy: S.optional(S.Unknown),
+    timeZone: S.optional(S.String),
+    instantRpRetentionRangeInDays: S.optional(S.Number),
+    instantRPDetails: S.optional(S.Unknown),
+    policyType: S.optional(S.String),
+    tieringPolicy: S.optional(S.Unknown),
+    snapshotConsistencyType: S.optional(S.String),
+    settings: S.optional(S.Unknown),
+    subProtectionPolicy: S.optional(S.Unknown),
+    makePolicyConsistent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ProtectionPolicy",
-}) as any as S.Schema<ProtectionPolicy>;
+).annotate({ identifier: "ProtectionPolicy" }) as any as S.Schema<ProtectionPolicy>;
 
 /** Resource tags. */
-export type GetProtectionPolicyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProtectionPolicyResponseTagsMap = { [key: string]: string | undefined };
 export const GetProtectionPolicyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2536,9 +2573,7 @@ export const GetRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetRecoveryPointRequest",
-}) as any as S.Schema<GetRecoveryPointRequest>;
+).annotate({ identifier: "GetRecoveryPointRequest" }) as any as S.Schema<GetRecoveryPointRequest>;
 
 /** Threat status of the recovery point */
 export type ThreatStatus = "Unknown" | "Healthy" | "UnHealthy" | "Warning" | "NotAvailable";
@@ -2608,9 +2643,7 @@ export const RecoveryPoint = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "RecoveryPoint" }) as any as S.Schema<RecoveryPoint>;
 
 /** Resource tags. */
-export type GetRecoveryPointResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetRecoveryPointResponseTagsMap = { [key: string]: string | undefined };
 export const GetRecoveryPointResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2645,9 +2678,7 @@ export const GetRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRecoveryPointResponse",
-}) as any as S.Schema<GetRecoveryPointResponse>;
+).annotate({ identifier: "GetRecoveryPointResponse" }) as any as S.Schema<GetRecoveryPointResponse>;
 
 export interface GetResourceGuardProxyRequest {
   /** The ID of the target subscription. */
@@ -2708,14 +2739,10 @@ export const ResourceGuardProxyBase = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedTime: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceGuardProxyBase",
-}) as any as S.Schema<ResourceGuardProxyBase>;
+).annotate({ identifier: "ResourceGuardProxyBase" }) as any as S.Schema<ResourceGuardProxyBase>;
 
 /** Resource tags. */
-export type ResourceGuardProxyBaseResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourceGuardProxyBaseResourceTagsMap = { [key: string]: string | undefined };
 export const ResourceGuardProxyBaseResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2803,9 +2830,7 @@ export const GetResourceGuardProxyRequest2 = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetResourceGuardProxyRequest2>;
 
 /** Resource tags. */
-export type GetResourceGuardProxyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetResourceGuardProxyResponseTagsMap = { [key: string]: string | undefined };
 export const GetResourceGuardProxyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2876,9 +2901,7 @@ export const GetSecurityPINRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetSecurityPINRequest",
-}) as any as S.Schema<GetSecurityPINRequest>;
+).annotate({ identifier: "GetSecurityPINRequest" }) as any as S.Schema<GetSecurityPINRequest>;
 
 /** The token information details. */
 export interface TokenInformation {
@@ -2895,9 +2918,7 @@ export const TokenInformation = /*@__PURE__*/ S.suspend(() =>
     expiryTimeInUtcTicks: S.optional(S.Number),
     securityPIN: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenInformation",
-}) as any as S.Schema<TokenInformation>;
+).annotate({ identifier: "TokenInformation" }) as any as S.Schema<TokenInformation>;
 
 export interface GetTieringCostOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -3063,14 +3084,10 @@ export const ListBackupEnginesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListBackupEnginesRequest",
-}) as any as S.Schema<ListBackupEnginesRequest>;
+).annotate({ identifier: "ListBackupEnginesRequest" }) as any as S.Schema<ListBackupEnginesRequest>;
 
 /** Resource tags. */
-export type BackupEngineBaseResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type BackupEngineBaseResourceTagsMap = { [key: string]: string | undefined };
 export const BackupEngineBaseResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3106,9 +3123,7 @@ export const BackupEngineBaseResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BackupEngineBaseResource",
-}) as any as S.Schema<BackupEngineBaseResource>;
+).annotate({ identifier: "BackupEngineBaseResource" }) as any as S.Schema<BackupEngineBaseResource>;
 
 /** List of resources. */
 export type ListBackupEnginesResponseValueList = Array<BackupEngineBaseResource>;
@@ -3158,9 +3173,7 @@ export const ListBackupJobsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListBackupJobsRequest",
-}) as any as S.Schema<ListBackupJobsRequest>;
+).annotate({ identifier: "ListBackupJobsRequest" }) as any as S.Schema<ListBackupJobsRequest>;
 
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
@@ -3218,9 +3231,7 @@ export const ListBackupJobsResponse = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ListBackupJobsResponseValueList),
   }),
-).annotate({
-  identifier: "ListBackupJobsResponse",
-}) as any as S.Schema<ListBackupJobsResponse>;
+).annotate({ identifier: "ListBackupJobsResponse" }) as any as S.Schema<ListBackupJobsResponse>;
 
 export interface ListBackupPoliciesRequest {
   /** The ID of the target subscription. */
@@ -3251,9 +3262,7 @@ export const ListBackupPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBackupPoliciesRequest>;
 
 /** Resource tags. */
-export type ProtectionPolicyResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionPolicyResourceTagsMap = { [key: string]: string | undefined };
 export const ProtectionPolicyResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3289,9 +3298,7 @@ export const ProtectionPolicyResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectionPolicyResource",
-}) as any as S.Schema<ProtectionPolicyResource>;
+).annotate({ identifier: "ProtectionPolicyResource" }) as any as S.Schema<ProtectionPolicyResource>;
 
 /** List of resources. */
 export type ListBackupPoliciesResponseValueList = Array<ProtectionPolicyResource>;
@@ -3346,9 +3353,7 @@ export const ListBackupProtectableItemsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBackupProtectableItemsRequest>;
 
 /** Resource tags. */
-export type WorkloadProtectableItemResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkloadProtectableItemResourceTagsMap = { [key: string]: string | undefined };
 export const WorkloadProtectableItemResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3375,9 +3380,7 @@ export const WorkloadProtectableItem = /*@__PURE__*/ S.suspend(() =>
     friendlyName: S.optional(S.String),
     protectionState: S.optional(ProtectionStatus),
   }),
-).annotate({
-  identifier: "WorkloadProtectableItem",
-}) as any as S.Schema<WorkloadProtectableItem>;
+).annotate({ identifier: "WorkloadProtectableItem" }) as any as S.Schema<WorkloadProtectableItem>;
 
 /** Base class for backup item. Workload-specific backup items are derived from this class. */
 export interface WorkloadProtectableItemResource {
@@ -3466,9 +3469,7 @@ export const ListBackupProtectedItemsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBackupProtectedItemsRequest>;
 
 /** Resource tags. */
-export type ProtectedItemResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectedItemResourceTagsMap = { [key: string]: string | undefined };
 export const ProtectedItemResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3504,9 +3505,7 @@ export const ProtectedItemResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectedItemResource",
-}) as any as S.Schema<ProtectedItemResource>;
+).annotate({ identifier: "ProtectedItemResource" }) as any as S.Schema<ProtectedItemResource>;
 
 /** List of resources. */
 export type ListBackupProtectedItemsResponseValueList = Array<ProtectedItemResource>;
@@ -3558,9 +3557,7 @@ export const ListBackupProtectionContainersRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListBackupProtectionContainersRequest>;
 
 /** Resource tags. */
-export type ProtectionContainerResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionContainerResourceTagsMap = { [key: string]: string | undefined };
 export const ProtectionContainerResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3653,9 +3650,7 @@ export const ListBackupProtectionIntentRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListBackupProtectionIntentRequest>;
 
 /** Resource tags. */
-export type ProtectionIntentResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionIntentResourceTagsMap = { [key: string]: string | undefined };
 export const ProtectionIntentResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3691,9 +3686,7 @@ export const ProtectionIntentResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectionIntentResource",
-}) as any as S.Schema<ProtectionIntentResource>;
+).annotate({ identifier: "ProtectionIntentResource" }) as any as S.Schema<ProtectionIntentResource>;
 
 /** List of resources. */
 export type ListBackupProtectionIntentResponseValueList = Array<ProtectionIntentResource>;
@@ -3795,9 +3788,7 @@ export const BackupManagementUsage = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     name: S.optional(NameInfo),
   }),
-).annotate({
-  identifier: "BackupManagementUsage",
-}) as any as S.Schema<BackupManagementUsage>;
+).annotate({ identifier: "BackupManagementUsage" }) as any as S.Schema<BackupManagementUsage>;
 
 /** The list of backup management usages for the given vault. */
 export type ListBackupUsageSummariesResponseValueList = Array<BackupManagementUsage>;
@@ -3917,9 +3908,7 @@ export const WorkloadItemResource = /*@__PURE__*/ S.suspend(() =>
     eTag: S.optional(S.String),
     properties: S.optional(WorkloadItem),
   }),
-).annotate({
-  identifier: "WorkloadItemResource",
-}) as any as S.Schema<WorkloadItemResource>;
+).annotate({ identifier: "WorkloadItemResource" }) as any as S.Schema<WorkloadItemResource>;
 
 /** List of resources. */
 export type ListBackupWorkloadItemsResponseValueList = Array<WorkloadItemResource>;
@@ -4053,9 +4042,7 @@ export const ClientScriptForConnect = /*@__PURE__*/ S.suspend(() =>
     url: S.optional(S.String),
     scriptNameSuffix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientScriptForConnect",
-}) as any as S.Schema<ClientScriptForConnect>;
+).annotate({ identifier: "ClientScriptForConnect" }) as any as S.Schema<ClientScriptForConnect>;
 
 /** List of client scripts. */
 export type InstantItemRecoveryTargetClientScriptsList = Array<ClientScriptForConnect>;
@@ -4086,9 +4073,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information of an operation. */
 export interface ClientDiscoveryDisplay {
@@ -4108,9 +4093,7 @@ export const ClientDiscoveryDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientDiscoveryDisplay",
-}) as any as S.Schema<ClientDiscoveryDisplay>;
+).annotate({ identifier: "ClientDiscoveryDisplay" }) as any as S.Schema<ClientDiscoveryDisplay>;
 
 /** Class to represent shoebox log specification in json client discovery. */
 export interface ClientDiscoveryForLogSpecification {
@@ -4204,9 +4187,7 @@ export const ClientDiscoveryResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ClientDiscoveryResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClientDiscoveryResponse",
-}) as any as S.Schema<ClientDiscoveryResponse>;
+).annotate({ identifier: "ClientDiscoveryResponse" }) as any as S.Schema<ClientDiscoveryResponse>;
 
 export interface ListProtectableContainersRequest {
   /** The ID of the target subscription. */
@@ -4239,9 +4220,7 @@ export const ListProtectableContainersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProtectableContainersRequest>;
 
 /** Resource tags. */
-export type ProtectableContainerResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectableContainerResourceTagsMap = { [key: string]: string | undefined };
 export const ProtectableContainerResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4268,9 +4247,7 @@ export const ProtectableContainer = /*@__PURE__*/ S.suspend(() =>
     healthStatus: S.optional(S.String),
     containerId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectableContainer",
-}) as any as S.Schema<ProtectableContainer>;
+).annotate({ identifier: "ProtectableContainer" }) as any as S.Schema<ProtectableContainer>;
 
 /** Protectable Container Class. */
 export interface ProtectableContainerResource {
@@ -4365,9 +4342,7 @@ export const ListRecoveryPointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListRecoveryPointsRequest>;
 
 /** Resource tags. */
-export type RecoveryPointResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RecoveryPointResourceTagsMap = { [key: string]: string | undefined };
 export const RecoveryPointResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4403,9 +4378,7 @@ export const RecoveryPointResource = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecoveryPointResource",
-}) as any as S.Schema<RecoveryPointResource>;
+).annotate({ identifier: "RecoveryPointResource" }) as any as S.Schema<RecoveryPointResource>;
 
 /** List of resources. */
 export type ListRecoveryPointsResponseValueList = Array<RecoveryPointResource>;
@@ -4592,9 +4565,7 @@ export const MoveRecoveryPointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "MoveRecoveryPointRequest",
-}) as any as S.Schema<MoveRecoveryPointRequest>;
+).annotate({ identifier: "MoveRecoveryPointRequest" }) as any as S.Schema<MoveRecoveryPointRequest>;
 
 export interface MoveRecoveryPointResponse {}
 export const MoveRecoveryPointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4730,6 +4701,12 @@ export interface ProtectedItemInput {
   softDeleteRetentionPeriodInDays?: number;
   /** Source side threat information */
   sourceSideScanInfo?: SourceSideScanInfo;
+  /** Friendly name of the protected datasource (AzureFileShare / IaaS VM items). */
+  friendlyName?: string;
+  /** Protection state: `Protected`, `ProtectionStopped`, `IRPending`, `ProtectionError`, `ProtectionPaused`, `BackupsSuspended`. */
+  protectionState?: string;
+  /** Subtype-specific extended properties (e.g. disk exclusion for IaaS VMs). */
+  extendedProperties?: unknown;
 }
 export const ProtectedItemInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4752,15 +4729,14 @@ export const ProtectedItemInput = /*@__PURE__*/ S.suspend(() =>
     policyName: S.optional(S.String),
     softDeleteRetentionPeriodInDays: S.optional(S.Number),
     sourceSideScanInfo: S.optional(SourceSideScanInfo),
+    friendlyName: S.optional(S.String),
+    protectionState: S.optional(S.String),
+    extendedProperties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ProtectedItemInput",
-}) as any as S.Schema<ProtectedItemInput>;
+).annotate({ identifier: "ProtectedItemInput" }) as any as S.Schema<ProtectedItemInput>;
 
 /** Resource tags. */
-export type ProtectedItemsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectedItemsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ProtectedItemsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4813,9 +4789,7 @@ export const ProtectedItemsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProtectedItemsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ProtectedItemsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectedItemsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ProtectedItemsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4896,9 +4870,7 @@ export const ProtectionContainersInquireResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProtectionContainersInquireResponse>;
 
 /** Resource tags. */
-export type ProtectionIntentCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionIntentCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ProtectionIntentCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4948,9 +4920,7 @@ export const ProtectionIntentCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ProtectionIntentCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ProtectionIntentCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionIntentCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ProtectionIntentCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4990,9 +4960,7 @@ export const ProtectionIntentCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ProtectionIntentCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ProtectionPoliciesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionPoliciesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ProtectionPoliciesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5039,9 +5007,7 @@ export const ProtectionPoliciesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ProtectionPoliciesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ProtectionPoliciesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProtectionPoliciesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ProtectionPoliciesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5150,9 +5116,7 @@ export const ProvisionItemLevelRecoveryConnectionResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ProvisionItemLevelRecoveryConnectionResponse>;
 
 /** Resource tags. */
-export type PutBackupResourceVaultConfigRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutBackupResourceVaultConfigRequestTagsMap = { [key: string]: string | undefined };
 export const PutBackupResourceVaultConfigRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5196,9 +5160,7 @@ export const PutBackupResourceVaultConfigRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutBackupResourceVaultConfigRequest>;
 
 /** Resource tags. */
-export type PutBackupResourceVaultConfigResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutBackupResourceVaultConfigResponseTagsMap = { [key: string]: string | undefined };
 export const PutBackupResourceVaultConfigResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5238,9 +5200,7 @@ export const PutBackupResourceVaultConfigResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PutBackupResourceVaultConfigResponse>;
 
 /** Resource tags. */
-export type PutPrivateEndpointConnectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutPrivateEndpointConnectionRequestTagsMap = { [key: string]: string | undefined };
 export const PutPrivateEndpointConnectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5287,9 +5247,7 @@ export const PutPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutPrivateEndpointConnectionRequest>;
 
 /** Resource tags. */
-export type PutPrivateEndpointConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const PutPrivateEndpointConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5329,9 +5287,7 @@ export const PutPrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<PutPrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type PutResourceGuardProxyRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutResourceGuardProxyRequestTagsMap = { [key: string]: string | undefined };
 export const PutResourceGuardProxyRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5377,9 +5333,7 @@ export const PutResourceGuardProxyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutResourceGuardProxyRequest>;
 
 /** Resource tags. */
-export type PutResourceGuardProxyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PutResourceGuardProxyResponseTagsMap = { [key: string]: string | undefined };
 export const PutResourceGuardProxyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5470,6 +5424,24 @@ export interface ProtectionContainerInput {
   containerType: ProtectableContainerType | (string & {});
   /** Type of the protectable object associated with this container */
   protectableObjectType?: string;
+  /** ARM ID of the registered resource (storage account for StorageContainer, VM for VMAppContainer). */
+  sourceResourceId?: string;
+  /** Whether to place an `AzureBackupProtectionLock` delete lock on the storage account: `Acquire` or `NotAcquire` (StorageContainer). */
+  acquireStorageAccountLock?: string;
+  /** Number of items backed up in this container (StorageContainer). */
+  protectedItemCount?: number;
+  /** Storage account version (StorageContainer). */
+  storageAccountVersion?: string;
+  /** Resource group of the registered resource (StorageContainer). */
+  resourceGroup?: string;
+  /** Workload type for the container (VMAppContainer). */
+  workloadType?: string;
+  /** Operation type, e.g. `Register` or `Reregister` (VMAppContainer). */
+  operationType?: string;
+  /** Additional container information (VMAppContainer). */
+  extendedInfo?: unknown;
+  /** Time the container was last refreshed (VMAppContainer). */
+  lastUpdatedTime?: string;
 }
 export const ProtectionContainerInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -5479,15 +5451,20 @@ export const ProtectionContainerInput = /*@__PURE__*/ S.suspend(() =>
     healthStatus: S.optional(S.String),
     containerType: ProtectableContainerType,
     protectableObjectType: S.optional(S.String),
+    sourceResourceId: S.optional(S.String),
+    acquireStorageAccountLock: S.optional(S.String),
+    protectedItemCount: S.optional(S.Number),
+    storageAccountVersion: S.optional(S.String),
+    resourceGroup: S.optional(S.String),
+    workloadType: S.optional(S.String),
+    operationType: S.optional(S.String),
+    extendedInfo: S.optional(S.Unknown),
+    lastUpdatedTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectionContainerInput",
-}) as any as S.Schema<ProtectionContainerInput>;
+).annotate({ identifier: "ProtectionContainerInput" }) as any as S.Schema<ProtectionContainerInput>;
 
 /** Resource tags. */
-export type RegisterProtectionContainerRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RegisterProtectionContainerRequestTagsMap = { [key: string]: string | undefined };
 export const RegisterProtectionContainerRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5537,9 +5514,7 @@ export const RegisterProtectionContainerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RegisterProtectionContainerRequest>;
 
 /** Resource tags. */
-export type RegisterProtectionContainerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type RegisterProtectionContainerResponseTagsMap = { [key: string]: string | undefined };
 export const RegisterProtectionContainerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5626,9 +5601,7 @@ export const UnlockDeleteResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     unlockDeleteExpiryTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UnlockDeleteResponse",
-}) as any as S.Schema<UnlockDeleteResponse>;
+).annotate({ identifier: "UnlockDeleteResponse" }) as any as S.Schema<UnlockDeleteResponse>;
 
 export interface RevokeItemLevelRecoveryConnectionRequest {
   /** The ID of the target subscription. */
@@ -5727,9 +5700,7 @@ export const TriggerBackupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "TriggerBackupRequest",
-}) as any as S.Schema<TriggerBackupRequest>;
+).annotate({ identifier: "TriggerBackupRequest" }) as any as S.Schema<TriggerBackupRequest>;
 
 export interface TriggerBackupResponse {}
 export const TriggerBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5770,9 +5741,7 @@ export const TriggerJobCancellationResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<TriggerJobCancellationResponse>;
 
 /** Resource tags. */
-export type TriggerRestoreRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TriggerRestoreRequestTagsMap = { [key: string]: string | undefined };
 export const TriggerRestoreRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5843,9 +5812,7 @@ export const TriggerRestoreRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "TriggerRestoreRequest",
-}) as any as S.Schema<TriggerRestoreRequest>;
+).annotate({ identifier: "TriggerRestoreRequest" }) as any as S.Schema<TriggerRestoreRequest>;
 
 export interface TriggerRestoreResponse {}
 export const TriggerRestoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6096,9 +6063,7 @@ export const UpdateBackupResourceStorageConfigsNonCRRResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<UpdateBackupResourceStorageConfigsNonCRRResponse>;
 
 /** Resource tags. */
-export type UpdateBackupResourceVaultConfigRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBackupResourceVaultConfigRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateBackupResourceVaultConfigRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6142,9 +6107,7 @@ export const UpdateBackupResourceVaultConfigRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateBackupResourceVaultConfigRequest>;
 
 /** Resource tags. */
-export type UpdateBackupResourceVaultConfigResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBackupResourceVaultConfigResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateBackupResourceVaultConfigResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

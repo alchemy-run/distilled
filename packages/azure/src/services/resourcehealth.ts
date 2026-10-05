@@ -119,9 +119,7 @@ export const EventPropertiesArticle = /*@__PURE__*/ S.suspend(() =>
     articleId: S.optional(S.String),
     parameters: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "EventPropertiesArticle",
-}) as any as S.Schema<EventPropertiesArticle>;
+).annotate({ identifier: "EventPropertiesArticle" }) as any as S.Schema<EventPropertiesArticle>;
 
 /** Type of link. */
 export type LinkTypeValues = "Button" | "Hyperlink";
@@ -139,9 +137,7 @@ export const LinkDisplayText = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     localizedValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkDisplayText",
-}) as any as S.Schema<LinkDisplayText>;
+).annotate({ identifier: "LinkDisplayText" }) as any as S.Schema<LinkDisplayText>;
 
 /** Useful links for service health event. */
 export interface Link {
@@ -237,9 +233,7 @@ export const ImpactedServiceRegion = /*@__PURE__*/ S.suspend(() =>
     lastUpdateTime: S.optional(S.String),
     updates: S.optional(ImpactedServiceRegionUpdatesList),
   }),
-).annotate({
-  identifier: "ImpactedServiceRegion",
-}) as any as S.Schema<ImpactedServiceRegion>;
+).annotate({ identifier: "ImpactedServiceRegion" }) as any as S.Schema<ImpactedServiceRegion>;
 
 /** List regions impacted by the service health event. */
 export type ImpactImpactedRegionsList = Array<ImpactedServiceRegion>;
@@ -465,9 +459,7 @@ export const EventProperties = /*@__PURE__*/ S.suspend(() =>
     currencyType: S.optional(S.String),
     billingId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventProperties",
-}) as any as S.Schema<EventProperties>;
+).annotate({ identifier: "EventProperties" }) as any as S.Schema<EventProperties>;
 
 export interface EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -700,7 +692,7 @@ export const GetAvailabilityStatusByResourceRequest = /*@__PURE__*/ S.suspend(()
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -754,9 +746,7 @@ export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
     _ActionUrl_Comment: S.optional(S.String.pipe(T.Body("_ActionUrl.Comment"))),
     actionUrlText: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecommendedAction",
-}) as any as S.Schema<RecommendedAction>;
+).annotate({ identifier: "RecommendedAction" }) as any as S.Schema<RecommendedAction>;
 
 /** Lists actions the user can take based on the current availabilityState of the resource. */
 export type AvailabilityStatusPropertiesRecommendedActionsList = Array<RecommendedAction>;
@@ -820,9 +810,7 @@ export const ServiceImpactingEvent = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ServiceImpactingEventStatus),
     incidentProperties: S.optional(ServiceImpactingEventIncidentProperties),
   }),
-).annotate({
-  identifier: "ServiceImpactingEvent",
-}) as any as S.Schema<ServiceImpactingEvent>;
+).annotate({ identifier: "ServiceImpactingEvent" }) as any as S.Schema<ServiceImpactingEvent>;
 
 /** Lists the service impacting events that may be affecting the health of the resource. */
 export type AvailabilityStatusPropertiesServiceImpactingEventsList = Array<ServiceImpactingEvent>;
@@ -939,7 +927,7 @@ export const GetChildAvailabilityStatusByResourceRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -989,9 +977,7 @@ export const GetEmergingIssueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetEmergingIssueRequest",
-}) as any as S.Schema<GetEmergingIssueRequest>;
+).annotate({ identifier: "GetEmergingIssueRequest" }) as any as S.Schema<GetEmergingIssueRequest>;
 
 /** Banner type of emerging issue. */
 export interface StatusBanner {
@@ -1062,9 +1048,7 @@ export const EmergingIssueImpact = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     regions: S.optional(EmergingIssueImpactRegionsList),
   }),
-).annotate({
-  identifier: "EmergingIssueImpact",
-}) as any as S.Schema<EmergingIssueImpact>;
+).annotate({ identifier: "EmergingIssueImpact" }) as any as S.Schema<EmergingIssueImpact>;
 
 /** The list of emerging issues impacts. */
 export type StatusActiveEventImpactsList = Array<EmergingIssueImpact>;
@@ -1108,9 +1092,7 @@ export const StatusActiveEvent = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTime: S.optional(S.String),
     impacts: S.optional(StatusActiveEventImpactsList),
   }),
-).annotate({
-  identifier: "StatusActiveEvent",
-}) as any as S.Schema<StatusActiveEvent>;
+).annotate({ identifier: "StatusActiveEvent" }) as any as S.Schema<StatusActiveEvent>;
 
 /** The list of emerging issues of active event type. */
 export type EmergingIssueStatusActiveEventsList = Array<StatusActiveEvent>;
@@ -1155,9 +1137,7 @@ export const GetEmergingIssueResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EmergingIssue),
   }),
-).annotate({
-  identifier: "GetEmergingIssueResponse",
-}) as any as S.Schema<GetEmergingIssueResponse>;
+).annotate({ identifier: "GetEmergingIssueResponse" }) as any as S.Schema<GetEmergingIssueResponse>;
 
 export interface GetImpactedResourceRequest {
   /** The ID of the target subscription. */
@@ -1311,9 +1291,7 @@ export const GetMetadataEntityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetMetadataEntityRequest",
-}) as any as S.Schema<GetMetadataEntityRequest>;
+).annotate({ identifier: "GetMetadataEntityRequest" }) as any as S.Schema<GetMetadataEntityRequest>;
 
 /** The list of keys on which this entity depends on. */
 export type MetadataEntityPropertiesDependsOnList = Array<string>;
@@ -1388,9 +1366,7 @@ export const MetadataEntityProperties = /*@__PURE__*/ S.suspend(() =>
     applicableScenarios: S.optional(MetadataEntityPropertiesApplicableScenariosList),
     supportedValues: S.optional(MetadataEntityPropertiesSupportedValuesList),
   }),
-).annotate({
-  identifier: "MetadataEntityProperties",
-}) as any as S.Schema<MetadataEntityProperties>;
+).annotate({ identifier: "MetadataEntityProperties" }) as any as S.Schema<MetadataEntityProperties>;
 
 export interface GetMetadataEntityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1462,9 +1438,7 @@ export const EventImpactedResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EventImpactedResourceProperties),
   }),
-).annotate({
-  identifier: "EventImpactedResource",
-}) as any as S.Schema<EventImpactedResource>;
+).annotate({ identifier: "EventImpactedResource" }) as any as S.Schema<EventImpactedResource>;
 
 /** The list of eventImpactedResources. */
 export type EventImpactedResourceListResultValueList = Array<EventImpactedResource>;
@@ -1558,9 +1532,7 @@ export const AvailabilityStatus = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     properties: S.optional(AvailabilityStatusProperties),
   }),
-).annotate({
-  identifier: "AvailabilityStatus",
-}) as any as S.Schema<AvailabilityStatus>;
+).annotate({ identifier: "AvailabilityStatus" }) as any as S.Schema<AvailabilityStatus>;
 
 /** The list of availabilityStatuses. */
 export type AvailabilityStatusListResultValueList = Array<AvailabilityStatus>;
@@ -1625,7 +1597,7 @@ export const ListAvailabilityStatusesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/availabilityStatuses",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -1650,7 +1622,7 @@ export const ListChildAvailabilityStatusesRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -1675,7 +1647,7 @@ export const ListChildResourcesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/childResources",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childResources",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -1719,9 +1691,7 @@ export const EmergingIssuesGetResult = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EmergingIssue),
   }),
-).annotate({
-  identifier: "EmergingIssuesGetResult",
-}) as any as S.Schema<EmergingIssuesGetResult>;
+).annotate({ identifier: "EmergingIssuesGetResult" }) as any as S.Schema<EmergingIssuesGetResult>;
 
 /** The list of emerging issues. */
 export type EmergingIssueListResultValueList = Array<EmergingIssuesGetResult>;
@@ -1741,9 +1711,7 @@ export const EmergingIssueListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(EmergingIssueListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmergingIssueListResult",
-}) as any as S.Schema<EmergingIssueListResult>;
+).annotate({ identifier: "EmergingIssueListResult" }) as any as S.Schema<EmergingIssueListResult>;
 
 export interface ListEventBySingleResourceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1758,7 +1726,7 @@ export const ListEventBySingleResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.ResourceHealth/events",
+      uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/events",
       code: 200,
       apiVersion: "2025-05-01",
     }),
@@ -1865,9 +1833,7 @@ export const ListMetadataRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListMetadataRequest",
-}) as any as S.Schema<ListMetadataRequest>;
+).annotate({ identifier: "ListMetadataRequest" }) as any as S.Schema<ListMetadataRequest>;
 
 /** The metadata entity contract. */
 export interface MetadataEntity {
@@ -1910,9 +1876,7 @@ export const MetadataEntityListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MetadataEntityListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetadataEntityListResult",
-}) as any as S.Schema<MetadataEntityListResult>;
+).annotate({ identifier: "MetadataEntityListResult" }) as any as S.Schema<MetadataEntityListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1924,9 +1888,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Properties of the operation. */
 export interface OperationDisplay {
@@ -1946,9 +1908,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Operation available in the Microsoft.ResourceHealth resource provider. */
 export interface Operation {
@@ -1979,9 +1939,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: OperationListResultValueList,
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdRequest {
   /** The ID of the target subscription. */

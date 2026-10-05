@@ -89,9 +89,7 @@ export const DeleteFabricCapacityResponse = /*@__PURE__*/ S.suspend(() => S.Stru
 }) as any as S.Schema<DeleteFabricCapacityResponse>;
 
 /** Resource tags. */
-export type FabricCapacitiesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FabricCapacitiesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FabricCapacitiesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -112,9 +110,7 @@ export const CapacityAdministration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     members: CapacityAdministrationMembersList,
   }),
-).annotate({
-  identifier: "CapacityAdministration",
-}) as any as S.Schema<CapacityAdministration>;
+).annotate({ identifier: "CapacityAdministration" }) as any as S.Schema<CapacityAdministration>;
 
 /** The Microsoft Fabric capacity properties. */
 export interface FabricCapacityPropertiesInput {
@@ -219,9 +215,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type FabricCapacitiesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FabricCapacitiesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FabricCapacitiesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -268,9 +262,7 @@ export const FabricCapacityProperties = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ResourceState),
     administration: CapacityAdministration,
   }),
-).annotate({
-  identifier: "FabricCapacityProperties",
-}) as any as S.Schema<FabricCapacityProperties>;
+).annotate({ identifier: "FabricCapacityProperties" }) as any as S.Schema<FabricCapacityProperties>;
 
 export interface FabricCapacitiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -326,14 +318,10 @@ export const GetFabricCapacityRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetFabricCapacityRequest",
-}) as any as S.Schema<GetFabricCapacityRequest>;
+).annotate({ identifier: "GetFabricCapacityRequest" }) as any as S.Schema<GetFabricCapacityRequest>;
 
 /** Resource tags. */
-export type GetFabricCapacityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFabricCapacityResponseTagsMap = { [key: string]: string | undefined };
 export const GetFabricCapacityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -451,9 +439,7 @@ export const FabricCapacityListResult = /*@__PURE__*/ S.suspend(() =>
     value: FabricCapacityListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FabricCapacityListResult",
-}) as any as S.Schema<FabricCapacityListResult>;
+).annotate({ identifier: "FabricCapacityListResult" }) as any as S.Schema<FabricCapacityListResult>;
 
 export interface ListFabricCapacityBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -614,9 +600,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -636,9 +620,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -688,9 +670,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ResumeFabricCapacityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -753,9 +733,7 @@ export const SuspendFabricCapacityResponse = /*@__PURE__*/ S.suspend(() => S.Str
 }) as any as S.Schema<SuspendFabricCapacityResponse>;
 
 /** Resource tags. */
-export type UpdateFabricCapacityRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFabricCapacityRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFabricCapacityRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -809,9 +787,7 @@ export const UpdateFabricCapacityRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateFabricCapacityRequest>;
 
 /** Resource tags. */
-export type UpdateFabricCapacityResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFabricCapacityResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFabricCapacityResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

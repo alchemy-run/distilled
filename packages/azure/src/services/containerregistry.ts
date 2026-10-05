@@ -33,9 +33,7 @@ export const CancelRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "CancelRunRequest",
-}) as any as S.Schema<CancelRunRequest>;
+).annotate({ identifier: "CancelRunRequest" }) as any as S.Schema<CancelRunRequest>;
 
 export interface CancelRunResponse {}
 export const CancelRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -86,9 +84,7 @@ export const RegistryNameStatus = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegistryNameStatus",
-}) as any as S.Schema<RegistryNameStatus>;
+).annotate({ identifier: "RegistryNameStatus" }) as any as S.Schema<RegistryNameStatus>;
 
 /** The properties of a cache rule. */
 export interface CacheRulePropertiesInput {
@@ -105,9 +101,7 @@ export const CacheRulePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     sourceRepository: S.optional(S.String),
     targetRepository: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheRulePropertiesInput",
-}) as any as S.Schema<CacheRulePropertiesInput>;
+).annotate({ identifier: "CacheRulePropertiesInput" }) as any as S.Schema<CacheRulePropertiesInput>;
 
 export interface CreateCacheRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -136,9 +130,7 @@ export const CreateCacheRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateCacheRuleRequest",
-}) as any as S.Schema<CreateCacheRuleRequest>;
+).annotate({ identifier: "CreateCacheRuleRequest" }) as any as S.Schema<CreateCacheRuleRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -205,9 +197,7 @@ export const CacheRuleProperties = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "CacheRuleProperties",
-}) as any as S.Schema<CacheRuleProperties>;
+).annotate({ identifier: "CacheRuleProperties" }) as any as S.Schema<CacheRuleProperties>;
 
 export interface CreateCacheRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -229,9 +219,7 @@ export const CreateCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CacheRuleProperties),
   }),
-).annotate({
-  identifier: "CreateCacheRuleResponse",
-}) as any as S.Schema<CreateCacheRuleResponse>;
+).annotate({ identifier: "CreateCacheRuleResponse" }) as any as S.Schema<CreateCacheRuleResponse>;
 
 /** The mode of the connected registry resource that indicates the permissions of the registry. */
 export type ConnectedRegistryMode = "ReadWrite" | "ReadOnly" | "Registry" | "Mirror";
@@ -255,9 +243,7 @@ export const SyncPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     syncWindow: S.optional(S.String),
     messageTtl: S.String,
   }),
-).annotate({
-  identifier: "SyncPropertiesInput",
-}) as any as S.Schema<SyncPropertiesInput>;
+).annotate({ identifier: "SyncPropertiesInput" }) as any as S.Schema<SyncPropertiesInput>;
 
 /** The properties of the connected registry parent. */
 export interface ParentPropertiesInput {
@@ -271,9 +257,7 @@ export const ParentPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     syncProperties: SyncPropertiesInput,
   }),
-).annotate({
-  identifier: "ParentPropertiesInput",
-}) as any as S.Schema<ParentPropertiesInput>;
+).annotate({ identifier: "ParentPropertiesInput" }) as any as S.Schema<ParentPropertiesInput>;
 
 /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
 export type ConnectedRegistryPropertiesInputClientTokenIdsList = Array<string>;
@@ -307,9 +291,7 @@ export const LoggingProperties = /*@__PURE__*/ S.suspend(() =>
     logLevel: S.optional(LoggingPropertiesLogLevel),
     auditLogStatus: S.optional(LoggingPropertiesAuditLogStatus),
   }),
-).annotate({
-  identifier: "LoggingProperties",
-}) as any as S.Schema<LoggingProperties>;
+).annotate({ identifier: "LoggingProperties" }) as any as S.Schema<LoggingProperties>;
 
 /** The list of notifications subscription information for the connected registry. */
 export type ConnectedRegistryPropertiesInputNotificationsListList = Array<string>;
@@ -412,9 +394,7 @@ export const ActivationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(ActivationStatus),
   }),
-).annotate({
-  identifier: "ActivationProperties",
-}) as any as S.Schema<ActivationProperties>;
+).annotate({ identifier: "ActivationProperties" }) as any as S.Schema<ActivationProperties>;
 
 /** The sync properties of the connected registry with its parent. */
 export interface SyncProperties {
@@ -454,9 +434,7 @@ export const ParentProperties = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     syncProperties: SyncProperties,
   }),
-).annotate({
-  identifier: "ParentProperties",
-}) as any as S.Schema<ParentProperties>;
+).annotate({ identifier: "ParentProperties" }) as any as S.Schema<ParentProperties>;
 
 /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
 export type ConnectedRegistryPropertiesClientTokenIdsList = Array<string>;
@@ -484,9 +462,7 @@ export const TlsCertificateProperties = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CertificateType),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TlsCertificateProperties",
-}) as any as S.Schema<TlsCertificateProperties>;
+).annotate({ identifier: "TlsCertificateProperties" }) as any as S.Schema<TlsCertificateProperties>;
 
 /** The TLS properties of the connected registry login server. */
 export interface TlsProperties {
@@ -514,9 +490,7 @@ export const LoginServerProperties = /*@__PURE__*/ S.suspend(() =>
     host: S.optional(S.String),
     tls: S.optional(TlsProperties),
   }),
-).annotate({
-  identifier: "LoginServerProperties",
-}) as any as S.Schema<LoginServerProperties>;
+).annotate({ identifier: "LoginServerProperties" }) as any as S.Schema<LoginServerProperties>;
 
 /** The status detail properties of the connected registry. */
 export interface StatusDetailProperties {
@@ -539,9 +513,7 @@ export const StatusDetailProperties = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     correlationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StatusDetailProperties",
-}) as any as S.Schema<StatusDetailProperties>;
+).annotate({ identifier: "StatusDetailProperties" }) as any as S.Schema<StatusDetailProperties>;
 
 /** The list of current statuses of the connected registry. */
 export type ConnectedRegistryPropertiesStatusDetailsList = Array<StatusDetailProperties>;
@@ -651,9 +623,7 @@ export const CredentialHealth = /*@__PURE__*/ S.suspend(() =>
     errorCode: S.optional(S.String),
     errorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialHealth",
-}) as any as S.Schema<CredentialHealth>;
+).annotate({ identifier: "CredentialHealth" }) as any as S.Schema<CredentialHealth>;
 
 /** Authentication credential stored for an upstream. */
 export interface AuthCredential {
@@ -729,9 +699,7 @@ export const IdentityPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(IdentityPropertiesInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "IdentityPropertiesInput",
-}) as any as S.Schema<IdentityPropertiesInput>;
+).annotate({ identifier: "IdentityPropertiesInput" }) as any as S.Schema<IdentityPropertiesInput>;
 
 export interface CreateCredentialSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -791,9 +759,7 @@ export const CredentialSetProperties = /*@__PURE__*/ S.suspend(() =>
     creationDate: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "CredentialSetProperties",
-}) as any as S.Schema<CredentialSetProperties>;
+).annotate({ identifier: "CredentialSetProperties" }) as any as S.Schema<CredentialSetProperties>;
 
 export interface UserIdentityProperties {
   /** The principal id of user assigned identity. */
@@ -806,9 +772,7 @@ export const UserIdentityProperties = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserIdentityProperties",
-}) as any as S.Schema<UserIdentityProperties>;
+).annotate({ identifier: "UserIdentityProperties" }) as any as S.Schema<UserIdentityProperties>;
 
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/ providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityPropertiesUserAssignedIdentitiesMap = {
@@ -837,9 +801,7 @@ export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(IdentityPropertiesUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "IdentityProperties",
-}) as any as S.Schema<IdentityProperties>;
+).annotate({ identifier: "IdentityProperties" }) as any as S.Schema<IdentityProperties>;
 
 export interface CreateCredentialSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -869,9 +831,7 @@ export const CreateCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateCredentialSetResponse>;
 
 /** Resource tags. */
-export type CreateRegistryRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateRegistryRequestTagsMap = { [key: string]: string | undefined };
 export const CreateRegistryRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -932,9 +892,7 @@ export const QuarantinePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(QuarantinePolicyStatus),
   }),
-).annotate({
-  identifier: "QuarantinePolicy",
-}) as any as S.Schema<QuarantinePolicy>;
+).annotate({ identifier: "QuarantinePolicy" }) as any as S.Schema<QuarantinePolicy>;
 
 /** The type of trust policy. */
 export type TrustPolicyType = "Notary";
@@ -974,9 +932,7 @@ export const RetentionPolicyInput = /*@__PURE__*/ S.suspend(() =>
     days: S.optional(S.Number),
     status: S.optional(RetentionPolicyInputStatus),
   }),
-).annotate({
-  identifier: "RetentionPolicyInput",
-}) as any as S.Schema<RetentionPolicyInput>;
+).annotate({ identifier: "RetentionPolicyInput" }) as any as S.Schema<RetentionPolicyInput>;
 
 /** The value that indicates whether the policy is enabled or not. */
 export type ExportPolicyStatus = "enabled" | "disabled";
@@ -1048,9 +1004,7 @@ export const KeyVaultPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     keyIdentifier: S.optional(S.String),
     identity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultPropertiesInput",
-}) as any as S.Schema<KeyVaultPropertiesInput>;
+).annotate({ identifier: "KeyVaultPropertiesInput" }) as any as S.Schema<KeyVaultPropertiesInput>;
 
 export interface EncryptionPropertyInput {
   /** Indicates whether or not the encryption is enabled for container registry. */
@@ -1063,9 +1017,7 @@ export const EncryptionPropertyInput = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(EncryptionStatus),
     keyVaultProperties: S.optional(KeyVaultPropertiesInput),
   }),
-).annotate({
-  identifier: "EncryptionPropertyInput",
-}) as any as S.Schema<EncryptionPropertyInput>;
+).annotate({ identifier: "EncryptionPropertyInput" }) as any as S.Schema<EncryptionPropertyInput>;
 
 /** Whether or not public network access is allowed for the container registry. */
 export type RegistryPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -1124,9 +1076,7 @@ export const RegistryPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     anonymousPullEnabled: S.optional(S.Boolean),
     roleAssignmentMode: S.optional(RegistryPropertiesInputRoleAssignmentMode),
   }),
-).annotate({
-  identifier: "RegistryPropertiesInput",
-}) as any as S.Schema<RegistryPropertiesInput>;
+).annotate({ identifier: "RegistryPropertiesInput" }) as any as S.Schema<RegistryPropertiesInput>;
 
 /** The SKU name of the container registry. Required for registry creation. */
 export type SkuName = "Classic" | "Basic" | "Standard" | "Premium";
@@ -1186,14 +1136,10 @@ export const CreateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateRegistryRequest",
-}) as any as S.Schema<CreateRegistryRequest>;
+).annotate({ identifier: "CreateRegistryRequest" }) as any as S.Schema<CreateRegistryRequest>;
 
 /** Resource tags. */
-export type CreateRegistryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateRegistryResponseTagsMap = { [key: string]: string | undefined };
 export const CreateRegistryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1235,9 +1181,7 @@ export const RetentionPolicy = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedTime: S.optional(S.String),
     status: S.optional(RetentionPolicyStatus),
   }),
-).annotate({
-  identifier: "RetentionPolicy",
-}) as any as S.Schema<RetentionPolicy>;
+).annotate({ identifier: "RetentionPolicy" }) as any as S.Schema<RetentionPolicy>;
 
 /** The policies for a container registry. */
 export interface Policies {
@@ -1282,9 +1226,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     keyRotationEnabled: S.optional(S.Boolean),
     lastKeyRotationTimestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 export interface EncryptionProperty {
   /** Indicates whether or not the encryption is enabled for container registry. */
@@ -1297,9 +1239,7 @@ export const EncryptionProperty = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(EncryptionStatus),
     keyVaultProperties: S.optional(KeyVaultProperties),
   }),
-).annotate({
-  identifier: "EncryptionProperty",
-}) as any as S.Schema<EncryptionProperty>;
+).annotate({ identifier: "EncryptionProperty" }) as any as S.Schema<EncryptionProperty>;
 
 /** List of host names that will serve data when dataEndpointEnabled is true. */
 export type RegistryPropertiesDataEndpointHostNamesList = Array<string>;
@@ -1316,9 +1256,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private link service connection status. */
 export type ConnectionStatus = "Approved" | "Pending" | "Rejected" | "Disconnected";
@@ -1472,9 +1410,7 @@ export const RegistryProperties = /*@__PURE__*/ S.suspend(() =>
     anonymousPullEnabled: S.optional(S.Boolean),
     roleAssignmentMode: S.optional(RegistryPropertiesRoleAssignmentMode),
   }),
-).annotate({
-  identifier: "RegistryProperties",
-}) as any as S.Schema<RegistryProperties>;
+).annotate({ identifier: "RegistryProperties" }) as any as S.Schema<RegistryProperties>;
 
 export interface CreateRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1508,14 +1444,10 @@ export const CreateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "CreateRegistryResponse",
-}) as any as S.Schema<CreateRegistryResponse>;
+).annotate({ identifier: "CreateRegistryResponse" }) as any as S.Schema<CreateRegistryResponse>;
 
 /** Resource tags. */
-export type CreateReplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateReplicationRequestTagsMap = { [key: string]: string | undefined };
 export const CreateReplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1574,14 +1506,10 @@ export const CreateReplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateReplicationRequest",
-}) as any as S.Schema<CreateReplicationRequest>;
+).annotate({ identifier: "CreateReplicationRequest" }) as any as S.Schema<CreateReplicationRequest>;
 
 /** Resource tags. */
-export type CreateReplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateReplicationResponseTagsMap = { [key: string]: string | undefined };
 export const CreateReplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1609,9 +1537,7 @@ export const ReplicationProperties = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.Boolean),
     zoneRedundancy: S.optional(ReplicationPropertiesZoneRedundancy),
   }),
-).annotate({
-  identifier: "ReplicationProperties",
-}) as any as S.Schema<ReplicationProperties>;
+).annotate({ identifier: "ReplicationProperties" }) as any as S.Schema<ReplicationProperties>;
 
 export interface CreateReplicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1661,9 +1587,7 @@ export const ScopeMapPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     actions: ScopeMapPropertiesInputActionsList,
   }),
-).annotate({
-  identifier: "ScopeMapPropertiesInput",
-}) as any as S.Schema<ScopeMapPropertiesInput>;
+).annotate({ identifier: "ScopeMapPropertiesInput" }) as any as S.Schema<ScopeMapPropertiesInput>;
 
 export interface CreateScopeMapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1692,9 +1616,7 @@ export const CreateScopeMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateScopeMapRequest",
-}) as any as S.Schema<CreateScopeMapRequest>;
+).annotate({ identifier: "CreateScopeMapRequest" }) as any as S.Schema<CreateScopeMapRequest>;
 
 /** The list of scoped permissions for registry artifacts. E.g. repositories/repository-name/content/read, repositories/repository-name/metadata/write */
 export type ScopeMapPropertiesActionsList = Array<string>;
@@ -1723,9 +1645,7 @@ export const ScopeMapProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningState),
     actions: ScopeMapPropertiesActionsList,
   }),
-).annotate({
-  identifier: "ScopeMapProperties",
-}) as any as S.Schema<ScopeMapProperties>;
+).annotate({ identifier: "ScopeMapProperties" }) as any as S.Schema<ScopeMapProperties>;
 
 export interface CreateScopeMapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1747,9 +1667,7 @@ export const CreateScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScopeMapProperties),
   }),
-).annotate({
-  identifier: "CreateScopeMapResponse",
-}) as any as S.Schema<CreateScopeMapResponse>;
+).annotate({ identifier: "CreateScopeMapResponse" }) as any as S.Schema<CreateScopeMapResponse>;
 
 /** The tags of the resource. */
 export type CreateTaskRequestTagsMap = { [key: string]: string | undefined };
@@ -1793,9 +1711,7 @@ export const IdentityProperties_2 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(IdentityPropertiesType),
     userAssignedIdentities: S.optional(IdentityPropertiesUserAssignedIdentitiesMap_2),
   }),
-).annotate({
-  identifier: "IdentityProperties_2",
-}) as any as S.Schema<IdentityProperties_2>;
+).annotate({ identifier: "IdentityProperties_2" }) as any as S.Schema<IdentityProperties_2>;
 
 /** The current status of task. */
 export type TaskPropertiesInputStatus = "Disabled" | "Enabled";
@@ -1828,9 +1744,7 @@ export const PlatformProperties = /*@__PURE__*/ S.suspend(() =>
     architecture: S.optional(PlatformPropertiesArchitecture),
     variant: S.optional(PlatformPropertiesVariant),
   }),
-).annotate({
-  identifier: "PlatformProperties",
-}) as any as S.Schema<PlatformProperties>;
+).annotate({ identifier: "PlatformProperties" }) as any as S.Schema<PlatformProperties>;
 
 /** The properties that determine the run agent configuration. */
 export interface AgentProperties {
@@ -1841,9 +1755,7 @@ export const AgentProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cpu: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AgentProperties",
-}) as any as S.Schema<AgentProperties>;
+).annotate({ identifier: "AgentProperties" }) as any as S.Schema<AgentProperties>;
 
 /** The type of the step. */
 export type TaskStepPropertiesInputType = "Docker" | "FileTask" | "EncodedTask";
@@ -1857,16 +1769,47 @@ export interface TaskStepPropertiesInput {
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string;
+  /** Docker step: Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** Docker step: fully qualified image names including the repository and tag. */
+  imageNames?: unknown;
+  /** Docker step: whether the image built should be pushed to the registry. */
+  isPushEnabled?: boolean;
+  /** Docker step: whether the image cache is disabled. */
+  noCache?: boolean;
+  /** Docker step: the name of the target build stage. */
+  target?: string;
+  /** Docker step: build arguments ({ name, value, isSecret }[]). */
+  arguments?: unknown;
+  /** FileTask step: task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** FileTask step: task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** EncodedTask step: base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
+  values?: unknown;
 }
 export const TaskStepPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: TaskStepPropertiesInputType,
     contextPath: S.optional(S.String),
     contextAccessToken: S.optional(S.String),
+    dockerFilePath: S.optional(S.String),
+    imageNames: S.optional(S.Unknown),
+    isPushEnabled: S.optional(S.Boolean),
+    noCache: S.optional(S.Boolean),
+    target: S.optional(S.String),
+    arguments: S.optional(S.Unknown),
+    taskFilePath: S.optional(S.String),
+    valuesFilePath: S.optional(S.String),
+    encodedTaskContent: S.optional(S.String),
+    encodedValuesContent: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "TaskStepPropertiesInput",
-}) as any as S.Schema<TaskStepPropertiesInput>;
+).annotate({ identifier: "TaskStepPropertiesInput" }) as any as S.Schema<TaskStepPropertiesInput>;
 
 /** The current status of trigger. */
 export type TimerTriggerStatus = "Disabled" | "Enabled";
@@ -1944,9 +1887,7 @@ export const SourceProperties = /*@__PURE__*/ S.suspend(() =>
     branch: S.optional(S.String),
     sourceControlAuthProperties: S.optional(AuthInfo),
   }),
-).annotate({
-  identifier: "SourceProperties",
-}) as any as S.Schema<SourceProperties>;
+).annotate({ identifier: "SourceProperties" }) as any as S.Schema<SourceProperties>;
 
 export type SourceTriggerSourceTriggerEventsItem = "commit" | "pullrequest";
 export const SourceTriggerSourceTriggerEventsItem = S.String;
@@ -2012,9 +1953,7 @@ export const BaseImageTrigger = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(BaseImageTriggerStatus),
     name: S.String,
   }),
-).annotate({
-  identifier: "BaseImageTrigger",
-}) as any as S.Schema<BaseImageTrigger>;
+).annotate({ identifier: "BaseImageTrigger" }) as any as S.Schema<BaseImageTrigger>;
 
 /** The properties of a trigger. */
 export interface TriggerProperties {
@@ -2031,9 +1970,7 @@ export const TriggerProperties = /*@__PURE__*/ S.suspend(() =>
     sourceTriggers: S.optional(TriggerPropertiesSourceTriggersList),
     baseImageTrigger: S.optional(BaseImageTrigger),
   }),
-).annotate({
-  identifier: "TriggerProperties",
-}) as any as S.Schema<TriggerProperties>;
+).annotate({ identifier: "TriggerProperties" }) as any as S.Schema<TriggerProperties>;
 
 /** The authentication mode which determines the source registry login scope. The credentials for the source registry will be generated using the given scope. These credentials will be used to login to the source registry during the run. */
 export type SourceRegistryCredentialsLoginMode = "None" | "Default";
@@ -2139,9 +2076,7 @@ export const TaskPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     trigger: S.optional(TriggerProperties),
     credentials: S.optional(Credentials),
   }),
-).annotate({
-  identifier: "TaskPropertiesInput",
-}) as any as S.Schema<TaskPropertiesInput>;
+).annotate({ identifier: "TaskPropertiesInput" }) as any as S.Schema<TaskPropertiesInput>;
 
 export interface CreateTaskRequest {
   /** The Microsoft Azure subscription ID. */
@@ -2179,9 +2114,7 @@ export const CreateTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "CreateTaskRequest",
-}) as any as S.Schema<CreateTaskRequest>;
+).annotate({ identifier: "CreateTaskRequest" }) as any as S.Schema<CreateTaskRequest>;
 
 /** The tags of the resource. */
 export type CreateTaskResponseTagsMap = { [key: string]: string | undefined };
@@ -2233,9 +2166,7 @@ export const BaseImageDependency = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     digest: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BaseImageDependency",
-}) as any as S.Schema<BaseImageDependency>;
+).annotate({ identifier: "BaseImageDependency" }) as any as S.Schema<BaseImageDependency>;
 
 /** List of base image dependencies for a step. */
 export type TaskStepPropertiesBaseImageDependenciesList = Array<BaseImageDependency>;
@@ -2253,6 +2184,28 @@ export interface TaskStepProperties {
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string;
+  /** Docker step: Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** Docker step: fully qualified image names including the repository and tag. */
+  imageNames?: unknown;
+  /** Docker step: whether the image built should be pushed to the registry. */
+  isPushEnabled?: boolean;
+  /** Docker step: whether the image cache is disabled. */
+  noCache?: boolean;
+  /** Docker step: the name of the target build stage. */
+  target?: string;
+  /** Docker step: build arguments ({ name, value, isSecret }[]). */
+  arguments?: unknown;
+  /** FileTask step: task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** FileTask step: task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** EncodedTask step: base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
+  values?: unknown;
 }
 export const TaskStepProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2260,10 +2213,19 @@ export const TaskStepProperties = /*@__PURE__*/ S.suspend(() =>
     baseImageDependencies: S.optional(TaskStepPropertiesBaseImageDependenciesList),
     contextPath: S.optional(S.String),
     contextAccessToken: S.optional(S.String),
+    dockerFilePath: S.optional(S.String),
+    imageNames: S.optional(S.Unknown),
+    isPushEnabled: S.optional(S.Boolean),
+    noCache: S.optional(S.Boolean),
+    target: S.optional(S.String),
+    arguments: S.optional(S.Unknown),
+    taskFilePath: S.optional(S.String),
+    valuesFilePath: S.optional(S.String),
+    encodedTaskContent: S.optional(S.String),
+    encodedValuesContent: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "TaskStepProperties",
-}) as any as S.Schema<TaskStepProperties>;
+).annotate({ identifier: "TaskStepProperties" }) as any as S.Schema<TaskStepProperties>;
 
 /** The properties of a task. */
 export interface TaskProperties {
@@ -2326,9 +2288,7 @@ export const CreateTaskResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityProperties_2),
     properties: S.optional(TaskProperties),
   }),
-).annotate({
-  identifier: "CreateTaskResponse",
-}) as any as S.Schema<CreateTaskResponse>;
+).annotate({ identifier: "CreateTaskResponse" }) as any as S.Schema<CreateTaskResponse>;
 
 export type TokenCertificateName = "certificate1" | "certificate2";
 export const TokenCertificateName = S.String;
@@ -2350,9 +2310,7 @@ export const TokenCertificate = /*@__PURE__*/ S.suspend(() =>
     thumbprint: S.optional(S.String),
     encodedPemCertificate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenCertificate",
-}) as any as S.Schema<TokenCertificate>;
+).annotate({ identifier: "TokenCertificate" }) as any as S.Schema<TokenCertificate>;
 
 export type TokenCredentialsPropertiesInputCertificatesList = Array<TokenCertificate>;
 export const TokenCredentialsPropertiesInputCertificatesList = /*@__PURE__*/ S.Array(
@@ -2378,9 +2336,7 @@ export const TokenPasswordInput = /*@__PURE__*/ S.suspend(() =>
     expiry: S.optional(S.String),
     name: S.optional(TokenPasswordName),
   }),
-).annotate({
-  identifier: "TokenPasswordInput",
-}) as any as S.Schema<TokenPasswordInput>;
+).annotate({ identifier: "TokenPasswordInput" }) as any as S.Schema<TokenPasswordInput>;
 
 export type TokenCredentialsPropertiesInputPasswordsList = Array<TokenPasswordInput>;
 export const TokenCredentialsPropertiesInputPasswordsList = /*@__PURE__*/ S.Array(
@@ -2420,9 +2376,7 @@ export const TokenPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     credentials: S.optional(TokenCredentialsPropertiesInput),
     status: S.optional(TokenStatus),
   }),
-).annotate({
-  identifier: "TokenPropertiesInput",
-}) as any as S.Schema<TokenPropertiesInput>;
+).annotate({ identifier: "TokenPropertiesInput" }) as any as S.Schema<TokenPropertiesInput>;
 
 export interface CreateTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2451,9 +2405,7 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 
 export type TokenCredentialsPropertiesCertificatesList = Array<TokenCertificate>;
 export const TokenCredentialsPropertiesCertificatesList = /*@__PURE__*/ S.Array(
@@ -2520,9 +2472,7 @@ export const TokenProperties = /*@__PURE__*/ S.suspend(() =>
     credentials: S.optional(TokenCredentialsProperties),
     status: S.optional(TokenStatus),
   }),
-).annotate({
-  identifier: "TokenProperties",
-}) as any as S.Schema<TokenProperties>;
+).annotate({ identifier: "TokenProperties" }) as any as S.Schema<TokenProperties>;
 
 export interface CreateTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2544,9 +2494,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TokenProperties),
   }),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 
 /** The tags for the webhook. */
 export type CreateWebhookRequestTagsMap = { [key: string]: string | undefined };
@@ -2635,14 +2583,10 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 /** Resource tags. */
-export type CreateWebhookResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateWebhookResponseTagsMap = { [key: string]: string | undefined };
 export const CreateWebhookResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2672,9 +2616,7 @@ export const WebhookProperties = /*@__PURE__*/ S.suspend(() =>
     actions: WebhookPropertiesActionsList,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "WebhookProperties",
-}) as any as S.Schema<WebhookProperties>;
+).annotate({ identifier: "WebhookProperties" }) as any as S.Schema<WebhookProperties>;
 
 export interface CreateWebhookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2702,9 +2644,7 @@ export const CreateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WebhookProperties),
   }),
-).annotate({
-  identifier: "CreateWebhookResponse",
-}) as any as S.Schema<CreateWebhookResponse>;
+).annotate({ identifier: "CreateWebhookResponse" }) as any as S.Schema<CreateWebhookResponse>;
 
 export interface DeactivateConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2765,9 +2705,7 @@ export const DeleteCacheRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCacheRuleRequest",
-}) as any as S.Schema<DeleteCacheRuleRequest>;
+).annotate({ identifier: "DeleteCacheRuleRequest" }) as any as S.Schema<DeleteCacheRuleRequest>;
 
 export interface DeleteCacheRuleResponse {}
 export const DeleteCacheRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2804,9 +2742,7 @@ export const DeleteConnectedRegistryRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteConnectedRegistryResponse {}
 export const DeleteConnectedRegistryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteConnectedRegistryResponse",
-  },
+  { identifier: "DeleteConnectedRegistryResponse" },
 ) as any as S.Schema<DeleteConnectedRegistryResponse>;
 
 export interface DeleteCredentialSetRequest {
@@ -2898,9 +2834,7 @@ export const DeleteRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRegistryRequest",
-}) as any as S.Schema<DeleteRegistryRequest>;
+).annotate({ identifier: "DeleteRegistryRequest" }) as any as S.Schema<DeleteRegistryRequest>;
 
 export interface DeleteRegistryResponse {}
 export const DeleteRegistryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2931,9 +2865,7 @@ export const DeleteReplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteReplicationRequest",
-}) as any as S.Schema<DeleteReplicationRequest>;
+).annotate({ identifier: "DeleteReplicationRequest" }) as any as S.Schema<DeleteReplicationRequest>;
 
 export interface DeleteReplicationResponse {}
 export const DeleteReplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2964,9 +2896,7 @@ export const DeleteScopeMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteScopeMapRequest",
-}) as any as S.Schema<DeleteScopeMapRequest>;
+).annotate({ identifier: "DeleteScopeMapRequest" }) as any as S.Schema<DeleteScopeMapRequest>;
 
 export interface DeleteScopeMapResponse {}
 export const DeleteScopeMapResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2997,9 +2927,7 @@ export const DeleteTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTaskRequest",
-}) as any as S.Schema<DeleteTaskRequest>;
+).annotate({ identifier: "DeleteTaskRequest" }) as any as S.Schema<DeleteTaskRequest>;
 
 export interface DeleteTaskResponse {}
 export const DeleteTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3030,9 +2958,7 @@ export const DeleteTokenRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTokenRequest",
-}) as any as S.Schema<DeleteTokenRequest>;
+).annotate({ identifier: "DeleteTokenRequest" }) as any as S.Schema<DeleteTokenRequest>;
 
 export interface DeleteTokenResponse {}
 export const DeleteTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3063,9 +2989,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3152,9 +3076,7 @@ export const GetCacheRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetCacheRuleRequest",
-}) as any as S.Schema<GetCacheRuleRequest>;
+).annotate({ identifier: "GetCacheRuleRequest" }) as any as S.Schema<GetCacheRuleRequest>;
 
 export interface GetCacheRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3176,9 +3098,7 @@ export const GetCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CacheRuleProperties),
   }),
-).annotate({
-  identifier: "GetCacheRuleResponse",
-}) as any as S.Schema<GetCacheRuleResponse>;
+).annotate({ identifier: "GetCacheRuleResponse" }) as any as S.Schema<GetCacheRuleResponse>;
 
 export interface GetConnectedRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3256,9 +3176,7 @@ export const GetCredentialSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetCredentialSetRequest",
-}) as any as S.Schema<GetCredentialSetRequest>;
+).annotate({ identifier: "GetCredentialSetRequest" }) as any as S.Schema<GetCredentialSetRequest>;
 
 export interface GetCredentialSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3283,9 +3201,7 @@ export const GetCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CredentialSetProperties),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "GetCredentialSetResponse",
-}) as any as S.Schema<GetCredentialSetResponse>;
+).annotate({ identifier: "GetCredentialSetResponse" }) as any as S.Schema<GetCredentialSetResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3360,9 +3276,7 @@ export const GetRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetRegistryRequest",
-}) as any as S.Schema<GetRegistryRequest>;
+).annotate({ identifier: "GetRegistryRequest" }) as any as S.Schema<GetRegistryRequest>;
 
 /** Resource tags. */
 export type GetRegistryResponseTagsMap = { [key: string]: string | undefined };
@@ -3403,9 +3317,7 @@ export const GetRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "GetRegistryResponse",
-}) as any as S.Schema<GetRegistryResponse>;
+).annotate({ identifier: "GetRegistryResponse" }) as any as S.Schema<GetRegistryResponse>;
 
 export interface GetRegistryPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3514,14 +3426,10 @@ export const GetReplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetReplicationRequest",
-}) as any as S.Schema<GetReplicationRequest>;
+).annotate({ identifier: "GetReplicationRequest" }) as any as S.Schema<GetReplicationRequest>;
 
 /** Resource tags. */
-export type GetReplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetReplicationResponseTagsMap = { [key: string]: string | undefined };
 export const GetReplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3553,9 +3461,7 @@ export const GetReplicationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(ReplicationProperties),
   }),
-).annotate({
-  identifier: "GetReplicationResponse",
-}) as any as S.Schema<GetReplicationResponse>;
+).annotate({ identifier: "GetReplicationResponse" }) as any as S.Schema<GetReplicationResponse>;
 
 export interface GetRunRequest {
   /** The Microsoft Azure subscription ID. */
@@ -3617,9 +3523,7 @@ export const ImageDescriptor = /*@__PURE__*/ S.suspend(() =>
     tag: S.optional(S.String),
     digest: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageDescriptor",
-}) as any as S.Schema<ImageDescriptor>;
+).annotate({ identifier: "ImageDescriptor" }) as any as S.Schema<ImageDescriptor>;
 
 /** The list of all images that were generated from the run. This is applicable if the run generates base image dependencies. */
 export type RunPropertiesOutputImagesList = Array<ImageDescriptor>;
@@ -3648,9 +3552,7 @@ export const ImageUpdateTrigger = /*@__PURE__*/ S.suspend(() =>
     timestamp: S.optional(S.String),
     images: S.optional(ImageUpdateTriggerImagesList),
   }),
-).annotate({
-  identifier: "ImageUpdateTrigger",
-}) as any as S.Schema<ImageUpdateTrigger>;
+).annotate({ identifier: "ImageUpdateTrigger" }) as any as S.Schema<ImageUpdateTrigger>;
 
 /** The source trigger that caused a run. */
 export interface SourceTriggerDescriptor {
@@ -3679,9 +3581,7 @@ export const SourceTriggerDescriptor = /*@__PURE__*/ S.suspend(() =>
     branchName: S.optional(S.String),
     providerType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SourceTriggerDescriptor",
-}) as any as S.Schema<SourceTriggerDescriptor>;
+).annotate({ identifier: "SourceTriggerDescriptor" }) as any as S.Schema<SourceTriggerDescriptor>;
 
 /** The list of custom registries that were logged in during this run. */
 export type RunPropertiesCustomRegistriesList = Array<string>;
@@ -3710,9 +3610,7 @@ export const TimerTriggerDescriptor = /*@__PURE__*/ S.suspend(() =>
     timerTriggerName: S.optional(S.String),
     scheduleOccurrence: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TimerTriggerDescriptor",
-}) as any as S.Schema<TimerTriggerDescriptor>;
+).annotate({ identifier: "TimerTriggerDescriptor" }) as any as S.Schema<TimerTriggerDescriptor>;
 
 /** The properties for a run. */
 export interface RunProperties {
@@ -3822,9 +3720,7 @@ export const GetRunLogSasUrlRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetRunLogSasUrlRequest",
-}) as any as S.Schema<GetRunLogSasUrlRequest>;
+).annotate({ identifier: "GetRunLogSasUrlRequest" }) as any as S.Schema<GetRunLogSasUrlRequest>;
 
 /** The result of get log link operation. */
 export interface RunGetLogResult {
@@ -3835,9 +3731,7 @@ export const RunGetLogResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunGetLogResult",
-}) as any as S.Schema<RunGetLogResult>;
+).annotate({ identifier: "RunGetLogResult" }) as any as S.Schema<RunGetLogResult>;
 
 export interface GetScopeMapRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3863,9 +3757,7 @@ export const GetScopeMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetScopeMapRequest",
-}) as any as S.Schema<GetScopeMapRequest>;
+).annotate({ identifier: "GetScopeMapRequest" }) as any as S.Schema<GetScopeMapRequest>;
 
 export interface GetScopeMapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3887,9 +3779,7 @@ export const GetScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScopeMapProperties),
   }),
-).annotate({
-  identifier: "GetScopeMapResponse",
-}) as any as S.Schema<GetScopeMapResponse>;
+).annotate({ identifier: "GetScopeMapResponse" }) as any as S.Schema<GetScopeMapResponse>;
 
 export interface GetTaskRequest {
   /** The Microsoft Azure subscription ID. */
@@ -3950,9 +3840,7 @@ export const GetTaskResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityProperties_2),
     properties: S.optional(TaskProperties),
   }),
-).annotate({
-  identifier: "GetTaskResponse",
-}) as any as S.Schema<GetTaskResponse>;
+).annotate({ identifier: "GetTaskResponse" }) as any as S.Schema<GetTaskResponse>;
 
 export interface GetTaskDetailsRequest {
   /** The Microsoft Azure subscription ID. */
@@ -3978,14 +3866,10 @@ export const GetTaskDetailsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetTaskDetailsRequest",
-}) as any as S.Schema<GetTaskDetailsRequest>;
+).annotate({ identifier: "GetTaskDetailsRequest" }) as any as S.Schema<GetTaskDetailsRequest>;
 
 /** The tags of the resource. */
-export type GetTaskDetailsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTaskDetailsResponseTagsMap = { [key: string]: string | undefined };
 export const GetTaskDetailsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4017,9 +3901,7 @@ export const GetTaskDetailsResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityProperties_2),
     properties: S.optional(TaskProperties),
   }),
-).annotate({
-  identifier: "GetTaskDetailsResponse",
-}) as any as S.Schema<GetTaskDetailsResponse>;
+).annotate({ identifier: "GetTaskDetailsResponse" }) as any as S.Schema<GetTaskDetailsResponse>;
 
 export interface GetTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4045,9 +3927,7 @@ export const GetTokenRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetTokenRequest",
-}) as any as S.Schema<GetTokenRequest>;
+).annotate({ identifier: "GetTokenRequest" }) as any as S.Schema<GetTokenRequest>;
 
 export interface GetTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4069,9 +3949,7 @@ export const GetTokenResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TokenProperties),
   }),
-).annotate({
-  identifier: "GetTokenResponse",
-}) as any as S.Schema<GetTokenResponse>;
+).annotate({ identifier: "GetTokenResponse" }) as any as S.Schema<GetTokenResponse>;
 
 export interface GetWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4097,9 +3975,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 /** Resource tags. */
 export type GetWebhookResponseTagsMap = { [key: string]: string | undefined };
@@ -4134,9 +4010,7 @@ export const GetWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WebhookProperties),
   }),
-).annotate({
-  identifier: "GetWebhookResponse",
-}) as any as S.Schema<GetWebhookResponse>;
+).annotate({ identifier: "GetWebhookResponse" }) as any as S.Schema<GetWebhookResponse>;
 
 export interface GetWebhookCallbackConfigRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4167,9 +4041,7 @@ export const GetWebhookCallbackConfigRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetWebhookCallbackConfigRequest>;
 
 /** Custom headers that will be added to the webhook notifications. */
-export type CallbackConfigCustomHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type CallbackConfigCustomHeadersMap = { [key: string]: string | undefined };
 export const CallbackConfigCustomHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4200,9 +4072,7 @@ export const ImportSourceCredentials = /*@__PURE__*/ S.suspend(() =>
     username: S.optional(S.String),
     password: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "ImportSourceCredentials",
-}) as any as S.Schema<ImportSourceCredentials>;
+).annotate({ identifier: "ImportSourceCredentials" }) as any as S.Schema<ImportSourceCredentials>;
 
 export interface ImportSource {
   /** The resource identifier of the source Azure Container Registry. */
@@ -4304,9 +4174,7 @@ export const ListCacheRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListCacheRulesRequest",
-}) as any as S.Schema<ListCacheRulesRequest>;
+).annotate({ identifier: "ListCacheRulesRequest" }) as any as S.Schema<ListCacheRulesRequest>;
 
 /** An object that represents a cache rule for a container registry. */
 export interface CacheRule {
@@ -4349,9 +4217,7 @@ export const CacheRulesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CacheRulesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CacheRulesListResult",
-}) as any as S.Schema<CacheRulesListResult>;
+).annotate({ identifier: "CacheRulesListResult" }) as any as S.Schema<CacheRulesListResult>;
 
 export interface ListConnectedRegistriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4402,9 +4268,7 @@ export const ConnectedRegistry = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ConnectedRegistryProperties),
   }),
-).annotate({
-  identifier: "ConnectedRegistry",
-}) as any as S.Schema<ConnectedRegistry>;
+).annotate({ identifier: "ConnectedRegistry" }) as any as S.Schema<ConnectedRegistry>;
 
 /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
 export type ConnectedRegistryListResultValueList = Array<ConnectedRegistry>;
@@ -4497,9 +4361,7 @@ export const CredentialSetListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CredentialSetListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialSetListResult",
-}) as any as S.Schema<CredentialSetListResult>;
+).annotate({ identifier: "CredentialSetListResult" }) as any as S.Schema<CredentialSetListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -4511,9 +4373,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The display information for a container registry operation. */
 export interface OperationDisplayDefinition {
@@ -4651,9 +4511,7 @@ export const OperationDefinition = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(OperationPropertiesDefinition),
     isDataAction: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OperationDefinition",
-}) as any as S.Schema<OperationDefinition>;
+).annotate({ identifier: "OperationDefinition" }) as any as S.Schema<OperationDefinition>;
 
 /** The list of container registry operations. Since this list may be incomplete, the nextLink field should be used to request the next list of operations. */
 export type OperationListResultValueList = Array<OperationDefinition>;
@@ -4673,9 +4531,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4739,9 +4595,7 @@ export const ListRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListRegistriesRequest",
-}) as any as S.Schema<ListRegistriesRequest>;
+).annotate({ identifier: "ListRegistriesRequest" }) as any as S.Schema<ListRegistriesRequest>;
 
 /** Resource tags. */
 export type RegistryTagsMap = { [key: string]: string | undefined };
@@ -4803,9 +4657,7 @@ export const RegistryListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RegistryListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegistryListResult",
-}) as any as S.Schema<RegistryListResult>;
+).annotate({ identifier: "RegistryListResult" }) as any as S.Schema<RegistryListResult>;
 
 export interface ListRegistryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4870,9 +4722,7 @@ export const RegistryPassword = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(PasswordName),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegistryPassword",
-}) as any as S.Schema<RegistryPassword>;
+).annotate({ identifier: "RegistryPassword" }) as any as S.Schema<RegistryPassword>;
 
 /** The list of passwords for a container registry. */
 export type RegistryListCredentialsResultPasswordsList = Array<RegistryPassword>;
@@ -5032,9 +4882,7 @@ export const RegistryUsageListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(RegistryUsageListResultValueList),
   }),
-).annotate({
-  identifier: "RegistryUsageListResult",
-}) as any as S.Schema<RegistryUsageListResult>;
+).annotate({ identifier: "RegistryUsageListResult" }) as any as S.Schema<RegistryUsageListResult>;
 
 export interface ListReplicationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5057,9 +4905,7 @@ export const ListReplicationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListReplicationsRequest",
-}) as any as S.Schema<ListReplicationsRequest>;
+).annotate({ identifier: "ListReplicationsRequest" }) as any as S.Schema<ListReplicationsRequest>;
 
 /** Resource tags. */
 export type ReplicationTagsMap = { [key: string]: string | undefined };
@@ -5115,9 +4961,7 @@ export const ReplicationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ReplicationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicationListResult",
-}) as any as S.Schema<ReplicationListResult>;
+).annotate({ identifier: "ReplicationListResult" }) as any as S.Schema<ReplicationListResult>;
 
 export interface ListRunsRequest {
   /** The Microsoft Azure subscription ID. */
@@ -5146,9 +4990,7 @@ export const ListRunsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListRunsRequest",
-}) as any as S.Schema<ListRunsRequest>;
+).annotate({ identifier: "ListRunsRequest" }) as any as S.Schema<ListRunsRequest>;
 
 /** Run resource properties */
 export interface Run {
@@ -5211,9 +5053,7 @@ export const ListScopeMapsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListScopeMapsRequest",
-}) as any as S.Schema<ListScopeMapsRequest>;
+).annotate({ identifier: "ListScopeMapsRequest" }) as any as S.Schema<ListScopeMapsRequest>;
 
 /** An object that represents a scope map for a container registry. */
 export interface ScopeMap {
@@ -5256,9 +5096,7 @@ export const ScopeMapListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ScopeMapListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScopeMapListResult",
-}) as any as S.Schema<ScopeMapListResult>;
+).annotate({ identifier: "ScopeMapListResult" }) as any as S.Schema<ScopeMapListResult>;
 
 export interface ListTasksRequest {
   /** The Microsoft Azure subscription ID. */
@@ -5281,9 +5119,7 @@ export const ListTasksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListTasksRequest",
-}) as any as S.Schema<ListTasksRequest>;
+).annotate({ identifier: "ListTasksRequest" }) as any as S.Schema<ListTasksRequest>;
 
 /** The tags of the resource. */
 export type TaskTagsMap = { [key: string]: string | undefined };
@@ -5362,9 +5198,7 @@ export const ListTokensRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListTokensRequest",
-}) as any as S.Schema<ListTokensRequest>;
+).annotate({ identifier: "ListTokensRequest" }) as any as S.Schema<ListTokensRequest>;
 
 /** An object that represents a token for a container registry. */
 export interface Token {
@@ -5407,9 +5241,7 @@ export const TokenListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(TokenListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TokenListResult",
-}) as any as S.Schema<TokenListResult>;
+).annotate({ identifier: "TokenListResult" }) as any as S.Schema<TokenListResult>;
 
 export interface ListWebhookEventsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5435,9 +5267,7 @@ export const ListWebhookEventsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListWebhookEventsRequest",
-}) as any as S.Schema<ListWebhookEventsRequest>;
+).annotate({ identifier: "ListWebhookEventsRequest" }) as any as S.Schema<ListWebhookEventsRequest>;
 
 /** The target of the event. */
 export interface Target {
@@ -5552,9 +5382,7 @@ export const EventContent = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "EventContent" }) as any as S.Schema<EventContent>;
 
 /** The headers of the event request message. */
-export type EventRequestMessageHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type EventRequestMessageHeadersMap = { [key: string]: string | undefined };
 export const EventRequestMessageHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5581,14 +5409,10 @@ export const EventRequestMessage = /*@__PURE__*/ S.suspend(() =>
     requestUri: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventRequestMessage",
-}) as any as S.Schema<EventRequestMessage>;
+).annotate({ identifier: "EventRequestMessage" }) as any as S.Schema<EventRequestMessage>;
 
 /** The headers of the event response message. */
-export type EventResponseMessageHeadersMap = {
-  [key: string]: string | undefined;
-};
+export type EventResponseMessageHeadersMap = { [key: string]: string | undefined };
 export const EventResponseMessageHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5615,9 +5439,7 @@ export const EventResponseMessage = /*@__PURE__*/ S.suspend(() =>
     statusCode: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventResponseMessage",
-}) as any as S.Schema<EventResponseMessage>;
+).annotate({ identifier: "EventResponseMessage" }) as any as S.Schema<EventResponseMessage>;
 
 /** The event for a webhook. */
 export interface Event {
@@ -5654,9 +5476,7 @@ export const EventListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(EventListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventListResult",
-}) as any as S.Schema<EventListResult>;
+).annotate({ identifier: "EventListResult" }) as any as S.Schema<EventListResult>;
 
 export interface ListWebhooksRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5679,9 +5499,7 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
 /** Resource tags. */
 export type WebhookTagsMap = { [key: string]: string | undefined };
@@ -5737,9 +5555,7 @@ export const WebhookListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WebhookListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebhookListResult",
-}) as any as S.Schema<WebhookListResult>;
+).annotate({ identifier: "WebhookListResult" }) as any as S.Schema<WebhookListResult>;
 
 export interface PingWebhookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5765,9 +5581,7 @@ export const PingWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "PingWebhookRequest",
-}) as any as S.Schema<PingWebhookRequest>;
+).annotate({ identifier: "PingWebhookRequest" }) as any as S.Schema<PingWebhookRequest>;
 
 /** The basic information of an event. */
 export interface EventInfo {
@@ -5900,9 +5714,7 @@ export const SourceUploadDefinition = /*@__PURE__*/ S.suspend(() =>
     uploadUrl: S.optional(S.String),
     relativePath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SourceUploadDefinition",
-}) as any as S.Schema<SourceUploadDefinition>;
+).annotate({ identifier: "SourceUploadDefinition" }) as any as S.Schema<SourceUploadDefinition>;
 
 export interface RunRegistriesScheduleRequest {
   /** The Microsoft Azure subscription ID. */
@@ -5996,9 +5808,7 @@ export const UpdateCacheRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCacheRuleRequest",
-}) as any as S.Schema<UpdateCacheRuleRequest>;
+).annotate({ identifier: "UpdateCacheRuleRequest" }) as any as S.Schema<UpdateCacheRuleRequest>;
 
 export interface UpdateCacheRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6020,9 +5830,7 @@ export const UpdateCacheRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CacheRuleProperties),
   }),
-).annotate({
-  identifier: "UpdateCacheRuleResponse",
-}) as any as S.Schema<UpdateCacheRuleResponse>;
+).annotate({ identifier: "UpdateCacheRuleResponse" }) as any as S.Schema<UpdateCacheRuleResponse>;
 
 /** The parameters for updating the sync properties of the connected registry with its parent. */
 export interface SyncUpdateProperties {
@@ -6039,9 +5847,7 @@ export const SyncUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     syncWindow: S.optional(S.String),
     messageTtl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SyncUpdateProperties",
-}) as any as S.Schema<SyncUpdateProperties>;
+).annotate({ identifier: "SyncUpdateProperties" }) as any as S.Schema<SyncUpdateProperties>;
 
 /** The list of the ACR token resource IDs used to authenticate clients to the connected registry. */
 export type ConnectedRegistryUpdatePropertiesClientTokenIdsList = Array<string>;
@@ -6216,9 +6022,7 @@ export const UpdateCredentialSetResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCredentialSetResponse>;
 
 /** The tags for the container registry. */
-export type UpdateRegistryRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRegistryRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateRegistryRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6315,14 +6119,10 @@ export const UpdateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRegistryRequest",
-}) as any as S.Schema<UpdateRegistryRequest>;
+).annotate({ identifier: "UpdateRegistryRequest" }) as any as S.Schema<UpdateRegistryRequest>;
 
 /** Resource tags. */
-export type UpdateRegistryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateRegistryResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateRegistryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6360,14 +6160,10 @@ export const UpdateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "UpdateRegistryResponse",
-}) as any as S.Schema<UpdateRegistryResponse>;
+).annotate({ identifier: "UpdateRegistryResponse" }) as any as S.Schema<UpdateRegistryResponse>;
 
 /** The tags for the replication. */
-export type UpdateReplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateReplicationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateReplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6415,14 +6211,10 @@ export const UpdateReplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateReplicationRequest",
-}) as any as S.Schema<UpdateReplicationRequest>;
+).annotate({ identifier: "UpdateReplicationRequest" }) as any as S.Schema<UpdateReplicationRequest>;
 
 /** Resource tags. */
-export type UpdateReplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateReplicationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateReplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6485,9 +6277,7 @@ export const UpdateRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRunRequest",
-}) as any as S.Schema<UpdateRunRequest>;
+).annotate({ identifier: "UpdateRunRequest" }) as any as S.Schema<UpdateRunRequest>;
 
 export interface UpdateRunResponse {
   /** The resource ID. */
@@ -6506,9 +6296,7 @@ export const UpdateRunResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(RunProperties),
   }),
-).annotate({
-  identifier: "UpdateRunResponse",
-}) as any as S.Schema<UpdateRunResponse>;
+).annotate({ identifier: "UpdateRunResponse" }) as any as S.Schema<UpdateRunResponse>;
 
 /** The list of scope permissions for registry artifacts. E.g. repositories/repository-name/pull, repositories/repository-name/delete */
 export type ScopeMapPropertiesUpdateParametersActionsList = Array<string>;
@@ -6559,9 +6347,7 @@ export const UpdateScopeMapRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateScopeMapRequest",
-}) as any as S.Schema<UpdateScopeMapRequest>;
+).annotate({ identifier: "UpdateScopeMapRequest" }) as any as S.Schema<UpdateScopeMapRequest>;
 
 export interface UpdateScopeMapResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6583,9 +6369,7 @@ export const UpdateScopeMapResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScopeMapProperties),
   }),
-).annotate({
-  identifier: "UpdateScopeMapResponse",
-}) as any as S.Schema<UpdateScopeMapResponse>;
+).annotate({ identifier: "UpdateScopeMapResponse" }) as any as S.Schema<UpdateScopeMapResponse>;
 
 /** The current status of task. */
 export type TaskPropertiesUpdateParametersStatus = "Disabled" | "Enabled";
@@ -6618,9 +6402,7 @@ export const PlatformUpdateParameters = /*@__PURE__*/ S.suspend(() =>
     architecture: S.optional(PlatformUpdateParametersArchitecture),
     variant: S.optional(PlatformUpdateParametersVariant),
   }),
-).annotate({
-  identifier: "PlatformUpdateParameters",
-}) as any as S.Schema<PlatformUpdateParameters>;
+).annotate({ identifier: "PlatformUpdateParameters" }) as any as S.Schema<PlatformUpdateParameters>;
 
 /** The type of the step. */
 export type TaskStepUpdateParametersType = "Docker" | "FileTask" | "EncodedTask";
@@ -6634,16 +6416,47 @@ export interface TaskStepUpdateParameters {
   contextPath?: string;
   /** The token (git PAT or SAS token of storage account blob) associated with the context for a step. */
   contextAccessToken?: string;
+  /** Docker step: Docker file path relative to the source context. */
+  dockerFilePath?: string;
+  /** Docker step: fully qualified image names including the repository and tag. */
+  imageNames?: unknown;
+  /** Docker step: whether the image built should be pushed to the registry. */
+  isPushEnabled?: boolean;
+  /** Docker step: whether the image cache is disabled. */
+  noCache?: boolean;
+  /** Docker step: the name of the target build stage. */
+  target?: string;
+  /** Docker step: build arguments ({ name, value, isSecret }[]). */
+  arguments?: unknown;
+  /** FileTask step: task template/definition file path relative to the source context. */
+  taskFilePath?: string;
+  /** FileTask step: task values/parameters file path relative to the source context. */
+  valuesFilePath?: string;
+  /** EncodedTask step: base64 encoded value of the template/definition file content. */
+  encodedTaskContent?: string;
+  /** EncodedTask step: base64 encoded value of the parameters/values file content. */
+  encodedValuesContent?: string;
+  /** FileTask/EncodedTask step: values to override ({ name, value, isSecret }[]). */
+  values?: unknown;
 }
 export const TaskStepUpdateParameters = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: TaskStepUpdateParametersType,
     contextPath: S.optional(S.String),
     contextAccessToken: S.optional(S.String),
+    dockerFilePath: S.optional(S.String),
+    imageNames: S.optional(S.Unknown),
+    isPushEnabled: S.optional(S.Boolean),
+    noCache: S.optional(S.Boolean),
+    target: S.optional(S.String),
+    arguments: S.optional(S.Unknown),
+    taskFilePath: S.optional(S.String),
+    valuesFilePath: S.optional(S.String),
+    encodedTaskContent: S.optional(S.String),
+    encodedValuesContent: S.optional(S.String),
+    values: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "TaskStepUpdateParameters",
-}) as any as S.Schema<TaskStepUpdateParameters>;
+).annotate({ identifier: "TaskStepUpdateParameters" }) as any as S.Schema<TaskStepUpdateParameters>;
 
 /** The current status of trigger. */
 export type TimerTriggerUpdateParametersStatus = "Disabled" | "Enabled";
@@ -6703,9 +6516,7 @@ export const AuthInfoUpdateParameters = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(S.String),
     expiresIn: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AuthInfoUpdateParameters",
-}) as any as S.Schema<AuthInfoUpdateParameters>;
+).annotate({ identifier: "AuthInfoUpdateParameters" }) as any as S.Schema<AuthInfoUpdateParameters>;
 
 /** The properties for updating the source code repository. */
 export interface SourceUpdateParameters {
@@ -6725,9 +6536,7 @@ export const SourceUpdateParameters = /*@__PURE__*/ S.suspend(() =>
     branch: S.optional(S.String),
     sourceControlAuthProperties: S.optional(AuthInfoUpdateParameters),
   }),
-).annotate({
-  identifier: "SourceUpdateParameters",
-}) as any as S.Schema<SourceUpdateParameters>;
+).annotate({ identifier: "SourceUpdateParameters" }) as any as S.Schema<SourceUpdateParameters>;
 
 export type SourceTriggerUpdateParametersSourceTriggerEventsItem = "commit" | "pullrequest";
 export const SourceTriggerUpdateParametersSourceTriggerEventsItem = S.String;
@@ -6814,9 +6623,7 @@ export const TriggerUpdateParameters = /*@__PURE__*/ S.suspend(() =>
     sourceTriggers: S.optional(TriggerUpdateParametersSourceTriggersList),
     baseImageTrigger: S.optional(BaseImageTriggerUpdateParameters),
   }),
-).annotate({
-  identifier: "TriggerUpdateParameters",
-}) as any as S.Schema<TriggerUpdateParameters>;
+).annotate({ identifier: "TriggerUpdateParameters" }) as any as S.Schema<TriggerUpdateParameters>;
 
 /** The properties for updating a task. */
 export interface TaskPropertiesUpdateParameters {
@@ -6889,9 +6696,7 @@ export const UpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateTaskRequest",
-}) as any as S.Schema<UpdateTaskRequest>;
+).annotate({ identifier: "UpdateTaskRequest" }) as any as S.Schema<UpdateTaskRequest>;
 
 /** The tags of the resource. */
 export type UpdateTaskResponseTagsMap = { [key: string]: string | undefined };
@@ -6926,9 +6731,7 @@ export const UpdateTaskResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(IdentityProperties_2),
     properties: S.optional(TaskProperties),
   }),
-).annotate({
-  identifier: "UpdateTaskResponse",
-}) as any as S.Schema<UpdateTaskResponse>;
+).annotate({ identifier: "UpdateTaskResponse" }) as any as S.Schema<UpdateTaskResponse>;
 
 /** The parameters for updating token properties. */
 export interface TokenUpdatePropertiesInput {
@@ -6976,9 +6779,7 @@ export const UpdateTokenRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateTokenRequest",
-}) as any as S.Schema<UpdateTokenRequest>;
+).annotate({ identifier: "UpdateTokenRequest" }) as any as S.Schema<UpdateTokenRequest>;
 
 export interface UpdateTokenResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7000,9 +6801,7 @@ export const UpdateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TokenProperties),
   }),
-).annotate({
-  identifier: "UpdateTokenResponse",
-}) as any as S.Schema<UpdateTokenResponse>;
+).annotate({ identifier: "UpdateTokenResponse" }) as any as S.Schema<UpdateTokenResponse>;
 
 /** The tags for the webhook. */
 export type UpdateWebhookRequestTagsMap = { [key: string]: string | undefined };
@@ -7081,14 +6880,10 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-11-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 /** Resource tags. */
-export type UpdateWebhookResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWebhookResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWebhookResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7120,9 +6915,7 @@ export const UpdateWebhookResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(WebhookProperties),
   }),
-).annotate({
-  identifier: "UpdateWebhookResponse",
-}) as any as S.Schema<UpdateWebhookResponse>;
+).annotate({ identifier: "UpdateWebhookResponse" }) as any as S.Schema<UpdateWebhookResponse>;
 
 export type CancelRunError = AzureOpError;
 /** Cancel an existing run. */

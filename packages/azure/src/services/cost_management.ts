@@ -36,9 +36,7 @@ export const BudgetTimePeriod = /*@__PURE__*/ S.suspend(() =>
     startDate: S.String,
     endDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BudgetTimePeriod",
-}) as any as S.Schema<BudgetTimePeriod>;
+).annotate({ identifier: "BudgetTimePeriod" }) as any as S.Schema<BudgetTimePeriod>;
 
 /** The operator to use for comparison. */
 export type BudgetOperatorType = "In";
@@ -81,9 +79,7 @@ export const BudgetFilterProperties = /*@__PURE__*/ S.suspend(() =>
     dimensions: S.optional(BudgetComparisonExpression),
     tags: S.optional(BudgetComparisonExpression),
   }),
-).annotate({
-  identifier: "BudgetFilterProperties",
-}) as any as S.Schema<BudgetFilterProperties>;
+).annotate({ identifier: "BudgetFilterProperties" }) as any as S.Schema<BudgetFilterProperties>;
 
 /** The logical "AND" expression. Must have at least 2 items. Supported for CategoryType(s): Cost. */
 export type BudgetFilterAndList = Array<BudgetFilterProperties>;
@@ -203,9 +199,7 @@ export const Notification = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Notification" }) as any as S.Schema<Notification>;
 
 /** Dictionary of notifications associated with the budget. Supported for CategoryType(s): Cost, ReservationUtilization. - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and 5 notifications with thresholdType: Forecasted. - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not applicable. */
-export type BudgetPropertiesInputNotificationsMap = {
-  [key: string]: Notification | undefined;
-};
+export type BudgetPropertiesInputNotificationsMap = { [key: string]: Notification | undefined };
 export const BudgetPropertiesInputNotificationsMap = /*@__PURE__*/ S.Record(
   S.String,
   Notification,
@@ -235,9 +229,7 @@ export const BudgetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(BudgetFilter),
     notifications: S.optional(BudgetPropertiesInputNotificationsMap),
   }),
-).annotate({
-  identifier: "BudgetPropertiesInput",
-}) as any as S.Schema<BudgetPropertiesInput>;
+).annotate({ identifier: "BudgetPropertiesInput" }) as any as S.Schema<BudgetPropertiesInput>;
 
 export interface BudgetsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -258,7 +250,7 @@ export const BudgetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -316,9 +308,7 @@ export const CurrentSpend = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CurrentSpend" }) as any as S.Schema<CurrentSpend>;
 
 /** Dictionary of notifications associated with the budget. Supported for CategoryType(s): Cost, ReservationUtilization. - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and 5 notifications with thresholdType: Forecasted. - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not applicable. */
-export type BudgetPropertiesNotificationsMap = {
-  [key: string]: Notification | undefined;
-};
+export type BudgetPropertiesNotificationsMap = { [key: string]: Notification | undefined };
 export const BudgetPropertiesNotificationsMap = /*@__PURE__*/ S.Record(
   S.String,
   Notification,
@@ -368,9 +358,7 @@ export const BudgetProperties = /*@__PURE__*/ S.suspend(() =>
     notifications: S.optional(BudgetPropertiesNotificationsMap),
     forecastSpend: S.optional(ForecastSpend),
   }),
-).annotate({
-  identifier: "BudgetProperties",
-}) as any as S.Schema<BudgetProperties>;
+).annotate({ identifier: "BudgetProperties" }) as any as S.Schema<BudgetProperties>;
 
 export interface BudgetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -507,7 +495,7 @@ export const CheckScheduledActionNameAvailabilityByScopeRequest = /*@__PURE__*/ 
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/checkNameAvailability",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/checkNameAvailability",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -585,9 +573,7 @@ export const CostAllocationProportion = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     percentage: S.Number,
   }),
-).annotate({
-  identifier: "CostAllocationProportion",
-}) as any as S.Schema<CostAllocationProportion>;
+).annotate({ identifier: "CostAllocationProportion" }) as any as S.Schema<CostAllocationProportion>;
 
 /** Target resources for cost allocation. This list cannot contain more than 25 values. */
 export type TargetCostAllocationResourceValuesList = Array<CostAllocationProportion>;
@@ -756,9 +742,7 @@ export const CostDetailsTimePeriod = /*@__PURE__*/ S.suspend(() =>
     start: S.String,
     end: S.String,
   }),
-).annotate({
-  identifier: "CostDetailsTimePeriod",
-}) as any as S.Schema<CostDetailsTimePeriod>;
+).annotate({ identifier: "CostDetailsTimePeriod" }) as any as S.Schema<CostDetailsTimePeriod>;
 
 export interface CreateGenerateCostDetailsReportOperationRequest {
   /** The ARM Resource ID for subscription, billing account, or other billing scopes.Currently Resource Group and Management Group are not supported. For details, see https://aka.ms/costmgmt/scopes. */
@@ -782,7 +766,7 @@ export const CreateGenerateCostDetailsReportOperationRequest = /*@__PURE__*/ S.s
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/generateCostDetailsReport",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -962,7 +946,7 @@ export const CreateGenerateDetailedCostReportOperationRequest = /*@__PURE__*/ S.
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/generateDetailedCostReport",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/generateDetailedCostReport",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1025,14 +1009,12 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBudgetRequest",
-}) as any as S.Schema<DeleteBudgetRequest>;
+).annotate({ identifier: "DeleteBudgetRequest" }) as any as S.Schema<DeleteBudgetRequest>;
 
 export interface DeleteBudgetResponse {}
 export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1081,14 +1063,12 @@ export const DeleteExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteExportRequest",
-}) as any as S.Schema<DeleteExportRequest>;
+).annotate({ identifier: "DeleteExportRequest" }) as any as S.Schema<DeleteExportRequest>;
 
 export interface DeleteExportResponse {}
 export const DeleteExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1116,9 +1096,7 @@ export const DeleteMarkupRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteMarkupRuleRequest",
-}) as any as S.Schema<DeleteMarkupRuleRequest>;
+).annotate({ identifier: "DeleteMarkupRuleRequest" }) as any as S.Schema<DeleteMarkupRuleRequest>;
 
 export interface DeleteMarkupRuleResponse {}
 export const DeleteMarkupRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1162,7 +1140,7 @@ export const DeleteScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1194,7 +1172,7 @@ export const DeleteSettingsByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings/{type}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings/{type}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1223,9 +1201,7 @@ export const DeleteViewRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteViewRequest",
-}) as any as S.Schema<DeleteViewRequest>;
+).annotate({ identifier: "DeleteViewRequest" }) as any as S.Schema<DeleteViewRequest>;
 
 export interface DeleteViewResponse {}
 export const DeleteViewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1245,14 +1221,12 @@ export const DeleteViewByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views/{viewName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views/{viewName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteViewByScopeRequest",
-}) as any as S.Schema<DeleteViewByScopeRequest>;
+).annotate({ identifier: "DeleteViewByScopeRequest" }) as any as S.Schema<DeleteViewByScopeRequest>;
 
 export interface DeleteViewByScopeResponse {}
 export const DeleteViewByScopeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1347,9 +1321,7 @@ export const DimensionProperties = /*@__PURE__*/ S.suspend(() =>
     usageEnd: S.optional(S.String),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DimensionProperties",
-}) as any as S.Schema<DimensionProperties>;
+).annotate({ identifier: "DimensionProperties" }) as any as S.Schema<DimensionProperties>;
 
 /** List of Dimension. */
 export interface Dimension {
@@ -1401,9 +1373,7 @@ export const DimensionsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DimensionsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DimensionsListResult",
-}) as any as S.Schema<DimensionsListResult>;
+).annotate({ identifier: "DimensionsListResult" }) as any as S.Schema<DimensionsListResult>;
 
 /** type of alert */
 export type AlertType =
@@ -1590,9 +1560,7 @@ export const AlertPropertiesDetails = /*@__PURE__*/ S.suspend(() =>
     enrollmentEndDate: S.optional(S.String),
     invoicingThreshold: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AlertPropertiesDetails",
-}) as any as S.Schema<AlertPropertiesDetails>;
+).annotate({ identifier: "AlertPropertiesDetails" }) as any as S.Schema<AlertPropertiesDetails>;
 
 /** alert status */
 export type AlertStatus = "None" | "Active" | "Overridden" | "Resolved" | "Dismissed";
@@ -1637,9 +1605,7 @@ export const AlertProperties = /*@__PURE__*/ S.suspend(() =>
     statusModificationUserName: S.optional(S.String),
     statusModificationTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AlertProperties",
-}) as any as S.Schema<AlertProperties>;
+).annotate({ identifier: "AlertProperties" }) as any as S.Schema<AlertProperties>;
 
 export interface DismissAlertRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1657,14 +1623,12 @@ export const DismissAlertRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.CostManagement/alerts/{alertId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/alerts/{alertId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DismissAlertRequest",
-}) as any as S.Schema<DismissAlertRequest>;
+).annotate({ identifier: "DismissAlertRequest" }) as any as S.Schema<DismissAlertRequest>;
 
 export interface DismissAlertResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1689,9 +1653,7 @@ export const DismissAlertResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AlertProperties),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DismissAlertResponse",
-}) as any as S.Schema<DismissAlertResponse>;
+).annotate({ identifier: "DismissAlertResponse" }) as any as S.Schema<DismissAlertResponse>;
 
 export interface DownloadPriceSheetByBillingAccountRequest {
   /** BillingAccount ID */
@@ -1760,9 +1722,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(OperationStatusType),
     properties: S.optional(ReportURL),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface DownloadPriceSheetByBillingProfileRequest {
   /** BillingAccount ID */
@@ -1870,9 +1830,7 @@ export const MCAPriceSheetProperties = /*@__PURE__*/ S.suspend(() =>
     term: S.optional(S.String),
     priceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MCAPriceSheetProperties",
-}) as any as S.Schema<MCAPriceSheetProperties>;
+).annotate({ identifier: "MCAPriceSheetProperties" }) as any as S.Schema<MCAPriceSheetProperties>;
 
 /** The URL to download the generated report. */
 export interface PricesheetDownloadProperties {
@@ -1930,9 +1888,7 @@ export const ExportTimePeriod = /*@__PURE__*/ S.suspend(() =>
     from: S.String,
     to: S.String,
   }),
-).annotate({
-  identifier: "ExportTimePeriod",
-}) as any as S.Schema<ExportTimePeriod>;
+).annotate({ identifier: "ExportTimePeriod" }) as any as S.Schema<ExportTimePeriod>;
 
 export interface ExecuteExportRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1950,14 +1906,12 @@ export const ExecuteExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/run",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}/run",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ExecuteExportRequest",
-}) as any as S.Schema<ExecuteExportRequest>;
+).annotate({ identifier: "ExecuteExportRequest" }) as any as S.Schema<ExecuteExportRequest>;
 
 export interface ExecuteExportResponse {}
 export const ExecuteExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2009,9 +1963,7 @@ export const ExportDeliveryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     destination: ExportDeliveryDestination,
   }),
-).annotate({
-  identifier: "ExportDeliveryInfo",
-}) as any as S.Schema<ExportDeliveryInfo>;
+).annotate({ identifier: "ExportDeliveryInfo" }) as any as S.Schema<ExportDeliveryInfo>;
 
 /** The type of the export. Note that 'Usage' is equivalent to 'ActualCost' and is applicable to exports that do not yet provide data for charges or amortization for service reservations. */
 export type ExportType =
@@ -2121,9 +2073,7 @@ export const ExportDefinition = /*@__PURE__*/ S.suspend(() =>
     timePeriod: S.optional(ExportTimePeriod),
     dataSet: S.optional(ExportDataset),
   }),
-).annotate({
-  identifier: "ExportDefinition",
-}) as any as S.Schema<ExportDefinition>;
+).annotate({ identifier: "ExportDefinition" }) as any as S.Schema<ExportDefinition>;
 
 /** Result of listing the run history of an export. */
 export interface ExportExecutionListResultInput {}
@@ -2159,9 +2109,7 @@ export const ExportRecurrencePeriod = /*@__PURE__*/ S.suspend(() =>
     from: S.String,
     to: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportRecurrencePeriod",
-}) as any as S.Schema<ExportRecurrencePeriod>;
+).annotate({ identifier: "ExportRecurrencePeriod" }) as any as S.Schema<ExportRecurrencePeriod>;
 
 /** The schedule associated with the export. */
 export interface ExportSchedule {
@@ -2213,9 +2161,7 @@ export const ExportPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     exportDescription: S.optional(S.String),
     schedule: S.optional(ExportSchedule),
   }),
-).annotate({
-  identifier: "ExportPropertiesInput",
-}) as any as S.Schema<ExportPropertiesInput>;
+).annotate({ identifier: "ExportPropertiesInput" }) as any as S.Schema<ExportPropertiesInput>;
 
 /** Type of managed service identity (either system assigned, or none). */
 export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
@@ -2258,7 +2204,7 @@ export const ExportsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2297,9 +2243,7 @@ export const ExportSuspensionContext = /*@__PURE__*/ S.suspend(() =>
     suspensionReason: S.optional(S.String),
     suspensionTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportSuspensionContext",
-}) as any as S.Schema<ExportSuspensionContext>;
+).annotate({ identifier: "ExportSuspensionContext" }) as any as S.Schema<ExportSuspensionContext>;
 
 /** The common properties of the export. */
 export interface CommonExportProperties {
@@ -2337,9 +2281,7 @@ export const CommonExportProperties = /*@__PURE__*/ S.suspend(() =>
     nextRunTimeEstimate: S.optional(S.String),
     systemSuspensionContext: S.optional(ExportSuspensionContext),
   }),
-).annotate({
-  identifier: "CommonExportProperties",
-}) as any as S.Schema<CommonExportProperties>;
+).annotate({ identifier: "CommonExportProperties" }) as any as S.Schema<CommonExportProperties>;
 
 /** The properties of the export run. */
 export interface ExportRunProperties {
@@ -2383,9 +2325,7 @@ export const ExportRunProperties = /*@__PURE__*/ S.suspend(() =>
     runSettings: S.optional(CommonExportProperties),
     error: S.optional(ErrorDetails),
   }),
-).annotate({
-  identifier: "ExportRunProperties",
-}) as any as S.Schema<ExportRunProperties>;
+).annotate({ identifier: "ExportRunProperties" }) as any as S.Schema<ExportRunProperties>;
 
 /** An export run. */
 export interface ExportRun {
@@ -2468,9 +2408,7 @@ export const ExportProperties = /*@__PURE__*/ S.suspend(() =>
     systemSuspensionContext: S.optional(ExportSuspensionContext),
     schedule: S.optional(ExportSchedule),
   }),
-).annotate({
-  identifier: "ExportProperties",
-}) as any as S.Schema<ExportProperties>;
+).annotate({ identifier: "ExportProperties" }) as any as S.Schema<ExportProperties>;
 
 /** Managed service identity (either system assigned, or none) */
 export interface ExportsCreateOrUpdateResponseIdentity {
@@ -2548,9 +2486,7 @@ export const ForecastTimePeriod = /*@__PURE__*/ S.suspend(() =>
     from: S.String,
     to: S.String,
   }),
-).annotate({
-  identifier: "ForecastTimePeriod",
-}) as any as S.Schema<ForecastTimePeriod>;
+).annotate({ identifier: "ForecastTimePeriod" }) as any as S.Schema<ForecastTimePeriod>;
 
 /** Array of column names to be included in the forecast. Any valid forecast column name is allowed. If not provided, then forecast includes all columns. */
 export type ForecastDatasetConfigurationColumnsList = Array<string>;
@@ -2591,14 +2527,10 @@ export const ForecastAggregation = /*@__PURE__*/ S.suspend(() =>
     name: FunctionName,
     function: FunctionType,
   }),
-).annotate({
-  identifier: "ForecastAggregation",
-}) as any as S.Schema<ForecastAggregation>;
+).annotate({ identifier: "ForecastAggregation" }) as any as S.Schema<ForecastAggregation>;
 
 /** Dictionary of aggregation expression to use in the forecast. The key of each item in the dictionary is the alias for the aggregated column. forecast can have up to 2 aggregation clauses. */
-export type ForecastDatasetAggregationMap = {
-  [key: string]: ForecastAggregation | undefined;
-};
+export type ForecastDatasetAggregationMap = { [key: string]: ForecastAggregation | undefined };
 export const ForecastDatasetAggregationMap = /*@__PURE__*/ S.Record(
   S.String,
   ForecastAggregation,
@@ -2683,9 +2615,7 @@ export const ForecastDataset = /*@__PURE__*/ S.suspend(() =>
     aggregation: ForecastDatasetAggregationMap,
     filter: S.optional(ForecastFilter),
   }),
-).annotate({
-  identifier: "ForecastDataset",
-}) as any as S.Schema<ForecastDataset>;
+).annotate({ identifier: "ForecastDataset" }) as any as S.Schema<ForecastDataset>;
 
 export interface ForecastExternalCloudProviderUsageRequest {
   /** The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions' for linked account and 'externalBillingAccounts' for consolidated account. */
@@ -2788,9 +2718,7 @@ export const ForecastProperties = /*@__PURE__*/ S.suspend(() =>
     columns: S.optional(ForecastPropertiesColumnsList),
     rows: S.optional(ForecastPropertiesRowsList),
   }),
-).annotate({
-  identifier: "ForecastProperties",
-}) as any as S.Schema<ForecastProperties>;
+).annotate({ identifier: "ForecastProperties" }) as any as S.Schema<ForecastProperties>;
 
 export interface ForecastExternalCloudProviderUsageResponse {
   /** Resource Id. */
@@ -2856,19 +2784,15 @@ export const ForecastUsageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/forecast",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/forecast",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ForecastUsageRequest",
-}) as any as S.Schema<ForecastUsageRequest>;
+).annotate({ identifier: "ForecastUsageRequest" }) as any as S.Schema<ForecastUsageRequest>;
 
 /** Resource tags. */
-export type ForecastUsageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ForecastUsageResponseTagsMap = { [key: string]: string | undefined };
 export const ForecastUsageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2903,9 +2827,7 @@ export const ForecastUsageResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ForecastUsageResponseTagsMap),
     properties: S.optional(ForecastProperties),
   }),
-).annotate({
-  identifier: "ForecastUsageResponse",
-}) as any as S.Schema<ForecastUsageResponse>;
+).annotate({ identifier: "ForecastUsageResponse" }) as any as S.Schema<ForecastUsageResponse>;
 
 /** Grain which corresponds to value. */
 export type Grain = "Hourly" | "Daily" | "Monthly";
@@ -3332,14 +3254,12 @@ export const GetAlertRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/alerts/{alertId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/alerts/{alertId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetAlertRequest",
-}) as any as S.Schema<GetAlertRequest>;
+).annotate({ identifier: "GetAlertRequest" }) as any as S.Schema<GetAlertRequest>;
 
 export interface GetAlertResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3364,9 +3284,7 @@ export const GetAlertResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AlertProperties),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetAlertResponse",
-}) as any as S.Schema<GetAlertResponse>;
+).annotate({ identifier: "GetAlertResponse" }) as any as S.Schema<GetAlertResponse>;
 
 export interface GetBudgetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3381,14 +3299,12 @@ export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetBudgetRequest",
-}) as any as S.Schema<GetBudgetRequest>;
+).annotate({ identifier: "GetBudgetRequest" }) as any as S.Schema<GetBudgetRequest>;
 
 export interface GetBudgetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3413,9 +3329,7 @@ export const GetBudgetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BudgetProperties),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBudgetResponse",
-}) as any as S.Schema<GetBudgetResponse>;
+).annotate({ identifier: "GetBudgetResponse" }) as any as S.Schema<GetBudgetResponse>;
 
 export interface GetCostAllocationRuleRequest {
   /** BillingAccount ID */
@@ -3479,14 +3393,12 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 
 /** Managed service identity (either system assigned, or none) */
 export type GetExportResponseIdentity = ExportsCreateOrUpdateResponseIdentity;
@@ -3521,9 +3433,7 @@ export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetExportResponse",
-}) as any as S.Schema<GetExportResponse>;
+).annotate({ identifier: "GetExportResponse" }) as any as S.Schema<GetExportResponse>;
 
 export interface GetExportExecutionHistoryRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -3538,7 +3448,7 @@ export const GetExportExecutionHistoryRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3560,7 +3470,7 @@ export const GetGenerateCostDetailsReportOperationResultsRequest = /*@__PURE__*/
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3582,7 +3492,7 @@ export const GetGenerateDetailedCostReportOperationResultRequest = /*@__PURE__*/
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/operationResults/{operationId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/operationResults/{operationId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3628,7 +3538,7 @@ export const GetGenerateDetailedCostReportOperationStatusRequest = /*@__PURE__*/
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/operationStatus/{operationId}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/operationStatus/{operationId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -3716,9 +3626,7 @@ export const GetMarkupRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetMarkupRuleRequest",
-}) as any as S.Schema<GetMarkupRuleRequest>;
+).annotate({ identifier: "GetMarkupRuleRequest" }) as any as S.Schema<GetMarkupRuleRequest>;
 
 /** The customer billing metadata */
 export interface CustomerMetadata {
@@ -3732,9 +3640,7 @@ export const CustomerMetadata = /*@__PURE__*/ S.suspend(() =>
     billingAccountId: S.String,
     billingProfileId: S.String,
   }),
-).annotate({
-  identifier: "CustomerMetadata",
-}) as any as S.Schema<CustomerMetadata>;
+).annotate({ identifier: "CustomerMetadata" }) as any as S.Schema<CustomerMetadata>;
 
 /** The properties of the markup rule. */
 export interface MarkupRuleProperties {
@@ -3757,9 +3663,7 @@ export const MarkupRuleProperties = /*@__PURE__*/ S.suspend(() =>
     endDate: S.optional(S.String),
     customerDetails: CustomerMetadata,
   }),
-).annotate({
-  identifier: "MarkupRuleProperties",
-}) as any as S.Schema<MarkupRuleProperties>;
+).annotate({ identifier: "MarkupRuleProperties" }) as any as S.Schema<MarkupRuleProperties>;
 
 export interface GetMarkupRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3781,9 +3685,7 @@ export const GetMarkupRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(MarkupRuleProperties),
   }),
-).annotate({
-  identifier: "GetMarkupRuleResponse",
-}) as any as S.Schema<GetMarkupRuleResponse>;
+).annotate({ identifier: "GetMarkupRuleResponse" }) as any as S.Schema<GetMarkupRuleResponse>;
 
 export interface GetScheduledActionRequest {
   /** Scheduled action name. */
@@ -3823,9 +3725,7 @@ export const FileDestination = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     fileFormats: S.optional(FileDestinationFileFormatsList),
   }),
-).annotate({
-  identifier: "FileDestination",
-}) as any as S.Schema<FileDestination>;
+).annotate({ identifier: "FileDestination" }) as any as S.Schema<FileDestination>;
 
 /** Array of email addresses. */
 export type NotificationPropertiesToList = Array<string>;
@@ -3854,9 +3754,7 @@ export const NotificationProperties = /*@__PURE__*/ S.suspend(() =>
     regionalFormat: S.optional(S.String),
     subject: S.String,
   }),
-).annotate({
-  identifier: "NotificationProperties",
-}) as any as S.Schema<NotificationProperties>;
+).annotate({ identifier: "NotificationProperties" }) as any as S.Schema<NotificationProperties>;
 
 /** Frequency of the schedule. */
 export type ScheduleFrequency = "Daily" | "Weekly" | "Monthly";
@@ -3916,9 +3814,7 @@ export const ScheduleProperties = /*@__PURE__*/ S.suspend(() =>
     startDate: S.String,
     endDate: S.String,
   }),
-).annotate({
-  identifier: "ScheduleProperties",
-}) as any as S.Schema<ScheduleProperties>;
+).annotate({ identifier: "ScheduleProperties" }) as any as S.Schema<ScheduleProperties>;
 
 /** Status of the scheduled action. */
 export type ScheduledActionStatus = "Enabled" | "Expired" | "Disabled";
@@ -4005,7 +3901,7 @@ export const GetScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4060,7 +3956,7 @@ export const GetSettingsByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings/{type}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings/{type}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4161,9 +4057,7 @@ export const ReportConfigAggregation = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     function: FunctionType,
   }),
-).annotate({
-  identifier: "ReportConfigAggregation",
-}) as any as S.Schema<ReportConfigAggregation>;
+).annotate({ identifier: "ReportConfigAggregation" }) as any as S.Schema<ReportConfigAggregation>;
 
 /** Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses. */
 export type ReportConfigDatasetAggregationMap = {
@@ -4190,9 +4084,7 @@ export const ReportConfigGrouping = /*@__PURE__*/ S.suspend(() =>
     type: QueryColumnType,
     name: S.String,
   }),
-).annotate({
-  identifier: "ReportConfigGrouping",
-}) as any as S.Schema<ReportConfigGrouping>;
+).annotate({ identifier: "ReportConfigGrouping" }) as any as S.Schema<ReportConfigGrouping>;
 
 /** Array of group by expression to use in the report. Report can have up to 2 group by clauses. */
 export type ReportConfigDatasetGroupingList = Array<ReportConfigGrouping>;
@@ -4216,9 +4108,7 @@ export const ReportConfigSorting = /*@__PURE__*/ S.suspend(() =>
     direction: S.optional(ReportConfigSortingType),
     name: S.String,
   }),
-).annotate({
-  identifier: "ReportConfigSorting",
-}) as any as S.Schema<ReportConfigSorting>;
+).annotate({ identifier: "ReportConfigSorting" }) as any as S.Schema<ReportConfigSorting>;
 
 /** Array of order by expression to use in the report. */
 export type ReportConfigDatasetSortingList = Array<ReportConfigSorting>;
@@ -4285,9 +4175,7 @@ export const ReportConfigFilter = /*@__PURE__*/ S.suspend(() =>
     dimensions: S.optional(ReportConfigComparisonExpression),
     tags: S.optional(ReportConfigComparisonExpression),
   }),
-).annotate({
-  identifier: "ReportConfigFilter",
-}) as any as S.Schema<ReportConfigFilter>;
+).annotate({ identifier: "ReportConfigFilter" }) as any as S.Schema<ReportConfigFilter>;
 
 /** The definition of data present in the report. */
 export interface ReportConfigDataset {
@@ -4313,9 +4201,7 @@ export const ReportConfigDataset = /*@__PURE__*/ S.suspend(() =>
     sorting: S.optional(ReportConfigDatasetSortingList),
     filter: S.optional(ReportConfigFilter),
   }),
-).annotate({
-  identifier: "ReportConfigDataset",
-}) as any as S.Schema<ReportConfigDataset>;
+).annotate({ identifier: "ReportConfigDataset" }) as any as S.Schema<ReportConfigDataset>;
 
 /** The definition of a report config. */
 export interface ReportConfigDefinition {
@@ -4338,9 +4224,7 @@ export const ReportConfigDefinition = /*@__PURE__*/ S.suspend(() =>
     dataSet: S.optional(ReportConfigDataset),
     includeMonetaryCommitment: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ReportConfigDefinition",
-}) as any as S.Schema<ReportConfigDefinition>;
+).annotate({ identifier: "ReportConfigDefinition" }) as any as S.Schema<ReportConfigDefinition>;
 
 /** Chart type of the main view in Cost Analysis. Required. */
 export type ChartType = "Area" | "Line" | "StackedColumn" | "GroupedColumn" | "Table";
@@ -4397,9 +4281,7 @@ export const PivotProperties = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(PivotTypeType),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PivotProperties",
-}) as any as S.Schema<PivotProperties>;
+).annotate({ identifier: "PivotProperties" }) as any as S.Schema<PivotProperties>;
 
 /** Configuration of 3 sub-views in the Cost Analysis UI. */
 export type ViewPropertiesPivotsList = Array<PivotProperties>;
@@ -4474,9 +4356,7 @@ export const GetViewResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ViewProperties),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetViewResponse",
-}) as any as S.Schema<GetViewResponse>;
+).annotate({ identifier: "GetViewResponse" }) as any as S.Schema<GetViewResponse>;
 
 export interface GetViewByScopeRequest {
   /** undefined */
@@ -4491,14 +4371,12 @@ export const GetViewByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views/{viewName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views/{viewName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetViewByScopeRequest",
-}) as any as S.Schema<GetViewByScopeRequest>;
+).annotate({ identifier: "GetViewByScopeRequest" }) as any as S.Schema<GetViewByScopeRequest>;
 
 export interface GetViewByScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4523,9 +4401,7 @@ export const GetViewByScopeResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ViewProperties),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetViewByScopeResponse",
-}) as any as S.Schema<GetViewByScopeResponse>;
+).annotate({ identifier: "GetViewByScopeResponse" }) as any as S.Schema<GetViewByScopeResponse>;
 
 export type ListAlertExternalRequestExternalCloudProviderType =
   | "externalSubscriptions"
@@ -4550,9 +4426,7 @@ export const ListAlertExternalRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListAlertExternalRequest",
-}) as any as S.Schema<ListAlertExternalRequest>;
+).annotate({ identifier: "ListAlertExternalRequest" }) as any as S.Schema<ListAlertExternalRequest>;
 
 /** An individual alert. */
 export interface Alert {
@@ -4610,14 +4484,12 @@ export const ListAlertsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/alerts",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/alerts",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListAlertsRequest",
-}) as any as S.Schema<ListAlertsRequest>;
+).annotate({ identifier: "ListAlertsRequest" }) as any as S.Schema<ListAlertsRequest>;
 
 export interface ListBenefitRecommendationsRequest {
   /** The scope associated with benefit recommendation operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group scope, /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for enterprise agreement scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billing profile scope */
@@ -4638,7 +4510,7 @@ export const ListBenefitRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations",
+      uri: "/{billingScope+}/providers/Microsoft.CostManagement/benefitRecommendations",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4710,9 +4582,7 @@ export const AllSavingsBenefitDetails = /*@__PURE__*/ S.suspend(() =>
     averageUtilizationPercentage: S.optional(S.Number),
     wastageCost: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AllSavingsBenefitDetails",
-}) as any as S.Schema<AllSavingsBenefitDetails>;
+).annotate({ identifier: "AllSavingsBenefitDetails" }) as any as S.Schema<AllSavingsBenefitDetails>;
 
 /** The list of benefit recommendations with the recommendation details.. */
 export type AllSavingsListValueList = Array<AllSavingsBenefitDetails>;
@@ -5043,14 +4913,12 @@ export const ListBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/budgets",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/budgets",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListBudgetsRequest",
-}) as any as S.Schema<ListBudgetsRequest>;
+).annotate({ identifier: "ListBudgetsRequest" }) as any as S.Schema<ListBudgetsRequest>;
 
 /** A budget resource. */
 export interface Budget {
@@ -5096,9 +4964,7 @@ export const BudgetsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(BudgetsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BudgetsListResult",
-}) as any as S.Schema<BudgetsListResult>;
+).annotate({ identifier: "BudgetsListResult" }) as any as S.Schema<BudgetsListResult>;
 
 export interface ListCostAllocationRulesRequest {
   /** BillingAccount ID */
@@ -5162,9 +5028,7 @@ export const CostAllocationRuleList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CostAllocationRuleListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CostAllocationRuleList",
-}) as any as S.Schema<CostAllocationRuleList>;
+).annotate({ identifier: "CostAllocationRuleList" }) as any as S.Schema<CostAllocationRuleList>;
 
 export interface ListDimensionsRequest {
   /** The scope associated with dimension operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
@@ -5188,14 +5052,12 @@ export const ListDimensionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/dimensions",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/dimensions",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListDimensionsRequest",
-}) as any as S.Schema<ListDimensionsRequest>;
+).annotate({ identifier: "ListDimensionsRequest" }) as any as S.Schema<ListDimensionsRequest>;
 
 export interface ListExportsRequest {
   /** The scope associated with alerts operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners. */
@@ -5210,14 +5072,12 @@ export const ListExportsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/exports",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/exports",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListExportsRequest",
-}) as any as S.Schema<ListExportsRequest>;
+).annotate({ identifier: "ListExportsRequest" }) as any as S.Schema<ListExportsRequest>;
 
 /** Managed service identity (either system assigned, or none) */
 export type ExportIdentity = ExportsCreateOrUpdateResponseIdentity;
@@ -5270,9 +5130,7 @@ export const ExportListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ExportListResultValueList),
   }),
-).annotate({
-  identifier: "ExportListResult",
-}) as any as S.Schema<ExportListResult>;
+).annotate({ identifier: "ExportListResult" }) as any as S.Schema<ExportListResult>;
 
 export interface ListMarkupRulesRequest {
   /** BillingAccount ID */
@@ -5292,9 +5150,7 @@ export const ListMarkupRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListMarkupRulesRequest",
-}) as any as S.Schema<ListMarkupRulesRequest>;
+).annotate({ identifier: "ListMarkupRulesRequest" }) as any as S.Schema<ListMarkupRulesRequest>;
 
 /** Markup rule */
 export interface MarkupRule {
@@ -5337,9 +5193,7 @@ export const MarkupRulePagedResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MarkupRulePagedResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MarkupRulePagedResponse",
-}) as any as S.Schema<MarkupRulePagedResponse>;
+).annotate({ identifier: "MarkupRulePagedResponse" }) as any as S.Schema<MarkupRulePagedResponse>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5351,9 +5205,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface CostManagementOperationDisplay {
@@ -5409,9 +5261,7 @@ export const CostManagementOperation = /*@__PURE__*/ S.suspend(() =>
     actionType: S.optional(CostManagementOperationActionType),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CostManagementOperation",
-}) as any as S.Schema<CostManagementOperation>;
+).annotate({ identifier: "CostManagementOperation" }) as any as S.Schema<CostManagementOperation>;
 
 /** List of cost management operations supported by the Microsoft.CostManagement resource provider. */
 export type OperationListResultValueList = Array<CostManagementOperation>;
@@ -5431,9 +5281,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListScheduledActionByScopeRequest {
   /** undefined */
@@ -5448,7 +5296,7 @@ export const ListScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -5484,9 +5332,7 @@ export const ScheduledAction = /*@__PURE__*/ S.suspend(() =>
     eTag: S.optional(S.String),
     kind: S.optional(ScheduledActionKind),
   }),
-).annotate({
-  identifier: "ScheduledAction",
-}) as any as S.Schema<ScheduledAction>;
+).annotate({ identifier: "ScheduledAction" }) as any as S.Schema<ScheduledAction>;
 
 /** The list of scheduled actions. */
 export type ScheduledActionListResultValueList = Array<ScheduledAction>;
@@ -5539,14 +5385,12 @@ export const ListSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListSettingsRequest",
-}) as any as S.Schema<ListSettingsRequest>;
+).annotate({ identifier: "ListSettingsRequest" }) as any as S.Schema<ListSettingsRequest>;
 
 /** Setting definition. */
 export interface Setting {
@@ -5586,9 +5430,7 @@ export const SettingsListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SettingsListResultValueList),
   }),
-).annotate({
-  identifier: "SettingsListResult",
-}) as any as S.Schema<SettingsListResult>;
+).annotate({ identifier: "SettingsListResult" }) as any as S.Schema<SettingsListResult>;
 
 export interface ListViewByScopeRequest {
   /** undefined */
@@ -5600,14 +5442,12 @@ export const ListViewByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListViewByScopeRequest",
-}) as any as S.Schema<ListViewByScopeRequest>;
+).annotate({ identifier: "ListViewByScopeRequest" }) as any as S.Schema<ListViewByScopeRequest>;
 
 /** States and configurations of Cost Analysis. */
 export interface View {
@@ -5665,9 +5505,7 @@ export const ListViewsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListViewsRequest",
-}) as any as S.Schema<ListViewsRequest>;
+).annotate({ identifier: "ListViewsRequest" }) as any as S.Schema<ListViewsRequest>;
 
 export interface MarkupRulesCreateOrUpdateRequest {
   /** BillingAccount ID */
@@ -5749,9 +5587,7 @@ export type QueryAggregation = ReportConfigAggregation;
 export const QueryAggregation = ReportConfigAggregation;
 
 /** Dictionary of aggregation expression to use in the query. The key of each item in the dictionary is the alias for the aggregated column. Query can have up to 2 aggregation clauses. */
-export type QueryDatasetAggregationMap = {
-  [key: string]: ReportConfigAggregation | undefined;
-};
+export type QueryDatasetAggregationMap = { [key: string]: ReportConfigAggregation | undefined };
 export const QueryDatasetAggregationMap = /*@__PURE__*/ S.Record(
   S.String,
   ReportConfigAggregation,
@@ -5883,14 +5719,12 @@ export const QueryUsageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/query",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/query",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "QueryUsageRequest",
-}) as any as S.Schema<QueryUsageRequest>;
+).annotate({ identifier: "QueryUsageRequest" }) as any as S.Schema<QueryUsageRequest>;
 
 /** Resource tags. */
 export type QueryUsageResponseTagsMap = { [key: string]: string | undefined };
@@ -5935,9 +5769,7 @@ export const QueryProperties = /*@__PURE__*/ S.suspend(() =>
     columns: S.optional(QueryPropertiesColumnsList),
     rows: S.optional(QueryPropertiesRowsList),
   }),
-).annotate({
-  identifier: "QueryProperties",
-}) as any as S.Schema<QueryProperties>;
+).annotate({ identifier: "QueryProperties" }) as any as S.Schema<QueryProperties>;
 
 export interface QueryUsageResponse {
   /** Resource Id. */
@@ -5968,9 +5800,7 @@ export const QueryUsageResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(QueryUsageResponseTagsMap),
     properties: S.optional(QueryProperties),
   }),
-).annotate({
-  identifier: "QueryUsageResponse",
-}) as any as S.Schema<QueryUsageResponse>;
+).annotate({ identifier: "QueryUsageResponse" }) as any as S.Schema<QueryUsageResponse>;
 
 export type QueryUsageByExternalCloudProviderTypeRequestExternalCloudProviderType =
   | "externalSubscriptions"
@@ -6093,7 +5923,7 @@ export const RunScheduledActionByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}/execute",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}/execute",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6189,7 +6019,7 @@ export const ScheduledActionsCreateOrUpdateByScopeRequest = /*@__PURE__*/ S.susp
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/scheduledActions/{name}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6247,7 +6077,7 @@ export const SettingsCreateOrUpdateByScopeRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/settings/{type}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/settings/{type}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -6328,9 +6158,7 @@ export const ViewPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     kpis: S.optional(ViewPropertiesInputKpisList),
     pivots: S.optional(ViewPropertiesInputPivotsList),
   }),
-).annotate({
-  identifier: "ViewPropertiesInput",
-}) as any as S.Schema<ViewPropertiesInput>;
+).annotate({ identifier: "ViewPropertiesInput" }) as any as S.Schema<ViewPropertiesInput>;
 
 export interface ViewsCreateOrUpdateRequest {
   /** View name */
@@ -6403,7 +6231,7 @@ export const ViewsCreateOrUpdateByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.CostManagement/views/{viewName}",
+      uri: "/{scope+}/providers/Microsoft.CostManagement/views/{viewName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),

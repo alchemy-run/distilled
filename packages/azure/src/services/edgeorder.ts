@@ -32,9 +32,7 @@ export const CancelOrderItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "CancelOrderItemRequest",
-}) as any as S.Schema<CancelOrderItemRequest>;
+).annotate({ identifier: "CancelOrderItemRequest" }) as any as S.Schema<CancelOrderItemRequest>;
 
 export interface CancelOrderItemResponse {}
 export const CancelOrderItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -92,9 +90,7 @@ export const ShippingAddress = /*@__PURE__*/ S.suspend(() =>
     companyName: S.optional(S.String),
     addressType: S.optional(AddressType),
   }),
-).annotate({
-  identifier: "ShippingAddress",
-}) as any as S.Schema<ShippingAddress>;
+).annotate({ identifier: "ShippingAddress" }) as any as S.Schema<ShippingAddress>;
 
 /** List of Email-ids to be notified about job progress. */
 export type ContactDetailsEmailListList = Array<string>;
@@ -140,9 +136,7 @@ export const AddressPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     shippingAddress: S.optional(ShippingAddress),
     contactDetails: S.optional(ContactDetails),
   }),
-).annotate({
-  identifier: "AddressPropertiesInput",
-}) as any as S.Schema<AddressPropertiesInput>;
+).annotate({ identifier: "AddressPropertiesInput" }) as any as S.Schema<AddressPropertiesInput>;
 
 export interface CreateAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -174,9 +168,7 @@ export const CreateAddressRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAddressRequest",
-}) as any as S.Schema<CreateAddressRequest>;
+).annotate({ identifier: "CreateAddressRequest" }) as any as S.Schema<CreateAddressRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -213,9 +205,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateAddressResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAddressResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAddressResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -250,9 +240,7 @@ export const AddressProperties = /*@__PURE__*/ S.suspend(() =>
     addressValidationStatus: S.optional(AddressValidationStatus),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "AddressProperties",
-}) as any as S.Schema<AddressProperties>;
+).annotate({ identifier: "AddressProperties" }) as any as S.Schema<AddressProperties>;
 
 export interface CreateAddressResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -280,14 +268,10 @@ export const CreateAddressResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: AddressProperties,
   }),
-).annotate({
-  identifier: "CreateAddressResponse",
-}) as any as S.Schema<CreateAddressResponse>;
+).annotate({ identifier: "CreateAddressResponse" }) as any as S.Schema<CreateAddressResponse>;
 
 /** Resource tags. */
-export type CreateOrderItemRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrderItemRequestTagsMap = { [key: string]: string | undefined };
 export const CreateOrderItemRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -320,9 +304,7 @@ export const HierarchyInformation = /*@__PURE__*/ S.suspend(() =>
     configurationName: S.optional(S.String),
     configurationIdDisplayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HierarchyInformation",
-}) as any as S.Schema<HierarchyInformation>;
+).annotate({ identifier: "HierarchyInformation" }) as any as S.Schema<HierarchyInformation>;
 
 /** Auto Provisioning Details. */
 export type AutoProvisioningStatus = "Enabled" | "Disabled";
@@ -365,9 +347,7 @@ export const ProvisioningDetailsInput = /*@__PURE__*/ S.suspend(() =>
     autoProvisioningStatus: S.optional(AutoProvisioningStatus),
     devicePresenceVerification: S.optional(DisplayInfoInput),
   }),
-).annotate({
-  identifier: "ProvisioningDetailsInput",
-}) as any as S.Schema<ProvisioningDetailsInput>;
+).annotate({ identifier: "ProvisioningDetailsInput" }) as any as S.Schema<ProvisioningDetailsInput>;
 
 /** List Provisioning Details for Devices in Additional Config. */
 export type AdditionalConfigurationInputProvisioningDetailsList = Array<ProvisioningDetailsInput>;
@@ -419,9 +399,7 @@ export const ProductDetailsInput = /*@__PURE__*/ S.suspend(() =>
     parentProvisioningDetails: S.optional(ProvisioningDetailsInput),
     optInAdditionalConfigurations: S.optional(ProductDetailsInputOptInAdditionalConfigurationsList),
   }),
-).annotate({
-  identifier: "ProductDetailsInput",
-}) as any as S.Schema<ProductDetailsInput>;
+).annotate({ identifier: "ProductDetailsInput" }) as any as S.Schema<ProductDetailsInput>;
 
 /** Order item type. */
 export type OrderItemType = "Purchase" | "Rental" | "External";
@@ -458,9 +436,7 @@ export const NotificationPreference = /*@__PURE__*/ S.suspend(() =>
     stageName: NotificationStageName,
     sendNotification: S.Boolean,
   }),
-).annotate({
-  identifier: "NotificationPreference",
-}) as any as S.Schema<NotificationPreference>;
+).annotate({ identifier: "NotificationPreference" }) as any as S.Schema<NotificationPreference>;
 
 /** Notification preferences. */
 export type PreferencesNotificationPreferencesList = Array<NotificationPreference>;
@@ -481,9 +457,7 @@ export const TransportPreferences = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     preferredShipmentType: TransportShipmentTypes,
   }),
-).annotate({
-  identifier: "TransportPreferences",
-}) as any as S.Schema<TransportPreferences>;
+).annotate({ identifier: "TransportPreferences" }) as any as S.Schema<TransportPreferences>;
 
 /** Double encryption status as entered by the customer. It is compulsory to give this parameter if the 'Deny' or 'Disabled' policy is configured. */
 export type DoubleEncryptionStatus = "Disabled" | "Enabled";
@@ -498,9 +472,7 @@ export const EncryptionPreferences = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     doubleEncryptionStatus: S.optional(DoubleEncryptionStatus),
   }),
-).annotate({
-  identifier: "EncryptionPreferences",
-}) as any as S.Schema<EncryptionPreferences>;
+).annotate({ identifier: "EncryptionPreferences" }) as any as S.Schema<EncryptionPreferences>;
 
 /** Management resource preference to link device. */
 export interface ManagementResourcePreferences {
@@ -595,9 +567,7 @@ export const OrderItemDetailsInput = /*@__PURE__*/ S.suspend(() =>
     notificationEmailList: S.optional(OrderItemDetailsInputNotificationEmailListList),
     error: S.optional(DisplayInfoInput),
   }),
-).annotate({
-  identifier: "OrderItemDetailsInput",
-}) as any as S.Schema<OrderItemDetailsInput>;
+).annotate({ identifier: "OrderItemDetailsInput" }) as any as S.Schema<OrderItemDetailsInput>;
 
 /** Address details for an order item. */
 export interface AddressDetailsInput {
@@ -608,9 +578,7 @@ export const AddressDetailsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     forwardAddress: AddressPropertiesInput,
   }),
-).annotate({
-  identifier: "AddressDetailsInput",
-}) as any as S.Schema<AddressDetailsInput>;
+).annotate({ identifier: "AddressDetailsInput" }) as any as S.Schema<AddressDetailsInput>;
 
 /** Represents order item properties. */
 export interface OrderItemPropertiesInput {
@@ -627,9 +595,7 @@ export const OrderItemPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     addressDetails: S.optional(AddressDetailsInput),
     orderId: S.String,
   }),
-).annotate({
-  identifier: "OrderItemPropertiesInput",
-}) as any as S.Schema<OrderItemPropertiesInput>;
+).annotate({ identifier: "OrderItemPropertiesInput" }) as any as S.Schema<OrderItemPropertiesInput>;
 
 /** User assigned identity properties */
 export type ResourceIdentityInputUserAssignedIdentitiesValue = DisplayInfoInput;
@@ -656,9 +622,7 @@ export const ResourceIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     userAssignedIdentities: S.optional(ResourceIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ResourceIdentityInput",
-}) as any as S.Schema<ResourceIdentityInput>;
+).annotate({ identifier: "ResourceIdentityInput" }) as any as S.Schema<ResourceIdentityInput>;
 
 export interface CreateOrderItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -693,14 +657,10 @@ export const CreateOrderItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "CreateOrderItemRequest",
-}) as any as S.Schema<CreateOrderItemRequest>;
+).annotate({ identifier: "CreateOrderItemRequest" }) as any as S.Schema<CreateOrderItemRequest>;
 
 /** Resource tags. */
-export type CreateOrderItemResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrderItemResponseTagsMap = { [key: string]: string | undefined };
 export const CreateOrderItemResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -784,9 +744,7 @@ export const ProvisioningDetails = /*@__PURE__*/ S.suspend(() =>
     autoProvisioningStatus: S.optional(AutoProvisioningStatus),
     devicePresenceVerification: S.optional(DevicePresenceVerificationDetails),
   }),
-).annotate({
-  identifier: "ProvisioningDetails",
-}) as any as S.Schema<ProvisioningDetails>;
+).annotate({ identifier: "ProvisioningDetails" }) as any as S.Schema<ProvisioningDetails>;
 
 /** Device details. */
 export interface DeviceDetails {
@@ -835,9 +793,7 @@ export const AdditionalConfiguration = /*@__PURE__*/ S.suspend(() =>
     quantity: S.Number,
     provisioningDetails: S.optional(AdditionalConfigurationProvisioningDetailsList),
   }),
-).annotate({
-  identifier: "AdditionalConfiguration",
-}) as any as S.Schema<AdditionalConfiguration>;
+).annotate({ identifier: "AdditionalConfiguration" }) as any as S.Schema<AdditionalConfiguration>;
 
 /** List of additional configurations customer wants in the order item apart from the ones included in the base configuration. */
 export type ProductDetailsOptInAdditionalConfigurationsList = Array<AdditionalConfiguration>;
@@ -1010,9 +966,7 @@ export const ForwardShippingDetails = /*@__PURE__*/ S.suspend(() =>
     trackingId: S.optional(S.String),
     trackingUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ForwardShippingDetails",
-}) as any as S.Schema<ForwardShippingDetails>;
+).annotate({ identifier: "ForwardShippingDetails" }) as any as S.Schema<ForwardShippingDetails>;
 
 /** Reverse shipment details. */
 export interface ReverseShippingDetails {
@@ -1035,9 +989,7 @@ export const ReverseShippingDetails = /*@__PURE__*/ S.suspend(() =>
     trackingId: S.optional(S.String),
     trackingUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReverseShippingDetails",
-}) as any as S.Schema<ReverseShippingDetails>;
+).annotate({ identifier: "ReverseShippingDetails" }) as any as S.Schema<ReverseShippingDetails>;
 
 /** Additional notification email list. */
 export type OrderItemDetailsNotificationEmailListList = Array<string>;
@@ -1066,9 +1018,7 @@ export const ResourceProviderDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceProviderNamespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceProviderDetails",
-}) as any as S.Schema<ResourceProviderDetails>;
+).annotate({ identifier: "ResourceProviderDetails" }) as any as S.Schema<ResourceProviderDetails>;
 
 /** List of parent RP details supported for configuration. */
 export type OrderItemDetailsManagementRpDetailsListList = Array<ResourceProviderDetails>;
@@ -1094,9 +1044,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1160,9 +1108,7 @@ export const OrderItemDetailsError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(OrderItemDetailsErrorDetailsList),
     additionalInfo: S.optional(OrderItemDetailsErrorAdditionalInfoList),
   }),
-).annotate({
-  identifier: "OrderItemDetailsError",
-}) as any as S.Schema<OrderItemDetailsError>;
+).annotate({ identifier: "OrderItemDetailsError" }) as any as S.Schema<OrderItemDetailsError>;
 
 /** Order item details. */
 export interface OrderItemDetails {
@@ -1221,9 +1167,7 @@ export const OrderItemDetails = /*@__PURE__*/ S.suspend(() =>
     managementRpDetailsList: S.optional(OrderItemDetailsManagementRpDetailsListList),
     error: S.optional(OrderItemDetailsError),
   }),
-).annotate({
-  identifier: "OrderItemDetails",
-}) as any as S.Schema<OrderItemDetails>;
+).annotate({ identifier: "OrderItemDetails" }) as any as S.Schema<OrderItemDetails>;
 
 /** Address details for an order item. */
 export interface AddressDetails {
@@ -1260,9 +1204,7 @@ export const OrderItemProperties = /*@__PURE__*/ S.suspend(() =>
     orderId: S.String,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "OrderItemProperties",
-}) as any as S.Schema<OrderItemProperties>;
+).annotate({ identifier: "OrderItemProperties" }) as any as S.Schema<OrderItemProperties>;
 
 /** User assigned identity properties */
 export interface ResourceIdentityUserAssignedIdentitiesValue {
@@ -1307,9 +1249,7 @@ export const ResourceIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(ResourceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ResourceIdentity",
-}) as any as S.Schema<ResourceIdentity>;
+).annotate({ identifier: "ResourceIdentity" }) as any as S.Schema<ResourceIdentity>;
 
 export interface CreateOrderItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1340,9 +1280,7 @@ export const CreateOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
     properties: OrderItemProperties,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "CreateOrderItemResponse",
-}) as any as S.Schema<CreateOrderItemResponse>;
+).annotate({ identifier: "CreateOrderItemResponse" }) as any as S.Schema<CreateOrderItemResponse>;
 
 export interface DeleteAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1365,9 +1303,7 @@ export const DeleteAddressRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAddressRequest",
-}) as any as S.Schema<DeleteAddressRequest>;
+).annotate({ identifier: "DeleteAddressRequest" }) as any as S.Schema<DeleteAddressRequest>;
 
 export interface DeleteAddressResponse {}
 export const DeleteAddressResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1395,9 +1331,7 @@ export const DeleteOrderItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOrderItemRequest",
-}) as any as S.Schema<DeleteOrderItemRequest>;
+).annotate({ identifier: "DeleteOrderItemRequest" }) as any as S.Schema<DeleteOrderItemRequest>;
 
 export interface DeleteOrderItemResponse {}
 export const DeleteOrderItemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1425,9 +1359,7 @@ export const GetAddressRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetAddressRequest",
-}) as any as S.Schema<GetAddressRequest>;
+).annotate({ identifier: "GetAddressRequest" }) as any as S.Schema<GetAddressRequest>;
 
 /** Resource tags. */
 export type GetAddressResponseTagsMap = { [key: string]: string | undefined };
@@ -1462,9 +1394,7 @@ export const GetAddressResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: AddressProperties,
   }),
-).annotate({
-  identifier: "GetAddressResponse",
-}) as any as S.Schema<GetAddressResponse>;
+).annotate({ identifier: "GetAddressResponse" }) as any as S.Schema<GetAddressResponse>;
 
 export interface GetOrderRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1490,9 +1420,7 @@ export const GetOrderRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetOrderRequest",
-}) as any as S.Schema<GetOrderRequest>;
+).annotate({ identifier: "GetOrderRequest" }) as any as S.Schema<GetOrderRequest>;
 
 /** List of order item ARM Ids which are part of an order. */
 export type OrderPropertiesOrderItemIdsList = Array<string>;
@@ -1524,9 +1452,7 @@ export const OrderProperties = /*@__PURE__*/ S.suspend(() =>
     orderStageHistory: S.optional(OrderPropertiesOrderStageHistoryList),
     orderMode: S.optional(OrderMode),
   }),
-).annotate({
-  identifier: "OrderProperties",
-}) as any as S.Schema<OrderProperties>;
+).annotate({ identifier: "OrderProperties" }) as any as S.Schema<OrderProperties>;
 
 export interface GetOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1548,9 +1474,7 @@ export const GetOrderResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: OrderProperties,
   }),
-).annotate({
-  identifier: "GetOrderResponse",
-}) as any as S.Schema<GetOrderResponse>;
+).annotate({ identifier: "GetOrderResponse" }) as any as S.Schema<GetOrderResponse>;
 
 export interface GetOrderItemRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1576,9 +1500,7 @@ export const GetOrderItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetOrderItemRequest",
-}) as any as S.Schema<GetOrderItemRequest>;
+).annotate({ identifier: "GetOrderItemRequest" }) as any as S.Schema<GetOrderItemRequest>;
 
 /** Resource tags. */
 export type GetOrderItemResponseTagsMap = { [key: string]: string | undefined };
@@ -1616,9 +1538,7 @@ export const GetOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
     properties: OrderItemProperties,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "GetOrderItemResponse",
-}) as any as S.Schema<GetOrderItemResponse>;
+).annotate({ identifier: "GetOrderItemResponse" }) as any as S.Schema<GetOrderItemResponse>;
 
 export interface ListAddressByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1685,9 +1605,7 @@ export const AddressResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: AddressProperties,
   }),
-).annotate({
-  identifier: "AddressResource",
-}) as any as S.Schema<AddressResource>;
+).annotate({ identifier: "AddressResource" }) as any as S.Schema<AddressResource>;
 
 /** The AddressResource items on this page */
 export type AddressResourceListValueList = Array<AddressResource>;
@@ -1707,9 +1625,7 @@ export const AddressResourceList = /*@__PURE__*/ S.suspend(() =>
     value: AddressResourceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AddressResourceList",
-}) as any as S.Schema<AddressResourceList>;
+).annotate({ identifier: "AddressResourceList" }) as any as S.Schema<AddressResourceList>;
 
 export interface ListAddressBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1749,9 +1665,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1771,9 +1685,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1823,9 +1735,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListOrderByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1896,9 +1806,7 @@ export const OrderResourceList = /*@__PURE__*/ S.suspend(() =>
     value: OrderResourceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrderResourceList",
-}) as any as S.Schema<OrderResourceList>;
+).annotate({ identifier: "OrderResourceList" }) as any as S.Schema<OrderResourceList>;
 
 export interface ListOrderBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1996,9 +1904,7 @@ export const OrderItemResource = /*@__PURE__*/ S.suspend(() =>
     properties: OrderItemProperties,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "OrderItemResource",
-}) as any as S.Schema<OrderItemResource>;
+).annotate({ identifier: "OrderItemResource" }) as any as S.Schema<OrderItemResource>;
 
 /** The OrderItemResource items on this page */
 export type OrderItemResourceListValueList = Array<OrderItemResource>;
@@ -2018,9 +1924,7 @@ export const OrderItemResourceList = /*@__PURE__*/ S.suspend(() =>
     value: OrderItemResourceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OrderItemResourceList",
-}) as any as S.Schema<OrderItemResourceList>;
+).annotate({ identifier: "OrderItemResourceList" }) as any as S.Schema<OrderItemResourceList>;
 
 export interface ListOrderItemBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2075,9 +1979,7 @@ export const FilterableProperty = /*@__PURE__*/ S.suspend(() =>
     type: SupportedFilterTypes,
     supportedValues: FilterablePropertySupportedValuesList,
   }),
-).annotate({
-  identifier: "FilterableProperty",
-}) as any as S.Schema<FilterableProperty>;
+).annotate({ identifier: "FilterableProperty" }) as any as S.Schema<FilterableProperty>;
 
 /** Filters specific to product. */
 export type ConfigurationFilterFilterablePropertyList = Array<FilterableProperty>;
@@ -2114,9 +2016,7 @@ export const ChildConfigurationFilter = /*@__PURE__*/ S.suspend(() =>
     hierarchyInformations: S.optional(ChildConfigurationFilterHierarchyInformationsList),
     childConfigurationTypes: S.optional(ChildConfigurationFilterChildConfigurationTypesList),
   }),
-).annotate({
-  identifier: "ChildConfigurationFilter",
-}) as any as S.Schema<ChildConfigurationFilter>;
+).annotate({ identifier: "ChildConfigurationFilter" }) as any as S.Schema<ChildConfigurationFilter>;
 
 /** Configuration filters. */
 export interface ConfigurationFilter {
@@ -2133,9 +2033,7 @@ export const ConfigurationFilter = /*@__PURE__*/ S.suspend(() =>
     filterableProperty: S.optional(ConfigurationFilterFilterablePropertyList),
     childConfigurationFilter: S.optional(ChildConfigurationFilter),
   }),
-).annotate({
-  identifier: "ConfigurationFilter",
-}) as any as S.Schema<ConfigurationFilter>;
+).annotate({ identifier: "ConfigurationFilter" }) as any as S.Schema<ConfigurationFilter>;
 
 /** Represents subscription registered features. */
 export interface CustomerSubscriptionRegisteredFeatures {
@@ -2296,9 +2194,7 @@ export const ImageInformation = /*@__PURE__*/ S.suspend(() =>
     imageType: S.optional(ImageType),
     imageUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageInformation",
-}) as any as S.Schema<ImageInformation>;
+).annotate({ identifier: "ImageInformation" }) as any as S.Schema<ImageInformation>;
 
 /** Image information for the product system. */
 export type ConfigurationPropertiesImageInformationList = Array<ImageInformation>;
@@ -2347,9 +2243,7 @@ export const TermTypeDetails = /*@__PURE__*/ S.suspend(() =>
     termType: TermCommitmentType,
     termTypeDuration: S.String,
   }),
-).annotate({
-  identifier: "TermTypeDetails",
-}) as any as S.Schema<TermTypeDetails>;
+).annotate({ identifier: "TermTypeDetails" }) as any as S.Schema<TermTypeDetails>;
 
 /** Holds billing meter details for each type of billing. */
 export interface BillingMeterDetails {
@@ -2372,9 +2266,7 @@ export const BillingMeterDetails = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(S.String),
     termTypeDetails: S.optional(TermTypeDetails),
   }),
-).annotate({
-  identifier: "BillingMeterDetails",
-}) as any as S.Schema<BillingMeterDetails>;
+).annotate({ identifier: "BillingMeterDetails" }) as any as S.Schema<BillingMeterDetails>;
 
 /** Details on the various billing aspects for the product system. */
 export type CostInformationBillingMeterDetailsList = Array<BillingMeterDetails>;
@@ -2394,9 +2286,7 @@ export const CostInformation = /*@__PURE__*/ S.suspend(() =>
     billingMeterDetails: S.optional(CostInformationBillingMeterDetailsList),
     billingInfoUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CostInformation",
-}) as any as S.Schema<CostInformation>;
+).annotate({ identifier: "CostInformation" }) as any as S.Schema<CostInformation>;
 
 /** Current availability stage of the product. */
 export type AvailabilityStage =
@@ -2436,9 +2326,7 @@ export const AvailabilityInformation = /*@__PURE__*/ S.suspend(() =>
     disabledReason: S.optional(DisabledReason),
     disabledReasonMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailabilityInformation",
-}) as any as S.Schema<AvailabilityInformation>;
+).annotate({ identifier: "AvailabilityInformation" }) as any as S.Schema<AvailabilityInformation>;
 
 /** The entity responsible for fulfillment of the item at the given hierarchy level. */
 export type FulfillmentType = "Microsoft" | "External";
@@ -2537,9 +2425,7 @@ export const CategoryInformation = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     links: S.optional(CategoryInformationLinksList),
   }),
-).annotate({
-  identifier: "CategoryInformation",
-}) as any as S.Schema<CategoryInformation>;
+).annotate({ identifier: "CategoryInformation" }) as any as S.Schema<CategoryInformation>;
 
 /** Specifications of the configuration. */
 export type ChildConfigurationPropertiesSpecificationsList = Array<Specification>;
@@ -2656,9 +2542,7 @@ export const ChildConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(ChildConfigurationProperties),
   }),
-).annotate({
-  identifier: "ChildConfiguration",
-}) as any as S.Schema<ChildConfiguration>;
+).annotate({ identifier: "ChildConfiguration" }) as any as S.Schema<ChildConfiguration>;
 
 /** List of child configurations. */
 export type GroupedChildConfigurationsChildConfigurationsList = Array<ChildConfiguration>;
@@ -2745,9 +2629,7 @@ export const ConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
       ConfigurationPropertiesSupportedTermCommitmentDurationsList,
     ),
   }),
-).annotate({
-  identifier: "ConfigurationProperties",
-}) as any as S.Schema<ConfigurationProperties>;
+).annotate({ identifier: "ConfigurationProperties" }) as any as S.Schema<ConfigurationProperties>;
 
 /** Configuration object. */
 export interface Configuration {
@@ -2905,9 +2787,7 @@ export const ProductProperties = /*@__PURE__*/ S.suspend(() =>
     filterableProperties: S.optional(ProductPropertiesFilterablePropertiesList),
     configurations: S.optional(ProductPropertiesConfigurationsList),
   }),
-).annotate({
-  identifier: "ProductProperties",
-}) as any as S.Schema<ProductProperties>;
+).annotate({ identifier: "ProductProperties" }) as any as S.Schema<ProductProperties>;
 
 /** Represents a product. */
 export interface Product {
@@ -2959,9 +2839,7 @@ export const ProductLineProperties = /*@__PURE__*/ S.suspend(() =>
     filterableProperties: S.optional(ProductLinePropertiesFilterablePropertiesList),
     products: S.optional(ProductLinePropertiesProductsList),
   }),
-).annotate({
-  identifier: "ProductLineProperties",
-}) as any as S.Schema<ProductLineProperties>;
+).annotate({ identifier: "ProductLineProperties" }) as any as S.Schema<ProductLineProperties>;
 
 /** Product line. */
 export interface ProductLine {
@@ -3022,9 +2900,7 @@ export const ProductFamilyProperties = /*@__PURE__*/ S.suspend(() =>
     productLines: S.optional(ProductFamilyPropertiesProductLinesList),
     resourceProviderDetails: S.optional(ProductFamilyPropertiesResourceProviderDetailsList),
   }),
-).annotate({
-  identifier: "ProductFamilyProperties",
-}) as any as S.Schema<ProductFamilyProperties>;
+).annotate({ identifier: "ProductFamilyProperties" }) as any as S.Schema<ProductFamilyProperties>;
 
 /** Product Family. */
 export interface ProductFamily {
@@ -3055,9 +2931,7 @@ export const ProductFamilies = /*@__PURE__*/ S.suspend(() =>
     value: ProductFamiliesValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductFamilies",
-}) as any as S.Schema<ProductFamilies>;
+).annotate({ identifier: "ProductFamilies" }) as any as S.Schema<ProductFamilies>;
 
 export interface ListProductsAndConfigurationProductFamiliesMetadataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3113,9 +2987,7 @@ export const ProductFamiliesMetadata = /*@__PURE__*/ S.suspend(() =>
     value: ProductFamiliesMetadataValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductFamiliesMetadata",
-}) as any as S.Schema<ProductFamiliesMetadata>;
+).annotate({ identifier: "ProductFamiliesMetadata" }) as any as S.Schema<ProductFamiliesMetadata>;
 
 export interface OrderItemsReturnRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3150,9 +3022,7 @@ export const OrderItemsReturnRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "OrderItemsReturnRequest",
-}) as any as S.Schema<OrderItemsReturnRequest>;
+).annotate({ identifier: "OrderItemsReturnRequest" }) as any as S.Schema<OrderItemsReturnRequest>;
 
 export interface OrderItemsReturnResponse {}
 export const OrderItemsReturnResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3171,9 +3041,7 @@ export const AddressUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     shippingAddress: S.optional(ShippingAddress),
     contactDetails: S.optional(ContactDetails),
   }),
-).annotate({
-  identifier: "AddressUpdateProperties",
-}) as any as S.Schema<AddressUpdateProperties>;
+).annotate({ identifier: "AddressUpdateProperties" }) as any as S.Schema<AddressUpdateProperties>;
 
 /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
 export type UpdateAddressRequestTagsMap = { [key: string]: string | undefined };
@@ -3209,14 +3077,10 @@ export const UpdateAddressRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAddressRequest",
-}) as any as S.Schema<UpdateAddressRequest>;
+).annotate({ identifier: "UpdateAddressRequest" }) as any as S.Schema<UpdateAddressRequest>;
 
 /** Resource tags. */
-export type UpdateAddressResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAddressResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAddressResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3248,9 +3112,7 @@ export const UpdateAddressResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: AddressProperties,
   }),
-).annotate({
-  identifier: "UpdateAddressResponse",
-}) as any as S.Schema<UpdateAddressResponse>;
+).annotate({ identifier: "UpdateAddressResponse" }) as any as S.Schema<UpdateAddressResponse>;
 
 /** Additional notification email list. */
 export type OrderItemUpdatePropertiesInputNotificationEmailListList = Array<string>;
@@ -3310,9 +3172,7 @@ export const OrderItemUpdatePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OrderItemUpdatePropertiesInput>;
 
 /** The list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). */
-export type UpdateOrderItemRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrderItemRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateOrderItemRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3348,14 +3208,10 @@ export const UpdateOrderItemRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateOrderItemRequest",
-}) as any as S.Schema<UpdateOrderItemRequest>;
+).annotate({ identifier: "UpdateOrderItemRequest" }) as any as S.Schema<UpdateOrderItemRequest>;
 
 /** Resource tags. */
-export type UpdateOrderItemResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrderItemResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateOrderItemResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3390,9 +3246,7 @@ export const UpdateOrderItemResponse = /*@__PURE__*/ S.suspend(() =>
     properties: OrderItemProperties,
     identity: S.optional(ResourceIdentity),
   }),
-).annotate({
-  identifier: "UpdateOrderItemResponse",
-}) as any as S.Schema<UpdateOrderItemResponse>;
+).annotate({ identifier: "UpdateOrderItemResponse" }) as any as S.Schema<UpdateOrderItemResponse>;
 
 export type CancelOrderItemError = AzureOpError;
 /** Cancel order item. */

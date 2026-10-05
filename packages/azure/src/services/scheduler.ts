@@ -32,9 +32,7 @@ export const DeleteJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteJobRequest",
-}) as any as S.Schema<DeleteJobRequest>;
+).annotate({ identifier: "DeleteJobRequest" }) as any as S.Schema<DeleteJobRequest>;
 
 export interface DeleteJobResponse {}
 export const DeleteJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -182,9 +180,7 @@ export const HttpAuthentication = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: HttpAuthenticationType,
   }),
-).annotate({
-  identifier: "HttpAuthentication",
-}) as any as S.Schema<HttpAuthentication>;
+).annotate({ identifier: "HttpAuthentication" }) as any as S.Schema<HttpAuthentication>;
 
 /** Gets or sets the headers. */
 export type HttpRequestHeadersMap = { [key: string]: string | undefined };
@@ -232,9 +228,7 @@ export const StorageQueueMessage = /*@__PURE__*/ S.suspend(() =>
     sasToken: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageQueueMessage",
-}) as any as S.Schema<StorageQueueMessage>;
+).annotate({ identifier: "StorageQueueMessage" }) as any as S.Schema<StorageQueueMessage>;
 
 /** Gets or sets the authentication type. */
 export type ServiceBusAuthenticationType = "NotSpecified" | "SharedAccessKey";
@@ -254,9 +248,7 @@ export const ServiceBusAuthentication = /*@__PURE__*/ S.suspend(() =>
     sasKeyName: S.optional(S.String),
     type: S.optional(ServiceBusAuthenticationType),
   }),
-).annotate({
-  identifier: "ServiceBusAuthentication",
-}) as any as S.Schema<ServiceBusAuthentication>;
+).annotate({ identifier: "ServiceBusAuthentication" }) as any as S.Schema<ServiceBusAuthentication>;
 
 export interface ServiceBusBrokeredMessageProperties {
   /** Gets or sets the content type. */
@@ -345,9 +337,7 @@ export const ServiceBusQueueMessage = /*@__PURE__*/ S.suspend(() =>
     transportType: S.optional(ServiceBusQueueMessageTransportType),
     queueName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceBusQueueMessage",
-}) as any as S.Schema<ServiceBusQueueMessage>;
+).annotate({ identifier: "ServiceBusQueueMessage" }) as any as S.Schema<ServiceBusQueueMessage>;
 
 /** Gets or sets the custom message properties. */
 export type ServiceBusTopicMessageCustomMessagePropertiesMap = {
@@ -388,9 +378,7 @@ export const ServiceBusTopicMessage = /*@__PURE__*/ S.suspend(() =>
     transportType: S.optional(ServiceBusTopicMessageTransportType),
     topicPath: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceBusTopicMessage",
-}) as any as S.Schema<ServiceBusTopicMessage>;
+).annotate({ identifier: "ServiceBusTopicMessage" }) as any as S.Schema<ServiceBusTopicMessage>;
 
 /** Gets or sets the retry strategy to be used. */
 export type RetryPolicyRetryType = "None" | "Fixed";
@@ -567,9 +555,7 @@ export const JobRecurrenceSchedule = /*@__PURE__*/ S.suspend(() =>
     monthDays: S.optional(JobRecurrenceScheduleMonthDaysList),
     monthlyOccurrences: S.optional(JobRecurrenceScheduleMonthlyOccurrencesList),
   }),
-).annotate({
-  identifier: "JobRecurrenceSchedule",
-}) as any as S.Schema<JobRecurrenceSchedule>;
+).annotate({ identifier: "JobRecurrenceSchedule" }) as any as S.Schema<JobRecurrenceSchedule>;
 
 export interface JobRecurrence {
   /** Gets or sets the frequency of recurrence (second, minute, hour, day, week, month). */
@@ -680,14 +666,10 @@ export const GetJobCollectionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetJobCollectionRequest",
-}) as any as S.Schema<GetJobCollectionRequest>;
+).annotate({ identifier: "GetJobCollectionRequest" }) as any as S.Schema<GetJobCollectionRequest>;
 
 /** Gets or sets the tags. */
-export type JobCollectionDefinitionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type JobCollectionDefinitionTagsMap = { [key: string]: string | undefined };
 export const JobCollectionDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -726,9 +708,7 @@ export const JobMaxRecurrence = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(JobMaxRecurrenceFrequency),
     interval: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "JobMaxRecurrence",
-}) as any as S.Schema<JobMaxRecurrence>;
+).annotate({ identifier: "JobMaxRecurrence" }) as any as S.Schema<JobMaxRecurrence>;
 
 export interface JobCollectionQuota {
   /** Gets or set the maximum job count. */
@@ -744,9 +724,7 @@ export const JobCollectionQuota = /*@__PURE__*/ S.suspend(() =>
     maxJobOccurrence: S.optional(S.Number),
     maxRecurrence: S.optional(JobMaxRecurrence),
   }),
-).annotate({
-  identifier: "JobCollectionQuota",
-}) as any as S.Schema<JobCollectionQuota>;
+).annotate({ identifier: "JobCollectionQuota" }) as any as S.Schema<JobCollectionQuota>;
 
 export interface JobCollectionProperties {
   /** Gets or sets the SKU. */
@@ -762,9 +740,7 @@ export const JobCollectionProperties = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(JobCollectionPropertiesState),
     quota: S.optional(JobCollectionQuota),
   }),
-).annotate({
-  identifier: "JobCollectionProperties",
-}) as any as S.Schema<JobCollectionProperties>;
+).annotate({ identifier: "JobCollectionProperties" }) as any as S.Schema<JobCollectionProperties>;
 
 export interface JobCollectionDefinition {
   /** Gets the job collection resource identifier. */
@@ -789,14 +765,10 @@ export const JobCollectionDefinition = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(JobCollectionDefinitionTagsMap),
     properties: S.optional(JobCollectionProperties),
   }),
-).annotate({
-  identifier: "JobCollectionDefinition",
-}) as any as S.Schema<JobCollectionDefinition>;
+).annotate({ identifier: "JobCollectionDefinition" }) as any as S.Schema<JobCollectionDefinition>;
 
 /** Gets or sets the tags. */
-export type JobCollectionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type JobCollectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const JobCollectionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -856,9 +828,7 @@ export const JobPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     recurrence: S.optional(JobRecurrence),
     state: S.optional(JobState),
   }),
-).annotate({
-  identifier: "JobPropertiesInput",
-}) as any as S.Schema<JobPropertiesInput>;
+).annotate({ identifier: "JobPropertiesInput" }) as any as S.Schema<JobPropertiesInput>;
 
 export interface JobsCreateOrUpdateRequest {
   /** The subscription id. */
@@ -930,9 +900,7 @@ export const JobCollectionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(JobCollectionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobCollectionListResult",
-}) as any as S.Schema<JobCollectionListResult>;
+).annotate({ identifier: "JobCollectionListResult" }) as any as S.Schema<JobCollectionListResult>;
 
 export interface ListJobCollectionBySubscriptionRequest {
   /** The subscription id. */
@@ -986,9 +954,7 @@ export const ListJobJobHistoryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListJobJobHistoryRequest",
-}) as any as S.Schema<ListJobJobHistoryRequest>;
+).annotate({ identifier: "ListJobJobHistoryRequest" }) as any as S.Schema<ListJobJobHistoryRequest>;
 
 /** Gets the job history action name. */
 export type JobHistoryDefinitionPropertiesActionName = "MainAction" | "ErrorAction";
@@ -1048,9 +1014,7 @@ export const JobHistoryDefinition = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(JobHistoryDefinitionProperties),
   }),
-).annotate({
-  identifier: "JobHistoryDefinition",
-}) as any as S.Schema<JobHistoryDefinition>;
+).annotate({ identifier: "JobHistoryDefinition" }) as any as S.Schema<JobHistoryDefinition>;
 
 /** Gets or sets the job histories under job. */
 export type JobHistoryListResultValueList = Array<JobHistoryDefinition>;
@@ -1069,9 +1033,7 @@ export const JobHistoryListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(JobHistoryListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JobHistoryListResult",
-}) as any as S.Schema<JobHistoryListResult>;
+).annotate({ identifier: "JobHistoryListResult" }) as any as S.Schema<JobHistoryListResult>;
 
 export interface ListJobsRequest {
   /** The subscription id. */
@@ -1103,9 +1065,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 
 /** Gets or sets all jobs under job collection. */
 export type JobListResultValueList = Array<JobDefinition>;
@@ -1153,14 +1113,10 @@ export const PatchJobRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-01",
     }),
   ),
-).annotate({
-  identifier: "PatchJobRequest",
-}) as any as S.Schema<PatchJobRequest>;
+).annotate({ identifier: "PatchJobRequest" }) as any as S.Schema<PatchJobRequest>;
 
 /** Gets or sets the tags. */
-export type PatchJobCollectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PatchJobCollectionRequestTagsMap = { [key: string]: string | undefined };
 export const PatchJobCollectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

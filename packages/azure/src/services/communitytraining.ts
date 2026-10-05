@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type CreateCommunityTrainingRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCommunityTrainingRequestTagsMap = { [key: string]: string | undefined };
 export const CreateCommunityTrainingRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -200,9 +198,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateCommunityTrainingResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateCommunityTrainingResponseTagsMap = { [key: string]: string | undefined };
 export const CreateCommunityTrainingResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -292,9 +288,7 @@ export const DeleteCommunityTrainingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteCommunityTrainingResponse {}
 export const DeleteCommunityTrainingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteCommunityTrainingResponse",
-  },
+  { identifier: "DeleteCommunityTrainingResponse" },
 ) as any as S.Schema<DeleteCommunityTrainingResponse>;
 
 export interface GetCommunityTrainingRequest {
@@ -323,9 +317,7 @@ export const GetCommunityTrainingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCommunityTrainingRequest>;
 
 /** Resource tags. */
-export type GetCommunityTrainingResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCommunityTrainingResponseTagsMap = { [key: string]: string | undefined };
 export const GetCommunityTrainingResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -431,9 +423,7 @@ export const CommunityTraining = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(CommunityTrainingProperties),
     sku: S.optional(CreateCommunityTrainingResponseSku),
   }),
-).annotate({
-  identifier: "CommunityTraining",
-}) as any as S.Schema<CommunityTraining>;
+).annotate({ identifier: "CommunityTraining" }) as any as S.Schema<CommunityTraining>;
 
 /** The CommunityTraining items on this page */
 export type CommunityTrainingListResultValueList = Array<CommunityTraining>;
@@ -486,9 +476,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-11-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -508,9 +496,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -560,18 +546,14 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 /** The resource model definition representing SKU */
 export type UpdateCommunityTrainingRequestSku = CreateCommunityTrainingRequestSku;
 export const UpdateCommunityTrainingRequestSku = CreateCommunityTrainingRequestSku;
 
 /** Resource tags. */
-export type UpdateCommunityTrainingRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommunityTrainingRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCommunityTrainingRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -662,9 +644,7 @@ export const UpdateCommunityTrainingRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCommunityTrainingRequest>;
 
 /** Resource tags. */
-export type UpdateCommunityTrainingResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCommunityTrainingResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCommunityTrainingResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

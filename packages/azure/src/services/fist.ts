@@ -63,9 +63,7 @@ export const FirmwarePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(Status),
     statusMessages: S.optional(FirmwarePropertiesInputStatusMessagesList),
   }),
-).annotate({
-  identifier: "FirmwarePropertiesInput",
-}) as any as S.Schema<FirmwarePropertiesInput>;
+).annotate({ identifier: "FirmwarePropertiesInput" }) as any as S.Schema<FirmwarePropertiesInput>;
 
 export interface CreateFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -94,9 +92,7 @@ export const CreateFirmwareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "CreateFirmwareRequest",
-}) as any as S.Schema<CreateFirmwareRequest>;
+).annotate({ identifier: "CreateFirmwareRequest" }) as any as S.Schema<CreateFirmwareRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -181,9 +177,7 @@ export const FirmwareProperties = /*@__PURE__*/ S.suspend(() =>
     statusMessages: S.optional(FirmwarePropertiesStatusMessagesList),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "FirmwareProperties",
-}) as any as S.Schema<FirmwareProperties>;
+).annotate({ identifier: "FirmwareProperties" }) as any as S.Schema<FirmwareProperties>;
 
 export interface CreateFirmwareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -205,14 +199,10 @@ export const CreateFirmwareResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FirmwareProperties),
   }),
-).annotate({
-  identifier: "CreateFirmwareResponse",
-}) as any as S.Schema<CreateFirmwareResponse>;
+).annotate({ identifier: "CreateFirmwareResponse" }) as any as S.Schema<CreateFirmwareResponse>;
 
 /** Resource tags. */
-export type CreateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -285,14 +275,10 @@ export const CreateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "CreateWorkspaceRequest",
-}) as any as S.Schema<CreateWorkspaceRequest>;
+).annotate({ identifier: "CreateWorkspaceRequest" }) as any as S.Schema<CreateWorkspaceRequest>;
 
 /** Resource tags. */
-export type CreateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const CreateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -307,9 +293,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 /** The resource model definition representing SKU */
 export interface CreateWorkspaceResponseSku {
@@ -364,9 +348,7 @@ export const CreateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WorkspaceProperties),
     sku: S.optional(CreateWorkspaceResponseSku),
   }),
-).annotate({
-  identifier: "CreateWorkspaceResponse",
-}) as any as S.Schema<CreateWorkspaceResponse>;
+).annotate({ identifier: "CreateWorkspaceResponse" }) as any as S.Schema<CreateWorkspaceResponse>;
 
 export interface DeleteFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -392,9 +374,7 @@ export const DeleteFirmwareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "DeleteFirmwareRequest",
-}) as any as S.Schema<DeleteFirmwareRequest>;
+).annotate({ identifier: "DeleteFirmwareRequest" }) as any as S.Schema<DeleteFirmwareRequest>;
 
 export interface DeleteFirmwareResponse {}
 export const DeleteFirmwareResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -422,9 +402,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -455,9 +433,7 @@ export const GetFirmwareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "GetFirmwareRequest",
-}) as any as S.Schema<GetFirmwareRequest>;
+).annotate({ identifier: "GetFirmwareRequest" }) as any as S.Schema<GetFirmwareRequest>;
 
 export interface GetFirmwareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -479,9 +455,7 @@ export const GetFirmwareResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FirmwareProperties),
   }),
-).annotate({
-  identifier: "GetFirmwareResponse",
-}) as any as S.Schema<GetFirmwareResponse>;
+).annotate({ identifier: "GetFirmwareResponse" }) as any as S.Schema<GetFirmwareResponse>;
 
 export type GetSummaryRequestSummaryType =
   | "Firmware"
@@ -518,9 +492,7 @@ export const GetSummaryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "GetSummaryRequest",
-}) as any as S.Schema<GetSummaryRequest>;
+).annotate({ identifier: "GetSummaryRequest" }) as any as S.Schema<GetSummaryRequest>;
 
 /** Describes the type of summary. */
 export type SummaryType =
@@ -567,9 +539,7 @@ export const GetSummaryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SummaryResourceProperties),
   }),
-).annotate({
-  identifier: "GetSummaryResponse",
-}) as any as S.Schema<GetSummaryResponse>;
+).annotate({ identifier: "GetSummaryResponse" }) as any as S.Schema<GetSummaryResponse>;
 
 export interface GetUsageMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -595,9 +565,7 @@ export const GetUsageMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "GetUsageMetricsRequest",
-}) as any as S.Schema<GetUsageMetricsRequest>;
+).annotate({ identifier: "GetUsageMetricsRequest" }) as any as S.Schema<GetUsageMetricsRequest>;
 
 /** Properties of a workspaces usage metrics. */
 export interface UsageMetricProperties {
@@ -614,9 +582,7 @@ export const UsageMetricProperties = /*@__PURE__*/ S.suspend(() =>
     totalFirmwareCount: S.Number,
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "UsageMetricProperties",
-}) as any as S.Schema<UsageMetricProperties>;
+).annotate({ identifier: "UsageMetricProperties" }) as any as S.Schema<UsageMetricProperties>;
 
 export interface GetUsageMetricsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -638,9 +604,7 @@ export const GetUsageMetricsResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(UsageMetricProperties),
   }),
-).annotate({
-  identifier: "GetUsageMetricsResponse",
-}) as any as S.Schema<GetUsageMetricsResponse>;
+).annotate({ identifier: "GetUsageMetricsResponse" }) as any as S.Schema<GetUsageMetricsResponse>;
 
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -663,9 +627,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -707,9 +669,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WorkspaceProperties),
     sku: S.optional(CreateWorkspaceResponseSku),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface ListBinaryHardeningByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -760,9 +720,7 @@ export const BinaryHardeningFeatures = /*@__PURE__*/ S.suspend(() =>
     canary: S.optional(S.Boolean),
     stripped: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "BinaryHardeningFeatures",
-}) as any as S.Schema<BinaryHardeningFeatures>;
+).annotate({ identifier: "BinaryHardeningFeatures" }) as any as S.Schema<BinaryHardeningFeatures>;
 
 /** String to indicate if the executable is 32 or 64 bit. */
 export type ExecutableClass = "x86" | "x64";
@@ -798,9 +756,7 @@ export const BinaryHardeningResult = /*@__PURE__*/ S.suspend(() =>
     rpath: S.optional(S.String),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "BinaryHardeningResult",
-}) as any as S.Schema<BinaryHardeningResult>;
+).annotate({ identifier: "BinaryHardeningResult" }) as any as S.Schema<BinaryHardeningResult>;
 
 /** The object representing a firmware analysis binary hardening result resource */
 export interface BinaryHardeningResource {
@@ -823,9 +779,7 @@ export const BinaryHardeningResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(BinaryHardeningResult),
   }),
-).annotate({
-  identifier: "BinaryHardeningResource",
-}) as any as S.Schema<BinaryHardeningResource>;
+).annotate({ identifier: "BinaryHardeningResource" }) as any as S.Schema<BinaryHardeningResource>;
 
 /** The BinaryHardeningResource items on this page */
 export type BinaryHardeningResourceListResultValueList = Array<BinaryHardeningResource>;
@@ -898,9 +852,7 @@ export const CryptoCertificateEntity = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(S.String),
     country: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CryptoCertificateEntity",
-}) as any as S.Schema<CryptoCertificateEntity>;
+).annotate({ identifier: "CryptoCertificateEntity" }) as any as S.Schema<CryptoCertificateEntity>;
 
 /** Activities for which the cryptographic certificate can be used. */
 export type CertificateUsage =
@@ -1017,9 +969,7 @@ export const CryptoCertificate = /*@__PURE__*/ S.suspend(() =>
     isShortKeySize: S.optional(S.Boolean),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "CryptoCertificate",
-}) as any as S.Schema<CryptoCertificate>;
+).annotate({ identifier: "CryptoCertificate" }) as any as S.Schema<CryptoCertificate>;
 
 /** The object representing a firmware analysis crypto certificate resource */
 export interface CryptoCertificateResource {
@@ -1168,9 +1118,7 @@ export const CryptoKeyResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CryptoKey),
   }),
-).annotate({
-  identifier: "CryptoKeyResource",
-}) as any as S.Schema<CryptoKeyResource>;
+).annotate({ identifier: "CryptoKeyResource" }) as any as S.Schema<CryptoKeyResource>;
 
 /** The CryptoKeyResource items on this page */
 export type CryptoKeyResourceListResultValueList = Array<CryptoKeyResource>;
@@ -1218,9 +1166,7 @@ export const ListCveByFirmwareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "ListCveByFirmwareRequest",
-}) as any as S.Schema<ListCveByFirmwareRequest>;
+).annotate({ identifier: "ListCveByFirmwareRequest" }) as any as S.Schema<ListCveByFirmwareRequest>;
 
 /** Legacy component of a CVE result. */
 export interface CveComponent {
@@ -1379,9 +1325,7 @@ export const CveResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: CveResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CveResourceListResult",
-}) as any as S.Schema<CveResourceListResult>;
+).annotate({ identifier: "CveResourceListResult" }) as any as S.Schema<CveResourceListResult>;
 
 export interface ListFirmwareByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1449,9 +1393,7 @@ export const FirmwareListResult = /*@__PURE__*/ S.suspend(() =>
     value: FirmwareListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirmwareListResult",
-}) as any as S.Schema<FirmwareListResult>;
+).annotate({ identifier: "FirmwareListResult" }) as any as S.Schema<FirmwareListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1463,9 +1405,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1485,9 +1425,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1537,9 +1475,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPasswordHashByFirmwareRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1622,9 +1558,7 @@ export const PasswordHashResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PasswordHash),
   }),
-).annotate({
-  identifier: "PasswordHashResource",
-}) as any as S.Schema<PasswordHashResource>;
+).annotate({ identifier: "PasswordHashResource" }) as any as S.Schema<PasswordHashResource>;
 
 /** The PasswordHashResource items on this page */
 export type PasswordHashResourceListResultValueList = Array<PasswordHashResource>;
@@ -1729,9 +1663,7 @@ export const SbomComponentResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SbomComponent),
   }),
-).annotate({
-  identifier: "SbomComponentResource",
-}) as any as S.Schema<SbomComponentResource>;
+).annotate({ identifier: "SbomComponentResource" }) as any as S.Schema<SbomComponentResource>;
 
 /** The SbomComponentResource items on this page */
 export type SbomComponentResourceListResultValueList = Array<SbomComponentResource>;
@@ -1804,9 +1736,7 @@ export const SummaryResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SummaryResourceProperties),
   }),
-).annotate({
-  identifier: "SummaryResource",
-}) as any as S.Schema<SummaryResource>;
+).annotate({ identifier: "SummaryResource" }) as any as S.Schema<SummaryResource>;
 
 /** The SummaryResource items on this page */
 export type SummaryResourceListResultValueList = Array<SummaryResource>;
@@ -1896,9 +1826,7 @@ export const UsageMetricListResult = /*@__PURE__*/ S.suspend(() =>
     value: UsageMetricListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsageMetricListResult",
-}) as any as S.Schema<UsageMetricListResult>;
+).annotate({ identifier: "UsageMetricListResult" }) as any as S.Schema<UsageMetricListResult>;
 
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1983,9 +1911,7 @@ export const WorkspaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: WorkspaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceListResult",
-}) as any as S.Schema<WorkspaceListResult>;
+).annotate({ identifier: "WorkspaceListResult" }) as any as S.Schema<WorkspaceListResult>;
 
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2033,9 +1959,7 @@ export const UpdateFirmwareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "UpdateFirmwareRequest",
-}) as any as S.Schema<UpdateFirmwareRequest>;
+).annotate({ identifier: "UpdateFirmwareRequest" }) as any as S.Schema<UpdateFirmwareRequest>;
 
 export interface UpdateFirmwareResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2057,9 +1981,7 @@ export const UpdateFirmwareResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FirmwareProperties),
   }),
-).annotate({
-  identifier: "UpdateFirmwareResponse",
-}) as any as S.Schema<UpdateFirmwareResponse>;
+).annotate({ identifier: "UpdateFirmwareResponse" }) as any as S.Schema<UpdateFirmwareResponse>;
 
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type AzureResourceManagerCommonTypesSkuUpdateTier =
@@ -2095,9 +2017,7 @@ export const AzureResourceManagerCommonTypesSkuUpdate = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<AzureResourceManagerCommonTypesSkuUpdate>;
 
 /** Resource tags. */
-export type UpdateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2130,14 +2050,10 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-02",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2176,9 +2092,7 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WorkspaceProperties),
     sku: S.optional(CreateWorkspaceResponseSku),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 export interface WorkspacesGenerateUploadUrlRequest {
   /** The ID of the target subscription. The value must be an UUID. */

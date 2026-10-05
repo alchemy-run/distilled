@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AccountsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -51,9 +49,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -258,9 +254,7 @@ export const AccountsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AccountsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccountsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -340,14 +334,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -416,9 +406,7 @@ export const MapsAccountProperties = /*@__PURE__*/ S.suspend(() =>
     cors: S.optional(CorsRules),
     encryption: S.optional(MapsAccountPropertiesEncryption),
   }),
-).annotate({
-  identifier: "MapsAccountProperties",
-}) as any as S.Schema<MapsAccountProperties>;
+).annotate({ identifier: "MapsAccountProperties" }) as any as S.Schema<MapsAccountProperties>;
 
 export interface AccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -460,9 +448,7 @@ export const AccountsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccountsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type CreatorsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CreatorsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -477,9 +463,7 @@ export const CreatorPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     storageUnits: S.Number,
   }),
-).annotate({
-  identifier: "CreatorPropertiesInput",
-}) as any as S.Schema<CreatorPropertiesInput>;
+).annotate({ identifier: "CreatorPropertiesInput" }) as any as S.Schema<CreatorPropertiesInput>;
 
 export interface CreatorsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -519,9 +503,7 @@ export const CreatorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatorsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type CreatorsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CreatorsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -539,9 +521,7 @@ export const CreatorProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(S.String),
     storageUnits: S.Number,
   }),
-).annotate({
-  identifier: "CreatorProperties",
-}) as any as S.Schema<CreatorProperties>;
+).annotate({ identifier: "CreatorProperties" }) as any as S.Schema<CreatorProperties>;
 
 /** The type of identity that created the resource. */
 export type CreatorsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -638,9 +618,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 export interface DeleteAccountResponse {}
 export const DeleteAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -671,9 +649,7 @@ export const DeleteCreatorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCreatorRequest",
-}) as any as S.Schema<DeleteCreatorRequest>;
+).annotate({ identifier: "DeleteCreatorRequest" }) as any as S.Schema<DeleteCreatorRequest>;
 
 export interface DeleteCreatorResponse {}
 export const DeleteCreatorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -701,9 +677,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Resource tags. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -795,9 +769,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(AccountsCreateOrUpdateResponseIdentity),
     properties: S.optional(MapsAccountProperties),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetCreatorRequest {
   /** The ID of the target subscription. */
@@ -823,9 +795,7 @@ export const GetCreatorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetCreatorRequest",
-}) as any as S.Schema<GetCreatorRequest>;
+).annotate({ identifier: "GetCreatorRequest" }) as any as S.Schema<GetCreatorRequest>;
 
 /** Resource tags. */
 export type GetCreatorResponseTagsMap = { [key: string]: string | undefined };
@@ -904,9 +874,7 @@ export const GetCreatorResponse = /*@__PURE__*/ S.suspend(() =>
     properties: CreatorProperties,
     systemData: S.optional(GetCreatorResponseSystemData),
   }),
-).annotate({
-  identifier: "GetCreatorResponse",
-}) as any as S.Schema<GetCreatorResponse>;
+).annotate({ identifier: "GetCreatorResponse" }) as any as S.Schema<GetCreatorResponse>;
 
 export interface ListAccountByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -973,9 +941,7 @@ export const MapsAccountSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(MapsAccountSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MapsAccountSystemData",
-}) as any as S.Schema<MapsAccountSystemData>;
+).annotate({ identifier: "MapsAccountSystemData" }) as any as S.Schema<MapsAccountSystemData>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type MapsAccountIdentity = AccountsCreateOrUpdateResponseIdentity;
@@ -1079,9 +1045,7 @@ export const ListAccountKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountKeysRequest",
-}) as any as S.Schema<ListAccountKeysRequest>;
+).annotate({ identifier: "ListAccountKeysRequest" }) as any as S.Schema<ListAccountKeysRequest>;
 
 /** The set of keys which can be used to access the Maps REST APIs. Two keys are provided for key rotation without interruption. */
 export interface MapsAccountKeys {
@@ -1101,9 +1065,7 @@ export const MapsAccountKeys = /*@__PURE__*/ S.suspend(() =>
     secondaryKey: S.optional(S.String),
     secondaryKeyLastUpdated: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MapsAccountKeys",
-}) as any as S.Schema<MapsAccountKeys>;
+).annotate({ identifier: "MapsAccountKeys" }) as any as S.Schema<MapsAccountKeys>;
 
 /** The Map account key to use for signing. Picking `primaryKey` or `secondaryKey` will use the Map account Shared Keys, and using `managedIdentity` will use the auto-renewed private key to sign the SAS. */
 export type ListAccountSasRequestSigningKey = "primaryKey" | "secondaryKey" | "managedIdentity";
@@ -1154,9 +1116,7 @@ export const ListAccountSasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccountSasRequest",
-}) as any as S.Schema<ListAccountSasRequest>;
+).annotate({ identifier: "ListAccountSasRequest" }) as any as S.Schema<ListAccountSasRequest>;
 
 /** A new Sas token which can be used to access the Maps REST APIs and is controlled by the specified Managed identity permissions on Azure (IAM) Role Based Access Control. */
 export interface MapsAccountSasToken {
@@ -1167,9 +1127,7 @@ export const MapsAccountSasToken = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountSasToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MapsAccountSasToken",
-}) as any as S.Schema<MapsAccountSasToken>;
+).annotate({ identifier: "MapsAccountSasToken" }) as any as S.Schema<MapsAccountSasToken>;
 
 export interface ListCreatorByAccountRequest {
   /** The ID of the target subscription. */
@@ -1239,9 +1197,7 @@ export const CreatorSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(CreatorSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreatorSystemData",
-}) as any as S.Schema<CreatorSystemData>;
+).annotate({ identifier: "CreatorSystemData" }) as any as S.Schema<CreatorSystemData>;
 
 /** An Azure resource which represents Maps Creator product and provides ability to manage private location data. */
 export interface Creator {
@@ -1302,9 +1258,7 @@ export const ListMapOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListMapOperationsRequest",
-}) as any as S.Schema<ListMapOperationsRequest>;
+).annotate({ identifier: "ListMapOperationsRequest" }) as any as S.Schema<ListMapOperationsRequest>;
 
 /** Operation display payload */
 export interface OperationDisplay {
@@ -1324,9 +1278,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Dimension of map account, for example API Category, Api Name, Result Type, and Response Code. */
 export interface Dimension {
@@ -1408,9 +1360,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     sourceMdmNamespace: S.optional(S.String),
     supportedAggregationTypes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Metric specifications of operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1427,9 +1377,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Properties of operation, include metric specifications. */
 export interface OperationProperties {
@@ -1440,9 +1388,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Operation detail payload */
 export interface OperationDetail {
@@ -1465,9 +1411,7 @@ export const OperationDetail = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(OperationProperties),
   }),
-).annotate({
-  identifier: "OperationDetail",
-}) as any as S.Schema<OperationDetail>;
+).annotate({ identifier: "OperationDetail" }) as any as S.Schema<OperationDetail>;
 
 /** An operation available for Maps. */
 export type MapsOperationsValueList = Array<OperationDetail>;
@@ -1587,14 +1531,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Resource tags. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1683,9 +1623,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(AccountsCreateOrUpdateResponseIdentity),
     properties: S.optional(MapsAccountProperties),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 /** Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. */
 export type UpdateCreatorRequestTagsMap = { [key: string]: string | undefined };
@@ -1724,14 +1662,10 @@ export const UpdateCreatorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCreatorRequest",
-}) as any as S.Schema<UpdateCreatorRequest>;
+).annotate({ identifier: "UpdateCreatorRequest" }) as any as S.Schema<UpdateCreatorRequest>;
 
 /** Resource tags. */
-export type UpdateCreatorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCreatorResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCreatorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1807,9 +1741,7 @@ export const UpdateCreatorResponse = /*@__PURE__*/ S.suspend(() =>
     properties: CreatorProperties,
     systemData: S.optional(UpdateCreatorResponseSystemData),
   }),
-).annotate({
-  identifier: "UpdateCreatorResponse",
-}) as any as S.Schema<UpdateCreatorResponse>;
+).annotate({ identifier: "UpdateCreatorResponse" }) as any as S.Schema<UpdateCreatorResponse>;
 
 export type AccountsCreateOrUpdateError = AzureOpError;
 /** Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs. */

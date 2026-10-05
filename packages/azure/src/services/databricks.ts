@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AccessConnectorsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccessConnectorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AccessConnectorsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -95,9 +93,7 @@ export const AccessConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<AccessConnectorsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type AccessConnectorsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AccessConnectorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AccessConnectorsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -151,14 +147,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -310,9 +302,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** GroupIds from the private link service resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -461,9 +451,7 @@ export const DeleteVNetPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteVNetPeeringRequest",
-}) as any as S.Schema<DeleteVNetPeeringRequest>;
+).annotate({ identifier: "DeleteVNetPeeringRequest" }) as any as S.Schema<DeleteVNetPeeringRequest>;
 
 export interface DeleteVNetPeeringResponse {}
 export const DeleteVNetPeeringResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -494,9 +482,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -529,9 +515,7 @@ export const GetAccessConnectorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccessConnectorRequest>;
 
 /** Resource tags. */
-export type GetAccessConnectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetAccessConnectorResponseTagsMap = { [key: string]: string | undefined };
 export const GetAccessConnectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -724,9 +708,7 @@ export const GetVNetPeeringRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetVNetPeeringRequest",
-}) as any as S.Schema<GetVNetPeeringRequest>;
+).annotate({ identifier: "GetVNetPeeringRequest" }) as any as S.Schema<GetVNetPeeringRequest>;
 
 /** The remote virtual network should be in the same region. See here to learn more (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering). */
 export interface VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork {
@@ -840,9 +822,7 @@ export const GetVNetPeeringResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: VirtualNetworkPeeringPropertiesFormat,
   }),
-).annotate({
-  identifier: "GetVNetPeeringResponse",
-}) as any as S.Schema<GetVNetPeeringResponse>;
+).annotate({ identifier: "GetVNetPeeringResponse" }) as any as S.Schema<GetVNetPeeringResponse>;
 
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -865,9 +845,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -1163,9 +1141,7 @@ export const ManagedDiskEncryption = /*@__PURE__*/ S.suspend(() =>
     keyVaultProperties: ManagedDiskEncryptionKeyVaultProperties,
     rotationToLatestKeyVersionEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ManagedDiskEncryption",
-}) as any as S.Schema<ManagedDiskEncryption>;
+).annotate({ identifier: "ManagedDiskEncryption" }) as any as S.Schema<ManagedDiskEncryption>;
 
 /** Encryption entities for databricks workspace resource. */
 export interface EncryptionEntitiesDefinition {
@@ -1321,9 +1297,7 @@ export const DefaultCatalogProperties = /*@__PURE__*/ S.suspend(() =>
     initialType: S.optional(DefaultCatalogPropertiesInitialType),
     initialName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DefaultCatalogProperties",
-}) as any as S.Schema<DefaultCatalogProperties>;
+).annotate({ identifier: "DefaultCatalogProperties" }) as any as S.Schema<DefaultCatalogProperties>;
 
 /** The identity type of the Access Connector Resource. */
 export type IdentityType = "SystemAssigned" | "UserAssigned";
@@ -1427,9 +1401,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
     accessConnector: S.optional(WorkspacePropertiesAccessConnector),
     defaultStorageFirewall: S.optional(DefaultStorageFirewall),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 /** SKU for the resource. */
 export interface Sku {
@@ -1471,9 +1443,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: WorkspaceProperties,
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface ListAccessConnectorByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1535,9 +1505,7 @@ export const AccessConnector = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(AccessConnectorProperties),
     identity: S.optional(AccessConnectorsCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "AccessConnector",
-}) as any as S.Schema<AccessConnector>;
+).annotate({ identifier: "AccessConnector" }) as any as S.Schema<AccessConnector>;
 
 /** The AccessConnector items on this page */
 export type AccessConnectorListResultValueList = Array<AccessConnector>;
@@ -1590,9 +1558,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -1612,9 +1578,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** REST API operation */
 export interface Operation {
@@ -1648,9 +1612,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1715,9 +1677,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     domainName: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints that Workspace connect to */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
@@ -1845,9 +1805,7 @@ export const GroupIdInformation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: GroupIdInformationProperties,
   }),
-).annotate({
-  identifier: "GroupIdInformation",
-}) as any as S.Schema<GroupIdInformation>;
+).annotate({ identifier: "GroupIdInformation" }) as any as S.Schema<GroupIdInformation>;
 
 /** The GroupIdInformation items on this page */
 export type PrivateLinkResourcesListValueList = Array<GroupIdInformation>;
@@ -1867,9 +1825,7 @@ export const PrivateLinkResourcesList = /*@__PURE__*/ S.suspend(() =>
     value: PrivateLinkResourcesListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResourcesList",
-}) as any as S.Schema<PrivateLinkResourcesList>;
+).annotate({ identifier: "PrivateLinkResourcesList" }) as any as S.Schema<PrivateLinkResourcesList>;
 
 export interface ListVNetPeeringByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1914,9 +1870,7 @@ export const VirtualNetworkPeering = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: VirtualNetworkPeeringPropertiesFormat,
   }),
-).annotate({
-  identifier: "VirtualNetworkPeering",
-}) as any as S.Schema<VirtualNetworkPeering>;
+).annotate({ identifier: "VirtualNetworkPeering" }) as any as S.Schema<VirtualNetworkPeering>;
 
 /** The VirtualNetworkPeering items on this page */
 export type VirtualNetworkPeeringListValueList = Array<VirtualNetworkPeering>;
@@ -2016,9 +1970,7 @@ export const WorkspaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: WorkspaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceListResult",
-}) as any as S.Schema<WorkspaceListResult>;
+).annotate({ identifier: "WorkspaceListResult" }) as any as S.Schema<WorkspaceListResult>;
 
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2040,9 +1992,7 @@ export const ListWorkspaceBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListWorkspaceBySubscriptionRequest>;
 
 /** Resource tags. */
-export type UpdateAccessConnectorRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccessConnectorRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateAccessConnectorRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2084,9 +2034,7 @@ export const UpdateAccessConnectorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccessConnectorRequest>;
 
 /** Resource tags. */
-export type UpdateAccessConnectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccessConnectorResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccessConnectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2127,9 +2075,7 @@ export const UpdateAccessConnectorResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateAccessConnectorResponse>;
 
 /** Resource tags. */
-export type UpdateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2159,14 +2105,10 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2198,9 +2140,7 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: WorkspaceProperties,
     sku: S.optional(Sku),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 export interface VNetPeeringCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2255,9 +2195,7 @@ export const VNetPeeringCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<VNetPeeringCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2331,9 +2269,7 @@ export const WorkspacePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     accessConnector: S.optional(WorkspacePropertiesAccessConnector),
     defaultStorageFirewall: S.optional(DefaultStorageFirewall),
   }),
-).annotate({
-  identifier: "WorkspacePropertiesInput",
-}) as any as S.Schema<WorkspacePropertiesInput>;
+).annotate({ identifier: "WorkspacePropertiesInput" }) as any as S.Schema<WorkspacePropertiesInput>;
 
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2373,9 +2309,7 @@ export const WorkspacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

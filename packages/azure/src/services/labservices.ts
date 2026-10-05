@@ -30,9 +30,7 @@ export const DeleteLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "DeleteLabRequest",
-}) as any as S.Schema<DeleteLabRequest>;
+).annotate({ identifier: "DeleteLabRequest" }) as any as S.Schema<DeleteLabRequest>;
 
 export interface DeleteLabResponse {}
 export const DeleteLabResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -60,9 +58,7 @@ export const DeleteLabPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "DeleteLabPlanRequest",
-}) as any as S.Schema<DeleteLabPlanRequest>;
+).annotate({ identifier: "DeleteLabPlanRequest" }) as any as S.Schema<DeleteLabPlanRequest>;
 
 export interface DeleteLabPlanResponse {}
 export const DeleteLabPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -93,9 +89,7 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "DeleteScheduleRequest",
-}) as any as S.Schema<DeleteScheduleRequest>;
+).annotate({ identifier: "DeleteScheduleRequest" }) as any as S.Schema<DeleteScheduleRequest>;
 
 export interface DeleteScheduleResponse {}
 export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -126,9 +120,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -159,9 +151,7 @@ export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 
 /** The type of identity that created the resource. */
 export type GetImageResponseSystemDataCreatedByType =
@@ -293,9 +283,7 @@ export const ImageProperties = /*@__PURE__*/ S.suspend(() =>
     availableRegions: S.optional(ImagePropertiesAvailableRegionsList),
     osState: S.optional(ImagePropertiesOsState),
   }),
-).annotate({
-  identifier: "ImageProperties",
-}) as any as S.Schema<ImageProperties>;
+).annotate({ identifier: "ImageProperties" }) as any as S.Schema<ImageProperties>;
 
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -317,9 +305,7 @@ export const GetImageResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetImageResponseSystemData),
     properties: ImageProperties,
   }),
-).annotate({
-  identifier: "GetImageResponse",
-}) as any as S.Schema<GetImageResponse>;
+).annotate({ identifier: "GetImageResponse" }) as any as S.Schema<GetImageResponse>;
 
 export interface GetLabRequest {
   /** The ID of the target subscription. */
@@ -391,9 +377,7 @@ export const GetLabResponseSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(GetLabResponseSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetLabResponseSystemData",
-}) as any as S.Schema<GetLabResponseSystemData>;
+).annotate({ identifier: "GetLabResponseSystemData" }) as any as S.Schema<GetLabResponseSystemData>;
 
 /** Property enabled state. */
 export type EnableState = "Enabled" | "Disabled";
@@ -516,9 +500,7 @@ export const VirtualMachineProfileSku = /*@__PURE__*/ S.suspend(() =>
     family: S.optional(S.String),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "VirtualMachineProfileSku",
-}) as any as S.Schema<VirtualMachineProfileSku>;
+).annotate({ identifier: "VirtualMachineProfileSku" }) as any as S.Schema<VirtualMachineProfileSku>;
 
 /** Property enabled state. */
 export type VirtualMachineAdditionalCapabilitiesInstallGpuDrivers = "Enabled" | "Disabled";
@@ -588,9 +570,7 @@ export const VirtualMachineProfile = /*@__PURE__*/ S.suspend(() =>
     adminUser: Credentials,
     nonAdminUser: S.optional(Credentials),
   }),
-).annotate({
-  identifier: "VirtualMachineProfile",
-}) as any as S.Schema<VirtualMachineProfile>;
+).annotate({ identifier: "VirtualMachineProfile" }) as any as S.Schema<VirtualMachineProfile>;
 
 /** Property enabled state. */
 export type SecurityProfileOpenAccess = "Enabled" | "Disabled";
@@ -608,9 +588,7 @@ export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
     registrationCode: S.optional(S.String),
     openAccess: S.optional(SecurityProfileOpenAccess),
   }),
-).annotate({
-  identifier: "SecurityProfile",
-}) as any as S.Schema<SecurityProfile>;
+).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
 /** The lab user list management profile. */
 export interface RosterProfile {
@@ -660,9 +638,7 @@ export const LabNetworkProfile = /*@__PURE__*/ S.suspend(() =>
     loadBalancerId: S.optional(S.String),
     publicIpId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabNetworkProfile",
-}) as any as S.Schema<LabNetworkProfile>;
+).annotate({ identifier: "LabNetworkProfile" }) as any as S.Schema<LabNetworkProfile>;
 
 /** The state of a virtual machine. */
 export type LabState = "Draft" | "Publishing" | "Scaling" | "Syncing" | "Published";
@@ -783,9 +759,7 @@ export const GetLabPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "GetLabPlanRequest",
-}) as any as S.Schema<GetLabPlanRequest>;
+).annotate({ identifier: "GetLabPlanRequest" }) as any as S.Schema<GetLabPlanRequest>;
 
 /** Resource tags. */
 export type GetLabPlanResponseTagsMap = { [key: string]: string | undefined };
@@ -897,9 +871,7 @@ export const LabPlanNetworkProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subnetId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabPlanNetworkProfile",
-}) as any as S.Schema<LabPlanNetworkProfile>;
+).annotate({ identifier: "LabPlanNetworkProfile" }) as any as S.Schema<LabPlanNetworkProfile>;
 
 /** The allowed regions for the lab creator to use when creating labs using this lab plan. */
 export type LabPlanPropertiesAllowedRegionsList = Array<string>;
@@ -974,9 +946,7 @@ export const LabPlanProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(LabPlanPropertiesProvisioningState),
     resourceOperationError: S.optional(LabPropertiesResourceOperationError),
   }),
-).annotate({
-  identifier: "LabPlanProperties",
-}) as any as S.Schema<LabPlanProperties>;
+).annotate({ identifier: "LabPlanProperties" }) as any as S.Schema<LabPlanProperties>;
 
 /** The identity type. */
 export type GetLabPlanResponseIdentityType = "SystemAssigned";
@@ -1030,9 +1000,7 @@ export const GetLabPlanResponse = /*@__PURE__*/ S.suspend(() =>
     properties: LabPlanProperties,
     identity: S.optional(GetLabPlanResponseIdentity),
   }),
-).annotate({
-  identifier: "GetLabPlanResponse",
-}) as any as S.Schema<GetLabPlanResponse>;
+).annotate({ identifier: "GetLabPlanResponse" }) as any as S.Schema<GetLabPlanResponse>;
 
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1083,9 +1051,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1149,9 +1115,7 @@ export const OperationResultError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(OperationResultErrorDetailsList),
     additionalInfo: S.optional(OperationResultErrorAdditionalInfoList),
   }),
-).annotate({
-  identifier: "OperationResultError",
-}) as any as S.Schema<OperationResultError>;
+).annotate({ identifier: "OperationResultError" }) as any as S.Schema<OperationResultError>;
 
 /** A long running operation result */
 export interface OperationResult {
@@ -1180,9 +1144,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     percentComplete: S.optional(S.Number),
     error: S.optional(OperationResultError),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 export interface GetScheduleRequest {
   /** The ID of the target subscription. */
@@ -1208,9 +1170,7 @@ export const GetScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "GetScheduleRequest",
-}) as any as S.Schema<GetScheduleRequest>;
+).annotate({ identifier: "GetScheduleRequest" }) as any as S.Schema<GetScheduleRequest>;
 
 /** The type of identity that created the resource. */
 export type GetScheduleResponseSystemDataCreatedByType =
@@ -1295,9 +1255,7 @@ export const RecurrencePattern = /*@__PURE__*/ S.suspend(() =>
     interval: S.optional(S.Number),
     expirationDate: S.String,
   }),
-).annotate({
-  identifier: "RecurrencePattern",
-}) as any as S.Schema<RecurrencePattern>;
+).annotate({ identifier: "RecurrencePattern" }) as any as S.Schema<RecurrencePattern>;
 
 /** Resource provisioning state. */
 export type SchedulePropertiesProvisioningState =
@@ -1340,9 +1298,7 @@ export const ScheduleProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(SchedulePropertiesProvisioningState),
     resourceOperationError: S.optional(LabPropertiesResourceOperationError),
   }),
-).annotate({
-  identifier: "ScheduleProperties",
-}) as any as S.Schema<ScheduleProperties>;
+).annotate({ identifier: "ScheduleProperties" }) as any as S.Schema<ScheduleProperties>;
 
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1364,9 +1320,7 @@ export const GetScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetScheduleResponseSystemData),
     properties: ScheduleProperties,
   }),
-).annotate({
-  identifier: "GetScheduleResponse",
-}) as any as S.Schema<GetScheduleResponse>;
+).annotate({ identifier: "GetScheduleResponse" }) as any as S.Schema<GetScheduleResponse>;
 
 export interface GetUserRequest {
   /** The ID of the target subscription. */
@@ -1515,9 +1469,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(GetUserResponseSystemData),
     properties: UserProperties,
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export interface GetVirtualMachineRequest {
   /** The ID of the target subscription. */
@@ -1543,9 +1495,7 @@ export const GetVirtualMachineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "GetVirtualMachineRequest",
-}) as any as S.Schema<GetVirtualMachineRequest>;
+).annotate({ identifier: "GetVirtualMachineRequest" }) as any as S.Schema<GetVirtualMachineRequest>;
 
 /** The type of identity that created the resource. */
 export type GetVirtualMachineResponseSystemDataCreatedByType =
@@ -1675,9 +1625,7 @@ export const VirtualMachineProperties = /*@__PURE__*/ S.suspend(() =>
     claimedByUserId: S.optional(S.String),
     vmType: S.optional(VirtualMachineType),
   }),
-).annotate({
-  identifier: "VirtualMachineProperties",
-}) as any as S.Schema<VirtualMachineProperties>;
+).annotate({ identifier: "VirtualMachineProperties" }) as any as S.Schema<VirtualMachineProperties>;
 
 export interface GetVirtualMachineResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1762,9 +1710,7 @@ export const ImagePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     availableRegions: S.optional(ImagePropertiesInputAvailableRegionsList),
     osState: S.optional(ImagePropertiesInputOsState),
   }),
-).annotate({
-  identifier: "ImagePropertiesInput",
-}) as any as S.Schema<ImagePropertiesInput>;
+).annotate({ identifier: "ImagePropertiesInput" }) as any as S.Schema<ImagePropertiesInput>;
 
 export interface ImagesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1892,9 +1838,7 @@ export const InviteUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "InviteUserRequest",
-}) as any as S.Schema<InviteUserRequest>;
+).annotate({ identifier: "InviteUserRequest" }) as any as S.Schema<InviteUserRequest>;
 
 export interface InviteUserResponse {}
 export const InviteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1902,9 +1846,7 @@ export const InviteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).an
 }) as any as S.Schema<InviteUserResponse>;
 
 /** Resource tags. */
-export type LabPlansCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabPlansCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LabPlansCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1965,9 +1907,7 @@ export const LabPlansCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LabPlansCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LabPlansCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabPlansCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LabPlansCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2100,9 +2040,7 @@ export const LabPlansSaveImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "LabPlansSaveImageRequest",
-}) as any as S.Schema<LabPlansSaveImageRequest>;
+).annotate({ identifier: "LabPlansSaveImageRequest" }) as any as S.Schema<LabPlansSaveImageRequest>;
 
 export interface LabPlansSaveImageResponse {}
 export const LabPlansSaveImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2110,9 +2048,7 @@ export const LabPlansSaveImageResponse = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<LabPlansSaveImageResponse>;
 
 /** Resource tags. */
-export type LabsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LabsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2151,9 +2087,7 @@ export const ImageReferenceInput = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageReferenceInput",
-}) as any as S.Schema<ImageReferenceInput>;
+).annotate({ identifier: "ImageReferenceInput" }) as any as S.Schema<ImageReferenceInput>;
 
 /** The operating system type. */
 export type VirtualMachineProfileInputOsType = "Windows" | "Linux";
@@ -2242,9 +2176,7 @@ export const SecurityProfileInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     openAccess: S.optional(SecurityProfileInputOpenAccess),
   }),
-).annotate({
-  identifier: "SecurityProfileInput",
-}) as any as S.Schema<SecurityProfileInput>;
+).annotate({ identifier: "SecurityProfileInput" }) as any as S.Schema<SecurityProfileInput>;
 
 /** Resource provisioning state. */
 export type LabPropertiesInputProvisioningState =
@@ -2299,9 +2231,7 @@ export const LabPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     networkProfile: S.optional(LabNetworkProfile),
     resourceOperationError: S.optional(LabPropertiesResourceOperationError),
   }),
-).annotate({
-  identifier: "LabPropertiesInput",
-}) as any as S.Schema<LabPropertiesInput>;
+).annotate({ identifier: "LabPropertiesInput" }) as any as S.Schema<LabPropertiesInput>;
 
 export interface LabsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2338,9 +2268,7 @@ export const LabsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LabsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LabsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LabsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LabsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2480,9 +2408,7 @@ export const ImageSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ImageSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageSystemData",
-}) as any as S.Schema<ImageSystemData>;
+).annotate({ identifier: "ImageSystemData" }) as any as S.Schema<ImageSystemData>;
 
 /** Lab services virtual machine image */
 export interface Image {
@@ -2721,9 +2647,7 @@ export const LabPlanSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(LabPlanSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabPlanSystemData",
-}) as any as S.Schema<LabPlanSystemData>;
+).annotate({ identifier: "LabPlanSystemData" }) as any as S.Schema<LabPlanSystemData>;
 
 /** The identity type. */
 export type LabPlanIdentityType = "SystemAssigned";
@@ -2744,9 +2668,7 @@ export const LabPlanIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: S.optional(LabPlanIdentityType),
   }),
-).annotate({
-  identifier: "LabPlanIdentity",
-}) as any as S.Schema<LabPlanIdentity>;
+).annotate({ identifier: "LabPlanIdentity" }) as any as S.Schema<LabPlanIdentity>;
 
 /** Lab Plans act as a permission container for creating labs via labs.azure.com. Additionally, they can provide a set of default configurations that will apply at the time of creating a lab, but these defaults can still be overwritten. */
 export interface LabPlan {
@@ -2832,9 +2754,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2854,9 +2774,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2906,9 +2824,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListScheduleByLabRequest {
   /** The ID of the target subscription. */
@@ -2934,9 +2850,7 @@ export const ListScheduleByLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "ListScheduleByLabRequest",
-}) as any as S.Schema<ListScheduleByLabRequest>;
+).annotate({ identifier: "ListScheduleByLabRequest" }) as any as S.Schema<ListScheduleByLabRequest>;
 
 /** The type of identity that created the resource. */
 export type ScheduleSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -2974,9 +2888,7 @@ export const ScheduleSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ScheduleSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleSystemData",
-}) as any as S.Schema<ScheduleSystemData>;
+).annotate({ identifier: "ScheduleSystemData" }) as any as S.Schema<ScheduleSystemData>;
 
 /** Schedule for automatically turning virtual machines in a lab on and off at specified times. */
 export interface Schedule {
@@ -3039,9 +2951,7 @@ export const ListSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "ListSkusRequest",
-}) as any as S.Schema<ListSkusRequest>;
+).annotate({ identifier: "ListSkusRequest" }) as any as S.Schema<ListSkusRequest>;
 
 /** The tier of the SKU. */
 export type LabServicesSkuTier = "Standard" | "Premium";
@@ -3069,9 +2979,7 @@ export const LabServicesSkuCapacity = /*@__PURE__*/ S.suspend(() =>
     maximum: S.optional(S.Number),
     scaleType: S.optional(LabServicesSkuCapacityScaleType),
   }),
-).annotate({
-  identifier: "LabServicesSkuCapacity",
-}) as any as S.Schema<LabServicesSkuCapacity>;
+).annotate({ identifier: "LabServicesSkuCapacity" }) as any as S.Schema<LabServicesSkuCapacity>;
 
 /** The array of capabilities of a lab services SKU. */
 export interface LabServicesSkuCapabilities {
@@ -3116,9 +3024,7 @@ export const LabServicesSkuCost = /*@__PURE__*/ S.suspend(() =>
     quantity: S.optional(S.Number),
     extendedUnit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabServicesSkuCost",
-}) as any as S.Schema<LabServicesSkuCost>;
+).annotate({ identifier: "LabServicesSkuCost" }) as any as S.Schema<LabServicesSkuCost>;
 
 /** Metadata for retrieving price info of a lab services SKUs. */
 export type LabServicesSkuCostsList = Array<LabServicesSkuCost>;
@@ -3220,9 +3126,7 @@ export const PagedLabServicesSkus = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PagedLabServicesSkusValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PagedLabServicesSkus",
-}) as any as S.Schema<PagedLabServicesSkus>;
+).annotate({ identifier: "PagedLabServicesSkus" }) as any as S.Schema<PagedLabServicesSkus>;
 
 export interface ListUsageByLocationRequest {
   /** The ID of the target subscription. */
@@ -3317,9 +3221,7 @@ export const ListUsagesResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListUsagesResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUsagesResult",
-}) as any as S.Schema<ListUsagesResult>;
+).annotate({ identifier: "ListUsagesResult" }) as any as S.Schema<ListUsagesResult>;
 
 export interface ListUserByLabRequest {
   /** The ID of the target subscription. */
@@ -3345,9 +3247,7 @@ export const ListUserByLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "ListUserByLabRequest",
-}) as any as S.Schema<ListUserByLabRequest>;
+).annotate({ identifier: "ListUserByLabRequest" }) as any as S.Schema<ListUserByLabRequest>;
 
 /** The type of identity that created the resource. */
 export type UserSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -3494,9 +3394,7 @@ export const VirtualMachineSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(VirtualMachineSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualMachineSystemData",
-}) as any as S.Schema<VirtualMachineSystemData>;
+).annotate({ identifier: "VirtualMachineSystemData" }) as any as S.Schema<VirtualMachineSystemData>;
 
 /** A lab virtual machine resource. */
 export interface VirtualMachine {
@@ -3539,9 +3437,7 @@ export const PagedVirtualMachines = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PagedVirtualMachinesValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PagedVirtualMachines",
-}) as any as S.Schema<PagedVirtualMachines>;
+).annotate({ identifier: "PagedVirtualMachines" }) as any as S.Schema<PagedVirtualMachines>;
 
 export interface PublishLabRequest {
   /** The ID of the target subscription. */
@@ -3564,9 +3460,7 @@ export const PublishLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "PublishLabRequest",
-}) as any as S.Schema<PublishLabRequest>;
+).annotate({ identifier: "PublishLabRequest" }) as any as S.Schema<PublishLabRequest>;
 
 export interface PublishLabResponse {}
 export const PublishLabResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3833,9 +3727,7 @@ export const SyncLabGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "SyncLabGroupRequest",
-}) as any as S.Schema<SyncLabGroupRequest>;
+).annotate({ identifier: "SyncLabGroupRequest" }) as any as S.Schema<SyncLabGroupRequest>;
 
 export interface SyncLabGroupResponse {}
 export const SyncLabGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3855,9 +3747,7 @@ export const ImageUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabledState: S.optional(ImageUpdatePropertiesEnabledState),
   }),
-).annotate({
-  identifier: "ImageUpdateProperties",
-}) as any as S.Schema<ImageUpdateProperties>;
+).annotate({ identifier: "ImageUpdateProperties" }) as any as S.Schema<ImageUpdateProperties>;
 
 export interface UpdateImageRequest {
   /** The ID of the target subscription. */
@@ -3886,9 +3776,7 @@ export const UpdateImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "UpdateImageRequest",
-}) as any as S.Schema<UpdateImageRequest>;
+).annotate({ identifier: "UpdateImageRequest" }) as any as S.Schema<UpdateImageRequest>;
 
 /** The type of identity that created the resource. */
 export type UpdateImageResponseSystemDataCreatedByType =
@@ -3954,9 +3842,7 @@ export const UpdateImageResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateImageResponseSystemData),
     properties: ImageProperties,
   }),
-).annotate({
-  identifier: "UpdateImageResponse",
-}) as any as S.Schema<UpdateImageResponse>;
+).annotate({ identifier: "UpdateImageResponse" }) as any as S.Schema<UpdateImageResponse>;
 
 /** Resource tags. */
 export type UpdateLabRequestTagsList = Array<string>;
@@ -4004,9 +3890,7 @@ export const LabUpdatePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     title: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabUpdatePropertiesInput",
-}) as any as S.Schema<LabUpdatePropertiesInput>;
+).annotate({ identifier: "LabUpdatePropertiesInput" }) as any as S.Schema<LabUpdatePropertiesInput>;
 
 export interface UpdateLabRequest {
   /** The ID of the target subscription. */
@@ -4035,9 +3919,7 @@ export const UpdateLabRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "UpdateLabRequest",
-}) as any as S.Schema<UpdateLabRequest>;
+).annotate({ identifier: "UpdateLabRequest" }) as any as S.Schema<UpdateLabRequest>;
 
 /** Resource tags. */
 export type UpdateLabResponseTagsMap = { [key: string]: string | undefined };
@@ -4116,9 +3998,7 @@ export const UpdateLabResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateLabResponseSystemData),
     properties: LabProperties,
   }),
-).annotate({
-  identifier: "UpdateLabResponse",
-}) as any as S.Schema<UpdateLabResponse>;
+).annotate({ identifier: "UpdateLabResponse" }) as any as S.Schema<UpdateLabResponse>;
 
 /** Resource tags. */
 export type UpdateLabPlanRequestTagsList = Array<string>;
@@ -4171,9 +4051,7 @@ export const LabPlanUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     supportInfo: S.optional(SupportInfo),
     linkedLmsInstance: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LabPlanUpdateProperties",
-}) as any as S.Schema<LabPlanUpdateProperties>;
+).annotate({ identifier: "LabPlanUpdateProperties" }) as any as S.Schema<LabPlanUpdateProperties>;
 
 /** The identity type. */
 export type UpdateLabPlanRequestIdentityType = "SystemAssigned";
@@ -4222,14 +4100,10 @@ export const UpdateLabPlanRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "UpdateLabPlanRequest",
-}) as any as S.Schema<UpdateLabPlanRequest>;
+).annotate({ identifier: "UpdateLabPlanRequest" }) as any as S.Schema<UpdateLabPlanRequest>;
 
 /** Resource tags. */
-export type UpdateLabPlanResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateLabPlanResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateLabPlanResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4331,9 +4205,7 @@ export const UpdateLabPlanResponse = /*@__PURE__*/ S.suspend(() =>
     properties: LabPlanProperties,
     identity: S.optional(UpdateLabPlanResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateLabPlanResponse",
-}) as any as S.Schema<UpdateLabPlanResponse>;
+).annotate({ identifier: "UpdateLabPlanResponse" }) as any as S.Schema<UpdateLabPlanResponse>;
 
 /** Schedule resource properties used for updates. */
 export interface ScheduleUpdateProperties {
@@ -4356,9 +4228,7 @@ export const ScheduleUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     timeZoneId: S.optional(S.String),
     notes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleUpdateProperties",
-}) as any as S.Schema<ScheduleUpdateProperties>;
+).annotate({ identifier: "ScheduleUpdateProperties" }) as any as S.Schema<ScheduleUpdateProperties>;
 
 export interface UpdateScheduleRequest {
   /** The ID of the target subscription. */
@@ -4387,9 +4257,7 @@ export const UpdateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "UpdateScheduleRequest",
-}) as any as S.Schema<UpdateScheduleRequest>;
+).annotate({ identifier: "UpdateScheduleRequest" }) as any as S.Schema<UpdateScheduleRequest>;
 
 /** The type of identity that created the resource. */
 export type UpdateScheduleResponseSystemDataCreatedByType =
@@ -4455,9 +4323,7 @@ export const UpdateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateScheduleResponseSystemData),
     properties: ScheduleProperties,
   }),
-).annotate({
-  identifier: "UpdateScheduleResponse",
-}) as any as S.Schema<UpdateScheduleResponse>;
+).annotate({ identifier: "UpdateScheduleResponse" }) as any as S.Schema<UpdateScheduleResponse>;
 
 /** User resource properties used for updates. */
 export interface UserUpdateProperties {
@@ -4468,9 +4334,7 @@ export const UserUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     additionalUsageQuota: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserUpdateProperties",
-}) as any as S.Schema<UserUpdateProperties>;
+).annotate({ identifier: "UserUpdateProperties" }) as any as S.Schema<UserUpdateProperties>;
 
 export interface UpdateUserRequest {
   /** The ID of the target subscription. */
@@ -4499,9 +4363,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-06-07",
     }),
   ),
-).annotate({
-  identifier: "UpdateUserRequest",
-}) as any as S.Schema<UpdateUserRequest>;
+).annotate({ identifier: "UpdateUserRequest" }) as any as S.Schema<UpdateUserRequest>;
 
 /** The type of identity that created the resource. */
 export type UpdateUserResponseSystemDataCreatedByType =
@@ -4567,9 +4429,7 @@ export const UpdateUserResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(UpdateUserResponseSystemData),
     properties: UserProperties,
   }),
-).annotate({
-  identifier: "UpdateUserResponse",
-}) as any as S.Schema<UpdateUserResponse>;
+).annotate({ identifier: "UpdateUserResponse" }) as any as S.Schema<UpdateUserResponse>;
 
 /** Resource provisioning state. */
 export type UserPropertiesInputProvisioningState =
@@ -4603,9 +4463,7 @@ export const UserPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     resourceOperationError: S.optional(LabPropertiesResourceOperationError),
     email: S.String,
   }),
-).annotate({
-  identifier: "UserPropertiesInput",
-}) as any as S.Schema<UserPropertiesInput>;
+).annotate({ identifier: "UserPropertiesInput" }) as any as S.Schema<UserPropertiesInput>;
 
 export interface UsersCreateOrUpdateRequest {
   /** The ID of the target subscription. */

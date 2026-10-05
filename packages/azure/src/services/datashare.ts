@@ -58,9 +58,7 @@ export const EmailRegistration = /*@__PURE__*/ S.suspend(() =>
     registrationStatus: S.optional(EmailRegistrationRegistrationStatus),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EmailRegistration",
-}) as any as S.Schema<EmailRegistration>;
+).annotate({ identifier: "EmailRegistration" }) as any as S.Schema<EmailRegistration>;
 
 export interface CancelShareSubscriptionSynchronizationRequest {
   /** The subscription identifier */
@@ -189,9 +187,7 @@ export const CreateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateAccountRequest",
-}) as any as S.Schema<CreateAccountRequest>;
+).annotate({ identifier: "CreateAccountRequest" }) as any as S.Schema<CreateAccountRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -228,9 +224,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Tags on the azure resource. */
-export type CreateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -284,9 +278,7 @@ export const AccountProperties = /*@__PURE__*/ S.suspend(() =>
     userEmail: S.optional(S.String),
     userName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountProperties",
-}) as any as S.Schema<AccountProperties>;
+).annotate({ identifier: "AccountProperties" }) as any as S.Schema<AccountProperties>;
 
 export interface CreateAccountResponse {
   /** The resource id of the azure resource */
@@ -317,9 +309,7 @@ export const CreateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: Identity,
     properties: S.optional(AccountProperties),
   }),
-).annotate({
-  identifier: "CreateAccountResponse",
-}) as any as S.Schema<CreateAccountResponse>;
+).annotate({ identifier: "CreateAccountResponse" }) as any as S.Schema<CreateAccountResponse>;
 
 /** Kind of data set. */
 export type CreateDataSetRequestKind =
@@ -352,6 +342,8 @@ export interface CreateDataSetRequest {
   dataSetName: string;
   /** Kind of data set. */
   kind: CreateDataSetRequestKind | (string & {});
+  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -361,6 +353,7 @@ export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
     shareName: S.String.pipe(T.Label()),
     dataSetName: S.String.pipe(T.Label()),
     kind: CreateDataSetRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -369,9 +362,7 @@ export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateDataSetRequest",
-}) as any as S.Schema<CreateDataSetRequest>;
+).annotate({ identifier: "CreateDataSetRequest" }) as any as S.Schema<CreateDataSetRequest>;
 
 /** Kind of data set. */
 export type CreateDataSetResponseKind =
@@ -402,6 +393,8 @@ export interface CreateDataSetResponse {
   type?: string;
   /** Kind of data set. */
   kind: CreateDataSetResponseKind;
+  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -410,10 +403,9 @@ export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateDataSetResponseKind,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CreateDataSetResponse",
-}) as any as S.Schema<CreateDataSetResponse>;
+).annotate({ identifier: "CreateDataSetResponse" }) as any as S.Schema<CreateDataSetResponse>;
 
 /** Kind of data set mapping. */
 export type CreateDataSetMappingRequestKind =
@@ -444,6 +436,8 @@ export interface CreateDataSetMappingRequest {
   dataSetMappingName: string;
   /** Kind of data set mapping. */
   kind: CreateDataSetMappingRequestKind | (string & {});
+  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetMappingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -453,6 +447,7 @@ export const CreateDataSetMappingRequest = /*@__PURE__*/ S.suspend(() =>
     shareSubscriptionName: S.String.pipe(T.Label()),
     dataSetMappingName: S.String.pipe(T.Label()),
     kind: CreateDataSetMappingRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -492,6 +487,8 @@ export interface CreateDataSetMappingResponse {
   type?: string;
   /** Kind of data set mapping. */
   kind: CreateDataSetMappingResponseKind;
+  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const CreateDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -500,6 +497,7 @@ export const CreateDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateDataSetMappingResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateDataSetMappingResponse",
@@ -557,9 +555,7 @@ export const CreateInvitationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateInvitationRequest",
-}) as any as S.Schema<CreateInvitationRequest>;
+).annotate({ identifier: "CreateInvitationRequest" }) as any as S.Schema<CreateInvitationRequest>;
 
 /** The status of the invitation. */
 export type InvitationPropertiesInvitationStatus =
@@ -605,9 +601,7 @@ export const InvitationProperties = /*@__PURE__*/ S.suspend(() =>
     userEmail: S.optional(S.String),
     userName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InvitationProperties",
-}) as any as S.Schema<InvitationProperties>;
+).annotate({ identifier: "InvitationProperties" }) as any as S.Schema<InvitationProperties>;
 
 export interface CreateInvitationResponse {
   /** The resource id of the azure resource */
@@ -629,9 +623,7 @@ export const CreateInvitationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(InvitationProperties),
   }),
-).annotate({
-  identifier: "CreateInvitationResponse",
-}) as any as S.Schema<CreateInvitationResponse>;
+).annotate({ identifier: "CreateInvitationResponse" }) as any as S.Schema<CreateInvitationResponse>;
 
 /** Share kind. */
 export type SharePropertiesInputShareKind = "CopyBased" | "InPlace";
@@ -652,9 +644,7 @@ export const SharePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     shareKind: S.optional(SharePropertiesInputShareKind),
     terms: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SharePropertiesInput",
-}) as any as S.Schema<SharePropertiesInput>;
+).annotate({ identifier: "SharePropertiesInput" }) as any as S.Schema<SharePropertiesInput>;
 
 export interface CreateShareRequest {
   /** The subscription identifier */
@@ -683,9 +673,7 @@ export const CreateShareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateShareRequest",
-}) as any as S.Schema<CreateShareRequest>;
+).annotate({ identifier: "CreateShareRequest" }) as any as S.Schema<CreateShareRequest>;
 
 /** Gets or sets the provisioning state */
 export type SharePropertiesProvisioningState =
@@ -727,9 +715,7 @@ export const ShareProperties = /*@__PURE__*/ S.suspend(() =>
     userEmail: S.optional(S.String),
     userName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ShareProperties",
-}) as any as S.Schema<ShareProperties>;
+).annotate({ identifier: "ShareProperties" }) as any as S.Schema<ShareProperties>;
 
 export interface CreateShareResponse {
   /** The resource id of the azure resource */
@@ -751,9 +737,7 @@ export const CreateShareResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ShareProperties),
   }),
-).annotate({
-  identifier: "CreateShareResponse",
-}) as any as S.Schema<CreateShareResponse>;
+).annotate({ identifier: "CreateShareResponse" }) as any as S.Schema<CreateShareResponse>;
 
 /** Share subscription property bag. */
 export interface ShareSubscriptionPropertiesInput {
@@ -922,6 +906,8 @@ export interface CreateSynchronizationSettingsRequest {
   synchronizationSettingName: string;
   /** Kind of synchronization setting. */
   kind: CreateSynchronizationSettingsRequestKind | (string & {});
+  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateSynchronizationSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -931,6 +917,7 @@ export const CreateSynchronizationSettingsRequest = /*@__PURE__*/ S.suspend(() =
     shareName: S.String.pipe(T.Label()),
     synchronizationSettingName: S.String.pipe(T.Label()),
     kind: CreateSynchronizationSettingsRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -958,6 +945,8 @@ export interface CreateSynchronizationSettingsResponse {
   type?: string;
   /** Kind of synchronization setting. */
   kind: CreateSynchronizationSettingsResponseKind;
+  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -966,6 +955,7 @@ export const CreateSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(() 
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateSynchronizationSettingsResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "CreateSynchronizationSettingsResponse",
@@ -988,6 +978,8 @@ export interface CreateTriggerRequest {
   triggerName: string;
   /** Kind of synchronization on trigger. */
   kind: CreateTriggerRequestKind | (string & {});
+  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -997,6 +989,7 @@ export const CreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
     shareSubscriptionName: S.String.pipe(T.Label()),
     triggerName: S.String.pipe(T.Label()),
     kind: CreateTriggerRequestKind,
+    properties: S.optional(S.Unknown),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1005,9 +998,7 @@ export const CreateTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateTriggerRequest",
-}) as any as S.Schema<CreateTriggerRequest>;
+).annotate({ identifier: "CreateTriggerRequest" }) as any as S.Schema<CreateTriggerRequest>;
 
 /** Kind of synchronization on trigger. */
 export type CreateTriggerResponseKind = "ScheduleBased";
@@ -1024,6 +1015,8 @@ export interface CreateTriggerResponse {
   type?: string;
   /** Kind of synchronization on trigger. */
   kind: CreateTriggerResponseKind;
+  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const CreateTriggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1032,10 +1025,9 @@ export const CreateTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: CreateTriggerResponseKind,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "CreateTriggerResponse",
-}) as any as S.Schema<CreateTriggerResponse>;
+).annotate({ identifier: "CreateTriggerResponse" }) as any as S.Schema<CreateTriggerResponse>;
 
 export interface DeleteAccountRequest {
   /** The subscription identifier */
@@ -1058,9 +1050,7 @@ export const DeleteAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteAccountRequest",
-}) as any as S.Schema<DeleteAccountRequest>;
+).annotate({ identifier: "DeleteAccountRequest" }) as any as S.Schema<DeleteAccountRequest>;
 
 /** Nested details of the error model */
 export type DataShareErrorInfoDetailsList = Array<DataShareErrorInfo>;
@@ -1086,9 +1076,7 @@ export const DataShareErrorInfo = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     target: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataShareErrorInfo",
-}) as any as S.Schema<DataShareErrorInfo>;
+).annotate({ identifier: "DataShareErrorInfo" }) as any as S.Schema<DataShareErrorInfo>;
 
 /** Operation state of the long running operation. */
 export type OperationResponseStatus =
@@ -1109,18 +1097,16 @@ export interface OperationResponse {
   /** start time */
   startTime?: string;
   /** Operation state of the long running operation. */
-  status: OperationResponseStatus;
+  status?: OperationResponseStatus;
 }
 export const OperationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endTime: S.optional(S.String),
     error: S.optional(DataShareErrorInfo),
     startTime: S.optional(S.String),
-    status: OperationResponseStatus,
+    status: S.optional(OperationResponseStatus),
   }),
-).annotate({
-  identifier: "OperationResponse",
-}) as any as S.Schema<OperationResponse>;
+).annotate({ identifier: "OperationResponse" }) as any as S.Schema<OperationResponse>;
 
 export interface DeleteDataSetRequest {
   /** The subscription identifier */
@@ -1149,9 +1135,7 @@ export const DeleteDataSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDataSetRequest",
-}) as any as S.Schema<DeleteDataSetRequest>;
+).annotate({ identifier: "DeleteDataSetRequest" }) as any as S.Schema<DeleteDataSetRequest>;
 
 export interface DeleteDataSetResponse {}
 export const DeleteDataSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1221,9 +1205,7 @@ export const DeleteInvitationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteInvitationRequest",
-}) as any as S.Schema<DeleteInvitationRequest>;
+).annotate({ identifier: "DeleteInvitationRequest" }) as any as S.Schema<DeleteInvitationRequest>;
 
 export interface DeleteInvitationResponse {}
 export const DeleteInvitationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1254,9 +1236,7 @@ export const DeleteShareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteShareRequest",
-}) as any as S.Schema<DeleteShareRequest>;
+).annotate({ identifier: "DeleteShareRequest" }) as any as S.Schema<DeleteShareRequest>;
 
 export interface DeleteShareSubscriptionRequest {
   /** The subscription identifier */
@@ -1344,9 +1324,7 @@ export const DeleteTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTriggerRequest",
-}) as any as S.Schema<DeleteTriggerRequest>;
+).annotate({ identifier: "DeleteTriggerRequest" }) as any as S.Schema<DeleteTriggerRequest>;
 
 export interface GetAccountRequest {
   /** The subscription identifier */
@@ -1369,9 +1347,7 @@ export const GetAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetAccountRequest",
-}) as any as S.Schema<GetAccountRequest>;
+).annotate({ identifier: "GetAccountRequest" }) as any as S.Schema<GetAccountRequest>;
 
 /** Tags on the azure resource. */
 export type GetAccountResponseTagsMap = { [key: string]: string | undefined };
@@ -1409,9 +1385,7 @@ export const GetAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: Identity,
     properties: S.optional(AccountProperties),
   }),
-).annotate({
-  identifier: "GetAccountResponse",
-}) as any as S.Schema<GetAccountResponse>;
+).annotate({ identifier: "GetAccountResponse" }) as any as S.Schema<GetAccountResponse>;
 
 export interface GetConsumerInvitationRequest {
   /** Location of the invitation */
@@ -1549,9 +1523,7 @@ export const GetDataSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataSetRequest",
-}) as any as S.Schema<GetDataSetRequest>;
+).annotate({ identifier: "GetDataSetRequest" }) as any as S.Schema<GetDataSetRequest>;
 
 /** Kind of data set. */
 export type GetDataSetResponseKind =
@@ -1582,6 +1554,8 @@ export interface GetDataSetResponse {
   type?: string;
   /** Kind of data set. */
   kind: GetDataSetResponseKind;
+  /** Kind-specific data set properties (polymorphic on `kind`), e.g. `{ containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1590,10 +1564,9 @@ export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetDataSetResponseKind,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetDataSetResponse",
-}) as any as S.Schema<GetDataSetResponse>;
+).annotate({ identifier: "GetDataSetResponse" }) as any as S.Schema<GetDataSetResponse>;
 
 export interface GetDataSetMappingRequest {
   /** The subscription identifier */
@@ -1622,9 +1595,7 @@ export const GetDataSetMappingRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataSetMappingRequest",
-}) as any as S.Schema<GetDataSetMappingRequest>;
+).annotate({ identifier: "GetDataSetMappingRequest" }) as any as S.Schema<GetDataSetMappingRequest>;
 
 /** Kind of data set mapping. */
 export type GetDataSetMappingResponseKind =
@@ -1653,6 +1624,8 @@ export interface GetDataSetMappingResponse {
   type?: string;
   /** Kind of data set mapping. */
   kind: GetDataSetMappingResponseKind;
+  /** Kind-specific data set mapping properties (polymorphic on `kind`), e.g. `{ dataSetId, containerName, resourceGroup, storageAccountName, subscriptionId }` for `Container`. */
+  properties?: unknown;
 }
 export const GetDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1661,6 +1634,7 @@ export const GetDataSetMappingResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetDataSetMappingResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetDataSetMappingResponse",
@@ -1693,9 +1667,7 @@ export const GetInvitationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetInvitationRequest",
-}) as any as S.Schema<GetInvitationRequest>;
+).annotate({ identifier: "GetInvitationRequest" }) as any as S.Schema<GetInvitationRequest>;
 
 export interface GetInvitationResponse {
   /** The resource id of the azure resource */
@@ -1717,9 +1689,7 @@ export const GetInvitationResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(InvitationProperties),
   }),
-).annotate({
-  identifier: "GetInvitationResponse",
-}) as any as S.Schema<GetInvitationResponse>;
+).annotate({ identifier: "GetInvitationResponse" }) as any as S.Schema<GetInvitationResponse>;
 
 export interface GetProviderShareSubscriptionByShareRequest {
   /** The subscription identifier */
@@ -1848,9 +1818,7 @@ export const GetShareRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetShareRequest",
-}) as any as S.Schema<GetShareRequest>;
+).annotate({ identifier: "GetShareRequest" }) as any as S.Schema<GetShareRequest>;
 
 export interface GetShareResponse {
   /** The resource id of the azure resource */
@@ -1872,9 +1840,7 @@ export const GetShareResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ShareProperties),
   }),
-).annotate({
-  identifier: "GetShareResponse",
-}) as any as S.Schema<GetShareResponse>;
+).annotate({ identifier: "GetShareResponse" }) as any as S.Schema<GetShareResponse>;
 
 export interface GetShareSubscriptionRequest {
   /** The subscription identifier */
@@ -1974,6 +1940,8 @@ export interface GetSynchronizationSettingsResponse {
   type?: string;
   /** Kind of synchronization setting. */
   kind: GetSynchronizationSettingsResponseKind;
+  /** Kind-specific synchronization setting properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const GetSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1982,6 +1950,7 @@ export const GetSynchronizationSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetSynchronizationSettingsResponseKind,
+    properties: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "GetSynchronizationSettingsResponse",
@@ -2014,9 +1983,7 @@ export const GetTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetTriggerRequest",
-}) as any as S.Schema<GetTriggerRequest>;
+).annotate({ identifier: "GetTriggerRequest" }) as any as S.Schema<GetTriggerRequest>;
 
 /** Kind of synchronization on trigger. */
 export type GetTriggerResponseKind = "ScheduleBased";
@@ -2033,6 +2000,8 @@ export interface GetTriggerResponse {
   type?: string;
   /** Kind of synchronization on trigger. */
   kind: GetTriggerResponseKind;
+  /** Kind-specific trigger properties (polymorphic on `kind`), e.g. `{ recurrenceInterval, synchronizationTime, synchronizationMode }` for `ScheduleBased`. */
+  properties?: unknown;
 }
 export const GetTriggerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2041,10 +2010,9 @@ export const GetTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     type: S.optional(S.String),
     kind: GetTriggerResponseKind,
+    properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "GetTriggerResponse",
-}) as any as S.Schema<GetTriggerResponse>;
+).annotate({ identifier: "GetTriggerResponse" }) as any as S.Schema<GetTriggerResponse>;
 
 export interface ListAccountByResourceGroupRequest {
   /** The subscription identifier */
@@ -2192,9 +2160,7 @@ export const ConsumerInvitation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: ConsumerInvitationProperties,
   }),
-).annotate({
-  identifier: "ConsumerInvitation",
-}) as any as S.Schema<ConsumerInvitation>;
+).annotate({ identifier: "ConsumerInvitation" }) as any as S.Schema<ConsumerInvitation>;
 
 /** Collection of items of type DataTransferObjects. */
 export type ConsumerInvitationListValueList = Array<ConsumerInvitation>;
@@ -2214,9 +2180,7 @@ export const ConsumerInvitationList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: ConsumerInvitationListValueList,
   }),
-).annotate({
-  identifier: "ConsumerInvitationList",
-}) as any as S.Schema<ConsumerInvitationList>;
+).annotate({ identifier: "ConsumerInvitationList" }) as any as S.Schema<ConsumerInvitationList>;
 
 export interface ListConsumerSourceDataSetByShareSubscriptionRequest {
   /** The subscription identifier */
@@ -2313,9 +2277,7 @@ export const ConsumerSourceDataSet = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ConsumerSourceDataSetProperties),
   }),
-).annotate({
-  identifier: "ConsumerSourceDataSet",
-}) as any as S.Schema<ConsumerSourceDataSet>;
+).annotate({ identifier: "ConsumerSourceDataSet" }) as any as S.Schema<ConsumerSourceDataSet>;
 
 /** Collection of items of type DataTransferObjects. */
 export type ConsumerSourceDataSetListValueList = Array<ConsumerSourceDataSet>;
@@ -2531,9 +2493,7 @@ export const DataSetMappingList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: DataSetMappingListValueList,
   }),
-).annotate({
-  identifier: "DataSetMappingList",
-}) as any as S.Schema<DataSetMappingList>;
+).annotate({ identifier: "DataSetMappingList" }) as any as S.Schema<DataSetMappingList>;
 
 export interface ListInvitationByShareRequest {
   /** The subscription identifier */
@@ -2625,9 +2585,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Properties on operations */
 export interface OperationModelProperties {
@@ -2647,9 +2605,7 @@ export const OperationModelProperties = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationModelProperties",
-}) as any as S.Schema<OperationModelProperties>;
+).annotate({ identifier: "OperationModelProperties" }) as any as S.Schema<OperationModelProperties>;
 
 /** log specifications for operation api */
 export interface OperationMetaLogSpecification {
@@ -2689,9 +2645,7 @@ export const DimensionProperties = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DimensionProperties",
-}) as any as S.Schema<DimensionProperties>;
+).annotate({ identifier: "DimensionProperties" }) as any as S.Schema<DimensionProperties>;
 
 /** properties for dimension */
 export type OperationMetaMetricSpecificationDimensionsList = Array<DimensionProperties>;
@@ -3047,9 +3001,7 @@ export const ShareSubscription = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: ShareSubscriptionProperties,
   }),
-).annotate({
-  identifier: "ShareSubscription",
-}) as any as S.Schema<ShareSubscription>;
+).annotate({ identifier: "ShareSubscription" }) as any as S.Schema<ShareSubscription>;
 
 /** Collection of items of type DataTransferObjects. */
 export type ShareSubscriptionListValueList = Array<ShareSubscription>;
@@ -3069,9 +3021,7 @@ export const ShareSubscriptionList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: ShareSubscriptionListValueList,
   }),
-).annotate({
-  identifier: "ShareSubscriptionList",
-}) as any as S.Schema<ShareSubscriptionList>;
+).annotate({ identifier: "ShareSubscriptionList" }) as any as S.Schema<ShareSubscriptionList>;
 
 export interface ListShareSubscriptionSourceShareSynchronizationSettingsRequest {
   /** The subscription identifier */
@@ -3254,9 +3204,7 @@ export const SynchronizationDetails = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     vCore: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SynchronizationDetails",
-}) as any as S.Schema<SynchronizationDetails>;
+).annotate({ identifier: "SynchronizationDetails" }) as any as S.Schema<SynchronizationDetails>;
 
 /** Collection of items of type DataTransferObjects. */
 export type SynchronizationDetailsListValueList = Array<SynchronizationDetails>;
@@ -3480,9 +3428,7 @@ export const ShareSynchronization = /*@__PURE__*/ S.suspend(() =>
     synchronizationId: S.optional(S.String),
     synchronizationMode: S.optional(ShareSynchronizationSynchronizationMode),
   }),
-).annotate({
-  identifier: "ShareSynchronization",
-}) as any as S.Schema<ShareSynchronization>;
+).annotate({ identifier: "ShareSynchronization" }) as any as S.Schema<ShareSynchronization>;
 
 /** Collection of items of type DataTransferObjects. */
 export type ShareSynchronizationListValueList = Array<ShareSynchronization>;
@@ -3502,9 +3448,7 @@ export const ShareSynchronizationList = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: ShareSynchronizationListValueList,
   }),
-).annotate({
-  identifier: "ShareSynchronizationList",
-}) as any as S.Schema<ShareSynchronizationList>;
+).annotate({ identifier: "ShareSynchronizationList" }) as any as S.Schema<ShareSynchronizationList>;
 
 export interface ListSynchronizationSettingsByShareRequest {
   /** The subscription identifier */
@@ -3562,9 +3506,7 @@ export const SynchronizationSetting = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     kind: SynchronizationSettingKind,
   }),
-).annotate({
-  identifier: "SynchronizationSetting",
-}) as any as S.Schema<SynchronizationSetting>;
+).annotate({ identifier: "SynchronizationSetting" }) as any as S.Schema<SynchronizationSetting>;
 
 /** Collection of items of type DataTransferObjects. */
 export type SynchronizationSettingListValueList = Array<SynchronizationSetting>;
@@ -3994,14 +3936,10 @@ export const UpdateAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateAccountRequest",
-}) as any as S.Schema<UpdateAccountRequest>;
+).annotate({ identifier: "UpdateAccountRequest" }) as any as S.Schema<UpdateAccountRequest>;
 
 /** Tags on the azure resource. */
-export type UpdateAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4036,9 +3974,7 @@ export const UpdateAccountResponse = /*@__PURE__*/ S.suspend(() =>
     identity: Identity,
     properties: S.optional(AccountProperties),
   }),
-).annotate({
-  identifier: "UpdateAccountResponse",
-}) as any as S.Schema<UpdateAccountResponse>;
+).annotate({ identifier: "UpdateAccountResponse" }) as any as S.Schema<UpdateAccountResponse>;
 
 export type ActivateEmailRegistrationEmailError = AzureOpError;
 /** Activates the tenant and email combination using email code received. Activate the email registration for the current tenant */

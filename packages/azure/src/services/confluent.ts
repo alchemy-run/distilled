@@ -67,9 +67,7 @@ export const ConfluentListMetadata = /*@__PURE__*/ S.suspend(() =>
     next: S.optional(S.String),
     total_size: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConfluentListMetadata",
-}) as any as S.Schema<ConfluentListMetadata>;
+).annotate({ identifier: "ConfluentListMetadata" }) as any as S.Schema<ConfluentListMetadata>;
 
 /** List of role binding names */
 export type AccessRoleBindingNameListSuccessResponseDataList = Array<string>;
@@ -117,9 +115,7 @@ export const SCMetadataEntity = /*@__PURE__*/ S.suspend(() =>
     updatedTimestamp: S.optional(S.String),
     deletedTimestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SCMetadataEntity",
-}) as any as S.Schema<SCMetadataEntity>;
+).annotate({ identifier: "SCMetadataEntity" }) as any as S.Schema<SCMetadataEntity>;
 
 /** Stream Governance Package. Supported values are ESSENTIALS and ADVANCED */
 export type Package = "ESSENTIALS" | "ADVANCED";
@@ -134,9 +130,7 @@ export const ClusterConfigEntity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterConfigEntity",
-}) as any as S.Schema<ClusterConfigEntity>;
+).annotate({ identifier: "ClusterConfigEntity" }) as any as S.Schema<ClusterConfigEntity>;
 
 /** The environment or the network to which cluster belongs */
 export interface SCClusterNetworkEnvironmentEntity {
@@ -175,9 +169,7 @@ export const SCClusterByokEntity = /*@__PURE__*/ S.suspend(() =>
     related: S.optional(S.String),
     resourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SCClusterByokEntity",
-}) as any as S.Schema<SCClusterByokEntity>;
+).annotate({ identifier: "SCClusterByokEntity" }) as any as S.Schema<SCClusterByokEntity>;
 
 /** Spec of the cluster record */
 export interface SCClusterSpecEntity {
@@ -224,9 +216,7 @@ export const SCClusterSpecEntity = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(SCClusterNetworkEnvironmentEntity),
     byok: S.optional(SCClusterByokEntity),
   }),
-).annotate({
-  identifier: "SCClusterSpecEntity",
-}) as any as S.Schema<SCClusterSpecEntity>;
+).annotate({ identifier: "SCClusterSpecEntity" }) as any as S.Schema<SCClusterSpecEntity>;
 
 /** Status of the cluster record */
 export interface ClusterStatusEntity {
@@ -240,9 +230,7 @@ export const ClusterStatusEntity = /*@__PURE__*/ S.suspend(() =>
     phase: S.optional(S.String),
     cku: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ClusterStatusEntity",
-}) as any as S.Schema<ClusterStatusEntity>;
+).annotate({ identifier: "ClusterStatusEntity" }) as any as S.Schema<ClusterStatusEntity>;
 
 /** Service Connector Cluster Properties */
 export interface ClusterProperties {
@@ -259,9 +247,7 @@ export const ClusterProperties = /*@__PURE__*/ S.suspend(() =>
     spec: S.optional(SCClusterSpecEntity),
     status: S.optional(ClusterStatusEntity),
   }),
-).annotate({
-  identifier: "ClusterProperties",
-}) as any as S.Schema<ClusterProperties>;
+).annotate({ identifier: "ClusterProperties" }) as any as S.Schema<ClusterProperties>;
 
 export interface ClusterCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -394,68 +380,22 @@ export const ConnectorInfoBase = /*@__PURE__*/ S.suspend(() =>
     connectorId: S.optional(S.String),
     connectorState: S.optional(ConnectorStatus),
   }),
-).annotate({
-  identifier: "ConnectorInfoBase",
-}) as any as S.Schema<ConnectorInfoBase>;
-
-/** The connector service type. */
-export type ConnectorServiceType =
-  | "AzureBlobStorageSinkConnector"
-  | "AzureBlobStorageSourceConnector"
-  | "AzureCosmosDBSinkConnector"
-  | "AzureCosmosDBSourceConnector"
-  | "AzureSynapseAnalyticsSinkConnector";
-export const ConnectorServiceType = S.String;
-
-/** The connector service type info */
-export interface ConnectorServiceTypeInfoBase {
-  /** The connector service type. */
-  connectorServiceType: ConnectorServiceType | (string & {});
-}
-export const ConnectorServiceTypeInfoBase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    connectorServiceType: ConnectorServiceType,
-  }),
-).annotate({
-  identifier: "ConnectorServiceTypeInfoBase",
-}) as any as S.Schema<ConnectorServiceTypeInfoBase>;
-
-/** Partner Connector type. */
-export type PartnerConnectorType =
-  | "KafkaAzureBlobStorageSource"
-  | "KafkaAzureBlobStorageSink"
-  | "KafkaAzureCosmosDBSource"
-  | "KafkaAzureCosmosDBSink"
-  | "KafkaAzureSynapseAnalyticsSink";
-export const PartnerConnectorType = S.String;
-
-/** The partner info base */
-export interface PartnerInfoBase {
-  /** The partner connector type. */
-  partnerConnectorType: PartnerConnectorType | (string & {});
-}
-export const PartnerInfoBase = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    partnerConnectorType: PartnerConnectorType,
-  }),
-).annotate({
-  identifier: "PartnerInfoBase",
-}) as any as S.Schema<PartnerInfoBase>;
+).annotate({ identifier: "ConnectorInfoBase" }) as any as S.Schema<ConnectorInfoBase>;
 
 /** The resource properties of the Connector */
 export interface ConnectorResourceProperties {
   /** Connector Info Base */
   connectorBasicInfo?: ConnectorInfoBase;
   /** Connector Service type info base properties. */
-  connectorServiceTypeInfo?: ConnectorServiceTypeInfoBase;
+  connectorServiceTypeInfo?: unknown;
   /** The connection information consumed by applications. */
-  partnerConnectorInfo?: PartnerInfoBase;
+  partnerConnectorInfo?: unknown;
 }
 export const ConnectorResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectorBasicInfo: S.optional(ConnectorInfoBase),
-    connectorServiceTypeInfo: S.optional(ConnectorServiceTypeInfoBase),
-    partnerConnectorInfo: S.optional(PartnerInfoBase),
+    connectorServiceTypeInfo: S.optional(S.Unknown),
+    partnerConnectorInfo: S.optional(S.Unknown),
   }),
 ).annotate({
   identifier: "ConnectorResourceProperties",
@@ -603,9 +543,7 @@ export const RoleBindingRecord = /*@__PURE__*/ S.suspend(() =>
     role_name: S.optional(S.String),
     crn_pattern: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RoleBindingRecord",
-}) as any as S.Schema<RoleBindingRecord>;
+).annotate({ identifier: "RoleBindingRecord" }) as any as S.Schema<RoleBindingRecord>;
 
 /** Terms properties for Marketplace and Confluent. */
 export interface ConfluentAgreementProperties {
@@ -733,9 +671,7 @@ export const ConfluentAgreementResource = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ConfluentAgreementResource>;
 
 /** Resource tags. */
-export type CreateOrganizationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrganizationRequestTagsMap = { [key: string]: string | undefined };
 export const CreateOrganizationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -777,9 +713,7 @@ export const OfferDetailInput = /*@__PURE__*/ S.suspend(() =>
     privateOfferId: S.optional(S.String),
     privateOfferIds: S.optional(OfferDetailInputPrivateOfferIdsList),
   }),
-).annotate({
-  identifier: "OfferDetailInput",
-}) as any as S.Schema<OfferDetailInput>;
+).annotate({ identifier: "OfferDetailInput" }) as any as S.Schema<OfferDetailInput>;
 
 /** Subscriber detail */
 export interface UserDetail {
@@ -813,9 +747,7 @@ export const LinkOrganization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.String,
   }),
-).annotate({
-  identifier: "LinkOrganization",
-}) as any as S.Schema<LinkOrganization>;
+).annotate({ identifier: "LinkOrganization" }) as any as S.Schema<LinkOrganization>;
 
 /** Organization resource property */
 export interface OrganizationResourcePropertiesInput {
@@ -871,9 +803,7 @@ export const CreateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOrganizationRequest>;
 
 /** Resource tags. */
-export type CreateOrganizationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateOrganizationResponseTagsMap = { [key: string]: string | undefined };
 export const CreateOrganizationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1066,9 +996,7 @@ export const APIKeyResourceEntity = /*@__PURE__*/ S.suspend(() =>
     resourceName: S.optional(S.String),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "APIKeyResourceEntity",
-}) as any as S.Schema<APIKeyResourceEntity>;
+).annotate({ identifier: "APIKeyResourceEntity" }) as any as S.Schema<APIKeyResourceEntity>;
 
 /** API Key Owner details which can be a user or service account */
 export interface APIKeyOwnerEntity {
@@ -1088,9 +1016,7 @@ export const APIKeyOwnerEntity = /*@__PURE__*/ S.suspend(() =>
     resourceName: S.optional(S.String),
     kind: S.optional(S.String),
   }),
-).annotate({
-  identifier: "APIKeyOwnerEntity",
-}) as any as S.Schema<APIKeyOwnerEntity>;
+).annotate({ identifier: "APIKeyOwnerEntity" }) as any as S.Schema<APIKeyOwnerEntity>;
 
 /** Spec of the API Key record */
 export interface APIKeySpecEntity {
@@ -1113,9 +1039,7 @@ export const APIKeySpecEntity = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(APIKeyResourceEntity),
     owner: S.optional(APIKeyOwnerEntity),
   }),
-).annotate({
-  identifier: "APIKeySpecEntity",
-}) as any as S.Schema<APIKeySpecEntity>;
+).annotate({ identifier: "APIKeySpecEntity" }) as any as S.Schema<APIKeySpecEntity>;
 
 /** API Key Properties */
 export interface APIKeyProperties {
@@ -1129,9 +1053,7 @@ export const APIKeyProperties = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(SCMetadataEntity),
     spec: S.optional(APIKeySpecEntity),
   }),
-).annotate({
-  identifier: "APIKeyProperties",
-}) as any as S.Schema<APIKeyProperties>;
+).annotate({ identifier: "APIKeyProperties" }) as any as S.Schema<APIKeyProperties>;
 
 /** Details API key */
 export interface APIKeyRecord {
@@ -1162,9 +1084,7 @@ export const TopicMetadataEntity = /*@__PURE__*/ S.suspend(() =>
     self: S.optional(S.String),
     resourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicMetadataEntity",
-}) as any as S.Schema<TopicMetadataEntity>;
+).annotate({ identifier: "TopicMetadataEntity" }) as any as S.Schema<TopicMetadataEntity>;
 
 /** Partition Config spec of the topic record */
 export interface TopicsRelatedLink {
@@ -1175,9 +1095,7 @@ export const TopicsRelatedLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     related: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicsRelatedLink",
-}) as any as S.Schema<TopicsRelatedLink>;
+).annotate({ identifier: "TopicsRelatedLink" }) as any as S.Schema<TopicsRelatedLink>;
 
 /** Topics input config */
 export interface TopicsInputConfig {
@@ -1191,9 +1109,7 @@ export const TopicsInputConfig = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicsInputConfig",
-}) as any as S.Schema<TopicsInputConfig>;
+).annotate({ identifier: "TopicsInputConfig" }) as any as S.Schema<TopicsInputConfig>;
 
 /** Input Config Specification of the topic */
 export type TopicPropertiesInputConfigsList = Array<TopicsInputConfig>;
@@ -1234,9 +1150,7 @@ export const TopicProperties = /*@__PURE__*/ S.suspend(() =>
     partitionsCount: S.optional(S.String),
     replicationFactor: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TopicProperties",
-}) as any as S.Schema<TopicProperties>;
+).annotate({ identifier: "TopicProperties" }) as any as S.Schema<TopicProperties>;
 
 export interface CreateTopicRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1271,9 +1185,7 @@ export const CreateTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "CreateTopicRequest",
-}) as any as S.Schema<CreateTopicRequest>;
+).annotate({ identifier: "CreateTopicRequest" }) as any as S.Schema<CreateTopicRequest>;
 
 export interface CreateTopicResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1295,9 +1207,7 @@ export const CreateTopicResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TopicProperties),
   }),
-).annotate({
-  identifier: "CreateTopicResponse",
-}) as any as S.Schema<CreateTopicResponse>;
+).annotate({ identifier: "CreateTopicResponse" }) as any as S.Schema<CreateTopicResponse>;
 
 export interface DeleteAccessRoleBindingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1329,9 +1239,7 @@ export const DeleteAccessRoleBindingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteAccessRoleBindingResponse {}
 export const DeleteAccessRoleBindingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteAccessRoleBindingResponse",
-  },
+  { identifier: "DeleteAccessRoleBindingResponse" },
 ) as any as S.Schema<DeleteAccessRoleBindingResponse>;
 
 export interface DeleteClusterRequest {
@@ -1361,9 +1269,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1400,9 +1306,7 @@ export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteConnectorRequest",
-}) as any as S.Schema<DeleteConnectorRequest>;
+).annotate({ identifier: "DeleteConnectorRequest" }) as any as S.Schema<DeleteConnectorRequest>;
 
 export interface DeleteConnectorResponse {}
 export const DeleteConnectorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1433,9 +1337,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1537,9 +1439,7 @@ export const DeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTopicRequest",
-}) as any as S.Schema<DeleteTopicRequest>;
+).annotate({ identifier: "DeleteTopicRequest" }) as any as S.Schema<DeleteTopicRequest>;
 
 export interface DeleteTopicResponse {}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1555,9 +1455,7 @@ export const StreamGovernanceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     package: S.optional(Package),
   }),
-).annotate({
-  identifier: "StreamGovernanceConfig",
-}) as any as S.Schema<StreamGovernanceConfig>;
+).annotate({ identifier: "StreamGovernanceConfig" }) as any as S.Schema<StreamGovernanceConfig>;
 
 /** Environment resource property */
 export interface EnvironmentProperties {
@@ -1571,9 +1469,7 @@ export const EnvironmentProperties = /*@__PURE__*/ S.suspend(() =>
     streamGovernanceConfig: S.optional(StreamGovernanceConfig),
     metadata: S.optional(SCMetadataEntity),
   }),
-).annotate({
-  identifier: "EnvironmentProperties",
-}) as any as S.Schema<EnvironmentProperties>;
+).annotate({ identifier: "EnvironmentProperties" }) as any as S.Schema<EnvironmentProperties>;
 
 export interface EnvironmentCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1666,9 +1562,7 @@ export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetConnectorRequest",
-}) as any as S.Schema<GetConnectorRequest>;
+).annotate({ identifier: "GetConnectorRequest" }) as any as S.Schema<GetConnectorRequest>;
 
 export interface GetConnectorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1690,9 +1584,7 @@ export const GetConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ConnectorResourceProperties,
   }),
-).annotate({
-  identifier: "GetConnectorResponse",
-}) as any as S.Schema<GetConnectorResponse>;
+).annotate({ identifier: "GetConnectorResponse" }) as any as S.Schema<GetConnectorResponse>;
 
 export interface GetOrganizationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1715,14 +1607,10 @@ export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 /** Resource tags. */
-export type GetOrganizationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetOrganizationResponseTagsMap = { [key: string]: string | undefined };
 export const GetOrganizationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1754,9 +1642,7 @@ export const GetOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: OrganizationResourceProperties,
   }),
-).annotate({
-  identifier: "GetOrganizationResponse",
-}) as any as S.Schema<GetOrganizationResponse>;
+).annotate({ identifier: "GetOrganizationResponse" }) as any as S.Schema<GetOrganizationResponse>;
 
 export interface GetOrganizationClusterAPIKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2043,9 +1929,7 @@ export const GetTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetTopicRequest",
-}) as any as S.Schema<GetTopicRequest>;
+).annotate({ identifier: "GetTopicRequest" }) as any as S.Schema<GetTopicRequest>;
 
 export interface GetTopicResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2067,9 +1951,7 @@ export const GetTopicResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TopicProperties),
   }),
-).annotate({
-  identifier: "GetTopicResponse",
-}) as any as S.Schema<GetTopicResponse>;
+).annotate({ identifier: "GetTopicResponse" }) as any as S.Schema<GetTopicResponse>;
 
 /** Details of the user being invited */
 export interface AccessInvitedUserDetails {
@@ -2083,9 +1965,7 @@ export const AccessInvitedUserDetails = /*@__PURE__*/ S.suspend(() =>
     invitedEmail: S.optional(S.String),
     auth_type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessInvitedUserDetails",
-}) as any as S.Schema<AccessInvitedUserDetails>;
+).annotate({ identifier: "AccessInvitedUserDetails" }) as any as S.Schema<AccessInvitedUserDetails>;
 
 export interface InviteAccessUserRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2120,9 +2000,7 @@ export const InviteAccessUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "InviteAccessUserRequest",
-}) as any as S.Schema<InviteAccessUserRequest>;
+).annotate({ identifier: "InviteAccessUserRequest" }) as any as S.Schema<InviteAccessUserRequest>;
 
 /** Record of the invitation */
 export interface InvitationRecord {
@@ -2154,14 +2032,10 @@ export const InvitationRecord = /*@__PURE__*/ S.suspend(() =>
     accepted_at: S.optional(S.String),
     expires_at: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InvitationRecord",
-}) as any as S.Schema<InvitationRecord>;
+).annotate({ identifier: "InvitationRecord" }) as any as S.Schema<InvitationRecord>;
 
 /** Search filters for the request */
-export type ListAccessClustersRequestSearchFiltersMap = {
-  [key: string]: string | undefined;
-};
+export type ListAccessClustersRequestSearchFiltersMap = { [key: string]: string | undefined };
 export const ListAccessClustersRequestSearchFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2213,9 +2087,7 @@ export const ClusterEnvironmentEntity = /*@__PURE__*/ S.suspend(() =>
     related: S.optional(S.String),
     resource_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterEnvironmentEntity",
-}) as any as S.Schema<ClusterEnvironmentEntity>;
+).annotate({ identifier: "ClusterEnvironmentEntity" }) as any as S.Schema<ClusterEnvironmentEntity>;
 
 /** The network associated with this object */
 export type ClusterNetworkEntity = ClusterEnvironmentEntity;
@@ -2236,9 +2108,7 @@ export const ClusterByokEntity = /*@__PURE__*/ S.suspend(() =>
     related: S.optional(S.String),
     resource_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterByokEntity",
-}) as any as S.Schema<ClusterByokEntity>;
+).annotate({ identifier: "ClusterByokEntity" }) as any as S.Schema<ClusterByokEntity>;
 
 /** Spec of the cluster record */
 export interface ClusterSpecEntity {
@@ -2282,9 +2152,7 @@ export const ClusterSpecEntity = /*@__PURE__*/ S.suspend(() =>
     network: S.optional(ClusterEnvironmentEntity),
     byok: S.optional(ClusterByokEntity),
   }),
-).annotate({
-  identifier: "ClusterSpecEntity",
-}) as any as S.Schema<ClusterSpecEntity>;
+).annotate({ identifier: "ClusterSpecEntity" }) as any as S.Schema<ClusterSpecEntity>;
 
 /** Details of cluster record */
 export interface ClusterRecord {
@@ -2338,9 +2206,7 @@ export const AccessListClusterSuccessResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AccessListClusterSuccessResponse>;
 
 /** Search filters for the request */
-export type ListAccessEnvironmentsRequestSearchFiltersMap = {
-  [key: string]: string | undefined;
-};
+export type ListAccessEnvironmentsRequestSearchFiltersMap = { [key: string]: string | undefined };
 export const ListAccessEnvironmentsRequestSearchFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2392,9 +2258,7 @@ export const EnvironmentRecord = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(MetadataEntity),
     display_name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentRecord",
-}) as any as S.Schema<EnvironmentRecord>;
+).annotate({ identifier: "EnvironmentRecord" }) as any as S.Schema<EnvironmentRecord>;
 
 /** Environment list data */
 export type AccessListEnvironmentsSuccessResponseDataList = Array<EnvironmentRecord>;
@@ -2422,9 +2286,7 @@ export const AccessListEnvironmentsSuccessResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<AccessListEnvironmentsSuccessResponse>;
 
 /** Search filters for the request */
-export type ListAccessInvitationsRequestSearchFiltersMap = {
-  [key: string]: string | undefined;
-};
+export type ListAccessInvitationsRequestSearchFiltersMap = { [key: string]: string | undefined };
 export const ListAccessInvitationsRequestSearchFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2484,9 +2346,7 @@ export const AccessListInvitationsSuccessResponse = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<AccessListInvitationsSuccessResponse>;
 
 /** Search filters for the request */
-export type ListAccessRoleBindingsRequestSearchFiltersMap = {
-  [key: string]: string | undefined;
-};
+export type ListAccessRoleBindingsRequestSearchFiltersMap = { [key: string]: string | undefined };
 export const ListAccessRoleBindingsRequestSearchFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2603,9 +2463,7 @@ export const ServiceAccountRecord = /*@__PURE__*/ S.suspend(() =>
     display_name: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceAccountRecord",
-}) as any as S.Schema<ServiceAccountRecord>;
+).annotate({ identifier: "ServiceAccountRecord" }) as any as S.Schema<ServiceAccountRecord>;
 
 /** Data of the service accounts list */
 export type AccessListServiceAccountsSuccessResponseDataList = Array<ServiceAccountRecord>;
@@ -2633,9 +2491,7 @@ export const AccessListServiceAccountsSuccessResponse = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<AccessListServiceAccountsSuccessResponse>;
 
 /** Search filters for the request */
-export type ListAccessUsersRequestSearchFiltersMap = {
-  [key: string]: string | undefined;
-};
+export type ListAccessUsersRequestSearchFiltersMap = { [key: string]: string | undefined };
 export const ListAccessUsersRequestSearchFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2665,9 +2521,7 @@ export const ListAccessUsersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListAccessUsersRequest",
-}) as any as S.Schema<ListAccessUsersRequest>;
+).annotate({ identifier: "ListAccessUsersRequest" }) as any as S.Schema<ListAccessUsersRequest>;
 
 /** Record of the user */
 export interface UserRecord {
@@ -2753,9 +2607,7 @@ export const ListConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListConnectorRequest",
-}) as any as S.Schema<ListConnectorRequest>;
+).annotate({ identifier: "ListConnectorRequest" }) as any as S.Schema<ListConnectorRequest>;
 
 /** Details of connector record */
 export interface ConnectorResource {
@@ -2778,9 +2630,7 @@ export const ConnectorResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: ConnectorResourceProperties,
   }),
-).annotate({
-  identifier: "ConnectorResource",
-}) as any as S.Schema<ConnectorResource>;
+).annotate({ identifier: "ConnectorResource" }) as any as S.Schema<ConnectorResource>;
 
 /** The ConnectorResource items on this page */
 export type ListConnectorsSuccessResponseValueList = Array<ConnectorResource>;
@@ -2901,9 +2751,7 @@ export const OrganizationResource = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: OrganizationResourceProperties,
   }),
-).annotate({
-  identifier: "OrganizationResource",
-}) as any as S.Schema<OrganizationResource>;
+).annotate({ identifier: "OrganizationResource" }) as any as S.Schema<OrganizationResource>;
 
 /** The OrganizationResource items on this page */
 export type OrganizationResourceListResultValueList = Array<OrganizationResource>;
@@ -3004,9 +2852,7 @@ export const SCClusterRecord = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     properties: S.optional(ClusterProperties),
   }),
-).annotate({
-  identifier: "SCClusterRecord",
-}) as any as S.Schema<SCClusterRecord>;
+).annotate({ identifier: "SCClusterRecord" }) as any as S.Schema<SCClusterRecord>;
 
 /** The SCClusterRecord items on this page */
 export type ListClustersSuccessResponseValueList = Array<SCClusterRecord>;
@@ -3085,9 +2931,7 @@ export const SCEnvironmentRecord = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     properties: S.optional(EnvironmentProperties),
   }),
-).annotate({
-  identifier: "SCEnvironmentRecord",
-}) as any as S.Schema<SCEnvironmentRecord>;
+).annotate({ identifier: "SCEnvironmentRecord" }) as any as S.Schema<SCEnvironmentRecord>;
 
 /** The SCEnvironmentRecord items on this page */
 export type GetEnvironmentsResponseValueList = Array<SCEnvironmentRecord>;
@@ -3107,9 +2951,7 @@ export const GetEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
     value: GetEnvironmentsResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetEnvironmentsResponse",
-}) as any as S.Schema<GetEnvironmentsResponse>;
+).annotate({ identifier: "GetEnvironmentsResponse" }) as any as S.Schema<GetEnvironmentsResponse>;
 
 export interface ListOrganizationOperationsRequest {}
 export const ListOrganizationOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -3143,9 +2985,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** An Confluent REST API operation. */
 export interface OperationResult {
@@ -3162,9 +3002,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     isDataAction: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 /** List of Confluent operations supported by the Microsoft.Confluent provider. */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -3184,14 +3022,10 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 /** Search filters for the request */
-export type ListOrganizationRegionsRequestSearchFiltersMap = {
-  [key: string]: string | undefined;
-};
+export type ListOrganizationRegionsRequestSearchFiltersMap = { [key: string]: string | undefined };
 export const ListOrganizationRegionsRequestSearchFiltersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3247,9 +3081,7 @@ export const RegionSpecEntity = /*@__PURE__*/ S.suspend(() =>
     regionName: S.optional(S.String),
     packages: S.optional(RegionSpecEntityPackagesList),
   }),
-).annotate({
-  identifier: "RegionSpecEntity",
-}) as any as S.Schema<RegionSpecEntity>;
+).annotate({ identifier: "RegionSpecEntity" }) as any as S.Schema<RegionSpecEntity>;
 
 /** Region Properties */
 export interface RegionProperties {
@@ -3263,9 +3095,7 @@ export const RegionProperties = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(SCMetadataEntity),
     spec: S.optional(RegionSpecEntity),
   }),
-).annotate({
-  identifier: "RegionProperties",
-}) as any as S.Schema<RegionProperties>;
+).annotate({ identifier: "RegionProperties" }) as any as S.Schema<RegionProperties>;
 
 /** Details of region record */
 export interface RegionRecord {
@@ -3392,9 +3222,7 @@ export const ListTopicsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListTopicsRequest",
-}) as any as S.Schema<ListTopicsRequest>;
+).annotate({ identifier: "ListTopicsRequest" }) as any as S.Schema<ListTopicsRequest>;
 
 /** Details of topic record */
 export interface TopicRecord {
@@ -3442,9 +3270,7 @@ export const ListTopicsSuccessResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListTopicsSuccessResponse>;
 
 /** ARM resource tags */
-export type UpdateOrganizationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrganizationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateOrganizationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3479,9 +3305,7 @@ export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateOrganizationRequest>;
 
 /** Resource tags. */
-export type UpdateOrganizationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateOrganizationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateOrganizationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3518,9 +3342,7 @@ export const UpdateOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateOrganizationResponse>;
 
 /** Resource tags. */
-export type ValidateValidationOrganizationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateValidationOrganizationRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateValidationOrganizationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3561,9 +3383,7 @@ export const ValidateValidationOrganizationRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ValidateValidationOrganizationRequest>;
 
 /** Resource tags. */
-export type ValidateValidationOrganizationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateValidationOrganizationResponseTagsMap = { [key: string]: string | undefined };
 export const ValidateValidationOrganizationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3600,9 +3420,7 @@ export const ValidateValidationOrganizationResponse = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<ValidateValidationOrganizationResponse>;
 
 /** Resource tags. */
-export type ValidateValidationOrganizationV2RequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateValidationOrganizationV2RequestTagsMap = { [key: string]: string | undefined };
 export const ValidateValidationOrganizationV2RequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3658,9 +3476,7 @@ export const ValidationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     info: S.optional(ValidationResponseInfoMap),
   }),
-).annotate({
-  identifier: "ValidationResponse",
-}) as any as S.Schema<ValidationResponse>;
+).annotate({ identifier: "ValidationResponse" }) as any as S.Schema<ValidationResponse>;
 
 export type AccessListRoleBindingNameListError = AzureOpError;
 /** Organization role bindings */

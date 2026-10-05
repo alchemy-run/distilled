@@ -156,9 +156,7 @@ export const ElasticPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     elasticCloudUser: S.optional(ElasticCloudUserInput),
     elasticCloudDeployment: S.optional(ElasticCloudUserInput),
   }),
-).annotate({
-  identifier: "ElasticPropertiesInput",
-}) as any as S.Schema<ElasticPropertiesInput>;
+).annotate({ identifier: "ElasticPropertiesInput" }) as any as S.Schema<ElasticPropertiesInput>;
 
 /** Company information of the user to be passed to partners. */
 export interface CompanyInfo {
@@ -297,9 +295,7 @@ export const MonitorPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     hostingType: S.optional(HostingType),
     projectDetails: S.optional(ProjectDetails),
   }),
-).annotate({
-  identifier: "MonitorPropertiesInput",
-}) as any as S.Schema<MonitorPropertiesInput>;
+).annotate({ identifier: "MonitorPropertiesInput" }) as any as S.Schema<MonitorPropertiesInput>;
 
 /** Represents the SKU of a resource. */
 export interface ResourceSku {
@@ -325,9 +321,7 @@ export const IdentityPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(ManagedIdentityTypes),
   }),
-).annotate({
-  identifier: "IdentityPropertiesInput",
-}) as any as S.Schema<IdentityPropertiesInput>;
+).annotate({ identifier: "IdentityPropertiesInput" }) as any as S.Schema<IdentityPropertiesInput>;
 
 export interface CreateMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -367,9 +361,7 @@ export const CreateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateMonitorRequest",
-}) as any as S.Schema<CreateMonitorRequest>;
+).annotate({ identifier: "CreateMonitorRequest" }) as any as S.Schema<CreateMonitorRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -406,9 +398,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateMonitorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMonitorResponseTagsMap = { [key: string]: string | undefined };
 export const CreateMonitorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -442,9 +432,7 @@ export const ElasticCloudUser = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     elasticCloudSsoDefaultUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ElasticCloudUser",
-}) as any as S.Schema<ElasticCloudUser>;
+).annotate({ identifier: "ElasticCloudUser" }) as any as S.Schema<ElasticCloudUser>;
 
 /** Details of the user's elastic deployment associated with the monitor resource. */
 export interface ElasticCloudDeployment {
@@ -473,9 +461,7 @@ export const ElasticCloudDeployment = /*@__PURE__*/ S.suspend(() =>
     kibanaServiceUrl: S.optional(S.String),
     kibanaSsoUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ElasticCloudDeployment",
-}) as any as S.Schema<ElasticCloudDeployment>;
+).annotate({ identifier: "ElasticCloudDeployment" }) as any as S.Schema<ElasticCloudDeployment>;
 
 /** Elastic Resource Properties. */
 export interface ElasticProperties {
@@ -489,9 +475,7 @@ export const ElasticProperties = /*@__PURE__*/ S.suspend(() =>
     elasticCloudUser: S.optional(ElasticCloudUser),
     elasticCloudDeployment: S.optional(ElasticCloudDeployment),
   }),
-).annotate({
-  identifier: "ElasticProperties",
-}) as any as S.Schema<ElasticProperties>;
+).annotate({ identifier: "ElasticProperties" }) as any as S.Schema<ElasticProperties>;
 
 export type LiftrResourceCategories = "Unknown" | "MonitorLogs";
 export const LiftrResourceCategories = S.String;
@@ -546,9 +530,7 @@ export const MonitorProperties = /*@__PURE__*/ S.suspend(() =>
     hostingType: S.optional(HostingType),
     projectDetails: S.optional(ProjectDetails),
   }),
-).annotate({
-  identifier: "MonitorProperties",
-}) as any as S.Schema<MonitorProperties>;
+).annotate({ identifier: "MonitorProperties" }) as any as S.Schema<MonitorProperties>;
 
 /** Identity properties. */
 export interface IdentityProperties {
@@ -565,9 +547,7 @@ export const IdentityProperties = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     type: S.optional(ManagedIdentityTypes),
   }),
-).annotate({
-  identifier: "IdentityProperties",
-}) as any as S.Schema<IdentityProperties>;
+).annotate({ identifier: "IdentityProperties" }) as any as S.Schema<IdentityProperties>;
 
 export interface CreateMonitorResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -604,9 +584,7 @@ export const CreateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "CreateMonitorResponse",
-}) as any as S.Schema<CreateMonitorResponse>;
+).annotate({ identifier: "CreateMonitorResponse" }) as any as S.Schema<CreateMonitorResponse>;
 
 export interface DeleteDetachAndDeleteTrafficFilterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -664,9 +642,7 @@ export const DeleteMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteMonitorRequest",
-}) as any as S.Schema<DeleteMonitorRequest>;
+).annotate({ identifier: "DeleteMonitorRequest" }) as any as S.Schema<DeleteMonitorRequest>;
 
 export interface DeleteMonitorResponse {}
 export const DeleteMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -732,9 +708,7 @@ export const DeleteOpenAIRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteOpenAIRequest",
-}) as any as S.Schema<DeleteOpenAIRequest>;
+).annotate({ identifier: "DeleteOpenAIRequest" }) as any as S.Schema<DeleteOpenAIRequest>;
 
 export interface DeleteOpenAIResponse {}
 export const DeleteOpenAIResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -765,9 +739,7 @@ export const DeleteTagRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTagRuleRequest",
-}) as any as S.Schema<DeleteTagRuleRequest>;
+).annotate({ identifier: "DeleteTagRuleRequest" }) as any as S.Schema<DeleteTagRuleRequest>;
 
 export interface DeleteTagRuleResponse {}
 export const DeleteTagRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -887,9 +859,7 @@ export const GetBillingInfoRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetBillingInfoRequest",
-}) as any as S.Schema<GetBillingInfoRequest>;
+).annotate({ identifier: "GetBillingInfoRequest" }) as any as S.Schema<GetBillingInfoRequest>;
 
 /** Marketplace Subscription */
 export interface MarketplaceSaaSInfoMarketplaceSubscription {
@@ -934,9 +904,7 @@ export const MarketplaceSaaSInfo = /*@__PURE__*/ S.suspend(() =>
     billedAzureSubscriptionId: S.optional(S.String),
     subscribed: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MarketplaceSaaSInfo",
-}) as any as S.Schema<MarketplaceSaaSInfo>;
+).annotate({ identifier: "MarketplaceSaaSInfo" }) as any as S.Schema<MarketplaceSaaSInfo>;
 
 /** Partner Billing details associated with the resource. */
 export interface PartnerBillingEntity {
@@ -953,9 +921,7 @@ export const PartnerBillingEntity = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     partnerEntityUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartnerBillingEntity",
-}) as any as S.Schema<PartnerBillingEntity>;
+).annotate({ identifier: "PartnerBillingEntity" }) as any as S.Schema<PartnerBillingEntity>;
 
 /** Marketplace Subscription and Organization details to which resource gets billed into. */
 export interface BillingInfoResponse {
@@ -969,9 +935,7 @@ export const BillingInfoResponse = /*@__PURE__*/ S.suspend(() =>
     marketplaceSaasInfo: S.optional(MarketplaceSaaSInfo),
     partnerBillingEntity: S.optional(PartnerBillingEntity),
   }),
-).annotate({
-  identifier: "BillingInfoResponse",
-}) as any as S.Schema<BillingInfoResponse>;
+).annotate({ identifier: "BillingInfoResponse" }) as any as S.Schema<BillingInfoResponse>;
 
 export interface GetMonitorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -994,9 +958,7 @@ export const GetMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetMonitorRequest",
-}) as any as S.Schema<GetMonitorRequest>;
+).annotate({ identifier: "GetMonitorRequest" }) as any as S.Schema<GetMonitorRequest>;
 
 /** Resource tags. */
 export type GetMonitorResponseTagsMap = { [key: string]: string | undefined };
@@ -1040,9 +1002,7 @@ export const GetMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "GetMonitorResponse",
-}) as any as S.Schema<GetMonitorResponse>;
+).annotate({ identifier: "GetMonitorResponse" }) as any as S.Schema<GetMonitorResponse>;
 
 export interface GetMonitoredSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1161,9 +1121,7 @@ export const MonitoredSubscription = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.String),
     tagRules: S.optional(MonitoringTagRulesProperties),
   }),
-).annotate({
-  identifier: "MonitoredSubscription",
-}) as any as S.Schema<MonitoredSubscription>;
+).annotate({ identifier: "MonitoredSubscription" }) as any as S.Schema<MonitoredSubscription>;
 
 /** List of subscriptions and the state of the monitoring. */
 export type SubscriptionListMonitoredSubscriptionListList = Array<MonitoredSubscription>;
@@ -1186,9 +1144,7 @@ export const SubscriptionList = /*@__PURE__*/ S.suspend(() =>
     monitoredSubscriptionList: S.optional(SubscriptionListMonitoredSubscriptionListList),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "SubscriptionList",
-}) as any as S.Schema<SubscriptionList>;
+).annotate({ identifier: "SubscriptionList" }) as any as S.Schema<SubscriptionList>;
 
 export interface GetMonitoredSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1238,9 +1194,7 @@ export const GetOpenAIRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetOpenAIRequest",
-}) as any as S.Schema<GetOpenAIRequest>;
+).annotate({ identifier: "GetOpenAIRequest" }) as any as S.Schema<GetOpenAIRequest>;
 
 /** Open AI Integration details. */
 export interface OpenAIIntegrationProperties {
@@ -1287,9 +1241,7 @@ export const GetOpenAIResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OpenAIIntegrationProperties),
   }),
-).annotate({
-  identifier: "GetOpenAIResponse",
-}) as any as S.Schema<GetOpenAIResponse>;
+).annotate({ identifier: "GetOpenAIResponse" }) as any as S.Schema<GetOpenAIResponse>;
 
 export interface GetOpenAIStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1315,9 +1267,7 @@ export const GetOpenAIStatusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetOpenAIStatusRequest",
-}) as any as S.Schema<GetOpenAIStatusRequest>;
+).annotate({ identifier: "GetOpenAIStatusRequest" }) as any as S.Schema<GetOpenAIStatusRequest>;
 
 /** Status of the OpenAI Integration */
 export interface OpenAIIntegrationStatusResponseProperties {
@@ -1387,9 +1337,7 @@ export const UserApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(UserApiKeyResponseProperties),
   }),
-).annotate({
-  identifier: "UserApiKeyResponse",
-}) as any as S.Schema<UserApiKeyResponse>;
+).annotate({ identifier: "UserApiKeyResponse" }) as any as S.Schema<UserApiKeyResponse>;
 
 export interface GetOrganizationElasticToAzureSubscriptionMappingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1470,9 +1418,7 @@ export const GetTagRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagRuleRequest",
-}) as any as S.Schema<GetTagRuleRequest>;
+).annotate({ identifier: "GetTagRuleRequest" }) as any as S.Schema<GetTagRuleRequest>;
 
 export interface GetTagRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1494,9 +1440,7 @@ export const GetTagRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(MonitoringTagRulesProperties),
   }),
-).annotate({
-  identifier: "GetTagRuleResponse",
-}) as any as S.Schema<GetTagRuleResponse>;
+).annotate({ identifier: "GetTagRuleResponse" }) as any as S.Schema<GetTagRuleResponse>;
 
 export interface ListAllTrafficFiltersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1548,9 +1492,7 @@ export const ElasticTrafficFilterRule = /*@__PURE__*/ S.suspend(() =>
     azureEndpointName: S.optional(S.String),
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ElasticTrafficFilterRule",
-}) as any as S.Schema<ElasticTrafficFilterRule>;
+).annotate({ identifier: "ElasticTrafficFilterRule" }) as any as S.Schema<ElasticTrafficFilterRule>;
 
 /** Rules in the elastic filter */
 export type ElasticTrafficFilterRulesList = Array<ElasticTrafficFilterRule>;
@@ -1585,9 +1527,7 @@ export const ElasticTrafficFilter = /*@__PURE__*/ S.suspend(() =>
     includeByDefault: S.optional(S.Boolean),
     rules: S.optional(ElasticTrafficFilterRulesList),
   }),
-).annotate({
-  identifier: "ElasticTrafficFilter",
-}) as any as S.Schema<ElasticTrafficFilter>;
+).annotate({ identifier: "ElasticTrafficFilter" }) as any as S.Schema<ElasticTrafficFilter>;
 
 /** List of elastic traffic filters in the account */
 export type ElasticTrafficFilterResponseRulesetsList = Array<ElasticTrafficFilter>;
@@ -1756,9 +1696,7 @@ export const DeploymentInfoResponse = /*@__PURE__*/ S.suspend(() =>
     projectType: S.optional(S.String),
     configurationType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentInfoResponse",
-}) as any as S.Schema<DeploymentInfoResponse>;
+).annotate({ identifier: "DeploymentInfoResponse" }) as any as S.Schema<DeploymentInfoResponse>;
 
 export interface ListElasticVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1804,9 +1742,7 @@ export const ElasticVersionListFormat = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(ElasticVersionListProperties),
   }),
-).annotate({
-  identifier: "ElasticVersionListFormat",
-}) as any as S.Schema<ElasticVersionListFormat>;
+).annotate({ identifier: "ElasticVersionListFormat" }) as any as S.Schema<ElasticVersionListFormat>;
 
 /** The ElasticVersionListFormat items on this page */
 export type ElasticVersionsListResponseValueList = Array<ElasticVersionListFormat>;
@@ -1878,9 +1814,7 @@ export const ListMonitorByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListMonitorByResourceGroupRequest>;
 
 /** Resource tags. */
-export type ElasticMonitorResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ElasticMonitorResourceTagsMap = { [key: string]: string | undefined };
 export const ElasticMonitorResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1922,9 +1856,7 @@ export const ElasticMonitorResource = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "ElasticMonitorResource",
-}) as any as S.Schema<ElasticMonitorResource>;
+).annotate({ identifier: "ElasticMonitorResource" }) as any as S.Schema<ElasticMonitorResource>;
 
 /** The ElasticMonitorResource items on this page */
 export type ElasticMonitorResourceListResponseValueList = Array<ElasticMonitorResource>;
@@ -1992,9 +1924,7 @@ export const MonitoredResource = /*@__PURE__*/ S.suspend(() =>
     sendingLogs: S.optional(SendingLogs),
     reasonForLogsStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MonitoredResource",
-}) as any as S.Schema<MonitoredResource>;
+).annotate({ identifier: "MonitoredResource" }) as any as S.Schema<MonitoredResource>;
 
 /** The MonitoredResource items on this page */
 export type MonitoredResourceListResponseValueList = Array<MonitoredResource>;
@@ -2105,9 +2035,7 @@ export const ListMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListMonitorsRequest",
-}) as any as S.Schema<ListMonitorsRequest>;
+).annotate({ identifier: "ListMonitorsRequest" }) as any as S.Schema<ListMonitorsRequest>;
 
 export interface ListOpenAIRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2130,9 +2058,7 @@ export const ListOpenAIRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOpenAIRequest",
-}) as any as S.Schema<ListOpenAIRequest>;
+).annotate({ identifier: "ListOpenAIRequest" }) as any as S.Schema<ListOpenAIRequest>;
 
 /** Capture properties of Open AI resource Integration. */
 export interface OpenAIIntegrationRPModel {
@@ -2155,9 +2081,7 @@ export const OpenAIIntegrationRPModel = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(OpenAIIntegrationProperties),
   }),
-).annotate({
-  identifier: "OpenAIIntegrationRPModel",
-}) as any as S.Schema<OpenAIIntegrationRPModel>;
+).annotate({ identifier: "OpenAIIntegrationRPModel" }) as any as S.Schema<OpenAIIntegrationRPModel>;
 
 /** The OpenAIIntegrationRPModel items on this page */
 export type OpenAIIntegrationRPModelListResponseValueList = Array<OpenAIIntegrationRPModel>;
@@ -2191,9 +2115,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Represents the display information for an operation. */
 export interface OperationDisplay {
@@ -2213,9 +2135,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A Microsoft.Elastic REST API operation. */
 export interface OperationResult {
@@ -2235,9 +2155,7 @@ export const OperationResult = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationResult",
-}) as any as S.Schema<OperationResult>;
+).annotate({ identifier: "OperationResult" }) as any as S.Schema<OperationResult>;
 
 /** The list of operations. */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -2257,9 +2175,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListTagRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2282,9 +2198,7 @@ export const ListTagRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListTagRulesRequest",
-}) as any as S.Schema<ListTagRulesRequest>;
+).annotate({ identifier: "ListTagRulesRequest" }) as any as S.Schema<ListTagRulesRequest>;
 
 /** Capture logs and metrics of Azure resources based on ARM tags. */
 export interface MonitoringTagRules {
@@ -2307,9 +2221,7 @@ export const MonitoringTagRules = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(MonitoringTagRulesProperties),
   }),
-).annotate({
-  identifier: "MonitoringTagRules",
-}) as any as S.Schema<MonitoringTagRules>;
+).annotate({ identifier: "MonitoringTagRules" }) as any as S.Schema<MonitoringTagRules>;
 
 /** The MonitoringTagRules items on this page */
 export type MonitoringTagRulesListResponseValueList = Array<MonitoringTagRules>;
@@ -2354,9 +2266,7 @@ export const ListVMHostRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListVMHostRequest",
-}) as any as S.Schema<ListVMHostRequest>;
+).annotate({ identifier: "ListVMHostRequest" }) as any as S.Schema<ListVMHostRequest>;
 
 /** The vm resource properties that is currently being monitored by the Elastic monitor resource. */
 export interface VMResources {
@@ -2387,9 +2297,7 @@ export const VMHostListResponse = /*@__PURE__*/ S.suspend(() =>
     value: VMHostListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VMHostListResponse",
-}) as any as S.Schema<VMHostListResponse>;
+).annotate({ identifier: "VMHostListResponse" }) as any as S.Schema<VMHostListResponse>;
 
 export interface MonitorUpgradeRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2415,9 +2323,7 @@ export const MonitorUpgradeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "MonitorUpgradeRequest",
-}) as any as S.Schema<MonitorUpgradeRequest>;
+).annotate({ identifier: "MonitorUpgradeRequest" }) as any as S.Schema<MonitorUpgradeRequest>;
 
 export interface MonitorUpgradeResponse {}
 export const MonitorUpgradeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2537,9 +2443,7 @@ export const OrganizationsResubscribeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OrganizationsResubscribeRequest>;
 
 /** Resource tags. */
-export type OrganizationsResubscribeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type OrganizationsResubscribeResponseTagsMap = { [key: string]: string | undefined };
 export const OrganizationsResubscribeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2702,14 +2606,10 @@ export const UpdateMonitorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateMonitorRequest",
-}) as any as S.Schema<UpdateMonitorRequest>;
+).annotate({ identifier: "UpdateMonitorRequest" }) as any as S.Schema<UpdateMonitorRequest>;
 
 /** Resource tags. */
-export type UpdateMonitorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMonitorResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMonitorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2750,9 +2650,7 @@ export const UpdateMonitorResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(ResourceSku),
     identity: S.optional(IdentityProperties),
   }),
-).annotate({
-  identifier: "UpdateMonitorResponse",
-}) as any as S.Schema<UpdateMonitorResponse>;
+).annotate({ identifier: "UpdateMonitorResponse" }) as any as S.Schema<UpdateMonitorResponse>;
 
 export interface UpdateMonitoredSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2943,9 +2841,7 @@ export const UpgradableVersionsList = /*@__PURE__*/ S.suspend(() =>
     currentVersion: S.optional(S.String),
     upgradableVersions: S.optional(UpgradableVersionsListUpgradableVersionsList),
   }),
-).annotate({
-  identifier: "UpgradableVersionsList",
-}) as any as S.Schema<UpgradableVersionsList>;
+).annotate({ identifier: "UpgradableVersionsList" }) as any as S.Schema<UpgradableVersionsList>;
 
 export interface VMIngestionDetailsRequest {
   /** The ID of the target subscription. The value must be an UUID. */

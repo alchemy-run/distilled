@@ -205,9 +205,7 @@ export const ClusterResourcePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterResourcePropertiesInput>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type CassandraClustersCreateUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CassandraClustersCreateUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CassandraClustersCreateUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -435,9 +433,7 @@ export const ClusterResourceProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClusterResourceProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type CassandraClustersCreateUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CassandraClustersCreateUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CassandraClustersCreateUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -553,18 +549,14 @@ export const CassandraClustersStatusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CassandraClustersStatusRequest>;
 
 /** Dictionary of <string> */
-export type ManagedCassandraReaperStatusRepairRunIdsMap = {
-  [key: string]: string | undefined;
-};
+export type ManagedCassandraReaperStatusRepairRunIdsMap = { [key: string]: string | undefined };
 export const ManagedCassandraReaperStatusRepairRunIdsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ManagedCassandraReaperStatusRepairRunIdsMap>;
 
 /** Dictionary of <string> */
-export type ManagedCassandraReaperStatusRepairSchedulesMap = {
-  [key: string]: string | undefined;
-};
+export type ManagedCassandraReaperStatusRepairSchedulesMap = { [key: string]: string | undefined };
 export const ManagedCassandraReaperStatusRepairSchedulesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -617,9 +609,7 @@ export const ConnectionError = /*@__PURE__*/ S.suspend(() =>
     port: S.optional(S.Number),
     exception: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionError",
-}) as any as S.Schema<ConnectionError>;
+).annotate({ identifier: "ConnectionError" }) as any as S.Schema<ConnectionError>;
 
 /** List relevant information about any connection errors to the Datacenters. */
 export type CassandraClusterPublicStatusConnectionErrorsList = Array<ConnectionError>;
@@ -1051,9 +1041,7 @@ export const AutoscaleSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxThroughput: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoscaleSettings",
-}) as any as S.Schema<AutoscaleSettings>;
+).annotate({ identifier: "AutoscaleSettings" }) as any as S.Schema<AutoscaleSettings>;
 
 /** CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput" */
 export interface CreateUpdateOptions {
@@ -1067,9 +1055,7 @@ export const CreateUpdateOptions = /*@__PURE__*/ S.suspend(() =>
     throughput: S.optional(S.Number),
     autoscaleSettings: S.optional(AutoscaleSettings),
   }),
-).annotate({
-  identifier: "CreateUpdateOptions",
-}) as any as S.Schema<CreateUpdateOptions>;
+).annotate({ identifier: "CreateUpdateOptions" }) as any as S.Schema<CreateUpdateOptions>;
 
 /** Properties to create and update Azure Cosmos DB Cassandra keyspace. */
 export interface CassandraKeyspaceCreateUpdateProperties {
@@ -1160,9 +1146,7 @@ export const OptionsResource = /*@__PURE__*/ S.suspend(() =>
     throughput: S.optional(S.Number),
     autoscaleSettings: S.optional(AutoscaleSettings),
   }),
-).annotate({
-  identifier: "OptionsResource",
-}) as any as S.Schema<OptionsResource>;
+).annotate({ identifier: "OptionsResource" }) as any as S.Schema<OptionsResource>;
 
 /** The properties of an Azure Cosmos DB Cassandra keyspace */
 export interface CassandraKeyspaceGetProperties {
@@ -1230,9 +1214,7 @@ export const ManagedServiceIdentity = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType),
     userAssignedIdentities: S.optional(ManagedServiceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ManagedServiceIdentity",
-}) as any as S.Schema<ManagedServiceIdentity>;
+).annotate({ identifier: "ManagedServiceIdentity" }) as any as S.Schema<ManagedServiceIdentity>;
 
 export interface CassandraResourcesCreateUpdateCassandraKeyspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1530,9 +1512,7 @@ export const CassandraPartitionKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CassandraPartitionKey",
-}) as any as S.Schema<CassandraPartitionKey>;
+).annotate({ identifier: "CassandraPartitionKey" }) as any as S.Schema<CassandraPartitionKey>;
 
 /** List of partition key. */
 export type CassandraSchemaPartitionKeysList = Array<CassandraPartitionKey>;
@@ -1575,9 +1555,7 @@ export const CassandraSchema = /*@__PURE__*/ S.suspend(() =>
     partitionKeys: S.optional(CassandraSchemaPartitionKeysList),
     clusterKeys: S.optional(CassandraSchemaClusterKeysList),
   }),
-).annotate({
-  identifier: "CassandraSchema",
-}) as any as S.Schema<CassandraSchema>;
+).annotate({ identifier: "CassandraSchema" }) as any as S.Schema<CassandraSchema>;
 
 /** Cosmos DB Cassandra table resource object */
 export interface CassandraTableResource {
@@ -1597,9 +1575,7 @@ export const CassandraTableResource = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(CassandraSchema),
     analyticalStorageTtl: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CassandraTableResource",
-}) as any as S.Schema<CassandraTableResource>;
+).annotate({ identifier: "CassandraTableResource" }) as any as S.Schema<CassandraTableResource>;
 
 /** Properties to create and update Azure Cosmos DB Cassandra table. */
 export interface CassandraTableCreateUpdateProperties {
@@ -1776,9 +1752,7 @@ export const FleetResourceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(Status),
   }),
-).annotate({
-  identifier: "FleetResourceProperties",
-}) as any as S.Schema<FleetResourceProperties>;
+).annotate({ identifier: "FleetResourceProperties" }) as any as S.Schema<FleetResourceProperties>;
 
 export interface CreateFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1810,9 +1784,7 @@ export const CreateFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "CreateFleetRequest",
-}) as any as S.Schema<CreateFleetRequest>;
+).annotate({ identifier: "CreateFleetRequest" }) as any as S.Schema<CreateFleetRequest>;
 
 /** Resource tags. */
 export type CreateFleetResponseTagsMap = { [key: string]: string | undefined };
@@ -1847,9 +1819,7 @@ export const CreateFleetResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(FleetResourceProperties),
   }),
-).annotate({
-  identifier: "CreateFleetResponse",
-}) as any as S.Schema<CreateFleetResponse>;
+).annotate({ identifier: "CreateFleetResponse" }) as any as S.Schema<CreateFleetResponse>;
 
 /** The kind of API this fleetspace belongs to. Acceptable values: 'NoSQL' */
 export type FleetspacePropertiesFleetspaceApiKind = "NoSQL";
@@ -1908,9 +1878,7 @@ export const FleetspaceProperties = /*@__PURE__*/ S.suspend(() =>
     dataRegions: S.optional(FleetspacePropertiesDataRegionsList),
     throughputPoolConfiguration: S.optional(FleetspacePropertiesThroughputPoolConfiguration),
   }),
-).annotate({
-  identifier: "FleetspaceProperties",
-}) as any as S.Schema<FleetspaceProperties>;
+).annotate({ identifier: "FleetspaceProperties" }) as any as S.Schema<FleetspaceProperties>;
 
 export interface CreateFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1939,9 +1907,7 @@ export const CreateFleetspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "CreateFleetspaceRequest",
-}) as any as S.Schema<CreateFleetspaceRequest>;
+).annotate({ identifier: "CreateFleetspaceRequest" }) as any as S.Schema<CreateFleetspaceRequest>;
 
 export interface CreateFleetspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1963,9 +1929,7 @@ export const CreateFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceProperties),
   }),
-).annotate({
-  identifier: "CreateFleetspaceResponse",
-}) as any as S.Schema<CreateFleetspaceResponse>;
+).annotate({ identifier: "CreateFleetspaceResponse" }) as any as S.Schema<CreateFleetspaceResponse>;
 
 /** Configuration for fleetspace Account in the fleetspace. */
 export interface FleetspaceAccountPropertiesGlobalDatabaseAccountProperties {
@@ -2118,9 +2082,7 @@ export const CreateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "CreateServiceRequest",
-}) as any as S.Schema<CreateServiceRequest>;
+).annotate({ identifier: "CreateServiceRequest" }) as any as S.Schema<CreateServiceRequest>;
 
 /** Describes the status of a service. */
 export type ServiceStatus = "Creating" | "Running" | "Updating" | "Deleting" | "Error" | "Stopped";
@@ -2171,14 +2133,10 @@ export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ServiceResourceProperties),
   }),
-).annotate({
-  identifier: "CreateServiceResponse",
-}) as any as S.Schema<CreateServiceResponse>;
+).annotate({ identifier: "CreateServiceResponse" }) as any as S.Schema<CreateServiceResponse>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-export type DatabaseAccountsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DatabaseAccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DatabaseAccountsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2212,9 +2170,7 @@ export const ConsistencyPolicy = /*@__PURE__*/ S.suspend(() =>
     maxStalenessPrefix: S.optional(S.Number),
     maxIntervalInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConsistencyPolicy",
-}) as any as S.Schema<ConsistencyPolicy>;
+).annotate({ identifier: "ConsistencyPolicy" }) as any as S.Schema<ConsistencyPolicy>;
 
 /** A region in which the Azure Cosmos DB database account is deployed. */
 export interface LocationInput {
@@ -2252,9 +2208,7 @@ export const IpAddressOrRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ipAddressOrRange: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IpAddressOrRange",
-}) as any as S.Schema<IpAddressOrRange>;
+).annotate({ identifier: "IpAddressOrRange" }) as any as S.Schema<IpAddressOrRange>;
 
 /** List of IpRules. */
 export type DatabaseAccountCreateUpdatePropertiesInputIpRulesList = Array<IpAddressOrRange>;
@@ -2291,9 +2245,7 @@ export const VirtualNetworkRule = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     ignoreMissingVNetServiceEndpoint: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "VirtualNetworkRule",
-}) as any as S.Schema<VirtualNetworkRule>;
+).annotate({ identifier: "VirtualNetworkRule" }) as any as S.Schema<VirtualNetworkRule>;
 
 /** List of Virtual Network ACL rules configured for the Cosmos DB account. */
 export type DatabaseAccountCreateUpdatePropertiesInputVirtualNetworkRulesList =
@@ -2450,9 +2402,7 @@ export const DatabaseRestoreResource = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.optional(S.String),
     collectionNames: S.optional(DatabaseRestoreResourceCollectionNamesList),
   }),
-).annotate({
-  identifier: "DatabaseRestoreResource",
-}) as any as S.Schema<DatabaseRestoreResource>;
+).annotate({ identifier: "DatabaseRestoreResource" }) as any as S.Schema<DatabaseRestoreResource>;
 
 /** List of specific databases available for restore. */
 export type RestoreParametersDatabasesToRestoreList = Array<DatabaseRestoreResource>;
@@ -2524,9 +2474,7 @@ export const RestoreParameters = /*@__PURE__*/ S.suspend(() =>
     tablesToRestore: S.optional(RestoreParametersTablesToRestoreList),
     sourceBackupLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RestoreParameters",
-}) as any as S.Schema<RestoreParameters>;
+).annotate({ identifier: "RestoreParameters" }) as any as S.Schema<RestoreParameters>;
 
 /** The object that represents all properties related to capacity enforcement on an account. */
 export interface Capacity {
@@ -2806,9 +2754,7 @@ export const PrivateEndpointProperty = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpointProperty",
-}) as any as S.Schema<PrivateEndpointProperty>;
+).annotate({ identifier: "PrivateEndpointProperty" }) as any as S.Schema<PrivateEndpointProperty>;
 
 /** Connection State of the Private Endpoint Connection. */
 export interface PrivateLinkServiceConnectionStateProperty {
@@ -2908,9 +2854,7 @@ export const AccountKeyMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     generationTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccountKeyMetadata",
-}) as any as S.Schema<AccountKeyMetadata>;
+).annotate({ identifier: "AccountKeyMetadata" }) as any as S.Schema<AccountKeyMetadata>;
 
 /** The metadata related to each access key for the given Cosmos DB database account. */
 export interface DatabaseAccountKeysMetadata {
@@ -3081,9 +3025,7 @@ export const DatabaseAccountGetProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DatabaseAccountGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type DatabaseAccountsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DatabaseAccountsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DatabaseAccountsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3141,9 +3083,7 @@ export const FailoverPolicyInput = /*@__PURE__*/ S.suspend(() =>
     locationName: S.optional(S.String),
     failoverPriority: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FailoverPolicyInput",
-}) as any as S.Schema<FailoverPolicyInput>;
+).annotate({ identifier: "FailoverPolicyInput" }) as any as S.Schema<FailoverPolicyInput>;
 
 /** List of failover policies. */
 export type DatabaseAccountsFailoverPriorityChangeRequestFailoverPoliciesList =
@@ -3583,9 +3523,7 @@ export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteFleetRequest",
-}) as any as S.Schema<DeleteFleetRequest>;
+).annotate({ identifier: "DeleteFleetRequest" }) as any as S.Schema<DeleteFleetRequest>;
 
 export interface DeleteFleetResponse {}
 export const DeleteFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3616,9 +3554,7 @@ export const DeleteFleetspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteFleetspaceRequest",
-}) as any as S.Schema<DeleteFleetspaceRequest>;
+).annotate({ identifier: "DeleteFleetspaceRequest" }) as any as S.Schema<DeleteFleetspaceRequest>;
 
 export interface DeleteFleetspaceResponse {}
 export const DeleteFleetspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3658,9 +3594,7 @@ export const DeleteFleetspaceAccountRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteFleetspaceAccountResponse {}
 export const DeleteFleetspaceAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteFleetspaceAccountResponse",
-  },
+  { identifier: "DeleteFleetspaceAccountResponse" },
 ) as any as S.Schema<DeleteFleetspaceAccountResponse>;
 
 export interface DeleteGremlinResourceGremlinDatabaseRequest {
@@ -4052,9 +3986,7 @@ export const DeleteNotebookWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteNotebookWorkspaceResponse {}
 export const DeleteNotebookWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteNotebookWorkspaceResponse",
-  },
+  { identifier: "DeleteNotebookWorkspaceResponse" },
 ) as any as S.Schema<DeleteNotebookWorkspaceResponse>;
 
 export interface DeletePrivateEndpointConnectionRequest {
@@ -4116,9 +4048,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -4481,9 +4411,7 @@ export const GetCassandraClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetCassandraClusterRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetCassandraClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCassandraClusterResponseTagsMap = { [key: string]: string | undefined };
 export const GetCassandraClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4684,9 +4612,7 @@ export const ThroughputPolicyResource = /*@__PURE__*/ S.suspend(() =>
     isEnabled: S.optional(S.Boolean),
     incrementPercent: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ThroughputPolicyResource",
-}) as any as S.Schema<ThroughputPolicyResource>;
+).annotate({ identifier: "ThroughputPolicyResource" }) as any as S.Schema<ThroughputPolicyResource>;
 
 /** Cosmos DB resource auto-upgrade policy */
 export interface AutoUpgradePolicyResource {
@@ -5087,9 +5013,7 @@ export const GetDatabaseAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDatabaseAccountRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetDatabaseAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDatabaseAccountResponseTagsMap = { [key: string]: string | undefined };
 export const GetDatabaseAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5156,9 +5080,7 @@ export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "GetFleetRequest",
-}) as any as S.Schema<GetFleetRequest>;
+).annotate({ identifier: "GetFleetRequest" }) as any as S.Schema<GetFleetRequest>;
 
 /** Resource tags. */
 export type GetFleetResponseTagsMap = { [key: string]: string | undefined };
@@ -5193,9 +5115,7 @@ export const GetFleetResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(FleetResourceProperties),
   }),
-).annotate({
-  identifier: "GetFleetResponse",
-}) as any as S.Schema<GetFleetResponse>;
+).annotate({ identifier: "GetFleetResponse" }) as any as S.Schema<GetFleetResponse>;
 
 export interface GetFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5221,9 +5141,7 @@ export const GetFleetspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "GetFleetspaceRequest",
-}) as any as S.Schema<GetFleetspaceRequest>;
+).annotate({ identifier: "GetFleetspaceRequest" }) as any as S.Schema<GetFleetspaceRequest>;
 
 export interface GetFleetspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5245,9 +5163,7 @@ export const GetFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceProperties),
   }),
-).annotate({
-  identifier: "GetFleetspaceResponse",
-}) as any as S.Schema<GetFleetspaceResponse>;
+).annotate({ identifier: "GetFleetspaceResponse" }) as any as S.Schema<GetFleetspaceResponse>;
 
 export interface GetFleetspaceAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5360,9 +5276,7 @@ export const BackupInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     continuousBackupInformation: S.optional(ContinuousBackupInformation),
   }),
-).annotate({
-  identifier: "BackupInformation",
-}) as any as S.Schema<BackupInformation>;
+).annotate({ identifier: "BackupInformation" }) as any as S.Schema<BackupInformation>;
 
 export interface GetGremlinResourceGremlinDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5407,9 +5321,7 @@ export const RestoreParametersBase = /*@__PURE__*/ S.suspend(() =>
     restoreTimestampInUtc: S.optional(S.String),
     restoreWithTtlDisabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RestoreParametersBase",
-}) as any as S.Schema<RestoreParametersBase>;
+).annotate({ identifier: "RestoreParametersBase" }) as any as S.Schema<RestoreParametersBase>;
 
 /** Enum to indicate the mode of resource creation. */
 export type GremlinDatabaseGetPropertiesResourceCreateMode = "Default" | "Restore";
@@ -5780,9 +5692,7 @@ export const FullTextIndexPath = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.String,
   }),
-).annotate({
-  identifier: "FullTextIndexPath",
-}) as any as S.Schema<FullTextIndexPath>;
+).annotate({ identifier: "FullTextIndexPath" }) as any as S.Schema<FullTextIndexPath>;
 
 /** List of paths to include in the full text indexing */
 export type IndexingPolicyFullTextIndexesList = Array<FullTextIndexPath>;
@@ -5850,9 +5760,7 @@ export const ContainerPartitionKey = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.Number),
     systemKey: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContainerPartitionKey",
-}) as any as S.Schema<ContainerPartitionKey>;
+).annotate({ identifier: "ContainerPartitionKey" }) as any as S.Schema<ContainerPartitionKey>;
 
 /** List of paths must be unique for each document in the Azure Cosmos DB service */
 export type UniqueKeyPathsList = Array<string>;
@@ -5886,9 +5794,7 @@ export const UniqueKeyPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uniqueKeys: S.optional(UniqueKeyPolicyUniqueKeysList),
   }),
-).annotate({
-  identifier: "UniqueKeyPolicy",
-}) as any as S.Schema<UniqueKeyPolicy>;
+).annotate({ identifier: "UniqueKeyPolicy" }) as any as S.Schema<UniqueKeyPolicy>;
 
 /** Indicates the conflict resolution mode. */
 export type ConflictResolutionPolicyMode = "LastWriterWins" | "Custom";
@@ -5909,9 +5815,7 @@ export const ConflictResolutionPolicy = /*@__PURE__*/ S.suspend(() =>
     conflictResolutionPath: S.optional(S.String),
     conflictResolutionProcedure: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConflictResolutionPolicy",
-}) as any as S.Schema<ConflictResolutionPolicy>;
+).annotate({ identifier: "ConflictResolutionPolicy" }) as any as S.Schema<ConflictResolutionPolicy>;
 
 /** Enum to indicate the mode of resource creation. */
 export type GremlinGraphGetPropertiesResourceCreateMode = "Default" | "Restore";
@@ -5977,9 +5881,7 @@ export const GremlinGraphGetProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GremlinGraphGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetGremlinResourceGremlinGraphResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetGremlinResourceGremlinGraphResponseTagsMap = { [key: string]: string | undefined };
 export const GetGremlinResourceGremlinGraphResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6272,9 +6174,7 @@ export const GetLocationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "GetLocationRequest",
-}) as any as S.Schema<GetLocationRequest>;
+).annotate({ identifier: "GetLocationRequest" }) as any as S.Schema<GetLocationRequest>;
 
 /** Enum to indicate type of backup storage redundancy. */
 export type BackupStorageRedundancy = "Geo" | "Local" | "Zone";
@@ -6310,9 +6210,7 @@ export const LocationProperties = /*@__PURE__*/ S.suspend(() =>
     isSubscriptionRegionAccessAllowedForAz: S.optional(S.Boolean),
     status: S.optional(Status),
   }),
-).annotate({
-  identifier: "LocationProperties",
-}) as any as S.Schema<LocationProperties>;
+).annotate({ identifier: "LocationProperties" }) as any as S.Schema<LocationProperties>;
 
 export interface GetLocationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6334,9 +6232,7 @@ export const GetLocationResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(LocationProperties),
   }),
-).annotate({
-  identifier: "GetLocationResponse",
-}) as any as S.Schema<GetLocationResponse>;
+).annotate({ identifier: "GetLocationResponse" }) as any as S.Schema<GetLocationResponse>;
 
 export interface GetMongoDBResourceContinuousBackupInformationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6441,9 +6337,7 @@ export const MongoIndexOptions = /*@__PURE__*/ S.suspend(() =>
     expireAfterSeconds: S.optional(S.Number),
     unique: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MongoIndexOptions",
-}) as any as S.Schema<MongoIndexOptions>;
+).annotate({ identifier: "MongoIndexOptions" }) as any as S.Schema<MongoIndexOptions>;
 
 /** Cosmos DB MongoDB collection index key */
 export interface MongoIndex {
@@ -6863,9 +6757,7 @@ export const PrivilegeResource = /*@__PURE__*/ S.suspend(() =>
     db: S.optional(S.String),
     collection: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivilegeResource",
-}) as any as S.Schema<PrivilegeResource>;
+).annotate({ identifier: "PrivilegeResource" }) as any as S.Schema<PrivilegeResource>;
 
 /** An array of actions that are allowed. */
 export type PrivilegeActionsList = Array<string>;
@@ -7554,9 +7446,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7578,9 +7468,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ServiceResourceProperties),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetSqlResourceClientEncryptionKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7631,9 +7519,7 @@ export const KeyWrapMetadata = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     algorithm: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyWrapMetadata",
-}) as any as S.Schema<KeyWrapMetadata>;
+).annotate({ identifier: "KeyWrapMetadata" }) as any as S.Schema<KeyWrapMetadata>;
 
 export interface ClientEncryptionKeyGetPropertiesResource {
   /** Name of the ClientEncryptionKey */
@@ -7806,9 +7692,7 @@ export const ClientEncryptionPolicy = /*@__PURE__*/ S.suspend(() =>
     includedPaths: ClientEncryptionPolicyIncludedPathsList,
     policyFormatVersion: S.Number,
   }),
-).annotate({
-  identifier: "ClientEncryptionPolicy",
-}) as any as S.Schema<ClientEncryptionPolicy>;
+).annotate({ identifier: "ClientEncryptionPolicy" }) as any as S.Schema<ClientEncryptionPolicy>;
 
 /** Enum to indicate the mode of account creation. */
 export type SqlContainerGetPropertiesResourceCreateMode = "Default" | "Restore";
@@ -7826,9 +7710,7 @@ export const ComputedProperty = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     query: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComputedProperty",
-}) as any as S.Schema<ComputedProperty>;
+).annotate({ identifier: "ComputedProperty" }) as any as S.Schema<ComputedProperty>;
 
 /** List of computed properties */
 export type SqlContainerGetPropertiesResourceComputedPropertiesList = Array<ComputedProperty>;
@@ -7862,9 +7744,7 @@ export const VectorEmbedding = /*@__PURE__*/ S.suspend(() =>
     distanceFunction: DistanceFunction,
     dimensions: S.Number,
   }),
-).annotate({
-  identifier: "VectorEmbedding",
-}) as any as S.Schema<VectorEmbedding>;
+).annotate({ identifier: "VectorEmbedding" }) as any as S.Schema<VectorEmbedding>;
 
 /** List of vector embeddings */
 export type VectorEmbeddingPolicyVectorEmbeddingsList = Array<VectorEmbedding>;
@@ -7881,9 +7761,7 @@ export const VectorEmbeddingPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vectorEmbeddings: S.optional(VectorEmbeddingPolicyVectorEmbeddingsList),
   }),
-).annotate({
-  identifier: "VectorEmbeddingPolicy",
-}) as any as S.Schema<VectorEmbeddingPolicy>;
+).annotate({ identifier: "VectorEmbeddingPolicy" }) as any as S.Schema<VectorEmbeddingPolicy>;
 
 /** Represents the full text path specification. */
 export interface FullTextPath {
@@ -7991,9 +7869,7 @@ export const SqlContainerGetProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SqlContainerGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetSqlResourceSqlContainerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSqlResourceSqlContainerResponseTagsMap = { [key: string]: string | undefined };
 export const GetSqlResourceSqlContainerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8180,14 +8056,10 @@ export const SqlDatabaseGetProperties = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(SqlDatabaseGetPropertiesResource),
     options: S.optional(OptionsResource),
   }),
-).annotate({
-  identifier: "SqlDatabaseGetProperties",
-}) as any as S.Schema<SqlDatabaseGetProperties>;
+).annotate({ identifier: "SqlDatabaseGetProperties" }) as any as S.Schema<SqlDatabaseGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetSqlResourceSqlDatabaseResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSqlResourceSqlDatabaseResponseTagsMap = { [key: string]: string | undefined };
 export const GetSqlResourceSqlDatabaseResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8524,9 +8396,7 @@ export const SqlStoredProcedureGetProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SqlStoredProcedureGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetSqlResourceSqlStoredProcedureResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSqlResourceSqlStoredProcedureResponseTagsMap = { [key: string]: string | undefined };
 export const GetSqlResourceSqlStoredProcedureResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8777,14 +8647,10 @@ export const TableGetProperties = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(TableGetPropertiesResource),
     options: S.optional(OptionsResource),
   }),
-).annotate({
-  identifier: "TableGetProperties",
-}) as any as S.Schema<TableGetProperties>;
+).annotate({ identifier: "TableGetProperties" }) as any as S.Schema<TableGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetTableResourceTableResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTableResourceTableResponseTagsMap = { [key: string]: string | undefined };
 export const GetTableResourceTableResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9015,9 +8881,7 @@ export const GetTableResourceTableThroughputRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<GetTableResourceTableThroughputRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GetTableResourceTableThroughputResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTableResourceTableThroughputResponseTagsMap = { [key: string]: string | undefined };
 export const GetTableResourceTableThroughputResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9084,9 +8948,7 @@ export const GremlinDatabaseResource = /*@__PURE__*/ S.suspend(() =>
     restoreParameters: S.optional(RestoreParametersBase),
     createMode: S.optional(GremlinDatabaseResourceCreateMode),
   }),
-).annotate({
-  identifier: "GremlinDatabaseResource",
-}) as any as S.Schema<GremlinDatabaseResource>;
+).annotate({ identifier: "GremlinDatabaseResource" }) as any as S.Schema<GremlinDatabaseResource>;
 
 /** Properties to create and update Azure Cosmos DB Gremlin database. */
 export interface GremlinDatabaseCreateUpdateProperties {
@@ -9614,9 +9476,7 @@ export const ClusterResource = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(ClusterResourceTagsMap),
     identity: S.optional(ManagedCassandraManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "ClusterResource",
-}) as any as S.Schema<ClusterResource>;
+).annotate({ identifier: "ClusterResource" }) as any as S.Schema<ClusterResource>;
 
 /** Container for the array of clusters. */
 export type ListClustersValueList = Array<ClusterResource>;
@@ -9702,9 +9562,7 @@ export const DataCenterResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DataCenterResourceProperties),
   }),
-).annotate({
-  identifier: "DataCenterResource",
-}) as any as S.Schema<DataCenterResource>;
+).annotate({ identifier: "DataCenterResource" }) as any as S.Schema<DataCenterResource>;
 
 /** Container for array of data centers. */
 export type ListDataCentersValueList = Array<DataCenterResource>;
@@ -9723,9 +9581,7 @@ export const ListDataCenters = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListDataCentersValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDataCenters",
-}) as any as S.Schema<ListDataCenters>;
+).annotate({ identifier: "ListDataCenters" }) as any as S.Schema<ListDataCenters>;
 
 export interface ListCassandraResourceCassandraKeyspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9753,9 +9609,7 @@ export const ListCassandraResourceCassandraKeyspacesRequest = /*@__PURE__*/ S.su
 }) as any as S.Schema<ListCassandraResourceCassandraKeyspacesRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type CassandraKeyspaceGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CassandraKeyspaceGetResultsTagsMap = { [key: string]: string | undefined };
 export const CassandraKeyspaceGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9989,9 +9843,7 @@ export const ListCassandraResourceCassandraTablesRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ListCassandraResourceCassandraTablesRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type CassandraTableGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CassandraTableGetResultsTagsMap = { [key: string]: string | undefined };
 export const CassandraTableGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10027,9 +9879,7 @@ export const CassandraTableGetResults = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(CassandraTableGetResultsTagsMap),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "CassandraTableGetResults",
-}) as any as S.Schema<CassandraTableGetResults>;
+).annotate({ identifier: "CassandraTableGetResults" }) as any as S.Schema<CassandraTableGetResults>;
 
 /** List of Cassandra tables and their properties. */
 export type CassandraTableListResultValueList = Array<CassandraTableGetResults>;
@@ -10048,9 +9898,7 @@ export const CassandraTableListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CassandraTableListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CassandraTableListResult",
-}) as any as S.Schema<CassandraTableListResult>;
+).annotate({ identifier: "CassandraTableListResult" }) as any as S.Schema<CassandraTableListResult>;
 
 export interface ListCollectionMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10095,9 +9943,7 @@ export const MetricAvailability = /*@__PURE__*/ S.suspend(() =>
     timeGrain: S.optional(S.String),
     retention: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricAvailability",
-}) as any as S.Schema<MetricAvailability>;
+).annotate({ identifier: "MetricAvailability" }) as any as S.Schema<MetricAvailability>;
 
 /** The list of metric availabilities for the account. */
 export type MetricDefinitionMetricAvailabilitiesList = Array<MetricAvailability>;
@@ -10155,9 +10001,7 @@ export const MetricDefinition = /*@__PURE__*/ S.suspend(() =>
     resourceUri: S.optional(S.String),
     name: S.optional(MetricName),
   }),
-).annotate({
-  identifier: "MetricDefinition",
-}) as any as S.Schema<MetricDefinition>;
+).annotate({ identifier: "MetricDefinition" }) as any as S.Schema<MetricDefinition>;
 
 /** The list of metric definitions for the account. */
 export type MetricDefinitionsListResultValueList = Array<MetricDefinition>;
@@ -10289,9 +10133,7 @@ export const MetricListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MetricListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricListResult",
-}) as any as S.Schema<MetricListResult>;
+).annotate({ identifier: "MetricListResult" }) as any as S.Schema<MetricListResult>;
 
 export interface ListCollectionPartitionMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10363,9 +10205,7 @@ export const PartitionMetric = /*@__PURE__*/ S.suspend(() =>
     partitionId: S.optional(S.String),
     partitionKeyRangeId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartitionMetric",
-}) as any as S.Schema<PartitionMetric>;
+).annotate({ identifier: "PartitionMetric" }) as any as S.Schema<PartitionMetric>;
 
 /** The list of partition-level metrics for the account. */
 export type PartitionMetricListResultValueList = Array<PartitionMetric>;
@@ -10505,9 +10345,7 @@ export const PartitionUsagesResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PartitionUsagesResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PartitionUsagesResult",
-}) as any as S.Schema<PartitionUsagesResult>;
+).annotate({ identifier: "PartitionUsagesResult" }) as any as S.Schema<PartitionUsagesResult>;
 
 export interface ListCollectionRegionMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -10645,9 +10483,7 @@ export const ListDatabaseAccountByResourceGroupRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<ListDatabaseAccountByResourceGroupRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type DatabaseAccountGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DatabaseAccountGetResultsTagsMap = { [key: string]: string | undefined };
 export const DatabaseAccountGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11082,9 +10918,7 @@ export const ListFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "ListFleetRequest",
-}) as any as S.Schema<ListFleetRequest>;
+).annotate({ identifier: "ListFleetRequest" }) as any as S.Schema<ListFleetRequest>;
 
 /** Resource tags. */
 export type FleetResourceTagsMap = { [key: string]: string | undefined };
@@ -11140,9 +10974,7 @@ export const FleetListResult = /*@__PURE__*/ S.suspend(() =>
     value: FleetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FleetListResult",
-}) as any as S.Schema<FleetListResult>;
+).annotate({ identifier: "FleetListResult" }) as any as S.Schema<FleetListResult>;
 
 export interface ListFleetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11187,9 +11019,7 @@ export const ListFleetspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "ListFleetspaceRequest",
-}) as any as S.Schema<ListFleetspaceRequest>;
+).annotate({ identifier: "ListFleetspaceRequest" }) as any as S.Schema<ListFleetspaceRequest>;
 
 /** An Azure Cosmos DB Fleetspace. */
 export interface FleetspaceResource {
@@ -11212,9 +11042,7 @@ export const FleetspaceResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceProperties),
   }),
-).annotate({
-  identifier: "FleetspaceResource",
-}) as any as S.Schema<FleetspaceResource>;
+).annotate({ identifier: "FleetspaceResource" }) as any as S.Schema<FleetspaceResource>;
 
 /** The FleetspaceResource items on this page */
 export type FleetspaceListResultValueList = Array<FleetspaceResource>;
@@ -11234,9 +11062,7 @@ export const FleetspaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: FleetspaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FleetspaceListResult",
-}) as any as S.Schema<FleetspaceListResult>;
+).annotate({ identifier: "FleetspaceListResult" }) as any as S.Schema<FleetspaceListResult>;
 
 export interface ListFleetspaceAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11339,9 +11165,7 @@ export const ListGremlinResourceGremlinDatabasesRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ListGremlinResourceGremlinDatabasesRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GremlinDatabaseGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GremlinDatabaseGetResultsTagsMap = { [key: string]: string | undefined };
 export const GremlinDatabaseGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11431,9 +11255,7 @@ export const ListGremlinResourceGremlinGraphsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ListGremlinResourceGremlinGraphsRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type GremlinGraphGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GremlinGraphGetResultsTagsMap = { [key: string]: string | undefined };
 export const GremlinGraphGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11469,9 +11291,7 @@ export const GremlinGraphGetResults = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GremlinGraphGetResultsTagsMap),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "GremlinGraphGetResults",
-}) as any as S.Schema<GremlinGraphGetResults>;
+).annotate({ identifier: "GremlinGraphGetResults" }) as any as S.Schema<GremlinGraphGetResults>;
 
 /** List of graphs and their properties. */
 export type GremlinGraphListResultValueList = Array<GremlinGraphGetResults>;
@@ -11490,9 +11310,7 @@ export const GremlinGraphListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(GremlinGraphListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GremlinGraphListResult",
-}) as any as S.Schema<GremlinGraphListResult>;
+).annotate({ identifier: "GremlinGraphListResult" }) as any as S.Schema<GremlinGraphListResult>;
 
 export interface ListGremlinResourceGremlinRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11653,9 +11471,7 @@ export const ListLocationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "ListLocationsRequest",
-}) as any as S.Schema<ListLocationsRequest>;
+).annotate({ identifier: "ListLocationsRequest" }) as any as S.Schema<ListLocationsRequest>;
 
 /** Cosmos DB location get result */
 export interface LocationGetResult {
@@ -11678,9 +11494,7 @@ export const LocationGetResult = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(LocationProperties),
   }),
-).annotate({
-  identifier: "LocationGetResult",
-}) as any as S.Schema<LocationGetResult>;
+).annotate({ identifier: "LocationGetResult" }) as any as S.Schema<LocationGetResult>;
 
 /** List of Cosmos DB locations and their properties. */
 export type LocationListResultValueList = Array<LocationGetResult>;
@@ -11699,9 +11513,7 @@ export const LocationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(LocationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LocationListResult",
-}) as any as S.Schema<LocationListResult>;
+).annotate({ identifier: "LocationListResult" }) as any as S.Schema<LocationListResult>;
 
 export interface ListMongoDBResourceMongoDBCollectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -11732,9 +11544,7 @@ export const ListMongoDBResourceMongoDBCollectionsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ListMongoDBResourceMongoDBCollectionsRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type MongoDBCollectionGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MongoDBCollectionGetResultsTagsMap = { [key: string]: string | undefined };
 export const MongoDBCollectionGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11821,9 +11631,7 @@ export const ListMongoDBResourceMongoDBDatabasesRequest = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<ListMongoDBResourceMongoDBDatabasesRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type MongoDBDatabaseGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MongoDBDatabaseGetResultsTagsMap = { [key: string]: string | undefined };
 export const MongoDBDatabaseGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12216,9 +12024,7 @@ export const NotebookWorkspace = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(NotebookWorkspaceProperties),
   }),
-).annotate({
-  identifier: "NotebookWorkspace",
-}) as any as S.Schema<NotebookWorkspace>;
+).annotate({ identifier: "NotebookWorkspace" }) as any as S.Schema<NotebookWorkspace>;
 
 /** Array of notebook workspace resources */
 export type NotebookWorkspaceListResultValueList = Array<NotebookWorkspace>;
@@ -12302,9 +12108,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -12324,9 +12128,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     Operation: S.optional(S.String),
     Description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** REST API operation */
 export interface Operation {
@@ -12360,9 +12162,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPartitionKeyRangeIdMetricsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -12514,9 +12314,7 @@ export const PercentileMetricValue = /*@__PURE__*/ S.suspend(() =>
     P95: S.optional(S.Number),
     P99: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PercentileMetricValue",
-}) as any as S.Schema<PercentileMetricValue>;
+).annotate({ identifier: "PercentileMetricValue" }) as any as S.Schema<PercentileMetricValue>;
 
 /** The percentile metric values for the specified time window and timestep. */
 export type PercentileMetricMetricValuesList = Array<PercentileMetricValue>;
@@ -12548,9 +12346,7 @@ export const PercentileMetric = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(MetricName),
     metricValues: S.optional(PercentileMetricMetricValuesList),
   }),
-).annotate({
-  identifier: "PercentileMetric",
-}) as any as S.Schema<PercentileMetric>;
+).annotate({ identifier: "PercentileMetric" }) as any as S.Schema<PercentileMetric>;
 
 /** The list of percentile metrics for the account. */
 export type PercentileMetricListResultValueList = Array<PercentileMetric>;
@@ -12730,9 +12526,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -14089,9 +13883,7 @@ export const RestorableTableGetResult = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RestorableTableGetResult",
-}) as any as S.Schema<RestorableTableGetResult>;
+).annotate({ identifier: "RestorableTableGetResult" }) as any as S.Schema<RestorableTableGetResult>;
 
 /** List of Table events and their properties. */
 export type RestorableTablesListResultValueList = Array<RestorableTableGetResult>;
@@ -14135,9 +13927,7 @@ export const ListServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "ListServiceRequest",
-}) as any as S.Schema<ListServiceRequest>;
+).annotate({ identifier: "ListServiceRequest" }) as any as S.Schema<ListServiceRequest>;
 
 /** Properties for the database account. */
 export interface ServiceResource {
@@ -14160,9 +13950,7 @@ export const ServiceResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ServiceResourceProperties),
   }),
-).annotate({
-  identifier: "ServiceResource",
-}) as any as S.Schema<ServiceResource>;
+).annotate({ identifier: "ServiceResource" }) as any as S.Schema<ServiceResource>;
 
 /** List of Service Resource and their properties. */
 export type ServiceResourceListResultValueList = Array<ServiceResource>;
@@ -14288,9 +14076,7 @@ export const ListSqlResourceSqlContainersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSqlResourceSqlContainersRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type SqlContainerGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlContainerGetResultsTagsMap = { [key: string]: string | undefined };
 export const SqlContainerGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14326,9 +14112,7 @@ export const SqlContainerGetResults = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(SqlContainerGetResultsTagsMap),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "SqlContainerGetResults",
-}) as any as S.Schema<SqlContainerGetResults>;
+).annotate({ identifier: "SqlContainerGetResults" }) as any as S.Schema<SqlContainerGetResults>;
 
 /** List of containers and their properties. */
 export type SqlContainerListResultValueList = Array<SqlContainerGetResults>;
@@ -14347,9 +14131,7 @@ export const SqlContainerListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SqlContainerListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlContainerListResult",
-}) as any as S.Schema<SqlContainerListResult>;
+).annotate({ identifier: "SqlContainerListResult" }) as any as S.Schema<SqlContainerListResult>;
 
 export interface ListSqlResourceSqlDatabasesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14377,9 +14159,7 @@ export const ListSqlResourceSqlDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSqlResourceSqlDatabasesRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type SqlDatabaseGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlDatabaseGetResultsTagsMap = { [key: string]: string | undefined };
 export const SqlDatabaseGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14415,9 +14195,7 @@ export const SqlDatabaseGetResults = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(SqlDatabaseGetResultsTagsMap),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "SqlDatabaseGetResults",
-}) as any as S.Schema<SqlDatabaseGetResults>;
+).annotate({ identifier: "SqlDatabaseGetResults" }) as any as S.Schema<SqlDatabaseGetResults>;
 
 /** List of SQL databases and their properties. */
 export type SqlDatabaseListResultValueList = Array<SqlDatabaseGetResults>;
@@ -14436,9 +14214,7 @@ export const SqlDatabaseListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SqlDatabaseListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlDatabaseListResult",
-}) as any as S.Schema<SqlDatabaseListResult>;
+).annotate({ identifier: "SqlDatabaseListResult" }) as any as S.Schema<SqlDatabaseListResult>;
 
 export interface ListSqlResourceSqlRoleAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14614,9 +14390,7 @@ export const ListSqlResourceSqlStoredProceduresRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<ListSqlResourceSqlStoredProceduresRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type SqlStoredProcedureGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlStoredProcedureGetResultsTagsMap = { [key: string]: string | undefined };
 export const SqlStoredProcedureGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -14754,9 +14528,7 @@ export const SqlTriggerGetProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(SqlTriggerGetPropertiesResource),
   }),
-).annotate({
-  identifier: "SqlTriggerGetProperties",
-}) as any as S.Schema<SqlTriggerGetProperties>;
+).annotate({ identifier: "SqlTriggerGetProperties" }) as any as S.Schema<SqlTriggerGetProperties>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
 export type SqlTriggerGetResultsTagsMap = { [key: string]: string | undefined };
@@ -14795,9 +14567,7 @@ export const SqlTriggerGetResults = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(SqlTriggerGetResultsTagsMap),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "SqlTriggerGetResults",
-}) as any as S.Schema<SqlTriggerGetResults>;
+).annotate({ identifier: "SqlTriggerGetResults" }) as any as S.Schema<SqlTriggerGetResults>;
 
 /** List of triggers and their properties. */
 export type SqlTriggerListResultValueList = Array<SqlTriggerGetResults>;
@@ -14816,9 +14586,7 @@ export const SqlTriggerListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SqlTriggerListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SqlTriggerListResult",
-}) as any as S.Schema<SqlTriggerListResult>;
+).annotate({ identifier: "SqlTriggerListResult" }) as any as S.Schema<SqlTriggerListResult>;
 
 export interface ListSqlResourceSqlUserDefinedFunctionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -14852,9 +14620,7 @@ export const ListSqlResourceSqlUserDefinedFunctionsRequest = /*@__PURE__*/ S.sus
 }) as any as S.Schema<ListSqlResourceSqlUserDefinedFunctionsRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type SqlUserDefinedFunctionGetResultsTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlUserDefinedFunctionGetResultsTagsMap = { [key: string]: string | undefined };
 export const SqlUserDefinedFunctionGetResultsTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15121,9 +14887,7 @@ export const TableGetResults = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TableGetResultsTagsMap),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "TableGetResults",
-}) as any as S.Schema<TableGetResults>;
+).annotate({ identifier: "TableGetResults" }) as any as S.Schema<TableGetResults>;
 
 /** List of Table and their properties. */
 export type TableListResultValueList = Array<TableGetResults>;
@@ -15142,9 +14906,7 @@ export const TableListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(TableListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TableListResult",
-}) as any as S.Schema<TableListResult>;
+).annotate({ identifier: "TableListResult" }) as any as S.Schema<TableListResult>;
 
 export interface MigrateCassandraResourceCassandraKeyspaceToAutoscaleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16474,9 +16236,7 @@ export const MongoDBResourcesCreateUpdateMongoDBCollectionRequestTagsMap = /*@__
 ) as any as S.Schema<MongoDBResourcesCreateUpdateMongoDBCollectionRequestTagsMap>;
 
 /** A key-value pair of shard keys to be applied for the request. */
-export type MongoDBCollectionResourceShardKeyMap = {
-  [key: string]: string | undefined;
-};
+export type MongoDBCollectionResourceShardKeyMap = { [key: string]: string | undefined };
 export const MongoDBCollectionResourceShardKeyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -16649,9 +16409,7 @@ export const MongoDBDatabaseResource = /*@__PURE__*/ S.suspend(() =>
     restoreParameters: S.optional(RestoreParametersBase),
     createMode: S.optional(MongoDBDatabaseResourceCreateMode),
   }),
-).annotate({
-  identifier: "MongoDBDatabaseResource",
-}) as any as S.Schema<MongoDBDatabaseResource>;
+).annotate({ identifier: "MongoDBDatabaseResource" }) as any as S.Schema<MongoDBDatabaseResource>;
 
 /** Properties to create and update Azure Cosmos DB MongoDB database. */
 export interface MongoDBDatabaseCreateUpdateProperties {
@@ -17517,9 +17275,7 @@ export const SqlDatabaseResource = /*@__PURE__*/ S.suspend(() =>
     restoreParameters: S.optional(RestoreParametersBase),
     createMode: S.optional(SqlDatabaseResourceCreateMode),
   }),
-).annotate({
-  identifier: "SqlDatabaseResource",
-}) as any as S.Schema<SqlDatabaseResource>;
+).annotate({ identifier: "SqlDatabaseResource" }) as any as S.Schema<SqlDatabaseResource>;
 
 /** Properties to create and update Azure Cosmos DB SQL database. */
 export interface SqlDatabaseCreateUpdateProperties {
@@ -17885,9 +17641,7 @@ export const SqlTriggerResource = /*@__PURE__*/ S.suspend(() =>
     triggerType: S.optional(TriggerType),
     triggerOperation: S.optional(TriggerOperation),
   }),
-).annotate({
-  identifier: "SqlTriggerResource",
-}) as any as S.Schema<SqlTriggerResource>;
+).annotate({ identifier: "SqlTriggerResource" }) as any as S.Schema<SqlTriggerResource>;
 
 /** Properties to create and update Azure Cosmos DB trigger. */
 export interface SqlTriggerCreateUpdateProperties {
@@ -18198,9 +17952,7 @@ export const SqlResourcesGetSqlTriggerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SqlResourcesGetSqlTriggerRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type SqlResourcesGetSqlTriggerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SqlResourcesGetSqlTriggerResponseTagsMap = { [key: string]: string | undefined };
 export const SqlResourcesGetSqlTriggerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18306,9 +18058,7 @@ export const StartNotebookWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<StartNotebookWorkspaceResponse>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-export type TableResourcesCreateUpdateTableRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TableResourcesCreateUpdateTableRequestTagsMap = { [key: string]: string | undefined };
 export const TableResourcesCreateUpdateTableRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18392,9 +18142,7 @@ export const TableResourcesCreateUpdateTableRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<TableResourcesCreateUpdateTableRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type TableResourcesCreateUpdateTableResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TableResourcesCreateUpdateTableResponseTagsMap = { [key: string]: string | undefined };
 export const TableResourcesCreateUpdateTableResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18563,9 +18311,7 @@ export const TableResourcesCreateUpdateTableRoleDefinitionResponse = /*@__PURE__
 }) as any as S.Schema<TableResourcesCreateUpdateTableRoleDefinitionResponse>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type UpdateCassandraClusterRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCassandraClusterRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCassandraClusterRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18609,9 +18355,7 @@ export const UpdateCassandraClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCassandraClusterRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type UpdateCassandraClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCassandraClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCassandraClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18941,9 +18685,7 @@ export const UpdateCassandraResourceCassandraTableThroughputResponse = /*@__PURE
 }) as any as S.Schema<UpdateCassandraResourceCassandraTableThroughputResponse>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
-export type UpdateDatabaseAccountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDatabaseAccountRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDatabaseAccountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19132,9 +18874,7 @@ export const UpdateDatabaseAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDatabaseAccountRequest>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with \"defaultExperience\": \"Cassandra\". Current \"defaultExperience\" values also include \"Table\", \"Graph\", \"DocumentDB\", and \"MongoDB\". */
-export type UpdateDatabaseAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDatabaseAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDatabaseAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19214,9 +18954,7 @@ export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateFleetRequest",
-}) as any as S.Schema<UpdateFleetRequest>;
+).annotate({ identifier: "UpdateFleetRequest" }) as any as S.Schema<UpdateFleetRequest>;
 
 /** Resource tags. */
 export type UpdateFleetResponseTagsMap = { [key: string]: string | undefined };
@@ -19251,9 +18989,7 @@ export const UpdateFleetResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(FleetResourceProperties),
   }),
-).annotate({
-  identifier: "UpdateFleetResponse",
-}) as any as S.Schema<UpdateFleetResponse>;
+).annotate({ identifier: "UpdateFleetResponse" }) as any as S.Schema<UpdateFleetResponse>;
 
 export interface UpdateFleetspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -19282,9 +19018,7 @@ export const UpdateFleetspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-15",
     }),
   ),
-).annotate({
-  identifier: "UpdateFleetspaceRequest",
-}) as any as S.Schema<UpdateFleetspaceRequest>;
+).annotate({ identifier: "UpdateFleetspaceRequest" }) as any as S.Schema<UpdateFleetspaceRequest>;
 
 export interface UpdateFleetspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -19306,9 +19040,7 @@ export const UpdateFleetspaceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FleetspaceProperties),
   }),
-).annotate({
-  identifier: "UpdateFleetspaceResponse",
-}) as any as S.Schema<UpdateFleetspaceResponse>;
+).annotate({ identifier: "UpdateFleetspaceResponse" }) as any as S.Schema<UpdateFleetspaceResponse>;
 
 /** Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB". */
 export type UpdateGremlinResourceGremlinDatabaseThroughputRequestTagsMap = {

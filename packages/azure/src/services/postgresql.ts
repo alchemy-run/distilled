@@ -94,9 +94,7 @@ export const CancelMigrationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "CancelMigrationRequest",
-}) as any as S.Schema<CancelMigrationRequest>;
+).annotate({ identifier: "CancelMigrationRequest" }) as any as S.Schema<CancelMigrationRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -133,9 +131,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CancelMigrationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CancelMigrationResponseTagsMap = { [key: string]: string | undefined };
 export const CancelMigrationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -232,9 +228,7 @@ export const DatabaseMigrationState = /*@__PURE__*/ S.suspend(() =>
     latency: S.optional(S.Number),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseMigrationState",
-}) as any as S.Schema<DatabaseMigrationState>;
+).annotate({ identifier: "DatabaseMigrationState" }) as any as S.Schema<DatabaseMigrationState>;
 
 export type MigrationSubstateDetailsDbDetailsMap = {
   [key: string]: DatabaseMigrationState | undefined;
@@ -260,9 +254,7 @@ export const ValidationMessage = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ValidationState),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ValidationMessage",
-}) as any as S.Schema<ValidationMessage>;
+).annotate({ identifier: "ValidationMessage" }) as any as S.Schema<ValidationMessage>;
 
 /** Validation messages. */
 export type ValidationSummaryItemMessagesList = Array<ValidationMessage>;
@@ -285,9 +277,7 @@ export const ValidationSummaryItem = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ValidationState),
     messages: S.optional(ValidationSummaryItemMessagesList),
   }),
-).annotate({
-  identifier: "ValidationSummaryItem",
-}) as any as S.Schema<ValidationSummaryItem>;
+).annotate({ identifier: "ValidationSummaryItem" }) as any as S.Schema<ValidationSummaryItem>;
 
 /** Details of server level validations. */
 export type ValidationDetailsServerLevelValidationDetailsList = Array<ValidationSummaryItem>;
@@ -319,9 +309,7 @@ export const DbLevelValidationStatus = /*@__PURE__*/ S.suspend(() =>
     endedOn: S.optional(S.String),
     summary: S.optional(DbLevelValidationStatusSummaryList),
   }),
-).annotate({
-  identifier: "DbLevelValidationStatus",
-}) as any as S.Schema<DbLevelValidationStatus>;
+).annotate({ identifier: "DbLevelValidationStatus" }) as any as S.Schema<DbLevelValidationStatus>;
 
 /** Details of server level validations. */
 export type ValidationDetailsDbLevelValidationDetailsList = Array<DbLevelValidationStatus>;
@@ -350,9 +338,7 @@ export const ValidationDetails = /*@__PURE__*/ S.suspend(() =>
     serverLevelValidationDetails: S.optional(ValidationDetailsServerLevelValidationDetailsList),
     dbLevelValidationDetails: S.optional(ValidationDetailsDbLevelValidationDetailsList),
   }),
-).annotate({
-  identifier: "ValidationDetails",
-}) as any as S.Schema<ValidationDetails>;
+).annotate({ identifier: "ValidationDetails" }) as any as S.Schema<ValidationDetails>;
 
 /** Details of migration substate. */
 export interface MigrationSubstateDetails {
@@ -367,9 +353,7 @@ export const MigrationSubstateDetails = /*@__PURE__*/ S.suspend(() =>
     dbDetails: S.optional(MigrationSubstateDetailsDbDetailsMap),
     validationDetails: S.optional(ValidationDetails),
   }),
-).annotate({
-  identifier: "MigrationSubstateDetails",
-}) as any as S.Schema<MigrationSubstateDetails>;
+).annotate({ identifier: "MigrationSubstateDetails" }) as any as S.Schema<MigrationSubstateDetails>;
 
 /** State of migration. */
 export interface MigrationStatus {
@@ -386,9 +370,7 @@ export const MigrationStatus = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.String),
     currentSubStateDetails: S.optional(MigrationSubstateDetails),
   }),
-).annotate({
-  identifier: "MigrationStatus",
-}) as any as S.Schema<MigrationStatus>;
+).annotate({ identifier: "MigrationStatus" }) as any as S.Schema<MigrationStatus>;
 
 /** Mode used to perform the migration. */
 export type MigrationMode = "Offline" | "Online";
@@ -466,9 +448,7 @@ export const DbServerMetadata = /*@__PURE__*/ S.suspend(() =>
     storageMb: S.optional(S.Number),
     sku: S.optional(ServerSku),
   }),
-).annotate({
-  identifier: "DbServerMetadata",
-}) as any as S.Schema<DbServerMetadata>;
+).annotate({ identifier: "DbServerMetadata" }) as any as S.Schema<DbServerMetadata>;
 
 /** Credentials of administrator users for source and target servers. */
 export interface AdminCredentials {
@@ -482,9 +462,7 @@ export const AdminCredentials = /*@__PURE__*/ S.suspend(() =>
     sourceServerPassword: S.String.pipe(T.SensitiveValue({})),
     targetServerPassword: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "AdminCredentials",
-}) as any as S.Schema<AdminCredentials>;
+).annotate({ identifier: "AdminCredentials" }) as any as S.Schema<AdminCredentials>;
 
 /** Migration secret parameters. */
 export interface MigrationSecretParameters {
@@ -628,9 +606,7 @@ export const MigrationProperties = /*@__PURE__*/ S.suspend(() =>
     cancel: S.optional(Cancel),
     dbsToCancelMigrationOn: S.optional(MigrationPropertiesDbsToCancelMigrationOnList),
   }),
-).annotate({
-  identifier: "MigrationProperties",
-}) as any as S.Schema<MigrationProperties>;
+).annotate({ identifier: "MigrationProperties" }) as any as S.Schema<MigrationProperties>;
 
 export interface CancelMigrationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -658,9 +634,7 @@ export const CancelMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MigrationProperties),
   }),
-).annotate({
-  identifier: "CancelMigrationResponse",
-}) as any as S.Schema<CancelMigrationResponse>;
+).annotate({ identifier: "CancelMigrationResponse" }) as any as S.Schema<CancelMigrationResponse>;
 
 /** Settings for the long term backup. */
 export interface BackupSettings {
@@ -723,9 +697,7 @@ export const LtrPreBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: BackupsLongTermRetentionResponseProperties,
   }),
-).annotate({
-  identifier: "LtrPreBackupResponse",
-}) as any as S.Schema<LtrPreBackupResponse>;
+).annotate({ identifier: "LtrPreBackupResponse" }) as any as S.Schema<LtrPreBackupResponse>;
 
 export interface CheckMigrationNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -943,9 +915,7 @@ export const DatabaseProperties = /*@__PURE__*/ S.suspend(() =>
     charset: S.optional(S.String),
     collation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatabaseProperties",
-}) as any as S.Schema<DatabaseProperties>;
+).annotate({ identifier: "DatabaseProperties" }) as any as S.Schema<DatabaseProperties>;
 
 export interface CreateDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -974,9 +944,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 export interface CreateDatabaseResponse {}
 export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -984,9 +952,7 @@ export const CreateDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<CreateDatabaseResponse>;
 
 /** Resource tags. */
-export type CreateMigrationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMigrationRequestTagsMap = { [key: string]: string | undefined };
 export const CreateMigrationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1076,9 +1042,7 @@ export const MigrationPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     cancel: S.optional(Cancel),
     dbsToCancelMigrationOn: S.optional(MigrationPropertiesInputDbsToCancelMigrationOnList),
   }),
-).annotate({
-  identifier: "MigrationPropertiesInput",
-}) as any as S.Schema<MigrationPropertiesInput>;
+).annotate({ identifier: "MigrationPropertiesInput" }) as any as S.Schema<MigrationPropertiesInput>;
 
 export interface CreateMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1113,14 +1077,10 @@ export const CreateMigrationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "CreateMigrationRequest",
-}) as any as S.Schema<CreateMigrationRequest>;
+).annotate({ identifier: "CreateMigrationRequest" }) as any as S.Schema<CreateMigrationRequest>;
 
 /** Resource tags. */
-export type CreateMigrationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateMigrationResponseTagsMap = { [key: string]: string | undefined };
 export const CreateMigrationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1152,9 +1112,7 @@ export const CreateMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MigrationProperties),
   }),
-).annotate({
-  identifier: "CreateMigrationResponse",
-}) as any as S.Schema<CreateMigrationResponse>;
+).annotate({ identifier: "CreateMigrationResponse" }) as any as S.Schema<CreateMigrationResponse>;
 
 /** Type of endpoint for the virtual endpoints. */
 export type VirtualEndpointType = "ReadWrite";
@@ -1312,9 +1270,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1410,9 +1366,7 @@ export const DeleteServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteServerRequest",
-}) as any as S.Schema<DeleteServerRequest>;
+).annotate({ identifier: "DeleteServerRequest" }) as any as S.Schema<DeleteServerRequest>;
 
 export interface DeleteServerResponse {}
 export const DeleteServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1464,9 +1418,7 @@ export const FirewallRuleProperties = /*@__PURE__*/ S.suspend(() =>
     startIpAddress: S.String,
     endIpAddress: S.String,
   }),
-).annotate({
-  identifier: "FirewallRuleProperties",
-}) as any as S.Schema<FirewallRuleProperties>;
+).annotate({ identifier: "FirewallRuleProperties" }) as any as S.Schema<FirewallRuleProperties>;
 
 export interface FirewallRulesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1854,9 +1806,7 @@ export const GetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetConfigurationRequest",
-}) as any as S.Schema<GetConfigurationRequest>;
+).annotate({ identifier: "GetConfigurationRequest" }) as any as S.Schema<GetConfigurationRequest>;
 
 /** Data type of the configuration (also known as server parameter). */
 export type ConfigurationDataType =
@@ -1907,9 +1857,7 @@ export const ConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
     unit: S.optional(S.String),
     documentationLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigurationProperties",
-}) as any as S.Schema<ConfigurationProperties>;
+).annotate({ identifier: "ConfigurationProperties" }) as any as S.Schema<ConfigurationProperties>;
 
 export interface GetConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1931,9 +1879,7 @@ export const GetConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ConfigurationProperties),
   }),
-).annotate({
-  identifier: "GetConfigurationResponse",
-}) as any as S.Schema<GetConfigurationResponse>;
+).annotate({ identifier: "GetConfigurationResponse" }) as any as S.Schema<GetConfigurationResponse>;
 
 export interface GetDatabaseRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1959,9 +1905,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1983,9 +1927,7 @@ export const GetDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DatabaseProperties),
   }),
-).annotate({
-  identifier: "GetDatabaseResponse",
-}) as any as S.Schema<GetDatabaseResponse>;
+).annotate({ identifier: "GetDatabaseResponse" }) as any as S.Schema<GetDatabaseResponse>;
 
 export interface GetFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2011,9 +1953,7 @@ export const GetFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallRuleRequest",
-}) as any as S.Schema<GetFirewallRuleRequest>;
+).annotate({ identifier: "GetFirewallRuleRequest" }) as any as S.Schema<GetFirewallRuleRequest>;
 
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2035,9 +1975,7 @@ export const GetFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: FirewallRuleProperties,
   }),
-).annotate({
-  identifier: "GetFirewallRuleResponse",
-}) as any as S.Schema<GetFirewallRuleResponse>;
+).annotate({ identifier: "GetFirewallRuleResponse" }) as any as S.Schema<GetFirewallRuleResponse>;
 
 export interface GetMigrationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2063,9 +2001,7 @@ export const GetMigrationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetMigrationRequest",
-}) as any as S.Schema<GetMigrationRequest>;
+).annotate({ identifier: "GetMigrationRequest" }) as any as S.Schema<GetMigrationRequest>;
 
 /** Resource tags. */
 export type GetMigrationResponseTagsMap = { [key: string]: string | undefined };
@@ -2100,9 +2036,7 @@ export const GetMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MigrationProperties),
   }),
-).annotate({
-  identifier: "GetMigrationResponse",
-}) as any as S.Schema<GetMigrationResponse>;
+).annotate({ identifier: "GetMigrationResponse" }) as any as S.Schema<GetMigrationResponse>;
 
 export interface GetPrivateDnsZoneSuffixRequest {}
 export const GetPrivateDnsZoneSuffixRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2168,9 +2102,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -2353,9 +2285,7 @@ export const GetServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetServerRequest",
-}) as any as S.Schema<GetServerRequest>;
+).annotate({ identifier: "GetServerRequest" }) as any as S.Schema<GetServerRequest>;
 
 /** Resource tags. */
 export type GetServerResponseTagsMap = { [key: string]: string | undefined };
@@ -2569,9 +2499,7 @@ export const HighAvailability = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(HighAvailabilityState),
     standbyAvailabilityZone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HighAvailability",
-}) as any as S.Schema<HighAvailability>;
+).annotate({ identifier: "HighAvailability" }) as any as S.Schema<HighAvailability>;
 
 /** Maintenance window properties of a server. */
 export interface MaintenanceWindow {
@@ -2591,9 +2519,7 @@ export const MaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
     startMinute: S.optional(S.Number),
     dayOfWeek: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MaintenanceWindow",
-}) as any as S.Schema<MaintenanceWindow>;
+).annotate({ identifier: "MaintenanceWindow" }) as any as S.Schema<MaintenanceWindow>;
 
 /** Role of the server in a replication set. */
 export type ReplicationRole = "None" | "Primary" | "AsyncReplica" | "GeoAsyncReplica";
@@ -2769,9 +2695,7 @@ export const ServerProperties = /*@__PURE__*/ S.suspend(() =>
     privateEndpointConnections: S.optional(ServerPropertiesPrivateEndpointConnectionsList),
     cluster: S.optional(Cluster),
   }),
-).annotate({
-  identifier: "ServerProperties",
-}) as any as S.Schema<ServerProperties>;
+).annotate({ identifier: "ServerProperties" }) as any as S.Schema<ServerProperties>;
 
 /** Compute information of a server. */
 export interface Sku {
@@ -2836,9 +2760,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     type: IdentityType,
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 export interface GetServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2872,9 +2794,7 @@ export const GetServerResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku),
     identity: S.optional(UserAssignedIdentity),
   }),
-).annotate({
-  identifier: "GetServerResponse",
-}) as any as S.Schema<GetServerResponse>;
+).annotate({ identifier: "GetServerResponse" }) as any as S.Schema<GetServerResponse>;
 
 export type GetTuningOptionRequestTuningOption = "index" | "table";
 export const GetTuningOptionRequestTuningOption = S.String;
@@ -2903,9 +2823,7 @@ export const GetTuningOptionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "GetTuningOptionRequest",
-}) as any as S.Schema<GetTuningOptionRequest>;
+).annotate({ identifier: "GetTuningOptionRequest" }) as any as S.Schema<GetTuningOptionRequest>;
 
 /** Properties of a tuning option. */
 export interface TuningOptionsProperties {
@@ -2916,9 +2834,7 @@ export const TuningOptionsProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TuningOptionsProperties",
-}) as any as S.Schema<TuningOptionsProperties>;
+).annotate({ identifier: "TuningOptionsProperties" }) as any as S.Schema<TuningOptionsProperties>;
 
 export interface GetTuningOptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2940,9 +2856,7 @@ export const GetTuningOptionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TuningOptionsProperties),
   }),
-).annotate({
-  identifier: "GetTuningOptionResponse",
-}) as any as S.Schema<GetTuningOptionResponse>;
+).annotate({ identifier: "GetTuningOptionResponse" }) as any as S.Schema<GetTuningOptionResponse>;
 
 export interface GetVirtualEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3360,9 +3274,7 @@ export const StorageTierCapability = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     iops: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "StorageTierCapability",
-}) as any as S.Schema<StorageTierCapability>;
+).annotate({ identifier: "StorageTierCapability" }) as any as S.Schema<StorageTierCapability>;
 
 /** List of all supported storage tiers for this tier and storage size. */
 export type StorageMbCapabilitySupportedIopsTiersList = Array<StorageTierCapability>;
@@ -3406,9 +3318,7 @@ export const StorageMbCapability = /*@__PURE__*/ S.suspend(() =>
     defaultIopsTier: S.optional(S.String),
     supportedIopsTiers: S.optional(StorageMbCapabilitySupportedIopsTiersList),
   }),
-).annotate({
-  identifier: "StorageMbCapability",
-}) as any as S.Schema<StorageMbCapability>;
+).annotate({ identifier: "StorageMbCapability" }) as any as S.Schema<StorageMbCapability>;
 
 /** Configurations of storage supported for this storage tier. */
 export type StorageEditionCapabilitySupportedStorageMbList = Array<StorageMbCapability>;
@@ -3437,9 +3347,7 @@ export const StorageEditionCapability = /*@__PURE__*/ S.suspend(() =>
     defaultStorageSizeMb: S.optional(S.Number),
     supportedStorageMb: S.optional(StorageEditionCapabilitySupportedStorageMbList),
   }),
-).annotate({
-  identifier: "StorageEditionCapability",
-}) as any as S.Schema<StorageEditionCapability>;
+).annotate({ identifier: "StorageEditionCapability" }) as any as S.Schema<StorageEditionCapability>;
 
 /** List of storage editions supported by this compute tier and compute name. */
 export type ServerEditionCapabilitySupportedStorageEditionsList = Array<StorageEditionCapability>;
@@ -3479,9 +3387,7 @@ export const SupportedFeature = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     status: S.optional(FeatureStatus),
   }),
-).annotate({
-  identifier: "SupportedFeature",
-}) as any as S.Schema<SupportedFeature>;
+).annotate({ identifier: "SupportedFeature" }) as any as S.Schema<SupportedFeature>;
 
 /** Features supported. */
 export type ServerSkuCapabilitySupportedFeaturesList = Array<SupportedFeature>;
@@ -3525,9 +3431,7 @@ export const ServerSkuCapability = /*@__PURE__*/ S.suspend(() =>
     supportedFeatures: S.optional(ServerSkuCapabilitySupportedFeaturesList),
     securityProfile: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServerSkuCapability",
-}) as any as S.Schema<ServerSkuCapability>;
+).annotate({ identifier: "ServerSkuCapability" }) as any as S.Schema<ServerSkuCapability>;
 
 /** List of supported compute names (SKUs). */
 export type ServerEditionCapabilitySupportedServerSkusList = Array<ServerSkuCapability>;
@@ -3559,9 +3463,7 @@ export const ServerEditionCapability = /*@__PURE__*/ S.suspend(() =>
     supportedStorageEditions: S.optional(ServerEditionCapabilitySupportedStorageEditionsList),
     supportedServerSkus: S.optional(ServerEditionCapabilitySupportedServerSkusList),
   }),
-).annotate({
-  identifier: "ServerEditionCapability",
-}) as any as S.Schema<ServerEditionCapability>;
+).annotate({ identifier: "ServerEditionCapability" }) as any as S.Schema<ServerEditionCapability>;
 
 /** List of supported compute tiers. */
 export type CapabilitySupportedServerEditionsList = Array<ServerEditionCapability>;
@@ -3602,9 +3504,7 @@ export const ServerVersionCapability = /*@__PURE__*/ S.suspend(() =>
     supportedVersionsToUpgrade: S.optional(ServerVersionCapabilitySupportedVersionsToUpgradeList),
     supportedFeatures: S.optional(ServerVersionCapabilitySupportedFeaturesList),
   }),
-).annotate({
-  identifier: "ServerVersionCapability",
-}) as any as S.Schema<ServerVersionCapability>;
+).annotate({ identifier: "ServerVersionCapability" }) as any as S.Schema<ServerVersionCapability>;
 
 /** List of supported major versions of PostgreSQL database engine. */
 export type CapabilitySupportedServerVersionsList = Array<ServerVersionCapability>;
@@ -3829,9 +3729,7 @@ export const CapturedLogProperties = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CapturedLogProperties",
-}) as any as S.Schema<CapturedLogProperties>;
+).annotate({ identifier: "CapturedLogProperties" }) as any as S.Schema<CapturedLogProperties>;
 
 /** Log file. */
 export interface CapturedLog {
@@ -3874,9 +3772,7 @@ export const CapturedLogList = /*@__PURE__*/ S.suspend(() =>
     value: CapturedLogListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CapturedLogList",
-}) as any as S.Schema<CapturedLogList>;
+).annotate({ identifier: "CapturedLogList" }) as any as S.Schema<CapturedLogList>;
 
 export interface ListConfigurationByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3944,9 +3840,7 @@ export const ConfigurationList = /*@__PURE__*/ S.suspend(() =>
     value: ConfigurationListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigurationList",
-}) as any as S.Schema<ConfigurationList>;
+).annotate({ identifier: "ConfigurationList" }) as any as S.Schema<ConfigurationList>;
 
 export interface ListDatabaseByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4082,9 +3976,7 @@ export const FirewallRuleList = /*@__PURE__*/ S.suspend(() =>
     value: FirewallRuleListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleList",
-}) as any as S.Schema<FirewallRuleList>;
+).annotate({ identifier: "FirewallRuleList" }) as any as S.Schema<FirewallRuleList>;
 
 export type ListMigrationByTargetServerRequestMigrationListFilter = "Active" | "All";
 export const ListMigrationByTargetServerRequestMigrationListFilter = S.String;
@@ -4185,9 +4077,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -4207,9 +4097,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Intended executor of the operation. */
 export type OperationOrigin = "NotSpecified" | "user" | "system";
@@ -4257,9 +4145,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     supportedTimeGrainTypes: S.optional(MetricSpecificationSupportedTimeGrainTypesList),
     category: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Metric specifications for the operation. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -4282,9 +4168,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Log specifications for the operation. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -4304,9 +4188,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Additional properties for operation metadata. */
 export interface OperationProperties {
@@ -4317,9 +4199,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** REST API operation definition. */
 export interface Operation {
@@ -4494,9 +4374,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
@@ -4516,9 +4394,7 @@ export const PrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
     value: PrivateLinkResourceListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResourceList",
-}) as any as S.Schema<PrivateLinkResourceList>;
+).annotate({ identifier: "PrivateLinkResourceList" }) as any as S.Schema<PrivateLinkResourceList>;
 
 export interface ListQuotaUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4538,9 +4414,7 @@ export const ListQuotaUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListQuotaUsagesRequest",
-}) as any as S.Schema<ListQuotaUsagesRequest>;
+).annotate({ identifier: "ListQuotaUsagesRequest" }) as any as S.Schema<ListQuotaUsagesRequest>;
 
 /** Name property for quota usage */
 export interface NameProperty {
@@ -4793,9 +4667,7 @@ export const TuningOptionsList = /*@__PURE__*/ S.suspend(() =>
     value: TuningOptionsListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TuningOptionsList",
-}) as any as S.Schema<TuningOptionsList>;
+).annotate({ identifier: "TuningOptionsList" }) as any as S.Schema<TuningOptionsList>;
 
 export type ListTuningOptionRecommendationsRequestTuningOption = "index" | "table";
 export const ListTuningOptionRecommendationsRequestTuningOption = S.String;
@@ -5021,9 +4893,7 @@ export const ObjectRecommendation = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(S.String),
     properties: S.optional(ObjectRecommendationProperties),
   }),
-).annotate({
-  identifier: "ObjectRecommendation",
-}) as any as S.Schema<ObjectRecommendation>;
+).annotate({ identifier: "ObjectRecommendation" }) as any as S.Schema<ObjectRecommendation>;
 
 /** The ObjectRecommendation items on this page */
 export type ObjectRecommendationListValueList = Array<ObjectRecommendation>;
@@ -5043,9 +4913,7 @@ export const ObjectRecommendationList = /*@__PURE__*/ S.suspend(() =>
     value: ObjectRecommendationListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ObjectRecommendationList",
-}) as any as S.Schema<ObjectRecommendationList>;
+).annotate({ identifier: "ObjectRecommendationList" }) as any as S.Schema<ObjectRecommendationList>;
 
 export interface ListVirtualEndpointByServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5093,9 +4961,7 @@ export const VirtualEndpoint = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(VirtualEndpointResourceProperties),
   }),
-).annotate({
-  identifier: "VirtualEndpoint",
-}) as any as S.Schema<VirtualEndpoint>;
+).annotate({ identifier: "VirtualEndpoint" }) as any as S.Schema<VirtualEndpoint>;
 
 /** The VirtualEndpoint items on this page */
 export type VirtualEndpointsListValueList = Array<VirtualEndpoint>;
@@ -5115,9 +4981,7 @@ export const VirtualEndpointsList = /*@__PURE__*/ S.suspend(() =>
     value: VirtualEndpointsListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VirtualEndpointsList",
-}) as any as S.Schema<VirtualEndpointsList>;
+).annotate({ identifier: "VirtualEndpointsList" }) as any as S.Schema<VirtualEndpointsList>;
 
 export interface ListVirtualNetworkSubnetUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5156,9 +5020,7 @@ export const DelegatedSubnetUsage = /*@__PURE__*/ S.suspend(() =>
     subnetName: S.optional(S.String),
     usage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DelegatedSubnetUsage",
-}) as any as S.Schema<DelegatedSubnetUsage>;
+).annotate({ identifier: "DelegatedSubnetUsage" }) as any as S.Schema<DelegatedSubnetUsage>;
 
 export type VirtualNetworkSubnetUsageModelDelegatedSubnetsUsageList = Array<DelegatedSubnetUsage>;
 export const VirtualNetworkSubnetUsageModelDelegatedSubnetsUsageList = /*@__PURE__*/ S.Array(
@@ -5226,9 +5088,7 @@ export const PutConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "PutConfigurationRequest",
-}) as any as S.Schema<PutConfigurationRequest>;
+).annotate({ identifier: "PutConfigurationRequest" }) as any as S.Schema<PutConfigurationRequest>;
 
 export interface PutConfigurationResponse {}
 export const PutConfigurationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5270,9 +5130,7 @@ export const RestartServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "RestartServerRequest",
-}) as any as S.Schema<RestartServerRequest>;
+).annotate({ identifier: "RestartServerRequest" }) as any as S.Schema<RestartServerRequest>;
 
 export interface RestartServerResponse {}
 export const RestartServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5280,9 +5138,7 @@ export const RestartServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}))
 }) as any as S.Schema<RestartServerResponse>;
 
 /** Resource tags. */
-export type ServersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5380,9 +5236,7 @@ export const ServerPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     createMode: S.optional(CreateMode),
     cluster: S.optional(Cluster),
   }),
-).annotate({
-  identifier: "ServerPropertiesInput",
-}) as any as S.Schema<ServerPropertiesInput>;
+).annotate({ identifier: "ServerPropertiesInput" }) as any as S.Schema<ServerPropertiesInput>;
 
 /** Map of user assigned managed identities. */
 export type UserAssignedIdentityInputUserAssignedIdentitiesMap = {
@@ -5529,9 +5383,7 @@ export const BackupStoreDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sasUriList: BackupStoreDetailsSasUriListList,
   }),
-).annotate({
-  identifier: "BackupStoreDetails",
-}) as any as S.Schema<BackupStoreDetails>;
+).annotate({ identifier: "BackupStoreDetails" }) as any as S.Schema<BackupStoreDetails>;
 
 export interface StartBackupsLongTermRetentionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5598,9 +5450,7 @@ export const StartServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "StartServerRequest",
-}) as any as S.Schema<StartServerRequest>;
+).annotate({ identifier: "StartServerRequest" }) as any as S.Schema<StartServerRequest>;
 
 export interface StartServerResponse {}
 export const StartServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5628,9 +5478,7 @@ export const StopServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "StopServerRequest",
-}) as any as S.Schema<StopServerRequest>;
+).annotate({ identifier: "StopServerRequest" }) as any as S.Schema<StopServerRequest>;
 
 export interface StopServerResponse {}
 export const StopServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5685,9 +5533,7 @@ export const AdminCredentialsForPatch = /*@__PURE__*/ S.suspend(() =>
     sourceServerPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
     targetServerPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "AdminCredentialsForPatch",
-}) as any as S.Schema<AdminCredentialsForPatch>;
+).annotate({ identifier: "AdminCredentialsForPatch" }) as any as S.Schema<AdminCredentialsForPatch>;
 
 /** Migration secret parameters. */
 export interface MigrationSecretParametersForPatch {
@@ -5782,9 +5628,7 @@ export const MigrationPropertiesForPatch = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MigrationPropertiesForPatch>;
 
 /** Application-specific metadata in the form of key-value pairs. */
-export type UpdateMigrationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMigrationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMigrationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5820,14 +5664,10 @@ export const UpdateMigrationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateMigrationRequest",
-}) as any as S.Schema<UpdateMigrationRequest>;
+).annotate({ identifier: "UpdateMigrationRequest" }) as any as S.Schema<UpdateMigrationRequest>;
 
 /** Resource tags. */
-export type UpdateMigrationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMigrationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMigrationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5859,9 +5699,7 @@ export const UpdateMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(MigrationProperties),
   }),
-).annotate({
-  identifier: "UpdateMigrationResponse",
-}) as any as S.Schema<UpdateMigrationResponse>;
+).annotate({ identifier: "UpdateMigrationResponse" }) as any as S.Schema<UpdateMigrationResponse>;
 
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -5946,9 +5784,7 @@ export const BackupForPatchInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupRetentionDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BackupForPatchInput",
-}) as any as S.Schema<BackupForPatchInput>;
+).annotate({ identifier: "BackupForPatchInput" }) as any as S.Schema<BackupForPatchInput>;
 
 /** Mode of high availability supported for this compute. */
 export type PostgreSqlFlexibleServerHighAvailabilityMode =
@@ -5969,9 +5805,7 @@ export const HighAvailabilityForPatch = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(PostgreSqlFlexibleServerHighAvailabilityMode),
     standbyAvailabilityZone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HighAvailabilityForPatch",
-}) as any as S.Schema<HighAvailabilityForPatch>;
+).annotate({ identifier: "HighAvailabilityForPatch" }) as any as S.Schema<HighAvailabilityForPatch>;
 
 /** Maintenance window properties of a server. */
 export type MaintenanceWindowForPatch = MaintenanceWindow;
@@ -5996,9 +5830,7 @@ export const AuthConfigForPatch = /*@__PURE__*/ S.suspend(() =>
     passwordAuth: S.optional(PasswordBasedAuth),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthConfigForPatch",
-}) as any as S.Schema<AuthConfigForPatch>;
+).annotate({ identifier: "AuthConfigForPatch" }) as any as S.Schema<AuthConfigForPatch>;
 
 /** Update mode of an existing server. */
 export type CreateModeForPatch = "Default" | "Update";
@@ -6096,9 +5928,7 @@ export const UpdateServerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-08-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateServerRequest",
-}) as any as S.Schema<UpdateServerRequest>;
+).annotate({ identifier: "UpdateServerRequest" }) as any as S.Schema<UpdateServerRequest>;
 
 export interface UpdateServerResponse {}
 export const UpdateServerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

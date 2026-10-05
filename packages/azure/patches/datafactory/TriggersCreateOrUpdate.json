@@ -1,0 +1,35 @@
+{
+  "description": "Trigger is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload (typeProperties, pipelines, pipeline) on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Trigger/members/typeProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Type-specific trigger properties (polymorphic on `type`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Trigger/members/pipelines",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Pipelines that need to be started (MultiplePipelineTrigger subtypes)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#Trigger/members/pipeline",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Pipeline for which runs are created (TumblingWindowTrigger / ChainingTrigger)."
+        }
+      }
+    }
+  ]
+}

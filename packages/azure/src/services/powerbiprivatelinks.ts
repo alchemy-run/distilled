@@ -16,9 +16,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Status of the connection. */
 export type ConnectionStateStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -39,9 +37,7 @@ export const ConnectionState = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     actionsRequired: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionState",
-}) as any as S.Schema<ConnectionState>;
+).annotate({ identifier: "ConnectionState" }) as any as S.Schema<ConnectionState>;
 
 /** Provisioning state of the Private Endpoint Connection. */
 export type PrivateEndpointConnectionPropertiesProvisioningState =
@@ -101,14 +97,10 @@ export const TenantPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     privateEndpointConnections: S.optional(TenantPropertiesInputPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "TenantPropertiesInput",
-}) as any as S.Schema<TenantPropertiesInput>;
+).annotate({ identifier: "TenantPropertiesInput" }) as any as S.Schema<TenantPropertiesInput>;
 
 /** Specifies the tags of the resource. */
-export type CreatePowerBIResourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreatePowerBIResourceRequestTagsMap = { [key: string]: string | undefined };
 export const CreatePowerBIResourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -188,9 +180,7 @@ export const TenantResourceSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(TenantResourceSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TenantResourceSystemData",
-}) as any as S.Schema<TenantResourceSystemData>;
+).annotate({ identifier: "TenantResourceSystemData" }) as any as S.Schema<TenantResourceSystemData>;
 
 /** The type of identity that created the resource. */
 export type PrivateEndpointConnectionSystemDataCreatedByType =
@@ -277,9 +267,7 @@ export const TenantProperties = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     privateEndpointConnections: S.optional(TenantPropertiesPrivateEndpointConnectionsList),
   }),
-).annotate({
-  identifier: "TenantProperties",
-}) as any as S.Schema<TenantProperties>;
+).annotate({ identifier: "TenantProperties" }) as any as S.Schema<TenantProperties>;
 
 /** Specifies the tags of the resource. */
 export type TenantResourceTagsMap = { [key: string]: string | undefined };
@@ -517,9 +505,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 export interface GetPrivateLinkServiceResourceOperationResultRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -561,9 +547,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -654,9 +638,7 @@ export const AsyncOperationDetail = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     error: S.optional(AsyncOperationDetailError),
   }),
-).annotate({
-  identifier: "AsyncOperationDetail",
-}) as any as S.Schema<AsyncOperationDetail>;
+).annotate({ identifier: "AsyncOperationDetail" }) as any as S.Schema<AsyncOperationDetail>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -668,9 +650,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2020-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -690,9 +670,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -742,9 +720,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPowerBIResourceByResourceNameRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
@@ -949,9 +925,7 @@ export const ListPrivateLinkServicesForPowerBIBySubscriptionIdResponse = /*@__PU
 }) as any as S.Schema<ListPrivateLinkServicesForPowerBIBySubscriptionIdResponse>;
 
 /** Specifies the tags of the resource. */
-export type UpdatePowerBIResourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePowerBIResourceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePowerBIResourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

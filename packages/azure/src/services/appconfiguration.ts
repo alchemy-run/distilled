@@ -54,14 +54,10 @@ export const NameAvailabilityStatus = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     reason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameAvailabilityStatus",
-}) as any as S.Schema<NameAvailabilityStatus>;
+).annotate({ identifier: "NameAvailabilityStatus" }) as any as S.Schema<NameAvailabilityStatus>;
 
 /** Resource tags. */
-export type CreateConfigurationStoreRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateConfigurationStoreRequestTagsMap = { [key: string]: string | undefined };
 export const CreateConfigurationStoreRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -102,9 +98,7 @@ export const ResourceIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityInputType),
     userAssignedIdentities: S.optional(ResourceIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ResourceIdentityInput",
-}) as any as S.Schema<ResourceIdentityInput>;
+).annotate({ identifier: "ResourceIdentityInput" }) as any as S.Schema<ResourceIdentityInput>;
 
 /** Settings concerning key vault encryption for a configuration store. */
 export interface KeyVaultProperties {
@@ -118,9 +112,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     keyIdentifier: S.optional(S.String),
     identityClientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** The encryption settings for a configuration store. */
 export interface EncryptionProperties {
@@ -131,9 +123,7 @@ export const EncryptionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyVaultProperties: S.optional(KeyVaultProperties),
   }),
-).annotate({
-  identifier: "EncryptionProperties",
-}) as any as S.Schema<EncryptionProperties>;
+).annotate({ identifier: "EncryptionProperties" }) as any as S.Schema<EncryptionProperties>;
 
 /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
 export type ConfigurationStorePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -159,9 +149,7 @@ export const DataPlaneProxyProperties = /*@__PURE__*/ S.suspend(() =>
     authenticationMode: S.optional(DataPlaneProxyPropertiesAuthenticationMode),
     privateLinkDelegation: S.optional(DataPlaneProxyPropertiesPrivateLinkDelegation),
   }),
-).annotate({
-  identifier: "DataPlaneProxyProperties",
-}) as any as S.Schema<DataPlaneProxyProperties>;
+).annotate({ identifier: "DataPlaneProxyProperties" }) as any as S.Schema<DataPlaneProxyProperties>;
 
 /** Indicates whether the configuration store need to be recovered. */
 export type ConfigurationStorePropertiesInputCreateMode = "Recover" | "Default";
@@ -253,9 +241,7 @@ export const CreateConfigurationStoreRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateConfigurationStoreRequest>;
 
 /** Resource tags. */
-export type CreateConfigurationStoreResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateConfigurationStoreResponseTagsMap = { [key: string]: string | undefined };
 export const CreateConfigurationStoreResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -284,9 +270,7 @@ export const UserIdentity = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UserIdentity" }) as any as S.Schema<UserIdentity>;
 
 /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-export type ResourceIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserIdentity | undefined;
-};
+export type ResourceIdentityUserAssignedIdentitiesMap = { [key: string]: UserIdentity | undefined };
 export const ResourceIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserIdentity,
@@ -310,9 +294,7 @@ export const ResourceIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceIdentity",
-}) as any as S.Schema<ResourceIdentity>;
+).annotate({ identifier: "ResourceIdentity" }) as any as S.Schema<ResourceIdentity>;
 
 /** The provisioning state of the configuration store. */
 export type ConfigurationStorePropertiesProvisioningState =
@@ -343,9 +325,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private link service connection status. */
 export type PrivateLinkServiceConnectionStateStatus =
@@ -589,9 +569,7 @@ export const CreateReplicasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateReplicasRequest",
-}) as any as S.Schema<CreateReplicasRequest>;
+).annotate({ identifier: "CreateReplicasRequest" }) as any as S.Schema<CreateReplicasRequest>;
 
 /** The type of identity that created the resource. */
 export type ReplicaSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -629,9 +607,7 @@ export const ReplicaSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(ReplicaSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaSystemData",
-}) as any as S.Schema<ReplicaSystemData>;
+).annotate({ identifier: "ReplicaSystemData" }) as any as S.Schema<ReplicaSystemData>;
 
 /** The provisioning state of the replica. */
 export type ReplicaPropertiesProvisioningState =
@@ -654,9 +630,7 @@ export const ReplicaProperties = /*@__PURE__*/ S.suspend(() =>
     endpoint: S.optional(S.String),
     provisioningState: S.optional(ReplicaPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ReplicaProperties",
-}) as any as S.Schema<ReplicaProperties>;
+).annotate({ identifier: "ReplicaProperties" }) as any as S.Schema<ReplicaProperties>;
 
 /** The replica resource. */
 export interface Replica {
@@ -709,9 +683,7 @@ export type SnapshotPropertiesInputCompositionType = "Key" | "Key_Label";
 export const SnapshotPropertiesInputCompositionType = S.String;
 
 /** The tags of the snapshot. NOTE: These are data plane tags, not Azure Resource Manager (ARM) tags. */
-export type SnapshotPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SnapshotPropertiesInputTagsMap = { [key: string]: string | undefined };
 export const SnapshotPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -735,9 +707,7 @@ export const SnapshotPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     retentionPeriod: S.optional(S.Number),
     tags: S.optional(SnapshotPropertiesInputTagsMap),
   }),
-).annotate({
-  identifier: "SnapshotPropertiesInput",
-}) as any as S.Schema<SnapshotPropertiesInput>;
+).annotate({ identifier: "SnapshotPropertiesInput" }) as any as S.Schema<SnapshotPropertiesInput>;
 
 export interface CreateSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -766,9 +736,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 
 /** The provisioning state of the snapshot. */
 export type SnapshotPropertiesProvisioningState =
@@ -840,9 +808,7 @@ export const SnapshotProperties = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(SnapshotPropertiesTagsMap),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SnapshotProperties",
-}) as any as S.Schema<SnapshotProperties>;
+).annotate({ identifier: "SnapshotProperties" }) as any as S.Schema<SnapshotProperties>;
 
 /** The snapshot resource. */
 export interface Snapshot {
@@ -920,9 +886,7 @@ export const DeleteKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteKeyValueRequest",
-}) as any as S.Schema<DeleteKeyValueRequest>;
+).annotate({ identifier: "DeleteKeyValueRequest" }) as any as S.Schema<DeleteKeyValueRequest>;
 
 export interface DeleteKeyValueResponse {}
 export const DeleteKeyValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -988,9 +952,7 @@ export const DeleteReplicasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteReplicasRequest",
-}) as any as S.Schema<DeleteReplicasRequest>;
+).annotate({ identifier: "DeleteReplicasRequest" }) as any as S.Schema<DeleteReplicasRequest>;
 
 export interface DeleteReplicasResponse {}
 export const DeleteReplicasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1023,9 +985,7 @@ export const GetConfigurationStoreRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConfigurationStoreRequest>;
 
 /** Resource tags. */
-export type GetConfigurationStoreResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetConfigurationStoreResponseTagsMap = { [key: string]: string | undefined };
 export const GetConfigurationStoreResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1137,9 +1097,7 @@ export const GetConfigurationStoreDeletedRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConfigurationStoreDeletedRequest>;
 
 /** Tags of the original configuration store. */
-export type DeletedConfigurationStorePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeletedConfigurationStorePropertiesTagsMap = { [key: string]: string | undefined };
 export const DeletedConfigurationStorePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1219,9 +1177,7 @@ export const GetKeyValueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetKeyValueRequest",
-}) as any as S.Schema<GetKeyValueRequest>;
+).annotate({ identifier: "GetKeyValueRequest" }) as any as S.Schema<GetKeyValueRequest>;
 
 /** A dictionary of tags that can help identify what a key-value may be applicable for. */
 export type KeyValuePropertiesTagsMap = { [key: string]: string | undefined };
@@ -1260,9 +1216,7 @@ export const KeyValueProperties = /*@__PURE__*/ S.suspend(() =>
     locked: S.optional(S.Boolean),
     tags: S.optional(KeyValuePropertiesTagsMap),
   }),
-).annotate({
-  identifier: "KeyValueProperties",
-}) as any as S.Schema<KeyValueProperties>;
+).annotate({ identifier: "KeyValueProperties" }) as any as S.Schema<KeyValueProperties>;
 
 /** The key-value resource along with all resource properties. */
 export interface KeyValue {
@@ -1411,9 +1365,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 export interface GetReplicasRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1439,9 +1391,7 @@ export const GetReplicasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetReplicasRequest",
-}) as any as S.Schema<GetReplicasRequest>;
+).annotate({ identifier: "GetReplicasRequest" }) as any as S.Schema<GetReplicasRequest>;
 
 export interface GetSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1467,14 +1417,10 @@ export const GetSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetSnapshotRequest",
-}) as any as S.Schema<GetSnapshotRequest>;
+).annotate({ identifier: "GetSnapshotRequest" }) as any as S.Schema<GetSnapshotRequest>;
 
 /** A dictionary of tags that can help identify what a key-value may be applicable for. */
-export type KeyValuePropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type KeyValuePropertiesInputTagsMap = { [key: string]: string | undefined };
 export const KeyValuePropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1495,9 +1441,7 @@ export const KeyValuePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     contentType: S.optional(S.String),
     tags: S.optional(KeyValuePropertiesInputTagsMap),
   }),
-).annotate({
-  identifier: "KeyValuePropertiesInput",
-}) as any as S.Schema<KeyValuePropertiesInput>;
+).annotate({ identifier: "KeyValuePropertiesInput" }) as any as S.Schema<KeyValuePropertiesInput>;
 
 export interface KeyValuesCreateOrUpdateRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1639,9 +1583,7 @@ export const ConfigurationStore = /*@__PURE__*/ S.suspend(() =>
     sku: Sku,
     systemData: S.optional(ConfigurationStoreSystemData),
   }),
-).annotate({
-  identifier: "ConfigurationStore",
-}) as any as S.Schema<ConfigurationStore>;
+).annotate({ identifier: "ConfigurationStore" }) as any as S.Schema<ConfigurationStore>;
 
 /** The collection value. */
 export type ConfigurationStoreListResultValueList = Array<ConfigurationStore>;
@@ -1778,9 +1720,7 @@ export const ApiKeyListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApiKeyListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiKeyListResult",
-}) as any as S.Schema<ApiKeyListResult>;
+).annotate({ identifier: "ApiKeyListResult" }) as any as S.Schema<ApiKeyListResult>;
 
 export interface ListConfigurationStoresRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1819,9 +1759,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The display information for a configuration store operation. */
 export interface OperationDefinitionDisplay {
@@ -1860,9 +1798,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1885,9 +1821,7 @@ export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     internalName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
@@ -1925,9 +1859,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     dimensions: S.optional(MetricSpecificationDimensionsList),
     fillGapWithZero: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Specifications of the Metrics for Azure Monitoring */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1947,9 +1879,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Extra Operation properties */
 export interface OperationProperties {
@@ -1960,9 +1890,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** The definition of a configuration store operation. */
 export interface OperationDefinition {
@@ -1985,9 +1913,7 @@ export const OperationDefinition = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(OperationProperties),
   }),
-).annotate({
-  identifier: "OperationDefinition",
-}) as any as S.Schema<OperationDefinition>;
+).annotate({ identifier: "OperationDefinition" }) as any as S.Schema<OperationDefinition>;
 
 /** The collection value. */
 export type OperationDefinitionListResultValueList = Array<OperationDefinition>;
@@ -2152,9 +2078,7 @@ export const ReplicaListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ReplicaListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaListResult",
-}) as any as S.Schema<ReplicaListResult>;
+).annotate({ identifier: "ReplicaListResult" }) as any as S.Schema<ReplicaListResult>;
 
 /** The resource type to check for name availability. */
 export type OperationsRegionalCheckNameAvailabilityRequestType =
@@ -2359,9 +2283,7 @@ export const ConfigurationStorePropertiesUpdateParameters = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ConfigurationStorePropertiesUpdateParameters>;
 
 /** The ARM resource tags. */
-export type UpdateConfigurationStoreRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConfigurationStoreRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateConfigurationStoreRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2405,9 +2327,7 @@ export const UpdateConfigurationStoreRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateConfigurationStoreRequest>;
 
 /** Resource tags. */
-export type UpdateConfigurationStoreResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateConfigurationStoreResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateConfigurationStoreResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

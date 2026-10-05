@@ -217,9 +217,7 @@ export const DeleteNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteNamespaceRequest",
-}) as any as S.Schema<DeleteNamespaceRequest>;
+).annotate({ identifier: "DeleteNamespaceRequest" }) as any as S.Schema<DeleteNamespaceRequest>;
 
 export interface DeleteNamespaceResponse {}
 export const DeleteNamespaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -320,9 +318,7 @@ export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
+).annotate({ identifier: "DeleteQueueRequest" }) as any as S.Schema<DeleteQueueRequest>;
 
 export interface DeleteQueueResponse {}
 export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -397,9 +393,7 @@ export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRuleRequest",
-}) as any as S.Schema<DeleteRuleRequest>;
+).annotate({ identifier: "DeleteRuleRequest" }) as any as S.Schema<DeleteRuleRequest>;
 
 export interface DeleteRuleResponse {}
 export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -466,9 +460,7 @@ export const DeleteTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTopicRequest",
-}) as any as S.Schema<DeleteTopicRequest>;
+).annotate({ identifier: "DeleteTopicRequest" }) as any as S.Schema<DeleteTopicRequest>;
 
 export interface DeleteTopicResponse {}
 export const DeleteTopicResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -979,9 +971,7 @@ export const GetNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetNamespaceRequest",
-}) as any as S.Schema<GetNamespaceRequest>;
+).annotate({ identifier: "GetNamespaceRequest" }) as any as S.Schema<GetNamespaceRequest>;
 
 /** Resource tags. */
 export type GetNamespaceResponseTagsMap = { [key: string]: string | undefined };
@@ -1023,9 +1013,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     keyVersion: S.optional(S.String),
     identity: S.optional(UserAssignedIdentityProperties),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** Properties of KeyVault */
 export type EncryptionKeyVaultPropertiesList = Array<KeyVaultProperties>;
@@ -1063,9 +1051,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Status of the connection. */
 export type PrivateLinkConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -1083,9 +1069,7 @@ export const ConnectionState = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(PrivateLinkConnectionStatus),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionState",
-}) as any as S.Schema<ConnectionState>;
+).annotate({ identifier: "ConnectionState" }) as any as S.Schema<ConnectionState>;
 
 /** Provisioning state of the Private Endpoint Connection. */
 export type EndPointProvisioningState =
@@ -1169,9 +1153,7 @@ export const ConfidentialCompute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: S.optional(Mode),
   }),
-).annotate({
-  identifier: "ConfidentialCompute",
-}) as any as S.Schema<ConfidentialCompute>;
+).annotate({ identifier: "ConfidentialCompute" }) as any as S.Schema<ConfidentialCompute>;
 
 export interface PlatformCapabilities {
   confidentialCompute?: ConfidentialCompute;
@@ -1180,9 +1162,7 @@ export const PlatformCapabilities = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     confidentialCompute: S.optional(ConfidentialCompute),
   }),
-).annotate({
-  identifier: "PlatformCapabilities",
-}) as any as S.Schema<PlatformCapabilities>;
+).annotate({ identifier: "PlatformCapabilities" }) as any as S.Schema<PlatformCapabilities>;
 
 /** GeoDR Role Types */
 export type GeoDRRoleType = "Primary" | "Secondary";
@@ -1200,9 +1180,7 @@ export const NamespaceReplicaLocation = /*@__PURE__*/ S.suspend(() =>
     locationName: S.optional(S.String),
     roleType: S.optional(GeoDRRoleType),
   }),
-).annotate({
-  identifier: "NamespaceReplicaLocation",
-}) as any as S.Schema<NamespaceReplicaLocation>;
+).annotate({ identifier: "NamespaceReplicaLocation" }) as any as S.Schema<NamespaceReplicaLocation>;
 
 /** A list of regions where replicas of the namespace are maintained. */
 export type GeoDataReplicationPropertiesLocationsList = Array<NamespaceReplicaLocation>;
@@ -1286,9 +1264,7 @@ export const SBNamespaceProperties = /*@__PURE__*/ S.suspend(() =>
     geoDataReplication: S.optional(GeoDataReplicationProperties),
     ipAddressType: S.optional(IpAddressType),
   }),
-).annotate({
-  identifier: "SBNamespaceProperties",
-}) as any as S.Schema<SBNamespaceProperties>;
+).annotate({ identifier: "SBNamespaceProperties" }) as any as S.Schema<SBNamespaceProperties>;
 
 /** Name of this SKU. */
 export type SkuName = "Basic" | "Standard" | "Premium";
@@ -1335,14 +1311,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** Properties for User Assigned Identities */
-export type IdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type IdentityUserAssignedIdentitiesMap = { [key: string]: UserAssignedIdentity | undefined };
 export const IdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -1400,9 +1372,7 @@ export const GetNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(SBSku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetNamespaceResponse",
-}) as any as S.Schema<GetNamespaceResponse>;
+).annotate({ identifier: "GetNamespaceResponse" }) as any as S.Schema<GetNamespaceResponse>;
 
 export interface GetNamespaceAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1537,9 +1507,7 @@ export const NWRuleSetIpRules = /*@__PURE__*/ S.suspend(() =>
     ipMask: S.optional(S.String),
     action: S.optional(NWRuleSetIpRulesAction),
   }),
-).annotate({
-  identifier: "NWRuleSetIpRules",
-}) as any as S.Schema<NWRuleSetIpRules>;
+).annotate({ identifier: "NWRuleSetIpRules" }) as any as S.Schema<NWRuleSetIpRules>;
 
 /** List of IpRules */
 export type NetworkRuleSetPropertiesIpRulesList = Array<NWRuleSetIpRules>;
@@ -1572,9 +1540,7 @@ export const NetworkRuleSetProperties = /*@__PURE__*/ S.suspend(() =>
     ipRules: S.optional(NetworkRuleSetPropertiesIpRulesList),
     publicNetworkAccess: S.optional(NetworkRuleSetPropertiesPublicNetworkAccess),
   }),
-).annotate({
-  identifier: "NetworkRuleSetProperties",
-}) as any as S.Schema<NetworkRuleSetProperties>;
+).annotate({ identifier: "NetworkRuleSetProperties" }) as any as S.Schema<NetworkRuleSetProperties>;
 
 export interface GetNamespaceNetworkRuleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1675,9 +1641,7 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ProvisioningIssueProperties),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
 
 /** List of Provisioning Issues if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -1702,9 +1666,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** Access Mode of the resource association */
 export type ResourceAssociationAccessMode =
@@ -1795,9 +1757,7 @@ export const NspAccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     networkSecurityPerimeters: S.optional(NspAccessRulePropertiesNetworkSecurityPerimetersList),
     fullyQualifiedDomainNames: S.optional(NspAccessRulePropertiesFullyQualifiedDomainNamesList),
   }),
-).annotate({
-  identifier: "NspAccessRuleProperties",
-}) as any as S.Schema<NspAccessRuleProperties>;
+).annotate({ identifier: "NspAccessRuleProperties" }) as any as S.Schema<NspAccessRuleProperties>;
 
 /** Information of Access Rule in Network Profile */
 export interface NspAccessRule {
@@ -2052,9 +2012,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
@@ -2102,9 +2060,7 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
+).annotate({ identifier: "GetQueueRequest" }) as any as S.Schema<GetQueueRequest>;
 
 /** Message Count Details. */
 export interface MessageCountDetails {
@@ -2127,9 +2083,7 @@ export const MessageCountDetails = /*@__PURE__*/ S.suspend(() =>
     transferMessageCount: S.optional(S.Number),
     transferDeadLetterMessageCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MessageCountDetails",
-}) as any as S.Schema<MessageCountDetails>;
+).annotate({ identifier: "MessageCountDetails" }) as any as S.Schema<MessageCountDetails>;
 
 /** Entity status. */
 export type EntityStatus =
@@ -2219,9 +2173,7 @@ export const SBQueueProperties = /*@__PURE__*/ S.suspend(() =>
     forwardDeadLetteredMessagesTo: S.optional(S.String),
     userMetadata: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBQueueProperties",
-}) as any as S.Schema<SBQueueProperties>;
+).annotate({ identifier: "SBQueueProperties" }) as any as S.Schema<SBQueueProperties>;
 
 export interface GetQueueResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2246,9 +2198,7 @@ export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SBQueueProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
+).annotate({ identifier: "GetQueueResponse" }) as any as S.Schema<GetQueueResponse>;
 
 export interface GetQueueAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2379,9 +2329,7 @@ export const SqlFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SqlFilter" }) as any as S.Schema<SqlFilter>;
 
 /** dictionary object for custom filters */
-export type CorrelationFilterPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type CorrelationFilterPropertiesMap = { [key: string]: string | undefined };
 export const CorrelationFilterPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2423,9 +2371,7 @@ export const CorrelationFilter = /*@__PURE__*/ S.suspend(() =>
     contentType: S.optional(S.String),
     requiresPreprocessing: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CorrelationFilter",
-}) as any as S.Schema<CorrelationFilter>;
+).annotate({ identifier: "CorrelationFilter" }) as any as S.Schema<CorrelationFilter>;
 
 /** Description of Rule Resource. */
 export interface Ruleproperties {
@@ -2470,9 +2416,7 @@ export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(Ruleproperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
+).annotate({ identifier: "GetRuleResponse" }) as any as S.Schema<GetRuleResponse>;
 
 export interface GetSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2501,9 +2445,7 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 /** Properties specific to client affine subscriptions. */
 export interface SBClientAffineProperties {
@@ -2520,9 +2462,7 @@ export const SBClientAffineProperties = /*@__PURE__*/ S.suspend(() =>
     isDurable: S.optional(S.Boolean),
     isShared: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SBClientAffineProperties",
-}) as any as S.Schema<SBClientAffineProperties>;
+).annotate({ identifier: "SBClientAffineProperties" }) as any as S.Schema<SBClientAffineProperties>;
 
 /** Description of Subscription Resource. */
 export interface SBSubscriptionProperties {
@@ -2590,9 +2530,7 @@ export const SBSubscriptionProperties = /*@__PURE__*/ S.suspend(() =>
     userMetadata: S.optional(S.String),
     clientAffineProperties: S.optional(SBClientAffineProperties),
   }),
-).annotate({
-  identifier: "SBSubscriptionProperties",
-}) as any as S.Schema<SBSubscriptionProperties>;
+).annotate({ identifier: "SBSubscriptionProperties" }) as any as S.Schema<SBSubscriptionProperties>;
 
 export interface GetSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2617,9 +2555,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SBSubscriptionProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSubscriptionResponse",
-}) as any as S.Schema<GetSubscriptionResponse>;
+).annotate({ identifier: "GetSubscriptionResponse" }) as any as S.Schema<GetSubscriptionResponse>;
 
 export interface GetTopicRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2645,9 +2581,7 @@ export const GetTopicRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetTopicRequest",
-}) as any as S.Schema<GetTopicRequest>;
+).annotate({ identifier: "GetTopicRequest" }) as any as S.Schema<GetTopicRequest>;
 
 /** The Topic Properties definition. */
 export interface SBTopicProperties {
@@ -2709,9 +2643,7 @@ export const SBTopicProperties = /*@__PURE__*/ S.suspend(() =>
     enableExpress: S.optional(S.Boolean),
     userMetadata: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBTopicProperties",
-}) as any as S.Schema<SBTopicProperties>;
+).annotate({ identifier: "SBTopicProperties" }) as any as S.Schema<SBTopicProperties>;
 
 export interface GetTopicResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2736,9 +2668,7 @@ export const GetTopicResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SBTopicProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetTopicResponse",
-}) as any as S.Schema<GetTopicResponse>;
+).annotate({ identifier: "GetTopicResponse" }) as any as S.Schema<GetTopicResponse>;
 
 export interface GetTopicAuthorizationRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2850,9 +2780,7 @@ export const SBAuthorizationRule = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SBAuthorizationRuleProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBAuthorizationRule",
-}) as any as S.Schema<SBAuthorizationRule>;
+).annotate({ identifier: "SBAuthorizationRule" }) as any as S.Schema<SBAuthorizationRule>;
 
 /** The SBAuthorizationRule items on this page */
 export type SBAuthorizationRuleListResultValueList = Array<SBAuthorizationRule>;
@@ -2985,9 +2913,7 @@ export const ArmDisasterRecovery = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ArmDisasterRecoveryProperties),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArmDisasterRecovery",
-}) as any as S.Schema<ArmDisasterRecovery>;
+).annotate({ identifier: "ArmDisasterRecovery" }) as any as S.Schema<ArmDisasterRecovery>;
 
 /** The ArmDisasterRecovery items on this page */
 export type ArmDisasterRecoveryListResultValueList = Array<ArmDisasterRecovery>;
@@ -3193,9 +3119,7 @@ export const SBNamespaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: SBNamespaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBNamespaceListResult",
-}) as any as S.Schema<SBNamespaceListResult>;
+).annotate({ identifier: "SBNamespaceListResult" }) as any as S.Schema<SBNamespaceListResult>;
 
 export interface ListNamespaceKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3221,9 +3145,7 @@ export const ListNamespaceKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListNamespaceKeysRequest",
-}) as any as S.Schema<ListNamespaceKeysRequest>;
+).annotate({ identifier: "ListNamespaceKeysRequest" }) as any as S.Schema<ListNamespaceKeysRequest>;
 
 export interface ListNamespaceNetworkRuleSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3294,9 +3216,7 @@ export const NetworkRuleSetListResult = /*@__PURE__*/ S.suspend(() =>
     value: NetworkRuleSetListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkRuleSetListResult",
-}) as any as S.Schema<NetworkRuleSetListResult>;
+).annotate({ identifier: "NetworkRuleSetListResult" }) as any as S.Schema<NetworkRuleSetListResult>;
 
 export interface ListNamespacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3313,9 +3233,7 @@ export const ListNamespacesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListNamespacesRequest",
-}) as any as S.Schema<ListNamespacesRequest>;
+).annotate({ identifier: "ListNamespacesRequest" }) as any as S.Schema<ListNamespacesRequest>;
 
 export interface ListNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3403,9 +3321,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Operation display payload */
 export interface OperationDisplay {
@@ -3425,9 +3341,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A Service Bus REST API operation */
 export interface Operation {
@@ -3470,9 +3384,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3624,9 +3536,7 @@ export const SBQueueListResult = /*@__PURE__*/ S.suspend(() =>
     value: SBQueueListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBQueueListResult",
-}) as any as S.Schema<SBQueueListResult>;
+).annotate({ identifier: "SBQueueListResult" }) as any as S.Schema<SBQueueListResult>;
 
 export interface ListQueueKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3655,9 +3565,7 @@ export const ListQueueKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListQueueKeysRequest",
-}) as any as S.Schema<ListQueueKeysRequest>;
+).annotate({ identifier: "ListQueueKeysRequest" }) as any as S.Schema<ListQueueKeysRequest>;
 
 export interface ListRuleBySubscriptionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3820,9 +3728,7 @@ export const SBSubscriptionListResult = /*@__PURE__*/ S.suspend(() =>
     value: SBSubscriptionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBSubscriptionListResult",
-}) as any as S.Schema<SBSubscriptionListResult>;
+).annotate({ identifier: "SBSubscriptionListResult" }) as any as S.Schema<SBSubscriptionListResult>;
 
 export interface ListTopicAuthorizationRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3927,9 +3833,7 @@ export const SBTopicListResult = /*@__PURE__*/ S.suspend(() =>
     value: SBTopicListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBTopicListResult",
-}) as any as S.Schema<SBTopicListResult>;
+).annotate({ identifier: "SBTopicListResult" }) as any as S.Schema<SBTopicListResult>;
 
 export interface ListTopicKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3958,9 +3862,7 @@ export const ListTopicKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListTopicKeysRequest",
-}) as any as S.Schema<ListTopicKeysRequest>;
+).annotate({ identifier: "ListTopicKeysRequest" }) as any as S.Schema<ListTopicKeysRequest>;
 
 export type MigrationConfigsCreateAndStartMigrationRequestConfigName = "$default";
 export const MigrationConfigsCreateAndStartMigrationRequestConfigName = S.String;
@@ -4076,9 +3978,7 @@ export const MigrationConfigsRevertResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<MigrationConfigsRevertResponse>;
 
 /** Resource tags. */
-export type NamespacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4225,9 +4125,7 @@ export const NamespacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NamespacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NamespacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NamespacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4393,9 +4291,7 @@ export const FailOverProperties = /*@__PURE__*/ S.suspend(() =>
     primaryLocation: S.optional(S.String),
     force: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FailOverProperties",
-}) as any as S.Schema<FailOverProperties>;
+).annotate({ identifier: "FailOverProperties" }) as any as S.Schema<FailOverProperties>;
 
 export interface NamespacesFailoverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4579,9 +4475,7 @@ export const SBQueuePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     forwardDeadLetteredMessagesTo: S.optional(S.String),
     userMetadata: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBQueuePropertiesInput",
-}) as any as S.Schema<SBQueuePropertiesInput>;
+).annotate({ identifier: "SBQueuePropertiesInput" }) as any as S.Schema<SBQueuePropertiesInput>;
 
 export interface QueuesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5036,9 +4930,7 @@ export const SBTopicPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     enableExpress: S.optional(S.Boolean),
     userMetadata: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SBTopicPropertiesInput",
-}) as any as S.Schema<SBTopicPropertiesInput>;
+).annotate({ identifier: "SBTopicPropertiesInput" }) as any as S.Schema<SBTopicPropertiesInput>;
 
 export interface TopicsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5160,9 +5052,7 @@ export const TopicsCreateOrUpdateAuthorizationRuleResponse = /*@__PURE__*/ S.sus
 }) as any as S.Schema<TopicsCreateOrUpdateAuthorizationRuleResponse>;
 
 /** Resource tags */
-export type UpdateNamespaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5235,14 +5125,10 @@ export const UpdateNamespaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-01-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateNamespaceRequest",
-}) as any as S.Schema<UpdateNamespaceRequest>;
+).annotate({ identifier: "UpdateNamespaceRequest" }) as any as S.Schema<UpdateNamespaceRequest>;
 
 /** Resource tags. */
-export type UpdateNamespaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNamespaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5280,9 +5166,7 @@ export const UpdateNamespaceResponse = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(SBSku),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "UpdateNamespaceResponse",
-}) as any as S.Schema<UpdateNamespaceResponse>;
+).annotate({ identifier: "UpdateNamespaceResponse" }) as any as S.Schema<UpdateNamespaceResponse>;
 
 export type CheckDisasterRecoveryConfigNameAvailabilityError = AzureOpError;
 /** Check the give namespace name availability. */

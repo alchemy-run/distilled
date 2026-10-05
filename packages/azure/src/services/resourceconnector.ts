@@ -10,9 +10,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type AppliancesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppliancesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const AppliancesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -57,9 +55,7 @@ export const AppliancePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     publicKey: S.optional(S.String),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppliancePropertiesInput",
-}) as any as S.Schema<AppliancePropertiesInput>;
+).annotate({ identifier: "AppliancePropertiesInput" }) as any as S.Schema<AppliancePropertiesInput>;
 
 /** The identity type. */
 export type ResourceIdentityType = "SystemAssigned" | "None";
@@ -148,9 +144,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type AppliancesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type AppliancesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const AppliancesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -220,9 +214,7 @@ export const ApplianceProperties = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(Status),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplianceProperties",
-}) as any as S.Schema<ApplianceProperties>;
+).annotate({ identifier: "ApplianceProperties" }) as any as S.Schema<ApplianceProperties>;
 
 /** Identity for the resource. */
 export interface Identity {
@@ -295,9 +287,7 @@ export const DeleteApplianceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-10-27",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplianceRequest",
-}) as any as S.Schema<DeleteApplianceRequest>;
+).annotate({ identifier: "DeleteApplianceRequest" }) as any as S.Schema<DeleteApplianceRequest>;
 
 export interface DeleteApplianceResponse {}
 export const DeleteApplianceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -325,9 +315,7 @@ export const GetApplianceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-10-27",
     }),
   ),
-).annotate({
-  identifier: "GetApplianceRequest",
-}) as any as S.Schema<GetApplianceRequest>;
+).annotate({ identifier: "GetApplianceRequest" }) as any as S.Schema<GetApplianceRequest>;
 
 /** Resource tags. */
 export type GetApplianceResponseTagsMap = { [key: string]: string | undefined };
@@ -365,9 +353,7 @@ export const GetApplianceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApplianceProperties),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "GetApplianceResponse",
-}) as any as S.Schema<GetApplianceResponse>;
+).annotate({ identifier: "GetApplianceResponse" }) as any as S.Schema<GetApplianceResponse>;
 
 export interface GetApplianceTelemetryConfigRequest {
   /** The ID of the target subscription. */
@@ -479,9 +465,7 @@ export const SupportedVersionMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     catalogVersion: S.optional(SupportedVersionCatalogVersion),
   }),
-).annotate({
-  identifier: "SupportedVersionMetadata",
-}) as any as S.Schema<SupportedVersionMetadata>;
+).annotate({ identifier: "SupportedVersionMetadata" }) as any as S.Schema<SupportedVersionMetadata>;
 
 /** The SupportedVersion object for appliance. */
 export interface SupportedVersion {
@@ -495,9 +479,7 @@ export const SupportedVersion = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(SupportedVersionMetadata),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedVersion",
-}) as any as S.Schema<SupportedVersion>;
+).annotate({ identifier: "SupportedVersion" }) as any as S.Schema<SupportedVersion>;
 
 /** This contains the current version and supported upgrade versions. */
 export type UpgradeGraphPropertiesSupportedVersionsList = Array<SupportedVersion>;
@@ -517,9 +499,7 @@ export const UpgradeGraphProperties = /*@__PURE__*/ S.suspend(() =>
     applianceVersion: S.optional(S.String),
     supportedVersions: S.optional(UpgradeGraphPropertiesSupportedVersionsList),
   }),
-).annotate({
-  identifier: "UpgradeGraphProperties",
-}) as any as S.Schema<UpgradeGraphProperties>;
+).annotate({ identifier: "UpgradeGraphProperties" }) as any as S.Schema<UpgradeGraphProperties>;
 
 /** The Upgrade Graph for appliance. */
 export interface UpgradeGraph {
@@ -617,9 +597,7 @@ export const ApplianceListResult = /*@__PURE__*/ S.suspend(() =>
     value: ApplianceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplianceListResult",
-}) as any as S.Schema<ApplianceListResult>;
+).annotate({ identifier: "ApplianceListResult" }) as any as S.Schema<ApplianceListResult>;
 
 export interface ListApplianceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -683,9 +661,7 @@ export const HybridConnectionConfig = /*@__PURE__*/ S.suspend(() =>
     relay: S.optional(S.String),
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HybridConnectionConfig",
-}) as any as S.Schema<HybridConnectionConfig>;
+).annotate({ identifier: "HybridConnectionConfig" }) as any as S.Schema<HybridConnectionConfig>;
 
 /** Name which contains the role of the kubeconfig. */
 export type AccessProfileType = "clusterUser" | "clusterCustomerUser";
@@ -753,9 +729,7 @@ export const ListApplianceKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-10-27",
     }),
   ),
-).annotate({
-  identifier: "ListApplianceKeysRequest",
-}) as any as S.Schema<ListApplianceKeysRequest>;
+).annotate({ identifier: "ListApplianceKeysRequest" }) as any as S.Schema<ListApplianceKeysRequest>;
 
 /** Appliance ArtifactProfile definition. */
 export interface ArtifactProfile {
@@ -766,9 +740,7 @@ export const ArtifactProfile = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     endpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ArtifactProfile",
-}) as any as S.Schema<ArtifactProfile>;
+).annotate({ identifier: "ArtifactProfile" }) as any as S.Schema<ArtifactProfile>;
 
 /** Map of artifacts that contains a list of ArtifactProfile used to upload artifacts such as logs. */
 export type ApplianceListKeysResultsArtifactProfilesMap = {
@@ -809,9 +781,7 @@ export const SSHKey = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SSHKey" }) as any as S.Schema<SSHKey>;
 
 /** Map of Customer User Public, Private SSH Keys and Certificate when available. */
-export type ApplianceListKeysResultsSshKeysMap = {
-  [key: string]: SSHKey | undefined;
-};
+export type ApplianceListKeysResultsSshKeysMap = { [key: string]: SSHKey | undefined };
 export const ApplianceListKeysResultsSshKeysMap = /*@__PURE__*/ S.Record(
   S.String,
   SSHKey,
@@ -832,9 +802,7 @@ export const ApplianceListKeysResults = /*@__PURE__*/ S.suspend(() =>
     kubeconfigs: S.optional(ApplianceListKeysResultsKubeconfigsList),
     sshKeys: S.optional(ApplianceListKeysResultsSshKeysMap),
   }),
-).annotate({
-  identifier: "ApplianceListKeysResults",
-}) as any as S.Schema<ApplianceListKeysResults>;
+).annotate({ identifier: "ApplianceListKeysResults" }) as any as S.Schema<ApplianceListKeysResults>;
 
 export interface ListApplianceOperationsRequest {}
 export const ListApplianceOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -890,9 +858,7 @@ export const ApplianceOperation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplianceOperation",
-}) as any as S.Schema<ApplianceOperation>;
+).annotate({ identifier: "ApplianceOperation" }) as any as S.Schema<ApplianceOperation>;
 
 /** The ApplianceOperation items on this page */
 export type ApplianceOperationsListValueList = Array<ApplianceOperation>;
@@ -912,14 +878,10 @@ export const ApplianceOperationsList = /*@__PURE__*/ S.suspend(() =>
     value: ApplianceOperationsListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplianceOperationsList",
-}) as any as S.Schema<ApplianceOperationsList>;
+).annotate({ identifier: "ApplianceOperationsList" }) as any as S.Schema<ApplianceOperationsList>;
 
 /** Resource tags */
-export type UpdateApplianceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplianceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplianceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -949,14 +911,10 @@ export const UpdateApplianceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-10-27",
     }),
   ),
-).annotate({
-  identifier: "UpdateApplianceRequest",
-}) as any as S.Schema<UpdateApplianceRequest>;
+).annotate({ identifier: "UpdateApplianceRequest" }) as any as S.Schema<UpdateApplianceRequest>;
 
 /** Resource tags. */
-export type UpdateApplianceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplianceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplianceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -991,9 +949,7 @@ export const UpdateApplianceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ApplianceProperties),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "UpdateApplianceResponse",
-}) as any as S.Schema<UpdateApplianceResponse>;
+).annotate({ identifier: "UpdateApplianceResponse" }) as any as S.Schema<UpdateApplianceResponse>;
 
 export type AppliancesCreateOrUpdateError = AzureOpError;
 /** Creates or updates an Appliance. Creates or updates an Appliance in the specified Subscription and Resource Group. */

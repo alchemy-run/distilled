@@ -93,9 +93,7 @@ export const ConfigurationProperties = /*@__PURE__*/ S.suspend(() =>
     enforcePrivateMarkdownStorage: S.optional(S.Boolean),
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "ConfigurationProperties",
-}) as any as S.Schema<ConfigurationProperties>;
+).annotate({ identifier: "ConfigurationProperties" }) as any as S.Schema<ConfigurationProperties>;
 
 export interface CreateTenantConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -122,9 +120,7 @@ export const CreateTenantConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateTenantConfigurationResponse>;
 
 /** Resource tags. */
-export type DashboardsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DashboardsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DashboardsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -151,37 +147,19 @@ export const DashboardPartsPosition = /*@__PURE__*/ S.suspend(() =>
     colSpan: S.Number,
     metadata: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DashboardPartsPosition",
-}) as any as S.Schema<DashboardPartsPosition>;
-
-/** The dashboard part metadata type. */
-export type DashboardPartMetadataType = "Extension/HubsExtension/PartType/MarkdownPart";
-export const DashboardPartMetadataType = S.String;
-
-/** A dashboard part metadata. */
-export interface DashboardPartMetadata {
-  type: DashboardPartMetadataType | (string & {});
-}
-export const DashboardPartMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: DashboardPartMetadataType,
-  }),
-).annotate({
-  identifier: "DashboardPartMetadata",
-}) as any as S.Schema<DashboardPartMetadata>;
+).annotate({ identifier: "DashboardPartsPosition" }) as any as S.Schema<DashboardPartsPosition>;
 
 /** A dashboard part. */
 export interface DashboardParts {
   /** The dashboard's part position. */
   position: DashboardPartsPosition;
   /** The dashboard part's metadata. */
-  metadata?: DashboardPartMetadata;
+  metadata?: unknown;
 }
 export const DashboardParts = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     position: DashboardPartsPosition,
-    metadata: S.optional(DashboardPartMetadata),
+    metadata: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "DashboardParts" }) as any as S.Schema<DashboardParts>;
 
@@ -257,7 +235,7 @@ export const DashboardsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -265,9 +243,7 @@ export const DashboardsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DashboardsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DashboardsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DashboardsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DashboardsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -346,12 +322,10 @@ export const DeleteDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
-).annotate({
-  identifier: "DeleteDashboardRequest",
-}) as any as S.Schema<DeleteDashboardRequest>;
+).annotate({ identifier: "DeleteDashboardRequest" }) as any as S.Schema<DeleteDashboardRequest>;
 
 export interface DeleteDashboardResponse {}
 export const DeleteDashboardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -402,12 +376,10 @@ export const GetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
-).annotate({
-  identifier: "GetDashboardRequest",
-}) as any as S.Schema<GetDashboardRequest>;
+).annotate({ identifier: "GetDashboardRequest" }) as any as S.Schema<GetDashboardRequest>;
 
 /** Resource tags. */
 export type GetDashboardResponseTagsMap = { [key: string]: string | undefined };
@@ -442,9 +414,7 @@ export const GetDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DashboardPropertiesWithProvisioningState),
   }),
-).annotate({
-  identifier: "GetDashboardResponse",
-}) as any as S.Schema<GetDashboardResponse>;
+).annotate({ identifier: "GetDashboardResponse" }) as any as S.Schema<GetDashboardResponse>;
 
 export interface GetTenantConfigurationRequest {
   /** The name of the Configuration */
@@ -504,7 +474,7 @@ export const ListDashboardByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -565,9 +535,7 @@ export const DashboardListResult = /*@__PURE__*/ S.suspend(() =>
     value: DashboardListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DashboardListResult",
-}) as any as S.Schema<DashboardListResult>;
+).annotate({ identifier: "DashboardListResult" }) as any as S.Schema<DashboardListResult>;
 
 export interface ListDashboardBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -581,7 +549,7 @@ export const ListDashboardBySubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Portal/dashboards",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
 ).annotate({
@@ -649,9 +617,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -671,9 +637,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -723,9 +687,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListTenantConfigurationsRequest {}
 export const ListTenantConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -782,9 +744,7 @@ export const ConfigurationListResult = /*@__PURE__*/ S.suspend(() =>
     value: ConfigurationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConfigurationListResult",
-}) as any as S.Schema<ConfigurationListResult>;
+).annotate({ identifier: "ConfigurationListResult" }) as any as S.Schema<ConfigurationListResult>;
 
 /** The dashboard lenses. */
 export type DashboardPropertiesLensesList = Array<DashboardLens>;
@@ -804,14 +764,10 @@ export const DashboardProperties = /*@__PURE__*/ S.suspend(() =>
     lenses: S.optional(DashboardPropertiesLensesList),
     metadata: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DashboardProperties",
-}) as any as S.Schema<DashboardProperties>;
+).annotate({ identifier: "DashboardProperties" }) as any as S.Schema<DashboardProperties>;
 
 /** Resource tags */
-export type UpdateDashboardRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDashboardRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDashboardRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -841,17 +797,13 @@ export const UpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
       method: "PATCH",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Portal/dashboards/{dashboardName}",
       code: 200,
-      apiVersion: "2026-04-01",
+      apiVersion: "2025-04-01-preview",
     }),
   ),
-).annotate({
-  identifier: "UpdateDashboardRequest",
-}) as any as S.Schema<UpdateDashboardRequest>;
+).annotate({ identifier: "UpdateDashboardRequest" }) as any as S.Schema<UpdateDashboardRequest>;
 
 /** Resource tags. */
-export type UpdateDashboardResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDashboardResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDashboardResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -883,9 +835,7 @@ export const UpdateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DashboardPropertiesWithProvisioningState),
   }),
-).annotate({
-  identifier: "UpdateDashboardResponse",
-}) as any as S.Schema<UpdateDashboardResponse>;
+).annotate({ identifier: "UpdateDashboardResponse" }) as any as S.Schema<UpdateDashboardResponse>;
 
 export type CreateTenantConfigurationError = AzureOpError;
 /** Create the tenant configuration. If configuration already exists - update it. User has to be a Tenant Admin for this operation. */

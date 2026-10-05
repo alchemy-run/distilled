@@ -89,9 +89,7 @@ export const ReportResultColumn = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     type: S.String,
   }),
-).annotate({
-  identifier: "ReportResultColumn",
-}) as any as S.Schema<ReportResultColumn>;
+).annotate({ identifier: "ReportResultColumn" }) as any as S.Schema<ReportResultColumn>;
 
 /** Array of columns object, present only if the query succeeded */
 export type ReportResultSetColumnsList = Array<ReportResultColumn>;
@@ -125,9 +123,7 @@ export const ReportResultSet = /*@__PURE__*/ S.suspend(() =>
     rows: S.optional(ReportResultSetRowsList),
     errorCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportResultSet",
-}) as any as S.Schema<ReportResultSet>;
+).annotate({ identifier: "ReportResultSet" }) as any as S.Schema<ReportResultSet>;
 
 /** One or more result sets, in the same order as the queries in the request body */
 export type GetReportResultResultsList = Array<ReportResultSet>;
@@ -144,9 +140,7 @@ export const GetReportResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     results: GetReportResultResultsList,
   }),
-).annotate({
-  identifier: "GetReportResult",
-}) as any as S.Schema<GetReportResult>;
+).annotate({ identifier: "GetReportResult" }) as any as S.Schema<GetReportResult>;
 
 export interface GetReportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -172,9 +166,7 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetReportRequest",
-}) as any as S.Schema<GetReportRequest>;
+).annotate({ identifier: "GetReportRequest" }) as any as S.Schema<GetReportRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -223,9 +215,7 @@ export const ReportProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(AzureResourceManagerResourceProvisioningState),
   }),
-).annotate({
-  identifier: "ReportProperties",
-}) as any as S.Schema<ReportProperties>;
+).annotate({ identifier: "ReportProperties" }) as any as S.Schema<ReportProperties>;
 
 export interface GetReportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -247,9 +237,7 @@ export const GetReportResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ReportProperties),
   }),
-).annotate({
-  identifier: "GetReportResponse",
-}) as any as S.Schema<GetReportResponse>;
+).annotate({ identifier: "GetReportResponse" }) as any as S.Schema<GetReportResponse>;
 
 export interface GetStorageDiscoveryWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -277,9 +265,7 @@ export const GetStorageDiscoveryWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetStorageDiscoveryWorkspaceRequest>;
 
 /** Resource tags. */
-export type GetStorageDiscoveryWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStorageDiscoveryWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const GetStorageDiscoveryWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -314,9 +300,7 @@ export const StorageDiscoveryScopeTagKeysOnlyList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<StorageDiscoveryScopeTagKeysOnlyList>;
 
 /** Resource tags. */
-export type StorageDiscoveryScopeTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StorageDiscoveryScopeTagsMap = { [key: string]: string | undefined };
 export const StorageDiscoveryScopeTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -340,9 +324,7 @@ export const StorageDiscoveryScope = /*@__PURE__*/ S.suspend(() =>
     tagKeysOnly: S.optional(StorageDiscoveryScopeTagKeysOnlyList),
     tags: S.optional(StorageDiscoveryScopeTagsMap),
   }),
-).annotate({
-  identifier: "StorageDiscoveryScope",
-}) as any as S.Schema<StorageDiscoveryScope>;
+).annotate({ identifier: "StorageDiscoveryScope" }) as any as S.Schema<StorageDiscoveryScope>;
 
 /** The scopes of the storage discovery workspace. */
 export type StorageDiscoveryWorkspacePropertiesScopesList = Array<StorageDiscoveryScope>;
@@ -415,9 +397,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -437,9 +417,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -489,9 +467,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListReportByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -559,9 +535,7 @@ export const ReportResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: ReportResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReportResourceListResult",
-}) as any as S.Schema<ReportResourceListResult>;
+).annotate({ identifier: "ReportResourceListResult" }) as any as S.Schema<ReportResourceListResult>;
 
 export interface ListReportBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -608,9 +582,7 @@ export const ListStorageDiscoveryWorkspaceByResourceGroupRequest = /*@__PURE__*/
 }) as any as S.Schema<ListStorageDiscoveryWorkspaceByResourceGroupRequest>;
 
 /** Resource tags. */
-export type StorageDiscoveryWorkspaceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type StorageDiscoveryWorkspaceTagsMap = { [key: string]: string | undefined };
 export const StorageDiscoveryWorkspaceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -843,9 +815,7 @@ export const StorageDiscoveryWorkspacesReportRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<StorageDiscoveryWorkspacesReportRequest>;
 
 /** Resource tags. */
-export type UpdateStorageDiscoveryWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageDiscoveryWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageDiscoveryWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -921,9 +891,7 @@ export const UpdateStorageDiscoveryWorkspaceRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdateStorageDiscoveryWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdateStorageDiscoveryWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageDiscoveryWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageDiscoveryWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

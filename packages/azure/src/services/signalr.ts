@@ -51,9 +51,7 @@ export const NameAvailability = /*@__PURE__*/ S.suspend(() =>
     reason: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NameAvailability",
-}) as any as S.Schema<NameAvailability>;
+).annotate({ identifier: "NameAvailability" }) as any as S.Schema<NameAvailability>;
 
 export interface DeleteSignalRRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -76,9 +74,7 @@ export const DeleteSignalRRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSignalRRequest",
-}) as any as S.Schema<DeleteSignalRRequest>;
+).annotate({ identifier: "DeleteSignalRRequest" }) as any as S.Schema<DeleteSignalRRequest>;
 
 export interface DeleteSignalRResponse {}
 export const DeleteSignalRResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -279,9 +275,7 @@ export const GetSignalRRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetSignalRRequest",
-}) as any as S.Schema<GetSignalRRequest>;
+).annotate({ identifier: "GetSignalRRequest" }) as any as S.Schema<GetSignalRRequest>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -372,9 +366,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** Group IDs */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -528,9 +520,7 @@ export const SignalRTlsSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientCertEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SignalRTlsSettings",
-}) as any as S.Schema<SignalRTlsSettings>;
+).annotate({ identifier: "SignalRTlsSettings" }) as any as S.Schema<SignalRTlsSettings>;
 
 /** FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use. - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: "true"/"false", to enable/disable live trace feature. */
 export type FeatureFlags =
@@ -581,9 +571,7 @@ export const LiveTraceCategory = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     enabled: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LiveTraceCategory",
-}) as any as S.Schema<LiveTraceCategory>;
+).annotate({ identifier: "LiveTraceCategory" }) as any as S.Schema<LiveTraceCategory>;
 
 /** Gets or sets the list of category configurations. */
 export type LiveTraceConfigurationCategoriesList = Array<LiveTraceCategory>;
@@ -603,9 +591,7 @@ export const LiveTraceConfiguration = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.String),
     categories: S.optional(LiveTraceConfigurationCategoriesList),
   }),
-).annotate({
-  identifier: "LiveTraceConfiguration",
-}) as any as S.Schema<LiveTraceConfiguration>;
+).annotate({ identifier: "LiveTraceConfiguration" }) as any as S.Schema<LiveTraceConfiguration>;
 
 /** Resource log category configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogCategory {
@@ -619,9 +605,7 @@ export const ResourceLogCategory = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     enabled: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceLogCategory",
-}) as any as S.Schema<ResourceLogCategory>;
+).annotate({ identifier: "ResourceLogCategory" }) as any as S.Schema<ResourceLogCategory>;
 
 /** Gets or sets the list of category configurations. */
 export type ResourceLogConfigurationCategoriesList = Array<ResourceLogCategory>;
@@ -638,9 +622,7 @@ export const ResourceLogConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     categories: S.optional(ResourceLogConfigurationCategoriesList),
   }),
-).annotate({
-  identifier: "ResourceLogConfiguration",
-}) as any as S.Schema<ResourceLogConfiguration>;
+).annotate({ identifier: "ResourceLogConfiguration" }) as any as S.Schema<ResourceLogConfiguration>;
 
 /** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
 export type SignalRCorsSettingsAllowedOriginsList = Array<string>;
@@ -657,9 +639,7 @@ export const SignalRCorsSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allowedOrigins: S.optional(SignalRCorsSettingsAllowedOriginsList),
   }),
-).annotate({
-  identifier: "SignalRCorsSettings",
-}) as any as S.Schema<SignalRCorsSettings>;
+).annotate({ identifier: "SignalRCorsSettings" }) as any as S.Schema<SignalRCorsSettings>;
 
 /** Serverless settings. */
 export interface ServerlessSettings {
@@ -670,9 +650,7 @@ export const ServerlessSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     connectionTimeoutInSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ServerlessSettings",
-}) as any as S.Schema<ServerlessSettings>;
+).annotate({ identifier: "ServerlessSettings" }) as any as S.Schema<ServerlessSettings>;
 
 /** Upstream auth type enum. */
 export type UpstreamAuthType = "None" | "ManagedIdentity";
@@ -687,9 +665,7 @@ export const ManagedIdentitySettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedIdentitySettings",
-}) as any as S.Schema<ManagedIdentitySettings>;
+).annotate({ identifier: "ManagedIdentitySettings" }) as any as S.Schema<ManagedIdentitySettings>;
 
 /** Upstream auth settings. If not set, no auth is used for upstream messages. */
 export interface UpstreamAuthSettings {
@@ -701,9 +677,7 @@ export const UpstreamAuthSettings = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(UpstreamAuthType),
     managedIdentity: S.optional(ManagedIdentitySettings),
   }),
-).annotate({
-  identifier: "UpstreamAuthSettings",
-}) as any as S.Schema<UpstreamAuthSettings>;
+).annotate({ identifier: "UpstreamAuthSettings" }) as any as S.Schema<UpstreamAuthSettings>;
 
 /** Upstream template item settings. It defines the Upstream URL of the incoming requests. The template defines the pattern of the event, the hub or the category of the incoming request that matches current URL template. */
 export interface UpstreamTemplate {
@@ -725,9 +699,7 @@ export const UpstreamTemplate = /*@__PURE__*/ S.suspend(() =>
     urlTemplate: S.String,
     auth: S.optional(UpstreamAuthSettings),
   }),
-).annotate({
-  identifier: "UpstreamTemplate",
-}) as any as S.Schema<UpstreamTemplate>;
+).annotate({ identifier: "UpstreamTemplate" }) as any as S.Schema<UpstreamTemplate>;
 
 /** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
 export type ServerlessUpstreamSettingsTemplatesList = Array<UpstreamTemplate>;
@@ -809,9 +781,7 @@ export const PrivateEndpointACL = /*@__PURE__*/ S.suspend(() =>
     deny: S.optional(PrivateEndpointACLDenyList),
     name: S.String,
   }),
-).annotate({
-  identifier: "PrivateEndpointACL",
-}) as any as S.Schema<PrivateEndpointACL>;
+).annotate({ identifier: "PrivateEndpointACL" }) as any as S.Schema<PrivateEndpointACL>;
 
 /** ACLs for requests from private endpoints */
 export type SignalRNetworkACLsPrivateEndpointsList = Array<PrivateEndpointACL>;
@@ -854,9 +824,7 @@ export const SignalRNetworkACLs = /*@__PURE__*/ S.suspend(() =>
     privateEndpoints: S.optional(SignalRNetworkACLsPrivateEndpointsList),
     ipRules: S.optional(SignalRNetworkACLsIpRulesList),
   }),
-).annotate({
-  identifier: "SignalRNetworkACLs",
-}) as any as S.Schema<SignalRNetworkACLs>;
+).annotate({ identifier: "SignalRNetworkACLs" }) as any as S.Schema<SignalRNetworkACLs>;
 
 /** A class that describes the properties of the resource */
 export interface SignalRProperties {
@@ -922,9 +890,7 @@ export const SignalRProperties = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.String),
     resourceStopped: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRProperties",
-}) as any as S.Schema<SignalRProperties>;
+).annotate({ identifier: "SignalRProperties" }) as any as S.Schema<SignalRProperties>;
 
 /** The kind of the service */
 export type ServiceKind = "SignalR" | "RawWebSockets";
@@ -976,9 +942,7 @@ export const ManagedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedIdentity",
-}) as any as S.Schema<ManagedIdentity>;
+).annotate({ identifier: "ManagedIdentity" }) as any as S.Schema<ManagedIdentity>;
 
 export interface GetSignalRResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1011,9 +975,7 @@ export const GetSignalRResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
   }),
-).annotate({
-  identifier: "GetSignalRResponse",
-}) as any as S.Schema<GetSignalRResponse>;
+).annotate({ identifier: "GetSignalRResponse" }) as any as S.Schema<GetSignalRResponse>;
 
 export interface GetSignalRCustomCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1124,9 +1086,7 @@ export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 
 /** Properties of a custom domain. */
 export interface CustomDomainProperties {
@@ -1141,9 +1101,7 @@ export const CustomDomainProperties = /*@__PURE__*/ S.suspend(() =>
     domainName: S.String,
     customCertificate: ResourceReference,
   }),
-).annotate({
-  identifier: "CustomDomainProperties",
-}) as any as S.Schema<CustomDomainProperties>;
+).annotate({ identifier: "CustomDomainProperties" }) as any as S.Schema<CustomDomainProperties>;
 
 export interface GetSignalRCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1248,9 +1206,7 @@ export const GetSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSignalRReplicasRequest>;
 
 /** Resource tags. */
-export type GetSignalRReplicasResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetSignalRReplicasResponseTagsMap = { [key: string]: string | undefined };
 export const GetSignalRReplicasResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1269,9 +1225,7 @@ export const ReplicaProperties = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.String),
     resourceStopped: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaProperties",
-}) as any as S.Schema<ReplicaProperties>;
+).annotate({ identifier: "ReplicaProperties" }) as any as S.Schema<ReplicaProperties>;
 
 export interface GetSignalRReplicasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1419,9 +1373,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that describes a operation. */
 export interface OperationDisplay {
@@ -1441,9 +1393,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Specifications of the Dimension of metrics. */
 export interface Dimension {
@@ -1501,9 +1451,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     category: S.optional(S.String),
     dimensions: S.optional(MetricSpecificationDimensionsList),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Specifications of the Metrics for Azure Monitoring. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -1523,9 +1471,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Logs for Azure Monitoring. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -1545,9 +1491,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Extra Operation properties. */
 export interface OperationProperties {
@@ -1557,9 +1501,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** REST API operation supported by resource provider. */
 export interface Operation {
@@ -1663,9 +1605,7 @@ export const SignalRResource = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
   }),
-).annotate({
-  identifier: "SignalRResource",
-}) as any as S.Schema<SignalRResource>;
+).annotate({ identifier: "SignalRResource" }) as any as S.Schema<SignalRResource>;
 
 /** List of the resources */
 export type SignalRResourceListValueList = Array<SignalRResource>;
@@ -1685,9 +1625,7 @@ export const SignalRResourceList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SignalRResourceListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRResourceList",
-}) as any as S.Schema<SignalRResourceList>;
+).annotate({ identifier: "SignalRResourceList" }) as any as S.Schema<SignalRResourceList>;
 
 export interface ListSignalRBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1753,9 +1691,7 @@ export const CustomCertificate = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: CustomCertificateProperties,
   }),
-).annotate({
-  identifier: "CustomCertificate",
-}) as any as S.Schema<CustomCertificate>;
+).annotate({ identifier: "CustomCertificate" }) as any as S.Schema<CustomCertificate>;
 
 /** List of custom certificates of this resource. */
 export type CustomCertificateListValueList = Array<CustomCertificate>;
@@ -1775,9 +1711,7 @@ export const CustomCertificateList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CustomCertificateListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomCertificateList",
-}) as any as S.Schema<CustomCertificateList>;
+).annotate({ identifier: "CustomCertificateList" }) as any as S.Schema<CustomCertificateList>;
 
 export interface ListSignalRCustomDomainsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1844,9 +1778,7 @@ export const CustomDomainList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CustomDomainListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomDomainList",
-}) as any as S.Schema<CustomDomainList>;
+).annotate({ identifier: "CustomDomainList" }) as any as S.Schema<CustomDomainList>;
 
 export interface ListSignalRKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1869,9 +1801,7 @@ export const ListSignalRKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListSignalRKeysRequest",
-}) as any as S.Schema<ListSignalRKeysRequest>;
+).annotate({ identifier: "ListSignalRKeysRequest" }) as any as S.Schema<ListSignalRKeysRequest>;
 
 /** A class represents the access keys of the resource. */
 export interface SignalRKeys {
@@ -2063,9 +1993,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** List of PrivateLinkResource */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
@@ -2085,9 +2013,7 @@ export const PrivateLinkResourceList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(PrivateLinkResourceListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkResourceList",
-}) as any as S.Schema<PrivateLinkResourceList>;
+).annotate({ identifier: "PrivateLinkResourceList" }) as any as S.Schema<PrivateLinkResourceList>;
 
 export interface ListSignalRReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2359,9 +2285,7 @@ export const ListSignalRSkusRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListSignalRSkusRequest",
-}) as any as S.Schema<ListSignalRSkusRequest>;
+).annotate({ identifier: "ListSignalRSkusRequest" }) as any as S.Schema<ListSignalRSkusRequest>;
 
 export interface ListUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2381,9 +2305,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** Localizable String object containing the name and a localized value. */
 export interface SignalRUsageName {
@@ -2397,9 +2319,7 @@ export const SignalRUsageName = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(S.String),
     localizedValue: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRUsageName",
-}) as any as S.Schema<SignalRUsageName>;
+).annotate({ identifier: "SignalRUsageName" }) as any as S.Schema<SignalRUsageName>;
 
 /** Object that describes a specific usage of the resources. */
 export interface SignalRUsage {
@@ -2441,9 +2361,7 @@ export const SignalRUsageList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(SignalRUsageListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRUsageList",
-}) as any as S.Schema<SignalRUsageList>;
+).annotate({ identifier: "SignalRUsageList" }) as any as S.Schema<SignalRUsageList>;
 
 /** The type of access key. */
 export type KeyType = "Primary" | "Secondary" | "Salt";
@@ -2497,9 +2415,7 @@ export const RestartSignalRRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "RestartSignalRRequest",
-}) as any as S.Schema<RestartSignalRRequest>;
+).annotate({ identifier: "RestartSignalRRequest" }) as any as S.Schema<RestartSignalRRequest>;
 
 export interface RestartSignalRResponse {}
 export const RestartSignalRResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2540,9 +2456,7 @@ export const RestartSignalRReplicasResponse = /*@__PURE__*/ S.suspend(() => S.St
 }) as any as S.Schema<RestartSignalRReplicasResponse>;
 
 /** Resource tags. */
-export type SignalRCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SignalRCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SignalRCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2562,9 +2476,7 @@ export const ResourceSkuInput = /*@__PURE__*/ S.suspend(() =>
     tier: S.optional(SignalRSkuTier),
     capacity: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ResourceSkuInput",
-}) as any as S.Schema<ResourceSkuInput>;
+).annotate({ identifier: "ResourceSkuInput" }) as any as S.Schema<ResourceSkuInput>;
 
 /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
 export type SignalRPropertiesInputFeaturesList = Array<SignalRFeature>;
@@ -2610,9 +2522,7 @@ export const SignalRPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.String),
     resourceStopped: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SignalRPropertiesInput",
-}) as any as S.Schema<SignalRPropertiesInput>;
+).annotate({ identifier: "SignalRPropertiesInput" }) as any as S.Schema<SignalRPropertiesInput>;
 
 /** Properties of user assigned identity. */
 export interface UserAssignedIdentityPropertyInput {}
@@ -2642,9 +2552,7 @@ export const ManagedIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ManagedIdentityType),
     userAssignedIdentities: S.optional(ManagedIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ManagedIdentityInput",
-}) as any as S.Schema<ManagedIdentityInput>;
+).annotate({ identifier: "ManagedIdentityInput" }) as any as S.Schema<ManagedIdentityInput>;
 
 export interface SignalRCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2686,9 +2594,7 @@ export const SignalRCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SignalRCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SignalRCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SignalRCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SignalRCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2870,9 +2776,7 @@ export const SignalRCustomDomainsCreateOrUpdateResponse = /*@__PURE__*/ S.suspen
 }) as any as S.Schema<SignalRCustomDomainsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type SignalRReplicasCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SignalRReplicasCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const SignalRReplicasCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2889,9 +2793,7 @@ export const ReplicaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     regionEndpointEnabled: S.optional(S.String),
     resourceStopped: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaPropertiesInput",
-}) as any as S.Schema<ReplicaPropertiesInput>;
+).annotate({ identifier: "ReplicaPropertiesInput" }) as any as S.Schema<ReplicaPropertiesInput>;
 
 export interface SignalRReplicasCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2932,9 +2834,7 @@ export const SignalRReplicasCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<SignalRReplicasCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type SignalRReplicasCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type SignalRReplicasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const SignalRReplicasCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3143,14 +3043,10 @@ export const UpdateSignalRRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateSignalRRequest",
-}) as any as S.Schema<UpdateSignalRRequest>;
+).annotate({ identifier: "UpdateSignalRRequest" }) as any as S.Schema<UpdateSignalRRequest>;
 
 /** Resource tags. */
-export type UpdateSignalRResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSignalRResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSignalRResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3187,9 +3083,7 @@ export const UpdateSignalRResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(ServiceKind),
     identity: S.optional(ManagedIdentity),
   }),
-).annotate({
-  identifier: "UpdateSignalRResponse",
-}) as any as S.Schema<UpdateSignalRResponse>;
+).annotate({ identifier: "UpdateSignalRResponse" }) as any as S.Schema<UpdateSignalRResponse>;
 
 /** Private endpoint connection properties */
 export interface PrivateEndpointConnectionPropertiesInput {
@@ -3259,9 +3153,7 @@ export const UpdateSignalRPrivateEndpointConnectionResponse = /*@__PURE__*/ S.su
 }) as any as S.Schema<UpdateSignalRPrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type UpdateSignalRReplicasRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSignalRReplicasRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateSignalRReplicasRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3306,9 +3198,7 @@ export const UpdateSignalRReplicasRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateSignalRReplicasRequest>;
 
 /** Resource tags. */
-export type UpdateSignalRReplicasResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateSignalRReplicasResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateSignalRReplicasResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

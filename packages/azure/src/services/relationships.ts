@@ -21,7 +21,7 @@ export const DeleteDependencyOfRelationshipRequest = /*@__PURE__*/ S.suspend(() 
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -79,7 +79,7 @@ export const DeleteServiceGroupMemberRelationshipRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -207,9 +207,7 @@ export const RelationshipMetadata = /*@__PURE__*/ S.suspend(() =>
     sourceType: S.String,
     targetType: S.String,
   }),
-).annotate({
-  identifier: "RelationshipMetadata",
-}) as any as S.Schema<RelationshipMetadata>;
+).annotate({ identifier: "RelationshipMetadata" }) as any as S.Schema<RelationshipMetadata>;
 
 /** The provisioning state of the resource. */
 export type ProvisioningState =
@@ -291,7 +289,7 @@ export const DependencyOfRelationshipsCreateOrUpdateRequest = /*@__PURE__*/ S.su
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -337,7 +335,7 @@ export const GetDependencyOfRelationshipRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -429,7 +427,7 @@ export const GetServiceGroupMemberRelationshipRequest = /*@__PURE__*/ S.suspend(
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -564,9 +562,7 @@ export const ContainsRelationship = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ContainsRelationshipProperties),
   }),
-).annotate({
-  identifier: "ContainsRelationship",
-}) as any as S.Schema<ContainsRelationship>;
+).annotate({ identifier: "ContainsRelationship" }) as any as S.Schema<ContainsRelationship>;
 
 /** The ContainsRelationship items on this page */
 export type ContainsRelationshipListResultValueList = Array<ContainsRelationship>;
@@ -622,7 +618,7 @@ export const ListDependencyOfRelationshipByParentRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/dependencyOf",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/dependencyOf",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -652,9 +648,7 @@ export const DependencyOfRelationship = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DependencyOfRelationshipProperties),
   }),
-).annotate({
-  identifier: "DependencyOfRelationship",
-}) as any as S.Schema<DependencyOfRelationship>;
+).annotate({ identifier: "DependencyOfRelationship" }) as any as S.Schema<DependencyOfRelationship>;
 
 /** The DependencyOfRelationship items on this page */
 export type DependencyOfRelationshipListResultValueList = Array<DependencyOfRelationship>;
@@ -707,9 +701,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-08-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -729,9 +721,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -781,9 +771,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListServiceGroupMemberRelationshipByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -795,7 +783,7 @@ export const ListServiceGroupMemberRelationshipByParentRequest = /*@__PURE__*/ S
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember",
       code: 200,
       apiVersion: "2026-08-01",
     }),
@@ -884,7 +872,7 @@ export const ServiceGroupMemberRelationshipsCreateOrUpdateRequest = /*@__PURE__*
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{resourceUri}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
+      uri: "/{resourceUri+}/providers/Microsoft.Relationships/serviceGroupMember/{name}",
       code: 200,
       apiVersion: "2026-08-01",
     }),

@@ -1,4 +1,6 @@
 #!/usr/bin/env bun
+import * as fs from "node:fs";
+import * as path from "node:path";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the per-service Smithy JSON models in .generated-specs
@@ -24,6 +26,11 @@ import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
  *     (folded in by convert.ts); the protocol appends `?api-version=`
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
+import {
+  applyOperation,
+  isStaleTargetError,
+  type PatchFile,
+} from "@distilled.cloud/core/json-patch";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -88,6 +95,53 @@ const azureSpec: SdkSpec = {
       : code,
 };
 
+/**
+ * A label that is the whole leading path segment (`/{scope}/providers/…`,
+ * `/{resourceUri}/…`, `/{roleAssignmentId}`) carries a full ARM id such as
+ * `/subscriptions/{id}/resourceGroups/{rg}` — the specs mark these
+ * `x-ms-skip-url-encoding`. Rewrite them to greedy `{name+}` labels so the
+ * request builder keeps their `/` separators.
+ */
+const markScopeLabelsGreedy = (model: any): void => {
+  for (const shape of Object.values<any>(model.shapes ?? {})) {
+    const http = shape?.traits?.["smithy.api#http"];
+    if (typeof http?.uri !== "string") continue;
+    http.uri = http.uri.replace(/^\/\{([A-Za-z0-9_]+)\}(?=\/|$)/, "/{$1+}");
+  }
+};
+
+/**
+ * Apply `patches/<service>/*.json` (RFC 6902 against the Smithy model,
+ * `*.manual.json` last) at generate time, so a fix lands by regenerating
+ * one service without re-converting the spec mirror. A stale or failing
+ * patch fails the run.
+ */
+const applyServicePatches = (model: any, service: string): void => {
+  const dir = path.join(import.meta.dir, "..", "patches", service);
+  if (!fs.existsSync(dir)) return;
+  const files = fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith(".json"))
+    .sort(
+      (a, b) =>
+        Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
+        a.localeCompare(b),
+    );
+  for (const file of files) {
+    const parsed = JSON.parse(fs.readFileSync(path.join(dir, file), "utf8")) as PatchFile;
+    for (const op of parsed.patches ?? []) {
+      try {
+        applyOperation(model, op);
+      } catch (e) {
+        const kind = isStaleTargetError(e) ? "stale target" : "failed";
+        throw new Error(
+          `patches/${service}/${file} [${op.op} ${op.path}]: ${kind}: ${e instanceof Error ? e.message : String(e)}`,
+        );
+      }
+    }
+  }
+};
+
 runGeneratorCli({
   description: "Generate the Azure Effect SDK from the Smithy models",
   root: `${import.meta.dir}/..`,
@@ -95,5 +149,9 @@ runGeneratorCli({
   // exist; all correction logic lives in convert.ts's ref-resolution and
   // merging preprocessing).
   patchesDir: false,
+  transformModel: (model, resource) => {
+    applyServicePatches(model, resource);
+    markScopeLabelsGreedy(model);
+  },
   spec: () => azureSpec,
 });

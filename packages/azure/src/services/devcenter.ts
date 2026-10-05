@@ -264,9 +264,7 @@ export type CatalogPropertiesInputSyncType = "Manual" | "Scheduled";
 export const CatalogPropertiesInputSyncType = S.String;
 
 /** Resource tags. */
-export type CatalogPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CatalogPropertiesInputTagsMap = { [key: string]: string | undefined };
 export const CatalogPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -290,9 +288,7 @@ export const CatalogPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     syncType: S.optional(CatalogPropertiesInputSyncType),
     tags: S.optional(CatalogPropertiesInputTagsMap),
   }),
-).annotate({
-  identifier: "CatalogPropertiesInput",
-}) as any as S.Schema<CatalogPropertiesInput>;
+).annotate({ identifier: "CatalogPropertiesInput" }) as any as S.Schema<CatalogPropertiesInput>;
 
 export interface CatalogsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -439,9 +435,7 @@ export const CatalogProperties = /*@__PURE__*/ S.suspend(() =>
     lastConnectionTime: S.optional(S.String),
     lastSyncTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatalogProperties",
-}) as any as S.Schema<CatalogProperties>;
+).annotate({ identifier: "CatalogProperties" }) as any as S.Schema<CatalogProperties>;
 
 export interface CatalogsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -491,9 +485,7 @@ export const ConnectCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "ConnectCatalogRequest",
-}) as any as S.Schema<ConnectCatalogRequest>;
+).annotate({ identifier: "ConnectCatalogRequest" }) as any as S.Schema<ConnectCatalogRequest>;
 
 export interface ConnectCatalogResponse {}
 export const ConnectCatalogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -590,9 +582,7 @@ export const DeleteCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteCatalogRequest",
-}) as any as S.Schema<DeleteCatalogRequest>;
+).annotate({ identifier: "DeleteCatalogRequest" }) as any as S.Schema<DeleteCatalogRequest>;
 
 export interface DeleteCatalogResponse {}
 export const DeleteCatalogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -653,9 +643,7 @@ export const DeleteDevCenterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDevCenterRequest",
-}) as any as S.Schema<DeleteDevCenterRequest>;
+).annotate({ identifier: "DeleteDevCenterRequest" }) as any as S.Schema<DeleteDevCenterRequest>;
 
 export interface DeleteDevCenterResponse {}
 export const DeleteDevCenterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -719,9 +707,7 @@ export const DeleteGalleryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGalleryRequest",
-}) as any as S.Schema<DeleteGalleryRequest>;
+).annotate({ identifier: "DeleteGalleryRequest" }) as any as S.Schema<DeleteGalleryRequest>;
 
 export interface DeleteGalleryResponse {}
 export const DeleteGalleryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -755,9 +741,7 @@ export const DeleteNetworkConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteNetworkConnectionResponse {}
 export const DeleteNetworkConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteNetworkConnectionResponse",
-  },
+  { identifier: "DeleteNetworkConnectionResponse" },
 ) as any as S.Schema<DeleteNetworkConnectionResponse>;
 
 export interface DeletePoolRequest {
@@ -784,9 +768,7 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePoolRequest",
-}) as any as S.Schema<DeletePoolRequest>;
+).annotate({ identifier: "DeletePoolRequest" }) as any as S.Schema<DeletePoolRequest>;
 
 export interface DeletePoolResponse {}
 export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -814,9 +796,7 @@ export const DeleteProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteProjectRequest",
-}) as any as S.Schema<DeleteProjectRequest>;
+).annotate({ identifier: "DeleteProjectRequest" }) as any as S.Schema<DeleteProjectRequest>;
 
 export interface DeleteProjectResponse {}
 export const DeleteProjectResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -954,9 +934,7 @@ export const DeleteScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteScheduleRequest",
-}) as any as S.Schema<DeleteScheduleRequest>;
+).annotate({ identifier: "DeleteScheduleRequest" }) as any as S.Schema<DeleteScheduleRequest>;
 
 export interface DeleteScheduleResponse {}
 export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -964,9 +942,7 @@ export const DeleteScheduleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})
 }) as any as S.Schema<DeleteScheduleResponse>;
 
 /** Resource tags. */
-export type DevBoxDefinitionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DevBoxDefinitionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DevBoxDefinitionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1131,9 +1107,7 @@ export const DevBoxDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DevBoxDefinitionsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DevBoxDefinitionsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DevBoxDefinitionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DevBoxDefinitionsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1298,9 +1272,7 @@ export const DevBoxDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<DevBoxDefinitionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type DevCentersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DevCentersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DevCentersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1394,9 +1366,7 @@ export const DevCenterNetworkSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     microsoftHostedNetworkEnableStatus: S.optional(MicrosoftHostedNetworkEnableStatus),
   }),
-).annotate({
-  identifier: "DevCenterNetworkSettings",
-}) as any as S.Schema<DevCenterNetworkSettings>;
+).annotate({ identifier: "DevCenterNetworkSettings" }) as any as S.Schema<DevCenterNetworkSettings>;
 
 /** Setting to be used when determining whether to install the Azure Monitor Agent service on Dev Boxes that belong to this dev center. */
 export type InstallAzureMonitorAgentEnableStatus = "Enabled" | "Disabled";
@@ -1436,9 +1406,7 @@ export const DevCenterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     networkSettings: S.optional(DevCenterNetworkSettings),
     devBoxProvisioningSettings: S.optional(DevBoxProvisioningSettings),
   }),
-).annotate({
-  identifier: "DevCenterPropertiesInput",
-}) as any as S.Schema<DevCenterPropertiesInput>;
+).annotate({ identifier: "DevCenterPropertiesInput" }) as any as S.Schema<DevCenterPropertiesInput>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -1455,9 +1423,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -1515,9 +1481,7 @@ export const DevCentersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DevCentersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DevCentersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DevCentersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DevCentersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1570,9 +1534,7 @@ export const DevCenterProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(DevCenterPropertiesProvisioningState),
     devCenterUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DevCenterProperties",
-}) as any as S.Schema<DevCenterProperties>;
+).annotate({ identifier: "DevCenterProperties" }) as any as S.Schema<DevCenterProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -1586,14 +1548,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -1666,9 +1624,7 @@ export const EnvironmentTypePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnvironmentTypePropertiesInput>;
 
 /** Resource tags. */
-export type EnvironmentTypesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnvironmentTypesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const EnvironmentTypesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1745,9 +1701,7 @@ export const EnvironmentTypeProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnvironmentTypeProperties>;
 
 /** Resource tags. */
-export type EnvironmentTypesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type EnvironmentTypesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const EnvironmentTypesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1886,9 +1840,7 @@ export const GalleryPropertiesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     galleryResourceId: S.String,
   }),
-).annotate({
-  identifier: "GalleryPropertiesInput",
-}) as any as S.Schema<GalleryPropertiesInput>;
+).annotate({ identifier: "GalleryPropertiesInput" }) as any as S.Schema<GalleryPropertiesInput>;
 
 export interface GalleriesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1953,9 +1905,7 @@ export const GalleryProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(GalleryPropertiesProvisioningState),
     galleryResourceId: S.String,
   }),
-).annotate({
-  identifier: "GalleryProperties",
-}) as any as S.Schema<GalleryProperties>;
+).annotate({ identifier: "GalleryProperties" }) as any as S.Schema<GalleryProperties>;
 
 export interface GalleriesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2109,9 +2059,7 @@ export const GetCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetCatalogRequest",
-}) as any as S.Schema<GetCatalogRequest>;
+).annotate({ identifier: "GetCatalogRequest" }) as any as S.Schema<GetCatalogRequest>;
 
 export interface GetCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2133,9 +2081,7 @@ export const GetCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CatalogProperties),
   }),
-).annotate({
-  identifier: "GetCatalogResponse",
-}) as any as S.Schema<GetCatalogResponse>;
+).annotate({ identifier: "GetCatalogResponse" }) as any as S.Schema<GetCatalogResponse>;
 
 export interface GetCatalogSyncErrorDetailsRequest {
   /** The ID of the target subscription. */
@@ -2183,9 +2129,7 @@ export const CatalogConflictError = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatalogConflictError",
-}) as any as S.Schema<CatalogConflictError>;
+).annotate({ identifier: "CatalogConflictError" }) as any as S.Schema<CatalogConflictError>;
 
 /** Catalog items that have conflicting names. */
 export type SyncErrorDetailsConflictsList = Array<CatalogConflictError>;
@@ -2218,9 +2162,7 @@ export const CatalogSyncError = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     errorDetails: S.optional(CatalogSyncErrorErrorDetailsList),
   }),
-).annotate({
-  identifier: "CatalogSyncError",
-}) as any as S.Schema<CatalogSyncError>;
+).annotate({ identifier: "CatalogSyncError" }) as any as S.Schema<CatalogSyncError>;
 
 /** Errors that occured during synchronization. */
 export type SyncErrorDetailsErrorsList = Array<CatalogSyncError>;
@@ -2243,9 +2185,7 @@ export const SyncErrorDetails = /*@__PURE__*/ S.suspend(() =>
     conflicts: S.optional(SyncErrorDetailsConflictsList),
     errors: S.optional(SyncErrorDetailsErrorsList),
   }),
-).annotate({
-  identifier: "SyncErrorDetails",
-}) as any as S.Schema<SyncErrorDetails>;
+).annotate({ identifier: "SyncErrorDetails" }) as any as S.Schema<SyncErrorDetails>;
 
 export interface GetCustomizationTaskRequest {
   /** The ID of the target subscription. */
@@ -2297,9 +2237,7 @@ export const CustomizationTaskInput = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(CustomizationTaskInputType),
     required: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CustomizationTaskInput",
-}) as any as S.Schema<CustomizationTaskInput>;
+).annotate({ identifier: "CustomizationTaskInput" }) as any as S.Schema<CustomizationTaskInput>;
 
 /** Inputs to the task. */
 export type CustomizationTaskPropertiesInputsMap = {
@@ -2444,9 +2382,7 @@ export const GetDevBoxDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDevBoxDefinitionRequest>;
 
 /** Resource tags. */
-export type GetDevBoxDefinitionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDevBoxDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export const GetDevBoxDefinitionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2511,9 +2447,7 @@ export const GetDevBoxDefinitionByProjectRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDevBoxDefinitionByProjectRequest>;
 
 /** Resource tags. */
-export type GetDevBoxDefinitionByProjectResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDevBoxDefinitionByProjectResponseTagsMap = { [key: string]: string | undefined };
 export const GetDevBoxDefinitionByProjectResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2570,9 +2504,7 @@ export const GetDevCenterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetDevCenterRequest",
-}) as any as S.Schema<GetDevCenterRequest>;
+).annotate({ identifier: "GetDevCenterRequest" }) as any as S.Schema<GetDevCenterRequest>;
 
 /** Resource tags. */
 export type GetDevCenterResponseTagsMap = { [key: string]: string | undefined };
@@ -2614,9 +2546,7 @@ export const GetDevCenterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DevCenterProperties),
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "GetDevCenterResponse",
-}) as any as S.Schema<GetDevCenterResponse>;
+).annotate({ identifier: "GetDevCenterResponse" }) as any as S.Schema<GetDevCenterResponse>;
 
 export interface GetEnvironmentDefinitionRequest {
   /** The ID of the target subscription. */
@@ -2875,9 +2805,7 @@ export const GetEnvironmentTypeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentTypeRequest>;
 
 /** Resource tags. */
-export type GetEnvironmentTypeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
 export const GetEnvironmentTypeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2934,9 +2862,7 @@ export const GetGalleryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetGalleryRequest",
-}) as any as S.Schema<GetGalleryRequest>;
+).annotate({ identifier: "GetGalleryRequest" }) as any as S.Schema<GetGalleryRequest>;
 
 export interface GetGalleryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2958,9 +2884,7 @@ export const GetGalleryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GalleryProperties),
   }),
-).annotate({
-  identifier: "GetGalleryResponse",
-}) as any as S.Schema<GetGalleryResponse>;
+).annotate({ identifier: "GetGalleryResponse" }) as any as S.Schema<GetGalleryResponse>;
 
 export interface GetImageRequest {
   /** The ID of the target subscription. */
@@ -2989,9 +2913,7 @@ export const GetImageRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetImageRequest",
-}) as any as S.Schema<GetImageRequest>;
+).annotate({ identifier: "GetImageRequest" }) as any as S.Schema<GetImageRequest>;
 
 /** Properties for a range of values. */
 export interface ResourceRange {
@@ -3070,9 +2992,7 @@ export const ImageProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ImagePropertiesProvisioningState),
     hibernateSupport: S.optional(HibernateSupport),
   }),
-).annotate({
-  identifier: "ImageProperties",
-}) as any as S.Schema<ImageProperties>;
+).annotate({ identifier: "ImageProperties" }) as any as S.Schema<ImageProperties>;
 
 export interface GetImageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3094,9 +3014,7 @@ export const GetImageResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ImageProperties),
   }),
-).annotate({
-  identifier: "GetImageResponse",
-}) as any as S.Schema<GetImageResponse>;
+).annotate({ identifier: "GetImageResponse" }) as any as S.Schema<GetImageResponse>;
 
 export interface GetImageByProjectRequest {
   /** The ID of the target subscription. */
@@ -3122,9 +3040,7 @@ export const GetImageByProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetImageByProjectRequest",
-}) as any as S.Schema<GetImageByProjectRequest>;
+).annotate({ identifier: "GetImageByProjectRequest" }) as any as S.Schema<GetImageByProjectRequest>;
 
 export interface GetImageByProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3180,9 +3096,7 @@ export const GetImageVersionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetImageVersionRequest",
-}) as any as S.Schema<GetImageVersionRequest>;
+).annotate({ identifier: "GetImageVersionRequest" }) as any as S.Schema<GetImageVersionRequest>;
 
 /** Provisioning state of the resource. */
 export type ImageVersionPropertiesProvisioningState =
@@ -3225,9 +3139,7 @@ export const ImageVersionProperties = /*@__PURE__*/ S.suspend(() =>
     osDiskImageSizeInGb: S.optional(S.Number),
     provisioningState: S.optional(ImageVersionPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ImageVersionProperties",
-}) as any as S.Schema<ImageVersionProperties>;
+).annotate({ identifier: "ImageVersionProperties" }) as any as S.Schema<ImageVersionProperties>;
 
 export interface GetImageVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3249,9 +3161,7 @@ export const GetImageVersionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ImageVersionProperties),
   }),
-).annotate({
-  identifier: "GetImageVersionResponse",
-}) as any as S.Schema<GetImageVersionResponse>;
+).annotate({ identifier: "GetImageVersionResponse" }) as any as S.Schema<GetImageVersionResponse>;
 
 export interface GetImageVersionByProjectRequest {
   /** The ID of the target subscription. */
@@ -3334,9 +3244,7 @@ export const GetNetworkConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetNetworkConnectionRequest>;
 
 /** Resource tags. */
-export type GetNetworkConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetNetworkConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetNetworkConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3410,9 +3318,7 @@ export const NetworkProperties = /*@__PURE__*/ S.suspend(() =>
     networkingResourceGroupName: S.optional(S.String),
     domainJoinType: NetworkPropertiesDomainJoinType,
   }),
-).annotate({
-  identifier: "NetworkProperties",
-}) as any as S.Schema<NetworkProperties>;
+).annotate({ identifier: "NetworkProperties" }) as any as S.Schema<NetworkProperties>;
 
 export interface GetNetworkConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3607,9 +3513,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -3673,9 +3577,7 @@ export const OperationStatusResult = /*@__PURE__*/ S.suspend(() =>
     operations: S.optional(OperationStatusResultOperationsList),
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusResult",
-}) as any as S.Schema<OperationStatusResult>;
+).annotate({ identifier: "OperationStatusResult" }) as any as S.Schema<OperationStatusResult>;
 
 /** The operations list. */
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
@@ -3786,9 +3688,7 @@ export const PoolDevBoxDefinition = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(DevBoxDefinitionPropertiesSku),
     activeImageReference: S.optional(DevBoxDefinitionPropertiesImageReference),
   }),
-).annotate({
-  identifier: "PoolDevBoxDefinition",
-}) as any as S.Schema<PoolDevBoxDefinition>;
+).annotate({ identifier: "PoolDevBoxDefinition" }) as any as S.Schema<PoolDevBoxDefinition>;
 
 /** License Types */
 export type LicenseType = "Windows_Client";
@@ -3868,9 +3768,7 @@ export const HealthStatusDetail = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HealthStatusDetail",
-}) as any as S.Schema<HealthStatusDetail>;
+).annotate({ identifier: "HealthStatusDetail" }) as any as S.Schema<HealthStatusDetail>;
 
 /** Details on the Pool health status to help diagnose issues. This is only populated when the pool status indicates the pool is in a non-healthy state */
 export type PoolPropertiesHealthStatusDetailsList = Array<HealthStatusDetail>;
@@ -3980,9 +3878,7 @@ export const GetPoolResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PoolProperties),
   }),
-).annotate({
-  identifier: "GetPoolResponse",
-}) as any as S.Schema<GetPoolResponse>;
+).annotate({ identifier: "GetPoolResponse" }) as any as S.Schema<GetPoolResponse>;
 
 export interface GetProjectRequest {
   /** The ID of the target subscription. */
@@ -4005,9 +3901,7 @@ export const GetProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetProjectRequest",
-}) as any as S.Schema<GetProjectRequest>;
+).annotate({ identifier: "GetProjectRequest" }) as any as S.Schema<GetProjectRequest>;
 
 /** Resource tags. */
 export type GetProjectResponseTagsMap = { [key: string]: string | undefined };
@@ -4031,9 +3925,7 @@ export const ProjectCatalogSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     catalogItemSyncTypes: S.optional(ProjectCatalogSettingsCatalogItemSyncTypesList),
   }),
-).annotate({
-  identifier: "ProjectCatalogSettings",
-}) as any as S.Schema<ProjectCatalogSettings>;
+).annotate({ identifier: "ProjectCatalogSettings" }) as any as S.Schema<ProjectCatalogSettings>;
 
 /** Provisioning state of the resource. */
 export type ProjectPropertiesProvisioningState =
@@ -4082,9 +3974,7 @@ export const ProjectProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProjectPropertiesProvisioningState),
     devCenterUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectProperties",
-}) as any as S.Schema<ProjectProperties>;
+).annotate({ identifier: "ProjectProperties" }) as any as S.Schema<ProjectProperties>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetProjectResponseIdentity = DevCentersCreateOrUpdateResponseIdentity;
@@ -4119,9 +4009,7 @@ export const GetProjectResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProjectProperties),
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "GetProjectResponse",
-}) as any as S.Schema<GetProjectResponse>;
+).annotate({ identifier: "GetProjectResponse" }) as any as S.Schema<GetProjectResponse>;
 
 export interface GetProjectAllowedEnvironmentTypeRequest {
   /** The ID of the target subscription. */
@@ -4235,9 +4123,7 @@ export const GetProjectCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetProjectCatalogRequest",
-}) as any as S.Schema<GetProjectCatalogRequest>;
+).annotate({ identifier: "GetProjectCatalogRequest" }) as any as S.Schema<GetProjectCatalogRequest>;
 
 export interface GetProjectCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4508,9 +4394,7 @@ export const ImageDefinitionBuildTask = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ImageDefinitionBuildStatus),
     logUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageDefinitionBuildTask",
-}) as any as S.Schema<ImageDefinitionBuildTask>;
+).annotate({ identifier: "ImageDefinitionBuildTask" }) as any as S.Schema<ImageDefinitionBuildTask>;
 
 /** The list of tasks executed during the task group. */
 export type ImageDefinitionBuildTaskGroupTasksList = Array<ImageDefinitionBuildTask>;
@@ -4646,9 +4530,7 @@ export const LatestImageBuild = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     status: S.optional(ImageDefinitionBuildStatus),
   }),
-).annotate({
-  identifier: "LatestImageBuild",
-}) as any as S.Schema<LatestImageBuild>;
+).annotate({ identifier: "LatestImageBuild" }) as any as S.Schema<LatestImageBuild>;
 
 /** Image validation status */
 export type ImageDefinitionPropertiesImageValidationStatus =
@@ -4866,9 +4748,7 @@ export const EnvironmentRole = /*@__PURE__*/ S.suspend(() =>
     roleName: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentRole",
-}) as any as S.Schema<EnvironmentRole>;
+).annotate({ identifier: "EnvironmentRole" }) as any as S.Schema<EnvironmentRole>;
 
 /** A map of roles to assign to the environment creator. */
 export type ProjectEnvironmentTypePropertiesCreatorRoleAssignmentRolesMap = {
@@ -4893,9 +4773,7 @@ export const ProjectEnvironmentTypePropertiesCreatorRoleAssignment = /*@__PURE__
 }) as any as S.Schema<ProjectEnvironmentTypePropertiesCreatorRoleAssignment>;
 
 /** A map of roles to assign to the parent user. */
-export type UserRoleAssignmentRolesMap = {
-  [key: string]: EnvironmentRole | undefined;
-};
+export type UserRoleAssignmentRolesMap = { [key: string]: EnvironmentRole | undefined };
 export const UserRoleAssignmentRolesMap = /*@__PURE__*/ S.Record(
   S.String,
   EnvironmentRole,
@@ -4910,9 +4788,7 @@ export const UserRoleAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roles: S.optional(UserRoleAssignmentRolesMap),
   }),
-).annotate({
-  identifier: "UserRoleAssignment",
-}) as any as S.Schema<UserRoleAssignment>;
+).annotate({ identifier: "UserRoleAssignment" }) as any as S.Schema<UserRoleAssignment>;
 
 /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
 export type ProjectEnvironmentTypePropertiesUserRoleAssignmentsMap = {
@@ -4975,9 +4851,7 @@ export const ProjectEnvironmentTypeProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProjectEnvironmentTypeProperties>;
 
 /** Resource tags. */
-export type GetProjectEnvironmentTypeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetProjectEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
 export const GetProjectEnvironmentTypeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5053,9 +4927,7 @@ export const ProjectNetworkSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     microsoftHostedNetworkEnableStatus: S.optional(MicrosoftHostedNetworkEnableStatus),
   }),
-).annotate({
-  identifier: "ProjectNetworkSettings",
-}) as any as S.Schema<ProjectNetworkSettings>;
+).annotate({ identifier: "ProjectNetworkSettings" }) as any as S.Schema<ProjectNetworkSettings>;
 
 /** Applicable inherited settings for a project. */
 export interface InheritedSettingsForProject {
@@ -5097,9 +4969,7 @@ export const GetProjectPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetProjectPolicyRequest",
-}) as any as S.Schema<GetProjectPolicyRequest>;
+).annotate({ identifier: "GetProjectPolicyRequest" }) as any as S.Schema<GetProjectPolicyRequest>;
 
 /** Indicates what action to perform for the policy. */
 export type PolicyAction = "Allow" | "Deny";
@@ -5176,9 +5046,7 @@ export const ProjectPolicyProperties = /*@__PURE__*/ S.suspend(() =>
     scopes: S.optional(ProjectPolicyPropertiesScopesList),
     provisioningState: S.optional(ProjectPolicyPropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ProjectPolicyProperties",
-}) as any as S.Schema<ProjectPolicyProperties>;
+).annotate({ identifier: "ProjectPolicyProperties" }) as any as S.Schema<ProjectPolicyProperties>;
 
 export interface GetProjectPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5200,9 +5068,7 @@ export const GetProjectPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ProjectPolicyProperties),
   }),
-).annotate({
-  identifier: "GetProjectPolicyResponse",
-}) as any as S.Schema<GetProjectPolicyResponse>;
+).annotate({ identifier: "GetProjectPolicyResponse" }) as any as S.Schema<GetProjectPolicyResponse>;
 
 export interface GetScheduleRequest {
   /** The ID of the target subscription. */
@@ -5234,9 +5100,7 @@ export const GetScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetScheduleRequest",
-}) as any as S.Schema<GetScheduleRequest>;
+).annotate({ identifier: "GetScheduleRequest" }) as any as S.Schema<GetScheduleRequest>;
 
 /** Resource tags. */
 export type Tags = { [key: string]: string | undefined };
@@ -5304,9 +5168,7 @@ export const ScheduleProperties = /*@__PURE__*/ S.suspend(() =>
     state: S.optional(ScheduleEnableStatus),
     provisioningState: S.optional(SchedulePropertiesProvisioningState),
   }),
-).annotate({
-  identifier: "ScheduleProperties",
-}) as any as S.Schema<ScheduleProperties>;
+).annotate({ identifier: "ScheduleProperties" }) as any as S.Schema<ScheduleProperties>;
 
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5328,9 +5190,7 @@ export const GetScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScheduleProperties),
   }),
-).annotate({
-  identifier: "GetScheduleResponse",
-}) as any as S.Schema<GetScheduleResponse>;
+).annotate({ identifier: "GetScheduleResponse" }) as any as S.Schema<GetScheduleResponse>;
 
 export interface ListAttachedNetworkByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -5504,9 +5364,7 @@ export const CatalogListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CatalogListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CatalogListResult",
-}) as any as S.Schema<CatalogListResult>;
+).annotate({ identifier: "CatalogListResult" }) as any as S.Schema<CatalogListResult>;
 
 export interface ListCustomizationTaskByCatalogRequest {
   /** The ID of the target subscription. */
@@ -5560,9 +5418,7 @@ export const CustomizationTask = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CustomizationTaskProperties),
   }),
-).annotate({
-  identifier: "CustomizationTask",
-}) as any as S.Schema<CustomizationTask>;
+).annotate({ identifier: "CustomizationTask" }) as any as S.Schema<CustomizationTask>;
 
 /** Current page of results. */
 export type CustomizationTaskListResultValueList = Array<CustomizationTask>;
@@ -5648,9 +5504,7 @@ export const DevBoxDefinition = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(DevBoxDefinitionProperties),
   }),
-).annotate({
-  identifier: "DevBoxDefinition",
-}) as any as S.Schema<DevBoxDefinition>;
+).annotate({ identifier: "DevBoxDefinition" }) as any as S.Schema<DevBoxDefinition>;
 
 /** Current page of results. */
 export type DevBoxDefinitionListResultValueList = Array<DevBoxDefinition>;
@@ -5788,9 +5642,7 @@ export const DevCenterListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DevCenterListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DevCenterListResult",
-}) as any as S.Schema<DevCenterListResult>;
+).annotate({ identifier: "DevCenterListResult" }) as any as S.Schema<DevCenterListResult>;
 
 export interface ListDevCenterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -5866,9 +5718,7 @@ export const EnvironmentDefinition = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EnvironmentDefinitionProperties),
   }),
-).annotate({
-  identifier: "EnvironmentDefinition",
-}) as any as S.Schema<EnvironmentDefinition>;
+).annotate({ identifier: "EnvironmentDefinition" }) as any as S.Schema<EnvironmentDefinition>;
 
 /** Current page of results. */
 export type EnvironmentDefinitionListResultValueList = Array<EnvironmentDefinition>;
@@ -5979,9 +5829,7 @@ export const EnvironmentType = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(EnvironmentTypeProperties),
     tags: S.optional(EnvironmentTypeTagsMap),
   }),
-).annotate({
-  identifier: "EnvironmentType",
-}) as any as S.Schema<EnvironmentType>;
+).annotate({ identifier: "EnvironmentType" }) as any as S.Schema<EnvironmentType>;
 
 /** Current page of results. */
 export type EnvironmentTypeListResultValueList = Array<EnvironmentType>;
@@ -6074,9 +5922,7 @@ export const GalleryListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(GalleryListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GalleryListResult",
-}) as any as S.Schema<GalleryListResult>;
+).annotate({ identifier: "GalleryListResult" }) as any as S.Schema<GalleryListResult>;
 
 export interface ListImageByDevCenterRequest {
   /** The ID of the target subscription. */
@@ -6147,9 +5993,7 @@ export const ImageListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ImageListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageListResult",
-}) as any as S.Schema<ImageListResult>;
+).annotate({ identifier: "ImageListResult" }) as any as S.Schema<ImageListResult>;
 
 export interface ListImageByGalleryRequest {
   /** The ID of the target subscription. */
@@ -6279,9 +6123,7 @@ export const ImageVersionListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ImageVersionListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImageVersionListResult",
-}) as any as S.Schema<ImageVersionListResult>;
+).annotate({ identifier: "ImageVersionListResult" }) as any as S.Schema<ImageVersionListResult>;
 
 export interface ListImageVersionByProjectRequest {
   /** The ID of the target subscription. */
@@ -6370,9 +6212,7 @@ export const NetworkConnection = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(NetworkProperties),
   }),
-).annotate({
-  identifier: "NetworkConnection",
-}) as any as S.Schema<NetworkConnection>;
+).annotate({ identifier: "NetworkConnection" }) as any as S.Schema<NetworkConnection>;
 
 /** Current page of results. */
 export type NetworkConnectionListResultValueList = Array<NetworkConnection>;
@@ -6467,9 +6307,7 @@ export const HealthCheckStatusDetails = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(HealthCheckStatusDetailsProperties),
   }),
-).annotate({
-  identifier: "HealthCheckStatusDetails",
-}) as any as S.Schema<HealthCheckStatusDetails>;
+).annotate({ identifier: "HealthCheckStatusDetails" }) as any as S.Schema<HealthCheckStatusDetails>;
 
 /** Current page of results. */
 export type HealthCheckStatusDetailsListResultValueList = Array<HealthCheckStatusDetails>;
@@ -6554,9 +6392,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints for this service for which the agent requires outbound access. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
@@ -6612,9 +6448,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -6634,9 +6468,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -6686,9 +6518,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPoolByProjectRequest {
   /** The ID of the target subscription. */
@@ -6714,9 +6544,7 @@ export const ListPoolByProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "ListPoolByProjectRequest",
-}) as any as S.Schema<ListPoolByProjectRequest>;
+).annotate({ identifier: "ListPoolByProjectRequest" }) as any as S.Schema<ListPoolByProjectRequest>;
 
 /** Resource tags. */
 export type PoolTagsMap = { [key: string]: string | undefined };
@@ -6823,9 +6651,7 @@ export const AllowedEnvironmentType = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(AllowedEnvironmentTypeProperties),
   }),
-).annotate({
-  identifier: "AllowedEnvironmentType",
-}) as any as S.Schema<AllowedEnvironmentType>;
+).annotate({ identifier: "AllowedEnvironmentType" }) as any as S.Schema<AllowedEnvironmentType>;
 
 /** Current page of results. */
 export type AllowedEnvironmentTypeListResultValueList = Array<AllowedEnvironmentType>;
@@ -6935,9 +6761,7 @@ export const ProjectListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ProjectListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectListResult",
-}) as any as S.Schema<ProjectListResult>;
+).annotate({ identifier: "ProjectListResult" }) as any as S.Schema<ProjectListResult>;
 
 export interface ListProjectBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -7014,9 +6838,7 @@ export const ImageDefinitionBuild = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ImageDefinitionBuildProperties),
   }),
-).annotate({
-  identifier: "ImageDefinitionBuild",
-}) as any as S.Schema<ImageDefinitionBuild>;
+).annotate({ identifier: "ImageDefinitionBuild" }) as any as S.Schema<ImageDefinitionBuild>;
 
 /** Current page of results. */
 export type ImageDefinitionBuildListResultValueList = Array<ImageDefinitionBuild>;
@@ -7093,9 +6915,7 @@ export const ImageDefinition = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ImageDefinitionProperties),
   }),
-).annotate({
-  identifier: "ImageDefinition",
-}) as any as S.Schema<ImageDefinition>;
+).annotate({ identifier: "ImageDefinition" }) as any as S.Schema<ImageDefinition>;
 
 /** Current page of results. */
 export type ImageDefinitionListResultValueList = Array<ImageDefinition>;
@@ -7176,9 +6996,7 @@ export const ListProjectEnvironmentTypesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListProjectEnvironmentTypesRequest>;
 
 /** Resource tags. */
-export type ProjectEnvironmentTypeTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectEnvironmentTypeTagsMap = { [key: string]: string | undefined };
 export const ProjectEnvironmentTypeTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7218,9 +7036,7 @@ export const ProjectEnvironmentType = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectEnvironmentType",
-}) as any as S.Schema<ProjectEnvironmentType>;
+).annotate({ identifier: "ProjectEnvironmentType" }) as any as S.Schema<ProjectEnvironmentType>;
 
 /** Current page of results. */
 export type ProjectEnvironmentTypeListResultValueList = Array<ProjectEnvironmentType>;
@@ -7313,9 +7129,7 @@ export const ProjectPolicyListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ProjectPolicyListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProjectPolicyListResult",
-}) as any as S.Schema<ProjectPolicyListResult>;
+).annotate({ identifier: "ProjectPolicyListResult" }) as any as S.Schema<ProjectPolicyListResult>;
 
 export interface ListScheduleByPoolRequest {
   /** The ID of the target subscription. */
@@ -7389,9 +7203,7 @@ export const ScheduleListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ScheduleListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduleListResult",
-}) as any as S.Schema<ScheduleListResult>;
+).annotate({ identifier: "ScheduleListResult" }) as any as S.Schema<ScheduleListResult>;
 
 export interface ListSkusByProjectRequest {
   /** The ID of the target subscription. */
@@ -7414,9 +7226,7 @@ export const ListSkusByProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "ListSkusByProjectRequest",
-}) as any as S.Schema<ListSkusByProjectRequest>;
+).annotate({ identifier: "ListSkusByProjectRequest" }) as any as S.Schema<ListSkusByProjectRequest>;
 
 /** SKU supported locations. */
 export type ListSkusByProjectResponseValueItemLocationsList = Array<string>;
@@ -7561,9 +7371,7 @@ export const SkuListResultValueItem = /*@__PURE__*/ S.suspend(() =>
     locations: S.optional(SkuListResultValueItemLocationsList),
     capabilities: S.optional(SkuListResultValueItemCapabilitiesList),
   }),
-).annotate({
-  identifier: "SkuListResultValueItem",
-}) as any as S.Schema<SkuListResultValueItem>;
+).annotate({ identifier: "SkuListResultValueItem" }) as any as S.Schema<SkuListResultValueItem>;
 
 /** Current page of results. */
 export type SkuListResultValueList = Array<SkuListResultValueItem>;
@@ -7666,14 +7474,10 @@ export const ListUsagesResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListUsagesResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListUsagesResult",
-}) as any as S.Schema<ListUsagesResult>;
+).annotate({ identifier: "ListUsagesResult" }) as any as S.Schema<ListUsagesResult>;
 
 /** Resource tags. */
-export type NetworkConnectionsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkConnectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const NetworkConnectionsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7724,9 +7528,7 @@ export const NetworkPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     networkingResourceGroupName: S.optional(S.String),
     domainJoinType: NetworkPropertiesInputDomainJoinType,
   }),
-).annotate({
-  identifier: "NetworkPropertiesInput",
-}) as any as S.Schema<NetworkPropertiesInput>;
+).annotate({ identifier: "NetworkPropertiesInput" }) as any as S.Schema<NetworkPropertiesInput>;
 
 export interface NetworkConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7763,9 +7565,7 @@ export const NetworkConnectionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<NetworkConnectionsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type NetworkConnectionsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type NetworkConnectionsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const NetworkConnectionsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7806,9 +7606,7 @@ export type CatalogUpdatePropertiesSyncType = "Manual" | "Scheduled";
 export const CatalogUpdatePropertiesSyncType = S.String;
 
 /** Resource tags. */
-export type CatalogUpdatePropertiesTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CatalogUpdatePropertiesTagsMap = { [key: string]: string | undefined };
 export const CatalogUpdatePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7832,9 +7630,7 @@ export const CatalogUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     syncType: S.optional(CatalogUpdatePropertiesSyncType),
     tags: S.optional(CatalogUpdatePropertiesTagsMap),
   }),
-).annotate({
-  identifier: "CatalogUpdateProperties",
-}) as any as S.Schema<CatalogUpdateProperties>;
+).annotate({ identifier: "CatalogUpdateProperties" }) as any as S.Schema<CatalogUpdateProperties>;
 
 export interface PatchProjectCatalogRequest {
   /** The ID of the target subscription. */
@@ -7892,9 +7688,7 @@ export const PatchProjectCatalogResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PatchProjectCatalogResponse>;
 
 /** Resource tags. */
-export type PoolsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const PoolsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7982,9 +7776,7 @@ export const PoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     virtualNetworkType: S.optional(VirtualNetworkType),
     managedVirtualNetworkRegions: S.optional(PoolPropertiesInputManagedVirtualNetworkRegionsList),
   }),
-).annotate({
-  identifier: "PoolPropertiesInput",
-}) as any as S.Schema<PoolPropertiesInput>;
+).annotate({ identifier: "PoolPropertiesInput" }) as any as S.Schema<PoolPropertiesInput>;
 
 export interface PoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -8024,9 +7816,7 @@ export const PoolsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PoolsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type PoolsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const PoolsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8201,9 +7991,7 @@ export const UserRoleAssignmentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     roles: S.optional(UserRoleAssignmentInputRolesMap),
   }),
-).annotate({
-  identifier: "UserRoleAssignmentInput",
-}) as any as S.Schema<UserRoleAssignmentInput>;
+).annotate({ identifier: "UserRoleAssignmentInput" }) as any as S.Schema<UserRoleAssignmentInput>;
 
 /** Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs. */
 export type ProjectEnvironmentTypePropertiesInputUserRoleAssignmentsMap = {
@@ -8426,9 +8214,7 @@ export const ProjectPoliciesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ProjectPoliciesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ProjectsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ProjectsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8455,9 +8241,7 @@ export const ProjectPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     catalogSettings: S.optional(ProjectCatalogSettings),
   }),
-).annotate({
-  identifier: "ProjectPropertiesInput",
-}) as any as S.Schema<ProjectPropertiesInput>;
+).annotate({ identifier: "ProjectPropertiesInput" }) as any as S.Schema<ProjectPropertiesInput>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ProjectsCreateOrUpdateRequestIdentity = DevCentersCreateOrUpdateRequestIdentity;
@@ -8501,9 +8285,7 @@ export const ProjectsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProjectsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ProjectsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ProjectsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8638,9 +8420,7 @@ export const SchedulePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     timeZone: S.String,
     state: S.optional(ScheduleEnableStatus),
   }),
-).annotate({
-  identifier: "SchedulePropertiesInput",
-}) as any as S.Schema<SchedulePropertiesInput>;
+).annotate({ identifier: "SchedulePropertiesInput" }) as any as S.Schema<SchedulePropertiesInput>;
 
 export interface SchedulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -8727,9 +8507,7 @@ export const SyncCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "SyncCatalogRequest",
-}) as any as S.Schema<SyncCatalogRequest>;
+).annotate({ identifier: "SyncCatalogRequest" }) as any as S.Schema<SyncCatalogRequest>;
 
 export interface SyncCatalogResponse {}
 export const SyncCatalogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -8796,9 +8574,7 @@ export const UpdateCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateCatalogRequest",
-}) as any as S.Schema<UpdateCatalogRequest>;
+).annotate({ identifier: "UpdateCatalogRequest" }) as any as S.Schema<UpdateCatalogRequest>;
 
 export interface UpdateCatalogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -8820,9 +8596,7 @@ export const UpdateCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CatalogProperties),
   }),
-).annotate({
-  identifier: "UpdateCatalogResponse",
-}) as any as S.Schema<UpdateCatalogResponse>;
+).annotate({ identifier: "UpdateCatalogResponse" }) as any as S.Schema<UpdateCatalogResponse>;
 
 /** Image reference information */
 export type DevBoxDefinitionUpdatePropertiesInputImageReference =
@@ -8894,9 +8668,7 @@ export const UpdateDevBoxDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDevBoxDefinitionRequest>;
 
 /** Resource tags. */
-export type UpdateDevBoxDefinitionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDevBoxDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDevBoxDefinitionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8973,14 +8745,10 @@ export const UpdateDevCenterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateDevCenterRequest",
-}) as any as S.Schema<UpdateDevCenterRequest>;
+).annotate({ identifier: "UpdateDevCenterRequest" }) as any as S.Schema<UpdateDevCenterRequest>;
 
 /** Resource tags. */
-export type UpdateDevCenterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDevCenterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDevCenterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9019,18 +8787,14 @@ export const UpdateDevCenterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DevCenterProperties),
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateDevCenterResponse",
-}) as any as S.Schema<UpdateDevCenterResponse>;
+).annotate({ identifier: "UpdateDevCenterResponse" }) as any as S.Schema<UpdateDevCenterResponse>;
 
 /** Properties of an environment type. These properties can be updated after the resource has been created. */
 export type EnvironmentTypeUpdateProperties = EnvironmentTypePropertiesInput;
 export const EnvironmentTypeUpdateProperties = EnvironmentTypePropertiesInput;
 
 /** Resource tags. */
-export type UpdateEnvironmentTypeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnvironmentTypeRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateEnvironmentTypeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9071,9 +8835,7 @@ export const UpdateEnvironmentTypeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateEnvironmentTypeRequest>;
 
 /** Resource tags. */
-export type UpdateEnvironmentTypeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateEnvironmentTypeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9166,9 +8928,7 @@ export const UpdateNetworkConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateNetworkConnectionRequest>;
 
 /** Resource tags. */
-export type UpdateNetworkConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateNetworkConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateNetworkConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9291,9 +9051,7 @@ export const UpdatePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdatePoolRequest",
-}) as any as S.Schema<UpdatePoolRequest>;
+).annotate({ identifier: "UpdatePoolRequest" }) as any as S.Schema<UpdatePoolRequest>;
 
 /** Resource tags. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -9328,9 +9086,7 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: S.optional(PoolProperties),
   }),
-).annotate({
-  identifier: "UpdatePoolResponse",
-}) as any as S.Schema<UpdatePoolResponse>;
+).annotate({ identifier: "UpdatePoolResponse" }) as any as S.Schema<UpdatePoolResponse>;
 
 /** Properties of a project. These properties can be updated after the resource has been created. */
 export type ProjectUpdateProperties = ProjectPropertiesInput;
@@ -9373,14 +9129,10 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateProjectRequest",
-}) as any as S.Schema<UpdateProjectRequest>;
+).annotate({ identifier: "UpdateProjectRequest" }) as any as S.Schema<UpdateProjectRequest>;
 
 /** Resource tags. */
-export type UpdateProjectResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProjectResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9419,9 +9171,7 @@ export const UpdateProjectResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ProjectProperties),
     identity: S.optional(DevCentersCreateOrUpdateResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateProjectResponse",
-}) as any as S.Schema<UpdateProjectResponse>;
+).annotate({ identifier: "UpdateProjectResponse" }) as any as S.Schema<UpdateProjectResponse>;
 
 /** A map of roles to assign to the environment creator. */
 export type ProjectEnvironmentTypeUpdatePropertiesInputCreatorRoleAssignmentRolesMap = {
@@ -9487,9 +9237,7 @@ export const ProjectEnvironmentTypeUpdatePropertiesInput = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<ProjectEnvironmentTypeUpdatePropertiesInput>;
 
 /** Resource tags. */
-export type UpdateProjectEnvironmentTypeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProjectEnvironmentTypeRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateProjectEnvironmentTypeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9537,9 +9285,7 @@ export const UpdateProjectEnvironmentTypeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateProjectEnvironmentTypeRequest>;
 
 /** Resource tags. */
-export type UpdateProjectEnvironmentTypeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateProjectEnvironmentTypeResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateProjectEnvironmentTypeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9693,9 +9439,7 @@ export const ScheduleUpdateProperties = /*@__PURE__*/ S.suspend(() =>
     timeZone: S.optional(S.String),
     state: S.optional(ScheduleEnableStatus),
   }),
-).annotate({
-  identifier: "ScheduleUpdateProperties",
-}) as any as S.Schema<ScheduleUpdateProperties>;
+).annotate({ identifier: "ScheduleUpdateProperties" }) as any as S.Schema<ScheduleUpdateProperties>;
 
 export interface UpdateScheduleRequest {
   /** The ID of the target subscription. */
@@ -9730,9 +9474,7 @@ export const UpdateScheduleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-02-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateScheduleRequest",
-}) as any as S.Schema<UpdateScheduleRequest>;
+).annotate({ identifier: "UpdateScheduleRequest" }) as any as S.Schema<UpdateScheduleRequest>;
 
 export interface UpdateScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -9754,9 +9496,7 @@ export const UpdateScheduleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ScheduleProperties),
   }),
-).annotate({
-  identifier: "UpdateScheduleResponse",
-}) as any as S.Schema<UpdateScheduleResponse>;
+).annotate({ identifier: "UpdateScheduleResponse" }) as any as S.Schema<UpdateScheduleResponse>;
 
 export type AttachedNetworksCreateOrUpdateError = AzureOpError;
 /** Creates or updates an attached NetworkConnection. */

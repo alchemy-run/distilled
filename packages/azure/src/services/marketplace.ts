@@ -196,9 +196,7 @@ export const CollectionProperties = /*@__PURE__*/ S.suspend(() =>
     numberOfOffers: S.optional(S.Number),
     appliedRules: S.optional(CollectionPropertiesAppliedRulesList),
   }),
-).annotate({
-  identifier: "CollectionProperties",
-}) as any as S.Schema<CollectionProperties>;
+).annotate({ identifier: "CollectionProperties" }) as any as S.Schema<CollectionProperties>;
 
 export interface ApprovePrivateStoreCollectionAllItemsResponse {
   /** The resource ID. */
@@ -242,9 +240,7 @@ export const BulkCollectionsDetails = /*@__PURE__*/ S.suspend(() =>
     collectionIds: S.optional(BulkCollectionsDetailsCollectionIdsList),
     action: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BulkCollectionsDetails",
-}) as any as S.Schema<BulkCollectionsDetails>;
+).annotate({ identifier: "BulkCollectionsDetails" }) as any as S.Schema<BulkCollectionsDetails>;
 
 export interface BulkPrivateStoreCollectionsActionRequest {
   /** The store ID - must use the tenant ID */
@@ -280,9 +276,7 @@ export const CollectionsDetails = /*@__PURE__*/ S.suspend(() =>
     collectionName: S.optional(S.String),
     collectionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CollectionsDetails",
-}) as any as S.Schema<CollectionsDetails>;
+).annotate({ identifier: "CollectionsDetails" }) as any as S.Schema<CollectionsDetails>;
 
 /** Succeeded collections */
 export type BulkCollectionsResponseSucceededList = Array<CollectionsDetails>;
@@ -308,9 +302,7 @@ export const BulkCollectionsResponse = /*@__PURE__*/ S.suspend(() =>
     succeeded: S.optional(BulkCollectionsResponseSucceededList),
     failed: S.optional(BulkCollectionsResponseFailedList),
   }),
-).annotate({
-  identifier: "BulkCollectionsResponse",
-}) as any as S.Schema<BulkCollectionsResponse>;
+).annotate({ identifier: "BulkCollectionsResponse" }) as any as S.Schema<BulkCollectionsResponse>;
 
 /** Return plan with request details */
 export interface PlanDetailsInput {
@@ -330,9 +322,7 @@ export const PlanDetailsInput = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     subscriptionName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PlanDetailsInput",
-}) as any as S.Schema<PlanDetailsInput>;
+).annotate({ identifier: "PlanDetailsInput" }) as any as S.Schema<PlanDetailsInput>;
 
 /** Gets or sets the plans details */
 export type RequestApprovalPropertiesInputPlansDetailsList = Array<PlanDetailsInput>;
@@ -624,9 +614,7 @@ export const SubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
     skipToken: S.optional(S.String),
     count: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SubscriptionsResponse",
-}) as any as S.Schema<SubscriptionsResponse>;
+).annotate({ identifier: "SubscriptionsResponse" }) as any as S.Schema<SubscriptionsResponse>;
 
 export interface GetPrivateStoreRequest {
   /** The store ID - must use the tenant ID */
@@ -643,9 +631,7 @@ export const GetPrivateStoreRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "GetPrivateStoreRequest",
-}) as any as S.Schema<GetPrivateStoreRequest>;
+).annotate({ identifier: "GetPrivateStoreRequest" }) as any as S.Schema<GetPrivateStoreRequest>;
 
 /** Indicates private store availability */
 export type Availability = "enabled" | "disabled";
@@ -658,9 +644,7 @@ export const PrivateStorePropertiesCollectionIdsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PrivateStorePropertiesCollectionIdsList>;
 
 /** Gets or sets list of branding characteristics */
-export type PrivateStorePropertiesBrandingMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateStorePropertiesBrandingMap = { [key: string]: string | undefined };
 export const PrivateStorePropertiesBrandingMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -738,9 +722,7 @@ export const PrivateStoreProperties = /*@__PURE__*/ S.suspend(() =>
     branding: S.optional(PrivateStorePropertiesBrandingMap),
     notificationsSettings: S.optional(NotificationsSettingsProperties),
   }),
-).annotate({
-  identifier: "PrivateStoreProperties",
-}) as any as S.Schema<PrivateStoreProperties>;
+).annotate({ identifier: "PrivateStoreProperties" }) as any as S.Schema<PrivateStoreProperties>;
 
 export interface GetPrivateStoreResponse {
   /** The resource ID. */
@@ -762,9 +744,7 @@ export const GetPrivateStoreResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateStoreProperties),
   }),
-).annotate({
-  identifier: "GetPrivateStoreResponse",
-}) as any as S.Schema<GetPrivateStoreResponse>;
+).annotate({ identifier: "GetPrivateStoreResponse" }) as any as S.Schema<GetPrivateStoreResponse>;
 
 export interface GetPrivateStoreAdminRequestApprovalRequest {
   /** The store ID - must use the tenant ID */
@@ -822,9 +802,7 @@ export const UserRequestDetails = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     subscriptionName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserRequestDetails",
-}) as any as S.Schema<UserRequestDetails>;
+).annotate({ identifier: "UserRequestDetails" }) as any as S.Schema<UserRequestDetails>;
 
 /** Gets requesters details list */
 export type PlanRequesterDetailsRequestersList = Array<UserRequestDetails>;
@@ -847,9 +825,7 @@ export const PlanRequesterDetails = /*@__PURE__*/ S.suspend(() =>
     planDisplayName: S.optional(S.String),
     requesters: S.optional(PlanRequesterDetailsRequestersList),
   }),
-).annotate({
-  identifier: "PlanRequesterDetails",
-}) as any as S.Schema<PlanRequesterDetails>;
+).annotate({ identifier: "PlanRequesterDetails" }) as any as S.Schema<PlanRequesterDetails>;
 
 /** Gets list of plans with requesters details */
 export type AdminRequestApprovalPropertiesPlansList = Array<PlanRequesterDetails>;
@@ -1005,9 +981,7 @@ export const OfferPropertiesSpecificPlanIdsLimitationList = /*@__PURE__*/ S.Arra
 ) as any as S.Schema<OfferPropertiesSpecificPlanIdsLimitationList>;
 
 /** Icon File Uris */
-export type OfferPropertiesIconFileUrisMap = {
-  [key: string]: string | undefined;
-};
+export type OfferPropertiesIconFileUrisMap = { [key: string]: string | undefined };
 export const OfferPropertiesIconFileUrisMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1096,9 +1070,7 @@ export const OfferProperties = /*@__PURE__*/ S.suspend(() =>
     isStopSell: S.optional(S.Boolean),
     plans: S.optional(OfferPropertiesPlansList),
   }),
-).annotate({
-  identifier: "OfferProperties",
-}) as any as S.Schema<OfferProperties>;
+).annotate({ identifier: "OfferProperties" }) as any as S.Schema<OfferProperties>;
 
 export interface GetPrivateStoreCollectionOfferResponse {
   /** The resource ID. */
@@ -1180,9 +1152,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface SingleOperationDisplay {
@@ -1202,9 +1172,7 @@ export const SingleOperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SingleOperationDisplay",
-}) as any as S.Schema<SingleOperationDisplay>;
+).annotate({ identifier: "SingleOperationDisplay" }) as any as S.Schema<SingleOperationDisplay>;
 
 /** Microsoft.Marketplace REST API operation */
 export interface SingleOperation {
@@ -1230,9 +1198,7 @@ export const SingleOperation = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "SingleOperation",
-}) as any as S.Schema<SingleOperation>;
+).annotate({ identifier: "SingleOperation" }) as any as S.Schema<SingleOperation>;
 
 /** List of Microsoft.Marketplace operations supported by the Microsoft.Marketplace resource provider. */
 export type OperationListResultValueList = Array<SingleOperation>;
@@ -1252,9 +1218,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPrivateStoreRequest {
   /** Determines if to use cache or DB for serving this request */
@@ -1271,9 +1235,7 @@ export const ListPrivateStoreRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListPrivateStoreRequest",
-}) as any as S.Schema<ListPrivateStoreRequest>;
+).annotate({ identifier: "ListPrivateStoreRequest" }) as any as S.Schema<ListPrivateStoreRequest>;
 
 /** The PrivateStore data structure. */
 export interface PrivateStore {
@@ -1316,9 +1278,7 @@ export const PrivateStoreList = /*@__PURE__*/ S.suspend(() =>
     value: PrivateStoreListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateStoreList",
-}) as any as S.Schema<PrivateStoreList>;
+).annotate({ identifier: "PrivateStoreList" }) as any as S.Schema<PrivateStoreList>;
 
 export interface ListPrivateStoreAdminRequestApprovalsRequest {
   /** The store ID - must use the tenant ID */
@@ -1441,9 +1401,7 @@ export const CollectionsList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CollectionsListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CollectionsList",
-}) as any as S.Schema<CollectionsList>;
+).annotate({ identifier: "CollectionsList" }) as any as S.Schema<CollectionsList>;
 
 export interface ListPrivateStoreCollectionOfferRequest {
   /** The store ID - must use the tenant ID */
@@ -1508,9 +1466,7 @@ export const OfferListResponse = /*@__PURE__*/ S.suspend(() =>
     value: OfferListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OfferListResponse",
-}) as any as S.Schema<OfferListResponse>;
+).annotate({ identifier: "OfferListResponse" }) as any as S.Schema<OfferListResponse>;
 
 /** Subscription ids list */
 export type CollectionOffersByAllContextsPropertiesSubscriptionIdsList = Array<string>;
@@ -1640,9 +1596,7 @@ export const PlanNotificationDetails = /*@__PURE__*/ S.suspend(() =>
     planId: S.optional(S.String),
     planDisplayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PlanNotificationDetails",
-}) as any as S.Schema<PlanNotificationDetails>;
+).annotate({ identifier: "PlanNotificationDetails" }) as any as S.Schema<PlanNotificationDetails>;
 
 /** Gets or sets removed plans notifications */
 export type NewNotificationsPlansList = Array<PlanNotificationDetails>;
@@ -1674,9 +1628,7 @@ export const NewNotifications = /*@__PURE__*/ S.suspend(() =>
     icon: S.optional(S.String),
     plans: S.optional(NewNotificationsPlansList),
   }),
-).annotate({
-  identifier: "NewNotifications",
-}) as any as S.Schema<NewNotifications>;
+).annotate({ identifier: "NewNotifications" }) as any as S.Schema<NewNotifications>;
 
 export type NewPlansNotificationsListNewPlansNotificationsList = Array<NewNotifications>;
 export const NewPlansNotificationsListNewPlansNotificationsList = /*@__PURE__*/ S.Array(
@@ -1727,9 +1679,7 @@ export const SubscriptionsContextList = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionsIds: S.optional(SubscriptionsContextListSubscriptionsIdsList),
   }),
-).annotate({
-  identifier: "SubscriptionsContextList",
-}) as any as S.Schema<SubscriptionsContextList>;
+).annotate({ identifier: "SubscriptionsContextList" }) as any as S.Schema<SubscriptionsContextList>;
 
 /** Set the Operation for the POST method. Ping or Delete */
 export type Operation =
@@ -1870,9 +1820,7 @@ export const BillingAccountsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingAccounts: S.optional(BillingAccountsResponseBillingAccountsList),
   }),
-).annotate({
-  identifier: "BillingAccountsResponse",
-}) as any as S.Schema<BillingAccountsResponse>;
+).annotate({ identifier: "BillingAccountsResponse" }) as any as S.Schema<BillingAccountsResponse>;
 
 /** Gets or sets subscription ids list. Empty list indicates all subscriptions are selected, null indicates no update is done, explicit list indicates the explicit selected subscriptions. On insert, null is considered as bad request */
 export type CollectionPropertiesInputSubscriptionsListList = Array<string>;
@@ -2059,9 +2007,7 @@ export const OfferPropertiesInputSpecificPlanIdsLimitationList = /*@__PURE__*/ S
 ) as any as S.Schema<OfferPropertiesInputSpecificPlanIdsLimitationList>;
 
 /** Icon File Uris */
-export type OfferPropertiesInputIconFileUrisMap = {
-  [key: string]: string | undefined;
-};
+export type OfferPropertiesInputIconFileUrisMap = { [key: string]: string | undefined };
 export const OfferPropertiesInputIconFileUrisMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2103,9 +2049,7 @@ export const OfferPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     iconFileUris: S.optional(OfferPropertiesInputIconFileUrisMap),
     plans: S.optional(OfferPropertiesInputPlansList),
   }),
-).annotate({
-  identifier: "OfferPropertiesInput",
-}) as any as S.Schema<OfferPropertiesInput>;
+).annotate({ identifier: "OfferPropertiesInput" }) as any as S.Schema<OfferPropertiesInput>;
 
 export interface PrivateStoreCollectionOfferCreateOrUpdateRequest {
   /** The store ID - must use the tenant ID */
@@ -2245,9 +2189,7 @@ export const CollectionsToSubscriptionsMappingResponse = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<CollectionsToSubscriptionsMappingResponse>;
 
 /** Gets or sets list of branding characteristics */
-export type PrivateStorePropertiesInputBrandingMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateStorePropertiesInputBrandingMap = { [key: string]: string | undefined };
 export const PrivateStorePropertiesInputBrandingMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2386,9 +2328,7 @@ export const RequestApprovalResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RequestApprovalProperties),
   }),
-).annotate({
-  identifier: "RequestApprovalResource",
-}) as any as S.Schema<RequestApprovalResource>;
+).annotate({ identifier: "RequestApprovalResource" }) as any as S.Schema<RequestApprovalResource>;
 
 export type RequestApprovalsListValueList = Array<RequestApprovalResource>;
 export const RequestApprovalsListValueList = /*@__PURE__*/ S.Array(
@@ -2406,9 +2346,7 @@ export const RequestApprovalsList = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RequestApprovalsListValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RequestApprovalsList",
-}) as any as S.Schema<RequestApprovalsList>;
+).annotate({ identifier: "RequestApprovalsList" }) as any as S.Schema<RequestApprovalsList>;
 
 export type PrivateStoreListStopSellOffersPlansNotificationsRequestSubscriptionsList =
   Array<string>;
@@ -2537,9 +2475,7 @@ export const QueryApprovedPlans = /*@__PURE__*/ S.suspend(() =>
     planIds: S.optional(QueryApprovedPlansPlanIdsList),
     subscriptionIds: S.optional(QueryApprovedPlansSubscriptionIdsList),
   }),
-).annotate({
-  identifier: "QueryApprovedPlans",
-}) as any as S.Schema<QueryApprovedPlans>;
+).annotate({ identifier: "QueryApprovedPlans" }) as any as S.Schema<QueryApprovedPlans>;
 
 export interface PrivateStoreQueryApprovedPlansRequest {
   /** The store ID - must use the tenant ID */
@@ -2656,9 +2592,7 @@ export const StopSellNotifications = /*@__PURE__*/ S.suspend(() =>
     icon: S.optional(S.String),
     plans: S.optional(StopSellNotificationsPlansList),
   }),
-).annotate({
-  identifier: "StopSellNotifications",
-}) as any as S.Schema<StopSellNotifications>;
+).annotate({ identifier: "StopSellNotifications" }) as any as S.Schema<StopSellNotifications>;
 
 export type PrivateStoreNotificationsStateStopSellNotificationsList = Array<StopSellNotifications>;
 export const PrivateStoreNotificationsStateStopSellNotificationsList = /*@__PURE__*/ S.Array(
@@ -2700,9 +2634,7 @@ export const RequestApprovalsDetails = /*@__PURE__*/ S.suspend(() =>
     icon: S.optional(S.String),
     plans: S.optional(RequestApprovalsDetailsPlansList),
   }),
-).annotate({
-  identifier: "RequestApprovalsDetails",
-}) as any as S.Schema<RequestApprovalsDetails>;
+).annotate({ identifier: "RequestApprovalsDetails" }) as any as S.Schema<RequestApprovalsDetails>;
 
 export type PrivateStoreNotificationsStateApprovalRequestsList = Array<RequestApprovalsDetails>;
 export const PrivateStoreNotificationsStateApprovalRequestsList = /*@__PURE__*/ S.Array(
@@ -2811,9 +2743,7 @@ export const PrivateStoreQueryRequestApprovalRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<PrivateStoreQueryRequestApprovalRequest>;
 
 /** Gets or sets the plans details */
-export type QueryRequestApprovalPlansDetailsMap = {
-  [key: string]: PlanDetails | undefined;
-};
+export type QueryRequestApprovalPlansDetailsMap = { [key: string]: PlanDetails | undefined };
 export const QueryRequestApprovalPlansDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   PlanDetails,
@@ -2837,9 +2767,7 @@ export const QueryRequestApproval = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     messageCode: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueryRequestApproval",
-}) as any as S.Schema<QueryRequestApproval>;
+).annotate({ identifier: "QueryRequestApproval" }) as any as S.Schema<QueryRequestApproval>;
 
 /** List of offer IDs */
 export type QueryUserOffersDetailsOfferIdsList = Array<string>;
@@ -2865,9 +2793,7 @@ export const QueryUserOffersDetails = /*@__PURE__*/ S.suspend(() =>
     offerIds: S.optional(QueryUserOffersDetailsOfferIdsList),
     subscriptionIds: S.optional(QueryUserOffersDetailsSubscriptionIdsList),
   }),
-).annotate({
-  identifier: "QueryUserOffersDetails",
-}) as any as S.Schema<QueryUserOffersDetails>;
+).annotate({ identifier: "QueryUserOffersDetails" }) as any as S.Schema<QueryUserOffersDetails>;
 
 export interface PrivateStoreQueryUserOffersRequest {
   /** The store ID - must use the tenant ID */
@@ -2903,9 +2829,7 @@ export const WithdrawDetails = /*@__PURE__*/ S.suspend(() =>
     planId: S.optional(S.String),
     publisherId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WithdrawDetails",
-}) as any as S.Schema<WithdrawDetails>;
+).annotate({ identifier: "WithdrawDetails" }) as any as S.Schema<WithdrawDetails>;
 
 export interface PrivateStoreWithdrawPlanRequest {
   /** The store ID - must use the tenant ID */
@@ -2957,9 +2881,7 @@ export const QueryRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "QueryRulesRequest",
-}) as any as S.Schema<QueryRulesRequest>;
+).annotate({ identifier: "QueryRulesRequest" }) as any as S.Schema<QueryRulesRequest>;
 
 export type RuleListResponseValueList = Array<Rule>;
 export const RuleListResponseValueList = /*@__PURE__*/ S.Array(
@@ -2976,9 +2898,7 @@ export const RuleListResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RuleListResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuleListResponse",
-}) as any as S.Schema<RuleListResponse>;
+).annotate({ identifier: "RuleListResponse" }) as any as S.Schema<RuleListResponse>;
 
 /** List of subscription IDs */
 export type QueryUserRulesDetailsSubscriptionIdsList = Array<string>;
@@ -2995,9 +2915,7 @@ export const QueryUserRulesDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionIds: S.optional(QueryUserRulesDetailsSubscriptionIdsList),
   }),
-).annotate({
-  identifier: "QueryUserRulesDetails",
-}) as any as S.Schema<QueryUserRulesDetails>;
+).annotate({ identifier: "QueryUserRulesDetails" }) as any as S.Schema<QueryUserRulesDetails>;
 
 export interface QueryUserRulesRequest {
   /** The store ID - must use the tenant ID */
@@ -3017,9 +2935,7 @@ export const QueryUserRulesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "QueryUserRulesRequest",
-}) as any as S.Schema<QueryUserRulesRequest>;
+).annotate({ identifier: "QueryUserRulesRequest" }) as any as S.Schema<QueryUserRulesRequest>;
 
 export type SetCollectionRulesRequestValueList = Array<Rule>;
 export const SetCollectionRulesRequestValueList = /*@__PURE__*/ S.Array(
@@ -3085,9 +3001,7 @@ export const TransferOffersDetails = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     offerIdsList: S.optional(TransferOffersDetailsOfferIdsListList),
   }),
-).annotate({
-  identifier: "TransferOffersDetails",
-}) as any as S.Schema<TransferOffersDetails>;
+).annotate({ identifier: "TransferOffersDetails" }) as any as S.Schema<TransferOffersDetails>;
 
 export interface TransferPrivateStoreCollectionOffersRequest {
   /** The store ID - must use the tenant ID */
@@ -3138,9 +3052,7 @@ export const TransferOffersResponse = /*@__PURE__*/ S.suspend(() =>
     succeeded: S.optional(TransferOffersResponseSucceededList),
     failed: S.optional(TransferOffersResponseFailedList),
   }),
-).annotate({
-  identifier: "TransferOffersResponse",
-}) as any as S.Schema<TransferOffersResponse>;
+).annotate({ identifier: "TransferOffersResponse" }) as any as S.Schema<TransferOffersResponse>;
 
 /** Gets or sets Approved plans ids, empty in case of rejected */
 export type AdminRequestApprovalPropertiesInputApprovedPlansList = Array<string>;
@@ -3252,9 +3164,7 @@ export const ContextAndPlansDetails = /*@__PURE__*/ S.suspend(() =>
     context: S.optional(S.String),
     planIds: S.optional(ContextAndPlansDetailsPlanIdsList),
   }),
-).annotate({
-  identifier: "ContextAndPlansDetails",
-}) as any as S.Schema<ContextAndPlansDetails>;
+).annotate({ identifier: "ContextAndPlansDetails" }) as any as S.Schema<ContextAndPlansDetails>;
 
 export type MultiContextAndPlansPropertiesPlansContextList = Array<ContextAndPlansDetails>;
 export const MultiContextAndPlansPropertiesPlansContextList = /*@__PURE__*/ S.Array(

@@ -229,9 +229,7 @@ export const LinkProperties_2 = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     uri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkProperties_2",
-}) as any as S.Schema<LinkProperties_2>;
+).annotate({ identifier: "LinkProperties_2" }) as any as S.Schema<LinkProperties_2>;
 
 /** List of Links provided for the item */
 export type ProductDetailsLinksList = Array<LinkProperties_2>;
@@ -277,9 +275,7 @@ export const MarketingMaterial_2 = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     learnUri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MarketingMaterial_2",
-}) as any as S.Schema<MarketingMaterial_2>;
+).annotate({ identifier: "MarketingMaterial_2" }) as any as S.Schema<MarketingMaterial_2>;
 
 /** Plan level resources and configuration files */
 export interface Artifact_2 {
@@ -441,9 +437,7 @@ export const ProrationPolicy_2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     minimumProratedUnits: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProrationPolicy_2",
-}) as any as S.Schema<ProrationPolicy_2>;
+).annotate({ identifier: "ProrationPolicy_2" }) as any as S.Schema<ProrationPolicy_2>;
 
 /** Renew Billing Plan */
 export interface BillingPlan_2 {
@@ -480,9 +474,7 @@ export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
     inactiveDuration: S.optional(S.String),
     lockoutDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LifecyclePolicy",
-}) as any as S.Schema<LifecyclePolicy>;
+).annotate({ identifier: "LifecyclePolicy" }) as any as S.Schema<LifecyclePolicy>;
 
 /** Term Actions */
 export type TermActionsList = Array<string>;
@@ -562,9 +554,7 @@ export const PrerequisiteProduct = /*@__PURE__*/ S.suspend(() =>
     minSeats: S.optional(S.Number),
     maxSeats: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PrerequisiteProduct",
-}) as any as S.Schema<PrerequisiteProduct>;
+).annotate({ identifier: "PrerequisiteProduct" }) as any as S.Schema<PrerequisiteProduct>;
 
 /** Prerequisite products */
 export type PrerequisiteConstraintProductsList = Array<PrerequisiteProduct>;
@@ -587,9 +577,7 @@ export const MinMaxSeatsConstraint = /*@__PURE__*/ S.suspend(() =>
     minSeats: S.optional(S.Number),
     maxSeats: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MinMaxSeatsConstraint",
-}) as any as S.Schema<MinMaxSeatsConstraint>;
+).annotate({ identifier: "MinMaxSeatsConstraint" }) as any as S.Schema<MinMaxSeatsConstraint>;
 
 /** Lookback window for a prerequisite constraint */
 export interface LookbackWindow {
@@ -620,9 +608,7 @@ export const PrerequisiteConstraint = /*@__PURE__*/ S.suspend(() =>
     seatConstraint: S.optional(MinMaxSeatsConstraint),
     lookbackWindow: S.optional(LookbackWindow),
   }),
-).annotate({
-  identifier: "PrerequisiteConstraint",
-}) as any as S.Schema<PrerequisiteConstraint>;
+).annotate({ identifier: "PrerequisiteConstraint" }) as any as S.Schema<PrerequisiteConstraint>;
 
 /** Prerequisite constraints for the availability */
 export interface PrerequisiteConstraints {
@@ -639,9 +625,7 @@ export const PrerequisiteConstraints = /*@__PURE__*/ S.suspend(() =>
     mustHaveAny: S.optional(PrerequisiteConstraint),
     mustHaveNone: S.optional(PrerequisiteConstraint),
   }),
-).annotate({
-  identifier: "PrerequisiteConstraints",
-}) as any as S.Schema<PrerequisiteConstraints>;
+).annotate({ identifier: "PrerequisiteConstraints" }) as any as S.Schema<PrerequisiteConstraints>;
 
 /** List of subscription statuses of which any must be satisfied */
 export type SubscriptionStatusConstraintsRequireAnyOfList = Array<string>;
@@ -741,9 +725,7 @@ export const BillingComponent_2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BillingComponent_2",
-}) as any as S.Schema<BillingComponent_2>;
+).annotate({ identifier: "BillingComponent_2" }) as any as S.Schema<BillingComponent_2>;
 
 /** Billing components */
 export type PlanDetailsBillingComponentsList = Array<BillingComponent_2>;
@@ -847,9 +829,7 @@ export const OfferingProperties = /*@__PURE__*/ S.suspend(() =>
     offeringId: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OfferingProperties",
-}) as any as S.Schema<OfferingProperties>;
+).annotate({ identifier: "OfferingProperties" }) as any as S.Schema<OfferingProperties>;
 
 /** SKU price related properties. */
 export type PlanDetailsOfferingPropertiesList = Array<OfferingProperties>;
@@ -869,9 +849,7 @@ export const FulfillmentAttributes = /*@__PURE__*/ S.suspend(() =>
     fulfillmentTiming: S.optional(S.String),
     fulfillmentDelayMitigation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FulfillmentAttributes",
-}) as any as S.Schema<FulfillmentAttributes>;
+).annotate({ identifier: "FulfillmentAttributes" }) as any as S.Schema<FulfillmentAttributes>;
 
 /** Configuration for additional products bundled with early access pass SKUs */
 export interface ProductFulfillmentConfig {
@@ -885,9 +863,7 @@ export const ProductFulfillmentConfig = /*@__PURE__*/ S.suspend(() =>
     productSkuId: S.optional(S.String),
     defaultKeyActivationCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ProductFulfillmentConfig",
-}) as any as S.Schema<ProductFulfillmentConfig>;
+).annotate({ identifier: "ProductFulfillmentConfig" }) as any as S.Schema<ProductFulfillmentConfig>;
 
 /** Bundled products included defining additional product/SKU combinations */
 export type FulfillmentDataAdditionalProductsList = Array<ProductFulfillmentConfig>;
@@ -910,9 +886,7 @@ export const FulfillmentData = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(FulfillmentAttributes),
     additionalProducts: S.optional(FulfillmentDataAdditionalProductsList),
   }),
-).annotate({
-  identifier: "FulfillmentData",
-}) as any as S.Schema<FulfillmentData>;
+).annotate({ identifier: "FulfillmentData" }) as any as S.Schema<FulfillmentData>;
 
 /** Benefit information for a plan */
 export interface Benefit {
@@ -967,9 +941,7 @@ export const AssetOwnershipLimit = /*@__PURE__*/ S.suspend(() =>
     minAssets: S.optional(S.Number),
     maxAssets: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AssetOwnershipLimit",
-}) as any as S.Schema<AssetOwnershipLimit>;
+).annotate({ identifier: "AssetOwnershipLimit" }) as any as S.Schema<AssetOwnershipLimit>;
 
 /** Asset ownership limits */
 export type ConstraintsDataAssetOwnershipLimitsList = Array<AssetOwnershipLimit>;
@@ -995,9 +967,7 @@ export const PrerequisiteSet = /*@__PURE__*/ S.suspend(() =>
     productId: S.optional(S.String),
     skuIds: S.optional(PrerequisiteSetSkuIdsList),
   }),
-).annotate({
-  identifier: "PrerequisiteSet",
-}) as any as S.Schema<PrerequisiteSet>;
+).annotate({ identifier: "PrerequisiteSet" }) as any as S.Schema<PrerequisiteSet>;
 
 /** Prerequisite sets where all specified SKUs must be owned */
 export type PrerequisitesMustHaveAllList = Array<PrerequisiteSet>;
@@ -1068,9 +1038,7 @@ export const ConstraintsData = /*@__PURE__*/ S.suspend(() =>
     assetOwnershipLimits: S.optional(ConstraintsDataAssetOwnershipLimitsList),
     prerequisiteSkus: S.optional(Prerequisites),
   }),
-).annotate({
-  identifier: "ConstraintsData",
-}) as any as S.Schema<ConstraintsData>;
+).annotate({ identifier: "ConstraintsData" }) as any as S.Schema<ConstraintsData>;
 
 /** Meter type description value */
 export interface MeterTypeDescriptionValue {
@@ -1100,9 +1068,7 @@ export const MeterTypeDescription = /*@__PURE__*/ S.suspend(() =>
     key: S.optional(S.String),
     value: S.optional(MeterTypeDescriptionValue),
   }),
-).annotate({
-  identifier: "MeterTypeDescription",
-}) as any as S.Schema<MeterTypeDescription>;
+).annotate({ identifier: "MeterTypeDescription" }) as any as S.Schema<MeterTypeDescription>;
 
 /** Meter type descriptions */
 export type PlanDetailsMeterTypeDescriptionsList = Array<MeterTypeDescription>;
@@ -1735,9 +1701,7 @@ export const SkuProperties_2 = /*@__PURE__*/ S.suspend(() =>
     armSkuName: S.optional(S.String),
     accessTier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SkuProperties_2",
-}) as any as S.Schema<SkuProperties_2>;
+).annotate({ identifier: "SkuProperties_2" }) as any as S.Schema<SkuProperties_2>;
 
 /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
 export interface OfferingProperties_2 {
@@ -1763,9 +1727,7 @@ export const OfferingProperties_2 = /*@__PURE__*/ S.suspend(() =>
     termId: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OfferingProperties_2",
-}) as any as S.Schema<OfferingProperties_2>;
+).annotate({ identifier: "OfferingProperties_2" }) as any as S.Schema<OfferingProperties_2>;
 
 /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
 export type GetSkusByBillingAccountResponseOfferingPropertiesList = Array<OfferingProperties_2>;
@@ -1883,9 +1845,7 @@ export const ProductAlternateIds = /*@__PURE__*/ S.suspend(() =>
     includedInBundle: S.optional(ProductAlternateIdsIncludedInBundleList),
     associatedSku: S.optional(ProductAlternateIdsAssociatedSkuList),
   }),
-).annotate({
-  identifier: "ProductAlternateIds",
-}) as any as S.Schema<ProductAlternateIds>;
+).annotate({ identifier: "ProductAlternateIds" }) as any as S.Schema<ProductAlternateIds>;
 
 /** Alternate ids for the SKU. */
 export interface SkuAlternateIds {
@@ -1920,9 +1880,7 @@ export const SkuAlternateIds = /*@__PURE__*/ S.suspend(() =>
     associatedSku: S.optional(SkuAlternateIdsAssociatedSkuList),
     products: S.optional(ProductAlternateIds),
   }),
-).annotate({
-  identifier: "SkuAlternateIds",
-}) as any as S.Schema<SkuAlternateIds>;
+).annotate({ identifier: "SkuAlternateIds" }) as any as S.Schema<SkuAlternateIds>;
 
 /** Category IDs for this SKU. */
 export type GetSkusByBillingAccountResponseCategoryIdsList = Array<string>;
@@ -2521,9 +2479,7 @@ export const MarketingMaterial = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.NullOr(S.String)),
     learnUri: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "MarketingMaterial",
-}) as any as S.Schema<MarketingMaterial>;
+).annotate({ identifier: "MarketingMaterial" }) as any as S.Schema<MarketingMaterial>;
 
 /** Markets for the item */
 export type CatalogItemMarketsList = Array<string>;
@@ -2532,9 +2488,7 @@ export const CatalogItemMarketsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CatalogItemMarketsList>;
 
 /** ISV contact details */
-export type CatalogItemIsvContactDetailsMap = {
-  [key: string]: string | undefined;
-};
+export type CatalogItemIsvContactDetailsMap = { [key: string]: string | undefined };
 export const CatalogItemIsvContactDetailsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2691,9 +2645,7 @@ export const MarketPricingDetailsItem = /*@__PURE__*/ S.suspend(() =>
     marketCode: S.optional(S.NullOr(S.String)),
     marketStates: S.optional(S.NullOr(MarketPricingDetailsItemMarketStatesList)),
   }),
-).annotate({
-  identifier: "MarketPricingDetailsItem",
-}) as any as S.Schema<MarketPricingDetailsItem>;
+).annotate({ identifier: "MarketPricingDetailsItem" }) as any as S.Schema<MarketPricingDetailsItem>;
 
 /** The pricing details of each market to the item */
 export type CatalogItemMarketPricingDetailsList = Array<MarketPricingDetailsItem>;
@@ -2724,9 +2676,7 @@ export const MarketStartPrice = /*@__PURE__*/ S.suspend(() =>
     minMeterPrice: S.optional(S.NullOr(S.Number)),
     currency: S.String,
   }),
-).annotate({
-  identifier: "MarketStartPrice",
-}) as any as S.Schema<MarketStartPrice>;
+).annotate({ identifier: "MarketStartPrice" }) as any as S.Schema<MarketStartPrice>;
 
 /** The states that apply to the item */
 export type CatalogItemSolutionAreasList = Array<string>;
@@ -3003,9 +2953,7 @@ export const RestrictedAudience = /*@__PURE__*/ S.suspend(() =>
     users: S.optional(S.NullOr(RestrictedAudienceUsersList)),
     groups: S.optional(S.NullOr(RestrictedAudienceGroupsList)),
   }),
-).annotate({
-  identifier: "RestrictedAudience",
-}) as any as S.Schema<RestrictedAudience>;
+).annotate({ identifier: "RestrictedAudience" }) as any as S.Schema<RestrictedAudience>;
 
 /** List of keywords */
 export type PlanKeywordsList = Array<string>;
@@ -3049,9 +2997,7 @@ export const IncludedQuantityProperty = /*@__PURE__*/ S.suspend(() =>
     termId: S.optional(S.NullOr(S.String)),
     quantity: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "IncludedQuantityProperty",
-}) as any as S.Schema<IncludedQuantityProperty>;
+).annotate({ identifier: "IncludedQuantityProperty" }) as any as S.Schema<IncludedQuantityProperty>;
 
 /** Included quantity properties */
 export type MeterIncludedQuantityPropertiesList = Array<IncludedQuantityProperty>;
@@ -3107,9 +3053,7 @@ export const TermDescriptionParameter = /*@__PURE__*/ S.suspend(() =>
     parameter: S.optional(S.NullOr(S.String)),
     value: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "TermDescriptionParameter",
-}) as any as S.Schema<TermDescriptionParameter>;
+).annotate({ identifier: "TermDescriptionParameter" }) as any as S.Schema<TermDescriptionParameter>;
 
 /** Term description parameters */
 export type TermTermDescriptionParametersList = Array<TermDescriptionParameter>;
@@ -3125,9 +3069,7 @@ export const ProrationPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     minimumProratedUnits: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "ProrationPolicy",
-}) as any as S.Schema<ProrationPolicy>;
+).annotate({ identifier: "ProrationPolicy" }) as any as S.Schema<ProrationPolicy>;
 
 export interface BillingPlan {
   /** Billing period */
@@ -3319,9 +3261,7 @@ export const AvailabilityEntity = /*@__PURE__*/ S.suspend(() =>
     endDate: S.optional(S.NullOr(S.Number)),
     planAvailabilities: S.optional(S.NullOr(AvailabilityEntityPlanAvailabilitiesList)),
   }),
-).annotate({
-  identifier: "AvailabilityEntity",
-}) as any as S.Schema<AvailabilityEntity>;
+).annotate({ identifier: "AvailabilityEntity" }) as any as S.Schema<AvailabilityEntity>;
 
 /** List of availabilities for this plan */
 export type PlanAvailabilitiesList = Array<AvailabilityEntity>;
@@ -3370,9 +3310,7 @@ export const OperatingSystem = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.NullOr(S.String)),
     name: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "OperatingSystem",
-}) as any as S.Schema<OperatingSystem>;
+).annotate({ identifier: "OperatingSystem" }) as any as S.Schema<OperatingSystem>;
 
 /** Files related to the marketplace item */
 export type PlanArtifactsList = Array<Artifact>;
@@ -3411,9 +3349,7 @@ export const BillingComponent = /*@__PURE__*/ S.suspend(() =>
     billingTag: S.optional(S.NullOr(S.String)),
     customMeterIds: S.optional(S.NullOr(BillingComponentCustomMeterIdsMap)),
   }),
-).annotate({
-  identifier: "BillingComponent",
-}) as any as S.Schema<BillingComponent>;
+).annotate({ identifier: "BillingComponent" }) as any as S.Schema<BillingComponent>;
 
 /** Billing components */
 export type PlanBillingComponentsList = Array<BillingComponent>;
@@ -3430,9 +3366,7 @@ export const PurchaseDurationDiscount = /*@__PURE__*/ S.suspend(() =>
     duration: S.optional(S.NullOr(S.String)),
     discountPercentage: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PurchaseDurationDiscount",
-}) as any as S.Schema<PurchaseDurationDiscount>;
+).annotate({ identifier: "PurchaseDurationDiscount" }) as any as S.Schema<PurchaseDurationDiscount>;
 
 /** List of purchase duration discounts */
 export type PlanPurchaseDurationDiscountsList = Array<PurchaseDurationDiscount>;
@@ -3673,14 +3607,10 @@ export const DefinitionTemplates = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(DefinitionTemplatesDeploymentFragmentFileUrisMap),
     ),
   }),
-).annotate({
-  identifier: "DefinitionTemplates",
-}) as any as S.Schema<DefinitionTemplates>;
+).annotate({ identifier: "DefinitionTemplates" }) as any as S.Schema<DefinitionTemplates>;
 
 /** Dictionary of additional properties provided for the item */
-export type CatalogItemAdditionalPropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type CatalogItemAdditionalPropertiesMap = { [key: string]: string | undefined };
 export const CatalogItemAdditionalPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3718,9 +3648,7 @@ export const CatalogItemLinkedAddInsList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CatalogItemLinkedAddInsList>;
 
-export type CatalogItemLinkedAddInsTypesMap = {
-  [key: string]: string | undefined;
-};
+export type CatalogItemLinkedAddInsTypesMap = { [key: string]: string | undefined };
 export const CatalogItemLinkedAddInsTypesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3750,9 +3678,7 @@ export const M365CertificationInfo = /*@__PURE__*/ S.suspend(() =>
     m365CertificationDetailsUrl: S.optional(S.NullOr(S.String)),
     m365CertificationId: S.optional(S.NullOr(S.String)),
   }),
-).annotate({
-  identifier: "M365CertificationInfo",
-}) as any as S.Schema<M365CertificationInfo>;
+).annotate({ identifier: "M365CertificationInfo" }) as any as S.Schema<M365CertificationInfo>;
 
 /** 0 = None 1 = Free 2 = FreeTrial 4 = Paid 8 = Byol */
 export type PricingOptions = 0 | 1 | 2 | 4 | 8;
@@ -3772,9 +3698,7 @@ export const UIPricing = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UIPricing" }) as any as S.Schema<UIPricing>;
 
 /** storefront pricings parameters for AppSource and AMP */
-export type CatalogItemStoreFrontPricingsMap = {
-  [key: string]: UIPricing | undefined;
-};
+export type CatalogItemStoreFrontPricingsMap = { [key: string]: UIPricing | undefined };
 export const CatalogItemStoreFrontPricingsMap = /*@__PURE__*/ S.Record(
   S.String,
   UIPricing,
@@ -3800,16 +3724,12 @@ export const PopularityEnrichedData = /*@__PURE__*/ S.suspend(() =>
     ampApps: S.optional(S.Number),
     azurePortalApps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "PopularityEnrichedData",
-}) as any as S.Schema<PopularityEnrichedData>;
+).annotate({ identifier: "PopularityEnrichedData" }) as any as S.Schema<PopularityEnrichedData>;
 
 export type ReviewSource = "None" | "AppSource" | "Amp" | "Ibiza" | "G2" | "Internal" | "All";
 export const ReviewSource = S.String;
 
-export type RatingSummaryStarsDistributionMap = {
-  [key: string]: number | undefined;
-};
+export type RatingSummaryStarsDistributionMap = { [key: string]: number | undefined };
 export const RatingSummaryStarsDistributionMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Number,
@@ -3854,9 +3774,7 @@ export const RatingEnrichedData = /*@__PURE__*/ S.suspend(() =>
     azurePortal: S.optional(S.NullOr(RatingSummary)),
     g2: S.optional(S.NullOr(RatingSummary)),
   }),
-).annotate({
-  identifier: "RatingEnrichedData",
-}) as any as S.Schema<RatingEnrichedData>;
+).annotate({ identifier: "RatingEnrichedData" }) as any as S.Schema<RatingEnrichedData>;
 
 export interface EnrichedData {
   tags?: EnrichedDataTagsList | null;
@@ -4310,9 +4228,7 @@ export const PageResultOfCatalogItem = /*@__PURE__*/ S.suspend(() =>
     count: S.optional(S.NullOr(S.Number)),
     items: S.optional(S.NullOr(PageResultOfCatalogItemItemsList)),
   }),
-).annotate({
-  identifier: "PageResultOfCatalogItem",
-}) as any as S.Schema<PageResultOfCatalogItem>;
+).annotate({ identifier: "PageResultOfCatalogItem" }) as any as S.Schema<PageResultOfCatalogItem>;
 
 export interface ListGetApiKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4329,9 +4245,7 @@ export const ListGetApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-01-preview",
     }),
   ),
-).annotate({
-  identifier: "ListGetApiKeysRequest",
-}) as any as S.Schema<ListGetApiKeysRequest>;
+).annotate({ identifier: "ListGetApiKeysRequest" }) as any as S.Schema<ListGetApiKeysRequest>;
 
 /** ApiKey object containing both the key and its alias. */
 export interface ApiKey {
@@ -4373,9 +4287,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-01-preview",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -4395,9 +4307,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -4447,9 +4357,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListProductListByBillingAccountRequest {
   /** The ID of the target billing account. */
@@ -4783,9 +4691,7 @@ export const ProductSummaryListResult = /*@__PURE__*/ S.suspend(() =>
     value: ProductSummaryListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProductSummaryListResult",
-}) as any as S.Schema<ProductSummaryListResult>;
+).annotate({ identifier: "ProductSummaryListResult" }) as any as S.Schema<ProductSummaryListResult>;
 
 export interface ListProductListByBillingProfileRequest {
   /** The ID of the target billing account. */
@@ -5131,9 +5037,7 @@ export const SkuSummaryListResult = /*@__PURE__*/ S.suspend(() =>
     value: SkuSummaryListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SkuSummaryListResult",
-}) as any as S.Schema<SkuSummaryListResult>;
+).annotate({ identifier: "SkuSummaryListResult" }) as any as S.Schema<SkuSummaryListResult>;
 
 export type ListSkusByBillingProfileRequestLocationsList = Array<string>;
 export const ListSkusByBillingProfileRequestLocationsList = /*@__PURE__*/ S.Array(
@@ -5204,9 +5108,7 @@ export const PostCreateApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-01-preview",
     }),
   ),
-).annotate({
-  identifier: "PostCreateApiKeyRequest",
-}) as any as S.Schema<PostCreateApiKeyRequest>;
+).annotate({ identifier: "PostCreateApiKeyRequest" }) as any as S.Schema<PostCreateApiKeyRequest>;
 
 export interface PostRevokeApiKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5226,9 +5128,7 @@ export const PostRevokeApiKeyRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-01-01-preview",
     }),
   ),
-).annotate({
-  identifier: "PostRevokeApiKeyRequest",
-}) as any as S.Schema<PostRevokeApiKeyRequest>;
+).annotate({ identifier: "PostRevokeApiKeyRequest" }) as any as S.Schema<PostRevokeApiKeyRequest>;
 
 export interface PostRevokeApiKeyResponse {}
 export const PostRevokeApiKeyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5374,9 +5274,7 @@ export const SearchPostArmRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-02",
     }),
   ),
-).annotate({
-  identifier: "SearchPostArmRequest",
-}) as any as S.Schema<SearchPostArmRequest>;
+).annotate({ identifier: "SearchPostArmRequest" }) as any as S.Schema<SearchPostArmRequest>;
 
 export interface FacetValueDto {
   value?: string;
@@ -5462,9 +5360,7 @@ export const PlanMetadataDto = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     generation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PlanMetadataDto",
-}) as any as S.Schema<PlanMetadataDto>;
+).annotate({ identifier: "PlanMetadataDto" }) as any as S.Schema<PlanMetadataDto>;
 
 export interface OperatingSystemDto {
   family?: string;
@@ -5477,9 +5373,7 @@ export const OperatingSystemDto = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperatingSystemDto",
-}) as any as S.Schema<OperatingSystemDto>;
+).annotate({ identifier: "OperatingSystemDto" }) as any as S.Schema<OperatingSystemDto>;
 
 export interface PlanDto {
   cspState?: string;
@@ -5624,9 +5518,7 @@ export const SearchResponseDto = /*@__PURE__*/ S.suspend(() =>
     results: S.optional(SearchResponseDtoResultsList),
     totalCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SearchResponseDto",
-}) as any as S.Schema<SearchResponseDto>;
+).annotate({ identifier: "SearchResponseDto" }) as any as S.Schema<SearchResponseDto>;
 
 export type GetProductGetByBillingAccountError = AzureOpError;
 /** Gets a single product by billing account. */

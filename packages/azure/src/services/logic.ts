@@ -33,9 +33,7 @@ export const CancelWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "CancelWorkflowRunRequest",
-}) as any as S.Schema<CancelWorkflowRunRequest>;
+).annotate({ identifier: "CancelWorkflowRunRequest" }) as any as S.Schema<CancelWorkflowRunRequest>;
 
 export interface CancelWorkflowRunResponse {}
 export const CancelWorkflowRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -442,9 +440,7 @@ export const DeleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkflowRequest",
-}) as any as S.Schema<DeleteWorkflowRequest>;
+).annotate({ identifier: "DeleteWorkflowRequest" }) as any as S.Schema<DeleteWorkflowRequest>;
 
 export interface DeleteWorkflowResponse {}
 export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -472,9 +468,7 @@ export const DisableWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "DisableWorkflowRequest",
-}) as any as S.Schema<DisableWorkflowRequest>;
+).annotate({ identifier: "DisableWorkflowRequest" }) as any as S.Schema<DisableWorkflowRequest>;
 
 export interface DisableWorkflowResponse {}
 export const DisableWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -502,9 +496,7 @@ export const EnableWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "EnableWorkflowRequest",
-}) as any as S.Schema<EnableWorkflowRequest>;
+).annotate({ identifier: "EnableWorkflowRequest" }) as any as S.Schema<EnableWorkflowRequest>;
 
 export interface EnableWorkflowResponse {}
 export const EnableWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -572,9 +564,7 @@ export const GetIntegrationAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetIntegrationAccountRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -595,9 +585,7 @@ export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 
 /** The workflow state. */
 export type WorkflowState =
@@ -638,9 +626,7 @@ export const IntegrationAccountSku = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: IntegrationAccountSkuName,
   }),
-).annotate({
-  identifier: "IntegrationAccountSku",
-}) as any as S.Schema<IntegrationAccountSku>;
+).annotate({ identifier: "IntegrationAccountSku" }) as any as S.Schema<IntegrationAccountSku>;
 
 export interface GetIntegrationAccountResponse {
   /** The resource id. */
@@ -701,9 +687,7 @@ export const GetIntegrationAccountAgreementRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetIntegrationAccountAgreementRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountAgreementResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountAgreementResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountAgreementResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -725,9 +709,7 @@ export const BusinessIdentity = /*@__PURE__*/ S.suspend(() =>
     qualifier: S.String,
     value: S.String,
   }),
-).annotate({
-  identifier: "BusinessIdentity",
-}) as any as S.Schema<BusinessIdentity>;
+).annotate({ identifier: "BusinessIdentity" }) as any as S.Schema<BusinessIdentity>;
 
 /** The AS2 agreement message connection settings. */
 export interface AS2MessageConnectionSettings {
@@ -855,9 +837,7 @@ export const AS2SecuritySettings = /*@__PURE__*/ S.suspend(() =>
     enableNRRForInboundMDN: S.Boolean,
     sha2AlgorithmFormat: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AS2SecuritySettings",
-}) as any as S.Schema<AS2SecuritySettings>;
+).annotate({ identifier: "AS2SecuritySettings" }) as any as S.Schema<AS2SecuritySettings>;
 
 /** The encryption algorithm. */
 export type EncryptionAlgorithm =
@@ -916,9 +896,7 @@ export const AS2ValidationSettings = /*@__PURE__*/ S.suspend(() =>
     encryptionAlgorithm: EncryptionAlgorithm,
     signingAlgorithm: S.optional(SigningAlgorithm),
   }),
-).annotate({
-  identifier: "AS2ValidationSettings",
-}) as any as S.Schema<AS2ValidationSettings>;
+).annotate({ identifier: "AS2ValidationSettings" }) as any as S.Schema<AS2ValidationSettings>;
 
 /** The AS2 agreement envelope settings. */
 export interface AS2EnvelopeSettings {
@@ -941,9 +919,7 @@ export const AS2EnvelopeSettings = /*@__PURE__*/ S.suspend(() =>
     suspendMessageOnFileNameGenerationError: S.Boolean,
     autogenerateFileName: S.Boolean,
   }),
-).annotate({
-  identifier: "AS2EnvelopeSettings",
-}) as any as S.Schema<AS2EnvelopeSettings>;
+).annotate({ identifier: "AS2EnvelopeSettings" }) as any as S.Schema<AS2EnvelopeSettings>;
 
 /** The AS2 agreement error settings. */
 export interface AS2ErrorSettings {
@@ -957,9 +933,7 @@ export const AS2ErrorSettings = /*@__PURE__*/ S.suspend(() =>
     suspendDuplicateMessage: S.Boolean,
     resendIfMDNNotReceived: S.Boolean,
   }),
-).annotate({
-  identifier: "AS2ErrorSettings",
-}) as any as S.Schema<AS2ErrorSettings>;
+).annotate({ identifier: "AS2ErrorSettings" }) as any as S.Schema<AS2ErrorSettings>;
 
 /** The AS2 agreement protocol settings. */
 export interface AS2ProtocolSettings {
@@ -988,9 +962,7 @@ export const AS2ProtocolSettings = /*@__PURE__*/ S.suspend(() =>
     envelopeSettings: AS2EnvelopeSettings,
     errorSettings: AS2ErrorSettings,
   }),
-).annotate({
-  identifier: "AS2ProtocolSettings",
-}) as any as S.Schema<AS2ProtocolSettings>;
+).annotate({ identifier: "AS2ProtocolSettings" }) as any as S.Schema<AS2ProtocolSettings>;
 
 /** The integration account AS2 one-way agreement. */
 export interface AS2OneWayAgreement {
@@ -1007,9 +979,7 @@ export const AS2OneWayAgreement = /*@__PURE__*/ S.suspend(() =>
     receiverBusinessIdentity: BusinessIdentity,
     protocolSettings: AS2ProtocolSettings,
   }),
-).annotate({
-  identifier: "AS2OneWayAgreement",
-}) as any as S.Schema<AS2OneWayAgreement>;
+).annotate({ identifier: "AS2OneWayAgreement" }) as any as S.Schema<AS2OneWayAgreement>;
 
 /** The integration account AS2 agreement content. */
 export interface AS2AgreementContent {
@@ -1023,9 +993,7 @@ export const AS2AgreementContent = /*@__PURE__*/ S.suspend(() =>
     receiveAgreement: AS2OneWayAgreement,
     sendAgreement: AS2OneWayAgreement,
   }),
-).annotate({
-  identifier: "AS2AgreementContent",
-}) as any as S.Schema<AS2AgreementContent>;
+).annotate({ identifier: "AS2AgreementContent" }) as any as S.Schema<AS2AgreementContent>;
 
 /** The trailing separator policy. */
 export type TrailingSeparatorPolicy = "NotSpecified" | "NotAllowed" | "Optional" | "Mandatory";
@@ -1067,9 +1035,7 @@ export const X12ValidationSettings = /*@__PURE__*/ S.suspend(() =>
     trimLeadingAndTrailingSpacesAndZeroes: S.Boolean,
     trailingSeparatorPolicy: TrailingSeparatorPolicy,
   }),
-).annotate({
-  identifier: "X12ValidationSettings",
-}) as any as S.Schema<X12ValidationSettings>;
+).annotate({ identifier: "X12ValidationSettings" }) as any as S.Schema<X12ValidationSettings>;
 
 /** The X12 character set. */
 export type X12CharacterSet = "NotSpecified" | "Basic" | "Extended" | "UTF8";
@@ -1106,9 +1072,7 @@ export const X12FramingSettings = /*@__PURE__*/ S.suspend(() =>
     characterSet: X12CharacterSet,
     segmentTerminatorSuffix: SegmentTerminatorSuffix,
   }),
-).annotate({
-  identifier: "X12FramingSettings",
-}) as any as S.Schema<X12FramingSettings>;
+).annotate({ identifier: "X12FramingSettings" }) as any as S.Schema<X12FramingSettings>;
 
 /** The x12 date format. */
 export type X12DateFormat = "NotSpecified" | "CCYYMMDD" | "YYMMDD";
@@ -1200,9 +1164,7 @@ export const X12EnvelopeSettings = /*@__PURE__*/ S.suspend(() =>
     groupHeaderTimeFormat: X12TimeFormat,
     usageIndicator: UsageIndicator,
   }),
-).annotate({
-  identifier: "X12EnvelopeSettings",
-}) as any as S.Schema<X12EnvelopeSettings>;
+).annotate({ identifier: "X12EnvelopeSettings" }) as any as S.Schema<X12EnvelopeSettings>;
 
 /** The X12 agreement acknowledgement settings. */
 export interface X12AcknowledgementSettings {
@@ -1272,9 +1234,7 @@ export const X12MessageFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messageFilterType: MessageFilterType,
   }),
-).annotate({
-  identifier: "X12MessageFilter",
-}) as any as S.Schema<X12MessageFilter>;
+).annotate({ identifier: "X12MessageFilter" }) as any as S.Schema<X12MessageFilter>;
 
 /** The X12 agreement security settings. */
 export interface X12SecuritySettings {
@@ -1294,9 +1254,7 @@ export const X12SecuritySettings = /*@__PURE__*/ S.suspend(() =>
     securityQualifier: S.String,
     passwordValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "X12SecuritySettings",
-}) as any as S.Schema<X12SecuritySettings>;
+).annotate({ identifier: "X12SecuritySettings" }) as any as S.Schema<X12SecuritySettings>;
 
 /** The X12 processing settings. */
 export interface X12ProcessingSettings {
@@ -1322,9 +1280,7 @@ export const X12ProcessingSettings = /*@__PURE__*/ S.suspend(() =>
     createEmptyXmlTagsForTrailingSeparators: S.Boolean,
     useDotAsDecimalSeparator: S.Boolean,
   }),
-).annotate({
-  identifier: "X12ProcessingSettings",
-}) as any as S.Schema<X12ProcessingSettings>;
+).annotate({ identifier: "X12ProcessingSettings" }) as any as S.Schema<X12ProcessingSettings>;
 
 /** The X12 envelope override settings. */
 export interface X12EnvelopeOverride {
@@ -1362,9 +1318,7 @@ export const X12EnvelopeOverride = /*@__PURE__*/ S.suspend(() =>
     dateFormat: X12DateFormat,
     timeFormat: X12TimeFormat,
   }),
-).annotate({
-  identifier: "X12EnvelopeOverride",
-}) as any as S.Schema<X12EnvelopeOverride>;
+).annotate({ identifier: "X12EnvelopeOverride" }) as any as S.Schema<X12EnvelopeOverride>;
 
 /** The X12 envelope override settings. */
 export type X12ProtocolSettingsEnvelopeOverridesList = Array<X12EnvelopeOverride>;
@@ -1399,9 +1353,7 @@ export const X12ValidationOverride = /*@__PURE__*/ S.suspend(() =>
     trimLeadingAndTrailingSpacesAndZeroes: S.Boolean,
     trailingSeparatorPolicy: TrailingSeparatorPolicy,
   }),
-).annotate({
-  identifier: "X12ValidationOverride",
-}) as any as S.Schema<X12ValidationOverride>;
+).annotate({ identifier: "X12ValidationOverride" }) as any as S.Schema<X12ValidationOverride>;
 
 /** The X12 validation override settings. */
 export type X12ProtocolSettingsValidationOverridesList = Array<X12ValidationOverride>;
@@ -1418,9 +1370,7 @@ export const X12MessageIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messageId: S.String,
   }),
-).annotate({
-  identifier: "X12MessageIdentifier",
-}) as any as S.Schema<X12MessageIdentifier>;
+).annotate({ identifier: "X12MessageIdentifier" }) as any as S.Schema<X12MessageIdentifier>;
 
 /** The X12 message filter list. */
 export type X12ProtocolSettingsMessageFilterListList = Array<X12MessageIdentifier>;
@@ -1446,9 +1396,7 @@ export const X12SchemaReference = /*@__PURE__*/ S.suspend(() =>
     schemaVersion: S.String,
     schemaName: S.String,
   }),
-).annotate({
-  identifier: "X12SchemaReference",
-}) as any as S.Schema<X12SchemaReference>;
+).annotate({ identifier: "X12SchemaReference" }) as any as S.Schema<X12SchemaReference>;
 
 /** The X12 schema references. */
 export type X12ProtocolSettingsSchemaReferencesList = Array<X12SchemaReference>;
@@ -1489,9 +1437,7 @@ export const X12DelimiterOverrides = /*@__PURE__*/ S.suspend(() =>
     replaceSeparatorsInPayload: S.Boolean,
     targetNamespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "X12DelimiterOverrides",
-}) as any as S.Schema<X12DelimiterOverrides>;
+).annotate({ identifier: "X12DelimiterOverrides" }) as any as S.Schema<X12DelimiterOverrides>;
 
 /** The X12 delimiter override settings. */
 export type X12ProtocolSettingsX12DelimiterOverridesList = Array<X12DelimiterOverrides>;
@@ -1541,9 +1487,7 @@ export const X12ProtocolSettings = /*@__PURE__*/ S.suspend(() =>
     schemaReferences: X12ProtocolSettingsSchemaReferencesList,
     x12DelimiterOverrides: S.optional(X12ProtocolSettingsX12DelimiterOverridesList),
   }),
-).annotate({
-  identifier: "X12ProtocolSettings",
-}) as any as S.Schema<X12ProtocolSettings>;
+).annotate({ identifier: "X12ProtocolSettings" }) as any as S.Schema<X12ProtocolSettings>;
 
 /** The X12 one-way agreement. */
 export interface X12OneWayAgreement {
@@ -1560,9 +1504,7 @@ export const X12OneWayAgreement = /*@__PURE__*/ S.suspend(() =>
     receiverBusinessIdentity: BusinessIdentity,
     protocolSettings: X12ProtocolSettings,
   }),
-).annotate({
-  identifier: "X12OneWayAgreement",
-}) as any as S.Schema<X12OneWayAgreement>;
+).annotate({ identifier: "X12OneWayAgreement" }) as any as S.Schema<X12OneWayAgreement>;
 
 /** The X12 agreement content. */
 export interface X12AgreementContent {
@@ -1576,9 +1518,7 @@ export const X12AgreementContent = /*@__PURE__*/ S.suspend(() =>
     receiveAgreement: X12OneWayAgreement,
     sendAgreement: X12OneWayAgreement,
   }),
-).annotate({
-  identifier: "X12AgreementContent",
-}) as any as S.Schema<X12AgreementContent>;
+).annotate({ identifier: "X12AgreementContent" }) as any as S.Schema<X12AgreementContent>;
 
 /** The Edifact agreement validation settings. */
 export type EdifactValidationSettings = X12ValidationSettings;
@@ -1646,9 +1586,7 @@ export const EdifactFramingSettings = /*@__PURE__*/ S.suspend(() =>
     decimalPointIndicator: EdifactDecimalIndicator,
     segmentTerminatorSuffix: SegmentTerminatorSuffix,
   }),
-).annotate({
-  identifier: "EdifactFramingSettings",
-}) as any as S.Schema<EdifactFramingSettings>;
+).annotate({ identifier: "EdifactFramingSettings" }) as any as S.Schema<EdifactFramingSettings>;
 
 /** The Edifact agreement envelope settings. */
 export interface EdifactEnvelopeSettings {
@@ -1779,9 +1717,7 @@ export const EdifactEnvelopeSettings = /*@__PURE__*/ S.suspend(() =>
     receiverInternalIdentification: S.optional(S.String),
     receiverInternalSubIdentification: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EdifactEnvelopeSettings",
-}) as any as S.Schema<EdifactEnvelopeSettings>;
+).annotate({ identifier: "EdifactEnvelopeSettings" }) as any as S.Schema<EdifactEnvelopeSettings>;
 
 /** The Edifact agreement acknowledgement settings. */
 export interface EdifactAcknowledgementSettings {
@@ -1906,9 +1842,7 @@ export const EdifactEnvelopeOverride = /*@__PURE__*/ S.suspend(() =>
     associationAssignedCode: S.optional(S.String),
     applicationPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "EdifactEnvelopeOverride",
-}) as any as S.Schema<EdifactEnvelopeOverride>;
+).annotate({ identifier: "EdifactEnvelopeOverride" }) as any as S.Schema<EdifactEnvelopeOverride>;
 
 /** The EDIFACT envelope override settings. */
 export type EdifactProtocolSettingsEnvelopeOverridesList = Array<EdifactEnvelopeOverride>;
@@ -1925,9 +1859,7 @@ export const EdifactMessageIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     messageId: S.String,
   }),
-).annotate({
-  identifier: "EdifactMessageIdentifier",
-}) as any as S.Schema<EdifactMessageIdentifier>;
+).annotate({ identifier: "EdifactMessageIdentifier" }) as any as S.Schema<EdifactMessageIdentifier>;
 
 /** The EDIFACT message filter list. */
 export type EdifactProtocolSettingsMessageFilterListList = Array<EdifactMessageIdentifier>;
@@ -1962,9 +1894,7 @@ export const EdifactSchemaReference = /*@__PURE__*/ S.suspend(() =>
     associationAssignedCode: S.optional(S.String),
     schemaName: S.String,
   }),
-).annotate({
-  identifier: "EdifactSchemaReference",
-}) as any as S.Schema<EdifactSchemaReference>;
+).annotate({ identifier: "EdifactSchemaReference" }) as any as S.Schema<EdifactSchemaReference>;
 
 /** The EDIFACT schema references. */
 export type EdifactProtocolSettingsSchemaReferencesList = Array<EdifactSchemaReference>;
@@ -2051,9 +1981,7 @@ export const EdifactDelimiterOverride = /*@__PURE__*/ S.suspend(() =>
     messageAssociationAssignedCode: S.optional(S.String),
     targetNamespace: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EdifactDelimiterOverride",
-}) as any as S.Schema<EdifactDelimiterOverride>;
+).annotate({ identifier: "EdifactDelimiterOverride" }) as any as S.Schema<EdifactDelimiterOverride>;
 
 /** The EDIFACT delimiter override settings. */
 export type EdifactProtocolSettingsEdifactDelimiterOverridesList = Array<EdifactDelimiterOverride>;
@@ -2100,9 +2028,7 @@ export const EdifactProtocolSettings = /*@__PURE__*/ S.suspend(() =>
     validationOverrides: S.optional(EdifactProtocolSettingsValidationOverridesList),
     edifactDelimiterOverrides: S.optional(EdifactProtocolSettingsEdifactDelimiterOverridesList),
   }),
-).annotate({
-  identifier: "EdifactProtocolSettings",
-}) as any as S.Schema<EdifactProtocolSettings>;
+).annotate({ identifier: "EdifactProtocolSettings" }) as any as S.Schema<EdifactProtocolSettings>;
 
 /** The Edifact one way agreement. */
 export interface EdifactOneWayAgreement {
@@ -2119,9 +2045,7 @@ export const EdifactOneWayAgreement = /*@__PURE__*/ S.suspend(() =>
     receiverBusinessIdentity: BusinessIdentity,
     protocolSettings: EdifactProtocolSettings,
   }),
-).annotate({
-  identifier: "EdifactOneWayAgreement",
-}) as any as S.Schema<EdifactOneWayAgreement>;
+).annotate({ identifier: "EdifactOneWayAgreement" }) as any as S.Schema<EdifactOneWayAgreement>;
 
 /** The Edifact agreement content. */
 export interface EdifactAgreementContent {
@@ -2135,9 +2059,7 @@ export const EdifactAgreementContent = /*@__PURE__*/ S.suspend(() =>
     receiveAgreement: EdifactOneWayAgreement,
     sendAgreement: EdifactOneWayAgreement,
   }),
-).annotate({
-  identifier: "EdifactAgreementContent",
-}) as any as S.Schema<EdifactAgreementContent>;
+).annotate({ identifier: "EdifactAgreementContent" }) as any as S.Schema<EdifactAgreementContent>;
 
 /** The integration account agreement content. */
 export interface AgreementContent {
@@ -2154,9 +2076,7 @@ export const AgreementContent = /*@__PURE__*/ S.suspend(() =>
     x12: S.optional(X12AgreementContent),
     edifact: S.optional(EdifactAgreementContent),
   }),
-).annotate({
-  identifier: "AgreementContent",
-}) as any as S.Schema<AgreementContent>;
+).annotate({ identifier: "AgreementContent" }) as any as S.Schema<AgreementContent>;
 
 /** The integration account agreement properties. */
 export interface IntegrationAccountAgreementProperties {
@@ -2251,9 +2171,7 @@ export const GetIntegrationAccountAssemblyRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<GetIntegrationAccountAssemblyRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountAssemblyResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountAssemblyResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountAssemblyResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2330,9 +2248,7 @@ export const AssemblyProperties = /*@__PURE__*/ S.suspend(() =>
     assemblyCulture: S.optional(S.String),
     assemblyPublicKeyToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssemblyProperties",
-}) as any as S.Schema<AssemblyProperties>;
+).annotate({ identifier: "AssemblyProperties" }) as any as S.Schema<AssemblyProperties>;
 
 export interface GetIntegrationAccountAssemblyResponse {
   /** The resource id. */
@@ -2498,9 +2414,7 @@ export const RecurrenceSchedule = /*@__PURE__*/ S.suspend(() =>
     monthDays: S.optional(RecurrenceScheduleMonthDaysList),
     monthlyOccurrences: S.optional(RecurrenceScheduleMonthlyOccurrencesList),
   }),
-).annotate({
-  identifier: "RecurrenceSchedule",
-}) as any as S.Schema<RecurrenceSchedule>;
+).annotate({ identifier: "RecurrenceSchedule" }) as any as S.Schema<RecurrenceSchedule>;
 
 /** The workflow trigger recurrence. */
 export interface WorkflowTriggerRecurrence {
@@ -2545,9 +2459,7 @@ export const BatchReleaseCriteria = /*@__PURE__*/ S.suspend(() =>
     batchSize: S.optional(S.Number),
     recurrence: S.optional(WorkflowTriggerRecurrence),
   }),
-).annotate({
-  identifier: "BatchReleaseCriteria",
-}) as any as S.Schema<BatchReleaseCriteria>;
+).annotate({ identifier: "BatchReleaseCriteria" }) as any as S.Schema<BatchReleaseCriteria>;
 
 /** The batch configuration properties definition. */
 export interface BatchConfigurationProperties {
@@ -2629,9 +2541,7 @@ export const GetIntegrationAccountCertificateRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetIntegrationAccountCertificateRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountCertificateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountCertificateResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountCertificateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2671,9 +2581,7 @@ export const KeyVaultKeyReference = /*@__PURE__*/ S.suspend(() =>
     keyName: S.String,
     keyVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultKeyReference",
-}) as any as S.Schema<KeyVaultKeyReference>;
+).annotate({ identifier: "KeyVaultKeyReference" }) as any as S.Schema<KeyVaultKeyReference>;
 
 /** The integration account certificate properties. */
 export interface IntegrationAccountCertificateProperties {
@@ -2756,9 +2664,7 @@ export const GetIntegrationAccountMapRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetIntegrationAccountMapRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountMapResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountMapResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountMapResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2871,9 +2777,7 @@ export const GetIntegrationAccountPartnerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetIntegrationAccountPartnerRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountPartnerResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountPartnerResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountPartnerResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2898,9 +2802,7 @@ export const B2BPartnerContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     businessIdentities: S.optional(B2BPartnerContentBusinessIdentitiesList),
   }),
-).annotate({
-  identifier: "B2BPartnerContent",
-}) as any as S.Schema<B2BPartnerContent>;
+).annotate({ identifier: "B2BPartnerContent" }) as any as S.Schema<B2BPartnerContent>;
 
 /** The integration account partner content. */
 export interface PartnerContent {
@@ -2994,9 +2896,7 @@ export const GetIntegrationAccountSchemaRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetIntegrationAccountSchemaRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountSchemaResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountSchemaResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountSchemaResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3102,9 +3002,7 @@ export const GetIntegrationAccountSessionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetIntegrationAccountSessionRequest>;
 
 /** The resource tags. */
-export type GetIntegrationAccountSessionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationAccountSessionResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationAccountSessionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3182,9 +3080,7 @@ export const GetIntegrationServiceEnvironmentRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetIntegrationServiceEnvironmentRequest>;
 
 /** The resource tags. */
-export type GetIntegrationServiceEnvironmentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIntegrationServiceEnvironmentResponseTagsMap = { [key: string]: string | undefined };
 export const GetIntegrationServiceEnvironmentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3310,9 +3206,7 @@ export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
     accessEndpoint: S.optional(IntegrationServiceEnvironmentAccessEndpoint),
     subnets: S.optional(NetworkConfigurationSubnetsList),
   }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 
 /** The encryption key details for the integration service environment. */
 export interface IntegrationServiceEnvironmenEncryptionKeyReference {
@@ -3410,9 +3304,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName} */
 export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
@@ -3441,9 +3333,7 @@ export const ManagedServiceIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     userAssignedIdentities: S.optional(ManagedServiceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ManagedServiceIdentity",
-}) as any as S.Schema<ManagedServiceIdentity>;
+).annotate({ identifier: "ManagedServiceIdentity" }) as any as S.Schema<ManagedServiceIdentity>;
 
 export interface GetIntegrationServiceEnvironmentResponse {
   /** The resource id. */
@@ -3639,9 +3529,7 @@ export const ApiResourceMetadata = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(WorkflowProvisioningState),
     deploymentParameters: S.optional(ApiDeploymentParameterMetadataSet),
   }),
-).annotate({
-  identifier: "ApiResourceMetadata",
-}) as any as S.Schema<ApiResourceMetadata>;
+).annotate({ identifier: "ApiResourceMetadata" }) as any as S.Schema<ApiResourceMetadata>;
 
 /** The runtime urls. */
 export type IntegrationServiceEnvironmentManagedApiPropertiesRuntimeUrlsList = Array<string>;
@@ -3714,9 +3602,7 @@ export const ApiResourcePolicies = /*@__PURE__*/ S.suspend(() =>
     content: S.optional(S.String),
     contentLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiResourcePolicies",
-}) as any as S.Schema<ApiResourcePolicies>;
+).annotate({ identifier: "ApiResourcePolicies" }) as any as S.Schema<ApiResourcePolicies>;
 
 /** The Api resource definition. */
 export interface ApiResourceDefinitions {
@@ -3730,9 +3616,7 @@ export const ApiResourceDefinitions = /*@__PURE__*/ S.suspend(() =>
     originalSwaggerUrl: S.optional(S.String),
     modifiedSwaggerUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiResourceDefinitions",
-}) as any as S.Schema<ApiResourceDefinitions>;
+).annotate({ identifier: "ApiResourceDefinitions" }) as any as S.Schema<ApiResourceDefinitions>;
 
 /** The integration service environment managed api deployment parameters. */
 export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
@@ -3969,9 +3853,7 @@ export const ExtendedErrorInfo = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(ExtendedErrorInfoDetailsList),
     innerError: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ExtendedErrorInfo",
-}) as any as S.Schema<ExtendedErrorInfo>;
+).annotate({ identifier: "ExtendedErrorInfo" }) as any as S.Schema<ExtendedErrorInfo>;
 
 /** The integration service environment network dependency health state. */
 export type IntegrationServiceEnvironmentNetworkDependencyHealthState =
@@ -4056,9 +3938,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 /** The resource tags. */
 export type GetWorkflowResponseTagsMap = { [key: string]: string | undefined };
@@ -4239,14 +4119,10 @@ export const WorkflowParameter = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.Unknown),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowParameter",
-}) as any as S.Schema<WorkflowParameter>;
+).annotate({ identifier: "WorkflowParameter" }) as any as S.Schema<WorkflowParameter>;
 
 /** The parameters. */
-export type WorkflowPropertiesParametersMap = {
-  [key: string]: WorkflowParameter | undefined;
-};
+export type WorkflowPropertiesParametersMap = { [key: string]: WorkflowParameter | undefined };
 export const WorkflowPropertiesParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   WorkflowParameter,
@@ -4297,9 +4173,7 @@ export const WorkflowProperties = /*@__PURE__*/ S.suspend(() =>
     definition: S.optional(S.Unknown),
     parameters: S.optional(WorkflowPropertiesParametersMap),
   }),
-).annotate({
-  identifier: "WorkflowProperties",
-}) as any as S.Schema<WorkflowProperties>;
+).annotate({ identifier: "WorkflowProperties" }) as any as S.Schema<WorkflowProperties>;
 
 export interface GetWorkflowResponse {
   /** The resource id. */
@@ -4326,9 +4200,7 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WorkflowProperties),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "GetWorkflowResponse",
-}) as any as S.Schema<GetWorkflowResponse>;
+).annotate({ identifier: "GetWorkflowResponse" }) as any as S.Schema<GetWorkflowResponse>;
 
 export interface GetWorkflowRunRequest {
   /** The subscription id. */
@@ -4354,9 +4226,7 @@ export const GetWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowRunRequest",
-}) as any as S.Schema<GetWorkflowRunRequest>;
+).annotate({ identifier: "GetWorkflowRunRequest" }) as any as S.Schema<GetWorkflowRunRequest>;
 
 /** The workflow status. */
 export type WorkflowStatus =
@@ -4434,9 +4304,7 @@ export const WorkflowRunTrigger = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(S.Unknown),
     trackedProperties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WorkflowRunTrigger",
-}) as any as S.Schema<WorkflowRunTrigger>;
+).annotate({ identifier: "WorkflowRunTrigger" }) as any as S.Schema<WorkflowRunTrigger>;
 
 /** The workflow output parameter. */
 export interface WorkflowOutputParameter {
@@ -4459,9 +4327,7 @@ export const WorkflowOutputParameter = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     error: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "WorkflowOutputParameter",
-}) as any as S.Schema<WorkflowOutputParameter>;
+).annotate({ identifier: "WorkflowOutputParameter" }) as any as S.Schema<WorkflowOutputParameter>;
 
 /** Gets the outputs. */
 export type WorkflowRunPropertiesOutputsMap = {
@@ -4514,9 +4380,7 @@ export const WorkflowRunProperties = /*@__PURE__*/ S.suspend(() =>
     outputs: S.optional(WorkflowRunPropertiesOutputsMap),
     response: S.optional(WorkflowRunTrigger),
   }),
-).annotate({
-  identifier: "WorkflowRunProperties",
-}) as any as S.Schema<WorkflowRunProperties>;
+).annotate({ identifier: "WorkflowRunProperties" }) as any as S.Schema<WorkflowRunProperties>;
 
 export interface GetWorkflowRunResponse {
   /** The resource id. */
@@ -4535,9 +4399,7 @@ export const GetWorkflowRunResponse = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWorkflowRunResponse",
-}) as any as S.Schema<GetWorkflowRunResponse>;
+).annotate({ identifier: "GetWorkflowRunResponse" }) as any as S.Schema<GetWorkflowRunResponse>;
 
 export interface GetWorkflowRunActionRequest {
   /** The subscription id. */
@@ -4591,9 +4453,7 @@ export const RunActionCorrelation = /*@__PURE__*/ S.suspend(() =>
     clientKeywords: S.optional(RunActionCorrelationClientKeywordsList),
     actionTrackingId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RunActionCorrelation",
-}) as any as S.Schema<RunActionCorrelation>;
+).annotate({ identifier: "RunActionCorrelation" }) as any as S.Schema<RunActionCorrelation>;
 
 /** Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message. */
 export interface ErrorProperties {
@@ -4607,9 +4467,7 @@ export const ErrorProperties = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ErrorProperties",
-}) as any as S.Schema<ErrorProperties>;
+).annotate({ identifier: "ErrorProperties" }) as any as S.Schema<ErrorProperties>;
 
 /** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
 export interface ErrorResponse {
@@ -4753,9 +4611,7 @@ export const GetWorkflowRunActionRepetitionRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetWorkflowRunActionRepetitionRequest>;
 
 /** The resource tags. */
-export type GetWorkflowRunActionRepetitionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetWorkflowRunActionRepetitionResponseTagsMap = { [key: string]: string | undefined };
 export const GetWorkflowRunActionRepetitionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4779,9 +4635,7 @@ export const RepetitionIndex = /*@__PURE__*/ S.suspend(() =>
     scopeName: S.optional(S.String),
     itemIndex: S.Number,
   }),
-).annotate({
-  identifier: "RepetitionIndex",
-}) as any as S.Schema<RepetitionIndex>;
+).annotate({ identifier: "RepetitionIndex" }) as any as S.Schema<RepetitionIndex>;
 
 /** The repetition indexes. */
 export type WorkflowRunActionRepetitionPropertiesRepetitionIndexesList = Array<RepetitionIndex>;
@@ -4967,9 +4821,7 @@ export const RequestHistoryProperties = /*@__PURE__*/ S.suspend(() =>
     request: S.optional(Request),
     response: S.optional(Response),
   }),
-).annotate({
-  identifier: "RequestHistoryProperties",
-}) as any as S.Schema<RequestHistoryProperties>;
+).annotate({ identifier: "RequestHistoryProperties" }) as any as S.Schema<RequestHistoryProperties>;
 
 export interface GetWorkflowRunActionRepetitionsRequestHistoryResponse {
   /** The resource id. */
@@ -5467,9 +5319,7 @@ export const GetWorkflowVersionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetWorkflowVersionRequest>;
 
 /** The resource tags. */
-export type GetWorkflowVersionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetWorkflowVersionResponseTagsMap = { [key: string]: string | undefined };
 export const GetWorkflowVersionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5688,9 +5538,7 @@ export const ContentLinkInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     uri: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContentLinkInput",
-}) as any as S.Schema<ContentLinkInput>;
+).annotate({ identifier: "ContentLinkInput" }) as any as S.Schema<ContentLinkInput>;
 
 /** The assembly properties definition. */
 export interface AssemblyPropertiesInput {
@@ -5726,9 +5574,7 @@ export const AssemblyPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     assemblyCulture: S.optional(S.String),
     assemblyPublicKeyToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssemblyPropertiesInput",
-}) as any as S.Schema<AssemblyPropertiesInput>;
+).annotate({ identifier: "AssemblyPropertiesInput" }) as any as S.Schema<AssemblyPropertiesInput>;
 
 export interface IntegrationAccountAssembliesCreateOrUpdateRequest {
   /** The subscription id. */
@@ -6350,9 +6196,7 @@ export const IntegrationAccountSchemasCreateOrUpdateResponse = /*@__PURE__*/ S.s
 }) as any as S.Schema<IntegrationAccountSchemasCreateOrUpdateResponse>;
 
 /** The resource tags. */
-export type IntegrationAccountsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6595,9 +6439,7 @@ export const TrackingEventErrorInfo = /*@__PURE__*/ S.suspend(() =>
     message: S.optional(S.String),
     code: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TrackingEventErrorInfo",
-}) as any as S.Schema<TrackingEventErrorInfo>;
+).annotate({ identifier: "TrackingEventErrorInfo" }) as any as S.Schema<TrackingEventErrorInfo>;
 
 /** The tracking event. */
 export interface TrackingEvent {
@@ -7009,9 +6851,7 @@ export const ListIntegrationAccountAgreementsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ListIntegrationAccountAgreementsRequest>;
 
 /** The resource tags. */
-export type IntegrationAccountAgreementTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountAgreementTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountAgreementTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7123,9 +6963,7 @@ export const AssemblyDefinition = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(AssemblyDefinitionTagsMap),
     properties: AssemblyProperties,
   }),
-).annotate({
-  identifier: "AssemblyDefinition",
-}) as any as S.Schema<AssemblyDefinition>;
+).annotate({ identifier: "AssemblyDefinition" }) as any as S.Schema<AssemblyDefinition>;
 
 export type AssemblyCollectionValueList = Array<AssemblyDefinition>;
 export const AssemblyCollectionValueList = /*@__PURE__*/ S.Array(
@@ -7140,9 +6978,7 @@ export const AssemblyCollection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(AssemblyCollectionValueList),
   }),
-).annotate({
-  identifier: "AssemblyCollection",
-}) as any as S.Schema<AssemblyCollection>;
+).annotate({ identifier: "AssemblyCollection" }) as any as S.Schema<AssemblyCollection>;
 
 export interface ListIntegrationAccountAssemblyContentCallbackUrlRequest {
   /** The subscription id. */
@@ -7228,9 +7064,7 @@ export const BatchConfiguration = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(BatchConfigurationTagsMap),
     properties: BatchConfigurationProperties,
   }),
-).annotate({
-  identifier: "BatchConfiguration",
-}) as any as S.Schema<BatchConfiguration>;
+).annotate({ identifier: "BatchConfiguration" }) as any as S.Schema<BatchConfiguration>;
 
 export type BatchConfigurationCollectionValueList = Array<BatchConfiguration>;
 export const BatchConfigurationCollectionValueList = /*@__PURE__*/ S.Array(
@@ -7308,9 +7142,7 @@ export const IntegrationAccount = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IntegrationAccountProperties),
     sku: S.optional(IntegrationAccountSku),
   }),
-).annotate({
-  identifier: "IntegrationAccount",
-}) as any as S.Schema<IntegrationAccount>;
+).annotate({ identifier: "IntegrationAccount" }) as any as S.Schema<IntegrationAccount>;
 
 /** The list of integration accounts. */
 export type IntegrationAccountListResultValueList = Array<IntegrationAccount>;
@@ -7427,9 +7259,7 @@ export const ListIntegrationAccountCertificatesRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<ListIntegrationAccountCertificatesRequest>;
 
 /** The resource tags. */
-export type IntegrationAccountCertificateTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountCertificateTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountCertificateTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7535,9 +7365,7 @@ export const KeyVaultKeyAttributes = /*@__PURE__*/ S.suspend(() =>
     created: S.optional(S.Number),
     updated: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "KeyVaultKeyAttributes",
-}) as any as S.Schema<KeyVaultKeyAttributes>;
+).annotate({ identifier: "KeyVaultKeyAttributes" }) as any as S.Schema<KeyVaultKeyAttributes>;
 
 /** The key vault key. */
 export interface KeyVaultKey {
@@ -7571,9 +7399,7 @@ export const KeyVaultKeyCollection = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(KeyVaultKeyCollectionValueList),
     skipToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultKeyCollection",
-}) as any as S.Schema<KeyVaultKeyCollection>;
+).annotate({ identifier: "KeyVaultKeyCollection" }) as any as S.Schema<KeyVaultKeyCollection>;
 
 export interface ListIntegrationAccountMapContentCallbackUrlRequest {
   /** The subscription id. */
@@ -7641,9 +7467,7 @@ export const ListIntegrationAccountMapsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListIntegrationAccountMapsRequest>;
 
 /** The resource tags. */
-export type IntegrationAccountMapTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountMapTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountMapTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7673,9 +7497,7 @@ export const IntegrationAccountMap = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(IntegrationAccountMapTagsMap),
     properties: IntegrationAccountMapProperties,
   }),
-).annotate({
-  identifier: "IntegrationAccountMap",
-}) as any as S.Schema<IntegrationAccountMap>;
+).annotate({ identifier: "IntegrationAccountMap" }) as any as S.Schema<IntegrationAccountMap>;
 
 /** The list of integration account maps. */
 export type IntegrationAccountMapListResultValueList = Array<IntegrationAccountMap>;
@@ -7765,9 +7587,7 @@ export const ListIntegrationAccountPartnersRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListIntegrationAccountPartnersRequest>;
 
 /** The resource tags. */
-export type IntegrationAccountPartnerTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountPartnerTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountPartnerTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7889,9 +7709,7 @@ export const ListIntegrationAccountSchemasRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<ListIntegrationAccountSchemasRequest>;
 
 /** The resource tags. */
-export type IntegrationAccountSchemaTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountSchemaTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountSchemaTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7921,9 +7739,7 @@ export const IntegrationAccountSchema = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(IntegrationAccountSchemaTagsMap),
     properties: IntegrationAccountSchemaProperties,
   }),
-).annotate({
-  identifier: "IntegrationAccountSchema",
-}) as any as S.Schema<IntegrationAccountSchema>;
+).annotate({ identifier: "IntegrationAccountSchema" }) as any as S.Schema<IntegrationAccountSchema>;
 
 /** The list of integration account schemas. */
 export type IntegrationAccountSchemaListResultValueList = Array<IntegrationAccountSchema>;
@@ -7979,9 +7795,7 @@ export const ListIntegrationAccountSessionsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<ListIntegrationAccountSessionsRequest>;
 
 /** The resource tags. */
-export type IntegrationAccountSessionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationAccountSessionTagsMap = { [key: string]: string | undefined };
 export const IntegrationAccountSessionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8063,9 +7877,7 @@ export const ListIntegrationServiceEnvironmentByResourceGroupRequest = /*@__PURE
 }) as any as S.Schema<ListIntegrationServiceEnvironmentByResourceGroupRequest>;
 
 /** The resource tags. */
-export type IntegrationServiceEnvironmentTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationServiceEnvironmentTagsMap = { [key: string]: string | undefined };
 export const IntegrationServiceEnvironmentTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8200,9 +8012,7 @@ export const ApiOperationAnnotation = /*@__PURE__*/ S.suspend(() =>
     family: S.optional(S.String),
     revision: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ApiOperationAnnotation",
-}) as any as S.Schema<ApiOperationAnnotation>;
+).annotate({ identifier: "ApiOperationAnnotation" }) as any as S.Schema<ApiOperationAnnotation>;
 
 /** The Api reference. */
 export interface ApiReference {
@@ -8255,9 +8065,7 @@ export type SwaggerSchemaType =
 export const SwaggerSchemaType = S.String;
 
 /** The object properties */
-export type SwaggerSchemaPropertiesMap = {
-  [key: string]: SwaggerSchema | undefined;
-};
+export type SwaggerSchemaPropertiesMap = { [key: string]: SwaggerSchema | undefined };
 export const SwaggerSchemaPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => SwaggerSchema),
@@ -8309,9 +8117,7 @@ export const SwaggerXml = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SwaggerXml" }) as any as S.Schema<SwaggerXml>;
 
 /** The vendor extensions. */
-export type SwaggerExternalDocumentationExtensionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type SwaggerExternalDocumentationExtensionsMap = { [key: string]: unknown | undefined };
 export const SwaggerExternalDocumentationExtensionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8337,9 +8143,7 @@ export const SwaggerExternalDocumentation = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SwaggerExternalDocumentation>;
 
 /** The operation parameters. */
-export type SwaggerCustomDynamicSchemaParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type SwaggerCustomDynamicSchemaParametersMap = { [key: string]: unknown | undefined };
 export const SwaggerCustomDynamicSchemaParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8425,9 +8229,7 @@ export const SwaggerCustomDynamicList = /*@__PURE__*/ S.suspend(() =>
     itemTitlePath: S.optional(S.String),
     parameters: S.optional(SwaggerCustomDynamicListParametersMap),
   }),
-).annotate({
-  identifier: "SwaggerCustomDynamicList",
-}) as any as S.Schema<SwaggerCustomDynamicList>;
+).annotate({ identifier: "SwaggerCustomDynamicList" }) as any as S.Schema<SwaggerCustomDynamicList>;
 
 /** The swagger custom dynamic tree settings. */
 export interface SwaggerCustomDynamicTreeSettings {
@@ -8523,9 +8325,7 @@ export const SwaggerCustomDynamicTree = /*@__PURE__*/ S.suspend(() =>
     open: S.optional(SwaggerCustomDynamicTreeCommand),
     browse: S.optional(SwaggerCustomDynamicTreeCommand),
   }),
-).annotate({
-  identifier: "SwaggerCustomDynamicTree",
-}) as any as S.Schema<SwaggerCustomDynamicTree>;
+).annotate({ identifier: "SwaggerCustomDynamicTree" }) as any as S.Schema<SwaggerCustomDynamicTree>;
 
 /** The swagger schema. */
 export interface SwaggerSchema {
@@ -8693,9 +8493,7 @@ export const ApiOperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApiOperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiOperationListResult",
-}) as any as S.Schema<ApiOperationListResult>;
+).annotate({ identifier: "ApiOperationListResult" }) as any as S.Schema<ApiOperationListResult>;
 
 export interface ListIntegrationServiceEnvironmentManagedApisRequest {
   /** The subscription id. */
@@ -8723,9 +8521,7 @@ export const ListIntegrationServiceEnvironmentManagedApisRequest = /*@__PURE__*/
 }) as any as S.Schema<ListIntegrationServiceEnvironmentManagedApisRequest>;
 
 /** The resource tags. */
-export type IntegrationServiceEnvironmentManagedApiTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IntegrationServiceEnvironmentManagedApiTagsMap = { [key: string]: string | undefined };
 export const IntegrationServiceEnvironmentManagedApiTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8901,9 +8697,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -8923,9 +8717,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Logic REST API operation */
 export interface Operation {
@@ -8965,9 +8757,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListWorkflowByResourceGroupRequest {
   /** The subscription id. */
@@ -9050,9 +8840,7 @@ export const WorkflowListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WorkflowListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowListResult",
-}) as any as S.Schema<WorkflowListResult>;
+).annotate({ identifier: "WorkflowListResult" }) as any as S.Schema<WorkflowListResult>;
 
 export interface ListWorkflowBySubscriptionRequest {
   /** The subscription id. */
@@ -9168,9 +8956,7 @@ export const AzureResourceErrorInfo = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     details: S.optional(AzureResourceErrorInfoDetailsList),
   }),
-).annotate({
-  identifier: "AzureResourceErrorInfo",
-}) as any as S.Schema<AzureResourceErrorInfo>;
+).annotate({ identifier: "AzureResourceErrorInfo" }) as any as S.Schema<AzureResourceErrorInfo>;
 
 /** The expression. */
 export interface Expression {
@@ -9230,9 +9016,7 @@ export const ExpressionTraces = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     inputs: S.optional(ExpressionTracesInputsList),
   }),
-).annotate({
-  identifier: "ExpressionTraces",
-}) as any as S.Schema<ExpressionTraces>;
+).annotate({ identifier: "ExpressionTraces" }) as any as S.Schema<ExpressionTraces>;
 
 export interface ListWorkflowRunActionRepetitionExpressionTracesRequest {
   /** The subscription id. */
@@ -9300,9 +9084,7 @@ export const ListWorkflowRunActionRepetitionsRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ListWorkflowRunActionRepetitionsRequest>;
 
 /** The resource tags. */
-export type WorkflowRunActionRepetitionDefinitionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkflowRunActionRepetitionDefinitionTagsMap = { [key: string]: string | undefined };
 export const WorkflowRunActionRepetitionDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9442,9 +9224,7 @@ export const RequestHistoryListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RequestHistoryListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RequestHistoryListResult",
-}) as any as S.Schema<RequestHistoryListResult>;
+).annotate({ identifier: "RequestHistoryListResult" }) as any as S.Schema<RequestHistoryListResult>;
 
 export interface ListWorkflowRunActionRequestHistoriesRequest {
   /** The subscription id. */
@@ -9529,9 +9309,7 @@ export const WorkflowRunAction = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowRunAction",
-}) as any as S.Schema<WorkflowRunAction>;
+).annotate({ identifier: "WorkflowRunAction" }) as any as S.Schema<WorkflowRunAction>;
 
 /** A list of workflow run actions. */
 export type WorkflowRunActionListResultValueList = Array<WorkflowRunAction>;
@@ -9613,9 +9391,7 @@ export const ListWorkflowRunsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListWorkflowRunsRequest",
-}) as any as S.Schema<ListWorkflowRunsRequest>;
+).annotate({ identifier: "ListWorkflowRunsRequest" }) as any as S.Schema<ListWorkflowRunsRequest>;
 
 /** The workflow run. */
 export interface WorkflowRun {
@@ -9655,9 +9431,7 @@ export const WorkflowRunListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WorkflowRunListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowRunListResult",
-}) as any as S.Schema<WorkflowRunListResult>;
+).annotate({ identifier: "WorkflowRunListResult" }) as any as S.Schema<WorkflowRunListResult>;
 
 export interface ListWorkflowSwaggerRequest {
   /** The subscription id. */
@@ -9771,9 +9545,7 @@ export const WorkflowTriggerHistory = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowTriggerHistory",
-}) as any as S.Schema<WorkflowTriggerHistory>;
+).annotate({ identifier: "WorkflowTriggerHistory" }) as any as S.Schema<WorkflowTriggerHistory>;
 
 /** A list of workflow trigger histories. */
 export type WorkflowTriggerHistoryListResultValueList = Array<WorkflowTriggerHistory>;
@@ -9846,9 +9618,7 @@ export const WorkflowTrigger = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowTrigger",
-}) as any as S.Schema<WorkflowTrigger>;
+).annotate({ identifier: "WorkflowTrigger" }) as any as S.Schema<WorkflowTrigger>;
 
 /** A list of workflow triggers. */
 export type WorkflowTriggerListResultValueList = Array<WorkflowTrigger>;
@@ -9931,9 +9701,7 @@ export const WorkflowVersion = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(WorkflowVersionTagsMap),
     properties: S.optional(WorkflowVersionProperties),
   }),
-).annotate({
-  identifier: "WorkflowVersion",
-}) as any as S.Schema<WorkflowVersion>;
+).annotate({ identifier: "WorkflowVersion" }) as any as S.Schema<WorkflowVersion>;
 
 /** A list of workflow versions. */
 export type WorkflowVersionListResultValueList = Array<WorkflowVersion>;
@@ -10018,9 +9786,7 @@ export const MoveWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "MoveWorkflowRequest",
-}) as any as S.Schema<MoveWorkflowRequest>;
+).annotate({ identifier: "MoveWorkflowRequest" }) as any as S.Schema<MoveWorkflowRequest>;
 
 export interface MoveWorkflowResponse {}
 export const MoveWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -10360,9 +10126,7 @@ export const SetWorkflowTriggerStateRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface SetWorkflowTriggerStateResponse {}
 export const SetWorkflowTriggerStateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "SetWorkflowTriggerStateResponse",
-  },
+  { identifier: "SetWorkflowTriggerStateResponse" },
 ) as any as S.Schema<SetWorkflowTriggerStateResponse>;
 
 export interface TriggerRunWorkflowRequest {
@@ -10399,9 +10163,7 @@ export const TriggerRunWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct
 }) as any as S.Schema<TriggerRunWorkflowResponse>;
 
 /** The resource tags. */
-export type UpdateIntegrationAccountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntegrationAccountRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIntegrationAccountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10445,9 +10207,7 @@ export const UpdateIntegrationAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIntegrationAccountRequest>;
 
 /** The resource tags. */
-export type UpdateIntegrationAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIntegrationAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIntegrationAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10593,14 +10353,10 @@ export const UpdateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkflowRequest",
-}) as any as S.Schema<UpdateWorkflowRequest>;
+).annotate({ identifier: "UpdateWorkflowRequest" }) as any as S.Schema<UpdateWorkflowRequest>;
 
 /** The resource tags. */
-export type UpdateWorkflowResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkflowResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkflowResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10631,23 +10387,17 @@ export const UpdateWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WorkflowProperties),
     identity: S.optional(ManagedServiceIdentity),
   }),
-).annotate({
-  identifier: "UpdateWorkflowResponse",
-}) as any as S.Schema<UpdateWorkflowResponse>;
+).annotate({ identifier: "UpdateWorkflowResponse" }) as any as S.Schema<UpdateWorkflowResponse>;
 
 /** The resource tags. */
-export type ValidateWorkflowByLocationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateWorkflowByLocationRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateWorkflowByLocationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
 ) as any as S.Schema<ValidateWorkflowByLocationRequestTagsMap>;
 
 /** The parameters. */
-export type WorkflowPropertiesInputParametersMap = {
-  [key: string]: WorkflowParameter | undefined;
-};
+export type WorkflowPropertiesInputParametersMap = { [key: string]: WorkflowParameter | undefined };
 export const WorkflowPropertiesInputParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   WorkflowParameter,
@@ -10680,9 +10430,7 @@ export const WorkflowPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     definition: S.optional(S.Unknown),
     parameters: S.optional(WorkflowPropertiesInputParametersMap),
   }),
-).annotate({
-  identifier: "WorkflowPropertiesInput",
-}) as any as S.Schema<WorkflowPropertiesInput>;
+).annotate({ identifier: "WorkflowPropertiesInput" }) as any as S.Schema<WorkflowPropertiesInput>;
 
 export interface ValidateWorkflowByLocationRequest {
   /** The subscription id. */
@@ -10728,9 +10476,7 @@ export const ValidateWorkflowByLocationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ValidateWorkflowByLocationResponse>;
 
 /** The resource tags. */
-export type ValidateWorkflowByResourceGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateWorkflowByResourceGroupRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateWorkflowByResourceGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10780,9 +10526,7 @@ export const ValidateWorkflowByResourceGroupResponse = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<ValidateWorkflowByResourceGroupResponse>;
 
 /** The resource tags. */
-export type WorkflowsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkflowsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkflowsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -10825,9 +10569,7 @@ export const WorkflowsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkflowsCreateOrUpdateRequest>;
 
 /** The resource tags. */
-export type WorkflowsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkflowsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkflowsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

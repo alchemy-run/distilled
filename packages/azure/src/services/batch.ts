@@ -107,9 +107,7 @@ export const ApplicationPackageProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationPackageProperties>;
 
 /** The tags of the resource. */
-export type ActivateApplicationPackageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ActivateApplicationPackageResponseTagsMap = { [key: string]: string | undefined };
 export const ActivateApplicationPackageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -247,14 +245,10 @@ export const ApplicationProperties = /*@__PURE__*/ S.suspend(() =>
     allowUpdates: S.optional(S.Boolean),
     defaultVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationProperties",
-}) as any as S.Schema<ApplicationProperties>;
+).annotate({ identifier: "ApplicationProperties" }) as any as S.Schema<ApplicationProperties>;
 
 /** The tags of the resource. */
-export type CreateApplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateApplicationRequestTagsMap = { [key: string]: string | undefined };
 export const CreateApplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -290,14 +284,10 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 
 /** The tags of the resource. */
-export type CreateApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const CreateApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -342,9 +332,7 @@ export const ApplicationPackagePropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationPackagePropertiesInput>;
 
 /** The tags of the resource. */
-export type CreateApplicationPackageRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateApplicationPackageRequestTagsMap = { [key: string]: string | undefined };
 export const CreateApplicationPackageRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -388,9 +376,7 @@ export const CreateApplicationPackageRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateApplicationPackageRequest>;
 
 /** The tags of the resource. */
-export type CreateApplicationPackageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateApplicationPackageResponseTagsMap = { [key: string]: string | undefined };
 export const CreateApplicationPackageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -427,9 +413,7 @@ export const CreateApplicationPackageResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateApplicationPackageResponse>;
 
 /** The user-specified tags associated with the account. */
-export type CreateBatchAccountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateBatchAccountRequestTagsMap = { [key: string]: string | undefined };
 export const CreateBatchAccountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -489,9 +473,7 @@ export const KeyVaultReference = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     url: S.String,
   }),
-).annotate({
-  identifier: "KeyVaultReference",
-}) as any as S.Schema<KeyVaultReference>;
+).annotate({ identifier: "KeyVaultReference" }) as any as S.Schema<KeyVaultReference>;
 
 /** The network access type for operating on the resources in the Batch account. */
 export type BatchAccountCreatePropertiesPublicNetworkAccess =
@@ -540,9 +522,7 @@ export const EndpointAccessProfile = /*@__PURE__*/ S.suspend(() =>
     defaultAction: EndpointAccessDefaultAction,
     ipRules: S.optional(EndpointAccessProfileIpRulesList),
   }),
-).annotate({
-  identifier: "EndpointAccessProfile",
-}) as any as S.Schema<EndpointAccessProfile>;
+).annotate({ identifier: "EndpointAccessProfile" }) as any as S.Schema<EndpointAccessProfile>;
 
 /** Network profile for Batch account, which contains network rule settings for each endpoint. */
 export interface NetworkProfile {
@@ -571,9 +551,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     keyIdentifier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
 export interface EncryptionProperties {
@@ -587,9 +565,7 @@ export const EncryptionProperties = /*@__PURE__*/ S.suspend(() =>
     keySource: S.optional(KeySource),
     keyVaultProperties: S.optional(KeyVaultProperties),
   }),
-).annotate({
-  identifier: "EncryptionProperties",
-}) as any as S.Schema<EncryptionProperties>;
+).annotate({ identifier: "EncryptionProperties" }) as any as S.Schema<EncryptionProperties>;
 
 /** The authentication mode for the Batch account. */
 export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
@@ -707,9 +683,7 @@ export const CreateBatchAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateBatchAccountRequest>;
 
 /** Resource tags. */
-export type CreateBatchAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateBatchAccountResponseTagsMap = { [key: string]: string | undefined };
 export const CreateBatchAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -751,9 +725,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The value has one and only one group id. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -811,9 +783,7 @@ export const PrivateEndpointConnectionProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateEndpointConnectionProperties>;
 
 /** The tags of the resource. */
-export type PrivateEndpointConnectionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PrivateEndpointConnectionTagsMap = { [key: string]: string | undefined };
 export const PrivateEndpointConnectionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -878,9 +848,7 @@ export const AutoStorageProperties = /*@__PURE__*/ S.suspend(() =>
     nodeIdentityReference: S.optional(ComputeNodeIdentityReference),
     lastKeySync: S.String,
   }),
-).annotate({
-  identifier: "AutoStorageProperties",
-}) as any as S.Schema<AutoStorageProperties>;
+).annotate({ identifier: "AutoStorageProperties" }) as any as S.Schema<AutoStorageProperties>;
 
 /** A VM Family and its associated core quota for the Batch account. */
 export interface VirtualMachineFamilyCoreQuota {
@@ -974,9 +942,7 @@ export const BatchAccountProperties = /*@__PURE__*/ S.suspend(() =>
       S.NullOr(BatchAccountPropertiesAllowedAuthenticationModesList),
     ),
   }),
-).annotate({
-  identifier: "BatchAccountProperties",
-}) as any as S.Schema<BatchAccountProperties>;
+).annotate({ identifier: "BatchAccountProperties" }) as any as S.Schema<BatchAccountProperties>;
 
 /** The list of associated user identities. */
 export interface UserAssignedIdentities {
@@ -990,9 +956,7 @@ export const UserAssignedIdentities = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentities",
-}) as any as S.Schema<UserAssignedIdentities>;
+).annotate({ identifier: "UserAssignedIdentities" }) as any as S.Schema<UserAssignedIdentities>;
 
 /** The list of user identities associated with the Batch account. */
 export type BatchAccountIdentityUserAssignedIdentitiesMap = {
@@ -1021,9 +985,7 @@ export const BatchAccountIdentity = /*@__PURE__*/ S.suspend(() =>
     type: ResourceIdentityType,
     userAssignedIdentities: S.optional(BatchAccountIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "BatchAccountIdentity",
-}) as any as S.Schema<BatchAccountIdentity>;
+).annotate({ identifier: "BatchAccountIdentity" }) as any as S.Schema<BatchAccountIdentity>;
 
 export interface CreateBatchAccountResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1096,9 +1058,7 @@ export const WindowsConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enableAutomaticUpdates: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "WindowsConfiguration",
-}) as any as S.Schema<WindowsConfiguration>;
+).annotate({ identifier: "WindowsConfiguration" }) as any as S.Schema<WindowsConfiguration>;
 
 /** The type of caching to enable for the disk. */
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
@@ -1140,9 +1100,7 @@ export const VMDiskSecurityProfile = /*@__PURE__*/ S.suspend(() =>
     securityEncryptionType: S.optional(SecurityEncryptionTypes),
     diskEncryptionSet: S.optional(DiskEncryptionSetParameters),
   }),
-).annotate({
-  identifier: "VMDiskSecurityProfile",
-}) as any as S.Schema<VMDiskSecurityProfile>;
+).annotate({ identifier: "VMDiskSecurityProfile" }) as any as S.Schema<VMDiskSecurityProfile>;
 
 /** The managed disk parameters. */
 export interface ManagedDisk {
@@ -1215,9 +1173,7 @@ export const ContainerRegistry = /*@__PURE__*/ S.suspend(() =>
     registryServer: S.optional(S.String),
     identityReference: S.optional(ComputeNodeIdentityReference),
   }),
-).annotate({
-  identifier: "ContainerRegistry",
-}) as any as S.Schema<ContainerRegistry>;
+).annotate({ identifier: "ContainerRegistry" }) as any as S.Schema<ContainerRegistry>;
 
 /** If any images must be downloaded from a private registry which requires credentials, then those credentials must be provided here. */
 export type ContainerConfigurationContainerRegistriesList = Array<ContainerRegistry>;
@@ -1240,9 +1196,7 @@ export const ContainerConfiguration = /*@__PURE__*/ S.suspend(() =>
     containerImageNames: S.optional(ContainerConfigurationContainerImageNamesList),
     containerRegistries: S.optional(ContainerConfigurationContainerRegistriesList),
   }),
-).annotate({
-  identifier: "ContainerConfiguration",
-}) as any as S.Schema<ContainerConfiguration>;
+).annotate({ identifier: "ContainerConfiguration" }) as any as S.Schema<ContainerConfiguration>;
 
 /** If omitted, no disks on the compute nodes in the pool will be encrypted. */
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
@@ -1269,9 +1223,7 @@ export const DiskCustomerManagedKey = /*@__PURE__*/ S.suspend(() =>
     rotationToLatestKeyVersionEnabled: S.optional(S.Boolean),
     identityReference: S.optional(ComputeNodeIdentityReference),
   }),
-).annotate({
-  identifier: "DiskCustomerManagedKey",
-}) as any as S.Schema<DiskCustomerManagedKey>;
+).annotate({ identifier: "DiskCustomerManagedKey" }) as any as S.Schema<DiskCustomerManagedKey>;
 
 /** The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Azure Compute Gallery Image. */
 export interface DiskEncryptionConfiguration {
@@ -1366,9 +1318,7 @@ export const DiffDiskSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     placement: S.optional(DiffDiskPlacement),
   }),
-).annotate({
-  identifier: "DiffDiskSettings",
-}) as any as S.Schema<DiffDiskSettings>;
+).annotate({ identifier: "DiffDiskSettings" }) as any as S.Schema<DiffDiskSettings>;
 
 /** Settings for the operating system disk of the virtual machine. */
 export interface OSDisk {
@@ -1427,9 +1377,7 @@ export const HostEndpointSettings = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(HostEndpointSettingsModeTypes),
     inVMAccessControlProfileReferenceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "HostEndpointSettings",
-}) as any as S.Schema<HostEndpointSettings>;
+).annotate({ identifier: "HostEndpointSettings" }) as any as S.Schema<HostEndpointSettings>;
 
 /** Specifies ProxyAgent settings while creating the virtual machine. */
 export interface ProxyAgentSettings {
@@ -1446,9 +1394,7 @@ export const ProxyAgentSettings = /*@__PURE__*/ S.suspend(() =>
     imds: S.optional(HostEndpointSettings),
     wireServer: S.optional(HostEndpointSettings),
   }),
-).annotate({
-  identifier: "ProxyAgentSettings",
-}) as any as S.Schema<ProxyAgentSettings>;
+).annotate({ identifier: "ProxyAgentSettings" }) as any as S.Schema<ProxyAgentSettings>;
 
 /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
@@ -1468,9 +1414,7 @@ export const SecurityProfile = /*@__PURE__*/ S.suspend(() =>
     uefiSettings: S.optional(UefiSettings),
     proxyAgentSettings: S.optional(ProxyAgentSettings),
   }),
-).annotate({
-  identifier: "SecurityProfile",
-}) as any as S.Schema<SecurityProfile>;
+).annotate({ identifier: "SecurityProfile" }) as any as S.Schema<SecurityProfile>;
 
 /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
 export interface ServiceArtifactReference {
@@ -1481,9 +1425,7 @@ export const ServiceArtifactReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "ServiceArtifactReference",
-}) as any as S.Schema<ServiceArtifactReference>;
+).annotate({ identifier: "ServiceArtifactReference" }) as any as S.Schema<ServiceArtifactReference>;
 
 /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
 export interface VirtualMachineConfiguration {
@@ -1540,9 +1482,7 @@ export const DeploymentConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     virtualMachineConfiguration: S.optional(VirtualMachineConfiguration),
   }),
-).annotate({
-  identifier: "DeploymentConfiguration",
-}) as any as S.Schema<DeploymentConfiguration>;
+).annotate({ identifier: "DeploymentConfiguration" }) as any as S.Schema<DeploymentConfiguration>;
 
 /** Determines what to do with a node and its running task(s) after it has been selected for deallocation. */
 export type ComputeNodeDeallocationOption =
@@ -1570,9 +1510,7 @@ export const FixedScaleSettings = /*@__PURE__*/ S.suspend(() =>
     targetLowPriorityNodes: S.optional(S.Number),
     nodeDeallocationOption: S.optional(ComputeNodeDeallocationOption),
   }),
-).annotate({
-  identifier: "FixedScaleSettings",
-}) as any as S.Schema<FixedScaleSettings>;
+).annotate({ identifier: "FixedScaleSettings" }) as any as S.Schema<FixedScaleSettings>;
 
 /** AutoScale settings for the pool. */
 export interface AutoScaleSettings {
@@ -1586,9 +1524,7 @@ export const AutoScaleSettings = /*@__PURE__*/ S.suspend(() =>
     formula: S.String,
     evaluationInterval: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AutoScaleSettings",
-}) as any as S.Schema<AutoScaleSettings>;
+).annotate({ identifier: "AutoScaleSettings" }) as any as S.Schema<AutoScaleSettings>;
 
 /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
 export interface ScaleSettings {
@@ -1644,9 +1580,7 @@ export const NetworkSecurityGroupRule = /*@__PURE__*/ S.suspend(() =>
     sourceAddressPrefix: S.String,
     sourcePortRanges: S.optional(NetworkSecurityGroupRuleSourcePortRangesList),
   }),
-).annotate({
-  identifier: "NetworkSecurityGroupRule",
-}) as any as S.Schema<NetworkSecurityGroupRule>;
+).annotate({ identifier: "NetworkSecurityGroupRule" }) as any as S.Schema<NetworkSecurityGroupRule>;
 
 /** The maximum number of rules that can be specified across all the endpoints on a Batch pool is 25. If no network security group rules are specified, a default rule will be created to allow inbound access to the specified backendPort. If the maximum number of network security group rules is exceeded the request fails with HTTP status code 400. */
 export type InboundNatPoolNetworkSecurityGroupRulesList = Array<NetworkSecurityGroupRule>;
@@ -1782,9 +1716,7 @@ export const NetworkConfiguration = /*@__PURE__*/ S.suspend(() =>
     publicIPAddressConfiguration: S.optional(PublicIPAddressConfiguration),
     enableAcceleratedNetworking: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "NetworkConfiguration",
-}) as any as S.Schema<NetworkConfiguration>;
+).annotate({ identifier: "NetworkConfiguration" }) as any as S.Schema<NetworkConfiguration>;
 
 /** The order for scheduling tasks from different jobs with the same priority. */
 export type JobDefaultOrder = "None" | "CreationTime";
@@ -1806,9 +1738,7 @@ export const TaskSchedulingPolicy = /*@__PURE__*/ S.suspend(() =>
     jobDefaultOrder: S.optional(JobDefaultOrder),
     nodeFillType: TaskSchedulingPolicyNodeFillType,
   }),
-).annotate({
-  identifier: "TaskSchedulingPolicy",
-}) as any as S.Schema<TaskSchedulingPolicy>;
+).annotate({ identifier: "TaskSchedulingPolicy" }) as any as S.Schema<TaskSchedulingPolicy>;
 
 /** The elevation level of the user. */
 export type ElevationLevel = "NonAdmin" | "Admin";
@@ -1829,9 +1759,7 @@ export const LinuxUserConfiguration = /*@__PURE__*/ S.suspend(() =>
     gid: S.optional(S.Number),
     sshPrivateKey: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinuxUserConfiguration",
-}) as any as S.Schema<LinuxUserConfiguration>;
+).annotate({ identifier: "LinuxUserConfiguration" }) as any as S.Schema<LinuxUserConfiguration>;
 
 /** Specifies login mode for the user. The default value is Interactive. */
 export type LoginMode = "Batch" | "Interactive";
@@ -1846,9 +1774,7 @@ export const WindowsUserConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     loginMode: S.optional(LoginMode),
   }),
-).annotate({
-  identifier: "WindowsUserConfiguration",
-}) as any as S.Schema<WindowsUserConfiguration>;
+).annotate({ identifier: "WindowsUserConfiguration" }) as any as S.Schema<WindowsUserConfiguration>;
 
 /** Properties used to create a user on an Azure Batch node. */
 export interface UserAccount {
@@ -1946,9 +1872,7 @@ export const EnvironmentSetting = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentSetting",
-}) as any as S.Schema<EnvironmentSetting>;
+).annotate({ identifier: "EnvironmentSetting" }) as any as S.Schema<EnvironmentSetting>;
 
 /** A list of environment variable settings for the start task. */
 export type StartTaskEnvironmentSettingsList = Array<EnvironmentSetting>;
@@ -1972,9 +1896,7 @@ export const AutoUserSpecification = /*@__PURE__*/ S.suspend(() =>
     scope: S.optional(AutoUserScope),
     elevationLevel: S.optional(ElevationLevel),
   }),
-).annotate({
-  identifier: "AutoUserSpecification",
-}) as any as S.Schema<AutoUserSpecification>;
+).annotate({ identifier: "AutoUserSpecification" }) as any as S.Schema<AutoUserSpecification>;
 
 /** Specify either the userName or autoUser property, but not both. */
 export interface UserIdentity {
@@ -2048,9 +1970,7 @@ export const TaskContainerSettings = /*@__PURE__*/ S.suspend(() =>
     workingDirectory: S.optional(ContainerWorkingDirectory),
     containerHostBatchBindMounts: S.optional(TaskContainerSettingsContainerHostBatchBindMountsList),
   }),
-).annotate({
-  identifier: "TaskContainerSettings",
-}) as any as S.Schema<TaskContainerSettings>;
+).annotate({ identifier: "TaskContainerSettings" }) as any as S.Schema<TaskContainerSettings>;
 
 /** In some cases the start task may be re-run even though the node was not rebooted. Due to this, start tasks should be idempotent and exit gracefully if the setup they're performing has already been done. Special care should be taken to avoid start tasks which create breakaway process or install/launch services from the start task working directory, as this will block Batch from being able to re-run the start task. */
 export interface StartTask {
@@ -2149,9 +2069,7 @@ export const NFSMountConfiguration = /*@__PURE__*/ S.suspend(() =>
     relativeMountPath: S.String,
     mountOptions: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NFSMountConfiguration",
-}) as any as S.Schema<NFSMountConfiguration>;
+).annotate({ identifier: "NFSMountConfiguration" }) as any as S.Schema<NFSMountConfiguration>;
 
 /** Information used to connect to a CIFS file system. */
 export interface CIFSMountConfiguration {
@@ -2174,9 +2092,7 @@ export const CIFSMountConfiguration = /*@__PURE__*/ S.suspend(() =>
     mountOptions: S.optional(S.String),
     password: S.String.pipe(T.SensitiveValue({})),
   }),
-).annotate({
-  identifier: "CIFSMountConfiguration",
-}) as any as S.Schema<CIFSMountConfiguration>;
+).annotate({ identifier: "CIFSMountConfiguration" }) as any as S.Schema<CIFSMountConfiguration>;
 
 /** Information used to connect to an Azure Fileshare. */
 export interface AzureFileShareConfiguration {
@@ -2221,9 +2137,7 @@ export const MountConfiguration = /*@__PURE__*/ S.suspend(() =>
     cifsMountConfiguration: S.optional(CIFSMountConfiguration),
     azureFileShareConfiguration: S.optional(AzureFileShareConfiguration),
   }),
-).annotate({
-  identifier: "MountConfiguration",
-}) as any as S.Schema<MountConfiguration>;
+).annotate({ identifier: "MountConfiguration" }) as any as S.Schema<MountConfiguration>;
 
 /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
 export type PoolPropertiesInputMountConfigurationList = Array<MountConfiguration>;
@@ -2253,9 +2167,7 @@ export const AutomaticOSUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
     useRollingUpgradePolicy: S.optional(S.Boolean),
     osRollingUpgradeDeferral: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "AutomaticOSUpgradePolicy",
-}) as any as S.Schema<AutomaticOSUpgradePolicy>;
+).annotate({ identifier: "AutomaticOSUpgradePolicy" }) as any as S.Schema<AutomaticOSUpgradePolicy>;
 
 /** The configuration parameters used while performing a rolling upgrade. */
 export interface RollingUpgradePolicy {
@@ -2284,9 +2196,7 @@ export const RollingUpgradePolicy = /*@__PURE__*/ S.suspend(() =>
     prioritizeUnhealthyInstances: S.optional(S.Boolean),
     rollbackFailedInstancesOnPolicyBreach: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RollingUpgradePolicy",
-}) as any as S.Schema<RollingUpgradePolicy>;
+).annotate({ identifier: "RollingUpgradePolicy" }) as any as S.Schema<RollingUpgradePolicy>;
 
 /** Describes an upgrade policy - automatic, manual, or rolling. */
 export interface UpgradePolicy {
@@ -2353,9 +2263,7 @@ export const PoolPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     mountConfiguration: S.optional(PoolPropertiesInputMountConfigurationList),
     upgradePolicy: S.optional(UpgradePolicy),
   }),
-).annotate({
-  identifier: "PoolPropertiesInput",
-}) as any as S.Schema<PoolPropertiesInput>;
+).annotate({ identifier: "PoolPropertiesInput" }) as any as S.Schema<PoolPropertiesInput>;
 
 /** The type of identity used for the Batch Pool. */
 export type PoolIdentityType = "UserAssigned" | "None";
@@ -2382,9 +2290,7 @@ export const BatchPoolIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: PoolIdentityType,
     userAssignedIdentities: S.optional(BatchPoolIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "BatchPoolIdentityInput",
-}) as any as S.Schema<BatchPoolIdentityInput>;
+).annotate({ identifier: "BatchPoolIdentityInput" }) as any as S.Schema<BatchPoolIdentityInput>;
 
 /** The tags of the resource. */
 export type CreatePoolRequestTagsMap = { [key: string]: string | undefined };
@@ -2426,9 +2332,7 @@ export const CreatePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreatePoolRequest",
-}) as any as S.Schema<CreatePoolRequest>;
+).annotate({ identifier: "CreatePoolRequest" }) as any as S.Schema<CreatePoolRequest>;
 
 /** The current state of the pool. */
 export type PoolProvisioningState = "Succeeded" | "Deleting";
@@ -2459,9 +2363,7 @@ export const AutoScaleRunError = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     details: S.optional(AutoScaleRunErrorDetailsList),
   }),
-).annotate({
-  identifier: "AutoScaleRunError",
-}) as any as S.Schema<AutoScaleRunError>;
+).annotate({ identifier: "AutoScaleRunError" }) as any as S.Schema<AutoScaleRunError>;
 
 /** The results and errors from an execution of a pool autoscale formula. */
 export interface AutoScaleRun {
@@ -2551,9 +2453,7 @@ export const ResizeOperationStatus = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     errors: S.optional(ResizeOperationStatusErrorsList),
   }),
-).annotate({
-  identifier: "ResizeOperationStatus",
-}) as any as S.Schema<ResizeOperationStatus>;
+).annotate({ identifier: "ResizeOperationStatus" }) as any as S.Schema<ResizeOperationStatus>;
 
 /** This supports Azure Files, NFS, CIFS/SMB, and Blobfuse. */
 export type PoolPropertiesMountConfigurationList = Array<MountConfiguration>;
@@ -2662,9 +2562,7 @@ export const BatchPoolIdentity = /*@__PURE__*/ S.suspend(() =>
     type: PoolIdentityType,
     userAssignedIdentities: S.optional(BatchPoolIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "BatchPoolIdentity",
-}) as any as S.Schema<BatchPoolIdentity>;
+).annotate({ identifier: "BatchPoolIdentity" }) as any as S.Schema<BatchPoolIdentity>;
 
 /** The tags of the resource. */
 export type CreatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -2702,9 +2600,7 @@ export const CreatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(CreatePoolResponseTagsMap),
   }),
-).annotate({
-  identifier: "CreatePoolResponse",
-}) as any as S.Schema<CreatePoolResponse>;
+).annotate({ identifier: "CreatePoolResponse" }) as any as S.Schema<CreatePoolResponse>;
 
 export interface DeleteApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2730,9 +2626,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2831,9 +2725,7 @@ export const DeletePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePoolRequest",
-}) as any as S.Schema<DeletePoolRequest>;
+).annotate({ identifier: "DeletePoolRequest" }) as any as S.Schema<DeletePoolRequest>;
 
 export interface DeletePoolResponse {}
 export const DeletePoolResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2904,9 +2796,7 @@ export const DisablePoolAutoScaleRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DisablePoolAutoScaleRequest>;
 
 /** The tags of the resource. */
-export type DisablePoolAutoScaleResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DisablePoolAutoScaleResponseTagsMap = { [key: string]: string | undefined };
 export const DisablePoolAutoScaleResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2969,14 +2859,10 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 /** The tags of the resource. */
-export type GetApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3008,9 +2894,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetApplicationResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 
 export interface GetApplicationPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3044,9 +2928,7 @@ export const GetApplicationPackageRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApplicationPackageRequest>;
 
 /** The tags of the resource. */
-export type GetApplicationPackageResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationPackageResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationPackageResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3103,14 +2985,10 @@ export const GetBatchAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetBatchAccountRequest",
-}) as any as S.Schema<GetBatchAccountRequest>;
+).annotate({ identifier: "GetBatchAccountRequest" }) as any as S.Schema<GetBatchAccountRequest>;
 
 /** Resource tags. */
-export type GetBatchAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBatchAccountResponseTagsMap = { [key: string]: string | undefined };
 export const GetBatchAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3145,9 +3023,7 @@ export const GetBatchAccountResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BatchAccountProperties),
     identity: S.optional(BatchAccountIdentity),
   }),
-).annotate({
-  identifier: "GetBatchAccountResponse",
-}) as any as S.Schema<GetBatchAccountResponse>;
+).annotate({ identifier: "GetBatchAccountResponse" }) as any as S.Schema<GetBatchAccountResponse>;
 
 export interface GetBatchAccountDetectorRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3191,9 +3067,7 @@ export const DetectorResponseProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DetectorResponseProperties>;
 
 /** The tags of the resource. */
-export type GetBatchAccountDetectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBatchAccountDetectorResponseTagsMap = { [key: string]: string | undefined };
 export const GetBatchAccountDetectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3269,9 +3143,7 @@ export const BatchAccountKeys = /*@__PURE__*/ S.suspend(() =>
     primary: S.optional(S.String),
     secondary: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchAccountKeys",
-}) as any as S.Schema<BatchAccountKeys>;
+).annotate({ identifier: "BatchAccountKeys" }) as any as S.Schema<BatchAccountKeys>;
 
 export interface GetLocationQuotasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3291,9 +3163,7 @@ export const GetLocationQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetLocationQuotasRequest",
-}) as any as S.Schema<GetLocationQuotasRequest>;
+).annotate({ identifier: "GetLocationQuotasRequest" }) as any as S.Schema<GetLocationQuotasRequest>;
 
 /** Quotas associated with a Batch region for a particular subscription. */
 export interface BatchLocationQuota {
@@ -3304,9 +3174,7 @@ export const BatchLocationQuota = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountQuota: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "BatchLocationQuota",
-}) as any as S.Schema<BatchLocationQuota>;
+).annotate({ identifier: "BatchLocationQuota" }) as any as S.Schema<BatchLocationQuota>;
 
 export interface GetNetworkSecurityPerimeterConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3409,9 +3277,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** Network security perimeters for inbound rules */
 export type AccessRulePropertiesNetworkSecurityPerimetersList = Array<NetworkSecurityPerimeter>;
@@ -3463,9 +3329,7 @@ export const AccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     emailAddresses: S.optional(AccessRulePropertiesEmailAddressesList),
     phoneNumbers: S.optional(AccessRulePropertiesPhoneNumbersList),
   }),
-).annotate({
-  identifier: "AccessRuleProperties",
-}) as any as S.Schema<AccessRuleProperties>;
+).annotate({ identifier: "AccessRuleProperties" }) as any as S.Schema<AccessRuleProperties>;
 
 /** Access rule in a network security perimeter configuration profile */
 export interface AccessRule {
@@ -3522,9 +3386,7 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ProvisioningIssueProperties),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
 
 /** List of provisioning issues, if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -3549,9 +3411,7 @@ export const ResourceAssociation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     accessMode: S.optional(ResourceAssociationAccessMode),
   }),
-).annotate({
-  identifier: "ResourceAssociation",
-}) as any as S.Schema<ResourceAssociation>;
+).annotate({ identifier: "ResourceAssociation" }) as any as S.Schema<ResourceAssociation>;
 
 /** List of Access Rules */
 export type NetworkSecurityProfileAccessRulesList = Array<AccessRule>;
@@ -3586,9 +3446,7 @@ export const NetworkSecurityProfile = /*@__PURE__*/ S.suspend(() =>
     diagnosticSettingsVersion: S.optional(S.Number),
     enabledLogCategories: S.optional(NetworkSecurityProfileEnabledLogCategoriesList),
   }),
-).annotate({
-  identifier: "NetworkSecurityProfile",
-}) as any as S.Schema<NetworkSecurityProfile>;
+).annotate({ identifier: "NetworkSecurityProfile" }) as any as S.Schema<NetworkSecurityProfile>;
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
@@ -3698,9 +3556,7 @@ export const GetPoolResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetPoolResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetPoolResponse",
-}) as any as S.Schema<GetPoolResponse>;
+).annotate({ identifier: "GetPoolResponse" }) as any as S.Schema<GetPoolResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3731,9 +3587,7 @@ export const GetPrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPrivateEndpointConnectionRequest>;
 
 /** The tags of the resource. */
-export type GetPrivateEndpointConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateEndpointConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3829,9 +3683,7 @@ export const PrivateLinkResourceProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PrivateLinkResourceProperties>;
 
 /** The tags of the resource. */
-export type GetPrivateLinkResourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPrivateLinkResourceResponseTagsMap = { [key: string]: string | undefined };
 export const GetPrivateLinkResourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3891,9 +3743,7 @@ export const ListApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListApplicationRequest",
-}) as any as S.Schema<ListApplicationRequest>;
+).annotate({ identifier: "ListApplicationRequest" }) as any as S.Schema<ListApplicationRequest>;
 
 /** The tags of the resource. */
 export type ApplicationTagsMap = { [key: string]: string | undefined };
@@ -3949,9 +3799,7 @@ export const ListApplicationsResult = /*@__PURE__*/ S.suspend(() =>
     value: ListApplicationsResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListApplicationsResult",
-}) as any as S.Schema<ListApplicationsResult>;
+).annotate({ identifier: "ListApplicationsResult" }) as any as S.Schema<ListApplicationsResult>;
 
 export interface ListApplicationPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4018,9 +3866,7 @@ export const ApplicationPackage = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(ApplicationPackageTagsMap),
   }),
-).annotate({
-  identifier: "ApplicationPackage",
-}) as any as S.Schema<ApplicationPackage>;
+).annotate({ identifier: "ApplicationPackage" }) as any as S.Schema<ApplicationPackage>;
 
 /** The ApplicationPackage items on this page */
 export type ListApplicationPackagesResultValueList = Array<ApplicationPackage>;
@@ -4059,9 +3905,7 @@ export const ListBatchAccountRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListBatchAccountRequest",
-}) as any as S.Schema<ListBatchAccountRequest>;
+).annotate({ identifier: "ListBatchAccountRequest" }) as any as S.Schema<ListBatchAccountRequest>;
 
 /** Resource tags. */
 export type BatchAccountTagsMap = { [key: string]: string | undefined };
@@ -4120,9 +3964,7 @@ export const BatchAccountListResult = /*@__PURE__*/ S.suspend(() =>
     value: BatchAccountListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BatchAccountListResult",
-}) as any as S.Schema<BatchAccountListResult>;
+).annotate({ identifier: "BatchAccountListResult" }) as any as S.Schema<BatchAccountListResult>;
 
 export interface ListBatchAccountByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4205,9 +4047,7 @@ export const DetectorResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(DetectorResponseTagsMap),
   }),
-).annotate({
-  identifier: "DetectorResponse",
-}) as any as S.Schema<DetectorResponse>;
+).annotate({ identifier: "DetectorResponse" }) as any as S.Schema<DetectorResponse>;
 
 /** The DetectorResponse items on this page */
 export type DetectorListResultValueList = Array<DetectorResponse>;
@@ -4227,9 +4067,7 @@ export const DetectorListResult = /*@__PURE__*/ S.suspend(() =>
     value: DetectorListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DetectorListResult",
-}) as any as S.Schema<DetectorListResult>;
+).annotate({ identifier: "DetectorListResult" }) as any as S.Schema<DetectorListResult>;
 
 export interface ListBatchAccountOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4289,9 +4127,7 @@ export const EndpointDependency = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     endpointDetails: S.optional(EndpointDependencyEndpointDetailsList),
   }),
-).annotate({
-  identifier: "EndpointDependency",
-}) as any as S.Schema<EndpointDependency>;
+).annotate({ identifier: "EndpointDependency" }) as any as S.Schema<EndpointDependency>;
 
 /** The endpoints for this service to which the Batch service makes outbound calls. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
@@ -4423,9 +4259,7 @@ export const SupportedSkusResult = /*@__PURE__*/ S.suspend(() =>
     value: SupportedSkusResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedSkusResult",
-}) as any as S.Schema<SupportedSkusResult>;
+).annotate({ identifier: "SupportedSkusResult" }) as any as S.Schema<SupportedSkusResult>;
 
 export interface ListNetworkSecurityPerimeterConfigurationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4510,9 +4344,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that describes the operation. */
 export interface OperationDisplay {
@@ -4532,9 +4364,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A REST API operation */
 export interface Operation {
@@ -4577,9 +4407,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListPoolByBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4672,9 +4500,7 @@ export const ListPoolsResult = /*@__PURE__*/ S.suspend(() =>
     value: ListPoolsResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListPoolsResult",
-}) as any as S.Schema<ListPoolsResult>;
+).annotate({ identifier: "ListPoolsResult" }) as any as S.Schema<ListPoolsResult>;
 
 export interface ListPrivateEndpointConnectionByBatchAccountRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4788,9 +4614,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(PrivateLinkResourceTagsMap),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type ListPrivateLinkResourcesResultValueList = Array<PrivateLinkResource>;
@@ -4873,14 +4697,10 @@ export const PoolStopResizeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "PoolStopResizeRequest",
-}) as any as S.Schema<PoolStopResizeRequest>;
+).annotate({ identifier: "PoolStopResizeRequest" }) as any as S.Schema<PoolStopResizeRequest>;
 
 /** The tags of the resource. */
-export type PoolStopResizeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type PoolStopResizeResponseTagsMap = { [key: string]: string | undefined };
 export const PoolStopResizeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4915,9 +4735,7 @@ export const PoolStopResizeResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(PoolStopResizeResponseTagsMap),
   }),
-).annotate({
-  identifier: "PoolStopResizeResponse",
-}) as any as S.Schema<PoolStopResizeResponse>;
+).annotate({ identifier: "PoolStopResizeResponse" }) as any as S.Schema<PoolStopResizeResponse>;
 
 /** The type of account key to regenerate. */
 export type AccountKeyType = "Primary" | "Secondary";
@@ -4952,9 +4770,7 @@ export const RegenerateBatchAccountKeyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RegenerateBatchAccountKeyRequest>;
 
 /** The tags of the resource. */
-export type UpdateApplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4990,14 +4806,10 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 /** The tags of the resource. */
-export type UpdateApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5034,9 +4846,7 @@ export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationResponse>;
 
 /** The user-specified tags associated with the account. */
-export type UpdateBatchAccountRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBatchAccountRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateBatchAccountRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5119,9 +4929,7 @@ export const UpdateBatchAccountRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateBatchAccountRequest>;
 
 /** Resource tags. */
-export type UpdateBatchAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateBatchAccountResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateBatchAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5200,9 +5008,7 @@ export const UpdatePoolRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdatePoolRequest",
-}) as any as S.Schema<UpdatePoolRequest>;
+).annotate({ identifier: "UpdatePoolRequest" }) as any as S.Schema<UpdatePoolRequest>;
 
 /** The tags of the resource. */
 export type UpdatePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -5240,9 +5046,7 @@ export const UpdatePoolResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(UpdatePoolResponseTagsMap),
   }),
-).annotate({
-  identifier: "UpdatePoolResponse",
-}) as any as S.Schema<UpdatePoolResponse>;
+).annotate({ identifier: "UpdatePoolResponse" }) as any as S.Schema<UpdatePoolResponse>;
 
 /** The private link service connection state of the private endpoint connection */
 export interface PrivateLinkServiceConnectionStateInput {
@@ -5274,9 +5078,7 @@ export const PrivateEndpointConnectionPropertiesInput = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<PrivateEndpointConnectionPropertiesInput>;
 
 /** The tags of the resource. */
-export type UpdatePrivateEndpointConnectionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrivateEndpointConnectionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdatePrivateEndpointConnectionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5317,9 +5119,7 @@ export const UpdatePrivateEndpointConnectionRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>;
 
 /** The tags of the resource. */
-export type UpdatePrivateEndpointConnectionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdatePrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdatePrivateEndpointConnectionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

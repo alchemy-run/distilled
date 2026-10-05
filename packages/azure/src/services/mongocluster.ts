@@ -184,9 +184,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -364,9 +362,7 @@ export const DeleteUserRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteUserRequest",
-}) as any as S.Schema<DeleteUserRequest>;
+).annotate({ identifier: "DeleteUserRequest" }) as any as S.Schema<DeleteUserRequest>;
 
 export interface DeleteUserResponse {}
 export const DeleteUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -445,9 +441,7 @@ export const FirewallRuleProperties = /*@__PURE__*/ S.suspend(() =>
     startIpAddress: S.String,
     endIpAddress: S.String,
   }),
-).annotate({
-  identifier: "FirewallRuleProperties",
-}) as any as S.Schema<FirewallRuleProperties>;
+).annotate({ identifier: "FirewallRuleProperties" }) as any as S.Schema<FirewallRuleProperties>;
 
 export interface FirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -497,9 +491,7 @@ export const GetFirewallRuleRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetFirewallRuleRequest",
-}) as any as S.Schema<GetFirewallRuleRequest>;
+).annotate({ identifier: "GetFirewallRuleRequest" }) as any as S.Schema<GetFirewallRuleRequest>;
 
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -521,9 +513,7 @@ export const GetFirewallRuleResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(FirewallRuleProperties),
   }),
-).annotate({
-  identifier: "GetFirewallRuleResponse",
-}) as any as S.Schema<GetFirewallRuleResponse>;
+).annotate({ identifier: "GetFirewallRuleResponse" }) as any as S.Schema<GetFirewallRuleResponse>;
 
 export interface GetMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -546,14 +536,10 @@ export const GetMongoClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetMongoClusterRequest",
-}) as any as S.Schema<GetMongoClusterRequest>;
+).annotate({ identifier: "GetMongoClusterRequest" }) as any as S.Schema<GetMongoClusterRequest>;
 
 /** Resource tags. */
-export type GetMongoClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetMongoClusterResponseTagsMap = { [key: string]: string | undefined };
 export const GetMongoClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -607,9 +593,7 @@ export const AdministratorProperties = /*@__PURE__*/ S.suspend(() =>
     userName: S.optional(S.String),
     password: S.optional(S.String.pipe(T.SensitiveValue({}))),
   }),
-).annotate({
-  identifier: "AdministratorProperties",
-}) as any as S.Schema<AdministratorProperties>;
+).annotate({ identifier: "AdministratorProperties" }) as any as S.Schema<AdministratorProperties>;
 
 /** The status of the Mongo cluster resource. */
 export type MongoClusterStatus =
@@ -659,9 +643,7 @@ export const StorageProperties = /*@__PURE__*/ S.suspend(() =>
     sizeGb: S.optional(S.Number),
     type: S.optional(StorageType),
   }),
-).annotate({
-  identifier: "StorageProperties",
-}) as any as S.Schema<StorageProperties>;
+).annotate({ identifier: "StorageProperties" }) as any as S.Schema<StorageProperties>;
 
 /** The sharding properties of the cluster. This includes the shard count and scaling options for the cluster. */
 export interface ShardingProperties {
@@ -672,9 +654,7 @@ export const ShardingProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     shardCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ShardingProperties",
-}) as any as S.Schema<ShardingProperties>;
+).annotate({ identifier: "ShardingProperties" }) as any as S.Schema<ShardingProperties>;
 
 /** The compute properties of the cluster. This includes the virtual-cores/memory and scaling options applied to servers in the cluster. */
 export interface ComputeProperties {
@@ -685,9 +665,7 @@ export const ComputeProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tier: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComputeProperties",
-}) as any as S.Schema<ComputeProperties>;
+).annotate({ identifier: "ComputeProperties" }) as any as S.Schema<ComputeProperties>;
 
 /** The backup properties of the cluster. This includes the earliest restore time and retention settings. */
 export interface BackupProperties {
@@ -698,9 +676,7 @@ export const BackupProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     earliestRestoreTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BackupProperties",
-}) as any as S.Schema<BackupProperties>;
+).annotate({ identifier: "BackupProperties" }) as any as S.Schema<BackupProperties>;
 
 /** The mode to apply to the Mongo Data API. */
 export type DataApiMode = "Enabled" | "Disabled";
@@ -715,9 +691,7 @@ export const DataApiProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     mode: S.optional(DataApiMode),
   }),
-).annotate({
-  identifier: "DataApiProperties",
-}) as any as S.Schema<DataApiProperties>;
+).annotate({ identifier: "DataApiProperties" }) as any as S.Schema<DataApiProperties>;
 
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -818,9 +792,7 @@ export const ReplicationProperties = /*@__PURE__*/ S.suspend(() =>
     role: S.optional(ReplicationRole),
     replicationState: S.optional(ReplicationState),
   }),
-).annotate({
-  identifier: "ReplicationProperties",
-}) as any as S.Schema<ReplicationProperties>;
+).annotate({ identifier: "ReplicationProperties" }) as any as S.Schema<ReplicationProperties>;
 
 /** The authentication modes supporting on the Mongo cluster. */
 export type AuthenticationMode = "NativeAuth" | "MicrosoftEntraID";
@@ -841,9 +813,7 @@ export const AuthConfigProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     allowedModes: S.optional(AuthConfigPropertiesAllowedModesList),
   }),
-).annotate({
-  identifier: "AuthConfigProperties",
-}) as any as S.Schema<AuthConfigProperties>;
+).annotate({ identifier: "AuthConfigProperties" }) as any as S.Schema<AuthConfigProperties>;
 
 /** The type of identity for key encryption key. */
 export type KeyEncryptionKeyIdentityType = "UserAssignedIdentity";
@@ -861,9 +831,7 @@ export const KeyEncryptionKeyIdentity = /*@__PURE__*/ S.suspend(() =>
     identityType: S.optional(KeyEncryptionKeyIdentityType),
     userAssignedIdentityResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KeyEncryptionKeyIdentity",
-}) as any as S.Schema<KeyEncryptionKeyIdentity>;
+).annotate({ identifier: "KeyEncryptionKeyIdentity" }) as any as S.Schema<KeyEncryptionKeyIdentity>;
 
 /** Customer managed key encryption settings. */
 export interface CustomerManagedKeyEncryptionProperties {
@@ -890,9 +858,7 @@ export const EncryptionProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     customerManagedKeyEncryption: S.optional(CustomerManagedKeyEncryptionProperties),
   }),
-).annotate({
-  identifier: "EncryptionProperties",
-}) as any as S.Schema<EncryptionProperties>;
+).annotate({ identifier: "EncryptionProperties" }) as any as S.Schema<EncryptionProperties>;
 
 /** The network bypass mode for the Mongo cluster. */
 export type NetworkBypassMode = "None" | "AzureCosmosDB";
@@ -970,9 +936,7 @@ export const MongoClusterProperties = /*@__PURE__*/ S.suspend(() =>
     encryption: S.optional(EncryptionProperties),
     networkBypassMode: S.optional(NetworkBypassMode),
   }),
-).annotate({
-  identifier: "MongoClusterProperties",
-}) as any as S.Schema<MongoClusterProperties>;
+).annotate({ identifier: "MongoClusterProperties" }) as any as S.Schema<MongoClusterProperties>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -994,14 +958,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -1056,9 +1016,7 @@ export const GetMongoClusterResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(MongoClusterProperties),
     identity: S.optional(GetMongoClusterResponseIdentity),
   }),
-).annotate({
-  identifier: "GetMongoClusterResponse",
-}) as any as S.Schema<GetMongoClusterResponse>;
+).annotate({ identifier: "GetMongoClusterResponse" }) as any as S.Schema<GetMongoClusterResponse>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1170,18 +1128,32 @@ export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
 export type IdentityProviderType = "MicrosoftEntraID";
 export const IdentityProviderType = S.String;
 
+/** Microsoft Entra ID provider properties. */
+export interface EntraIdentityProviderProperties {
+  /** The principal type of the user: `user` or `servicePrincipal`. */
+  principalType: string;
+}
+export const EntraIdentityProviderProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    principalType: S.String,
+  }),
+).annotate({
+  identifier: "EntraIdentityProviderProperties",
+}) as any as S.Schema<EntraIdentityProviderProperties>;
+
 /** Defines a user's identity provider definition. */
 export interface IdentityProvider {
   /** The type of identity provider that the user belongs to. */
   type: IdentityProviderType | (string & {});
+  /** MicrosoftEntraID: the Entra identity properties for the user. */
+  properties?: EntraIdentityProviderProperties;
 }
 export const IdentityProvider = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: IdentityProviderType,
+    properties: S.optional(EntraIdentityProviderProperties),
   }),
-).annotate({
-  identifier: "IdentityProvider",
-}) as any as S.Schema<IdentityProvider>;
+).annotate({ identifier: "IdentityProvider" }) as any as S.Schema<IdentityProvider>;
 
 /** Built-in database role that can be assigned to a user. */
 export type UserRole = "root";
@@ -1244,9 +1216,7 @@ export const GetUserResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(UserProperties),
   }),
-).annotate({
-  identifier: "GetUserResponse",
-}) as any as S.Schema<GetUserResponse>;
+).annotate({ identifier: "GetUserResponse" }) as any as S.Schema<GetUserResponse>;
 
 export interface ListFirewallRuleByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1314,9 +1284,7 @@ export const FirewallRuleListResult = /*@__PURE__*/ S.suspend(() =>
     value: FirewallRuleListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FirewallRuleListResult",
-}) as any as S.Schema<FirewallRuleListResult>;
+).annotate({ identifier: "FirewallRuleListResult" }) as any as S.Schema<FirewallRuleListResult>;
 
 export interface ListMongoClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1401,9 +1369,7 @@ export const MongoClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: MongoClusterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MongoClusterListResult",
-}) as any as S.Schema<MongoClusterListResult>;
+).annotate({ identifier: "MongoClusterListResult" }) as any as S.Schema<MongoClusterListResult>;
 
 export interface ListMongoClusterConnectionStringsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1445,9 +1411,7 @@ export const ConnectionString = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ConnectionString",
-}) as any as S.Schema<ConnectionString>;
+).annotate({ identifier: "ConnectionString" }) as any as S.Schema<ConnectionString>;
 
 /** An array that contains the connection strings for a mongo cluster. */
 export type ListConnectionStringsResultConnectionStringsList = Array<ConnectionString>;
@@ -1483,9 +1447,7 @@ export const ListMongoClustersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListMongoClustersRequest",
-}) as any as S.Schema<ListMongoClustersRequest>;
+).annotate({ identifier: "ListMongoClustersRequest" }) as any as S.Schema<ListMongoClustersRequest>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1497,9 +1459,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -1519,9 +1479,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1571,9 +1529,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListPrivateEndpointConnectionByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1753,9 +1709,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
@@ -1845,9 +1799,7 @@ export const ReplicaListResult = /*@__PURE__*/ S.suspend(() =>
     value: ReplicaListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicaListResult",
-}) as any as S.Schema<ReplicaListResult>;
+).annotate({ identifier: "ReplicaListResult" }) as any as S.Schema<ReplicaListResult>;
 
 export interface ListUserByMongoClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1918,9 +1870,7 @@ export const UserListResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "UserListResult" }) as any as S.Schema<UserListResult>;
 
 /** Resource tags. */
-export type MongoClustersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MongoClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const MongoClustersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2059,9 +2009,7 @@ export const MongoClustersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<MongoClustersCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type MongoClustersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type MongoClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const MongoClustersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2153,9 +2101,7 @@ export type UpdateMongoClusterRequestIdentity = MongoClustersCreateOrUpdateReque
 export const UpdateMongoClusterRequestIdentity = MongoClustersCreateOrUpdateRequestIdentity;
 
 /** Resource tags. */
-export type UpdateMongoClusterRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMongoClusterRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateMongoClusterRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2253,9 +2199,7 @@ export const UpdateMongoClusterRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateMongoClusterRequest>;
 
 /** Resource tags. */
-export type UpdateMongoClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateMongoClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateMongoClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2316,9 +2260,7 @@ export const UserPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     identityProvider: S.optional(IdentityProvider),
     roles: S.optional(UserPropertiesInputRolesList),
   }),
-).annotate({
-  identifier: "UserPropertiesInput",
-}) as any as S.Schema<UserPropertiesInput>;
+).annotate({ identifier: "UserPropertiesInput" }) as any as S.Schema<UserPropertiesInput>;
 
 export interface UsersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */

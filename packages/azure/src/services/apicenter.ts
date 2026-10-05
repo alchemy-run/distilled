@@ -39,9 +39,7 @@ export const ApiDefinitionProperties = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     specification: S.optional(ApiDefinitionPropertiesSpecification),
   }),
-).annotate({
-  identifier: "ApiDefinitionProperties",
-}) as any as S.Schema<ApiDefinitionProperties>;
+).annotate({ identifier: "ApiDefinitionProperties" }) as any as S.Schema<ApiDefinitionProperties>;
 
 export interface ApiDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -182,9 +180,7 @@ export const ExternalDocumentation = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     url: S.String,
   }),
-).annotate({
-  identifier: "ExternalDocumentation",
-}) as any as S.Schema<ExternalDocumentation>;
+).annotate({ identifier: "ExternalDocumentation" }) as any as S.Schema<ExternalDocumentation>;
 
 /** The set of external documentation */
 export type ApiPropertiesExternalDocumentationList = Array<ExternalDocumentation>;
@@ -340,9 +336,7 @@ export const ApiVersionProperties = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     lifecycleStage: LifecycleStage,
   }),
-).annotate({
-  identifier: "ApiVersionProperties",
-}) as any as S.Schema<ApiVersionProperties>;
+).annotate({ identifier: "ApiVersionProperties" }) as any as S.Schema<ApiVersionProperties>;
 
 export interface ApiVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -474,9 +468,7 @@ export const DeleteApisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApisRequest",
-}) as any as S.Schema<DeleteApisRequest>;
+).annotate({ identifier: "DeleteApisRequest" }) as any as S.Schema<DeleteApisRequest>;
 
 export interface DeleteApisResponse {}
 export const DeleteApisResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -513,9 +505,7 @@ export const DeleteApiVersionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApiVersionRequest",
-}) as any as S.Schema<DeleteApiVersionRequest>;
+).annotate({ identifier: "DeleteApiVersionRequest" }) as any as S.Schema<DeleteApiVersionRequest>;
 
 export interface DeleteApiVersionResponse {}
 export const DeleteApiVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -552,9 +542,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDeploymentRequest",
-}) as any as S.Schema<DeleteDeploymentRequest>;
+).annotate({ identifier: "DeleteDeploymentRequest" }) as any as S.Schema<DeleteDeploymentRequest>;
 
 export interface DeleteDeploymentResponse {}
 export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -588,9 +576,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -651,9 +637,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -684,9 +668,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -712,9 +694,7 @@ export const DeploymentServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runtimeUri: S.optional(DeploymentServerRuntimeUriList),
   }),
-).annotate({
-  identifier: "DeploymentServer",
-}) as any as S.Schema<DeploymentServer>;
+).annotate({ identifier: "DeploymentServer" }) as any as S.Schema<DeploymentServer>;
 
 /** API deployment entity properties. */
 export interface DeploymentProperties {
@@ -743,9 +723,7 @@ export const DeploymentProperties = /*@__PURE__*/ S.suspend(() =>
     server: S.optional(DeploymentServer),
     customProperties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DeploymentProperties",
-}) as any as S.Schema<DeploymentProperties>;
+).annotate({ identifier: "DeploymentProperties" }) as any as S.Schema<DeploymentProperties>;
 
 export interface DeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -841,9 +819,7 @@ export const EnvironmentServer = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(EnvironmentServerType),
     managementPortalUri: S.optional(EnvironmentServerManagementPortalUriList),
   }),
-).annotate({
-  identifier: "EnvironmentServer",
-}) as any as S.Schema<EnvironmentServer>;
+).annotate({ identifier: "EnvironmentServer" }) as any as S.Schema<EnvironmentServer>;
 
 /** The location of the development portal */
 export type OnboardingDeveloperPortalUriList = Array<string>;
@@ -889,9 +865,7 @@ export const EnvironmentProperties = /*@__PURE__*/ S.suspend(() =>
     onboarding: S.optional(Onboarding),
     customProperties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "EnvironmentProperties",
-}) as any as S.Schema<EnvironmentProperties>;
+).annotate({ identifier: "EnvironmentProperties" }) as any as S.Schema<EnvironmentProperties>;
 
 export interface EnvironmentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1004,9 +978,7 @@ export const ApiSpecExportResult = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(ApiSpecExportResultFormat),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiSpecExportResult",
-}) as any as S.Schema<ApiSpecExportResult>;
+).annotate({ identifier: "ApiSpecExportResult" }) as any as S.Schema<ApiSpecExportResult>;
 
 /** Assignment entity for Metadata */
 export type MetadataAssignmentEntity = "api" | "environment" | "deployment";
@@ -1093,9 +1065,7 @@ export const GetApiDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiDefinitionRequest",
-}) as any as S.Schema<GetApiDefinitionRequest>;
+).annotate({ identifier: "GetApiDefinitionRequest" }) as any as S.Schema<GetApiDefinitionRequest>;
 
 export interface GetApiDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1117,9 +1087,7 @@ export const GetApiDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ApiDefinitionProperties),
   }),
-).annotate({
-  identifier: "GetApiDefinitionResponse",
-}) as any as S.Schema<GetApiDefinitionResponse>;
+).annotate({ identifier: "GetApiDefinitionResponse" }) as any as S.Schema<GetApiDefinitionResponse>;
 
 export interface GetApisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1170,9 +1138,7 @@ export const GetApisResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ApiProperties),
   }),
-).annotate({
-  identifier: "GetApisResponse",
-}) as any as S.Schema<GetApisResponse>;
+).annotate({ identifier: "GetApisResponse" }) as any as S.Schema<GetApisResponse>;
 
 export interface GetApiVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1204,9 +1170,7 @@ export const GetApiVersionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetApiVersionRequest",
-}) as any as S.Schema<GetApiVersionRequest>;
+).annotate({ identifier: "GetApiVersionRequest" }) as any as S.Schema<GetApiVersionRequest>;
 
 export interface GetApiVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1228,9 +1192,7 @@ export const GetApiVersionResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(ApiVersionProperties),
   }),
-).annotate({
-  identifier: "GetApiVersionResponse",
-}) as any as S.Schema<GetApiVersionResponse>;
+).annotate({ identifier: "GetApiVersionResponse" }) as any as S.Schema<GetApiVersionResponse>;
 
 export interface GetDeploymentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1262,9 +1224,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 export interface GetDeploymentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1286,9 +1246,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DeploymentProperties),
   }),
-).annotate({
-  identifier: "GetDeploymentResponse",
-}) as any as S.Schema<GetDeploymentResponse>;
+).annotate({ identifier: "GetDeploymentResponse" }) as any as S.Schema<GetDeploymentResponse>;
 
 export interface GetEnvironmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1317,9 +1275,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 
 export interface GetEnvironmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1341,9 +1297,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(EnvironmentProperties),
   }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 
 export interface GetMetadataSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1369,9 +1323,7 @@ export const GetMetadataSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetMetadataSchemaRequest",
-}) as any as S.Schema<GetMetadataSchemaRequest>;
+).annotate({ identifier: "GetMetadataSchemaRequest" }) as any as S.Schema<GetMetadataSchemaRequest>;
 
 /** Assignment metadata */
 export interface MetadataAssignment {
@@ -1388,9 +1340,7 @@ export const MetadataAssignment = /*@__PURE__*/ S.suspend(() =>
     required: S.optional(S.Boolean),
     deprecated: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetadataAssignment",
-}) as any as S.Schema<MetadataAssignment>;
+).annotate({ identifier: "MetadataAssignment" }) as any as S.Schema<MetadataAssignment>;
 
 /** The assignees */
 export type MetadataSchemaPropertiesAssignedToList = Array<MetadataAssignment>;
@@ -1410,9 +1360,7 @@ export const MetadataSchemaProperties = /*@__PURE__*/ S.suspend(() =>
     schema: S.String,
     assignedTo: S.optional(MetadataSchemaPropertiesAssignedToList),
   }),
-).annotate({
-  identifier: "MetadataSchemaProperties",
-}) as any as S.Schema<MetadataSchemaProperties>;
+).annotate({ identifier: "MetadataSchemaProperties" }) as any as S.Schema<MetadataSchemaProperties>;
 
 export interface GetMetadataSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1459,9 +1407,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -1483,9 +1429,7 @@ export const ServiceProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "ServiceProperties",
-}) as any as S.Schema<ServiceProperties>;
+).annotate({ identifier: "ServiceProperties" }) as any as S.Schema<ServiceProperties>;
 
 /** The type of managed service identity */
 export type ManagedServiceIdentityType =
@@ -1507,14 +1451,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -1569,9 +1509,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServiceProperties),
     identity: S.optional(GetServiceResponseIdentity),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1597,9 +1535,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Workspace properties. */
 export interface WorkspaceProperties {
@@ -1613,9 +1549,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
     title: S.String,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1637,9 +1571,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WorkspaceProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 /** Source format for imported Api spec */
 export type ApiSpecImportSourceFormat = "inline" | "link";
@@ -1780,9 +1712,7 @@ export const ApiDefinitionListResult = /*@__PURE__*/ S.suspend(() =>
     value: ApiDefinitionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiDefinitionListResult",
-}) as any as S.Schema<ApiDefinitionListResult>;
+).annotate({ identifier: "ApiDefinitionListResult" }) as any as S.Schema<ApiDefinitionListResult>;
 
 export interface ListApisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1811,9 +1741,7 @@ export const ListApisRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListApisRequest",
-}) as any as S.Schema<ListApisRequest>;
+).annotate({ identifier: "ListApisRequest" }) as any as S.Schema<ListApisRequest>;
 
 /** API entity. */
 export interface Api {
@@ -1888,9 +1816,7 @@ export const ListApiVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListApiVersionsRequest",
-}) as any as S.Schema<ListApiVersionsRequest>;
+).annotate({ identifier: "ListApiVersionsRequest" }) as any as S.Schema<ListApiVersionsRequest>;
 
 /** API version entity. */
 export interface ApiVersion {
@@ -1933,9 +1859,7 @@ export const ApiVersionListResult = /*@__PURE__*/ S.suspend(() =>
     value: ApiVersionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiVersionListResult",
-}) as any as S.Schema<ApiVersionListResult>;
+).annotate({ identifier: "ApiVersionListResult" }) as any as S.Schema<ApiVersionListResult>;
 
 export interface ListDeploymentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1967,9 +1891,7 @@ export const ListDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListDeploymentsRequest",
-}) as any as S.Schema<ListDeploymentsRequest>;
+).annotate({ identifier: "ListDeploymentsRequest" }) as any as S.Schema<ListDeploymentsRequest>;
 
 /** API deployment entity. */
 export interface Deployment {
@@ -2012,9 +1934,7 @@ export const DeploymentListResult = /*@__PURE__*/ S.suspend(() =>
     value: DeploymentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentListResult",
-}) as any as S.Schema<DeploymentListResult>;
+).annotate({ identifier: "DeploymentListResult" }) as any as S.Schema<DeploymentListResult>;
 
 export interface ListEnvironmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2043,9 +1963,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 
 /** Environment entity. */
 export interface Environment {
@@ -2088,9 +2006,7 @@ export const EnvironmentListResult = /*@__PURE__*/ S.suspend(() =>
     value: EnvironmentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EnvironmentListResult",
-}) as any as S.Schema<EnvironmentListResult>;
+).annotate({ identifier: "EnvironmentListResult" }) as any as S.Schema<EnvironmentListResult>;
 
 export interface ListMetadataSchemasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2161,9 +2077,7 @@ export const MetadataSchemaListResult = /*@__PURE__*/ S.suspend(() =>
     value: MetadataSchemaListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetadataSchemaListResult",
-}) as any as S.Schema<MetadataSchemaListResult>;
+).annotate({ identifier: "MetadataSchemaListResult" }) as any as S.Schema<MetadataSchemaListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2175,9 +2089,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -2197,9 +2109,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2249,9 +2159,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2336,9 +2244,7 @@ export const ServiceListResult = /*@__PURE__*/ S.suspend(() =>
     value: ServiceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceListResult",
-}) as any as S.Schema<ServiceListResult>;
+).annotate({ identifier: "ServiceListResult" }) as any as S.Schema<ServiceListResult>;
 
 export interface ListServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2383,9 +2289,7 @@ export const ListWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListWorkspacesRequest",
-}) as any as S.Schema<ListWorkspacesRequest>;
+).annotate({ identifier: "ListWorkspacesRequest" }) as any as S.Schema<ListWorkspacesRequest>;
 
 /** Workspace entity. */
 export interface Workspace {
@@ -2428,9 +2332,7 @@ export const WorkspaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: WorkspaceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceListResult",
-}) as any as S.Schema<WorkspaceListResult>;
+).annotate({ identifier: "WorkspaceListResult" }) as any as S.Schema<WorkspaceListResult>;
 
 export interface MetadataSchemasCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2488,9 +2390,7 @@ export const MetadataSchemasCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<MetadataSchemasCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2567,9 +2467,7 @@ export const ServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2650,14 +2548,10 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 /** Resource tags. */
-export type UpdateServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2696,9 +2590,7 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServiceProperties),
     identity: S.optional(GetServiceResponseIdentity),
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */

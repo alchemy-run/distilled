@@ -113,9 +113,7 @@ export const DeleteFhirServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "DeleteFhirServiceRequest",
-}) as any as S.Schema<DeleteFhirServiceRequest>;
+).annotate({ identifier: "DeleteFhirServiceRequest" }) as any as S.Schema<DeleteFhirServiceRequest>;
 
 export interface DeleteFhirServiceResponse {}
 export const DeleteFhirServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -249,9 +247,7 @@ export const DeleteServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "DeleteServiceRequest",
-}) as any as S.Schema<DeleteServiceRequest>;
+).annotate({ identifier: "DeleteServiceRequest" }) as any as S.Schema<DeleteServiceRequest>;
 
 export interface DeleteServiceResponse {}
 export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -279,9 +275,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -324,9 +318,7 @@ export const DeleteWorkspacePrivateEndpointConnectionResponse = /*@__PURE__*/ S.
 }) as any as S.Schema<DeleteWorkspacePrivateEndpointConnectionResponse>;
 
 /** Resource tags. */
-export type DicomServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DicomServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DicomServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -347,9 +339,7 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() => S.Struct(
 }) as any as S.Schema<UserAssignedIdentityInput>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentitiesInput = {
-  [key: string]: UserAssignedIdentityInput | undefined;
-};
+export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityInput | undefined };
 export const UserAssignedIdentitiesInput = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentityInput,
@@ -413,9 +403,7 @@ export const CorsConfiguration = /*@__PURE__*/ S.suspend(() =>
     maxAge: S.optional(S.Number),
     allowCredentials: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CorsConfiguration",
-}) as any as S.Schema<CorsConfiguration>;
+).annotate({ identifier: "CorsConfiguration" }) as any as S.Schema<CorsConfiguration>;
 
 /** The encryption settings for the customer-managed key */
 export interface EncryptionCustomerManagedKeyEncryption {
@@ -453,9 +441,7 @@ export const StorageConfiguration = /*@__PURE__*/ S.suspend(() =>
     storageResourceId: S.optional(S.String),
     fileSystemName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageConfiguration",
-}) as any as S.Schema<StorageConfiguration>;
+).annotate({ identifier: "StorageConfiguration" }) as any as S.Schema<StorageConfiguration>;
 
 /** Dicom Service properties. */
 export interface DicomServicePropertiesInput {
@@ -526,9 +512,7 @@ export const DicomServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DicomServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DicomServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DicomServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DicomServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -554,14 +538,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   UserAssignedIdentity,
@@ -636,9 +616,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
@@ -763,9 +741,7 @@ export const DicomServiceProperties = /*@__PURE__*/ S.suspend(() =>
     storageConfiguration: S.optional(StorageConfiguration),
     enableDataPartitions: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DicomServiceProperties",
-}) as any as S.Schema<DicomServiceProperties>;
+).annotate({ identifier: "DicomServiceProperties" }) as any as S.Schema<DicomServiceProperties>;
 
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -838,9 +814,7 @@ export const DicomServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DicomServicesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type FhirServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FhirServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FhirServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -894,9 +868,7 @@ export const ServiceOciArtifactEntry = /*@__PURE__*/ S.suspend(() =>
     imageName: S.optional(S.String),
     digest: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceOciArtifactEntry",
-}) as any as S.Schema<ServiceOciArtifactEntry>;
+).annotate({ identifier: "ServiceOciArtifactEntry" }) as any as S.Schema<ServiceOciArtifactEntry>;
 
 /** The list of Open Container Initiative (OCI) artifacts. */
 export type FhirServiceAcrConfigurationOciArtifactsList = Array<ServiceOciArtifactEntry>;
@@ -1204,9 +1176,7 @@ export const FhirServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FhirServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type FhirServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FhirServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FhirServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1300,9 +1270,7 @@ export const FhirServiceProperties = /*@__PURE__*/ S.suspend(() =>
     implementationGuidesConfiguration: S.optional(ImplementationGuidesConfiguration),
     encryption: S.optional(Encryption),
   }),
-).annotate({
-  identifier: "FhirServiceProperties",
-}) as any as S.Schema<FhirServiceProperties>;
+).annotate({ identifier: "FhirServiceProperties" }) as any as S.Schema<FhirServiceProperties>;
 
 export interface FhirServicesCreateOrUpdateResponse {
   /** Resource tags. */
@@ -1367,14 +1335,10 @@ export const GetDicomServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "GetDicomServiceRequest",
-}) as any as S.Schema<GetDicomServiceRequest>;
+).annotate({ identifier: "GetDicomServiceRequest" }) as any as S.Schema<GetDicomServiceRequest>;
 
 /** Resource tags. */
-export type GetDicomServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDicomServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetDicomServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1441,9 +1405,7 @@ export const GetDicomServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(DicomServiceProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "GetDicomServiceResponse",
-}) as any as S.Schema<GetDicomServiceResponse>;
+).annotate({ identifier: "GetDicomServiceResponse" }) as any as S.Schema<GetDicomServiceResponse>;
 
 export interface GetFhirServiceRequest {
   /** The ID of the target subscription. */
@@ -1469,14 +1431,10 @@ export const GetFhirServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "GetFhirServiceRequest",
-}) as any as S.Schema<GetFhirServiceRequest>;
+).annotate({ identifier: "GetFhirServiceRequest" }) as any as S.Schema<GetFhirServiceRequest>;
 
 /** Resource tags. */
-export type GetFhirServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetFhirServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetFhirServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1550,9 +1508,7 @@ export const GetFhirServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(FhirServiceProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "GetFhirServiceResponse",
-}) as any as S.Schema<GetFhirServiceResponse>;
+).annotate({ identifier: "GetFhirServiceResponse" }) as any as S.Schema<GetFhirServiceResponse>;
 
 export interface GetIotConnectorRequest {
   /** The ID of the target subscription. */
@@ -1578,14 +1534,10 @@ export const GetIotConnectorRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "GetIotConnectorRequest",
-}) as any as S.Schema<GetIotConnectorRequest>;
+).annotate({ identifier: "GetIotConnectorRequest" }) as any as S.Schema<GetIotConnectorRequest>;
 
 /** Resource tags. */
-export type GetIotConnectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetIotConnectorResponseTagsMap = { [key: string]: string | undefined };
 export const GetIotConnectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1648,9 +1600,7 @@ export const IotMappingProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     content: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "IotMappingProperties",
-}) as any as S.Schema<IotMappingProperties>;
+).annotate({ identifier: "IotMappingProperties" }) as any as S.Schema<IotMappingProperties>;
 
 /** IoT Connector properties. */
 export interface IotConnectorProperties {
@@ -1667,9 +1617,7 @@ export const IotConnectorProperties = /*@__PURE__*/ S.suspend(() =>
     ingestionEndpointConfiguration: S.optional(IotEventHubIngestionEndpointConfiguration),
     deviceMapping: S.optional(IotMappingProperties),
   }),
-).annotate({
-  identifier: "IotConnectorProperties",
-}) as any as S.Schema<IotConnectorProperties>;
+).annotate({ identifier: "IotConnectorProperties" }) as any as S.Schema<IotConnectorProperties>;
 
 export interface GetIotConnectorResponse {
   /** Resource tags. */
@@ -1703,9 +1651,7 @@ export const GetIotConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(IotConnectorProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "GetIotConnectorResponse",
-}) as any as S.Schema<GetIotConnectorResponse>;
+).annotate({ identifier: "GetIotConnectorResponse" }) as any as S.Schema<GetIotConnectorResponse>;
 
 export interface GetIotConnectorFhirDestinationRequest {
   /** The ID of the target subscription. */
@@ -2102,9 +2048,7 @@ export const GetServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "GetServiceRequest",
-}) as any as S.Schema<GetServiceRequest>;
+).annotate({ identifier: "GetServiceRequest" }) as any as S.Schema<GetServiceRequest>;
 
 /** The kind of the service. */
 export type GetServiceResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
@@ -2149,9 +2093,7 @@ export const ServiceAccessPolicyEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     objectId: S.String,
   }),
-).annotate({
-  identifier: "ServiceAccessPolicyEntry",
-}) as any as S.Schema<ServiceAccessPolicyEntry>;
+).annotate({ identifier: "ServiceAccessPolicyEntry" }) as any as S.Schema<ServiceAccessPolicyEntry>;
 
 /** The access policies of the service instance. */
 export type ServiceAccessPoliciesInfo = Array<ServiceAccessPolicyEntry>;
@@ -2329,9 +2271,7 @@ export const ServicesProperties = /*@__PURE__*/ S.suspend(() =>
     acrConfiguration: S.optional(ServiceAcrConfigurationInfo),
     importConfiguration: S.optional(FhirServiceImportConfiguration),
   }),
-).annotate({
-  identifier: "ServicesProperties",
-}) as any as S.Schema<ServicesProperties>;
+).annotate({ identifier: "ServicesProperties" }) as any as S.Schema<ServicesProperties>;
 
 export interface GetServiceResponse {
   /** The resource identifier. */
@@ -2368,9 +2308,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServicesProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "GetServiceResponse",
-}) as any as S.Schema<GetServiceResponse>;
+).annotate({ identifier: "GetServiceResponse" }) as any as S.Schema<GetServiceResponse>;
 
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -2393,9 +2331,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -2467,9 +2403,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(GetWorkspaceResponseProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface GetWorkspacePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -2757,9 +2691,7 @@ export const IotConnectorFhirDestinationCreateOrUpdateResponse = /*@__PURE__*/ S
 }) as any as S.Schema<IotConnectorFhirDestinationCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type IotConnectorsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IotConnectorsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const IotConnectorsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2848,9 +2780,7 @@ export const IotConnectorsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IotConnectorsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type IotConnectorsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type IotConnectorsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const IotConnectorsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2978,9 +2908,7 @@ export const DicomServiceIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(UserAssignedIdentities),
   }),
-).annotate({
-  identifier: "DicomServiceIdentity",
-}) as any as S.Schema<DicomServiceIdentity>;
+).annotate({ identifier: "DicomServiceIdentity" }) as any as S.Schema<DicomServiceIdentity>;
 
 /** The description of Dicom Service */
 export interface DicomService {
@@ -3035,9 +2963,7 @@ export const DicomServiceCollection = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(DicomServiceCollectionValueList),
   }),
-).annotate({
-  identifier: "DicomServiceCollection",
-}) as any as S.Schema<DicomServiceCollection>;
+).annotate({ identifier: "DicomServiceCollection" }) as any as S.Schema<DicomServiceCollection>;
 
 export interface ListFhirDestinationByIotConnectorRequest {
   /** The ID of the target subscription. */
@@ -3094,9 +3020,7 @@ export const IotFhirDestination = /*@__PURE__*/ S.suspend(() =>
     properties: IotFhirDestinationProperties,
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "IotFhirDestination",
-}) as any as S.Schema<IotFhirDestination>;
+).annotate({ identifier: "IotFhirDestination" }) as any as S.Schema<IotFhirDestination>;
 
 /** The list of IoT Connector FHIR destinations. */
 export type IotFhirDestinationCollectionValueList = Array<IotFhirDestination>;
@@ -3177,9 +3101,7 @@ export const FhirServiceIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(UserAssignedIdentities),
   }),
-).annotate({
-  identifier: "FhirServiceIdentity",
-}) as any as S.Schema<FhirServiceIdentity>;
+).annotate({ identifier: "FhirServiceIdentity" }) as any as S.Schema<FhirServiceIdentity>;
 
 /** The kind of the service. */
 export type FhirServiceKind = "fhir-Stu3" | "fhir-R4";
@@ -3241,9 +3163,7 @@ export const FhirServiceCollection = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(FhirServiceCollectionValueList),
   }),
-).annotate({
-  identifier: "FhirServiceCollection",
-}) as any as S.Schema<FhirServiceCollection>;
+).annotate({ identifier: "FhirServiceCollection" }) as any as S.Schema<FhirServiceCollection>;
 
 export interface ListIotConnectorByWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -3302,9 +3222,7 @@ export const IotConnectorIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(UserAssignedIdentities),
   }),
-).annotate({
-  identifier: "IotConnectorIdentity",
-}) as any as S.Schema<IotConnectorIdentity>;
+).annotate({ identifier: "IotConnectorIdentity" }) as any as S.Schema<IotConnectorIdentity>;
 
 /** IoT Connector definition. */
 export interface IotConnector {
@@ -3359,9 +3277,7 @@ export const IotConnectorCollection = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(IotConnectorCollectionValueList),
   }),
-).annotate({
-  identifier: "IotConnectorCollection",
-}) as any as S.Schema<IotConnectorCollection>;
+).annotate({ identifier: "IotConnectorCollection" }) as any as S.Schema<IotConnectorCollection>;
 
 export interface ListOperations2Request {}
 export const ListOperations2Request = /*@__PURE__*/ S.suspend(() =>
@@ -3373,9 +3289,7 @@ export const ListOperations2Request = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "ListOperations2Request",
-}) as any as S.Schema<ListOperations2Request>;
+).annotate({ identifier: "ListOperations2Request" }) as any as S.Schema<ListOperations2Request>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -3395,9 +3309,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export type OperationDetailActionType = "Internal";
@@ -3418,9 +3330,7 @@ export const LogSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     blobDuration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSpecification",
-}) as any as S.Schema<LogSpecification>;
+).annotate({ identifier: "LogSpecification" }) as any as S.Schema<LogSpecification>;
 
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
@@ -3455,9 +3365,7 @@ export const MetricDimension = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     toBeExportedForShoebox: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MetricDimension",
-}) as any as S.Schema<MetricDimension>;
+).annotate({ identifier: "MetricDimension" }) as any as S.Schema<MetricDimension>;
 
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
@@ -3519,9 +3427,7 @@ export const MetricSpecification = /*@__PURE__*/ S.suspend(() =>
     enableRegionalMdmAccount: S.optional(S.Boolean),
     resourceIdDimensionNameOverride: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MetricSpecification",
-}) as any as S.Schema<MetricSpecification>;
+).annotate({ identifier: "MetricSpecification" }) as any as S.Schema<MetricSpecification>;
 
 /** Specifications of the Metrics for Azure Monitoring */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
@@ -3541,9 +3447,7 @@ export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
     logSpecifications: S.optional(ServiceSpecificationLogSpecificationsList),
     metricSpecifications: S.optional(ServiceSpecificationMetricSpecificationsList),
   }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 
 /** Extra Operation properties */
 export interface OperationProperties {
@@ -3554,9 +3458,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(ServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Service REST API operation. */
 export interface OperationDetail {
@@ -3582,9 +3484,7 @@ export const OperationDetail = /*@__PURE__*/ S.suspend(() =>
     actionType: S.optional(OperationDetailActionType),
     properties: S.optional(OperationProperties),
   }),
-).annotate({
-  identifier: "OperationDetail",
-}) as any as S.Schema<OperationDetail>;
+).annotate({ identifier: "OperationDetail" }) as any as S.Schema<OperationDetail>;
 
 /** Collection of available operation details */
 export type ListOperationsValueList = Array<OperationDetail>;
@@ -3928,9 +3828,7 @@ export const ServicesDescription = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServicesProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "ServicesDescription",
-}) as any as S.Schema<ServicesDescription>;
+).annotate({ identifier: "ServicesDescription" }) as any as S.Schema<ServicesDescription>;
 
 /** A list of service description objects. */
 export type ServicesDescriptionListResultValueList = Array<ServicesDescription>;
@@ -3969,9 +3867,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "ListServicesRequest",
-}) as any as S.Schema<ListServicesRequest>;
+).annotate({ identifier: "ListServicesRequest" }) as any as S.Schema<ListServicesRequest>;
 
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -4030,9 +3926,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
     privateEndpointConnections: S.optional(WorkspacePropertiesPrivateEndpointConnectionsList),
     publicNetworkAccess: S.optional(ResourcePublicNetworkAccess),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 /** Workspace resource. */
 export interface Workspace {
@@ -4286,9 +4180,7 @@ export type ServicesCreateOrUpdateRequestKind = "fhir" | "fhir-Stu3" | "fhir-R4"
 export const ServicesCreateOrUpdateRequestKind = S.String;
 
 /** The resource tags. */
-export type ServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4368,9 +4260,7 @@ export const ServicesPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     acrConfiguration: S.optional(ServiceAcrConfigurationInfo),
     importConfiguration: S.optional(FhirServiceImportConfiguration),
   }),
-).annotate({
-  identifier: "ServicesPropertiesInput",
-}) as any as S.Schema<ServicesPropertiesInput>;
+).annotate({ identifier: "ServicesPropertiesInput" }) as any as S.Schema<ServicesPropertiesInput>;
 
 export interface ServicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4420,9 +4310,7 @@ export type ServicesCreateOrUpdateResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4
 export const ServicesCreateOrUpdateResponseKind = S.String;
 
 /** The resource tags. */
-export type ServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4491,9 +4379,7 @@ export const ServicesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ServicesCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type UpdateDicomServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDicomServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDicomServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4557,9 +4443,7 @@ export const UpdateDicomServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDicomServiceRequest>;
 
 /** Resource tags. */
-export type UpdateDicomServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDicomServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDicomServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4631,9 +4515,7 @@ export const UpdateDicomServiceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDicomServiceResponse>;
 
 /** Resource tags. */
-export type UpdateFhirServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFhirServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateFhirServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4692,14 +4574,10 @@ export const UpdateFhirServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "UpdateFhirServiceRequest",
-}) as any as S.Schema<UpdateFhirServiceRequest>;
+).annotate({ identifier: "UpdateFhirServiceRequest" }) as any as S.Schema<UpdateFhirServiceRequest>;
 
 /** Resource tags. */
-export type UpdateFhirServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFhirServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFhirServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4778,9 +4656,7 @@ export const UpdateFhirServiceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateFhirServiceResponse>;
 
 /** Resource tags. */
-export type UpdateIotConnectorRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIotConnectorRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateIotConnectorRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4844,9 +4720,7 @@ export const UpdateIotConnectorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateIotConnectorRequest>;
 
 /** Resource tags. */
-export type UpdateIotConnectorResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateIotConnectorResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateIotConnectorResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4968,18 +4842,14 @@ export const UpdateServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "UpdateServiceRequest",
-}) as any as S.Schema<UpdateServiceRequest>;
+).annotate({ identifier: "UpdateServiceRequest" }) as any as S.Schema<UpdateServiceRequest>;
 
 /** The kind of the service. */
 export type UpdateServiceResponseKind = "fhir" | "fhir-Stu3" | "fhir-R4";
 export const UpdateServiceResponseKind = S.String;
 
 /** The resource tags. */
-export type UpdateServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5043,14 +4913,10 @@ export const UpdateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ServicesProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "UpdateServiceResponse",
-}) as any as S.Schema<UpdateServiceResponse>;
+).annotate({ identifier: "UpdateServiceResponse" }) as any as S.Schema<UpdateServiceResponse>;
 
 /** Resource tags. */
-export type UpdateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5080,14 +4946,10 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-03-31",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5157,9 +5019,7 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(UpdateWorkspaceResponseProperties),
     systemData: S.optional(SystemData),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -5270,9 +5130,7 @@ export const WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse = /*@__PU
 }) as any as S.Schema<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5320,9 +5178,7 @@ export const WorkspacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

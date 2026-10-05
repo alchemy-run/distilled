@@ -32,9 +32,7 @@ export const AbortWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "AbortWorkflowRequest",
-}) as any as S.Schema<AbortWorkflowRequest>;
+).annotate({ identifier: "AbortWorkflowRequest" }) as any as S.Schema<AbortWorkflowRequest>;
 
 export interface AbortWorkflowResponse {}
 export const AbortWorkflowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -155,9 +153,7 @@ export const RestoreFileSpec = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     isdir: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RestoreFileSpec",
-}) as any as S.Schema<RestoreFileSpec>;
+).annotate({ identifier: "RestoreFileSpec" }) as any as S.Schema<RestoreFileSpec>;
 
 /** Post Restore restore file spec array. */
 export type CloudEndpointsPostRestoreRequestRestoreFileSpecList = Array<RestoreFileSpec>;
@@ -263,9 +259,7 @@ export const CloudEndpointsPreBackupRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CloudEndpointsPreBackupResponse {}
 export const CloudEndpointsPreBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CloudEndpointsPreBackupResponse",
-  },
+  { identifier: "CloudEndpointsPreBackupResponse" },
 ) as any as S.Schema<CloudEndpointsPreBackupResponse>;
 
 export interface CloudEndpointsRestoreheartbeatRequest {
@@ -544,9 +538,7 @@ export const CloudEndpointProperties = /*@__PURE__*/ S.suspend(() =>
     changeEnumerationStatus: S.optional(CloudEndpointChangeEnumerationStatus),
     changeEnumerationIntervalDays: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudEndpointProperties",
-}) as any as S.Schema<CloudEndpointProperties>;
+).annotate({ identifier: "CloudEndpointProperties" }) as any as S.Schema<CloudEndpointProperties>;
 
 export interface CreateCloudEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -663,9 +655,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -1242,9 +1232,7 @@ export const ServerEndpointSyncStatus = /*@__PURE__*/ S.suspend(() =>
     offlineDataTransferStatus: S.optional(ServerEndpointOfflineDataTransferState),
     backgroundDataDownloadActivity: S.optional(ServerEndpointBackgroundDataDownloadActivity),
   }),
-).annotate({
-  identifier: "ServerEndpointSyncStatus",
-}) as any as S.Schema<ServerEndpointSyncStatus>;
+).annotate({ identifier: "ServerEndpointSyncStatus" }) as any as S.Schema<ServerEndpointSyncStatus>;
 
 /** Server endpoint cloud tiering status object. */
 export interface CloudTieringSpaceSavings {
@@ -1270,9 +1258,7 @@ export const CloudTieringSpaceSavings = /*@__PURE__*/ S.suspend(() =>
     spaceSavingsPercent: S.optional(S.Number),
     spaceSavingsBytes: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CloudTieringSpaceSavings",
-}) as any as S.Schema<CloudTieringSpaceSavings>;
+).annotate({ identifier: "CloudTieringSpaceSavings" }) as any as S.Schema<CloudTieringSpaceSavings>;
 
 /** Server endpoint cloud tiering status object. */
 export interface CloudTieringCachePerformance {
@@ -1308,9 +1294,7 @@ export const FilesNotTieringError = /*@__PURE__*/ S.suspend(() =>
     errorCode: S.optional(S.Number),
     fileCount: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "FilesNotTieringError",
-}) as any as S.Schema<FilesNotTieringError>;
+).annotate({ identifier: "FilesNotTieringError" }) as any as S.Schema<FilesNotTieringError>;
 
 /** Array of tiering errors */
 export type CloudTieringFilesNotTieringErrorsList = Array<FilesNotTieringError>;
@@ -1388,9 +1372,7 @@ export const CloudTieringLowDiskMode = /*@__PURE__*/ S.suspend(() =>
     lastUpdatedTimestamp: S.optional(S.String),
     state: S.optional(CloudTieringLowDiskModeState),
   }),
-).annotate({
-  identifier: "CloudTieringLowDiskMode",
-}) as any as S.Schema<CloudTieringLowDiskMode>;
+).annotate({ identifier: "CloudTieringLowDiskMode" }) as any as S.Schema<CloudTieringLowDiskMode>;
 
 /** Server endpoint cloud tiering status object. */
 export interface ServerEndpointCloudTieringStatus {
@@ -1642,9 +1624,7 @@ export const ServerEndpointProperties = /*@__PURE__*/ S.suspend(() =>
     serverName: S.optional(S.String),
     serverEndpointProvisioningStatus: S.optional(ServerEndpointProvisioningStatus),
   }),
-).annotate({
-  identifier: "ServerEndpointProperties",
-}) as any as S.Schema<ServerEndpointProperties>;
+).annotate({ identifier: "ServerEndpointProperties" }) as any as S.Schema<ServerEndpointProperties>;
 
 export interface CreateServerEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1671,9 +1651,7 @@ export const CreateServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateServerEndpointResponse>;
 
 /** Resource tags. */
-export type CreateStorageSyncServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateStorageSyncServiceRequestTagsMap = { [key: string]: string | undefined };
 export const CreateStorageSyncServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1772,9 +1750,7 @@ export const CreateStorageSyncServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateStorageSyncServiceRequest>;
 
 /** Resource tags. */
-export type CreateStorageSyncServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateStorageSyncServiceResponseTagsMap = { [key: string]: string | undefined };
 export const CreateStorageSyncServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1861,14 +1837,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -1954,9 +1926,7 @@ export const CreateSyncGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "CreateSyncGroupRequest",
-}) as any as S.Schema<CreateSyncGroupRequest>;
+).annotate({ identifier: "CreateSyncGroupRequest" }) as any as S.Schema<CreateSyncGroupRequest>;
 
 /** SyncGroup Properties object. */
 export interface SyncGroupProperties {
@@ -1970,9 +1940,7 @@ export const SyncGroupProperties = /*@__PURE__*/ S.suspend(() =>
     uniqueId: S.optional(S.String),
     syncGroupStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SyncGroupProperties",
-}) as any as S.Schema<SyncGroupProperties>;
+).annotate({ identifier: "SyncGroupProperties" }) as any as S.Schema<SyncGroupProperties>;
 
 export interface CreateSyncGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1994,9 +1962,7 @@ export const CreateSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SyncGroupProperties),
   }),
-).annotate({
-  identifier: "CreateSyncGroupResponse",
-}) as any as S.Schema<CreateSyncGroupResponse>;
+).annotate({ identifier: "CreateSyncGroupResponse" }) as any as S.Schema<CreateSyncGroupResponse>;
 
 export interface DeleteCloudEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2194,9 +2160,7 @@ export const DeleteSyncGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSyncGroupRequest",
-}) as any as S.Schema<DeleteSyncGroupRequest>;
+).annotate({ identifier: "DeleteSyncGroupRequest" }) as any as S.Schema<DeleteSyncGroupRequest>;
 
 export interface DeleteSyncGroupResponse {}
 export const DeleteSyncGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2230,9 +2194,7 @@ export const GetCloudEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetCloudEndpointRequest",
-}) as any as S.Schema<GetCloudEndpointRequest>;
+).annotate({ identifier: "GetCloudEndpointRequest" }) as any as S.Schema<GetCloudEndpointRequest>;
 
 export interface GetCloudEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2254,9 +2216,7 @@ export const GetCloudEndpointResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(CloudEndpointProperties),
   }),
-).annotate({
-  identifier: "GetCloudEndpointResponse",
-}) as any as S.Schema<GetCloudEndpointResponse>;
+).annotate({ identifier: "GetCloudEndpointResponse" }) as any as S.Schema<GetCloudEndpointResponse>;
 
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2319,9 +2279,7 @@ export const StorageSyncErrorDetails = /*@__PURE__*/ S.suspend(() =>
     hashedMessage: S.optional(S.String),
     httpErrorCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageSyncErrorDetails",
-}) as any as S.Schema<StorageSyncErrorDetails>;
+).annotate({ identifier: "StorageSyncErrorDetails" }) as any as S.Schema<StorageSyncErrorDetails>;
 
 /** Error Details object. */
 export interface StorageSyncInnerErrorDetails {
@@ -2366,9 +2324,7 @@ export const StorageSyncApiError = /*@__PURE__*/ S.suspend(() =>
     details: S.optional(StorageSyncErrorDetails),
     innererror: S.optional(StorageSyncInnerErrorDetails),
   }),
-).annotate({
-  identifier: "StorageSyncApiError",
-}) as any as S.Schema<StorageSyncApiError>;
+).annotate({ identifier: "StorageSyncApiError" }) as any as S.Schema<StorageSyncApiError>;
 
 /** Operation status object */
 export interface OperationStatus {
@@ -2391,9 +2347,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(S.String),
     error: S.optional(StorageSyncApiError),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2526,9 +2480,7 @@ export const GetServerEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetServerEndpointRequest",
-}) as any as S.Schema<GetServerEndpointRequest>;
+).annotate({ identifier: "GetServerEndpointRequest" }) as any as S.Schema<GetServerEndpointRequest>;
 
 export interface GetServerEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2580,9 +2532,7 @@ export const GetStorageSyncServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetStorageSyncServiceRequest>;
 
 /** Resource tags. */
-export type GetStorageSyncServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStorageSyncServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetStorageSyncServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2649,9 +2599,7 @@ export const GetSyncGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetSyncGroupRequest",
-}) as any as S.Schema<GetSyncGroupRequest>;
+).annotate({ identifier: "GetSyncGroupRequest" }) as any as S.Schema<GetSyncGroupRequest>;
 
 export interface GetSyncGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2673,9 +2621,7 @@ export const GetSyncGroupResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(SyncGroupProperties),
   }),
-).annotate({
-  identifier: "GetSyncGroupResponse",
-}) as any as S.Schema<GetSyncGroupResponse>;
+).annotate({ identifier: "GetSyncGroupResponse" }) as any as S.Schema<GetSyncGroupResponse>;
 
 export interface GetWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2701,9 +2647,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 /** Type of the Workflow Status */
 export type WorkflowStatus = "active" | "expired" | "succeeded" | "aborted" | "failed";
@@ -2743,9 +2687,7 @@ export const WorkflowProperties = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.String),
     lastStatusTimestamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowProperties",
-}) as any as S.Schema<WorkflowProperties>;
+).annotate({ identifier: "WorkflowProperties" }) as any as S.Schema<WorkflowProperties>;
 
 export interface GetWorkflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2767,9 +2709,7 @@ export const GetWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(WorkflowProperties),
   }),
-).annotate({
-  identifier: "GetWorkflowResponse",
-}) as any as S.Schema<GetWorkflowResponse>;
+).annotate({ identifier: "GetWorkflowResponse" }) as any as S.Schema<GetWorkflowResponse>;
 
 export interface ListCloudEndpointBySyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2840,9 +2780,7 @@ export const CloudEndpointArray = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(CloudEndpointArrayValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CloudEndpointArray",
-}) as any as S.Schema<CloudEndpointArray>;
+).annotate({ identifier: "CloudEndpointArray" }) as any as S.Schema<CloudEndpointArray>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2854,9 +2792,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-12-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The operation supported by storage sync. */
 export interface OperationDisplayInfo {
@@ -2876,9 +2812,7 @@ export const OperationDisplayInfo = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplayInfo",
-}) as any as S.Schema<OperationDisplayInfo>;
+).annotate({ identifier: "OperationDisplayInfo" }) as any as S.Schema<OperationDisplayInfo>;
 
 /** Supported aggregation types for the metric. */
 export type OperationResourceMetricSpecificationSupportedAggregationTypesList = Array<string>;
@@ -2981,9 +2915,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(OperationResourceServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** The operation supported by storage sync. */
 export interface OperationEntity {
@@ -3003,9 +2935,7 @@ export const OperationEntity = /*@__PURE__*/ S.suspend(() =>
     origin: S.optional(S.String),
     properties: S.optional(OperationProperties),
   }),
-).annotate({
-  identifier: "OperationEntity",
-}) as any as S.Schema<OperationEntity>;
+).annotate({ identifier: "OperationEntity" }) as any as S.Schema<OperationEntity>;
 
 /** The OperationEntity items on this page */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
@@ -3161,9 +3091,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 /** Array of private link resources */
 export type ListPrivateLinkResourceByStorageSyncServiceResponseValueList =
@@ -3230,9 +3158,7 @@ export const RegisteredServer = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(RegisteredServerProperties),
   }),
-).annotate({
-  identifier: "RegisteredServer",
-}) as any as S.Schema<RegisteredServer>;
+).annotate({ identifier: "RegisteredServer" }) as any as S.Schema<RegisteredServer>;
 
 /** Collection of Registered Server. */
 export type RegisteredServerArrayValueList = Array<RegisteredServer>;
@@ -3252,9 +3178,7 @@ export const RegisteredServerArray = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RegisteredServerArrayValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisteredServerArray",
-}) as any as S.Schema<RegisteredServerArray>;
+).annotate({ identifier: "RegisteredServerArray" }) as any as S.Schema<RegisteredServerArray>;
 
 export interface ListServerEndpointBySyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3325,9 +3249,7 @@ export const ServerEndpointArray = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ServerEndpointArrayValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServerEndpointArray",
-}) as any as S.Schema<ServerEndpointArray>;
+).annotate({ identifier: "ServerEndpointArray" }) as any as S.Schema<ServerEndpointArray>;
 
 export interface ListStorageSyncServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3392,9 +3314,7 @@ export const StorageSyncService = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(StorageSyncServiceProperties),
     identity: S.optional(CreateStorageSyncServiceResponseIdentity),
   }),
-).annotate({
-  identifier: "StorageSyncService",
-}) as any as S.Schema<StorageSyncService>;
+).annotate({ identifier: "StorageSyncService" }) as any as S.Schema<StorageSyncService>;
 
 /** Collection of StorageSyncServices. */
 export type StorageSyncServiceArrayValueList = Array<StorageSyncService>;
@@ -3414,9 +3334,7 @@ export const StorageSyncServiceArray = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(StorageSyncServiceArrayValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageSyncServiceArray",
-}) as any as S.Schema<StorageSyncServiceArray>;
+).annotate({ identifier: "StorageSyncServiceArray" }) as any as S.Schema<StorageSyncServiceArray>;
 
 export interface ListStorageSyncServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3625,9 +3543,7 @@ export const LocationOperationStatus = /*@__PURE__*/ S.suspend(() =>
     error: S.optional(StorageSyncApiError),
     percentComplete: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "LocationOperationStatus",
-}) as any as S.Schema<LocationOperationStatus>;
+).annotate({ identifier: "LocationOperationStatus" }) as any as S.Schema<LocationOperationStatus>;
 
 export interface PostCloudEndpointBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3685,9 +3601,7 @@ export const PostBackupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     backupMetadata: S.optional(PostBackupResponseProperties),
   }),
-).annotate({
-  identifier: "PostBackupResponse",
-}) as any as S.Schema<PostBackupResponse>;
+).annotate({ identifier: "PostBackupResponse" }) as any as S.Schema<PostBackupResponse>;
 
 /** Pre Restore restore file spec array. */
 export type RestoreCloudEndpointsPreRequestRestoreFileSpecList = Array<RestoreFileSpec>;
@@ -4134,9 +4048,7 @@ export const UpdateServerEndpointResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateServerEndpointResponse>;
 
 /** The user-specified tags associated with the storage sync service. */
-export type UpdateStorageSyncServiceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageSyncServiceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageSyncServiceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4185,9 +4097,7 @@ export const UpdateStorageSyncServiceRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateStorageSyncServiceRequest>;
 
 /** Resource tags. */
-export type UpdateStorageSyncServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateStorageSyncServiceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateStorageSyncServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

@@ -36,6 +36,8 @@ export interface DataFlow {
   annotations?: DataFlowAnnotationsList;
   /** The folder that this data flow is in. If not specified, Data flow will appear at the root level. */
   folder?: DataFlowFolder;
+  /** Type-specific data flow properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const DataFlow = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -43,6 +45,7 @@ export const DataFlow = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     annotations: S.optional(DataFlowAnnotationsList),
     folder: S.optional(DataFlowFolder),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "DataFlow" }) as any as S.Schema<DataFlow>;
 
@@ -58,9 +61,7 @@ export const DataFlowDebugResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: DataFlow,
   }),
-).annotate({
-  identifier: "DataFlowDebugResource",
-}) as any as S.Schema<DataFlowDebugResource>;
+).annotate({ identifier: "DataFlowDebugResource" }) as any as S.Schema<DataFlowDebugResource>;
 
 /** List of Data flows */
 export type AddDataFlowDebugSessionDataFlowRequestDataFlowsList = Array<DataFlowDebugResource>;
@@ -73,9 +74,7 @@ export type Type = "LinkedServiceReference";
 export const Type = S.String;
 
 /** Arguments for LinkedService. */
-export type LinkedServiceReferenceParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type LinkedServiceReferenceParametersMap = { [key: string]: unknown | undefined };
 export const LinkedServiceReferenceParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -96,9 +95,7 @@ export const LinkedServiceReference = /*@__PURE__*/ S.suspend(() =>
     referenceName: S.String,
     parameters: S.optional(LinkedServiceReferenceParametersMap),
   }),
-).annotate({
-  identifier: "LinkedServiceReference",
-}) as any as S.Schema<LinkedServiceReference>;
+).annotate({ identifier: "LinkedServiceReference" }) as any as S.Schema<LinkedServiceReference>;
 
 /** Parameter type. */
 export type ParameterType =
@@ -123,14 +120,10 @@ export const ParameterSpecification = /*@__PURE__*/ S.suspend(() =>
     type: ParameterType,
     defaultValue: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ParameterSpecification",
-}) as any as S.Schema<ParameterSpecification>;
+).annotate({ identifier: "ParameterSpecification" }) as any as S.Schema<ParameterSpecification>;
 
 /** Parameters for dataset. */
-export type DatasetParametersMap = {
-  [key: string]: ParameterSpecification | undefined;
-};
+export type DatasetParametersMap = { [key: string]: ParameterSpecification | undefined };
 export const DatasetParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   ParameterSpecification,
@@ -171,6 +164,8 @@ export interface Dataset {
   annotations?: DatasetAnnotationsList;
   /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
   folder?: DatasetFolder;
+  /** Type-specific dataset properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const Dataset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -182,6 +177,7 @@ export const Dataset = /*@__PURE__*/ S.suspend(() =>
     parameters: S.optional(DatasetParametersMap),
     annotations: S.optional(DatasetAnnotationsList),
     folder: S.optional(DatasetFolder),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Dataset" }) as any as S.Schema<Dataset>;
 
@@ -197,9 +193,7 @@ export const DatasetDebugResource = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: Dataset,
   }),
-).annotate({
-  identifier: "DatasetDebugResource",
-}) as any as S.Schema<DatasetDebugResource>;
+).annotate({ identifier: "DatasetDebugResource" }) as any as S.Schema<DatasetDebugResource>;
 
 /** List of datasets. */
 export type AddDataFlowDebugSessionDataFlowRequestDatasetsList = Array<DatasetDebugResource>;
@@ -212,9 +206,7 @@ export type IntegrationRuntimeReferenceType = "IntegrationRuntimeReference";
 export const IntegrationRuntimeReferenceType = S.String;
 
 /** Arguments for integration runtime. */
-export type IntegrationRuntimeReferenceParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type IntegrationRuntimeReferenceParametersMap = { [key: string]: unknown | undefined };
 export const IntegrationRuntimeReferenceParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -240,9 +232,7 @@ export const IntegrationRuntimeReference = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IntegrationRuntimeReference>;
 
 /** Parameters for linked service. */
-export type LinkedServiceParametersMap = {
-  [key: string]: ParameterSpecification | undefined;
-};
+export type LinkedServiceParametersMap = { [key: string]: ParameterSpecification | undefined };
 export const LinkedServiceParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   ParameterSpecification,
@@ -268,6 +258,8 @@ export interface LinkedService {
   parameters?: LinkedServiceParametersMap;
   /** List of tags that can be used for describing the linked service. */
   annotations?: LinkedServiceAnnotationsList;
+  /** Type-specific linked service properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const LinkedService = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -277,6 +269,7 @@ export const LinkedService = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     parameters: S.optional(LinkedServiceParametersMap),
     annotations: S.optional(LinkedServiceAnnotationsList),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "LinkedService" }) as any as S.Schema<LinkedService>;
 
@@ -315,9 +308,7 @@ export const DataFlowStagingInfo = /*@__PURE__*/ S.suspend(() =>
     linkedService: S.optional(LinkedServiceReference),
     folderPath: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DataFlowStagingInfo",
-}) as any as S.Schema<DataFlowStagingInfo>;
+).annotate({ identifier: "DataFlowStagingInfo" }) as any as S.Schema<DataFlowStagingInfo>;
 
 /** Definition of data flow source setting for debug. */
 export interface DataFlowSourceSetting {
@@ -331,9 +322,7 @@ export const DataFlowSourceSetting = /*@__PURE__*/ S.suspend(() =>
     sourceName: S.optional(S.String),
     rowLimit: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DataFlowSourceSetting",
-}) as any as S.Schema<DataFlowSourceSetting>;
+).annotate({ identifier: "DataFlowSourceSetting" }) as any as S.Schema<DataFlowSourceSetting>;
 
 /** Source setting for data flow debug. */
 export type DataFlowDebugPackageDebugSettingsSourceSettingsList = Array<DataFlowSourceSetting>;
@@ -342,9 +331,7 @@ export const DataFlowDebugPackageDebugSettingsSourceSettingsList = /*@__PURE__*/
 ) as any as S.Schema<DataFlowDebugPackageDebugSettingsSourceSettingsList>;
 
 /** Data flow parameters. */
-export type DataFlowDebugPackageDebugSettingsParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type DataFlowDebugPackageDebugSettingsParametersMap = { [key: string]: unknown | undefined };
 export const DataFlowDebugPackageDebugSettingsParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -454,9 +441,7 @@ export const CancelPipelineRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "CancelPipelineRunRequest",
-}) as any as S.Schema<CancelPipelineRunRequest>;
+).annotate({ identifier: "CancelPipelineRunRequest" }) as any as S.Schema<CancelPipelineRunRequest>;
 
 export interface CancelPipelineRunResponse {}
 export const CancelPipelineRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -488,9 +473,7 @@ export const CancelTriggerRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "CancelTriggerRunRequest",
-}) as any as S.Schema<CancelTriggerRunRequest>;
+).annotate({ identifier: "CancelTriggerRunRequest" }) as any as S.Schema<CancelTriggerRunRequest>;
 
 export interface CancelTriggerRunResponse {}
 export const CancelTriggerRunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -506,9 +489,7 @@ export const ChangeDataCaptureFolder = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChangeDataCaptureFolder",
-}) as any as S.Schema<ChangeDataCaptureFolder>;
+).annotate({ identifier: "ChangeDataCaptureFolder" }) as any as S.Schema<ChangeDataCaptureFolder>;
 
 /** Schema of a CDC table in terms of column names and their corresponding data types. */
 export interface MapperTableSchema {
@@ -522,9 +503,7 @@ export const MapperTableSchema = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     dataType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MapperTableSchema",
-}) as any as S.Schema<MapperTableSchema>;
+).annotate({ identifier: "MapperTableSchema" }) as any as S.Schema<MapperTableSchema>;
 
 /** List of columns for the source table. */
 export type MapperTablePropertiesSchemaList = Array<MapperTableSchema>;
@@ -566,9 +545,7 @@ export const MapperTableProperties = /*@__PURE__*/ S.suspend(() =>
     schema: S.optional(MapperTablePropertiesSchemaList),
     dslConnectorProperties: S.optional(MapperTablePropertiesDslConnectorPropertiesList),
   }),
-).annotate({
-  identifier: "MapperTableProperties",
-}) as any as S.Schema<MapperTableProperties>;
+).annotate({ identifier: "MapperTableProperties" }) as any as S.Schema<MapperTableProperties>;
 
 /** CDC table details. */
 export interface MapperTable {
@@ -621,9 +598,7 @@ export const MapperConnection = /*@__PURE__*/ S.suspend(() =>
     isInlineDataset: S.optional(S.Boolean),
     commonDslConnectorProperties: S.optional(MapperConnectionCommonDslConnectorPropertiesList),
   }),
-).annotate({
-  identifier: "MapperConnection",
-}) as any as S.Schema<MapperConnection>;
+).annotate({ identifier: "MapperConnection" }) as any as S.Schema<MapperConnection>;
 
 /** A object which contains list of tables and connection details for a source connection. */
 export interface MapperSourceConnectionsInfo {
@@ -688,9 +663,7 @@ export const MapperAttributeReference = /*@__PURE__*/ S.suspend(() =>
     entity: S.optional(S.String),
     entityConnectionReference: S.optional(MapperConnectionReference),
   }),
-).annotate({
-  identifier: "MapperAttributeReference",
-}) as any as S.Schema<MapperAttributeReference>;
+).annotate({ identifier: "MapperAttributeReference" }) as any as S.Schema<MapperAttributeReference>;
 
 /** List of references for source columns. It is used for 'Derived' and 'Aggregate' type mappings only. */
 export type MapperAttributeMappingAttributeReferencesList = Array<MapperAttributeReference>;
@@ -722,9 +695,7 @@ export const MapperAttributeMapping = /*@__PURE__*/ S.suspend(() =>
     attributeReference: S.optional(MapperAttributeReference),
     attributeReferences: S.optional(MapperAttributeMappingAttributeReferencesList),
   }),
-).annotate({
-  identifier: "MapperAttributeMapping",
-}) as any as S.Schema<MapperAttributeMapping>;
+).annotate({ identifier: "MapperAttributeMapping" }) as any as S.Schema<MapperAttributeMapping>;
 
 /** List of attribute mappings. */
 export type MapperAttributeMappingsAttributeMappingsList = Array<MapperAttributeMapping>;
@@ -741,9 +712,7 @@ export const MapperAttributeMappings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attributeMappings: S.optional(MapperAttributeMappingsAttributeMappingsList),
   }),
-).annotate({
-  identifier: "MapperAttributeMappings",
-}) as any as S.Schema<MapperAttributeMappings>;
+).annotate({ identifier: "MapperAttributeMappings" }) as any as S.Schema<MapperAttributeMappings>;
 
 /** Source and target table mapping details. */
 export interface DataMapperMapping {
@@ -766,9 +735,7 @@ export const DataMapperMapping = /*@__PURE__*/ S.suspend(() =>
     attributeMappingInfo: S.optional(MapperAttributeMappings),
     sourceDenormalizeInfo: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DataMapperMapping",
-}) as any as S.Schema<DataMapperMapping>;
+).annotate({ identifier: "DataMapperMapping" }) as any as S.Schema<DataMapperMapping>;
 
 /** List of table mappings. */
 export type MapperTargetConnectionsInfoDataMapperMappingsList = Array<DataMapperMapping>;
@@ -826,9 +793,7 @@ export const MapperPolicyRecurrence = /*@__PURE__*/ S.suspend(() =>
     frequency: S.optional(FrequencyType),
     interval: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MapperPolicyRecurrence",
-}) as any as S.Schema<MapperPolicyRecurrence>;
+).annotate({ identifier: "MapperPolicyRecurrence" }) as any as S.Schema<MapperPolicyRecurrence>;
 
 /** CDC Policy. */
 export interface MapperPolicy {
@@ -871,9 +836,7 @@ export const ChangeDataCapture = /*@__PURE__*/ S.suspend(() =>
     allowVNetOverride: S.optional(S.Boolean),
     status: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChangeDataCapture",
-}) as any as S.Schema<ChangeDataCapture>;
+).annotate({ identifier: "ChangeDataCapture" }) as any as S.Schema<ChangeDataCapture>;
 
 export interface ChangeDataCaptureCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1012,15 +975,19 @@ export interface IntegrationRuntime {
   type: IntegrationRuntimeType | (string & {});
   /** Integration runtime description. */
   description?: string;
+  /** Type-specific integration runtime properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Managed Virtual Network reference (Managed integration runtimes). */
+  managedVirtualNetwork?: unknown;
 }
 export const IntegrationRuntime = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: IntegrationRuntimeType,
     description: S.optional(S.String),
+    typeProperties: S.optional(S.Unknown),
+    managedVirtualNetwork: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "IntegrationRuntime",
-}) as any as S.Schema<IntegrationRuntime>;
+).annotate({ identifier: "IntegrationRuntime" }) as any as S.Schema<IntegrationRuntime>;
 
 /** Integration runtime debug resource. */
 export interface IntegrationRuntimeDebugResource {
@@ -1157,9 +1124,7 @@ export const IntegrationRuntimeStatus = /*@__PURE__*/ S.suspend(() =>
     dataFactoryName: S.optional(S.String),
     state: S.optional(IntegrationRuntimeState),
   }),
-).annotate({
-  identifier: "IntegrationRuntimeStatus",
-}) as any as S.Schema<IntegrationRuntimeStatus>;
+).annotate({ identifier: "IntegrationRuntimeStatus" }) as any as S.Schema<IntegrationRuntimeStatus>;
 
 /** Integration runtime status response. */
 export interface IntegrationRuntimeStatusResponse {
@@ -1177,9 +1142,7 @@ export const IntegrationRuntimeStatusResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "IntegrationRuntimeStatusResponse",
 }) as any as S.Schema<IntegrationRuntimeStatusResponse>;
 
-export type CreatePipelineRunRequestBodyMap = {
-  [key: string]: unknown | undefined;
-};
+export type CreatePipelineRunRequestBodyMap = { [key: string]: unknown | undefined };
 export const CreatePipelineRunRequestBodyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -1223,9 +1186,7 @@ export const CreatePipelineRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "CreatePipelineRunRequest",
-}) as any as S.Schema<CreatePipelineRunRequest>;
+).annotate({ identifier: "CreatePipelineRunRequest" }) as any as S.Schema<CreatePipelineRunRequest>;
 
 /** Response body with a run identifier. */
 export interface CreateRunResponse {
@@ -1236,9 +1197,7 @@ export const CreateRunResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     runId: S.String,
   }),
-).annotate({
-  identifier: "CreateRunResponse",
-}) as any as S.Schema<CreateRunResponse>;
+).annotate({ identifier: "CreateRunResponse" }) as any as S.Schema<CreateRunResponse>;
 
 /** List of tags that can be used for describing the Credential. */
 export type CredentialAnnotationsList = Array<unknown>;
@@ -1254,12 +1213,15 @@ export interface Credential {
   description?: string;
   /** List of tags that can be used for describing the Credential. */
   annotations?: CredentialAnnotationsList;
+  /** Type-specific credential properties (polymorphic on `type`). */
+  typeProperties?: unknown;
 }
 export const Credential = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.String,
     description: S.optional(S.String),
     annotations: S.optional(CredentialAnnotationsList),
+    typeProperties: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Credential" }) as any as S.Schema<Credential>;
 
@@ -1379,9 +1341,7 @@ export const DataFlowDebugSessionInfo = /*@__PURE__*/ S.suspend(() =>
     timeToLiveInMinutes: S.optional(S.Number),
     lastActivityTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataFlowDebugSessionInfo",
-}) as any as S.Schema<DataFlowDebugSessionInfo>;
+).annotate({ identifier: "DataFlowDebugSessionInfo" }) as any as S.Schema<DataFlowDebugSessionInfo>;
 
 /** The DataFlowDebugSessionInfo items on this page */
 export type QueryDataFlowDebugSessionsResponseValueList = Array<DataFlowDebugSessionInfo>;
@@ -1551,9 +1511,7 @@ export const DeleteChangeDataCaptureRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteChangeDataCaptureResponse {}
 export const DeleteChangeDataCaptureResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteChangeDataCaptureResponse",
-  },
+  { identifier: "DeleteChangeDataCaptureResponse" },
 ) as any as S.Schema<DeleteChangeDataCaptureResponse>;
 
 export interface DeleteCredentialOperationRequest {
@@ -1615,9 +1573,7 @@ export const DeleteDataFlowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDataFlowRequest",
-}) as any as S.Schema<DeleteDataFlowRequest>;
+).annotate({ identifier: "DeleteDataFlowRequest" }) as any as S.Schema<DeleteDataFlowRequest>;
 
 export interface DeleteDataFlowResponse {}
 export const DeleteDataFlowResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1683,9 +1639,7 @@ export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDatasetRequest",
-}) as any as S.Schema<DeleteDatasetRequest>;
+).annotate({ identifier: "DeleteDatasetRequest" }) as any as S.Schema<DeleteDatasetRequest>;
 
 export interface DeleteDatasetResponse {}
 export const DeleteDatasetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1713,9 +1667,7 @@ export const DeleteFactoryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteFactoryRequest",
-}) as any as S.Schema<DeleteFactoryRequest>;
+).annotate({ identifier: "DeleteFactoryRequest" }) as any as S.Schema<DeleteFactoryRequest>;
 
 export interface DeleteFactoryResponse {}
 export const DeleteFactoryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1921,9 +1873,7 @@ export const DeletePipelineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeletePipelineRequest",
-}) as any as S.Schema<DeletePipelineRequest>;
+).annotate({ identifier: "DeletePipelineRequest" }) as any as S.Schema<DeletePipelineRequest>;
 
 export interface DeletePipelineResponse {}
 export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1989,9 +1939,7 @@ export const DeleteTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTriggerRequest",
-}) as any as S.Schema<DeleteTriggerRequest>;
+).annotate({ identifier: "DeleteTriggerRequest" }) as any as S.Schema<DeleteTriggerRequest>;
 
 export interface DeleteTriggerResponse {}
 export const DeleteTriggerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2208,9 +2156,7 @@ export const ExposureControlRequest = /*@__PURE__*/ S.suspend(() =>
     featureName: S.optional(S.String),
     featureType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExposureControlRequest",
-}) as any as S.Schema<ExposureControlRequest>;
+).annotate({ identifier: "ExposureControlRequest" }) as any as S.Schema<ExposureControlRequest>;
 
 /** List of exposure control features. */
 export type ExposureControlQueryFeatureValuesByFactoryRequestExposureControlRequestsList =
@@ -2261,9 +2207,7 @@ export const ExposureControlResponse = /*@__PURE__*/ S.suspend(() =>
     featureName: S.optional(S.String),
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExposureControlResponse",
-}) as any as S.Schema<ExposureControlResponse>;
+).annotate({ identifier: "ExposureControlResponse" }) as any as S.Schema<ExposureControlResponse>;
 
 /** List of exposure control feature values. */
 export type ExposureControlBatchResponseExposureControlResponsesList =
@@ -2312,9 +2256,7 @@ export const FactoryRepoConfiguration = /*@__PURE__*/ S.suspend(() =>
     lastCommitId: S.optional(S.String),
     disablePublish: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "FactoryRepoConfiguration",
-}) as any as S.Schema<FactoryRepoConfiguration>;
+).annotate({ identifier: "FactoryRepoConfiguration" }) as any as S.Schema<FactoryRepoConfiguration>;
 
 export interface FactoriesConfigureFactoryRepoRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2353,9 +2295,7 @@ export const PurviewConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     purviewResourceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PurviewConfiguration",
-}) as any as S.Schema<PurviewConfiguration>;
+).annotate({ identifier: "PurviewConfiguration" }) as any as S.Schema<PurviewConfiguration>;
 
 /** Global Parameter type. */
 export type GlobalParameterType = "Object" | "String" | "Int" | "Float" | "Bool" | "Array";
@@ -2395,9 +2335,7 @@ export const CMKIdentityDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     userAssignedIdentity: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CMKIdentityDefinition",
-}) as any as S.Schema<CMKIdentityDefinition>;
+).annotate({ identifier: "CMKIdentityDefinition" }) as any as S.Schema<CMKIdentityDefinition>;
 
 /** Definition of CMK for the factory. */
 export interface EncryptionConfiguration {
@@ -2417,9 +2355,7 @@ export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
     keyVersion: S.optional(S.String),
     identity: S.optional(CMKIdentityDefinition),
   }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 
 /** Whether or not public network access is allowed for the data factory. */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
@@ -2455,18 +2391,14 @@ export const FactoryProperties = /*@__PURE__*/ S.suspend(() =>
     encryption: S.optional(EncryptionConfiguration),
     publicNetworkAccess: S.optional(PublicNetworkAccess),
   }),
-).annotate({
-  identifier: "FactoryProperties",
-}) as any as S.Schema<FactoryProperties>;
+).annotate({ identifier: "FactoryProperties" }) as any as S.Schema<FactoryProperties>;
 
 /** The identity type. */
 export type FactoryIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned";
 export const FactoryIdentityType = S.String;
 
 /** List of user assigned identities for the factory. */
-export type FactoryIdentityUserAssignedIdentitiesMap = {
-  [key: string]: unknown | undefined;
-};
+export type FactoryIdentityUserAssignedIdentitiesMap = { [key: string]: unknown | undefined };
 export const FactoryIdentityUserAssignedIdentitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2490,14 +2422,10 @@ export const FactoryIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(FactoryIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "FactoryIdentity",
-}) as any as S.Schema<FactoryIdentity>;
+).annotate({ identifier: "FactoryIdentity" }) as any as S.Schema<FactoryIdentity>;
 
 /** The resource tags. */
-export type FactoriesConfigureFactoryRepoResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FactoriesConfigureFactoryRepoResponseTagsMap = { [key: string]: string | undefined };
 export const FactoriesConfigureFactoryRepoResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2569,14 +2497,10 @@ export const FactoryPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     encryption: S.optional(EncryptionConfiguration),
     publicNetworkAccess: S.optional(PublicNetworkAccess),
   }),
-).annotate({
-  identifier: "FactoryPropertiesInput",
-}) as any as S.Schema<FactoryPropertiesInput>;
+).annotate({ identifier: "FactoryPropertiesInput" }) as any as S.Schema<FactoryPropertiesInput>;
 
 /** The resource tags. */
-export type FactoriesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FactoriesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const FactoriesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2620,9 +2544,7 @@ export const FactoriesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<FactoriesCreateOrUpdateRequest>;
 
 /** The resource tags. */
-export type FactoriesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type FactoriesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const FactoriesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2798,9 +2720,7 @@ export const GetDataFlowRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataFlowRequest",
-}) as any as S.Schema<GetDataFlowRequest>;
+).annotate({ identifier: "GetDataFlowRequest" }) as any as S.Schema<GetDataFlowRequest>;
 
 export interface GetDataFlowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2825,9 +2745,7 @@ export const GetDataFlowResponse = /*@__PURE__*/ S.suspend(() =>
     properties: DataFlow,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDataFlowResponse",
-}) as any as S.Schema<GetDataFlowResponse>;
+).annotate({ identifier: "GetDataFlowResponse" }) as any as S.Schema<GetDataFlowResponse>;
 
 export interface GetDatasetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2853,9 +2771,7 @@ export const GetDatasetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetDatasetRequest",
-}) as any as S.Schema<GetDatasetRequest>;
+).annotate({ identifier: "GetDatasetRequest" }) as any as S.Schema<GetDatasetRequest>;
 
 export interface GetDatasetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2880,9 +2796,7 @@ export const GetDatasetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: Dataset,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDatasetResponse",
-}) as any as S.Schema<GetDatasetResponse>;
+).annotate({ identifier: "GetDatasetResponse" }) as any as S.Schema<GetDatasetResponse>;
 
 export interface GetExposureControlFeatureValueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2964,9 +2878,7 @@ export const GetFactoryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetFactoryRequest",
-}) as any as S.Schema<GetFactoryRequest>;
+).annotate({ identifier: "GetFactoryRequest" }) as any as S.Schema<GetFactoryRequest>;
 
 /** The resource tags. */
 export type GetFactoryResponseTagsMap = { [key: string]: string | undefined };
@@ -3007,9 +2919,7 @@ export const GetFactoryResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetFactoryResponseTagsMap),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetFactoryResponse",
-}) as any as S.Schema<GetFactoryResponse>;
+).annotate({ identifier: "GetFactoryResponse" }) as any as S.Schema<GetFactoryResponse>;
 
 export interface GetFactoryDataPlaneAccessRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3072,9 +2982,7 @@ export const UserAccessPolicy = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.String),
     expireTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAccessPolicy",
-}) as any as S.Schema<UserAccessPolicy>;
+).annotate({ identifier: "UserAccessPolicy" }) as any as S.Schema<UserAccessPolicy>;
 
 /** Get Data Plane read only token response definition. */
 export interface AccessPolicyResponse {
@@ -3091,9 +2999,7 @@ export const AccessPolicyResponse = /*@__PURE__*/ S.suspend(() =>
     accessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
     dataPlaneUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AccessPolicyResponse",
-}) as any as S.Schema<AccessPolicyResponse>;
+).annotate({ identifier: "AccessPolicyResponse" }) as any as S.Schema<AccessPolicyResponse>;
 
 /** Client secret information for factory's bring your own app repository configuration. */
 export interface GitHubClientSecret {
@@ -3107,9 +3013,7 @@ export const GitHubClientSecret = /*@__PURE__*/ S.suspend(() =>
     byoaSecretAkvUrl: S.optional(S.String),
     byoaSecretName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GitHubClientSecret",
-}) as any as S.Schema<GitHubClientSecret>;
+).annotate({ identifier: "GitHubClientSecret" }) as any as S.Schema<GitHubClientSecret>;
 
 export interface GetFactoryGitHubAccessTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3461,9 +3365,7 @@ export type SelfHostedIntegrationRuntimeNodeStatus =
 export const SelfHostedIntegrationRuntimeNodeStatus = S.String;
 
 /** The integration runtime capabilities dictionary */
-export type SelfHostedIntegrationRuntimeNodeCapabilitiesMap = {
-  [key: string]: string | undefined;
-};
+export type SelfHostedIntegrationRuntimeNodeCapabilitiesMap = { [key: string]: string | undefined };
 export const SelfHostedIntegrationRuntimeNodeCapabilitiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3632,9 +3534,7 @@ export const SsisObjectMetadata = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SsisObjectMetadata",
-}) as any as S.Schema<SsisObjectMetadata>;
+).annotate({ identifier: "SsisObjectMetadata" }) as any as S.Schema<SsisObjectMetadata>;
 
 /** The SsisObjectMetadata items on this page */
 export type SsisObjectMetadataListResponseValueList = Array<SsisObjectMetadata>;
@@ -3710,9 +3610,7 @@ export const GetLinkedServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetLinkedServiceRequest",
-}) as any as S.Schema<GetLinkedServiceRequest>;
+).annotate({ identifier: "GetLinkedServiceRequest" }) as any as S.Schema<GetLinkedServiceRequest>;
 
 export interface GetLinkedServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3737,9 +3635,7 @@ export const GetLinkedServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: LinkedService,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetLinkedServiceResponse",
-}) as any as S.Schema<GetLinkedServiceResponse>;
+).annotate({ identifier: "GetLinkedServiceResponse" }) as any as S.Schema<GetLinkedServiceResponse>;
 
 export interface GetManagedPrivateEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3811,6 +3707,12 @@ export interface ManagedPrivateEndpoint {
   privateLinkResourceId?: string;
   /** The managed private endpoint provisioning state */
   provisioningState?: string;
+  /** Provisioning failure message when provisioningState is Failed. */
+  error?: string;
+  /** ARM resource ID of the backing private endpoint in the Data Factory managed subscription. */
+  resourceId?: string;
+  /** Private IP address of the endpoint in the managed virtual network. */
+  ipAddress?: string;
 }
 export const ManagedPrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3820,10 +3722,11 @@ export const ManagedPrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
     isReserved: S.optional(S.Boolean),
     privateLinkResourceId: S.optional(S.String),
     provisioningState: S.optional(S.String),
+    error: S.optional(S.String),
+    resourceId: S.optional(S.String),
+    ipAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedPrivateEndpoint",
-}) as any as S.Schema<ManagedPrivateEndpoint>;
+).annotate({ identifier: "ManagedPrivateEndpoint" }) as any as S.Schema<ManagedPrivateEndpoint>;
 
 export interface GetManagedPrivateEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3892,9 +3795,7 @@ export const ManagedVirtualNetwork = /*@__PURE__*/ S.suspend(() =>
     vNetId: S.optional(S.String),
     alias: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedVirtualNetwork",
-}) as any as S.Schema<ManagedVirtualNetwork>;
+).annotate({ identifier: "ManagedVirtualNetwork" }) as any as S.Schema<ManagedVirtualNetwork>;
 
 export interface GetManagedVirtualNetworkResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3947,9 +3848,7 @@ export const GetPipelineRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetPipelineRequest",
-}) as any as S.Schema<GetPipelineRequest>;
+).annotate({ identifier: "GetPipelineRequest" }) as any as S.Schema<GetPipelineRequest>;
 
 /** Activity state. This is an optional property and if not provided, the state will be Active by default. */
 export type ActivityState = "Active" | "Inactive";
@@ -3980,9 +3879,7 @@ export const ActivityDependency = /*@__PURE__*/ S.suspend(() =>
     activity: S.String,
     dependencyConditions: ActivityDependencyDependencyConditionsList,
   }),
-).annotate({
-  identifier: "ActivityDependency",
-}) as any as S.Schema<ActivityDependency>;
+).annotate({ identifier: "ActivityDependency" }) as any as S.Schema<ActivityDependency>;
 
 /** Activity depends on condition. */
 export type ActivityDependsOnList = Array<ActivityDependency>;
@@ -4026,6 +3923,16 @@ export interface Activity {
   dependsOn?: ActivityDependsOnList;
   /** Activity user properties. */
   userProperties?: ActivityUserPropertiesList;
+  /** Type-specific activity properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Linked service reference (ExecutionActivity subtypes). */
+  linkedServiceName?: unknown;
+  /** Activity policy (ExecutionActivity subtypes). */
+  policy?: unknown;
+  /** List of inputs for the activity (Copy / data movement activities). */
+  inputs?: unknown;
+  /** List of outputs for the activity (Copy / data movement activities). */
+  outputs?: unknown;
 }
 export const Activity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4036,6 +3943,11 @@ export const Activity = /*@__PURE__*/ S.suspend(() =>
     onInactiveMarkAs: S.optional(ActivityOnInactiveMarkAs),
     dependsOn: S.optional(ActivityDependsOnList),
     userProperties: S.optional(ActivityUserPropertiesList),
+    typeProperties: S.optional(S.Unknown),
+    linkedServiceName: S.optional(S.Unknown),
+    policy: S.optional(S.Unknown),
+    inputs: S.optional(S.Unknown),
+    outputs: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Activity" }) as any as S.Schema<Activity>;
 
@@ -4046,9 +3958,7 @@ export const PipelineActivitiesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<PipelineActivitiesList>;
 
 /** List of parameters for pipeline. */
-export type PipelineParametersMap = {
-  [key: string]: ParameterSpecification | undefined;
-};
+export type PipelineParametersMap = { [key: string]: ParameterSpecification | undefined };
 export const PipelineParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   ParameterSpecification,
@@ -4070,14 +3980,10 @@ export const VariableSpecification = /*@__PURE__*/ S.suspend(() =>
     type: VariableType,
     defaultValue: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "VariableSpecification",
-}) as any as S.Schema<VariableSpecification>;
+).annotate({ identifier: "VariableSpecification" }) as any as S.Schema<VariableSpecification>;
 
 /** List of variables for pipeline. */
-export type PipelineVariablesMap = {
-  [key: string]: VariableSpecification | undefined;
-};
+export type PipelineVariablesMap = { [key: string]: VariableSpecification | undefined };
 export const PipelineVariablesMap = /*@__PURE__*/ S.Record(
   S.String,
   VariableSpecification,
@@ -4189,9 +4095,7 @@ export const GetPipelineResponse = /*@__PURE__*/ S.suspend(() =>
     properties: Pipeline,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetPipelineResponse",
-}) as any as S.Schema<GetPipelineResponse>;
+).annotate({ identifier: "GetPipelineResponse" }) as any as S.Schema<GetPipelineResponse>;
 
 export interface GetPipelineRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4216,9 +4120,7 @@ export const GetPipelineRunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetPipelineRunRequest",
-}) as any as S.Schema<GetPipelineRunRequest>;
+).annotate({ identifier: "GetPipelineRunRequest" }) as any as S.Schema<GetPipelineRunRequest>;
 
 /** The full or partial list of parameter name, value pair used in the pipeline run. */
 export type PipelineRunParametersMap = { [key: string]: string | undefined };
@@ -4255,9 +4157,7 @@ export const PipelineRunInvokedBy = /*@__PURE__*/ S.suspend(() =>
     pipelineName: S.optional(S.String),
     pipelineRunId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PipelineRunInvokedBy",
-}) as any as S.Schema<PipelineRunInvokedBy>;
+).annotate({ identifier: "PipelineRunInvokedBy" }) as any as S.Schema<PipelineRunInvokedBy>;
 
 /** Information about a pipeline run. */
 export interface PipelineRun {
@@ -4485,9 +4385,7 @@ export const PrivateLinkResource = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(PrivateLinkResourceProperties),
   }),
-).annotate({
-  identifier: "PrivateLinkResource",
-}) as any as S.Schema<PrivateLinkResource>;
+).annotate({ identifier: "PrivateLinkResource" }) as any as S.Schema<PrivateLinkResource>;
 
 export type PrivateLinkResourcesWrapperValueList = Array<PrivateLinkResource>;
 export const PrivateLinkResourcesWrapperValueList = /*@__PURE__*/ S.Array(
@@ -4530,9 +4428,7 @@ export const GetTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetTriggerRequest",
-}) as any as S.Schema<GetTriggerRequest>;
+).annotate({ identifier: "GetTriggerRequest" }) as any as S.Schema<GetTriggerRequest>;
 
 /** Enumerates possible state of Triggers. */
 export type TriggerRuntimeState = "Started" | "Stopped" | "Disabled";
@@ -4554,6 +4450,12 @@ export interface Trigger {
   runtimeState?: TriggerRuntimeState | (string & {});
   /** List of tags that can be used for describing the trigger. */
   annotations?: TriggerAnnotationsList;
+  /** Type-specific trigger properties (polymorphic on `type`). */
+  typeProperties?: unknown;
+  /** Pipelines that need to be started (MultiplePipelineTrigger subtypes). */
+  pipelines?: unknown;
+  /** Pipeline for which runs are created (TumblingWindowTrigger / ChainingTrigger). */
+  pipeline?: unknown;
 }
 export const Trigger = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4561,6 +4463,9 @@ export const Trigger = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     runtimeState: S.optional(TriggerRuntimeState),
     annotations: S.optional(TriggerAnnotationsList),
+    typeProperties: S.optional(S.Unknown),
+    pipelines: S.optional(S.Unknown),
+    pipeline: S.optional(S.Unknown),
   }),
 ).annotate({ identifier: "Trigger" }) as any as S.Schema<Trigger>;
 
@@ -4587,9 +4492,7 @@ export const GetTriggerResponse = /*@__PURE__*/ S.suspend(() =>
     properties: Trigger,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetTriggerResponse",
-}) as any as S.Schema<GetTriggerResponse>;
+).annotate({ identifier: "GetTriggerResponse" }) as any as S.Schema<GetTriggerResponse>;
 
 export interface GetTriggerEventSubscriptionStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4995,9 +4898,7 @@ export const CredentialResource = /*@__PURE__*/ S.suspend(() =>
     properties: Credential,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialResource",
-}) as any as S.Schema<CredentialResource>;
+).annotate({ identifier: "CredentialResource" }) as any as S.Schema<CredentialResource>;
 
 /** The CredentialResource items on this page */
 export type CredentialListResponseValueList = Array<CredentialResource>;
@@ -5017,9 +4918,7 @@ export const CredentialListResponse = /*@__PURE__*/ S.suspend(() =>
     value: CredentialListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CredentialListResponse",
-}) as any as S.Schema<CredentialListResponse>;
+).annotate({ identifier: "CredentialListResponse" }) as any as S.Schema<CredentialListResponse>;
 
 export interface ListDataFlowByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5070,9 +4969,7 @@ export const DataFlowResource = /*@__PURE__*/ S.suspend(() =>
     properties: DataFlow,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataFlowResource",
-}) as any as S.Schema<DataFlowResource>;
+).annotate({ identifier: "DataFlowResource" }) as any as S.Schema<DataFlowResource>;
 
 /** The DataFlowResource items on this page */
 export type DataFlowListResponseValueList = Array<DataFlowResource>;
@@ -5092,9 +4989,7 @@ export const DataFlowListResponse = /*@__PURE__*/ S.suspend(() =>
     value: DataFlowListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataFlowListResponse",
-}) as any as S.Schema<DataFlowListResponse>;
+).annotate({ identifier: "DataFlowListResponse" }) as any as S.Schema<DataFlowListResponse>;
 
 export interface ListDatasetByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5145,9 +5040,7 @@ export const DatasetResource = /*@__PURE__*/ S.suspend(() =>
     properties: Dataset,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatasetResource",
-}) as any as S.Schema<DatasetResource>;
+).annotate({ identifier: "DatasetResource" }) as any as S.Schema<DatasetResource>;
 
 /** The DatasetResource items on this page */
 export type DatasetListResponseValueList = Array<DatasetResource>;
@@ -5167,9 +5060,7 @@ export const DatasetListResponse = /*@__PURE__*/ S.suspend(() =>
     value: DatasetListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DatasetListResponse",
-}) as any as S.Schema<DatasetListResponse>;
+).annotate({ identifier: "DatasetListResponse" }) as any as S.Schema<DatasetListResponse>;
 
 export interface ListFactoriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5186,9 +5077,7 @@ export const ListFactoriesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListFactoriesRequest",
-}) as any as S.Schema<ListFactoriesRequest>;
+).annotate({ identifier: "ListFactoriesRequest" }) as any as S.Schema<ListFactoriesRequest>;
 
 /** The resource tags. */
 export type FactoryTagsMap = { [key: string]: string | undefined };
@@ -5250,9 +5139,7 @@ export const FactoryListResponse = /*@__PURE__*/ S.suspend(() =>
     value: FactoryListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FactoryListResponse",
-}) as any as S.Schema<FactoryListResponse>;
+).annotate({ identifier: "FactoryListResponse" }) as any as S.Schema<FactoryListResponse>;
 
 export interface ListFactoryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5334,9 +5221,7 @@ export const GlobalParameterResource = /*@__PURE__*/ S.suspend(() =>
     properties: GlobalParameterResourcePropertiesMap,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GlobalParameterResource",
-}) as any as S.Schema<GlobalParameterResource>;
+).annotate({ identifier: "GlobalParameterResource" }) as any as S.Schema<GlobalParameterResource>;
 
 /** The GlobalParameterResource items on this page */
 export type GlobalParameterListResponseValueList = Array<GlobalParameterResource>;
@@ -5646,9 +5531,7 @@ export const LinkedServiceResource = /*@__PURE__*/ S.suspend(() =>
     properties: LinkedService,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkedServiceResource",
-}) as any as S.Schema<LinkedServiceResource>;
+).annotate({ identifier: "LinkedServiceResource" }) as any as S.Schema<LinkedServiceResource>;
 
 /** The LinkedServiceResource items on this page */
 export type LinkedServiceListResponseValueList = Array<LinkedServiceResource>;
@@ -5835,9 +5718,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Metadata associated with the operation. */
 export interface OperationDisplay {
@@ -5857,9 +5738,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     operation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Details about an operation related to logs. */
 export interface OperationLogSpecification {
@@ -5923,9 +5802,7 @@ export const OperationMetricDimension = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     toBeExportedForShoebox: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "OperationMetricDimension",
-}) as any as S.Schema<OperationMetricDimension>;
+).annotate({ identifier: "OperationMetricDimension" }) as any as S.Schema<OperationMetricDimension>;
 
 /** Defines the metric dimension. */
 export type OperationMetricSpecificationDimensionsList = Array<OperationMetricDimension>;
@@ -6005,9 +5882,7 @@ export const OperationProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceSpecification: S.optional(OperationServiceSpecification),
   }),
-).annotate({
-  identifier: "OperationProperties",
-}) as any as S.Schema<OperationProperties>;
+).annotate({ identifier: "OperationProperties" }) as any as S.Schema<OperationProperties>;
 
 /** Azure Data Factory API operation definition. */
 export interface Operation {
@@ -6047,9 +5922,7 @@ export const OperationListResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResponse",
-}) as any as S.Schema<OperationListResponse>;
+).annotate({ identifier: "OperationListResponse" }) as any as S.Schema<OperationListResponse>;
 
 export interface ListPipelineByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6100,9 +5973,7 @@ export const PipelineResource = /*@__PURE__*/ S.suspend(() =>
     properties: Pipeline,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PipelineResource",
-}) as any as S.Schema<PipelineResource>;
+).annotate({ identifier: "PipelineResource" }) as any as S.Schema<PipelineResource>;
 
 /** The PipelineResource items on this page */
 export type PipelineListResponseValueList = Array<PipelineResource>;
@@ -6122,9 +5993,7 @@ export const PipelineListResponse = /*@__PURE__*/ S.suspend(() =>
     value: PipelineListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PipelineListResponse",
-}) as any as S.Schema<PipelineListResponse>;
+).annotate({ identifier: "PipelineListResponse" }) as any as S.Schema<PipelineListResponse>;
 
 export interface ListPrivateEndPointConnectionByFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6251,9 +6120,7 @@ export const TriggerResource = /*@__PURE__*/ S.suspend(() =>
     properties: Trigger,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerResource",
-}) as any as S.Schema<TriggerResource>;
+).annotate({ identifier: "TriggerResource" }) as any as S.Schema<TriggerResource>;
 
 /** The TriggerResource items on this page */
 export type TriggerListResponseValueList = Array<TriggerResource>;
@@ -6273,9 +6140,7 @@ export const TriggerListResponse = /*@__PURE__*/ S.suspend(() =>
     value: TriggerListResponseValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerListResponse",
-}) as any as S.Schema<TriggerListResponse>;
+).annotate({ identifier: "TriggerListResponse" }) as any as S.Schema<TriggerListResponse>;
 
 /** The connection state of a managed private endpoint */
 export interface ConnectionStatePropertiesInput {}
@@ -6512,9 +6377,7 @@ export const RunQueryOrderBy = /*@__PURE__*/ S.suspend(() =>
     orderBy: RunQueryOrderByField,
     order: RunQueryOrder,
   }),
-).annotate({
-  identifier: "RunQueryOrderBy",
-}) as any as S.Schema<RunQueryOrderBy>;
+).annotate({ identifier: "RunQueryOrderBy" }) as any as S.Schema<RunQueryOrderBy>;
 
 /** List of OrderBy option. */
 export type PipelineRunsQueryByFactoryRequestOrderByList = Array<RunQueryOrderBy>;
@@ -6651,9 +6514,7 @@ export const PrivateEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateEndpoint",
-}) as any as S.Schema<PrivateEndpoint>;
+).annotate({ identifier: "PrivateEndpoint" }) as any as S.Schema<PrivateEndpoint>;
 
 /** A request to approve or reject a private endpoint connection */
 export interface PrivateLinkConnectionApprovalRequest {
@@ -7057,9 +6918,7 @@ export const StartTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "StartTriggerRequest",
-}) as any as S.Schema<StartTriggerRequest>;
+).annotate({ identifier: "StartTriggerRequest" }) as any as S.Schema<StartTriggerRequest>;
 
 export interface StartTriggerResponse {}
 export const StartTriggerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7156,9 +7015,7 @@ export const StopTriggerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "StopTriggerRequest",
-}) as any as S.Schema<StopTriggerRequest>;
+).annotate({ identifier: "StopTriggerRequest" }) as any as S.Schema<StopTriggerRequest>;
 
 export interface StopTriggerResponse {}
 export const StopTriggerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7292,9 +7149,7 @@ export const TriggerRunPropertiesMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<TriggerRunPropertiesMap>;
 
 /** List of pipeline name and run Id triggered by the trigger run. */
-export type TriggerRunTriggeredPipelinesMap = {
-  [key: string]: string | undefined;
-};
+export type TriggerRunTriggeredPipelinesMap = { [key: string]: string | undefined };
 export const TriggerRunTriggeredPipelinesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7308,9 +7163,7 @@ export const TriggerRunRunDimensionMap = /*@__PURE__*/ S.Record(
 ) as any as S.Schema<TriggerRunRunDimensionMap>;
 
 /** Status of the upstream pipelines. */
-export type TriggerRunDependencyStatusMap = {
-  [key: string]: unknown | undefined;
-};
+export type TriggerRunDependencyStatusMap = { [key: string]: unknown | undefined };
 export const TriggerRunDependencyStatusMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7372,9 +7225,7 @@ export const TriggerRunsQueryResponse = /*@__PURE__*/ S.suspend(() =>
     value: TriggerRunsQueryResponseValueList,
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerRunsQueryResponse",
-}) as any as S.Schema<TriggerRunsQueryResponse>;
+).annotate({ identifier: "TriggerRunsQueryResponse" }) as any as S.Schema<TriggerRunsQueryResponse>;
 
 export interface TriggerRunsRerunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7401,9 +7252,7 @@ export const TriggerRunsRerunRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "TriggerRunsRerunRequest",
-}) as any as S.Schema<TriggerRunsRerunRequest>;
+).annotate({ identifier: "TriggerRunsRerunRequest" }) as any as S.Schema<TriggerRunsRerunRequest>;
 
 export interface TriggerRunsRerunResponse {}
 export const TriggerRunsRerunResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -7517,9 +7366,7 @@ export const TriggerQueryResponse = /*@__PURE__*/ S.suspend(() =>
     value: TriggerQueryResponseValueList,
     continuationToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TriggerQueryResponse",
-}) as any as S.Schema<TriggerQueryResponse>;
+).annotate({ identifier: "TriggerQueryResponse" }) as any as S.Schema<TriggerQueryResponse>;
 
 export interface UnsubscribeTriggerFromEventsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7565,9 +7412,7 @@ export const FactoryUpdateProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     publicNetworkAccess: S.optional(PublicNetworkAccess),
   }),
-).annotate({
-  identifier: "FactoryUpdateProperties",
-}) as any as S.Schema<FactoryUpdateProperties>;
+).annotate({ identifier: "FactoryUpdateProperties" }) as any as S.Schema<FactoryUpdateProperties>;
 
 export interface UpdateFactoryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7599,14 +7444,10 @@ export const UpdateFactoryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-06-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateFactoryRequest",
-}) as any as S.Schema<UpdateFactoryRequest>;
+).annotate({ identifier: "UpdateFactoryRequest" }) as any as S.Schema<UpdateFactoryRequest>;
 
 /** The resource tags. */
-export type UpdateFactoryResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateFactoryResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateFactoryResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7644,9 +7485,7 @@ export const UpdateFactoryResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateFactoryResponseTagsMap),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateFactoryResponse",
-}) as any as S.Schema<UpdateFactoryResponse>;
+).annotate({ identifier: "UpdateFactoryResponse" }) as any as S.Schema<UpdateFactoryResponse>;
 
 /** The state of integration runtime auto update. */
 export type IntegrationRuntimeAutoUpdate = "On" | "Off";

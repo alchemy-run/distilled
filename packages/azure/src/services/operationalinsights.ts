@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -39,9 +37,7 @@ export const KeyVaultProperties = /*@__PURE__*/ S.suspend(() =>
     keyVersion: S.optional(S.String),
     keyRsaSize: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "KeyVaultProperties",
-}) as any as S.Schema<KeyVaultProperties>;
+).annotate({ identifier: "KeyVaultProperties" }) as any as S.Schema<KeyVaultProperties>;
 
 /** The list of Log Analytics workspaces associated with the cluster. */
 export interface AssociatedWorkspaceInput {}
@@ -105,9 +101,7 @@ export const ClusterPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     capacityReservationProperties: S.optional(AssociatedWorkspaceInput),
     replication: S.optional(ClusterReplicationPropertiesInput),
   }),
-).annotate({
-  identifier: "ClusterPropertiesInput",
-}) as any as S.Schema<ClusterPropertiesInput>;
+).annotate({ identifier: "ClusterPropertiesInput" }) as any as S.Schema<ClusterPropertiesInput>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -237,9 +231,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type ClustersCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ClustersCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -274,9 +266,7 @@ export const AssociatedWorkspace = /*@__PURE__*/ S.suspend(() =>
     resourceId: S.optional(S.String),
     associateDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AssociatedWorkspace",
-}) as any as S.Schema<AssociatedWorkspace>;
+).annotate({ identifier: "AssociatedWorkspace" }) as any as S.Schema<AssociatedWorkspace>;
 
 /** The list of Log Analytics workspaces associated with the cluster */
 export type ClusterPropertiesAssociatedWorkspacesList = Array<AssociatedWorkspace>;
@@ -380,9 +370,7 @@ export const ClusterProperties = /*@__PURE__*/ S.suspend(() =>
     capacityReservationProperties: S.optional(CapacityReservationProperties),
     replication: S.optional(ClusterReplicationProperties),
   }),
-).annotate({
-  identifier: "ClusterProperties",
-}) as any as S.Schema<ClusterProperties>;
+).annotate({ identifier: "ClusterProperties" }) as any as S.Schema<ClusterProperties>;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -396,14 +384,10 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-export type UserAssignedIdentities = {
-  [key: string]: UserAssignedIdentity | null | undefined;
-};
+export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 export const UserAssignedIdentities = /*@__PURE__*/ S.Record(
   S.String,
   S.NullOr(UserAssignedIdentity),
@@ -484,9 +468,7 @@ export const DestinationMetaData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     eventHubName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DestinationMetaData",
-}) as any as S.Schema<DestinationMetaData>;
+).annotate({ identifier: "DestinationMetaData" }) as any as S.Schema<DestinationMetaData>;
 
 /** Destination properties. */
 export interface Destination {
@@ -529,9 +511,7 @@ export const DataExportProperties = /*@__PURE__*/ S.suspend(() =>
     createdDate: S.optional(S.String),
     lastModifiedDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataExportProperties",
-}) as any as S.Schema<DataExportProperties>;
+).annotate({ identifier: "DataExportProperties" }) as any as S.Schema<DataExportProperties>;
 
 export interface DataExportsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -626,9 +606,7 @@ export type DataSourceKind =
 export const DataSourceKind = S.String;
 
 /** Resource tags. */
-export type DataSourcesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DataSourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DataSourcesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -675,9 +653,7 @@ export const DataSourcesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DataSourcesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type DataSourcesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DataSourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DataSourcesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -737,9 +713,7 @@ export const DeleteClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteClusterRequest",
-}) as any as S.Schema<DeleteClusterRequest>;
+).annotate({ identifier: "DeleteClusterRequest" }) as any as S.Schema<DeleteClusterRequest>;
 
 export interface DeleteClusterResponse {}
 export const DeleteClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -770,9 +744,7 @@ export const DeleteDataExportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDataExportRequest",
-}) as any as S.Schema<DeleteDataExportRequest>;
+).annotate({ identifier: "DeleteDataExportRequest" }) as any as S.Schema<DeleteDataExportRequest>;
 
 export interface DeleteDataExportResponse {}
 export const DeleteDataExportResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -803,9 +775,7 @@ export const DeleteDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDataSourceRequest",
-}) as any as S.Schema<DeleteDataSourceRequest>;
+).annotate({ identifier: "DeleteDataSourceRequest" }) as any as S.Schema<DeleteDataSourceRequest>;
 
 export interface DeleteDataSourceResponse {}
 export const DeleteDataSourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -836,9 +806,7 @@ export const DeleteGatewayRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGatewayRequest",
-}) as any as S.Schema<DeleteGatewayRequest>;
+).annotate({ identifier: "DeleteGatewayRequest" }) as any as S.Schema<DeleteGatewayRequest>;
 
 export interface DeleteGatewayResponse {}
 export const DeleteGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -896,14 +864,10 @@ export const LinkedServiceProperties = /*@__PURE__*/ S.suspend(() =>
     writeAccessResourceId: S.optional(S.String),
     provisioningState: S.optional(LinkedServiceEntityStatus),
   }),
-).annotate({
-  identifier: "LinkedServiceProperties",
-}) as any as S.Schema<LinkedServiceProperties>;
+).annotate({ identifier: "LinkedServiceProperties" }) as any as S.Schema<LinkedServiceProperties>;
 
 /** Resource tags. */
-export type DeleteLinkedServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeleteLinkedServiceResponseTagsMap = { [key: string]: string | undefined };
 export const DeleteLinkedServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1003,9 +967,7 @@ export const DeleteQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteQueryRequest",
-}) as any as S.Schema<DeleteQueryRequest>;
+).annotate({ identifier: "DeleteQueryRequest" }) as any as S.Schema<DeleteQueryRequest>;
 
 export interface DeleteQueryResponse {}
 export const DeleteQueryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1033,9 +995,7 @@ export const DeleteQueryPackRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteQueryPackRequest",
-}) as any as S.Schema<DeleteQueryPackRequest>;
+).annotate({ identifier: "DeleteQueryPackRequest" }) as any as S.Schema<DeleteQueryPackRequest>;
 
 export interface DeleteQueryPackResponse {}
 export const DeleteQueryPackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1066,9 +1026,7 @@ export const DeleteSavedSearchRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSavedSearchRequest",
-}) as any as S.Schema<DeleteSavedSearchRequest>;
+).annotate({ identifier: "DeleteSavedSearchRequest" }) as any as S.Schema<DeleteSavedSearchRequest>;
 
 export interface DeleteSavedSearchResponse {}
 export const DeleteSavedSearchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1134,9 +1092,7 @@ export const DeleteSummaryLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteSummaryLogRequest",
-}) as any as S.Schema<DeleteSummaryLogRequest>;
+).annotate({ identifier: "DeleteSummaryLogRequest" }) as any as S.Schema<DeleteSummaryLogRequest>;
 
 export interface DeleteSummaryLogResponse {}
 export const DeleteSummaryLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1167,9 +1123,7 @@ export const DeleteTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTableRequest",
-}) as any as S.Schema<DeleteTableRequest>;
+).annotate({ identifier: "DeleteTableRequest" }) as any as S.Schema<DeleteTableRequest>;
 
 export interface DeleteTableResponse {}
 export const DeleteTableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1200,9 +1154,7 @@ export const DeleteWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteWorkspaceRequest",
-}) as any as S.Schema<DeleteWorkspaceRequest>;
+).annotate({ identifier: "DeleteWorkspaceRequest" }) as any as S.Schema<DeleteWorkspaceRequest>;
 
 export interface DeleteWorkspaceResponse {}
 export const DeleteWorkspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1239,9 +1191,7 @@ export const DisableIntelligencePackRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DisableIntelligencePackResponse {}
 export const DisableIntelligencePackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DisableIntelligencePackResponse",
-  },
+  { identifier: "DisableIntelligencePackResponse" },
 ) as any as S.Schema<DisableIntelligencePackResponse>;
 
 export interface EnableIntelligencePackRequest {
@@ -1298,9 +1248,7 @@ export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 /** Resource tags. */
 export type GetClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -1345,9 +1293,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ClustersCreateOrUpdateResponseIdentity),
     sku: S.optional(ClusterSku),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface GetDataExportRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1373,9 +1319,7 @@ export const GetDataExportRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataExportRequest",
-}) as any as S.Schema<GetDataExportRequest>;
+).annotate({ identifier: "GetDataExportRequest" }) as any as S.Schema<GetDataExportRequest>;
 
 export interface GetDataExportResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1397,9 +1341,7 @@ export const GetDataExportResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DataExportProperties),
   }),
-).annotate({
-  identifier: "GetDataExportResponse",
-}) as any as S.Schema<GetDataExportResponse>;
+).annotate({ identifier: "GetDataExportResponse" }) as any as S.Schema<GetDataExportResponse>;
 
 export interface GetDataSourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1425,14 +1367,10 @@ export const GetDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetDataSourceRequest",
-}) as any as S.Schema<GetDataSourceRequest>;
+).annotate({ identifier: "GetDataSourceRequest" }) as any as S.Schema<GetDataSourceRequest>;
 
 /** Resource tags. */
-export type GetDataSourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDataSourceResponseTagsMap = { [key: string]: string | undefined };
 export const GetDataSourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1467,9 +1405,7 @@ export const GetDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
     kind: DataSourceKind,
     tags: S.optional(GetDataSourceResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetDataSourceResponse",
-}) as any as S.Schema<GetDataSourceResponse>;
+).annotate({ identifier: "GetDataSourceResponse" }) as any as S.Schema<GetDataSourceResponse>;
 
 export interface GetLinkedServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1495,14 +1431,10 @@ export const GetLinkedServiceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetLinkedServiceRequest",
-}) as any as S.Schema<GetLinkedServiceRequest>;
+).annotate({ identifier: "GetLinkedServiceRequest" }) as any as S.Schema<GetLinkedServiceRequest>;
 
 /** Resource tags. */
-export type GetLinkedServiceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetLinkedServiceResponseTagsMap = { [key: string]: string | undefined };
 export const GetLinkedServiceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1531,9 +1463,7 @@ export const GetLinkedServiceResponse = /*@__PURE__*/ S.suspend(() =>
     properties: LinkedServiceProperties,
     tags: S.optional(GetLinkedServiceResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetLinkedServiceResponse",
-}) as any as S.Schema<GetLinkedServiceResponse>;
+).annotate({ identifier: "GetLinkedServiceResponse" }) as any as S.Schema<GetLinkedServiceResponse>;
 
 export type GetLinkedStorageAccountRequestDataSourceType =
   | "CustomLogs"
@@ -1664,9 +1594,7 @@ export const ErrorAdditionalInfo = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     info: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ErrorAdditionalInfo",
-}) as any as S.Schema<ErrorAdditionalInfo>;
+).annotate({ identifier: "ErrorAdditionalInfo" }) as any as S.Schema<ErrorAdditionalInfo>;
 
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
@@ -1706,9 +1634,7 @@ export const OperationStatusError = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     error: S.optional(ErrorDetail),
   }),
-).annotate({
-  identifier: "OperationStatusError",
-}) as any as S.Schema<OperationStatusError>;
+).annotate({ identifier: "OperationStatusError" }) as any as S.Schema<OperationStatusError>;
 
 /** The status of operation. */
 export interface OperationStatus {
@@ -1734,9 +1660,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(S.String),
     error: S.optional(OperationStatusError),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface GetQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1762,9 +1686,7 @@ export const GetQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetQueryRequest",
-}) as any as S.Schema<GetQueryRequest>;
+).annotate({ identifier: "GetQueryRequest" }) as any as S.Schema<GetQueryRequest>;
 
 /** The related categories for the function. */
 export type LogAnalyticsQueryPackQueryPropertiesRelatedCategoriesList = Array<string>;
@@ -1877,9 +1799,7 @@ export const GetQueryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(LogAnalyticsQueryPackQueryProperties),
   }),
-).annotate({
-  identifier: "GetQueryResponse",
-}) as any as S.Schema<GetQueryResponse>;
+).annotate({ identifier: "GetQueryResponse" }) as any as S.Schema<GetQueryResponse>;
 
 export interface GetQueryPackRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1902,9 +1822,7 @@ export const GetQueryPackRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetQueryPackRequest",
-}) as any as S.Schema<GetQueryPackRequest>;
+).annotate({ identifier: "GetQueryPackRequest" }) as any as S.Schema<GetQueryPackRequest>;
 
 /** Resource tags. */
 export type GetQueryPackResponseTagsMap = { [key: string]: string | undefined };
@@ -1961,9 +1879,7 @@ export const GetQueryPackResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: LogAnalyticsQueryPackProperties,
   }),
-).annotate({
-  identifier: "GetQueryPackResponse",
-}) as any as S.Schema<GetQueryPackResponse>;
+).annotate({ identifier: "GetQueryPackResponse" }) as any as S.Schema<GetQueryPackResponse>;
 
 export interface GetSavedSearchRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1989,9 +1905,7 @@ export const GetSavedSearchRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetSavedSearchRequest",
-}) as any as S.Schema<GetSavedSearchRequest>;
+).annotate({ identifier: "GetSavedSearchRequest" }) as any as S.Schema<GetSavedSearchRequest>;
 
 /** A tag of a saved search. */
 export interface Tag {
@@ -2040,9 +1954,7 @@ export const SavedSearchProperties = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.Number),
     tags: S.optional(SavedSearchPropertiesTagsList),
   }),
-).annotate({
-  identifier: "SavedSearchProperties",
-}) as any as S.Schema<SavedSearchProperties>;
+).annotate({ identifier: "SavedSearchProperties" }) as any as S.Schema<SavedSearchProperties>;
 
 export interface GetSavedSearchResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2067,9 +1979,7 @@ export const GetSavedSearchResponse = /*@__PURE__*/ S.suspend(() =>
     properties: SavedSearchProperties,
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSavedSearchResponse",
-}) as any as S.Schema<GetSavedSearchResponse>;
+).annotate({ identifier: "GetSavedSearchResponse" }) as any as S.Schema<GetSavedSearchResponse>;
 
 export interface GetSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2092,9 +2002,7 @@ export const GetSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetSchemaRequest",
-}) as any as S.Schema<GetSchemaRequest>;
+).annotate({ identifier: "GetSchemaRequest" }) as any as S.Schema<GetSchemaRequest>;
 
 /** The core summary of a search. */
 export interface CoreSummary {
@@ -2152,9 +2060,7 @@ export const SearchMetadataSchema = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     version: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SearchMetadataSchema",
-}) as any as S.Schema<SearchMetadataSchema>;
+).annotate({ identifier: "SearchMetadataSchema" }) as any as S.Schema<SearchMetadataSchema>;
 
 /** Metadata for search results. */
 export interface SearchMetadata {
@@ -2248,9 +2154,7 @@ export const SearchSchemaValue = /*@__PURE__*/ S.suspend(() =>
     facet: S.Boolean,
     ownerType: S.optional(SearchSchemaValueOwnerTypeList),
   }),
-).annotate({
-  identifier: "SearchSchemaValue",
-}) as any as S.Schema<SearchSchemaValue>;
+).annotate({ identifier: "SearchSchemaValue" }) as any as S.Schema<SearchSchemaValue>;
 
 /** The array of result values. */
 export type SearchGetSchemaResponseValueList = Array<SearchSchemaValue>;
@@ -2270,9 +2174,7 @@ export const SearchGetSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(SearchMetadata),
     value: S.optional(SearchGetSchemaResponseValueList),
   }),
-).annotate({
-  identifier: "SearchGetSchemaResponse",
-}) as any as S.Schema<SearchGetSchemaResponse>;
+).annotate({ identifier: "SearchGetSchemaResponse" }) as any as S.Schema<SearchGetSchemaResponse>;
 
 export interface GetSharedKeySharedKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2383,9 +2285,7 @@ export const StorageInsightStatus = /*@__PURE__*/ S.suspend(() =>
     state: StorageInsightState,
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorageInsightStatus",
-}) as any as S.Schema<StorageInsightStatus>;
+).annotate({ identifier: "StorageInsightStatus" }) as any as S.Schema<StorageInsightStatus>;
 
 /** Storage insight properties. */
 export interface StorageInsightProperties {
@@ -2405,14 +2305,10 @@ export const StorageInsightProperties = /*@__PURE__*/ S.suspend(() =>
     storageAccount: StorageAccount,
     status: S.optional(StorageInsightStatus),
   }),
-).annotate({
-  identifier: "StorageInsightProperties",
-}) as any as S.Schema<StorageInsightProperties>;
+).annotate({ identifier: "StorageInsightProperties" }) as any as S.Schema<StorageInsightProperties>;
 
 /** Resource tags. */
-export type GetStorageInsightConfigResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetStorageInsightConfigResponseTagsMap = { [key: string]: string | undefined };
 export const GetStorageInsightConfigResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2472,9 +2368,7 @@ export const GetSummaryLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetSummaryLogRequest",
-}) as any as S.Schema<GetSummaryLogRequest>;
+).annotate({ identifier: "GetSummaryLogRequest" }) as any as S.Schema<GetSummaryLogRequest>;
 
 /** SummaryRules rule type: User. */
 export type RuleTypeEnum = "User";
@@ -2545,9 +2439,7 @@ export const SummaryLogsProperties = /*@__PURE__*/ S.suspend(() =>
     provisioningState: S.optional(ProvisioningStateEnum),
     ruleDefinition: S.optional(RuleDefinition),
   }),
-).annotate({
-  identifier: "SummaryLogsProperties",
-}) as any as S.Schema<SummaryLogsProperties>;
+).annotate({ identifier: "SummaryLogsProperties" }) as any as S.Schema<SummaryLogsProperties>;
 
 /** Type of managed service identity. */
 export type SummaryLogsIdentityType = "None" | "UserAssigned";
@@ -2596,9 +2488,7 @@ export const SummaryLogsIdentity = /*@__PURE__*/ S.suspend(() =>
     type: SummaryLogsIdentityType,
     userAssignedIdentities: S.optional(SummaryLogsIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "SummaryLogsIdentity",
-}) as any as S.Schema<SummaryLogsIdentity>;
+).annotate({ identifier: "SummaryLogsIdentity" }) as any as S.Schema<SummaryLogsIdentity>;
 
 export interface GetSummaryLogResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2623,9 +2513,7 @@ export const GetSummaryLogResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(SummaryLogsProperties),
     identity: S.optional(SummaryLogsIdentity),
   }),
-).annotate({
-  identifier: "GetSummaryLogResponse",
-}) as any as S.Schema<GetSummaryLogResponse>;
+).annotate({ identifier: "GetSummaryLogResponse" }) as any as S.Schema<GetSummaryLogResponse>;
 
 export interface GetTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2651,9 +2539,7 @@ export const GetTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetTableRequest",
-}) as any as S.Schema<GetTableRequest>;
+).annotate({ identifier: "GetTableRequest" }) as any as S.Schema<GetTableRequest>;
 
 /** Parameters of the search job that initiated this table. */
 export interface SearchResults {
@@ -2719,9 +2605,7 @@ export const ResultStatistics = /*@__PURE__*/ S.suspend(() =>
     ingestedRecords: S.optional(S.Number),
     scannedGb: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ResultStatistics",
-}) as any as S.Schema<ResultStatistics>;
+).annotate({ identifier: "ResultStatistics" }) as any as S.Schema<ResultStatistics>;
 
 /** Instruct the system how to handle and charge the logs ingested to this table. */
 export type TablePlanEnum = "Basic" | "Analytics" | "Auxiliary";
@@ -2912,9 +2796,7 @@ export const TableProperties = /*@__PURE__*/ S.suspend(() =>
     retentionInDaysAsDefault: S.optional(S.Boolean),
     totalRetentionInDaysAsDefault: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "TableProperties",
-}) as any as S.Schema<TableProperties>;
+).annotate({ identifier: "TableProperties" }) as any as S.Schema<TableProperties>;
 
 export interface GetTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2936,9 +2818,7 @@ export const GetTableResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TableProperties),
   }),
-).annotate({
-  identifier: "GetTableResponse",
-}) as any as S.Schema<GetTableResponse>;
+).annotate({ identifier: "GetTableResponse" }) as any as S.Schema<GetTableResponse>;
 
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2961,9 +2841,7 @@ export const GetWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceRequest",
-}) as any as S.Schema<GetWorkspaceRequest>;
+).annotate({ identifier: "GetWorkspaceRequest" }) as any as S.Schema<GetWorkspaceRequest>;
 
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
@@ -3037,9 +2915,7 @@ export const WorkspaceCapping = /*@__PURE__*/ S.suspend(() =>
     quotaNextResetTime: S.optional(S.String),
     dataIngestionStatus: S.optional(DataIngestionStatus),
   }),
-).annotate({
-  identifier: "WorkspaceCapping",
-}) as any as S.Schema<WorkspaceCapping>;
+).annotate({ identifier: "WorkspaceCapping" }) as any as S.Schema<WorkspaceCapping>;
 
 /** The network access type for accessing Log Analytics ingestion. */
 export type WorkspacePropertiesPublicNetworkAccessForIngestion =
@@ -3113,9 +2989,7 @@ export const WorkspaceFeatures = /*@__PURE__*/ S.suspend(() =>
     associations: S.optional(WorkspaceFeaturesAssociationsList),
     dataAuthorizationMode: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "WorkspaceFeatures",
-}) as any as S.Schema<WorkspaceFeatures>;
+).annotate({ identifier: "WorkspaceFeatures" }) as any as S.Schema<WorkspaceFeatures>;
 
 /** The provisioning state of the replication. */
 export type WorkspaceReplicationState =
@@ -3231,9 +3105,7 @@ export const WorkspaceProperties = /*@__PURE__*/ S.suspend(() =>
     replication: S.optional(WorkspaceReplicationProperties),
     failover: S.optional(WorkspaceFailoverProperties),
   }),
-).annotate({
-  identifier: "WorkspaceProperties",
-}) as any as S.Schema<WorkspaceProperties>;
+).annotate({ identifier: "WorkspaceProperties" }) as any as S.Schema<WorkspaceProperties>;
 
 /** Type of managed service identity. */
 export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
@@ -3304,9 +3176,7 @@ export const GetWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(Identity),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetWorkspaceResponse",
-}) as any as S.Schema<GetWorkspaceResponse>;
+).annotate({ identifier: "GetWorkspaceResponse" }) as any as S.Schema<GetWorkspaceResponse>;
 
 export interface GetWorkspaceNSPRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3332,9 +3202,7 @@ export const GetWorkspaceNSPRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "GetWorkspaceNSPRequest",
-}) as any as S.Schema<GetWorkspaceNSPRequest>;
+).annotate({ identifier: "GetWorkspaceNSPRequest" }) as any as S.Schema<GetWorkspaceNSPRequest>;
 
 /** Provisioning state of a network security perimeter configuration that is being created or updated. */
 export type NetworkSecurityPerimeterConfigurationProvisioningState =
@@ -3409,9 +3277,7 @@ export const NetworkSecurityPerimeter = /*@__PURE__*/ S.suspend(() =>
     perimeterGuid: S.optional(S.String),
     location: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkSecurityPerimeter",
-}) as any as S.Schema<NetworkSecurityPerimeter>;
+).annotate({ identifier: "NetworkSecurityPerimeter" }) as any as S.Schema<NetworkSecurityPerimeter>;
 
 /** Network security perimeters for inbound rules */
 export type AccessRulePropertiesNetworkSecurityPerimetersList = Array<NetworkSecurityPerimeter>;
@@ -3463,9 +3329,7 @@ export const AccessRuleProperties = /*@__PURE__*/ S.suspend(() =>
     emailAddresses: S.optional(AccessRulePropertiesEmailAddressesList),
     phoneNumbers: S.optional(AccessRulePropertiesPhoneNumbersList),
   }),
-).annotate({
-  identifier: "AccessRuleProperties",
-}) as any as S.Schema<AccessRuleProperties>;
+).annotate({ identifier: "AccessRuleProperties" }) as any as S.Schema<AccessRuleProperties>;
 
 /** Access rule in a network security perimeter configuration profile */
 export interface AccessRule {
@@ -3522,9 +3386,7 @@ export const ProvisioningIssue = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     properties: S.optional(ProvisioningIssueProperties),
   }),
-).annotate({
-  identifier: "ProvisioningIssue",
-}) as any as S.Schema<ProvisioningIssue>;
+).annotate({ identifier: "ProvisioningIssue" }) as any as S.Schema<ProvisioningIssue>;
 
 /** List of provisioning issues, if any */
 export type NetworkSecurityPerimeterConfigurationPropertiesProvisioningIssuesList =
@@ -3549,9 +3411,7 @@ export const ResourceAssociation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     accessMode: S.optional(ResourceAssociationAccessMode),
   }),
-).annotate({
-  identifier: "ResourceAssociation",
-}) as any as S.Schema<ResourceAssociation>;
+).annotate({ identifier: "ResourceAssociation" }) as any as S.Schema<ResourceAssociation>;
 
 /** List of Access Rules */
 export type NetworkSecurityProfileAccessRulesList = Array<AccessRule>;
@@ -3586,9 +3446,7 @@ export const NetworkSecurityProfile = /*@__PURE__*/ S.suspend(() =>
     diagnosticSettingsVersion: S.optional(S.Number),
     enabledLogCategories: S.optional(NetworkSecurityProfileEnabledLogCategoriesList),
   }),
-).annotate({
-  identifier: "NetworkSecurityProfile",
-}) as any as S.Schema<NetworkSecurityProfile>;
+).annotate({ identifier: "NetworkSecurityProfile" }) as any as S.Schema<NetworkSecurityProfile>;
 
 /** Network security configuration properties. */
 export interface NetworkSecurityPerimeterConfigurationProperties {
@@ -3632,14 +3490,10 @@ export const GetWorkspaceNSPResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(NetworkSecurityPerimeterConfigurationProperties),
   }),
-).annotate({
-  identifier: "GetWorkspaceNSPResponse",
-}) as any as S.Schema<GetWorkspaceNSPResponse>;
+).annotate({ identifier: "GetWorkspaceNSPResponse" }) as any as S.Schema<GetWorkspaceNSPResponse>;
 
 /** Resource tags. */
-export type LinkedServicesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LinkedServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const LinkedServicesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3680,9 +3534,7 @@ export const LinkedServicesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LinkedServicesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type LinkedServicesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LinkedServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const LinkedServicesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3841,9 +3693,7 @@ export const AvailableServiceTier = /*@__PURE__*/ S.suspend(() =>
     capacityReservationLevel: S.optional(S.Number),
     lastSkuUpdate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailableServiceTier",
-}) as any as S.Schema<AvailableServiceTier>;
+).annotate({ identifier: "AvailableServiceTier" }) as any as S.Schema<AvailableServiceTier>;
 
 export type ListAvailableServiceTierByWorkspaceResponseBodyList = Array<AvailableServiceTier>;
 export const ListAvailableServiceTierByWorkspaceResponseBodyList = /*@__PURE__*/ S.Array(
@@ -3944,9 +3794,7 @@ export const ClusterListResult = /*@__PURE__*/ S.suspend(() =>
     value: ClusterListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ClusterListResult",
-}) as any as S.Schema<ClusterListResult>;
+).annotate({ identifier: "ClusterListResult" }) as any as S.Schema<ClusterListResult>;
 
 export interface ListClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3963,9 +3811,7 @@ export const ListClustersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListClustersRequest",
-}) as any as S.Schema<ListClustersRequest>;
+).annotate({ identifier: "ListClustersRequest" }) as any as S.Schema<ListClustersRequest>;
 
 export interface ListDataExportByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4033,9 +3879,7 @@ export const DataExportListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(DataExportListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataExportListResult",
-}) as any as S.Schema<DataExportListResult>;
+).annotate({ identifier: "DataExportListResult" }) as any as S.Schema<DataExportListResult>;
 
 export interface ListDataSourceByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4125,9 +3969,7 @@ export const DataSourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: DataSourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataSourceListResult",
-}) as any as S.Schema<DataSourceListResult>;
+).annotate({ identifier: "DataSourceListResult" }) as any as S.Schema<DataSourceListResult>;
 
 export interface ListDeletedWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4211,9 +4053,7 @@ export const WorkspaceListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(WorkspaceListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkspaceListResult",
-}) as any as S.Schema<WorkspaceListResult>;
+).annotate({ identifier: "WorkspaceListResult" }) as any as S.Schema<WorkspaceListResult>;
 
 export interface ListDeletedWorkspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4274,9 +4114,7 @@ export const IntelligencePack = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.Boolean),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IntelligencePack",
-}) as any as S.Schema<IntelligencePack>;
+).annotate({ identifier: "IntelligencePack" }) as any as S.Schema<IntelligencePack>;
 
 export type ListIntelligencePacksResponseBodyList = Array<IntelligencePack>;
 export const ListIntelligencePacksResponseBodyList = /*@__PURE__*/ S.Array(
@@ -4366,9 +4204,7 @@ export const LinkedServiceListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(LinkedServiceListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LinkedServiceListResult",
-}) as any as S.Schema<LinkedServiceListResult>;
+).annotate({ identifier: "LinkedServiceListResult" }) as any as S.Schema<LinkedServiceListResult>;
 
 export interface ListLinkedStorageAccountByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4510,9 +4346,7 @@ export const ManagementGroup = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(ManagementGroupProperties),
   }),
-).annotate({
-  identifier: "ManagementGroup",
-}) as any as S.Schema<ManagementGroup>;
+).annotate({ identifier: "ManagementGroup" }) as any as S.Schema<ManagementGroup>;
 
 /** Gets or sets a list of management groups attached to the workspace. */
 export type WorkspaceListManagementGroupsResultValueList = Array<ManagementGroup>;
@@ -4546,9 +4380,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
@@ -4568,9 +4400,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Supported operation of OperationalInsights resource provider. */
 export interface Operation {
@@ -4604,9 +4434,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: OperationListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListQueriesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4638,9 +4466,7 @@ export const ListQueriesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListQueriesRequest",
-}) as any as S.Schema<ListQueriesRequest>;
+).annotate({ identifier: "ListQueriesRequest" }) as any as S.Schema<ListQueriesRequest>;
 
 /** A Log Analytics QueryPack-Query definition. */
 export interface LogAnalyticsQueryPackQuery {
@@ -4712,9 +4538,7 @@ export const ListQueryPackByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListQueryPackByResourceGroupRequest>;
 
 /** Resource tags. */
-export type LogAnalyticsQueryPackTagsMap = {
-  [key: string]: string | undefined;
-};
+export type LogAnalyticsQueryPackTagsMap = { [key: string]: string | undefined };
 export const LogAnalyticsQueryPackTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4747,9 +4571,7 @@ export const LogAnalyticsQueryPack = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     properties: LogAnalyticsQueryPackProperties,
   }),
-).annotate({
-  identifier: "LogAnalyticsQueryPack",
-}) as any as S.Schema<LogAnalyticsQueryPack>;
+).annotate({ identifier: "LogAnalyticsQueryPack" }) as any as S.Schema<LogAnalyticsQueryPack>;
 
 /** The LogAnalyticsQueryPack items on this page */
 export type LogAnalyticsQueryPackListResultValueList = Array<LogAnalyticsQueryPack>;
@@ -4788,9 +4610,7 @@ export const ListQueryPacksRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListQueryPacksRequest",
-}) as any as S.Schema<ListQueryPacksRequest>;
+).annotate({ identifier: "ListQueryPacksRequest" }) as any as S.Schema<ListQueryPacksRequest>;
 
 export interface ListSavedSearchByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4858,9 +4678,7 @@ export const SavedSearchesListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(SavedSearchesListResultValueList),
   }),
-).annotate({
-  identifier: "SavedSearchesListResult",
-}) as any as S.Schema<SavedSearchesListResult>;
+).annotate({ identifier: "SavedSearchesListResult" }) as any as S.Schema<SavedSearchesListResult>;
 
 export interface ListStorageInsightConfigByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4941,9 +4759,7 @@ export const StorageInsightListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(StorageInsightListResultValueList),
     _odata_nextLink: S.optional(S.String.pipe(T.Body("@odata.nextLink"))),
   }),
-).annotate({
-  identifier: "StorageInsightListResult",
-}) as any as S.Schema<StorageInsightListResult>;
+).annotate({ identifier: "StorageInsightListResult" }) as any as S.Schema<StorageInsightListResult>;
 
 export interface ListSummaryLogByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5014,9 +4830,7 @@ export const SummaryLogsListResult = /*@__PURE__*/ S.suspend(() =>
     value: SummaryLogsListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SummaryLogsListResult",
-}) as any as S.Schema<SummaryLogsListResult>;
+).annotate({ identifier: "SummaryLogsListResult" }) as any as S.Schema<SummaryLogsListResult>;
 
 export interface ListTableByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5084,9 +4898,7 @@ export const TablesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(TablesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TablesListResult",
-}) as any as S.Schema<TablesListResult>;
+).annotate({ identifier: "TablesListResult" }) as any as S.Schema<TablesListResult>;
 
 export interface ListUsagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5109,9 +4921,7 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** The name of a metric. */
 export interface MetricName {
@@ -5218,9 +5028,7 @@ export const ListWorkspaceNSPRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListWorkspaceNSPRequest",
-}) as any as S.Schema<ListWorkspaceNSPRequest>;
+).annotate({ identifier: "ListWorkspaceNSPRequest" }) as any as S.Schema<ListWorkspaceNSPRequest>;
 
 /** Network security perimeter (NSP) configuration resource */
 export interface NetworkSecurityPerimeterConfiguration {
@@ -5263,9 +5071,7 @@ export const ListWorkspaceNSPResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListWorkspaceNSPResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListWorkspaceNSPResponse",
-}) as any as S.Schema<ListWorkspaceNSPResponse>;
+).annotate({ identifier: "ListWorkspaceNSPResponse" }) as any as S.Schema<ListWorkspaceNSPResponse>;
 
 export interface ListWorkspacesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5282,9 +5088,7 @@ export const ListWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "ListWorkspacesRequest",
-}) as any as S.Schema<ListWorkspacesRequest>;
+).annotate({ identifier: "ListWorkspacesRequest" }) as any as S.Schema<ListWorkspacesRequest>;
 
 export interface MigrateTableRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5310,9 +5114,7 @@ export const MigrateTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "MigrateTableRequest",
-}) as any as S.Schema<MigrateTableRequest>;
+).annotate({ identifier: "MigrateTableRequest" }) as any as S.Schema<MigrateTableRequest>;
 
 export interface MigrateTableResponse {}
 export const MigrateTableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5506,9 +5308,7 @@ export const PutQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "PutQueryRequest",
-}) as any as S.Schema<PutQueryRequest>;
+).annotate({ identifier: "PutQueryRequest" }) as any as S.Schema<PutQueryRequest>;
 
 export interface PutQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -5530,14 +5330,10 @@ export const PutQueryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(LogAnalyticsQueryPackQueryProperties),
   }),
-).annotate({
-  identifier: "PutQueryResponse",
-}) as any as S.Schema<PutQueryResponse>;
+).annotate({ identifier: "PutQueryResponse" }) as any as S.Schema<PutQueryResponse>;
 
 /** Resource tags. */
-export type QueryPacksCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type QueryPacksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const QueryPacksCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5582,9 +5378,7 @@ export const QueryPacksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<QueryPacksCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type QueryPacksCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type QueryPacksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const QueryPacksCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -5923,9 +5717,7 @@ export const SearchQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "SearchQueryRequest",
-}) as any as S.Schema<SearchQueryRequest>;
+).annotate({ identifier: "SearchQueryRequest" }) as any as S.Schema<SearchQueryRequest>;
 
 export interface StartSummaryLogRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5951,9 +5743,7 @@ export const StartSummaryLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "StartSummaryLogRequest",
-}) as any as S.Schema<StartSummaryLogRequest>;
+).annotate({ identifier: "StartSummaryLogRequest" }) as any as S.Schema<StartSummaryLogRequest>;
 
 export interface StartSummaryLogResponse {}
 export const StartSummaryLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5984,9 +5774,7 @@ export const StopSummaryLogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "StopSummaryLogRequest",
-}) as any as S.Schema<StopSummaryLogRequest>;
+).annotate({ identifier: "StopSummaryLogRequest" }) as any as S.Schema<StopSummaryLogRequest>;
 
 export interface StopSummaryLogResponse {}
 export const StopSummaryLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6125,9 +5913,7 @@ export const SummaryLogsIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: SummaryLogsIdentityType,
     userAssignedIdentities: S.optional(SummaryLogsIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "SummaryLogsIdentityInput",
-}) as any as S.Schema<SummaryLogsIdentityInput>;
+).annotate({ identifier: "SummaryLogsIdentityInput" }) as any as S.Schema<SummaryLogsIdentityInput>;
 
 export interface SummaryLogsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6244,9 +6030,7 @@ export const SearchResultsInput = /*@__PURE__*/ S.suspend(() =>
     startSearchTime: S.optional(S.String),
     endSearchTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SearchResultsInput",
-}) as any as S.Schema<SearchResultsInput>;
+).annotate({ identifier: "SearchResultsInput" }) as any as S.Schema<SearchResultsInput>;
 
 /** Restore parameters. */
 export interface RestoredLogsInput {
@@ -6263,9 +6047,7 @@ export const RestoredLogsInput = /*@__PURE__*/ S.suspend(() =>
     endRestoreTime: S.optional(S.String),
     sourceTable: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RestoredLogsInput",
-}) as any as S.Schema<RestoredLogsInput>;
+).annotate({ identifier: "RestoredLogsInput" }) as any as S.Schema<RestoredLogsInput>;
 
 /** Table column. */
 export interface ColumnInput {
@@ -6343,9 +6125,7 @@ export const TablePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     protectionLevel: S.optional(TableProtectionLevelEnum),
     schema: S.optional(SchemaInput),
   }),
-).annotate({
-  identifier: "TablePropertiesInput",
-}) as any as S.Schema<TablePropertiesInput>;
+).annotate({ identifier: "TablePropertiesInput" }) as any as S.Schema<TablePropertiesInput>;
 
 export interface TablesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6414,9 +6194,7 @@ export const ClusterPatchProperties = /*@__PURE__*/ S.suspend(() =>
     keyVaultProperties: S.optional(KeyVaultProperties),
     billingType: S.optional(BillingType),
   }),
-).annotate({
-  identifier: "ClusterPatchProperties",
-}) as any as S.Schema<ClusterPatchProperties>;
+).annotate({ identifier: "ClusterPatchProperties" }) as any as S.Schema<ClusterPatchProperties>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateClusterRequestIdentity = ClustersCreateOrUpdateRequestIdentity;
@@ -6462,14 +6240,10 @@ export const UpdateClusterRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateClusterRequest",
-}) as any as S.Schema<UpdateClusterRequest>;
+).annotate({ identifier: "UpdateClusterRequest" }) as any as S.Schema<UpdateClusterRequest>;
 
 /** Resource tags. */
-export type UpdateClusterResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateClusterResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateClusterResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6511,9 +6285,7 @@ export const UpdateClusterResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(ClustersCreateOrUpdateResponseIdentity),
     sku: S.optional(ClusterSku),
   }),
-).annotate({
-  identifier: "UpdateClusterResponse",
-}) as any as S.Schema<UpdateClusterResponse>;
+).annotate({ identifier: "UpdateClusterResponse" }) as any as S.Schema<UpdateClusterResponse>;
 
 export interface UpdateQueryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6542,9 +6314,7 @@ export const UpdateQueryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateQueryRequest",
-}) as any as S.Schema<UpdateQueryRequest>;
+).annotate({ identifier: "UpdateQueryRequest" }) as any as S.Schema<UpdateQueryRequest>;
 
 export interface UpdateQueryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6566,14 +6336,10 @@ export const UpdateQueryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(LogAnalyticsQueryPackQueryProperties),
   }),
-).annotate({
-  identifier: "UpdateQueryResponse",
-}) as any as S.Schema<UpdateQueryResponse>;
+).annotate({ identifier: "UpdateQueryResponse" }) as any as S.Schema<UpdateQueryResponse>;
 
 /** Resource tags */
-export type UpdateQueryPackTagsRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateQueryPackTagsRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateQueryPackTagsRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6608,9 +6374,7 @@ export const UpdateQueryPackTagsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateQueryPackTagsRequest>;
 
 /** Resource tags. */
-export type UpdateQueryPackTagsResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateQueryPackTagsResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateQueryPackTagsResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6673,9 +6437,7 @@ export const UpdateTableRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateTableRequest",
-}) as any as S.Schema<UpdateTableRequest>;
+).annotate({ identifier: "UpdateTableRequest" }) as any as S.Schema<UpdateTableRequest>;
 
 export interface UpdateTableResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -6697,9 +6459,7 @@ export const UpdateTableResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(TableProperties),
   }),
-).annotate({
-  identifier: "UpdateTableResponse",
-}) as any as S.Schema<UpdateTableResponse>;
+).annotate({ identifier: "UpdateTableResponse" }) as any as S.Schema<UpdateTableResponse>;
 
 /** The SKU (tier) of a workspace. */
 export interface WorkspaceSkuInput {
@@ -6713,9 +6473,7 @@ export const WorkspaceSkuInput = /*@__PURE__*/ S.suspend(() =>
     name: WorkspaceSkuNameEnum,
     capacityReservationLevel: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "WorkspaceSkuInput",
-}) as any as S.Schema<WorkspaceSkuInput>;
+).annotate({ identifier: "WorkspaceSkuInput" }) as any as S.Schema<WorkspaceSkuInput>;
 
 /** The daily volume cap for ingestion. */
 export interface WorkspaceCappingInput {
@@ -6726,9 +6484,7 @@ export const WorkspaceCappingInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dailyQuotaGb: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "WorkspaceCappingInput",
-}) as any as S.Schema<WorkspaceCappingInput>;
+).annotate({ identifier: "WorkspaceCappingInput" }) as any as S.Schema<WorkspaceCappingInput>;
 
 /** The network access type for accessing Log Analytics ingestion. */
 export type WorkspacePropertiesInputPublicNetworkAccessForIngestion =
@@ -6768,9 +6524,7 @@ export const WorkspaceFeaturesInput = /*@__PURE__*/ S.suspend(() =>
     disableLocalAuth: S.optional(S.NullOr(S.Boolean)),
     dataAuthorizationMode: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "WorkspaceFeaturesInput",
-}) as any as S.Schema<WorkspaceFeaturesInput>;
+).annotate({ identifier: "WorkspaceFeaturesInput" }) as any as S.Schema<WorkspaceFeaturesInput>;
 
 /** Workspace replication properties. */
 export interface WorkspaceReplicationPropertiesInput {
@@ -6832,9 +6586,7 @@ export const WorkspacePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     replication: S.optional(WorkspaceReplicationPropertiesInput),
     failover: S.optional(AssociatedWorkspaceInput),
   }),
-).annotate({
-  identifier: "WorkspacePropertiesInput",
-}) as any as S.Schema<WorkspacePropertiesInput>;
+).annotate({ identifier: "WorkspacePropertiesInput" }) as any as S.Schema<WorkspacePropertiesInput>;
 
 /** User assigned identity properties. */
 export type UserIdentityPropertiesInput = AssociatedWorkspaceInput;
@@ -6864,9 +6616,7 @@ export const IdentityInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IdentityInput" }) as any as S.Schema<IdentityInput>;
 
 /** Resource tags. Optional. */
-export type UpdateWorkspaceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6902,14 +6652,10 @@ export const UpdateWorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-03-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateWorkspaceRequest",
-}) as any as S.Schema<UpdateWorkspaceRequest>;
+).annotate({ identifier: "UpdateWorkspaceRequest" }) as any as S.Schema<UpdateWorkspaceRequest>;
 
 /** Resource tags. */
-export type UpdateWorkspaceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateWorkspaceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -6947,9 +6693,7 @@ export const UpdateWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     identity: S.optional(Identity),
     etag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateWorkspaceResponse",
-}) as any as S.Schema<UpdateWorkspaceResponse>;
+).annotate({ identifier: "UpdateWorkspaceResponse" }) as any as S.Schema<UpdateWorkspaceResponse>;
 
 export interface WorkspacePurgeGetPurgeStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6997,9 +6741,7 @@ export const WorkspacePurgeStatusResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacePurgeStatusResponse>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7046,9 +6788,7 @@ export const WorkspacesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type WorkspacesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const WorkspacesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

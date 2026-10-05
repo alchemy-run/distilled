@@ -48,9 +48,7 @@ export const DeleteRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteRecordSetRequest",
-}) as any as S.Schema<DeleteRecordSetRequest>;
+).annotate({ identifier: "DeleteRecordSetRequest" }) as any as S.Schema<DeleteRecordSetRequest>;
 
 export interface DeleteRecordSetResponse {}
 export const DeleteRecordSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -78,9 +76,7 @@ export const DeleteZoneRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-05-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteZoneRequest",
-}) as any as S.Schema<DeleteZoneRequest>;
+).annotate({ identifier: "DeleteZoneRequest" }) as any as S.Schema<DeleteZoneRequest>;
 
 export interface DeleteZoneResponse {}
 export const DeleteZoneResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -157,9 +153,7 @@ export const DnsResourceReference = /*@__PURE__*/ S.suspend(() =>
     dnsResources: S.optional(DnsResourceReferenceDnsResourcesList),
     targetResource: S.optional(SubResource),
   }),
-).annotate({
-  identifier: "DnsResourceReference",
-}) as any as S.Schema<DnsResourceReference>;
+).annotate({ identifier: "DnsResourceReference" }) as any as S.Schema<DnsResourceReference>;
 
 /** The result of dns resource reference request. A list of dns resource references for each of the azure resource in the request */
 export type DnsResourceReferenceResultPropertiesDnsResourceReferencesList =
@@ -236,14 +230,10 @@ export const GetRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetRecordSetRequest",
-}) as any as S.Schema<GetRecordSetRequest>;
+).annotate({ identifier: "GetRecordSetRequest" }) as any as S.Schema<GetRecordSetRequest>;
 
 /** The metadata attached to the record set. */
-export type RecordSetPropertiesMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type RecordSetPropertiesMetadataMap = { [key: string]: string | undefined };
 export const RecordSetPropertiesMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -500,9 +490,7 @@ export const RecordSetProperties = /*@__PURE__*/ S.suspend(() =>
     SOARecord: S.optional(SoaRecord),
     caaRecords: S.optional(RecordSetPropertiesCaaRecordsList),
   }),
-).annotate({
-  identifier: "RecordSetProperties",
-}) as any as S.Schema<RecordSetProperties>;
+).annotate({ identifier: "RecordSetProperties" }) as any as S.Schema<RecordSetProperties>;
 
 /** Describes a DNS record set (a collection of DNS records with the same name and type). */
 export interface RecordSet {
@@ -634,9 +622,7 @@ export const GetZoneResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ZoneProperties),
   }),
-).annotate({
-  identifier: "GetZoneResponse",
-}) as any as S.Schema<GetZoneResponse>;
+).annotate({ identifier: "GetZoneResponse" }) as any as S.Schema<GetZoneResponse>;
 
 export interface ListRecordSetAllByDnsZoneRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -687,9 +673,7 @@ export const RecordSetListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(RecordSetListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecordSetListResult",
-}) as any as S.Schema<RecordSetListResult>;
+).annotate({ identifier: "RecordSetListResult" }) as any as S.Schema<RecordSetListResult>;
 
 export interface ListRecordSetByDnsZoneRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -868,9 +852,7 @@ export const ListZonesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListZonesRequest",
-}) as any as S.Schema<ListZonesRequest>;
+).annotate({ identifier: "ListZonesRequest" }) as any as S.Schema<ListZonesRequest>;
 
 export type RecordSetsCreateOrUpdateRequestRecordType =
   | "A"
@@ -886,9 +868,7 @@ export type RecordSetsCreateOrUpdateRequestRecordType =
 export const RecordSetsCreateOrUpdateRequestRecordType = S.String;
 
 /** The metadata attached to the record set. */
-export type RecordSetPropertiesInputMetadataMap = {
-  [key: string]: string | undefined;
-};
+export type RecordSetPropertiesInputMetadataMap = { [key: string]: string | undefined };
 export const RecordSetPropertiesInputMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -987,9 +967,7 @@ export const RecordSetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     SOARecord: S.optional(SoaRecord),
     caaRecords: S.optional(RecordSetPropertiesInputCaaRecordsList),
   }),
-).annotate({
-  identifier: "RecordSetPropertiesInput",
-}) as any as S.Schema<RecordSetPropertiesInput>;
+).annotate({ identifier: "RecordSetPropertiesInput" }) as any as S.Schema<RecordSetPropertiesInput>;
 
 export interface RecordSetsCreateOrUpdateRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -1074,9 +1052,7 @@ export const UpdateRecordSetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateRecordSetRequest",
-}) as any as S.Schema<UpdateRecordSetRequest>;
+).annotate({ identifier: "UpdateRecordSetRequest" }) as any as S.Schema<UpdateRecordSetRequest>;
 
 /** Resource tags. */
 export type UpdateZoneRequestTagsMap = { [key: string]: string | undefined };
@@ -1109,9 +1085,7 @@ export const UpdateZoneRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2018-05-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateZoneRequest",
-}) as any as S.Schema<UpdateZoneRequest>;
+).annotate({ identifier: "UpdateZoneRequest" }) as any as S.Schema<UpdateZoneRequest>;
 
 /** Resource tags. */
 export type UpdateZoneResponseTagsMap = { [key: string]: string | undefined };
@@ -1146,14 +1120,10 @@ export const UpdateZoneResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ZoneProperties),
   }),
-).annotate({
-  identifier: "UpdateZoneResponse",
-}) as any as S.Schema<UpdateZoneResponse>;
+).annotate({ identifier: "UpdateZoneResponse" }) as any as S.Schema<UpdateZoneResponse>;
 
 /** Resource tags. */
-export type ZonesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ZonesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ZonesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1190,9 +1160,7 @@ export const ZonePropertiesInput = /*@__PURE__*/ S.suspend(() =>
     registrationVirtualNetworks: S.optional(ZonePropertiesInputRegistrationVirtualNetworksList),
     resolutionVirtualNetworks: S.optional(ZonePropertiesInputResolutionVirtualNetworksList),
   }),
-).annotate({
-  identifier: "ZonePropertiesInput",
-}) as any as S.Schema<ZonePropertiesInput>;
+).annotate({ identifier: "ZonePropertiesInput" }) as any as S.Schema<ZonePropertiesInput>;
 
 export interface ZonesCreateOrUpdateRequest {
   /** Specifies the Azure subscription ID, which uniquely identifies the Microsoft Azure subscription. */
@@ -1232,9 +1200,7 @@ export const ZonesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ZonesCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ZonesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ZonesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ZonesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

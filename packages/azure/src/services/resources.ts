@@ -59,9 +59,7 @@ export const ApplicationAuthorization = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     roleDefinitionId: S.String,
   }),
-).annotate({
-  identifier: "ApplicationAuthorization",
-}) as any as S.Schema<ApplicationAuthorization>;
+).annotate({ identifier: "ApplicationAuthorization" }) as any as S.Schema<ApplicationAuthorization>;
 
 /** The managed application provider authorizations. */
 export type ApplicationDefinitionPropertiesAuthorizationsList = Array<ApplicationAuthorization>;
@@ -217,9 +215,7 @@ export const ApplicationPolicy = /*@__PURE__*/ S.suspend(() =>
     policyDefinitionId: S.optional(S.String),
     parameters: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationPolicy",
-}) as any as S.Schema<ApplicationPolicy>;
+).annotate({ identifier: "ApplicationPolicy" }) as any as S.Schema<ApplicationPolicy>;
 
 /** The managed application provider policies. */
 export type ApplicationDefinitionPropertiesPoliciesList = Array<ApplicationPolicy>;
@@ -362,9 +358,7 @@ export const ApplicationDefinitionsCreateOrUpdateResponse = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ApplicationDefinitionsCreateOrUpdateResponse>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -393,9 +387,7 @@ export const JitApproverDefinition = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(JitApproverDefinitionType),
     displayName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "JitApproverDefinition",
-}) as any as S.Schema<JitApproverDefinition>;
+).annotate({ identifier: "JitApproverDefinition" }) as any as S.Schema<JitApproverDefinition>;
 
 /** The JIT approvers */
 export type ApplicationJitAccessPolicyJitApproversList = Array<JitApproverDefinition>;
@@ -507,9 +499,7 @@ export const IdentityInput_3 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(IdentityInputType),
     userAssignedIdentities: S.optional(IdentityInputUserAssignedIdentitiesMap_3),
   }),
-).annotate({
-  identifier: "IdentityInput_3",
-}) as any as S.Schema<IdentityInput_3>;
+).annotate({ identifier: "IdentityInput_3" }) as any as S.Schema<IdentityInput_3>;
 
 export interface ApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -561,9 +551,7 @@ export const ApplicationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -662,9 +650,7 @@ export const ApplicationArtifact = /*@__PURE__*/ S.suspend(() =>
     uri: S.String,
     type: ApplicationArtifactType,
   }),
-).annotate({
-  identifier: "ApplicationArtifact",
-}) as any as S.Schema<ApplicationArtifact>;
+).annotate({ identifier: "ApplicationArtifact" }) as any as S.Schema<ApplicationArtifact>;
 
 /** The collection of managed application artifacts. */
 export type ApplicationPropertiesArtifactsList = Array<ApplicationArtifact>;
@@ -687,9 +673,7 @@ export const ApplicationClientDetails = /*@__PURE__*/ S.suspend(() =>
     puid: S.optional(S.String),
     applicationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationClientDetails",
-}) as any as S.Schema<ApplicationClientDetails>;
+).annotate({ identifier: "ApplicationClientDetails" }) as any as S.Schema<ApplicationClientDetails>;
 
 /** The managed application properties. */
 export interface ApplicationProperties {
@@ -742,9 +726,7 @@ export const ApplicationProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(ApplicationClientDetails),
     updatedBy: S.optional(ApplicationClientDetails),
   }),
-).annotate({
-  identifier: "ApplicationProperties",
-}) as any as S.Schema<ApplicationProperties>;
+).annotate({ identifier: "ApplicationProperties" }) as any as S.Schema<ApplicationProperties>;
 
 /** The identity type. */
 export type IdentityType =
@@ -842,9 +824,7 @@ export const ApplicationsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ApplicationsCreateOrUpdateResponse>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateByIdRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateByIdRequestTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateByIdRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -881,22 +861,13 @@ export const ApplicationsCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(() 
     plan: S.optional(Plan_2),
     kind: S.String,
     identity: S.optional(IdentityInput_3),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2019-07-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/{applicationId+}", code: 200, apiVersion: "2019-07-01" })),
 ).annotate({
   identifier: "ApplicationsCreateOrUpdateByIdRequest",
 }) as any as S.Schema<ApplicationsCreateOrUpdateByIdRequest>;
 
 /** Resource tags */
-export type ApplicationsCreateOrUpdateByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationsCreateOrUpdateByIdResponseTagsMap = { [key: string]: string | undefined };
 export const ApplicationsCreateOrUpdateByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -965,9 +936,7 @@ export const CancelDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "CancelDeploymentRequest",
-}) as any as S.Schema<CancelDeploymentRequest>;
+).annotate({ identifier: "CancelDeploymentRequest" }) as any as S.Schema<CancelDeploymentRequest>;
 
 export interface CancelDeploymentResponse {}
 export const CancelDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1016,7 +985,7 @@ export const CancelDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1027,9 +996,7 @@ export const CancelDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CancelDeploymentAtScopeResponse {}
 export const CancelDeploymentAtScopeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CancelDeploymentAtScopeResponse",
-  },
+  { identifier: "CancelDeploymentAtScopeResponse" },
 ) as any as S.Schema<CancelDeploymentAtScopeResponse>;
 
 export interface CancelDeploymentAtSubscriptionScopeRequest {
@@ -1105,9 +1072,7 @@ export const CheckResourceNameRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "CheckResourceNameRequest",
-}) as any as S.Schema<CheckResourceNameRequest>;
+).annotate({ identifier: "CheckResourceNameRequest" }) as any as S.Schema<CheckResourceNameRequest>;
 
 /** Is the resource name Allowed or Reserved */
 export type ResourceNameStatus = "Allowed" | "Reserved";
@@ -1128,9 +1093,7 @@ export const CheckResourceNameResult = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     status: S.optional(ResourceNameStatus),
   }),
-).annotate({
-  identifier: "CheckResourceNameResult",
-}) as any as S.Schema<CheckResourceNameResult>;
+).annotate({ identifier: "CheckResourceNameResult" }) as any as S.Schema<CheckResourceNameResult>;
 
 /** The peer Microsoft Azure subscription ID. */
 export type CheckSubscriptionZonePeersRequestSubscriptionIdsList = Array<string>;
@@ -1195,9 +1158,7 @@ export const AvailabilityZonePeers = /*@__PURE__*/ S.suspend(() =>
     availabilityZone: S.optional(S.String),
     peers: S.optional(AvailabilityZonePeersPeersList),
   }),
-).annotate({
-  identifier: "AvailabilityZonePeers",
-}) as any as S.Schema<AvailabilityZonePeers>;
+).annotate({ identifier: "AvailabilityZonePeers" }) as any as S.Schema<AvailabilityZonePeers>;
 
 /** The Availability Zones shared by the subscriptions. */
 export type CheckZonePeersResultAvailabilityZonePeersList = Array<AvailabilityZonePeers>;
@@ -1220,14 +1181,10 @@ export const CheckZonePeersResult = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     availabilityZonePeers: S.optional(CheckZonePeersResultAvailabilityZonePeersList),
   }),
-).annotate({
-  identifier: "CheckZonePeersResult",
-}) as any as S.Schema<CheckZonePeersResult>;
+).annotate({ identifier: "CheckZonePeersResult" }) as any as S.Schema<CheckZonePeersResult>;
 
 /** Resource tags. */
-export type CreateDeploymentScriptRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDeploymentScriptRequestTagsMap = { [key: string]: string | undefined };
 export const CreateDeploymentScriptRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1270,6 +1227,208 @@ export const ManagedServiceIdentityInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ManagedServiceIdentityInput",
 }) as any as S.Schema<ManagedServiceIdentityInput>;
 
+/** Container group subnet information. */
+export interface DeploymentScriptContainerGroupSubnetId {
+  /** Resource ID of the subnet. */
+  id: string;
+  /** Friendly name for the subnet. */
+  name?: string;
+}
+export const DeploymentScriptContainerGroupSubnetId = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptContainerGroupSubnetId",
+}) as any as S.Schema<DeploymentScriptContainerGroupSubnetId>;
+
+/** The subnet IDs of the container group. */
+export type DeploymentScriptContainerGroupSubnetIdList =
+  Array<DeploymentScriptContainerGroupSubnetId>;
+export const DeploymentScriptContainerGroupSubnetIdList = /*@__PURE__*/ S.Array(
+  DeploymentScriptContainerGroupSubnetId,
+) as any as S.Schema<DeploymentScriptContainerGroupSubnetIdList>;
+
+/** Settings to customize ACI container instance. */
+export interface DeploymentScriptContainerConfiguration {
+  /** Container group name; if not specified the name is generated. */
+  containerGroupName?: string;
+  /** The subnet resource IDs for a container group. */
+  subnetIds?: DeploymentScriptContainerGroupSubnetIdList;
+}
+export const DeploymentScriptContainerConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerGroupName: S.optional(S.String),
+    subnetIds: S.optional(DeploymentScriptContainerGroupSubnetIdList),
+  }),
+).annotate({
+  identifier: "DeploymentScriptContainerConfiguration",
+}) as any as S.Schema<DeploymentScriptContainerConfiguration>;
+
+/** Settings to use an existing storage account. */
+export interface DeploymentScriptStorageAccountConfiguration {
+  /** The storage account name. */
+  storageAccountName?: string;
+  /** The storage account access key. */
+  storageAccountKey?: string;
+}
+export const DeploymentScriptStorageAccountConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    storageAccountName: S.optional(S.String),
+    storageAccountKey: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptStorageAccountConfiguration",
+}) as any as S.Schema<DeploymentScriptStorageAccountConfiguration>;
+
+/** The error detail. */
+export interface DeploymentScriptErrorDetail {
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+  /** The error target. */
+  target?: string;
+}
+export const DeploymentScriptErrorDetail = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    code: S.optional(S.String),
+    message: S.optional(S.String),
+    target: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptErrorDetail",
+}) as any as S.Schema<DeploymentScriptErrorDetail>;
+
+/** Error response. */
+export interface DeploymentScriptErrorResponse {
+  /** The error object. */
+  error?: DeploymentScriptErrorDetail;
+}
+export const DeploymentScriptErrorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    error: S.optional(DeploymentScriptErrorDetail),
+  }),
+).annotate({
+  identifier: "DeploymentScriptErrorResponse",
+}) as any as S.Schema<DeploymentScriptErrorResponse>;
+
+/** Generic object modeling results of script execution. */
+export interface DeploymentScriptStatus {
+  /** ACI resource Id. */
+  containerInstanceId?: string;
+  /** Storage account resource Id. */
+  storageAccountId?: string;
+  /** Start time of the script execution. */
+  startTime?: string;
+  /** End time of the script execution. */
+  endTime?: string;
+  /** Time the deployment script resource will expire. */
+  expirationTime?: string;
+  /** Error that is relayed from the script execution. */
+  error?: DeploymentScriptErrorResponse;
+}
+export const DeploymentScriptStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerInstanceId: S.optional(S.String),
+    storageAccountId: S.optional(S.String),
+    startTime: S.optional(S.String),
+    endTime: S.optional(S.String),
+    expirationTime: S.optional(S.String),
+    error: S.optional(DeploymentScriptErrorResponse),
+  }),
+).annotate({ identifier: "DeploymentScriptStatus" }) as any as S.Schema<DeploymentScriptStatus>;
+
+/** A list of strings. */
+export type DeploymentScriptStringList = Array<string>;
+export const DeploymentScriptStringList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<DeploymentScriptStringList>;
+
+/** The environment variable to pass to the script in the container instance. */
+export interface DeploymentScriptEnvironmentVariable {
+  /** The name of the environment variable. */
+  name: string;
+  /** The value of the environment variable. */
+  value?: string;
+  /** The value of the secure environment variable. */
+  secureValue?: string;
+}
+export const DeploymentScriptEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    value: S.optional(S.String),
+    secureValue: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptEnvironmentVariable",
+}) as any as S.Schema<DeploymentScriptEnvironmentVariable>;
+
+/** The environment variables to pass over to the script. */
+export type DeploymentScriptEnvironmentVariableList = Array<DeploymentScriptEnvironmentVariable>;
+export const DeploymentScriptEnvironmentVariableList = /*@__PURE__*/ S.Array(
+  DeploymentScriptEnvironmentVariable,
+) as any as S.Schema<DeploymentScriptEnvironmentVariableList>;
+
+/** Properties of an AzureCLI or AzurePowerShell deployment script (union of both kinds). */
+export interface DeploymentScriptProperties {
+  /** Container settings. */
+  containerSettings?: DeploymentScriptContainerConfiguration;
+  /** Storage Account settings. */
+  storageAccountSettings?: DeploymentScriptStorageAccountConfiguration;
+  /** The clean up preference when the script execution gets in a terminal state: Always, OnSuccess or OnExpiration. */
+  cleanupPreference?: string;
+  /** State of the script execution (read-only). */
+  provisioningState?: string;
+  /** Contains the results of script execution (read-only). */
+  status?: DeploymentScriptStatus;
+  /** List of script outputs (read-only). */
+  outputs?: unknown;
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: DeploymentScriptStringList;
+  /** Script body. */
+  scriptContent?: string;
+  /** Command line arguments to pass to the script. */
+  arguments?: string;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: DeploymentScriptEnvironmentVariableList;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. */
+  forceUpdateTag?: string;
+  /** Interval for which the service retains the script resource after it reaches a terminal state (ISO 8601, e.g. P1D). */
+  retentionInterval?: string;
+  /** Maximum allowed script execution time (ISO 8601). Default is P1D. */
+  timeout?: string;
+  /** Azure CLI module version to be used (kind AzureCLI). */
+  azCliVersion?: string;
+  /** Azure PowerShell module version to be used (kind AzurePowerShell). */
+  azPowerShellVersion?: string;
+}
+export const DeploymentScriptProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    containerSettings: S.optional(DeploymentScriptContainerConfiguration),
+    storageAccountSettings: S.optional(DeploymentScriptStorageAccountConfiguration),
+    cleanupPreference: S.optional(S.String),
+    provisioningState: S.optional(S.String),
+    status: S.optional(DeploymentScriptStatus),
+    outputs: S.optional(S.Unknown),
+    primaryScriptUri: S.optional(S.String),
+    supportingScriptUris: S.optional(DeploymentScriptStringList),
+    scriptContent: S.optional(S.String),
+    arguments: S.optional(S.String),
+    environmentVariables: S.optional(DeploymentScriptEnvironmentVariableList),
+    forceUpdateTag: S.optional(S.String),
+    retentionInterval: S.optional(S.String),
+    timeout: S.optional(S.String),
+    azCliVersion: S.optional(S.String),
+    azPowerShellVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DeploymentScriptProperties",
+}) as any as S.Schema<DeploymentScriptProperties>;
+
 export interface CreateDeploymentScriptRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1285,6 +1444,8 @@ export interface CreateDeploymentScriptRequest {
   kind: ScriptType | (string & {});
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentityInput;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const CreateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1295,6 +1456,7 @@ export const CreateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentityInput),
+    properties: S.optional(DeploymentScriptProperties),
   }).pipe(
     T.Http({
       method: "PUT",
@@ -1342,9 +1504,7 @@ export const SystemData = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SystemData" }) as any as S.Schema<SystemData>;
 
 /** Resource tags. */
-export type CreateDeploymentScriptResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CreateDeploymentScriptResponseTagsMap = { [key: string]: string | undefined };
 export const CreateDeploymentScriptResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1362,9 +1522,7 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserAssignedIdentity",
-}) as any as S.Schema<UserAssignedIdentity>;
+).annotate({ identifier: "UserAssignedIdentity" }) as any as S.Schema<UserAssignedIdentity>;
 
 /** The list of user-assigned managed identities associated with the resource. Key is the Azure resource Id of the managed identity. */
 export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
@@ -1390,9 +1548,7 @@ export const ManagedServiceIdentity = /*@__PURE__*/ S.suspend(() =>
     tenantId: S.optional(S.String),
     userAssignedIdentities: S.optional(ManagedServiceIdentityUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "ManagedServiceIdentity",
-}) as any as S.Schema<ManagedServiceIdentity>;
+).annotate({ identifier: "ManagedServiceIdentity" }) as any as S.Schema<ManagedServiceIdentity>;
 
 export interface CreateDeploymentScriptResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -1411,6 +1567,8 @@ export interface CreateDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const CreateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1422,6 +1580,7 @@ export const CreateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "CreateDeploymentScriptResponse",
@@ -1442,9 +1601,7 @@ export const ParameterValuesValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "ParameterValuesValue",
-}) as any as S.Schema<ParameterValuesValue>;
+).annotate({ identifier: "ParameterValuesValue" }) as any as S.Schema<ParameterValuesValue>;
 
 /** The parameter values for the assigned policy rule. The keys are the parameter names. */
 export type PolicyAssignmentPropertiesInputParametersMap = {
@@ -1471,9 +1628,7 @@ export const NonComplianceMessage = /*@__PURE__*/ S.suspend(() =>
     message: S.String,
     policyDefinitionReferenceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NonComplianceMessage",
-}) as any as S.Schema<NonComplianceMessage>;
+).annotate({ identifier: "NonComplianceMessage" }) as any as S.Schema<NonComplianceMessage>;
 
 /** The messages that describe why a resource is non-compliant with the policy. */
 export type PolicyAssignmentPropertiesInputNonComplianceMessagesList = Array<NonComplianceMessage>;
@@ -1540,9 +1695,7 @@ export const ResourceSelector = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     selectors: S.optional(ResourceSelectorSelectorsList),
   }),
-).annotate({
-  identifier: "ResourceSelector",
-}) as any as S.Schema<ResourceSelector>;
+).annotate({ identifier: "ResourceSelector" }) as any as S.Schema<ResourceSelector>;
 
 /** The resource selector list to filter policies by resource properties. */
 export type PolicyAssignmentPropertiesInputResourceSelectorsList = Array<ResourceSelector>;
@@ -1712,9 +1865,9 @@ export const CreatePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -1911,9 +2064,7 @@ export const DecompileBicepRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2023-11-01",
     }),
   ),
-).annotate({
-  identifier: "DecompileBicepRequest",
-}) as any as S.Schema<DecompileBicepRequest>;
+).annotate({ identifier: "DecompileBicepRequest" }) as any as S.Schema<DecompileBicepRequest>;
 
 /** The definition of a file along with its contents */
 export interface FileDefinition {
@@ -1972,9 +2123,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -1989,12 +2138,7 @@ export const DeleteApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2019-07-01",
-    }),
+    T.Http({ method: "DELETE", uri: "/{applicationId+}", code: 200, apiVersion: "2019-07-01" }),
   ),
 ).annotate({
   identifier: "DeleteApplicationByIdRequest",
@@ -2058,9 +2202,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteDeploymentRequest",
-}) as any as S.Schema<DeleteDeploymentRequest>;
+).annotate({ identifier: "DeleteDeploymentRequest" }) as any as S.Schema<DeleteDeploymentRequest>;
 
 export interface DeleteDeploymentResponse {}
 export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2109,7 +2251,7 @@ export const DeleteDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2120,9 +2262,7 @@ export const DeleteDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface DeleteDeploymentAtScopeResponse {}
 export const DeleteDeploymentAtScopeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteDeploymentAtScopeResponse",
-  },
+  { identifier: "DeleteDeploymentAtScopeResponse" },
 ) as any as S.Schema<DeleteDeploymentAtScopeResponse>;
 
 export interface DeleteDeploymentAtSubscriptionScopeRequest {
@@ -2781,9 +2921,7 @@ export const DeleteJitRequestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-07-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteJitRequestRequest",
-}) as any as S.Schema<DeleteJitRequestRequest>;
+).annotate({ identifier: "DeleteJitRequestRequest" }) as any as S.Schema<DeleteJitRequestRequest>;
 
 export interface DeleteJitRequestResponse {}
 export const DeleteJitRequestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -2908,7 +3046,7 @@ export const DeleteManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -2937,9 +3075,9 @@ export const DeletePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -2991,7 +3129,7 @@ export const DeletePolicyDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3018,7 +3156,7 @@ export const DeletePolicyDefinitionAtManagementGroupRequest = /*@__PURE__*/ S.su
       method: "DELETE",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3050,7 +3188,7 @@ export const DeletePolicyDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3082,7 +3220,7 @@ export const DeletePolicyDefinitionVersionAtManagementGroupRequest = /*@__PURE__
       method: "DELETE",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3111,7 +3249,7 @@ export const DeletePolicySetDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3140,7 +3278,7 @@ export const DeletePolicySetDefinitionAtManagementGroupRequest = /*@__PURE__*/ S
       method: "DELETE",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3172,7 +3310,7 @@ export const DeletePolicySetDefinitionVersionRequest = /*@__PURE__*/ S.suspend((
       method: "DELETE",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -3205,7 +3343,7 @@ export const DeletePolicySetDefinitionVersionAtManagementGroupRequest = /*@__PUR
         method: "DELETE",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -3278,9 +3416,7 @@ export const DeleteResourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteResourceRequest",
-}) as any as S.Schema<DeleteResourceRequest>;
+).annotate({ identifier: "DeleteResourceRequest" }) as any as S.Schema<DeleteResourceRequest>;
 
 export interface DeleteResourceResponse {}
 export const DeleteResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3293,14 +3429,7 @@ export interface DeleteResourceByIdRequest {
 export const DeleteResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/{resourceId}",
-      code: 200,
-      apiVersion: "2025-04-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/{resourceId+}", code: 200, apiVersion: "2025-04-01" })),
 ).annotate({
   identifier: "DeleteResourceByIdRequest",
 }) as any as S.Schema<DeleteResourceByIdRequest>;
@@ -3347,14 +3476,7 @@ export interface DeleteResourceLinkRequest {
 export const DeleteResourceLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     linkId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/{linkId}",
-      code: 200,
-      apiVersion: "2016-09-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/{linkId+}", code: 200, apiVersion: "2016-09-01" })),
 ).annotate({
   identifier: "DeleteResourceLinkRequest",
 }) as any as S.Schema<DeleteResourceLinkRequest>;
@@ -3446,9 +3568,7 @@ export const DeleteTagRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTagRequest",
-}) as any as S.Schema<DeleteTagRequest>;
+).annotate({ identifier: "DeleteTagRequest" }) as any as S.Schema<DeleteTagRequest>;
 
 export interface DeleteTagResponse {}
 export const DeleteTagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3465,14 +3585,12 @@ export const DeleteTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTagAtScopeRequest",
-}) as any as S.Schema<DeleteTagAtScopeRequest>;
+).annotate({ identifier: "DeleteTagAtScopeRequest" }) as any as S.Schema<DeleteTagAtScopeRequest>;
 
 export interface DeleteTagAtScopeResponse {}
 export const DeleteTagAtScopeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3500,9 +3618,7 @@ export const DeleteTagValueRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteTagValueRequest",
-}) as any as S.Schema<DeleteTagValueRequest>;
+).annotate({ identifier: "DeleteTagValueRequest" }) as any as S.Schema<DeleteTagValueRequest>;
 
 export interface DeleteTagValueResponse {}
 export const DeleteTagValueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -3600,9 +3716,7 @@ export const TemplateHashResult = /*@__PURE__*/ S.suspend(() =>
     minifiedTemplate: S.optional(S.String),
     templateHash: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateHashResult",
-}) as any as S.Schema<TemplateHashResult>;
+).annotate({ identifier: "TemplateHashResult" }) as any as S.Schema<TemplateHashResult>;
 
 /** Entity representing the reference to the template. */
 export interface TemplateLink {
@@ -3636,9 +3750,7 @@ export const KeyVaultReference_2 = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "KeyVaultReference_2",
-}) as any as S.Schema<KeyVaultReference_2>;
+).annotate({ identifier: "KeyVaultReference_2" }) as any as S.Schema<KeyVaultReference_2>;
 
 /** Azure Key Vault parameter reference. */
 export interface KeyVaultParameterReference_2 {
@@ -3674,9 +3786,7 @@ export const DeploymentParameter_2 = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(KeyVaultParameterReference_2),
     expression: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentParameter_2",
-}) as any as S.Schema<DeploymentParameter_2>;
+).annotate({ identifier: "DeploymentParameter_2" }) as any as S.Schema<DeploymentParameter_2>;
 
 /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
 export type DeploymentPropertiesParametersMap = {
@@ -3696,9 +3806,7 @@ export const DeploymentExternalInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.Unknown,
   }),
-).annotate({
-  identifier: "DeploymentExternalInput",
-}) as any as S.Schema<DeploymentExternalInput>;
+).annotate({ identifier: "DeploymentExternalInput" }) as any as S.Schema<DeploymentExternalInput>;
 
 /** External input values, used by external tooling for parameter evaluation. */
 export type DeploymentPropertiesExternalInputsMap = {
@@ -3812,9 +3920,7 @@ export const OnErrorDeployment = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(OnErrorDeploymentType),
     deploymentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OnErrorDeployment",
-}) as any as S.Schema<OnErrorDeployment>;
+).annotate({ identifier: "OnErrorDeployment" }) as any as S.Schema<OnErrorDeployment>;
 
 /** The scope to be used for evaluation of parameters, variables and functions in a nested template. */
 export type ExpressionEvaluationOptionsScopeType = "NotSpecified" | "Outer" | "Inner";
@@ -3879,14 +3985,10 @@ export const DeploymentProperties = /*@__PURE__*/ S.suspend(() =>
     expressionEvaluationOptions: S.optional(ExpressionEvaluationOptions),
     validationLevel: S.optional(ValidationLevel),
   }),
-).annotate({
-  identifier: "DeploymentProperties",
-}) as any as S.Schema<DeploymentProperties>;
+).annotate({ identifier: "DeploymentProperties" }) as any as S.Schema<DeploymentProperties>;
 
 /** Deployment tags */
-export type DeploymentsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const DeploymentsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -3921,9 +4023,7 @@ export const DeploymentIdentityInput = /*@__PURE__*/ S.suspend(() =>
     type: DeploymentIdentityType,
     userAssignedIdentities: S.optional(DeploymentIdentityInputUserAssignedIdentitiesMap),
   }),
-).annotate({
-  identifier: "DeploymentIdentityInput",
-}) as any as S.Schema<DeploymentIdentityInput>;
+).annotate({ identifier: "DeploymentIdentityInput" }) as any as S.Schema<DeploymentIdentityInput>;
 
 export interface DeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4005,9 +4105,7 @@ export const ProviderExtendedLocation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     extendedLocations: S.optional(ProviderExtendedLocationExtendedLocationsList),
   }),
-).annotate({
-  identifier: "ProviderExtendedLocation",
-}) as any as S.Schema<ProviderExtendedLocation>;
+).annotate({ identifier: "ProviderExtendedLocation" }) as any as S.Schema<ProviderExtendedLocation>;
 
 /** The location mappings that are supported by this resource type. */
 export type ProviderResourceTypeLocationMappingsList = Array<ProviderExtendedLocation>;
@@ -4069,9 +4167,7 @@ export const AliasPathMetadata_2 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(AliasPathTokenType),
     attributes: S.optional(AliasPathAttributes),
   }),
-).annotate({
-  identifier: "AliasPathMetadata_2",
-}) as any as S.Schema<AliasPathMetadata_2>;
+).annotate({ identifier: "AliasPathMetadata_2" }) as any as S.Schema<AliasPathMetadata_2>;
 
 /** The type of the paths for alias. */
 export interface AliasPath_2 {
@@ -4183,9 +4279,7 @@ export const ProviderResourceTypeApiProfilesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ProviderResourceTypeApiProfilesList>;
 
 /** The properties. */
-export type ProviderResourceTypePropertiesMap = {
-  [key: string]: string | undefined;
-};
+export type ProviderResourceTypePropertiesMap = { [key: string]: string | undefined };
 export const ProviderResourceTypePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4226,9 +4320,7 @@ export const ProviderResourceType = /*@__PURE__*/ S.suspend(() =>
     capabilities: S.optional(S.String),
     properties: S.optional(ProviderResourceTypePropertiesMap),
   }),
-).annotate({
-  identifier: "ProviderResourceType",
-}) as any as S.Schema<ProviderResourceType>;
+).annotate({ identifier: "ProviderResourceType" }) as any as S.Schema<ProviderResourceType>;
 
 /** The collection of provider resource types. */
 export type ProviderResourceTypesList = Array<ProviderResourceType>;
@@ -4291,9 +4383,7 @@ export const BasicDependency = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.optional(S.String),
     resourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BasicDependency",
-}) as any as S.Schema<BasicDependency>;
+).annotate({ identifier: "BasicDependency" }) as any as S.Schema<BasicDependency>;
 
 /** The list of dependencies. */
 export type DependencyDependsOnList = Array<BasicDependency>;
@@ -4418,9 +4508,7 @@ export const ResourceReference_2 = /*@__PURE__*/ S.suspend(() =>
     apiVersion: S.optional(S.String),
     symbolicNamePath: S.optional(ResourceReferenceSymbolicNamePathList),
   }),
-).annotate({
-  identifier: "ResourceReference_2",
-}) as any as S.Schema<ResourceReference_2>;
+).annotate({ identifier: "ResourceReference_2" }) as any as S.Schema<ResourceReference_2>;
 
 /** Array of provisioned resources. */
 export type DeploymentPropertiesExtendedOutputResourcesList = Array<ResourceReference_2>;
@@ -4601,9 +4689,7 @@ export const DeploymentPropertiesExtended = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeploymentPropertiesExtended>;
 
 /** Deployment tags */
-export type DeploymentsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const DeploymentsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4720,9 +4806,7 @@ export const DeploymentsCreateOrUpdateAtManagementGroupScopeResponse = /*@__PURE
 }) as any as S.Schema<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>;
 
 /** Deployment tags */
-export type DeploymentsCreateOrUpdateAtScopeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentsCreateOrUpdateAtScopeRequestTagsMap = { [key: string]: string | undefined };
 export const DeploymentsCreateOrUpdateAtScopeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4753,7 +4837,7 @@ export const DeploymentsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend((
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -4763,9 +4847,7 @@ export const DeploymentsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<DeploymentsCreateOrUpdateAtScopeRequest>;
 
 /** Deployment tags */
-export type DeploymentsCreateOrUpdateAtScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentsCreateOrUpdateAtScopeResponseTagsMap = { [key: string]: string | undefined };
 export const DeploymentsCreateOrUpdateAtScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -4964,9 +5046,7 @@ export type DeploymentStackPropertiesInputError = UserAssignedResourceIdentityIn
 export const DeploymentStackPropertiesInputError = UserAssignedResourceIdentityInput;
 
 /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-export type DeploymentStackPropertiesInputTemplateMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentStackPropertiesInputTemplateMap = { [key: string]: unknown | undefined };
 export const DeploymentStackPropertiesInputTemplateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5006,9 +5086,7 @@ export const KeyVaultReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
   }),
-).annotate({
-  identifier: "KeyVaultReference",
-}) as any as S.Schema<KeyVaultReference>;
+).annotate({ identifier: "KeyVaultReference" }) as any as S.Schema<KeyVaultReference>;
 
 /** Azure Key Vault parameter reference. */
 export interface KeyVaultParameterReference {
@@ -5047,9 +5125,7 @@ export const DeploymentParameter = /*@__PURE__*/ S.suspend(() =>
     reference: S.optional(KeyVaultParameterReference),
     expression: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentParameter",
-}) as any as S.Schema<DeploymentParameter>;
+).annotate({ identifier: "DeploymentParameter" }) as any as S.Schema<DeploymentParameter>;
 
 /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
 export type DeploymentStackPropertiesInputParametersMap = {
@@ -5150,9 +5226,7 @@ export const ActionOnUnmanage = /*@__PURE__*/ S.suspend(() =>
     managementGroups: S.optional(UnmanageActionManagementGroupMode),
     resourcesWithoutDeleteSupport: S.optional(ResourcesWithoutDeleteSupportAction),
   }),
-).annotate({
-  identifier: "ActionOnUnmanage",
-}) as any as S.Schema<ActionOnUnmanage>;
+).annotate({ identifier: "ActionOnUnmanage" }) as any as S.Schema<ActionOnUnmanage>;
 
 /** The debug setting. */
 export interface DeploymentStacksDebugSetting {
@@ -5376,9 +5450,7 @@ export const DeploymentStackPropertiesError = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeploymentStackPropertiesError>;
 
 /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-export type DeploymentStackPropertiesTemplateMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentStackPropertiesTemplateMap = { [key: string]: unknown | undefined };
 export const DeploymentStackPropertiesTemplateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5483,14 +5555,10 @@ export const DeploymentExtension = /*@__PURE__*/ S.suspend(() =>
     configId: S.optional(S.String),
     config: S.optional(DeploymentExtensionConfig),
   }),
-).annotate({
-  identifier: "DeploymentExtension",
-}) as any as S.Schema<DeploymentExtension>;
+).annotate({ identifier: "DeploymentExtension" }) as any as S.Schema<DeploymentExtension>;
 
 /** The extensible resource identifiers. */
-export type ResourceReferenceIdentifiersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourceReferenceIdentifiersMap = { [key: string]: unknown | undefined };
 export const ResourceReferenceIdentifiersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5517,9 +5585,7 @@ export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
     identifiers: S.optional(ResourceReferenceIdentifiersMap),
     apiVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 
 /** An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack. */
 export type DeploymentStackPropertiesDetachedResourcesList = Array<ResourceReference>;
@@ -5534,9 +5600,7 @@ export const DeploymentStackPropertiesDeletedResourcesList = /*@__PURE__*/ S.Arr
 ) as any as S.Schema<DeploymentStackPropertiesDeletedResourcesList>;
 
 /** The extensible resource identifiers. */
-export type ResourceReferenceExtendedIdentifiersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ResourceReferenceExtendedIdentifiersMap = { [key: string]: unknown | undefined };
 export const ResourceReferenceExtendedIdentifiersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5615,9 +5679,7 @@ export const DeploymentStackPropertiesFailedResourcesList = /*@__PURE__*/ S.Arra
 ) as any as S.Schema<DeploymentStackPropertiesFailedResourcesList>;
 
 /** The extensible resource identifiers. */
-export type ManagedResourceReferenceIdentifiersMap = {
-  [key: string]: unknown | undefined;
-};
+export type ManagedResourceReferenceIdentifiersMap = { [key: string]: unknown | undefined };
 export const ManagedResourceReferenceIdentifiersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -5665,9 +5727,7 @@ export const ManagedResourceReference = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ResourceStatusMode),
     denyStatus: S.optional(ManagedResourceReferenceDenyStatus),
   }),
-).annotate({
-  identifier: "ManagedResourceReference",
-}) as any as S.Schema<ManagedResourceReference>;
+).annotate({ identifier: "ManagedResourceReference" }) as any as S.Schema<ManagedResourceReference>;
 
 /** An array of resources currently managed by the deployment stack. */
 export type DeploymentStackPropertiesResourcesList = Array<ManagedResourceReference>;
@@ -5682,9 +5742,7 @@ export const DeploymentStackPropertiesDeploymentExtensionsList = /*@__PURE__*/ S
 ) as any as S.Schema<DeploymentStackPropertiesDeploymentExtensionsList>;
 
 /** The outputs of the deployment resource created by the deployment stack. */
-export type DeploymentStackPropertiesOutputsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentStackPropertiesOutputsMap = { [key: string]: unknown | undefined };
 export const DeploymentStackPropertiesOutputsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7075,9 +7133,7 @@ export const DeploymentWhatIfSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resultFormat: S.optional(WhatIfResultFormat),
   }),
-).annotate({
-  identifier: "DeploymentWhatIfSettings",
-}) as any as S.Schema<DeploymentWhatIfSettings>;
+).annotate({ identifier: "DeploymentWhatIfSettings" }) as any as S.Schema<DeploymentWhatIfSettings>;
 
 /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
 export type DeploymentResourceWhatIfPredictionInputSymbolicNamePathList = Array<string>;
@@ -7204,9 +7260,7 @@ export const DeploymentsWhatIfRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeploymentsWhatIfRequest",
-}) as any as S.Schema<DeploymentsWhatIfRequest>;
+).annotate({ identifier: "DeploymentsWhatIfRequest" }) as any as S.Schema<DeploymentsWhatIfRequest>;
 
 /** Type of change that will be made to the resource when the deployment is executed. */
 export type ChangeType =
@@ -7250,9 +7304,7 @@ export const WhatIfPropertyChange = /*@__PURE__*/ S.suspend(() =>
     after: S.optional(S.Unknown),
     children: S.optional(WhatIfPropertyChangeChildrenList),
   }),
-).annotate({
-  identifier: "WhatIfPropertyChange",
-}) as any as S.Schema<WhatIfPropertyChange>;
+).annotate({ identifier: "WhatIfPropertyChange" }) as any as S.Schema<WhatIfPropertyChange>;
 
 /** The predicted changes to resource properties. */
 export type WhatIfChangeDeltaList = Array<WhatIfPropertyChange>;
@@ -7353,9 +7405,7 @@ export const WhatIfOperationResult = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(WhatIfOperationProperties),
     error: S.optional(ErrorResponse),
   }),
-).annotate({
-  identifier: "WhatIfOperationResult",
-}) as any as S.Schema<WhatIfOperationResult>;
+).annotate({ identifier: "WhatIfOperationResult" }) as any as S.Schema<WhatIfOperationResult>;
 
 export interface DeploymentsWhatIfAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -7461,9 +7511,7 @@ export const ExportDeploymentStackTemplateAtManagementGroupRequest = /*@__PURE__
 }) as any as S.Schema<ExportDeploymentStackTemplateAtManagementGroupRequest>;
 
 /** The template content. Use this element to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-export type DeploymentStackTemplateDefinitionTemplateMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentStackTemplateDefinitionTemplateMap = { [key: string]: unknown | undefined };
 export const DeploymentStackTemplateDefinitionTemplateMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7566,9 +7614,7 @@ export const DeploymentExportResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     template: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "DeploymentExportResult",
-}) as any as S.Schema<DeploymentExportResult>;
+).annotate({ identifier: "DeploymentExportResult" }) as any as S.Schema<DeploymentExportResult>;
 
 export interface ExportDeploymentTemplateAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -7605,7 +7651,7 @@ export const ExportDeploymentTemplateAtScopeRequest = /*@__PURE__*/ S.suspend(()
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -7774,14 +7820,10 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 
 /** Resource tags */
-export type GetApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7825,9 +7867,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     identity: S.optional(Identity_3),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 
 export interface GetApplicationByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
@@ -7836,22 +7876,13 @@ export interface GetApplicationByIdRequest {
 export const GetApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2019-07-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/{applicationId+}", code: 200, apiVersion: "2019-07-01" })),
 ).annotate({
   identifier: "GetApplicationByIdRequest",
 }) as any as S.Schema<GetApplicationByIdRequest>;
 
 /** Resource tags */
-export type GetApplicationByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7925,9 +7956,7 @@ export const GetApplicationDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetApplicationDefinitionRequest>;
 
 /** Resource tags */
-export type GetApplicationDefinitionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetApplicationDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export const GetApplicationDefinitionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -7996,9 +8025,7 @@ export const GetChangeRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-01",
     }),
   ),
-).annotate({
-  identifier: "GetChangeRequest",
-}) as any as S.Schema<GetChangeRequest>;
+).annotate({ identifier: "GetChangeRequest" }) as any as S.Schema<GetChangeRequest>;
 
 /** The type of change that was captured in the resource */
 export type ChangePropertiesChangeType = "Update" | "Delete" | "Create";
@@ -8025,9 +8052,7 @@ export const ChangeAttributes = /*@__PURE__*/ S.suspend(() =>
     previousResourceSnapshotId: S.optional(S.String),
     newResourceSnapshotId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ChangeAttributes",
-}) as any as S.Schema<ChangeAttributes>;
+).annotate({ identifier: "ChangeAttributes" }) as any as S.Schema<ChangeAttributes>;
 
 /** The type of change that occurred */
 export type ChangeBasePropertyChangeType = "Insert" | "Update" | "Remove";
@@ -8083,9 +8108,7 @@ export const ChangeProperties = /*@__PURE__*/ S.suspend(() =>
     changeAttributes: S.optional(ChangeAttributes),
     changes: S.optional(ChangesDictionary),
   }),
-).annotate({
-  identifier: "ChangeProperties",
-}) as any as S.Schema<ChangeProperties>;
+).annotate({ identifier: "ChangeProperties" }) as any as S.Schema<ChangeProperties>;
 
 export interface GetChangeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -8103,9 +8126,7 @@ export const GetChangeResponse = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ChangeProperties),
   }),
-).annotate({
-  identifier: "GetChangeResponse",
-}) as any as S.Schema<GetChangeResponse>;
+).annotate({ identifier: "GetChangeResponse" }) as any as S.Schema<GetChangeResponse>;
 
 export type GetDataBoundaryScopeRequestDefault = "default";
 export const GetDataBoundaryScopeRequestDefault = S.String;
@@ -8123,7 +8144,7 @@ export const GetDataBoundaryScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/dataBoundaries/{default}",
+      uri: "/{scope+}/providers/Microsoft.Resources/dataBoundaries/{default}",
       code: 200,
       apiVersion: "2024-08-01",
     }),
@@ -8159,9 +8180,7 @@ export const DataBoundaryProperties = /*@__PURE__*/ S.suspend(() =>
     dataBoundary: S.optional(DataBoundary),
     provisioningState: S.optional(ProvisioningState),
   }),
-).annotate({
-  identifier: "DataBoundaryProperties",
-}) as any as S.Schema<DataBoundaryProperties>;
+).annotate({ identifier: "DataBoundaryProperties" }) as any as S.Schema<DataBoundaryProperties>;
 
 export interface GetDataBoundaryScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -8245,7 +8264,7 @@ export const GetDataPolicyManifestByPolicyModeRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/providers/Microsoft.Authorization/dataPolicyManifests/{policyMode}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -8351,9 +8370,7 @@ export const ResourceTypeAliases = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.optional(S.String),
     aliases: S.optional(ResourceTypeAliasesAliasesList),
   }),
-).annotate({
-  identifier: "ResourceTypeAliases",
-}) as any as S.Schema<ResourceTypeAliases>;
+).annotate({ identifier: "ResourceTypeAliases" }) as any as S.Schema<ResourceTypeAliases>;
 
 /** An array of resource type aliases. */
 export type DataPolicyManifestPropertiesResourceTypeAliasesList = Array<ResourceTypeAliases>;
@@ -8523,14 +8540,10 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** Deployment tags */
-export type GetDeploymentResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8562,9 +8575,7 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     tags: S.optional(GetDeploymentResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetDeploymentResponse",
-}) as any as S.Schema<GetDeploymentResponse>;
+).annotate({ identifier: "GetDeploymentResponse" }) as any as S.Schema<GetDeploymentResponse>;
 
 export interface GetDeploymentAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -8640,7 +8651,7 @@ export const GetDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -8650,9 +8661,7 @@ export const GetDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDeploymentAtScopeRequest>;
 
 /** Deployment tags */
-export type GetDeploymentAtScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentAtScopeResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentAtScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8711,9 +8720,7 @@ export const GetDeploymentAtSubscriptionScopeRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetDeploymentAtSubscriptionScopeRequest>;
 
 /** Deployment tags */
-export type GetDeploymentAtSubscriptionScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentAtSubscriptionScopeResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentAtSubscriptionScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8769,9 +8776,7 @@ export const GetDeploymentAtTenantScopeRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDeploymentAtTenantScopeRequest>;
 
 /** Deployment tags */
-export type GetDeploymentAtTenantScopeResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentAtTenantScopeResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentAtTenantScopeResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -8967,9 +8972,7 @@ export const DeploymentOperation = /*@__PURE__*/ S.suspend(() =>
     operationId: S.optional(S.String),
     properties: S.optional(DeploymentOperationProperties),
   }),
-).annotate({
-  identifier: "DeploymentOperation",
-}) as any as S.Schema<DeploymentOperation>;
+).annotate({ identifier: "DeploymentOperation" }) as any as S.Schema<DeploymentOperation>;
 
 export interface GetDeploymentOperationAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -9012,7 +9015,7 @@ export const GetDeploymentOperationAtScopeRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -9094,9 +9097,7 @@ export const GetDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetDeploymentScriptRequest>;
 
 /** Resource tags. */
-export type GetDeploymentScriptResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentScriptResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentScriptResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9119,6 +9120,8 @@ export interface GetDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const GetDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9130,6 +9133,7 @@ export const GetDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "GetDeploymentScriptResponse",
@@ -9411,9 +9415,7 @@ export const GetDeploymentStackAtSubscriptionRequest = /*@__PURE__*/ S.suspend((
 }) as any as S.Schema<GetDeploymentStackAtSubscriptionRequest>;
 
 /** Resource tags. */
-export type GetDeploymentStackAtSubscriptionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetDeploymentStackAtSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export const GetDeploymentStackAtSubscriptionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9660,9 +9662,7 @@ export const GetFeatureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetFeatureRequest",
-}) as any as S.Schema<GetFeatureRequest>;
+).annotate({ identifier: "GetFeatureRequest" }) as any as S.Schema<GetFeatureRequest>;
 
 /** Information about feature. */
 export interface FeatureProperties {
@@ -9673,9 +9673,7 @@ export const FeatureProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     state: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FeatureProperties",
-}) as any as S.Schema<FeatureProperties>;
+).annotate({ identifier: "FeatureProperties" }) as any as S.Schema<FeatureProperties>;
 
 /** Previewed feature information. */
 export interface FeatureResult {
@@ -9718,14 +9716,10 @@ export const GetJitRequestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-07-01",
     }),
   ),
-).annotate({
-  identifier: "GetJitRequestRequest",
-}) as any as S.Schema<GetJitRequestRequest>;
+).annotate({ identifier: "GetJitRequestRequest" }) as any as S.Schema<GetJitRequestRequest>;
 
 /** Resource tags */
-export type GetJitRequestResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetJitRequestResponseTagsMap = { [key: string]: string | undefined };
 export const GetJitRequestResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -9743,9 +9737,7 @@ export const JitAuthorizationPolicies = /*@__PURE__*/ S.suspend(() =>
     principalId: S.String,
     roleDefinitionId: S.String,
   }),
-).annotate({
-  identifier: "JitAuthorizationPolicies",
-}) as any as S.Schema<JitAuthorizationPolicies>;
+).annotate({ identifier: "JitAuthorizationPolicies" }) as any as S.Schema<JitAuthorizationPolicies>;
 
 /** The JIT authorization policies. */
 export type JitRequestPropertiesJitAuthorizationPoliciesList = Array<JitAuthorizationPolicies>;
@@ -9771,9 +9763,7 @@ export const JitSchedulingPolicy = /*@__PURE__*/ S.suspend(() =>
     duration: S.String,
     startTime: S.String,
   }),
-).annotate({
-  identifier: "JitSchedulingPolicy",
-}) as any as S.Schema<JitSchedulingPolicy>;
+).annotate({ identifier: "JitSchedulingPolicy" }) as any as S.Schema<JitSchedulingPolicy>;
 
 /** The JIT request state. */
 export type JitRequestState =
@@ -9817,9 +9807,7 @@ export const JitRequestProperties = /*@__PURE__*/ S.suspend(() =>
     createdBy: S.optional(ApplicationClientDetails),
     updatedBy: S.optional(ApplicationClientDetails),
   }),
-).annotate({
-  identifier: "JitRequestProperties",
-}) as any as S.Schema<JitRequestProperties>;
+).annotate({ identifier: "JitRequestProperties" }) as any as S.Schema<JitRequestProperties>;
 
 export interface GetJitRequestResponse {
   /** Resource ID */
@@ -9844,9 +9832,7 @@ export const GetJitRequestResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(GetJitRequestResponseTagsMap),
     properties: S.optional(JitRequestProperties),
   }),
-).annotate({
-  identifier: "GetJitRequestResponse",
-}) as any as S.Schema<GetJitRequestResponse>;
+).annotate({ identifier: "GetJitRequestResponse" }) as any as S.Schema<GetJitRequestResponse>;
 
 export interface GetManagementLockAtResourceGroupLevelRequest {
   /** The ID of the target subscription. */
@@ -9886,9 +9872,7 @@ export const ManagementLockOwner = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagementLockOwner",
-}) as any as S.Schema<ManagementLockOwner>;
+).annotate({ identifier: "ManagementLockOwner" }) as any as S.Schema<ManagementLockOwner>;
 
 /** The owners of the lock. */
 export type ManagementLockPropertiesOwnersList = Array<ManagementLockOwner>;
@@ -9911,9 +9895,7 @@ export const ManagementLockProperties = /*@__PURE__*/ S.suspend(() =>
     notes: S.optional(S.String),
     owners: S.optional(ManagementLockPropertiesOwnersList),
   }),
-).annotate({
-  identifier: "ManagementLockProperties",
-}) as any as S.Schema<ManagementLockProperties>;
+).annotate({ identifier: "ManagementLockProperties" }) as any as S.Schema<ManagementLockProperties>;
 
 /** The type of identity that created the resource. */
 export type ManagementLockObjectSystemDataCreatedByType =
@@ -9980,9 +9962,7 @@ export const ManagementLockObject = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     systemData: S.optional(ManagementLockObjectSystemData),
   }),
-).annotate({
-  identifier: "ManagementLockObject",
-}) as any as S.Schema<ManagementLockObject>;
+).annotate({ identifier: "ManagementLockObject" }) as any as S.Schema<ManagementLockObject>;
 
 export interface GetManagementLockAtResourceLevelRequest {
   /** The ID of the target subscription. */
@@ -10056,7 +10036,7 @@ export const GetManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -10081,9 +10061,9 @@ export const GetPolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10135,7 +10115,7 @@ export const GetPolicyDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10348,7 +10328,7 @@ export const GetPolicyDefinitionAtManagementGroupRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10391,7 +10371,7 @@ export const GetPolicyDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10440,7 +10420,7 @@ export const GetPolicyDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10535,7 +10515,7 @@ export const GetPolicyDefinitionVersionAtManagementGroupRequest = /*@__PURE__*/ 
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10581,7 +10561,7 @@ export const GetPolicyDefinitionVersionBuiltInRequest = /*@__PURE__*/ S.suspend(
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10630,7 +10610,7 @@ export const GetPolicySetDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10719,9 +10699,7 @@ export const PolicyDefinitionGroup = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     additionalMetadataId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyDefinitionGroup",
-}) as any as S.Schema<PolicyDefinitionGroup>;
+).annotate({ identifier: "PolicyDefinitionGroup" }) as any as S.Schema<PolicyDefinitionGroup>;
 
 /** The metadata describing groups of policy definition references within the policy set definition. */
 export type PolicySetDefinitionPropertiesPolicyDefinitionGroupsList = Array<PolicyDefinitionGroup>;
@@ -10814,7 +10792,7 @@ export const GetPolicySetDefinitionAtManagementGroupRequest = /*@__PURE__*/ S.su
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10860,7 +10838,7 @@ export const GetPolicySetDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -10912,7 +10890,7 @@ export const GetPolicySetDefinitionVersionRequest = /*@__PURE__*/ S.suspend(() =
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11023,7 +11001,7 @@ export const GetPolicySetDefinitionVersionAtManagementGroupRequest = /*@__PURE__
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11072,7 +11050,7 @@ export const GetPolicySetDefinitionVersionBuiltInRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -11166,9 +11144,7 @@ export const PrivateLinkAssociation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PrivateLinkAssociation",
-}) as any as S.Schema<PrivateLinkAssociation>;
+).annotate({ identifier: "PrivateLinkAssociation" }) as any as S.Schema<PrivateLinkAssociation>;
 
 export interface GetProviderRequest {
   /** The ID of the target subscription. */
@@ -11191,9 +11167,7 @@ export const GetProviderRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetProviderRequest",
-}) as any as S.Schema<GetProviderRequest>;
+).annotate({ identifier: "GetProviderRequest" }) as any as S.Schema<GetProviderRequest>;
 
 export interface GetProviderAtTenantScopeRequest {
   /** The namespace of the resource provider. */
@@ -11247,9 +11221,7 @@ export const GetResourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetResourceRequest",
-}) as any as S.Schema<GetResourceRequest>;
+).annotate({ identifier: "GetResourceRequest" }) as any as S.Schema<GetResourceRequest>;
 
 /** Plan for the resource. */
 export interface Plan {
@@ -11356,9 +11328,7 @@ export const ExtendedLocation = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ExtendedLocationType),
     name: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExtendedLocation",
-}) as any as S.Schema<ExtendedLocation>;
+).annotate({ identifier: "ExtendedLocation" }) as any as S.Schema<ExtendedLocation>;
 
 /** Resource tags */
 export type GetResourceResponseTagsMap = { [key: string]: string | undefined };
@@ -11411,9 +11381,7 @@ export const GetResourceResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     tags: S.optional(GetResourceResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetResourceResponse",
-}) as any as S.Schema<GetResourceResponse>;
+).annotate({ identifier: "GetResourceResponse" }) as any as S.Schema<GetResourceResponse>;
 
 export interface GetResourceByIdRequest {
   resourceId: string;
@@ -11421,22 +11389,11 @@ export interface GetResourceByIdRequest {
 export const GetResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{resourceId}",
-      code: 200,
-      apiVersion: "2025-04-01",
-    }),
-  ),
-).annotate({
-  identifier: "GetResourceByIdRequest",
-}) as any as S.Schema<GetResourceByIdRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/{resourceId+}", code: 200, apiVersion: "2025-04-01" })),
+).annotate({ identifier: "GetResourceByIdRequest" }) as any as S.Schema<GetResourceByIdRequest>;
 
 /** Resource tags */
-export type GetResourceByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetResourceByIdResponseTagsMap = { [key: string]: string | undefined };
 export const GetResourceByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11486,9 +11443,7 @@ export const GetResourceByIdResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     tags: S.optional(GetResourceByIdResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetResourceByIdResponse",
-}) as any as S.Schema<GetResourceByIdResponse>;
+).annotate({ identifier: "GetResourceByIdResponse" }) as any as S.Schema<GetResourceByIdResponse>;
 
 export interface GetResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -11508,14 +11463,10 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetResourceGroupRequest",
-}) as any as S.Schema<GetResourceGroupRequest>;
+).annotate({ identifier: "GetResourceGroupRequest" }) as any as S.Schema<GetResourceGroupRequest>;
 
 /** Resource tags. */
-export type GetResourceGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetResourceGroupResponseTagsMap = { [key: string]: string | undefined };
 export const GetResourceGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -11530,9 +11481,7 @@ export const ResourceGroupProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceGroupProperties",
-}) as any as S.Schema<ResourceGroupProperties>;
+).annotate({ identifier: "ResourceGroupProperties" }) as any as S.Schema<ResourceGroupProperties>;
 
 export interface GetResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -11563,9 +11512,7 @@ export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(ResourceGroupProperties),
     managedBy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetResourceGroupResponse",
-}) as any as S.Schema<GetResourceGroupResponse>;
+).annotate({ identifier: "GetResourceGroupResponse" }) as any as S.Schema<GetResourceGroupResponse>;
 
 export interface GetResourceLinkRequest {
   /** The fully qualified Id of the resource link. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink */
@@ -11574,17 +11521,8 @@ export interface GetResourceLinkRequest {
 export const GetResourceLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     linkId: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/{linkId}",
-      code: 200,
-      apiVersion: "2016-09-01",
-    }),
-  ),
-).annotate({
-  identifier: "GetResourceLinkRequest",
-}) as any as S.Schema<GetResourceLinkRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/{linkId+}", code: 200, apiVersion: "2016-09-01" })),
+).annotate({ identifier: "GetResourceLinkRequest" }) as any as S.Schema<GetResourceLinkRequest>;
 
 /** The resource link properties. */
 export interface ResourceLinkProperties {
@@ -11601,9 +11539,7 @@ export const ResourceLinkProperties = /*@__PURE__*/ S.suspend(() =>
     targetId: S.String,
     notes: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceLinkProperties",
-}) as any as S.Schema<ResourceLinkProperties>;
+).annotate({ identifier: "ResourceLinkProperties" }) as any as S.Schema<ResourceLinkProperties>;
 
 /** The resource link. */
 export interface ResourceLink {
@@ -11710,9 +11646,7 @@ export const GetSubscriptionRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-12-01",
     }),
   ),
-).annotate({
-  identifier: "GetSubscriptionRequest",
-}) as any as S.Schema<GetSubscriptionRequest>;
+).annotate({ identifier: "GetSubscriptionRequest" }) as any as S.Schema<GetSubscriptionRequest>;
 
 /** The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted. */
 export type SubscriptionState = "Enabled" | "Warned" | "PastDue" | "Disabled" | "Deleted";
@@ -11737,9 +11671,7 @@ export const SubscriptionPolicies = /*@__PURE__*/ S.suspend(() =>
     quotaId: S.optional(S.String),
     spendingLimit: S.optional(SpendingLimit),
   }),
-).annotate({
-  identifier: "SubscriptionPolicies",
-}) as any as S.Schema<SubscriptionPolicies>;
+).annotate({ identifier: "SubscriptionPolicies" }) as any as S.Schema<SubscriptionPolicies>;
 
 /** Information about a tenant managing the subscription. */
 export interface ManagedByTenant {
@@ -11750,9 +11682,7 @@ export const ManagedByTenant = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tenantId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagedByTenant",
-}) as any as S.Schema<ManagedByTenant>;
+).annotate({ identifier: "ManagedByTenant" }) as any as S.Schema<ManagedByTenant>;
 
 /** An array containing the tenants managing the subscription. */
 export type SubscriptionManagedByTenantsList = Array<ManagedByTenant>;
@@ -11859,9 +11789,7 @@ export const AuthorizationProfile = /*@__PURE__*/ S.suspend(() =>
     approvedTime: S.optional(S.String),
     approver: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AuthorizationProfile",
-}) as any as S.Schema<AuthorizationProfile>;
+).annotate({ identifier: "AuthorizationProfile" }) as any as S.Schema<AuthorizationProfile>;
 
 /** Key-value pairs for meta data. */
 export type GetSubscriptionFeatureRegistrationResponsePropertiesMetadataMap = {
@@ -11960,14 +11888,12 @@ export const GetTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "GetTagAtScopeRequest",
-}) as any as S.Schema<GetTagAtScopeRequest>;
+).annotate({ identifier: "GetTagAtScopeRequest" }) as any as S.Schema<GetTagAtScopeRequest>;
 
 /** Dictionary of <string> */
 export type TagsTagsMap = { [key: string]: string | undefined };
@@ -12007,9 +11933,7 @@ export const GetTagAtScopeResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: Tags,
   }),
-).annotate({
-  identifier: "GetTagAtScopeResponse",
-}) as any as S.Schema<GetTagAtScopeResponse>;
+).annotate({ identifier: "GetTagAtScopeResponse" }) as any as S.Schema<GetTagAtScopeResponse>;
 
 export type GetTemplateSpecRequestExpand = "versions";
 export const GetTemplateSpecRequestExpand = S.String;
@@ -12038,9 +11962,7 @@ export const GetTemplateSpecRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-02-01",
     }),
   ),
-).annotate({
-  identifier: "GetTemplateSpecRequest",
-}) as any as S.Schema<GetTemplateSpecRequest>;
+).annotate({ identifier: "GetTemplateSpecRequest" }) as any as S.Schema<GetTemplateSpecRequest>;
 
 /** The type of identity that created the resource. */
 export type GetTemplateSpecResponseSystemDataCreatedByType =
@@ -12101,9 +12023,7 @@ export const TemplateSpecVersionInfo = /*@__PURE__*/ S.suspend(() =>
     timeCreated: S.optional(S.String),
     timeModified: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateSpecVersionInfo",
-}) as any as S.Schema<TemplateSpecVersionInfo>;
+).annotate({ identifier: "TemplateSpecVersionInfo" }) as any as S.Schema<TemplateSpecVersionInfo>;
 
 /** High-level information about the versions within this Template Spec. The keys are the version names. Only populated if the $expand query parameter is set to 'versions'. */
 export type TemplateSpecPropertiesVersionsMap = {
@@ -12132,14 +12052,10 @@ export const TemplateSpecProperties = /*@__PURE__*/ S.suspend(() =>
     metadata: S.optional(S.Unknown),
     versions: S.optional(TemplateSpecPropertiesVersionsMap),
   }),
-).annotate({
-  identifier: "TemplateSpecProperties",
-}) as any as S.Schema<TemplateSpecProperties>;
+).annotate({ identifier: "TemplateSpecProperties" }) as any as S.Schema<TemplateSpecProperties>;
 
 /** Resource tags. */
-export type GetTemplateSpecResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTemplateSpecResponseTagsMap = { [key: string]: string | undefined };
 export const GetTemplateSpecResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12171,9 +12087,7 @@ export const GetTemplateSpecResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(TemplateSpecProperties),
     tags: S.optional(GetTemplateSpecResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetTemplateSpecResponse",
-}) as any as S.Schema<GetTemplateSpecResponse>;
+).annotate({ identifier: "GetTemplateSpecResponse" }) as any as S.Schema<GetTemplateSpecResponse>;
 
 export type GetTemplateSpecBuiltInRequestExpand = "versions";
 export const GetTemplateSpecBuiltInRequestExpand = S.String;
@@ -12245,9 +12159,7 @@ export const GetTemplateSpecBuiltInResponseSystemData = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetTemplateSpecBuiltInResponseSystemData>;
 
 /** Resource tags. */
-export type GetTemplateSpecBuiltInResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTemplateSpecBuiltInResponseTagsMap = { [key: string]: string | undefined };
 export const GetTemplateSpecBuiltInResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12367,9 +12279,7 @@ export const LinkedTemplateArtifact = /*@__PURE__*/ S.suspend(() =>
     path: S.String,
     template: S.Unknown,
   }),
-).annotate({
-  identifier: "LinkedTemplateArtifact",
-}) as any as S.Schema<LinkedTemplateArtifact>;
+).annotate({ identifier: "LinkedTemplateArtifact" }) as any as S.Schema<LinkedTemplateArtifact>;
 
 /** An array of linked template artifacts. */
 export type TemplateSpecVersionPropertiesLinkedTemplatesList = Array<LinkedTemplateArtifact>;
@@ -12403,9 +12313,7 @@ export const TemplateSpecVersionProperties = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TemplateSpecVersionProperties>;
 
 /** Resource tags. */
-export type GetTemplateSpecVersionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTemplateSpecVersionResponseTagsMap = { [key: string]: string | undefined };
 export const GetTemplateSpecVersionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12510,9 +12418,7 @@ export const GetTemplateSpecVersionBuiltInResponseSystemData = /*@__PURE__*/ S.s
 }) as any as S.Schema<GetTemplateSpecVersionBuiltInResponseSystemData>;
 
 /** Resource tags. */
-export type GetTemplateSpecVersionBuiltInResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetTemplateSpecVersionBuiltInResponseTagsMap = { [key: string]: string | undefined };
 export const GetTemplateSpecVersionBuiltInResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12549,9 +12455,7 @@ export const GetTemplateSpecVersionBuiltInResponse = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<GetTemplateSpecVersionBuiltInResponse>;
 
 /** Resource tags */
-export type JitRequestsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type JitRequestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const JitRequestsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12574,9 +12478,7 @@ export const JitSchedulingPolicyInput = /*@__PURE__*/ S.suspend(() =>
     duration: S.String,
     startTime: S.String,
   }),
-).annotate({
-  identifier: "JitSchedulingPolicyInput",
-}) as any as S.Schema<JitSchedulingPolicyInput>;
+).annotate({ identifier: "JitSchedulingPolicyInput" }) as any as S.Schema<JitSchedulingPolicyInput>;
 
 /** Information about JIT request properties */
 export interface JitRequestPropertiesInput {
@@ -12632,9 +12534,7 @@ export const JitRequestsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<JitRequestsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type JitRequestsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type JitRequestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const JitRequestsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12755,9 +12655,7 @@ export const ApplicationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ApplicationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApplicationListResult",
-}) as any as S.Schema<ApplicationListResult>;
+).annotate({ identifier: "ApplicationListResult" }) as any as S.Schema<ApplicationListResult>;
 
 export interface ListApplicationBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -12801,9 +12699,7 @@ export const ListApplicationDefinitionByResourceGroupRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<ListApplicationDefinitionByResourceGroupRequest>;
 
 /** Resource tags */
-export type ApplicationDefinitionTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ApplicationDefinitionTagsMap = { [key: string]: string | undefined };
 export const ApplicationDefinitionTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -12839,9 +12735,7 @@ export const ApplicationDefinition = /*@__PURE__*/ S.suspend(() =>
     sku: S.optional(Sku_2),
     properties: ApplicationDefinitionProperties,
   }),
-).annotate({
-  identifier: "ApplicationDefinition",
-}) as any as S.Schema<ApplicationDefinition>;
+).annotate({ identifier: "ApplicationDefinition" }) as any as S.Schema<ApplicationDefinition>;
 
 /** The array of managed application definitions. */
 export type ApplicationDefinitionListResultValueList = Array<ApplicationDefinition>;
@@ -12894,9 +12788,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     operation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** Microsoft.Authorization operation */
 export interface Operation {
@@ -12930,9 +12822,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListChangesRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000) */
@@ -12967,9 +12857,7 @@ export const ListChangesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2022-05-01",
     }),
   ),
-).annotate({
-  identifier: "ListChangesRequest",
-}) as any as S.Schema<ListChangesRequest>;
+).annotate({ identifier: "ListChangesRequest" }) as any as S.Schema<ListChangesRequest>;
 
 /** Change Resource */
 export interface ChangeResourceResult {
@@ -12988,9 +12876,7 @@ export const ChangeResourceResult = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(ChangeProperties),
   }),
-).annotate({
-  identifier: "ChangeResourceResult",
-}) as any as S.Schema<ChangeResourceResult>;
+).annotate({ identifier: "ChangeResourceResult" }) as any as S.Schema<ChangeResourceResult>;
 
 /** The list of resources */
 export type ChangeResourceListResultValueList = Array<ChangeResourceResult>;
@@ -13010,9 +12896,7 @@ export const ChangeResourceListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(ChangeResourceListResultValueList),
   }),
-).annotate({
-  identifier: "ChangeResourceListResult",
-}) as any as S.Schema<ChangeResourceListResult>;
+).annotate({ identifier: "ChangeResourceListResult" }) as any as S.Schema<ChangeResourceListResult>;
 
 export interface ListDataPolicyManifestsRequest {
   /** The filter to apply on the operation. Valid values for $filter are: \"namespace eq '{value}'\". If $filter is not provided, no filtering is performed. If $filter=namespace eq '{value}' is provided, the returned list only includes all data policy manifests that have a namespace matching the provided value. */
@@ -13026,7 +12910,7 @@ export const ListDataPolicyManifestsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Authorization/dataPolicyManifests",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -13054,9 +12938,7 @@ export const DataPolicyManifest = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DataPolicyManifestProperties),
   }),
-).annotate({
-  identifier: "DataPolicyManifest",
-}) as any as S.Schema<DataPolicyManifest>;
+).annotate({ identifier: "DataPolicyManifest" }) as any as S.Schema<DataPolicyManifest>;
 
 /** The DataPolicyManifest items on this page */
 export type DataPolicyManifestListResultValueList = Array<DataPolicyManifest>;
@@ -13139,9 +13021,7 @@ export const DeploymentExtended = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     tags: S.optional(DeploymentExtendedTagsMap),
   }),
-).annotate({
-  identifier: "DeploymentExtended",
-}) as any as S.Schema<DeploymentExtended>;
+).annotate({ identifier: "DeploymentExtended" }) as any as S.Schema<DeploymentExtended>;
 
 /** The DeploymentExtended items on this page */
 export type DeploymentListResultValueList = Array<DeploymentExtended>;
@@ -13161,9 +13041,7 @@ export const DeploymentListResult = /*@__PURE__*/ S.suspend(() =>
     value: DeploymentListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeploymentListResult",
-}) as any as S.Schema<DeploymentListResult>;
+).annotate({ identifier: "DeploymentListResult" }) as any as S.Schema<DeploymentListResult>;
 
 export interface ListDeploymentAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -13181,7 +13059,7 @@ export const ListDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -13328,7 +13206,7 @@ export const ListDeploymentOperationAtScopeRequest = /*@__PURE__*/ S.suspend(() 
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -13459,6 +13337,8 @@ export interface DeploymentScript {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const DeploymentScript = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -13470,10 +13350,9 @@ export const DeploymentScript = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
-).annotate({
-  identifier: "DeploymentScript",
-}) as any as S.Schema<DeploymentScript>;
+).annotate({ identifier: "DeploymentScript" }) as any as S.Schema<DeploymentScript>;
 
 /** An array of deployment scripts. */
 export type DeploymentScriptListResultValueList = Array<DeploymentScript>;
@@ -13569,9 +13448,7 @@ export const DeploymentStack = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     tags: S.optional(DeploymentStackTagsMap),
   }),
-).annotate({
-  identifier: "DeploymentStack",
-}) as any as S.Schema<DeploymentStack>;
+).annotate({ identifier: "DeploymentStack" }) as any as S.Schema<DeploymentStack>;
 
 /** The DeploymentStack items on this page */
 export type DeploymentStackListResultValueList = Array<DeploymentStack>;
@@ -13657,9 +13534,7 @@ export const ListDeploymentStacksWhatIfResultsAtManagementGroupRequest = /*@__PU
 }) as any as S.Schema<ListDeploymentStacksWhatIfResultsAtManagementGroupRequest>;
 
 /** Resource tags. */
-export type DeploymentStacksWhatIfResultTagsMap = {
-  [key: string]: string | undefined;
-};
+export type DeploymentStacksWhatIfResultTagsMap = { [key: string]: string | undefined };
 export const DeploymentStacksWhatIfResultTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -13774,9 +13649,7 @@ export const ListFeatureAllRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListFeatureAllRequest",
-}) as any as S.Schema<ListFeatureAllRequest>;
+).annotate({ identifier: "ListFeatureAllRequest" }) as any as S.Schema<ListFeatureAllRequest>;
 
 /** The array of features. */
 export type FeatureOperationsListResultValueList = Array<FeatureResult>;
@@ -13818,9 +13691,7 @@ export const ListFeaturesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListFeaturesRequest",
-}) as any as S.Schema<ListFeaturesRequest>;
+).annotate({ identifier: "ListFeaturesRequest" }) as any as S.Schema<ListFeaturesRequest>;
 
 export interface ListJitRequestByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -13875,9 +13746,7 @@ export const JitRequestDefinition = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(JitRequestDefinitionTagsMap),
     properties: S.optional(JitRequestProperties),
   }),
-).annotate({
-  identifier: "JitRequestDefinition",
-}) as any as S.Schema<JitRequestDefinition>;
+).annotate({ identifier: "JitRequestDefinition" }) as any as S.Schema<JitRequestDefinition>;
 
 /** The array of Jit request definition. */
 export type JitRequestDefinitionListResultValueList = Array<JitRequestDefinition>;
@@ -13963,9 +13832,7 @@ export const ManagementLockListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ManagementLockListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ManagementLockListResult",
-}) as any as S.Schema<ManagementLockListResult>;
+).annotate({ identifier: "ManagementLockListResult" }) as any as S.Schema<ManagementLockListResult>;
 
 export interface ListManagementLockAtResourceLevelRequest {
   /** The ID of the target subscription. */
@@ -14039,7 +13906,7 @@ export const ListManagementLockByScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -14058,9 +13925,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay_2 {
@@ -14077,9 +13942,7 @@ export const OperationDisplay_2 = /*@__PURE__*/ S.suspend(() =>
     resource: S.optional(S.String),
     operation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay_2",
-}) as any as S.Schema<OperationDisplay_2>;
+).annotate({ identifier: "OperationDisplay_2" }) as any as S.Schema<OperationDisplay_2>;
 
 /** Microsoft.Features operation */
 export interface Operation_2 {
@@ -14113,9 +13976,7 @@ export const OperationListResult_2 = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList_2),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult_2",
-}) as any as S.Schema<OperationListResult_2>;
+).annotate({ identifier: "OperationListResult_2" }) as any as S.Schema<OperationListResult_2>;
 
 export interface ListPolicyAssignmentForManagementGroupRequest {
   /** The management group ID. */
@@ -14138,7 +13999,7 @@ export const ListPolicyAssignmentForManagementGroupRequest = /*@__PURE__*/ S.sus
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14172,9 +14033,7 @@ export const PolicyAssignment = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     identity: S.optional(Identity),
   }),
-).annotate({
-  identifier: "PolicyAssignment",
-}) as any as S.Schema<PolicyAssignment>;
+).annotate({ identifier: "PolicyAssignment" }) as any as S.Schema<PolicyAssignment>;
 
 /** The PolicyAssignment items on this page */
 export type PolicyAssignmentListResultValueList = Array<PolicyAssignment>;
@@ -14234,7 +14093,7 @@ export const ListPolicyAssignmentForResourceRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14265,7 +14124,7 @@ export const ListPolicyAssignmentForResourceGroupRequest = /*@__PURE__*/ S.suspe
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14293,7 +14152,7 @@ export const ListPolicyAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14315,7 +14174,7 @@ export const ListPolicyDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policyDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14343,9 +14202,7 @@ export const PolicyDefinition = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PolicyDefinitionProperties),
   }),
-).annotate({
-  identifier: "PolicyDefinition",
-}) as any as S.Schema<PolicyDefinition>;
+).annotate({ identifier: "PolicyDefinition" }) as any as S.Schema<PolicyDefinition>;
 
 /** The PolicyDefinition items on this page */
 export type PolicyDefinitionListResultValueList = Array<PolicyDefinition>;
@@ -14387,7 +14244,7 @@ export const ListPolicyDefinitionByManagementGroupRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14412,7 +14269,7 @@ export const ListPolicyDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14431,7 +14288,7 @@ export const ListPolicyDefinitionVersionAllRequest = /*@__PURE__*/ S.suspend(() 
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/listPolicyDefinitionVersions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14459,9 +14316,7 @@ export const PolicyDefinitionVersion = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PolicyDefinitionVersionProperties),
   }),
-).annotate({
-  identifier: "PolicyDefinitionVersion",
-}) as any as S.Schema<PolicyDefinitionVersion>;
+).annotate({ identifier: "PolicyDefinitionVersion" }) as any as S.Schema<PolicyDefinitionVersion>;
 
 /** The PolicyDefinitionVersion items on this page */
 export type PolicyDefinitionVersionListResultValueList = Array<PolicyDefinitionVersion>;
@@ -14497,7 +14352,7 @@ export const ListPolicyDefinitionVersionAllAtManagementGroupRequest = /*@__PURE_
       method: "POST",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/listPolicyDefinitionVersions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14511,7 +14366,7 @@ export const ListPolicyDefinitionVersionAllBuiltinsRequest = /*@__PURE__*/ S.sus
       method: "POST",
       uri: "/providers/Microsoft.Authorization/listPolicyDefinitionVersions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14533,7 +14388,7 @@ export const ListPolicyDefinitionVersionBuiltInRequest = /*@__PURE__*/ S.suspend
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14558,7 +14413,7 @@ export const ListPolicyDefinitionVersionByManagementGroupRequest = /*@__PURE__*/
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14583,7 +14438,7 @@ export const ListPolicyDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14608,7 +14463,7 @@ export const ListPolicySetDefinitionBuiltInRequest = /*@__PURE__*/ S.suspend(() 
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policySetDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14636,9 +14491,7 @@ export const PolicySetDefinition = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(PolicySetDefinitionProperties),
   }),
-).annotate({
-  identifier: "PolicySetDefinition",
-}) as any as S.Schema<PolicySetDefinition>;
+).annotate({ identifier: "PolicySetDefinition" }) as any as S.Schema<PolicySetDefinition>;
 
 /** The PolicySetDefinition items on this page */
 export type PolicySetDefinitionListResultValueList = Array<PolicySetDefinition>;
@@ -14683,7 +14536,7 @@ export const ListPolicySetDefinitionByManagementGroupRequest = /*@__PURE__*/ S.s
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14711,7 +14564,7 @@ export const ListPolicySetDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14730,7 +14583,7 @@ export const ListPolicySetDefinitionVersionAllRequest = /*@__PURE__*/ S.suspend(
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/listPolicySetDefinitionVersions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14797,7 +14650,7 @@ export const ListPolicySetDefinitionVersionAllAtManagementGroupRequest = /*@__PU
         method: "POST",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/listPolicySetDefinitionVersions",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -14811,7 +14664,7 @@ export const ListPolicySetDefinitionVersionAllBuiltinsRequest = /*@__PURE__*/ S.
       method: "POST",
       uri: "/providers/Microsoft.Authorization/listPolicySetDefinitionVersions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14836,7 +14689,7 @@ export const ListPolicySetDefinitionVersionBuiltInRequest = /*@__PURE__*/ S.susp
       method: "GET",
       uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14864,7 +14717,7 @@ export const ListPolicySetDefinitionVersionByManagementGroupRequest = /*@__PURE_
       method: "GET",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14892,7 +14745,7 @@ export const ListPolicySetDefinitionVersionsRequest = /*@__PURE__*/ S.suspend(()
       method: "GET",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -14944,14 +14797,7 @@ export interface ListProviderAtTenantScopeRequest {
 export const ListProviderAtTenantScopeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     _expand: S.optional(S.String.pipe(T.Query("$expand"))),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/providers",
-      code: 200,
-      apiVersion: "2025-04-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/providers", code: 200, apiVersion: "2025-04-01" })),
 ).annotate({
   identifier: "ListProviderAtTenantScopeRequest",
 }) as any as S.Schema<ListProviderAtTenantScopeRequest>;
@@ -14974,9 +14820,7 @@ export const ProviderListResult = /*@__PURE__*/ S.suspend(() =>
     value: ProviderListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProviderListResult",
-}) as any as S.Schema<ProviderListResult>;
+).annotate({ identifier: "ProviderListResult" }) as any as S.Schema<ProviderListResult>;
 
 export interface ListProviderResourceTypesRequest {
   /** The ID of the target subscription. */
@@ -15043,9 +14887,7 @@ export const ListProvidersRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListProvidersRequest",
-}) as any as S.Schema<ListProvidersRequest>;
+).annotate({ identifier: "ListProvidersRequest" }) as any as S.Schema<ListProvidersRequest>;
 
 export interface ListResourceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -15079,9 +14921,7 @@ export const ListResourceByResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListResourceByResourceGroupRequest>;
 
 /** Resource tags */
-export type GenericResourceExpandedTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GenericResourceExpandedTagsMap = { [key: string]: string | undefined };
 export const GenericResourceExpandedTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -15141,9 +14981,7 @@ export const GenericResourceExpanded = /*@__PURE__*/ S.suspend(() =>
     changedTime: S.optional(S.String),
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GenericResourceExpanded",
-}) as any as S.Schema<GenericResourceExpanded>;
+).annotate({ identifier: "GenericResourceExpanded" }) as any as S.Schema<GenericResourceExpanded>;
 
 /** The GenericResourceExpanded items on this page */
 export type ResourceListResultValueList = Array<GenericResourceExpanded>;
@@ -15163,9 +15001,7 @@ export const ResourceListResult = /*@__PURE__*/ S.suspend(() =>
     value: ResourceListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceListResult",
-}) as any as S.Schema<ResourceListResult>;
+).annotate({ identifier: "ResourceListResult" }) as any as S.Schema<ResourceListResult>;
 
 export interface ListResourceGroupsRequest {
   /** The ID of the target subscription. */
@@ -15249,9 +15085,7 @@ export const ResourceGroupListResult = /*@__PURE__*/ S.suspend(() =>
     value: ResourceGroupListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceGroupListResult",
-}) as any as S.Schema<ResourceGroupListResult>;
+).annotate({ identifier: "ResourceGroupListResult" }) as any as S.Schema<ResourceGroupListResult>;
 
 export type ListResourceLinkAtSourceScopeRequestFilter = "atScope()";
 export const ListResourceLinkAtSourceScopeRequestFilter = S.String;
@@ -15269,7 +15103,7 @@ export const ListResourceLinkAtSourceScopeRequest = /*@__PURE__*/ S.suspend(() =
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Resources/links",
+      uri: "/{scope+}/providers/Microsoft.Resources/links",
       code: 200,
       apiVersion: "2016-09-01",
     }),
@@ -15296,9 +15130,7 @@ export const ResourceLinkResult = /*@__PURE__*/ S.suspend(() =>
     value: ResourceLinkResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceLinkResult",
-}) as any as S.Schema<ResourceLinkResult>;
+).annotate({ identifier: "ResourceLinkResult" }) as any as S.Schema<ResourceLinkResult>;
 
 export interface ListResourceLinkAtSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -15405,9 +15237,7 @@ export const ListResourcesRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListResourcesRequest",
-}) as any as S.Schema<ListResourcesRequest>;
+).annotate({ identifier: "ListResourcesRequest" }) as any as S.Schema<ListResourcesRequest>;
 
 export interface ListSubscriptionFeatureRegistrationAllBySubscriptionRequest {
   /** The Azure subscription ID. */
@@ -15662,9 +15492,7 @@ export const LocationMetadata = /*@__PURE__*/ S.suspend(() =>
     pairedRegion: S.optional(LocationMetadataPairedRegionList),
     homeLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LocationMetadata",
-}) as any as S.Schema<LocationMetadata>;
+).annotate({ identifier: "LocationMetadata" }) as any as S.Schema<LocationMetadata>;
 
 /** Availability zone mappings for the region */
 export interface AvailabilityZoneMappings {
@@ -15678,9 +15506,7 @@ export const AvailabilityZoneMappings = /*@__PURE__*/ S.suspend(() =>
     logicalZone: S.optional(S.String),
     physicalZone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AvailabilityZoneMappings",
-}) as any as S.Schema<AvailabilityZoneMappings>;
+).annotate({ identifier: "AvailabilityZoneMappings" }) as any as S.Schema<AvailabilityZoneMappings>;
 
 /** The availability zone mappings for this region. */
 export type LocationAvailabilityZoneMappingsList = Array<AvailabilityZoneMappings>;
@@ -15738,23 +15564,14 @@ export const LocationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(LocationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LocationListResult",
-}) as any as S.Schema<LocationListResult>;
+).annotate({ identifier: "LocationListResult" }) as any as S.Schema<LocationListResult>;
 
 export interface ListSubscriptionsRequest {}
 export const ListSubscriptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/subscriptions",
-      code: 200,
-      apiVersion: "2022-12-01",
-    }),
+    T.Http({ method: "GET", uri: "/subscriptions", code: 200, apiVersion: "2022-12-01" }),
   ),
-).annotate({
-  identifier: "ListSubscriptionsRequest",
-}) as any as S.Schema<ListSubscriptionsRequest>;
+).annotate({ identifier: "ListSubscriptionsRequest" }) as any as S.Schema<ListSubscriptionsRequest>;
 
 /** The Subscription items on this page */
 export type SubscriptionListResultValueList = Array<Subscription>;
@@ -15774,9 +15591,7 @@ export const SubscriptionListResult = /*@__PURE__*/ S.suspend(() =>
     value: SubscriptionListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubscriptionListResult",
-}) as any as S.Schema<SubscriptionListResult>;
+).annotate({ identifier: "SubscriptionListResult" }) as any as S.Schema<SubscriptionListResult>;
 
 export interface ListTagsRequest {
   /** The ID of the target subscription. */
@@ -15793,9 +15608,7 @@ export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "ListTagsRequest",
-}) as any as S.Schema<ListTagsRequest>;
+).annotate({ identifier: "ListTagsRequest" }) as any as S.Schema<ListTagsRequest>;
 
 /** Tag count. */
 export interface TagCount {
@@ -15936,9 +15749,7 @@ export const TemplateSpecSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(TemplateSpecSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateSpecSystemData",
-}) as any as S.Schema<TemplateSpecSystemData>;
+).annotate({ identifier: "TemplateSpecSystemData" }) as any as S.Schema<TemplateSpecSystemData>;
 
 /** Resource tags. */
 export type TemplateSpecTagsMap = { [key: string]: string | undefined };
@@ -15994,9 +15805,7 @@ export const TemplateSpecsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(TemplateSpecsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateSpecsListResult",
-}) as any as S.Schema<TemplateSpecsListResult>;
+).annotate({ identifier: "TemplateSpecsListResult" }) as any as S.Schema<TemplateSpecsListResult>;
 
 export type ListTemplateSpecByResourceGroupRequestExpand = "versions";
 export const ListTemplateSpecByResourceGroupRequestExpand = S.String;
@@ -16148,9 +15957,7 @@ export const TemplateSpecVersion = /*@__PURE__*/ S.suspend(() =>
     properties: TemplateSpecVersionProperties,
     tags: S.optional(TemplateSpecVersionTagsMap),
   }),
-).annotate({
-  identifier: "TemplateSpecVersion",
-}) as any as S.Schema<TemplateSpecVersion>;
+).annotate({ identifier: "TemplateSpecVersion" }) as any as S.Schema<TemplateSpecVersion>;
 
 /** An array of Template Spec versions. */
 export type TemplateSpecVersionsListResultValueList = Array<TemplateSpecVersion>;
@@ -16202,16 +16009,9 @@ export const ListTemplateSpecVersionsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface ListTenantsRequest {}
 export const ListTenantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/tenants",
-      code: 200,
-      apiVersion: "2022-12-01",
-    }),
+    T.Http({ method: "GET", uri: "/tenants", code: 200, apiVersion: "2022-12-01" }),
   ),
-).annotate({
-  identifier: "ListTenantsRequest",
-}) as any as S.Schema<ListTenantsRequest>;
+).annotate({ identifier: "ListTenantsRequest" }) as any as S.Schema<ListTenantsRequest>;
 
 /** Category of the tenant. */
 export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
@@ -16259,9 +16059,7 @@ export const TenantIdDescription = /*@__PURE__*/ S.suspend(() =>
     tenantType: S.optional(S.String),
     tenantBrandingLogoUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TenantIdDescription",
-}) as any as S.Schema<TenantIdDescription>;
+).annotate({ identifier: "TenantIdDescription" }) as any as S.Schema<TenantIdDescription>;
 
 /** The TenantIdDescription items on this page */
 export type TenantListResultValueList = Array<TenantIdDescription>;
@@ -16281,9 +16079,7 @@ export const TenantListResult = /*@__PURE__*/ S.suspend(() =>
     value: TenantListResultValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TenantListResult",
-}) as any as S.Schema<TenantListResult>;
+).annotate({ identifier: "TenantListResult" }) as any as S.Schema<TenantListResult>;
 
 export interface ManagementLocksCreateOrUpdateAtResourceGroupLevelRequest {
   /** The ID of the target subscription. */
@@ -16395,7 +16191,7 @@ export const ManagementLocksCreateOrUpdateByScopeRequest = /*@__PURE__*/ S.suspe
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/locks/{lockName}",
       code: 200,
       apiVersion: "2020-05-01",
     }),
@@ -16461,7 +16257,7 @@ export const PolicyDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(()
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -16510,7 +16306,7 @@ export const PolicyDefinitionsCreateOrUpdateAtManagementGroupRequest = /*@__PURE
       method: "PUT",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -16563,7 +16359,7 @@ export const PolicyDefinitionVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.sus
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -16616,7 +16412,7 @@ export const PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -16774,7 +16570,7 @@ export const PolicySetDefinitionsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -16824,7 +16620,7 @@ export const PolicySetDefinitionsCreateOrUpdateAtManagementGroupRequest = /*@__P
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
 ).annotate({
@@ -16937,7 +16733,7 @@ export const PolicySetDefinitionVersionsCreateOrUpdateRequest = /*@__PURE__*/ S.
       method: "PUT",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -16990,7 +16786,7 @@ export const PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupRequest =
         method: "PUT",
         uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions/{policyDefinitionVersion}",
         code: 200,
-        apiVersion: "2026-07-01",
+        apiVersion: "2026-06-01",
       }),
     ),
   ).annotate({
@@ -17037,9 +16833,7 @@ export const PolicyTokenOperation = /*@__PURE__*/ S.suspend(() =>
     httpMethod: S.String,
     content: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "PolicyTokenOperation",
-}) as any as S.Schema<PolicyTokenOperation>;
+).annotate({ identifier: "PolicyTokenOperation" }) as any as S.Schema<PolicyTokenOperation>;
 
 export interface PolicyTokensAcquireRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -17059,7 +16853,7 @@ export const PolicyTokensAcquireRequest = /*@__PURE__*/ S.suspend(() =>
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/acquirePolicyToken",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -17246,9 +17040,7 @@ export const PolicyTokenResponse = /*@__PURE__*/ S.suspend(() =>
     tokenId: S.optional(S.String),
     expiration: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PolicyTokenResponse",
-}) as any as S.Schema<PolicyTokenResponse>;
+).annotate({ identifier: "PolicyTokenResponse" }) as any as S.Schema<PolicyTokenResponse>;
 
 export interface PolicyTokensAcquireAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -17268,7 +17060,7 @@ export const PolicyTokensAcquireAtManagementGroupRequest = /*@__PURE__*/ S.suspe
       method: "POST",
       uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/acquirePolicyToken",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -17296,7 +17088,7 @@ export const PolicyTokensAcquireAtResourceGroupRequest = /*@__PURE__*/ S.suspend
       method: "POST",
       uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/acquirePolicyToken",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -17422,9 +17214,7 @@ export const ProviderPermission = /*@__PURE__*/ S.suspend(() =>
     managedByRoleDefinition: S.optional(RoleDefinition),
     providerAuthorizationConsentState: S.optional(ProviderAuthorizationConsentState),
   }),
-).annotate({
-  identifier: "ProviderPermission",
-}) as any as S.Schema<ProviderPermission>;
+).annotate({ identifier: "ProviderPermission" }) as any as S.Schema<ProviderPermission>;
 
 /** The ProviderPermission items on this page */
 export type ProviderPermissionListResultValueList = Array<ProviderPermission>;
@@ -17469,9 +17259,7 @@ export const PutDataBoundaryRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2024-08-01",
     }),
   ),
-).annotate({
-  identifier: "PutDataBoundaryRequest",
-}) as any as S.Schema<PutDataBoundaryRequest>;
+).annotate({ identifier: "PutDataBoundaryRequest" }) as any as S.Schema<PutDataBoundaryRequest>;
 
 export interface PutDataBoundaryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -17493,9 +17281,7 @@ export const PutDataBoundaryResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(DataBoundaryProperties),
   }),
-).annotate({
-  identifier: "PutDataBoundaryResponse",
-}) as any as S.Schema<PutDataBoundaryResponse>;
+).annotate({ identifier: "PutDataBoundaryResponse" }) as any as S.Schema<PutDataBoundaryResponse>;
 
 export type PrivateLinkAssociationPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 export const PrivateLinkAssociationPropertiesPublicNetworkAccess = S.String;
@@ -17620,9 +17406,7 @@ export const RegisterFeatureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "RegisterFeatureRequest",
-}) as any as S.Schema<RegisterFeatureRequest>;
+).annotate({ identifier: "RegisterFeatureRequest" }) as any as S.Schema<RegisterFeatureRequest>;
 
 /** The provider consent. */
 export interface ProviderConsentDefinition {
@@ -17658,9 +17442,7 @@ export const RegisterProviderRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "RegisterProviderRequest",
-}) as any as S.Schema<RegisterProviderRequest>;
+).annotate({ identifier: "RegisterProviderRequest" }) as any as S.Schema<RegisterProviderRequest>;
 
 export interface RegisterProviderAtManagementGroupScopeRequest {
   groupId: string;
@@ -17691,9 +17473,7 @@ export const RegisterProviderAtManagementGroupScopeResponse = /*@__PURE__*/ S.su
 }) as any as S.Schema<RegisterProviderAtManagementGroupScopeResponse>;
 
 /** Resource tags. */
-export type ResourceGroupsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourceGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ResourceGroupsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17738,9 +17518,7 @@ export const ResourceGroupsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResourceGroupsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type ResourceGroupsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourceGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ResourceGroupsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17805,14 +17583,7 @@ export const ResourceLinksCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     linkId: S.String.pipe(T.Label()),
     properties: S.optional(ResourceLinkPropertiesInput),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/{linkId}",
-      code: 200,
-      apiVersion: "2016-09-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/{linkId+}", code: 200, apiVersion: "2016-09-01" })),
 ).annotate({
   identifier: "ResourceLinksCreateOrUpdateRequest",
 }) as any as S.Schema<ResourceLinksCreateOrUpdateRequest>;
@@ -17841,14 +17612,10 @@ export const IdentityInput_2 = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(ResourceIdentityType_2),
     userAssignedIdentities: S.optional(IdentityInputUserAssignedIdentitiesMap_2),
   }),
-).annotate({
-  identifier: "IdentityInput_2",
-}) as any as S.Schema<IdentityInput_2>;
+).annotate({ identifier: "IdentityInput_2" }) as any as S.Schema<IdentityInput_2>;
 
 /** Resource tags */
-export type ResourcesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ResourcesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17916,9 +17683,7 @@ export const ResourcesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResourcesCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type ResourcesCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ResourcesCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -17973,9 +17738,7 @@ export const ResourcesCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResourcesCreateOrUpdateResponse>;
 
 /** Resource tags */
-export type ResourcesCreateOrUpdateByIdRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesCreateOrUpdateByIdRequestTagsMap = { [key: string]: string | undefined };
 export const ResourcesCreateOrUpdateByIdRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18014,22 +17777,13 @@ export const ResourcesCreateOrUpdateByIdRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     extendedLocation: S.optional(ExtendedLocation),
     tags: S.optional(ResourcesCreateOrUpdateByIdRequestTagsMap),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      uri: "/{resourceId}",
-      code: 200,
-      apiVersion: "2025-04-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "PUT", uri: "/{resourceId+}", code: 200, apiVersion: "2025-04-01" })),
 ).annotate({
   identifier: "ResourcesCreateOrUpdateByIdRequest",
 }) as any as S.Schema<ResourcesCreateOrUpdateByIdRequest>;
 
 /** Resource tags */
-export type ResourcesCreateOrUpdateByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ResourcesCreateOrUpdateByIdResponseTagsMap = { [key: string]: string | undefined };
 export const ResourcesCreateOrUpdateByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18341,7 +18095,7 @@ export const TagsCreateOrUpdateAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
@@ -18419,9 +18173,7 @@ export const TemplateSpecPropertiesInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<TemplateSpecPropertiesInput>;
 
 /** Resource tags. */
-export type TemplateSpecsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TemplateSpecsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const TemplateSpecsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18506,9 +18258,7 @@ export const TemplateSpecsCreateOrUpdateResponseSystemData = /*@__PURE__*/ S.sus
 }) as any as S.Schema<TemplateSpecsCreateOrUpdateResponseSystemData>;
 
 /** Resource tags. */
-export type TemplateSpecsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type TemplateSpecsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const TemplateSpecsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18696,9 +18446,7 @@ export const UnregisterFeatureRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-07-01",
     }),
   ),
-).annotate({
-  identifier: "UnregisterFeatureRequest",
-}) as any as S.Schema<UnregisterFeatureRequest>;
+).annotate({ identifier: "UnregisterFeatureRequest" }) as any as S.Schema<UnregisterFeatureRequest>;
 
 export interface UnregisterProviderRequest {
   /** The ID of the target subscription. */
@@ -18723,9 +18471,7 @@ export const UnregisterProviderRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UnregisterProviderRequest>;
 
 /** Resource tags */
-export type UpdateApplicationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18799,14 +18545,10 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 
 /** Resource tags */
-export type UpdateApplicationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18855,9 +18597,7 @@ export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationResponse>;
 
 /** Resource tags */
-export type UpdateApplicationByIdRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationByIdRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationByIdRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18895,21 +18635,14 @@ export const UpdateApplicationByIdRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     identity: S.optional(IdentityInput_3),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/{applicationId}",
-      code: 200,
-      apiVersion: "2019-07-01",
-    }),
+    T.Http({ method: "PATCH", uri: "/{applicationId+}", code: 200, apiVersion: "2019-07-01" }),
   ),
 ).annotate({
   identifier: "UpdateApplicationByIdRequest",
 }) as any as S.Schema<UpdateApplicationByIdRequest>;
 
 /** Resource tags */
-export type UpdateApplicationByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateApplicationByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18958,9 +18691,7 @@ export const UpdateApplicationByIdResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationByIdResponse>;
 
 /** Resource tags to be updated. */
-export type UpdateDeploymentScriptRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDeploymentScriptRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateDeploymentScriptRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -18995,9 +18726,7 @@ export const UpdateDeploymentScriptRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDeploymentScriptRequest>;
 
 /** Resource tags. */
-export type UpdateDeploymentScriptResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateDeploymentScriptResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateDeploymentScriptResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19020,6 +18749,8 @@ export interface UpdateDeploymentScriptResponse {
   kind: ScriptType;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
   identity?: ManagedServiceIdentity;
+  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
+  properties?: DeploymentScriptProperties;
 }
 export const UpdateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -19031,15 +18762,14 @@ export const UpdateDeploymentScriptResponse = /*@__PURE__*/ S.suspend(() =>
     location: S.String,
     kind: ScriptType,
     identity: S.optional(ManagedServiceIdentity),
+    properties: S.optional(DeploymentScriptProperties),
   }),
 ).annotate({
   identifier: "UpdateDeploymentScriptResponse",
 }) as any as S.Schema<UpdateDeploymentScriptResponse>;
 
 /** Jit request tags */
-export type UpdateJitRequestRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJitRequestRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateJitRequestRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19069,14 +18799,10 @@ export const UpdateJitRequestRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2019-07-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateJitRequestRequest",
-}) as any as S.Schema<UpdateJitRequestRequest>;
+).annotate({ identifier: "UpdateJitRequestRequest" }) as any as S.Schema<UpdateJitRequestRequest>;
 
 /** Resource tags */
-export type UpdateJitRequestResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateJitRequestResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateJitRequestResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19105,9 +18831,7 @@ export const UpdateJitRequestResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(UpdateJitRequestResponseTagsMap),
     properties: S.optional(JitRequestProperties),
   }),
-).annotate({
-  identifier: "UpdateJitRequestResponse",
-}) as any as S.Schema<UpdateJitRequestResponse>;
+).annotate({ identifier: "UpdateJitRequestResponse" }) as any as S.Schema<UpdateJitRequestResponse>;
 
 /** The resource selector list to filter policies by resource properties. */
 export type PolicyAssignmentUpdatePropertiesResourceSelectorsList = Array<ResourceSelector>;
@@ -19162,9 +18886,9 @@ export const UpdatePolicyAssignmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
+      uri: "/{scope+}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}",
       code: 200,
-      apiVersion: "2026-07-01",
+      apiVersion: "2026-06-01",
     }),
   ),
 ).annotate({
@@ -19202,9 +18926,7 @@ export const UpdatePolicyAssignmentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdatePolicyAssignmentResponse>;
 
 /** Resource tags */
-export type UpdateResourceRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateResourceRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateResourceRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19267,14 +18989,10 @@ export const UpdateResourceRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateResourceRequest",
-}) as any as S.Schema<UpdateResourceRequest>;
+).annotate({ identifier: "UpdateResourceRequest" }) as any as S.Schema<UpdateResourceRequest>;
 
 /** Resource tags */
-export type UpdateResourceResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateResourceResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateResourceResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19324,14 +19042,10 @@ export const UpdateResourceResponse = /*@__PURE__*/ S.suspend(() =>
     extendedLocation: S.optional(ExtendedLocation),
     tags: S.optional(UpdateResourceResponseTagsMap),
   }),
-).annotate({
-  identifier: "UpdateResourceResponse",
-}) as any as S.Schema<UpdateResourceResponse>;
+).annotate({ identifier: "UpdateResourceResponse" }) as any as S.Schema<UpdateResourceResponse>;
 
 /** Resource tags */
-export type UpdateResourceByIdRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateResourceByIdRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateResourceByIdRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19370,22 +19084,13 @@ export const UpdateResourceByIdRequest = /*@__PURE__*/ S.suspend(() =>
     location: S.optional(S.String),
     extendedLocation: S.optional(ExtendedLocation),
     tags: S.optional(UpdateResourceByIdRequestTagsMap),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/{resourceId}",
-      code: 200,
-      apiVersion: "2025-04-01",
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/{resourceId+}", code: 200, apiVersion: "2025-04-01" })),
 ).annotate({
   identifier: "UpdateResourceByIdRequest",
 }) as any as S.Schema<UpdateResourceByIdRequest>;
 
 /** Resource tags */
-export type UpdateResourceByIdResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateResourceByIdResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateResourceByIdResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19440,9 +19145,7 @@ export const UpdateResourceByIdResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateResourceByIdResponse>;
 
 /** The tags attached to the resource group. */
-export type UpdateResourceGroupRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateResourceGroupRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateResourceGroupRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19483,9 +19186,7 @@ export const UpdateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateResourceGroupRequest>;
 
 /** Resource tags. */
-export type UpdateResourceGroupResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateResourceGroupResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateResourceGroupResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19544,14 +19245,12 @@ export const UpdateTagAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Resources/tags/default",
+      uri: "/{scope+}/providers/Microsoft.Resources/tags/default",
       code: 200,
       apiVersion: "2025-04-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateTagAtScopeRequest",
-}) as any as S.Schema<UpdateTagAtScopeRequest>;
+).annotate({ identifier: "UpdateTagAtScopeRequest" }) as any as S.Schema<UpdateTagAtScopeRequest>;
 
 export interface UpdateTagAtScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -19573,14 +19272,10 @@ export const UpdateTagAtScopeResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: Tags,
   }),
-).annotate({
-  identifier: "UpdateTagAtScopeResponse",
-}) as any as S.Schema<UpdateTagAtScopeResponse>;
+).annotate({ identifier: "UpdateTagAtScopeResponse" }) as any as S.Schema<UpdateTagAtScopeResponse>;
 
 /** Resource tags. */
-export type UpdateTemplateSpecRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTemplateSpecRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateTemplateSpecRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19659,9 +19354,7 @@ export const UpdateTemplateSpecResponseSystemData = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<UpdateTemplateSpecResponseSystemData>;
 
 /** Resource tags. */
-export type UpdateTemplateSpecResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTemplateSpecResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateTemplateSpecResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19698,9 +19391,7 @@ export const UpdateTemplateSpecResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateTemplateSpecResponse>;
 
 /** Resource tags. */
-export type UpdateTemplateSpecVersionRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTemplateSpecVersionRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateTemplateSpecVersionRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19782,9 +19473,7 @@ export const UpdateTemplateSpecVersionResponseSystemData = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<UpdateTemplateSpecVersionResponseSystemData>;
 
 /** Resource tags. */
-export type UpdateTemplateSpecVersionResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateTemplateSpecVersionResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateTemplateSpecVersionResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19821,9 +19510,7 @@ export const UpdateTemplateSpecVersionResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateTemplateSpecVersionResponse>;
 
 /** Deployment tags */
-export type ValidateDeploymentRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateDeploymentRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateDeploymentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19887,9 +19574,7 @@ export const DeploymentValidateResult = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     properties: S.optional(DeploymentPropertiesExtended),
   }),
-).annotate({
-  identifier: "DeploymentValidateResult",
-}) as any as S.Schema<DeploymentValidateResult>;
+).annotate({ identifier: "DeploymentValidateResult" }) as any as S.Schema<DeploymentValidateResult>;
 
 /** Deployment tags */
 export type ValidateDeploymentAtManagementGroupScopeRequestTagsMap = {
@@ -19932,9 +19617,7 @@ export const ValidateDeploymentAtManagementGroupScopeRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<ValidateDeploymentAtManagementGroupScopeRequest>;
 
 /** Deployment tags */
-export type ValidateDeploymentAtScopeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateDeploymentAtScopeRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateDeploymentAtScopeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -19965,7 +19648,7 @@ export const ValidateDeploymentAtScopeRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "POST",
-      uri: "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
+      uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/validate",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -20018,9 +19701,7 @@ export const ValidateDeploymentAtSubscriptionScopeRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<ValidateDeploymentAtSubscriptionScopeRequest>;
 
 /** Deployment tags */
-export type ValidateDeploymentAtTenantScopeRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ValidateDeploymentAtTenantScopeRequestTagsMap = { [key: string]: string | undefined };
 export const ValidateDeploymentAtTenantScopeRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

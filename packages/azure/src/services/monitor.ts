@@ -104,9 +104,7 @@ export const LogsSpecification = /*@__PURE__*/ S.suspend(() =>
     displayName: S.optional(S.String),
     groups: S.optional(LogsSpecificationGroupsList),
   }),
-).annotate({
-  identifier: "LogsSpecification",
-}) as any as S.Schema<LogsSpecification>;
+).annotate({ identifier: "LogsSpecification" }) as any as S.Schema<LogsSpecification>;
 
 /** Categorization groups for the metric. */
 export type MetricsSpecificationGroupsList = Array<string>;
@@ -138,9 +136,7 @@ export const MetricsSpecification = /*@__PURE__*/ S.suspend(() =>
     aggregationType: S.optional(S.String),
     groups: S.optional(MetricsSpecificationGroupsList),
   }),
-).annotate({
-  identifier: "MetricsSpecification",
-}) as any as S.Schema<MetricsSpecification>;
+).annotate({ identifier: "MetricsSpecification" }) as any as S.Schema<MetricsSpecification>;
 
 /** Detailed metadata for a stream (logs or metrics specification). */
 export interface StreamDetailMetadata {
@@ -154,9 +150,7 @@ export const StreamDetailMetadata = /*@__PURE__*/ S.suspend(() =>
     logsSpecification: S.optional(LogsSpecification),
     metricsSpecification: S.optional(MetricsSpecification),
   }),
-).annotate({
-  identifier: "StreamDetailMetadata",
-}) as any as S.Schema<StreamDetailMetadata>;
+).annotate({ identifier: "StreamDetailMetadata" }) as any as S.Schema<StreamDetailMetadata>;
 
 /** Metadata for a specific data stream. */
 export interface StreamMetadata {
@@ -193,9 +187,7 @@ export const TelemetryTypeMetadata = /*@__PURE__*/ S.suspend(() =>
     supportedResourceTypes: S.optional(TelemetryTypeMetadataSupportedResourceTypesList),
     supportedStreams: S.optional(TelemetryTypeMetadataSupportedStreamsList),
   }),
-).annotate({
-  identifier: "TelemetryTypeMetadata",
-}) as any as S.Schema<TelemetryTypeMetadata>;
+).annotate({ identifier: "TelemetryTypeMetadata" }) as any as S.Schema<TelemetryTypeMetadata>;
 
 /** Metadata for platform telemetry (logs and metrics). */
 export interface PlatformTelemetryMetadata {
@@ -222,9 +214,7 @@ export const ConfigurationMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     platformTelemetry: S.optional(PlatformTelemetryMetadata),
   }),
-).annotate({
-  identifier: "ConfigurationMetadata",
-}) as any as S.Schema<ConfigurationMetadata>;
+).annotate({ identifier: "ConfigurationMetadata" }) as any as S.Schema<ConfigurationMetadata>;
 
 /** Response containing configuration metadata for data collection rules. */
 export interface DataCollectionRuleConfigurationMetadataResponse {
@@ -280,9 +270,7 @@ export const UserIdentityProperties = /*@__PURE__*/ S.suspend(() =>
     principalId: S.optional(S.String),
     clientId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UserIdentityProperties",
-}) as any as S.Schema<UserIdentityProperties>;
+).annotate({ identifier: "UserIdentityProperties" }) as any as S.Schema<UserIdentityProperties>;
 
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -314,9 +302,7 @@ export const Identity = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Identity" }) as any as S.Schema<Identity>;
 
 /** Resource tags. */
-export type ScheduledQueryRuleResourceTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ScheduledQueryRuleResourceTagsMap = { [key: string]: string | undefined };
 export const ScheduledQueryRuleResourceTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -449,9 +435,7 @@ export const ConditionFailingPeriods = /*@__PURE__*/ S.suspend(() =>
     numberOfEvaluationPeriods: S.optional(S.Number),
     minFailingPeriodsToAlert: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ConditionFailingPeriods",
-}) as any as S.Schema<ConditionFailingPeriods>;
+).annotate({ identifier: "ConditionFailingPeriods" }) as any as S.Schema<ConditionFailingPeriods>;
 
 /** A condition of the scheduled query rule. */
 export interface Condition {
@@ -568,9 +552,7 @@ export const RuleResolveConfiguration = /*@__PURE__*/ S.suspend(() =>
     autoResolved: S.optional(S.Boolean),
     timeToResolve: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RuleResolveConfiguration",
-}) as any as S.Schema<RuleResolveConfiguration>;
+).annotate({ identifier: "RuleResolveConfiguration" }) as any as S.Schema<RuleResolveConfiguration>;
 
 /** scheduled query rule Definition */
 export interface ScheduledQueryRuleProperties {
@@ -689,9 +671,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-01-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
@@ -711,9 +691,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -763,9 +741,7 @@ export const ListOperationsResponse = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(ListOperationsResponseValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListOperationsResponse",
-}) as any as S.Schema<ListOperationsResponse>;
+).annotate({ identifier: "ListOperationsResponse" }) as any as S.Schema<ListOperationsResponse>;
 
 export interface ListScheduledQueryRuleByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -864,9 +840,7 @@ export const IdentityInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "IdentityInput" }) as any as S.Schema<IdentityInput>;
 
 /** Resource tags. */
-export type ScheduledQueryRulesCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ScheduledQueryRulesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ScheduledQueryRulesCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -994,9 +968,7 @@ export const ScheduledQueryRulesCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ScheduledQueryRulesCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type UpdateScheduledQueryRuleRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateScheduledQueryRuleRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateScheduledQueryRuleRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

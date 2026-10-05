@@ -26,9 +26,7 @@ export const DeleteGroupQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteGroupQuotasRequest",
-}) as any as S.Schema<DeleteGroupQuotasRequest>;
+).annotate({ identifier: "DeleteGroupQuotasRequest" }) as any as S.Schema<DeleteGroupQuotasRequest>;
 
 export interface DeleteGroupQuotasResponse {}
 export const DeleteGroupQuotasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -171,9 +169,7 @@ export const GroupQuotaRequestBase = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(GroupQuotaRequestBaseProperties),
   }),
-).annotate({
-  identifier: "GroupQuotaRequestBase",
-}) as any as S.Schema<GroupQuotaRequestBase>;
+).annotate({ identifier: "GroupQuotaRequestBase" }) as any as S.Schema<GroupQuotaRequestBase>;
 
 /** Request status. */
 export type RequestState =
@@ -325,9 +321,7 @@ export const GetGroupQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetGroupQuotasRequest",
-}) as any as S.Schema<GetGroupQuotasRequest>;
+).annotate({ identifier: "GetGroupQuotasRequest" }) as any as S.Schema<GetGroupQuotasRequest>;
 
 /** Type of the group. */
 export type GroupType = "AllocationGroup" | "EnforcedGroup";
@@ -348,9 +342,7 @@ export const GroupQuotasEntityBase = /*@__PURE__*/ S.suspend(() =>
     groupType: S.optional(GroupType),
     provisioningState: S.optional(RequestState),
   }),
-).annotate({
-  identifier: "GroupQuotasEntityBase",
-}) as any as S.Schema<GroupQuotasEntityBase>;
+).annotate({ identifier: "GroupQuotasEntityBase" }) as any as S.Schema<GroupQuotasEntityBase>;
 
 export interface GetGroupQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -372,9 +364,7 @@ export const GetGroupQuotasResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GroupQuotasEntityBase),
   }),
-).annotate({
-  identifier: "GetGroupQuotasResponse",
-}) as any as S.Schema<GetGroupQuotasResponse>;
+).annotate({ identifier: "GetGroupQuotasResponse" }) as any as S.Schema<GetGroupQuotasResponse>;
 
 export interface GetGroupQuotaSubscriptionRequest2 {
   /** The management group ID. */
@@ -627,14 +617,12 @@ export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetQuotaRequest",
-}) as any as S.Schema<GetQuotaRequest>;
+).annotate({ identifier: "GetQuotaRequest" }) as any as S.Schema<GetQuotaRequest>;
 
 /** The limit object type. */
 export type LimitType = "LimitValue";
@@ -649,9 +637,7 @@ export const LimitJsonObject = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     limitObjectType: LimitType,
   }),
-).annotate({
-  identifier: "LimitJsonObject",
-}) as any as S.Schema<LimitJsonObject>;
+).annotate({ identifier: "LimitJsonObject" }) as any as S.Schema<LimitJsonObject>;
 
 /** Name of the resource provided by the resource Provider. When requesting quota, use this property name. */
 export type ResourceName = GroupQuotaRequestBasePropertiesName;
@@ -684,9 +670,7 @@ export const QuotaProperties = /*@__PURE__*/ S.suspend(() =>
     isQuotaApplicable: S.optional(S.Boolean),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "QuotaProperties",
-}) as any as S.Schema<QuotaProperties>;
+).annotate({ identifier: "QuotaProperties" }) as any as S.Schema<QuotaProperties>;
 
 export interface GetQuotaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -708,9 +692,7 @@ export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
   }),
-).annotate({
-  identifier: "GetQuotaResponse",
-}) as any as S.Schema<GetQuotaResponse>;
+).annotate({ identifier: "GetQuotaResponse" }) as any as S.Schema<GetQuotaResponse>;
 
 export interface GetQuotaRequestStatusRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -725,7 +707,7 @@ export const GetQuotaRequestStatusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotaRequests/{id}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotaRequests/{id}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -750,9 +732,7 @@ export const ServiceErrorDetail = /*@__PURE__*/ S.suspend(() =>
     code: S.optional(S.String),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ServiceErrorDetail",
-}) as any as S.Schema<ServiceErrorDetail>;
+).annotate({ identifier: "ServiceErrorDetail" }) as any as S.Schema<ServiceErrorDetail>;
 
 /** Request property. */
 export interface SubRequest {
@@ -810,9 +790,7 @@ export const QuotaRequestProperties = /*@__PURE__*/ S.suspend(() =>
     requestSubmitTime: S.optional(S.String),
     value: S.optional(QuotaRequestPropertiesValueList),
   }),
-).annotate({
-  identifier: "QuotaRequestProperties",
-}) as any as S.Schema<QuotaRequestProperties>;
+).annotate({ identifier: "QuotaRequestProperties" }) as any as S.Schema<QuotaRequestProperties>;
 
 export interface GetQuotaRequestStatusResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -851,14 +829,12 @@ export const GetUsageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/usages/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/usages/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "GetUsageRequest",
-}) as any as S.Schema<GetUsageRequest>;
+).annotate({ identifier: "GetUsageRequest" }) as any as S.Schema<GetUsageRequest>;
 
 /** The quota or usages limit types. */
 export type UsagesTypes = "Individual" | "Combined";
@@ -905,9 +881,7 @@ export const UsagesProperties = /*@__PURE__*/ S.suspend(() =>
     isQuotaApplicable: S.optional(S.Boolean),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "UsagesProperties",
-}) as any as S.Schema<UsagesProperties>;
+).annotate({ identifier: "UsagesProperties" }) as any as S.Schema<UsagesProperties>;
 
 export interface GetUsageResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -929,9 +903,7 @@ export const GetUsageResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(UsagesProperties),
   }),
-).annotate({
-  identifier: "GetUsageResponse",
-}) as any as S.Schema<GetUsageResponse>;
+).annotate({ identifier: "GetUsageResponse" }) as any as S.Schema<GetUsageResponse>;
 
 export interface GroupQuotasEnforcementStatusPropertiesInput {
   /** Is the GroupQuota Enforcement enabled for the Azure region. */
@@ -1152,9 +1124,7 @@ export const AllocatedToSubscription = /*@__PURE__*/ S.suspend(() =>
     subscriptionId: S.optional(S.String),
     quotaAllocated: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AllocatedToSubscription",
-}) as any as S.Schema<AllocatedToSubscription>;
+).annotate({ identifier: "AllocatedToSubscription" }) as any as S.Schema<AllocatedToSubscription>;
 
 /** List of Group Quota Limit allocated to subscriptions. */
 export type AllocatedQuotaToSubscriptionListValueList = Array<AllocatedToSubscription>;
@@ -1202,9 +1172,7 @@ export const GroupQuotaDetails = /*@__PURE__*/ S.suspend(() =>
     availableLimit: S.optional(S.Number),
     allocatedToSubscriptions: S.optional(AllocatedQuotaToSubscriptionList),
   }),
-).annotate({
-  identifier: "GroupQuotaDetails",
-}) as any as S.Schema<GroupQuotaDetails>;
+).annotate({ identifier: "GroupQuotaDetails" }) as any as S.Schema<GroupQuotaDetails>;
 
 /** Group Quota limit. */
 export interface GroupQuotaLimit {
@@ -1215,9 +1183,7 @@ export const GroupQuotaLimit = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(GroupQuotaDetails),
   }),
-).annotate({
-  identifier: "GroupQuotaLimit",
-}) as any as S.Schema<GroupQuotaLimit>;
+).annotate({ identifier: "GroupQuotaLimit" }) as any as S.Schema<GroupQuotaLimit>;
 
 /** List of Group Quota Limit details. */
 export type GroupQuotaLimitListPropertiesValueList = Array<GroupQuotaLimit>;
@@ -1355,9 +1321,7 @@ export const ListGroupQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListGroupQuotasRequest",
-}) as any as S.Schema<ListGroupQuotasRequest>;
+).annotate({ identifier: "ListGroupQuotasRequest" }) as any as S.Schema<ListGroupQuotasRequest>;
 
 /** Properties and filters for ShareQuota. The request parameter is optional, if there are no filters specified. */
 export interface GroupQuotasEntity {
@@ -1380,9 +1344,7 @@ export const GroupQuotasEntity = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GroupQuotasEntityBase),
   }),
-).annotate({
-  identifier: "GroupQuotasEntity",
-}) as any as S.Schema<GroupQuotasEntity>;
+).annotate({ identifier: "GroupQuotasEntity" }) as any as S.Schema<GroupQuotasEntity>;
 
 /** The GroupQuotasEntity items on this page */
 export type GroupQuotaListValueList = Array<GroupQuotasEntity>;
@@ -1457,9 +1419,7 @@ export const SubscriptionQuotaDetails = /*@__PURE__*/ S.suspend(() =>
     shareableQuota: S.optional(S.Number),
     name: S.optional(GroupQuotaRequestBasePropertiesName),
   }),
-).annotate({
-  identifier: "SubscriptionQuotaDetails",
-}) as any as S.Schema<SubscriptionQuotaDetails>;
+).annotate({ identifier: "SubscriptionQuotaDetails" }) as any as S.Schema<SubscriptionQuotaDetails>;
 
 /** Quota allocated to a subscription for the specific Resource Provider, Location, ResourceName. This will include the GroupQuota and total quota allocated to the subscription. Only the Group quota allocated to the subscription can be allocated back to the MG Group Quota. */
 export interface SubscriptionQuotaAllocations {
@@ -1710,9 +1670,7 @@ export const GroupQuotaSubscriptionId = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(GroupQuotaSubscriptionIdProperties),
   }),
-).annotate({
-  identifier: "GroupQuotaSubscriptionId",
-}) as any as S.Schema<GroupQuotaSubscriptionId>;
+).annotate({ identifier: "GroupQuotaSubscriptionId" }) as any as S.Schema<GroupQuotaSubscriptionId>;
 
 /** The GroupQuotaSubscriptionId items on this page */
 export type GroupQuotaSubscriptionIdListValueList = Array<GroupQuotaSubscriptionId>;
@@ -1786,9 +1744,7 @@ export const GroupQuotaUsagesBase = /*@__PURE__*/ S.suspend(() =>
     usages: S.optional(S.Number),
     unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupQuotaUsagesBase",
-}) as any as S.Schema<GroupQuotaUsagesBase>;
+).annotate({ identifier: "GroupQuotaUsagesBase" }) as any as S.Schema<GroupQuotaUsagesBase>;
 
 /** Resource details with usages and GroupQuota. */
 export interface ResourceUsages {
@@ -1831,9 +1787,7 @@ export const ResourceUsageList = /*@__PURE__*/ S.suspend(() =>
     value: ResourceUsageListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceUsageList",
-}) as any as S.Schema<ResourceUsageList>;
+).annotate({ identifier: "ResourceUsageList" }) as any as S.Schema<ResourceUsageList>;
 
 export interface ListQuotaRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1845,14 +1799,12 @@ export const ListQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas",
       code: 200,
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListQuotaRequest",
-}) as any as S.Schema<ListQuotaRequest>;
+).annotate({ identifier: "ListQuotaRequest" }) as any as S.Schema<ListQuotaRequest>;
 
 /** Quota limit. */
 export interface CurrentQuotaLimitBase {
@@ -1875,9 +1827,7 @@ export const CurrentQuotaLimitBase = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
   }),
-).annotate({
-  identifier: "CurrentQuotaLimitBase",
-}) as any as S.Schema<CurrentQuotaLimitBase>;
+).annotate({ identifier: "CurrentQuotaLimitBase" }) as any as S.Schema<CurrentQuotaLimitBase>;
 
 /** The CurrentQuotaLimitBase items on this page */
 export type QuotaLimitsValueList = Array<CurrentQuotaLimitBase>;
@@ -1930,9 +1880,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 export interface OperationResponse {
   name?: string;
@@ -1945,9 +1893,7 @@ export const OperationResponse = /*@__PURE__*/ S.suspend(() =>
     display: S.optional(OperationDisplay),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationResponse",
-}) as any as S.Schema<OperationResponse>;
+).annotate({ identifier: "OperationResponse" }) as any as S.Schema<OperationResponse>;
 
 /** The list of connected cluster API operations. */
 export type OperationListValueList = Array<OperationResponse>;
@@ -1988,7 +1934,7 @@ export const ListQuotaRequestStatusRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/quotaRequests",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotaRequests",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -2018,9 +1964,7 @@ export const QuotaRequestDetails = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaRequestProperties),
   }),
-).annotate({
-  identifier: "QuotaRequestDetails",
-}) as any as S.Schema<QuotaRequestDetails>;
+).annotate({ identifier: "QuotaRequestDetails" }) as any as S.Schema<QuotaRequestDetails>;
 
 /** The QuotaRequestDetails items on this page */
 export type QuotaRequestDetailsListValueList = Array<QuotaRequestDetails>;
@@ -2040,9 +1984,7 @@ export const QuotaRequestDetailsList = /*@__PURE__*/ S.suspend(() =>
     value: QuotaRequestDetailsListValueList,
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "QuotaRequestDetailsList",
-}) as any as S.Schema<QuotaRequestDetailsList>;
+).annotate({ identifier: "QuotaRequestDetailsList" }) as any as S.Schema<QuotaRequestDetailsList>;
 
 export interface ListUsagesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2054,14 +1996,12 @@ export const ListUsagesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Quota/usages",
+      uri: "/{scope+}/providers/Microsoft.Quota/usages",
       code: 200,
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsagesRequest",
-}) as any as S.Schema<ListUsagesRequest>;
+).annotate({ identifier: "ListUsagesRequest" }) as any as S.Schema<ListUsagesRequest>;
 
 /** Resource usage. */
 export interface CurrentUsagesBase {
@@ -2084,9 +2024,7 @@ export const CurrentUsagesBase = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(UsagesProperties),
   }),
-).annotate({
-  identifier: "CurrentUsagesBase",
-}) as any as S.Schema<CurrentUsagesBase>;
+).annotate({ identifier: "CurrentUsagesBase" }) as any as S.Schema<CurrentUsagesBase>;
 
 /** The CurrentUsagesBase items on this page */
 export type UsagesLimitsValueList = Array<CurrentUsagesBase>;
@@ -2117,9 +2055,7 @@ export const ResourceNameInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceNameInput",
-}) as any as S.Schema<ResourceNameInput>;
+).annotate({ identifier: "ResourceNameInput" }) as any as S.Schema<ResourceNameInput>;
 
 /** Quota properties for the specified resource. */
 export interface QuotaPropertiesInput {
@@ -2139,9 +2075,7 @@ export const QuotaPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.optional(S.String),
     properties: S.optional(S.Unknown),
   }),
-).annotate({
-  identifier: "QuotaPropertiesInput",
-}) as any as S.Schema<QuotaPropertiesInput>;
+).annotate({ identifier: "QuotaPropertiesInput" }) as any as S.Schema<QuotaPropertiesInput>;
 
 export interface QuotaCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2159,7 +2093,7 @@ export const QuotaCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
@@ -2207,9 +2141,7 @@ export const GroupQuotaDetailsInput = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     comment: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GroupQuotaDetailsInput",
-}) as any as S.Schema<GroupQuotaDetailsInput>;
+).annotate({ identifier: "GroupQuotaDetailsInput" }) as any as S.Schema<GroupQuotaDetailsInput>;
 
 /** Group Quota limit. */
 export interface GroupQuotaLimitInput {
@@ -2220,9 +2152,7 @@ export const GroupQuotaLimitInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     properties: S.optional(GroupQuotaDetailsInput),
   }),
-).annotate({
-  identifier: "GroupQuotaLimitInput",
-}) as any as S.Schema<GroupQuotaLimitInput>;
+).annotate({ identifier: "GroupQuotaLimitInput" }) as any as S.Schema<GroupQuotaLimitInput>;
 
 /** List of Group Quota Limit details. */
 export type GroupQuotaLimitListPropertiesInputValueList = Array<GroupQuotaLimitInput>;
@@ -2373,9 +2303,7 @@ export const UpdateGroupQuotasRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateGroupQuotasRequest",
-}) as any as S.Schema<UpdateGroupQuotasRequest>;
+).annotate({ identifier: "UpdateGroupQuotasRequest" }) as any as S.Schema<UpdateGroupQuotasRequest>;
 
 export interface UpdateGroupQuotasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2569,14 +2497,12 @@ export const UpdateQuotaRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PATCH",
-      uri: "/{scope}/providers/Microsoft.Quota/quotas/{resourceName}",
+      uri: "/{scope+}/providers/Microsoft.Quota/quotas/{resourceName}",
       code: 200,
       apiVersion: "2025-09-01",
     }),
   ),
-).annotate({
-  identifier: "UpdateQuotaRequest",
-}) as any as S.Schema<UpdateQuotaRequest>;
+).annotate({ identifier: "UpdateQuotaRequest" }) as any as S.Schema<UpdateQuotaRequest>;
 
 export interface UpdateQuotaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2598,9 +2524,7 @@ export const UpdateQuotaResponse = /*@__PURE__*/ S.suspend(() =>
     systemData: S.optional(SystemData),
     properties: S.optional(QuotaProperties),
   }),
-).annotate({
-  identifier: "UpdateQuotaResponse",
-}) as any as S.Schema<UpdateQuotaResponse>;
+).annotate({ identifier: "UpdateQuotaResponse" }) as any as S.Schema<UpdateQuotaResponse>;
 
 export type DeleteGroupQuotasError = AzureOpError;
 /** Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be lost. */

@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags. */
-export type CustomLocationsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CustomLocationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const CustomLocationsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -85,9 +83,7 @@ export const CustomLocationProperties = /*@__PURE__*/ S.suspend(() =>
     namespace: S.optional(S.String),
     provisioningState: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomLocationProperties",
-}) as any as S.Schema<CustomLocationProperties>;
+).annotate({ identifier: "CustomLocationProperties" }) as any as S.Schema<CustomLocationProperties>;
 
 export interface CustomLocationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -127,9 +123,7 @@ export const CustomLocationsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<CustomLocationsCreateOrUpdateRequest>;
 
 /** Resource tags. */
-export type CustomLocationsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type CustomLocationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const CustomLocationsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -286,14 +280,10 @@ export const GetCustomLocationRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2021-08-15",
     }),
   ),
-).annotate({
-  identifier: "GetCustomLocationRequest",
-}) as any as S.Schema<GetCustomLocationRequest>;
+).annotate({ identifier: "GetCustomLocationRequest" }) as any as S.Schema<GetCustomLocationRequest>;
 
 /** Resource tags. */
-export type GetCustomLocationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetCustomLocationResponseTagsMap = { [key: string]: string | undefined };
 export const GetCustomLocationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -445,9 +435,7 @@ export const CustomLocationSystemData = /*@__PURE__*/ S.suspend(() =>
     lastModifiedByType: S.optional(CustomLocationSystemDataLastModifiedByType),
     lastModifiedAt: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomLocationSystemData",
-}) as any as S.Schema<CustomLocationSystemData>;
+).annotate({ identifier: "CustomLocationSystemData" }) as any as S.Schema<CustomLocationSystemData>;
 
 /** Custom Locations definition. */
 export interface CustomLocation {
@@ -499,9 +487,7 @@ export const CustomLocationListResult = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     value: S.optional(CustomLocationListResultValueList),
   }),
-).annotate({
-  identifier: "CustomLocationListResult",
-}) as any as S.Schema<CustomLocationListResult>;
+).annotate({ identifier: "CustomLocationListResult" }) as any as S.Schema<CustomLocationListResult>;
 
 export interface ListCustomLocationBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -657,9 +643,7 @@ export const EnabledResourceType = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(EnabledResourceTypeProperties),
     systemData: S.optional(EnabledResourceTypeSystemData),
   }),
-).annotate({
-  identifier: "EnabledResourceType",
-}) as any as S.Schema<EnabledResourceType>;
+).annotate({ identifier: "EnabledResourceType" }) as any as S.Schema<EnabledResourceType>;
 
 /** The list of EnabledResourceTypes available for a customLocation. */
 export type EnabledResourceTypesListResultValueList = Array<EnabledResourceType>;
@@ -737,9 +721,7 @@ export const CustomLocationOperation = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     origin: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CustomLocationOperation",
-}) as any as S.Schema<CustomLocationOperation>;
+).annotate({ identifier: "CustomLocationOperation" }) as any as S.Schema<CustomLocationOperation>;
 
 /** Array of customLocationOperation */
 export type CustomLocationOperationsListValueList = Array<CustomLocationOperation>;
@@ -764,9 +746,7 @@ export const CustomLocationOperationsList = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CustomLocationOperationsList>;
 
 /** Resource tags */
-export type UpdateCustomLocationRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCustomLocationRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateCustomLocationRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -807,9 +787,7 @@ export const UpdateCustomLocationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateCustomLocationRequest>;
 
 /** Resource tags. */
-export type UpdateCustomLocationResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateCustomLocationResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateCustomLocationResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,

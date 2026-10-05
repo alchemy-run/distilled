@@ -9,9 +9,7 @@ import * as T from "../traits.ts";
 export type { AzureOpError, AzureOpContext };
 
 /** Resource tags */
-export type ADCCatalogsCreateOrUpdateRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ADCCatalogsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export const ADCCatalogsCreateOrUpdateRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -71,9 +69,7 @@ export const ADCCatalogProperties = /*@__PURE__*/ S.suspend(() =>
     successfullyProvisioned: S.optional(S.Boolean),
     enableAutomaticUnitAdjustment: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ADCCatalogProperties",
-}) as any as S.Schema<ADCCatalogProperties>;
+).annotate({ identifier: "ADCCatalogProperties" }) as any as S.Schema<ADCCatalogProperties>;
 
 export interface ADCCatalogsCreateOrUpdateRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -113,9 +109,7 @@ export const ADCCatalogsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ADCCatalogsCreateOrUpdateRequest>;
 
 /** Resource tags */
-export type ADCCatalogsCreateOrUpdateResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ADCCatalogsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export const ADCCatalogsCreateOrUpdateResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -224,9 +218,7 @@ export const ADCCatalogsListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ADCCatalogsListResultValueList),
   }),
-).annotate({
-  identifier: "ADCCatalogsListResult",
-}) as any as S.Schema<ADCCatalogsListResult>;
+).annotate({ identifier: "ADCCatalogsListResult" }) as any as S.Schema<ADCCatalogsListResult>;
 
 export interface DeleteADCCatalogRequest {
   /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -249,9 +241,7 @@ export const DeleteADCCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-30",
     }),
   ),
-).annotate({
-  identifier: "DeleteADCCatalogRequest",
-}) as any as S.Schema<DeleteADCCatalogRequest>;
+).annotate({ identifier: "DeleteADCCatalogRequest" }) as any as S.Schema<DeleteADCCatalogRequest>;
 
 export interface DeleteADCCatalogResponse {}
 export const DeleteADCCatalogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -279,14 +269,10 @@ export const GetADCCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-30",
     }),
   ),
-).annotate({
-  identifier: "GetADCCatalogRequest",
-}) as any as S.Schema<GetADCCatalogRequest>;
+).annotate({ identifier: "GetADCCatalogRequest" }) as any as S.Schema<GetADCCatalogRequest>;
 
 /** Resource tags */
-export type GetADCCatalogResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetADCCatalogResponseTagsMap = { [key: string]: string | undefined };
 export const GetADCCatalogResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -318,9 +304,7 @@ export const GetADCCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ADCCatalogProperties),
   }),
-).annotate({
-  identifier: "GetADCCatalogResponse",
-}) as any as S.Schema<GetADCCatalogResponse>;
+).annotate({ identifier: "GetADCCatalogResponse" }) as any as S.Schema<GetADCCatalogResponse>;
 
 export interface ListADCOperationsRequest {}
 export const ListADCOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -332,9 +316,7 @@ export const ListADCOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-30",
     }),
   ),
-).annotate({
-  identifier: "ListADCOperationsRequest",
-}) as any as S.Schema<ListADCOperationsRequest>;
+).annotate({ identifier: "ListADCOperationsRequest" }) as any as S.Schema<ListADCOperationsRequest>;
 
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationDisplayInfo {
@@ -354,9 +336,7 @@ export const OperationDisplayInfo = /*@__PURE__*/ S.suspend(() =>
     provider: S.optional(S.String),
     resource: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplayInfo",
-}) as any as S.Schema<OperationDisplayInfo>;
+).annotate({ identifier: "OperationDisplayInfo" }) as any as S.Schema<OperationDisplayInfo>;
 
 /** The operation supported by Azure Data Catalog Service. */
 export interface OperationEntity {
@@ -370,9 +350,7 @@ export const OperationEntity = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     display: S.optional(OperationDisplayInfo),
   }),
-).annotate({
-  identifier: "OperationEntity",
-}) as any as S.Schema<OperationEntity>;
+).annotate({ identifier: "OperationEntity" }) as any as S.Schema<OperationEntity>;
 
 /** The list of operations. */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
@@ -394,9 +372,7 @@ export const OperationEntityListResult = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<OperationEntityListResult>;
 
 /** Resource tags */
-export type UpdateADCCatalogRequestTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateADCCatalogRequestTagsMap = { [key: string]: string | undefined };
 export const UpdateADCCatalogRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -435,14 +411,10 @@ export const UpdateADCCatalogRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2016-03-30",
     }),
   ),
-).annotate({
-  identifier: "UpdateADCCatalogRequest",
-}) as any as S.Schema<UpdateADCCatalogRequest>;
+).annotate({ identifier: "UpdateADCCatalogRequest" }) as any as S.Schema<UpdateADCCatalogRequest>;
 
 /** Resource tags */
-export type UpdateADCCatalogResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type UpdateADCCatalogResponseTagsMap = { [key: string]: string | undefined };
 export const UpdateADCCatalogResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -474,9 +446,7 @@ export const UpdateADCCatalogResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     properties: S.optional(ADCCatalogProperties),
   }),
-).annotate({
-  identifier: "UpdateADCCatalogResponse",
-}) as any as S.Schema<UpdateADCCatalogResponse>;
+).annotate({ identifier: "UpdateADCCatalogResponse" }) as any as S.Schema<UpdateADCCatalogResponse>;
 
 export type ADCCatalogsCreateOrUpdateError = AzureOpError;
 /** Create or Update Azure Data Catalog service (PUT Resource) The Create Azure Data Catalog service operation creates a new data catalog service with the specified parameters. If the specific service already exists, then any patchable properties will be updated and any immutable properties will remain unchanged. */

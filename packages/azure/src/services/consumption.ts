@@ -34,9 +34,7 @@ export const BudgetTimePeriod = /*@__PURE__*/ S.suspend(() =>
     startDate: S.String,
     endDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BudgetTimePeriod",
-}) as any as S.Schema<BudgetTimePeriod>;
+).annotate({ identifier: "BudgetTimePeriod" }) as any as S.Schema<BudgetTimePeriod>;
 
 /** The operator to use for comparison. */
 export type BudgetOperatorType = "In";
@@ -79,9 +77,7 @@ export const BudgetFilterProperties = /*@__PURE__*/ S.suspend(() =>
     dimensions: S.optional(BudgetComparisonExpression),
     tags: S.optional(BudgetComparisonExpression),
   }),
-).annotate({
-  identifier: "BudgetFilterProperties",
-}) as any as S.Schema<BudgetFilterProperties>;
+).annotate({ identifier: "BudgetFilterProperties" }) as any as S.Schema<BudgetFilterProperties>;
 
 /** The logical "AND" expression. Must have at least 2 items. */
 export type BudgetFilterAndList = Array<BudgetFilterProperties>;
@@ -190,9 +186,7 @@ export const Notification = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Notification" }) as any as S.Schema<Notification>;
 
 /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
-export type BudgetPropertiesInputNotificationsMap = {
-  [key: string]: Notification | undefined;
-};
+export type BudgetPropertiesInputNotificationsMap = { [key: string]: Notification | undefined };
 export const BudgetPropertiesInputNotificationsMap = /*@__PURE__*/ S.Record(
   S.String,
   Notification,
@@ -222,9 +216,7 @@ export const BudgetPropertiesInput = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(BudgetFilter),
     notifications: S.optional(BudgetPropertiesInputNotificationsMap),
   }),
-).annotate({
-  identifier: "BudgetPropertiesInput",
-}) as any as S.Schema<BudgetPropertiesInput>;
+).annotate({ identifier: "BudgetPropertiesInput" }) as any as S.Schema<BudgetPropertiesInput>;
 
 export interface BudgetsCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -245,7 +237,7 @@ export const BudgetsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "PUT",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -303,9 +295,7 @@ export const CurrentSpend = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CurrentSpend" }) as any as S.Schema<CurrentSpend>;
 
 /** Dictionary of notifications associated with the budget. Budget can have up to five notifications. */
-export type BudgetPropertiesNotificationsMap = {
-  [key: string]: Notification | undefined;
-};
+export type BudgetPropertiesNotificationsMap = { [key: string]: Notification | undefined };
 export const BudgetPropertiesNotificationsMap = /*@__PURE__*/ S.Record(
   S.String,
   Notification,
@@ -355,9 +345,7 @@ export const BudgetProperties = /*@__PURE__*/ S.suspend(() =>
     notifications: S.optional(BudgetPropertiesNotificationsMap),
     forecastSpend: S.optional(ForecastSpend),
   }),
-).annotate({
-  identifier: "BudgetProperties",
-}) as any as S.Schema<BudgetProperties>;
+).annotate({ identifier: "BudgetProperties" }) as any as S.Schema<BudgetProperties>;
 
 export interface BudgetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -399,14 +387,12 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "DELETE",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "DeleteBudgetRequest",
-}) as any as S.Schema<DeleteBudgetRequest>;
+).annotate({ identifier: "DeleteBudgetRequest" }) as any as S.Schema<DeleteBudgetRequest>;
 
 export interface DeleteBudgetResponse {}
 export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -467,9 +453,7 @@ export const OperationStatus = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(OperationStatusType),
     properties: S.optional(PricesheetDownloadProperties),
   }),
-).annotate({
-  identifier: "OperationStatus",
-}) as any as S.Schema<OperationStatus>;
+).annotate({ identifier: "OperationStatus" }) as any as S.Schema<OperationStatus>;
 
 export interface GetAggregatedCostByManagementGroupRequest {
   /** Order Id of the reservation */
@@ -494,9 +478,7 @@ export const GetAggregatedCostByManagementGroupRequest = /*@__PURE__*/ S.suspend
 }) as any as S.Schema<GetAggregatedCostByManagementGroupRequest>;
 
 /** Resource tags. */
-export type ManagementGroupAggregatedCostResultTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ManagementGroupAggregatedCostResultTagsMap = { [key: string]: string | undefined };
 export const ManagementGroupAggregatedCostResultTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -821,14 +803,10 @@ export const BalanceProperties = /*@__PURE__*/ S.suspend(() =>
     newPurchasesDetails: S.optional(BalancePropertiesNewPurchasesDetailsList),
     adjustmentDetails: S.optional(BalancePropertiesAdjustmentDetailsList),
   }),
-).annotate({
-  identifier: "BalanceProperties",
-}) as any as S.Schema<BalanceProperties>;
+).annotate({ identifier: "BalanceProperties" }) as any as S.Schema<BalanceProperties>;
 
 /** Resource tags. */
-export type GetBalanceByBillingAccountResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetBalanceByBillingAccountResponseTagsMap = { [key: string]: string | undefined };
 export const GetBalanceByBillingAccountResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -938,14 +916,12 @@ export const GetBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets/{budgetName}",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets/{budgetName}",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetBudgetRequest",
-}) as any as S.Schema<GetBudgetRequest>;
+).annotate({ identifier: "GetBudgetRequest" }) as any as S.Schema<GetBudgetRequest>;
 
 export interface GetBudgetResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -970,9 +946,7 @@ export const GetBudgetResponse = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(BudgetProperties),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBudgetResponse",
-}) as any as S.Schema<GetBudgetResponse>;
+).annotate({ identifier: "GetBudgetResponse" }) as any as S.Schema<GetBudgetResponse>;
 
 export interface GetCreditRequest {
   /** BillingAccount ID */
@@ -992,9 +966,7 @@ export const GetCreditRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetCreditRequest",
-}) as any as S.Schema<GetCreditRequest>;
+).annotate({ identifier: "GetCreditRequest" }) as any as S.Schema<GetCreditRequest>;
 
 /** The amount plus currency . */
 export interface Amount {
@@ -1028,9 +1000,7 @@ export const AmountWithExchangeRate = /*@__PURE__*/ S.suspend(() =>
     exchangeRate: S.optional(S.Number),
     exchangeRateMonth: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AmountWithExchangeRate",
-}) as any as S.Schema<AmountWithExchangeRate>;
+).annotate({ identifier: "AmountWithExchangeRate" }) as any as S.Schema<AmountWithExchangeRate>;
 
 /** Summary of credit balances. */
 export interface CreditBalanceSummary {
@@ -1047,9 +1017,7 @@ export const CreditBalanceSummary = /*@__PURE__*/ S.suspend(() =>
     currentBalance: S.optional(Amount),
     estimatedBalanceInBillingCurrency: S.optional(AmountWithExchangeRate),
   }),
-).annotate({
-  identifier: "CreditBalanceSummary",
-}) as any as S.Schema<CreditBalanceSummary>;
+).annotate({ identifier: "CreditBalanceSummary" }) as any as S.Schema<CreditBalanceSummary>;
 
 /** The reseller properties. */
 export interface Reseller {
@@ -1098,9 +1066,7 @@ export const CreditSummaryProperties = /*@__PURE__*/ S.suspend(() =>
     isEstimatedBalance: S.optional(S.Boolean),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreditSummaryProperties",
-}) as any as S.Schema<CreditSummaryProperties>;
+).annotate({ identifier: "CreditSummaryProperties" }) as any as S.Schema<CreditSummaryProperties>;
 
 /** A list of Tag. */
 export type GetCreditResponseTagsMap = { [key: string]: string | undefined };
@@ -1135,9 +1101,7 @@ export const GetCreditResponse = /*@__PURE__*/ S.suspend(() =>
     eTag: S.optional(S.String),
     tags: S.optional(GetCreditResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetCreditResponse",
-}) as any as S.Schema<GetCreditResponse>;
+).annotate({ identifier: "GetCreditResponse" }) as any as S.Schema<GetCreditResponse>;
 
 export interface GetPriceSheetRequest {
   /** The ID of the target subscription. */
@@ -1163,9 +1127,7 @@ export const GetPriceSheetRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "GetPriceSheetRequest",
-}) as any as S.Schema<GetPriceSheetRequest>;
+).annotate({ identifier: "GetPriceSheetRequest" }) as any as S.Schema<GetPriceSheetRequest>;
 
 /** The properties of the meter detail. */
 export interface MeterDetails {
@@ -1255,9 +1217,7 @@ export const PriceSheetProperties = /*@__PURE__*/ S.suspend(() =>
     offerId: S.optional(S.String),
     savingsPlan: S.optional(SavingsPlan),
   }),
-).annotate({
-  identifier: "PriceSheetProperties",
-}) as any as S.Schema<PriceSheetProperties>;
+).annotate({ identifier: "PriceSheetProperties" }) as any as S.Schema<PriceSheetProperties>;
 
 /** Price sheet */
 export type PriceSheetModelPricesheetsList = Array<PriceSheetProperties>;
@@ -1280,14 +1240,10 @@ export const PriceSheetModel = /*@__PURE__*/ S.suspend(() =>
     nextLink: S.optional(S.String),
     download: S.optional(MeterDetails),
   }),
-).annotate({
-  identifier: "PriceSheetModel",
-}) as any as S.Schema<PriceSheetModel>;
+).annotate({ identifier: "PriceSheetModel" }) as any as S.Schema<PriceSheetModel>;
 
 /** Resource tags. */
-export type GetPriceSheetResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPriceSheetResponseTagsMap = { [key: string]: string | undefined };
 export const GetPriceSheetResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1319,9 +1275,7 @@ export const GetPriceSheetResponse = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(GetPriceSheetResponseTagsMap),
   }),
-).annotate({
-  identifier: "GetPriceSheetResponse",
-}) as any as S.Schema<GetPriceSheetResponse>;
+).annotate({ identifier: "GetPriceSheetResponse" }) as any as S.Schema<GetPriceSheetResponse>;
 
 export interface GetPriceSheetByBillingPeriodRequest {
   /** The ID of the target subscription. */
@@ -1355,9 +1309,7 @@ export const GetPriceSheetByBillingPeriodRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetPriceSheetByBillingPeriodRequest>;
 
 /** Resource tags. */
-export type GetPriceSheetByBillingPeriodResponseTagsMap = {
-  [key: string]: string | undefined;
-};
+export type GetPriceSheetByBillingPeriodResponseTagsMap = { [key: string]: string | undefined };
 export const GetPriceSheetByBillingPeriodResponseTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -1439,7 +1391,7 @@ export const GetReservationRecommendationDetailRequest = /*@__PURE__*/ S.suspend
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails",
+      uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationRecommendationDetails",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1690,7 +1642,7 @@ export const GetTagRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/tags",
+      uri: "/{scope+}/providers/Microsoft.Consumption/tags",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -1773,14 +1725,12 @@ export const ListBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/budgets",
+      uri: "/{scope+}/providers/Microsoft.Consumption/budgets",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListBudgetsRequest",
-}) as any as S.Schema<ListBudgetsRequest>;
+).annotate({ identifier: "ListBudgetsRequest" }) as any as S.Schema<ListBudgetsRequest>;
 
 /** A budget resource. */
 export interface Budget {
@@ -1826,9 +1776,7 @@ export const BudgetsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(BudgetsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BudgetsListResult",
-}) as any as S.Schema<BudgetsListResult>;
+).annotate({ identifier: "BudgetsListResult" }) as any as S.Schema<BudgetsListResult>;
 
 export interface ListChargesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1852,14 +1800,12 @@ export const ListChargesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/charges",
+      uri: "/{scope+}/providers/Microsoft.Consumption/charges",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListChargesRequest",
-}) as any as S.Schema<ListChargesRequest>;
+).annotate({ identifier: "ListChargesRequest" }) as any as S.Schema<ListChargesRequest>;
 
 /** Specifies the kind of charge summary. */
 export type ChargeSummaryKind = "legacy" | "modern";
@@ -1906,9 +1852,7 @@ export const ChargesListResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     value: S.optional(ChargesListResultValueList),
   }),
-).annotate({
-  identifier: "ChargesListResult",
-}) as any as S.Schema<ChargesListResult>;
+).annotate({ identifier: "ChargesListResult" }) as any as S.Schema<ChargesListResult>;
 
 export interface ListEventByBillingAccountRequest {
   /** BillingAccount ID */
@@ -2028,9 +1972,7 @@ export const EventProperties = /*@__PURE__*/ S.suspend(() =>
     isEstimatedBalance: S.optional(S.Boolean),
     eTag: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventProperties",
-}) as any as S.Schema<EventProperties>;
+).annotate({ identifier: "EventProperties" }) as any as S.Schema<EventProperties>;
 
 /** An event summary resource. */
 export interface EventSummary {
@@ -2286,9 +2228,7 @@ export const ListLotByCustomerRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListLotByCustomerRequest",
-}) as any as S.Schema<ListLotByCustomerRequest>;
+).annotate({ identifier: "ListLotByCustomerRequest" }) as any as S.Schema<ListLotByCustomerRequest>;
 
 export interface ListMarketplacesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2309,14 +2249,12 @@ export const ListMarketplacesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/marketplaces",
+      uri: "/{scope+}/providers/Microsoft.Consumption/marketplaces",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListMarketplacesRequest",
-}) as any as S.Schema<ListMarketplacesRequest>;
+).annotate({ identifier: "ListMarketplacesRequest" }) as any as S.Schema<ListMarketplacesRequest>;
 
 /** The properties of the marketplace usage detail. */
 export interface MarketplaceProperties {
@@ -2402,9 +2340,7 @@ export const MarketplaceProperties = /*@__PURE__*/ S.suspend(() =>
     planName: S.optional(S.String),
     isRecurringCharge: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MarketplaceProperties",
-}) as any as S.Schema<MarketplaceProperties>;
+).annotate({ identifier: "MarketplaceProperties" }) as any as S.Schema<MarketplaceProperties>;
 
 /** Resource tags. */
 export type MarketplaceTagsMap = { [key: string]: string | undefined };
@@ -2460,9 +2396,7 @@ export const MarketplacesListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(MarketplacesListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MarketplacesListResult",
-}) as any as S.Schema<MarketplacesListResult>;
+).annotate({ identifier: "MarketplacesListResult" }) as any as S.Schema<MarketplacesListResult>;
 
 export interface ListOperationsRequest {}
 export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -2474,9 +2408,7 @@ export const ListOperationsRequest = /*@__PURE__*/ S.suspend(() =>
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListOperationsRequest",
-}) as any as S.Schema<ListOperationsRequest>;
+).annotate({ identifier: "ListOperationsRequest" }) as any as S.Schema<ListOperationsRequest>;
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
@@ -2496,9 +2428,7 @@ export const OperationDisplay = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationDisplay",
-}) as any as S.Schema<OperationDisplay>;
+).annotate({ identifier: "OperationDisplay" }) as any as S.Schema<OperationDisplay>;
 
 /** A Consumption REST API operation. */
 export interface Operation {
@@ -2535,9 +2465,7 @@ export const OperationListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(OperationListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OperationListResult",
-}) as any as S.Schema<OperationListResult>;
+).annotate({ identifier: "OperationListResult" }) as any as S.Schema<OperationListResult>;
 
 export interface ListReservationRecommendationsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -2552,7 +2480,7 @@ export const ListReservationRecommendationsRequest = /*@__PURE__*/ S.suspend(() 
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendations",
+      uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationRecommendations",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2606,9 +2534,7 @@ export const ReservationRecommendationSystemData = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReservationRecommendationSystemData>;
 
 /** Resource tags. */
-export type ReservationRecommendationTagsMap = {
-  [key: string]: string | undefined;
-};
+export type ReservationRecommendationTagsMap = { [key: string]: string | undefined };
 export const ReservationRecommendationTagsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.String,
@@ -2779,9 +2705,7 @@ export const ReservationDetail = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(ReservationDetailTagsMap),
   }),
-).annotate({
-  identifier: "ReservationDetail",
-}) as any as S.Schema<ReservationDetail>;
+).annotate({ identifier: "ReservationDetail" }) as any as S.Schema<ReservationDetail>;
 
 /** The list of reservation details. */
 export type ReservationDetailsListResultValueList = Array<ReservationDetail>;
@@ -2830,7 +2754,7 @@ export const ListReservationsDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationDetails",
+      uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationDetails",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2870,7 +2794,7 @@ export const ListReservationsSummariesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{resourceScope}/providers/Microsoft.Consumption/reservationSummaries",
+      uri: "/{resourceScope+}/providers/Microsoft.Consumption/reservationSummaries",
       code: 200,
       apiVersion: "2026-06-01",
     }),
@@ -2968,9 +2892,7 @@ export const ReservationSummary = /*@__PURE__*/ S.suspend(() =>
     etag: S.optional(S.String),
     tags: S.optional(ReservationSummaryTagsMap),
   }),
-).annotate({
-  identifier: "ReservationSummary",
-}) as any as S.Schema<ReservationSummary>;
+).annotate({ identifier: "ReservationSummary" }) as any as S.Schema<ReservationSummary>;
 
 /** The list of reservation summaries. */
 export type ReservationSummariesListResultValueList = Array<ReservationSummary>;
@@ -3310,9 +3232,7 @@ export const ReservationTransaction = /*@__PURE__*/ S.suspend(() =>
     properties: S.optional(LegacyReservationTransactionProperties),
     tags: S.optional(ReservationTransactionTagsList),
   }),
-).annotate({
-  identifier: "ReservationTransaction",
-}) as any as S.Schema<ReservationTransaction>;
+).annotate({ identifier: "ReservationTransaction" }) as any as S.Schema<ReservationTransaction>;
 
 /** The list of reservation recommendations. */
 export type ReservationTransactionsListResultValueList = Array<ReservationTransaction>;
@@ -3364,14 +3284,12 @@ export const ListUsageDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.Http({
       method: "GET",
-      uri: "/{scope}/providers/Microsoft.Consumption/usageDetails",
+      uri: "/{scope+}/providers/Microsoft.Consumption/usageDetails",
       code: 200,
       apiVersion: "2026-06-01",
     }),
   ),
-).annotate({
-  identifier: "ListUsageDetailsRequest",
-}) as any as S.Schema<ListUsageDetailsRequest>;
+).annotate({ identifier: "ListUsageDetailsRequest" }) as any as S.Schema<ListUsageDetailsRequest>;
 
 /** Specifies the kind of usage details. */
 export type UsageDetailsKind = "legacy" | "modern";
@@ -3431,9 +3349,7 @@ export const UsageDetailsListResult = /*@__PURE__*/ S.suspend(() =>
     value: S.optional(UsageDetailsListResultValueList),
     nextLink: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UsageDetailsListResult",
-}) as any as S.Schema<UsageDetailsListResult>;
+).annotate({ identifier: "UsageDetailsListResult" }) as any as S.Schema<UsageDetailsListResult>;
 
 export interface ReservationsDetailsListByReservationOrderAndReservationRequest {
   /** Order Id of the reservation */
