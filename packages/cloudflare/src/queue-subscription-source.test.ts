@@ -1,9 +1,6 @@
-import { describe, expect, test } from "bun:test";
 import { buildRequest, mapKeys } from "@distilled.cloud/core/protocol-http";
-import {
-  CreateSubscriptionRequest,
-  GetSubscriptionResponse,
-} from "./services/queues.ts";
+import { describe, expect, test } from "vitest";
+import { CreateSubscriptionRequest, GetSubscriptionResponse } from "./services/queues.ts";
 
 /**
  * An `email.sending` subscription source names its sending domain by
