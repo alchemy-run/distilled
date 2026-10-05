@@ -2794,12 +2794,8 @@
                   "effectiveStart": "2022-04-01T20:32:04Z",
                   "type": "DEFAULT",
                   "state": "ACTIVE",
-                  "acceptanceTerms": [
-                    "terms acknowledged when agreement was accepted"
-                  ],
-                  "terminateTerms": [
-                    "terms that must be acknowledged to terminate this agreement"
-                  ]
+                  "acceptanceTerms": ["terms acknowledged when agreement was accepted"],
+                  "terminateTerms": ["terms that must be acknowledged to terminate this agreement"]
                 }
               ],
               "nextToken": "gPFEGk7CF4wS901w7ppYclt7gPFEGk7CF4wS901w7ppYclt7gPFEGk7CF4wS901w7ppYclt7"

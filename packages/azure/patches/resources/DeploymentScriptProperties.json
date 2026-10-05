@@ -1,0 +1,402 @@
+{
+  "description": "Codegen dropped the AzureCliScript/AzurePowerShellScript discriminated union (keyed by `kind`), leaving deploymentScripts without `properties`; scriptContent, azCliVersion, retentionInterval, status and outputs could not be sent or read. Add a flat union of both kinds' properties to the create request and every deployment script response.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptEnvironmentVariable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The name of the environment variable.",
+              "smithy.api#required": {}
+            }
+          },
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The value of the environment variable."
+            }
+          },
+          "secureValue": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The value of the secure environment variable."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The environment variable to pass to the script in the container instance."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptEnvironmentVariableList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.resources#DeploymentScriptEnvironmentVariable"
+        },
+        "traits": {
+          "smithy.api#documentation": "The environment variables to pass over to the script."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptStringList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        },
+        "traits": {
+          "smithy.api#documentation": "A list of strings."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptContainerGroupSubnetId",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Resource ID of the subnet.",
+              "smithy.api#required": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Friendly name for the subnet."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Container group subnet information."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptContainerGroupSubnetIdList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.resources#DeploymentScriptContainerGroupSubnetId"
+        },
+        "traits": {
+          "smithy.api#documentation": "The subnet IDs of the container group."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptContainerConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {
+          "containerGroupName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Container group name; if not specified the name is generated."
+            }
+          },
+          "subnetIds": {
+            "target": "com.azure.resources#DeploymentScriptContainerGroupSubnetIdList",
+            "traits": {
+              "smithy.api#documentation": "The subnet resource IDs for a container group."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Settings to customize ACI container instance."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptStorageAccountConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {
+          "storageAccountName": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The storage account name."
+            }
+          },
+          "storageAccountKey": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The storage account access key."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Settings to use an existing storage account."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptErrorDetail",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The error message."
+            }
+          },
+          "target": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The error target."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "The error detail."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptErrorResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "error": {
+            "target": "com.azure.resources#DeploymentScriptErrorDetail",
+            "traits": {
+              "smithy.api#documentation": "The error object."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Error response."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptStatus",
+      "value": {
+        "type": "structure",
+        "members": {
+          "containerInstanceId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "ACI resource Id."
+            }
+          },
+          "storageAccountId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Storage account resource Id."
+            }
+          },
+          "startTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Start time of the script execution."
+            }
+          },
+          "endTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "End time of the script execution."
+            }
+          },
+          "expirationTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Time the deployment script resource will expire."
+            }
+          },
+          "error": {
+            "target": "com.azure.resources#DeploymentScriptErrorResponse",
+            "traits": {
+              "smithy.api#documentation": "Error that is relayed from the script execution."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Generic object modeling results of script execution."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScriptProperties",
+      "value": {
+        "type": "structure",
+        "members": {
+          "containerSettings": {
+            "target": "com.azure.resources#DeploymentScriptContainerConfiguration",
+            "traits": {
+              "smithy.api#documentation": "Container settings."
+            }
+          },
+          "storageAccountSettings": {
+            "target": "com.azure.resources#DeploymentScriptStorageAccountConfiguration",
+            "traits": {
+              "smithy.api#documentation": "Storage Account settings."
+            }
+          },
+          "cleanupPreference": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The clean up preference when the script execution gets in a terminal state: Always, OnSuccess or OnExpiration."
+            }
+          },
+          "provisioningState": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "State of the script execution (read-only)."
+            }
+          },
+          "status": {
+            "target": "com.azure.resources#DeploymentScriptStatus",
+            "traits": {
+              "smithy.api#documentation": "Contains the results of script execution (read-only)."
+            }
+          },
+          "outputs": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "List of script outputs (read-only)."
+            }
+          },
+          "primaryScriptUri": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Uri for the script. This is the entry point for the external script."
+            }
+          },
+          "supportingScriptUris": {
+            "target": "com.azure.resources#DeploymentScriptStringList",
+            "traits": {
+              "smithy.api#documentation": "Supporting files for the external script."
+            }
+          },
+          "scriptContent": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Script body."
+            }
+          },
+          "arguments": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Command line arguments to pass to the script."
+            }
+          },
+          "environmentVariables": {
+            "target": "com.azure.resources#DeploymentScriptEnvironmentVariableList",
+            "traits": {
+              "smithy.api#documentation": "The environment variables to pass over to the script."
+            }
+          },
+          "forceUpdateTag": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Gets or sets how the deployment script should be forced to execute even if the script resource has not changed."
+            }
+          },
+          "retentionInterval": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Interval for which the service retains the script resource after it reaches a terminal state (ISO 8601, e.g. P1D)."
+            }
+          },
+          "timeout": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Maximum allowed script execution time (ISO 8601). Default is P1D."
+            }
+          },
+          "azCliVersion": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Azure CLI module version to be used (kind AzureCLI)."
+            }
+          },
+          "azPowerShellVersion": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Azure PowerShell module version to be used (kind AzurePowerShell)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Properties of an AzureCLI or AzurePowerShell deployment script (union of both kinds)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#CreateDeploymentScriptRequest/members/properties",
+      "value": {
+        "target": "com.azure.resources#DeploymentScriptProperties",
+        "traits": {
+          "smithy.api#documentation": "Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#CreateDeploymentScriptResponse/members/properties",
+      "value": {
+        "target": "com.azure.resources#DeploymentScriptProperties",
+        "traits": {
+          "smithy.api#documentation": "Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#GetDeploymentScriptResponse/members/properties",
+      "value": {
+        "target": "com.azure.resources#DeploymentScriptProperties",
+        "traits": {
+          "smithy.api#documentation": "Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#UpdateDeploymentScriptResponse/members/properties",
+      "value": {
+        "target": "com.azure.resources#DeploymentScriptProperties",
+        "traits": {
+          "smithy.api#documentation": "Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.resources#DeploymentScript/members/properties",
+      "value": {
+        "target": "com.azure.resources#DeploymentScriptProperties",
+        "traits": {
+          "smithy.api#documentation": "Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...)."
+        }
+      }
+    }
+  ]
+}

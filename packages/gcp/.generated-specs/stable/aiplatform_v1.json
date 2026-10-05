@@ -70924,6 +70924,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -70996,6 +70999,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71043,6 +71049,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71093,6 +71102,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71130,6 +71142,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71173,6 +71188,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71238,6 +71256,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71292,6 +71313,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71335,6 +71359,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -71372,6 +71399,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -74372,6 +74402,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
         }
       ],
       "traits": {
@@ -74483,6 +74516,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
         }
       ],
       "traits": {
@@ -74570,6 +74606,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
         }
       ],
       "traits": {
@@ -74620,6 +74659,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
         }
       ],
       "traits": {
@@ -74720,6 +74762,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#AgentServiceV1Unsupported"
         }
       ],
       "traits": {
@@ -78255,6 +78300,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#CachedContentTooFewTokens"
         }
       ],
       "traits": {
@@ -81836,6 +81884,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
         }
       ],
       "traits": {
@@ -82292,6 +82343,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
         }
       ],
       "traits": {
@@ -89343,6 +89397,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
         }
       ],
       "traits": {
@@ -89500,6 +89557,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#ReasoningEngineNotRunning"
         }
       ],
       "traits": {
@@ -100517,6 +100577,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -100582,6 +100645,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -100636,6 +100702,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -100679,6 +100748,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -100716,6 +100788,9 @@
         },
         {
           "target": "com.gcp.aiplatform_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.aiplatform_v1#DataLabelingJobDeprecated"
         }
       ],
       "traits": {
@@ -104280,6 +104355,74 @@
         "com.gcp.protocols#errorMatchers": [
           {
             "status": 501
+          }
+        ]
+      }
+    },
+    "com.gcp.aiplatform_v1#AgentServiceV1Unsupported": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "AgentService does not serve the v1 API (HTTP 400 INVALID_ARGUMENT: 'This API version is not supported by AgentService. Please use the v1beta1 version.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "not supported by AgentService"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.aiplatform_v1#CachedContentTooFewTokens": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The cached content is below the explicit-caching minimum token count (HTTP 400 INVALID_ARGUMENT: 'The minimum token count to start explicit caching is 1024.'). Vertex AI sometimes returns this spuriously for large content; a retry succeeds.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "The minimum token count to start explicit caching"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.aiplatform_v1#DataLabelingJobDeprecated": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "Vertex DataLabelingJob is deprecated for this project (HTTP 400 INVALID_ARGUMENT: 'Vertex DataLabelingJob is deprecated, so new project \u2026 will not be able to use the service unless they opt-in to use Labelbox human labelers.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "DataLabelingJob is deprecated"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.aiplatform_v1#ReasoningEngineNotRunning": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The reasoning engine has no running instances, typically because it has no valid `spec.package_spec` (HTTP 400 FAILED_PRECONDITION/INVALID_ARGUMENT: 'The requested resource [...] does not have running instances.'). Deploy code to the engine; not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "does not have running instances"
+            }
           }
         ]
       }

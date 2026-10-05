@@ -1471,7 +1471,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "`Context` defines which contexts an API requests. Example: context: rules: - selector: \"*\" requested: - google.rpc.context.ProjectContext - google.rpc.context.OriginContext The above specifies that all methods in the API request `google.rpc.context.ProjectContext` and `google.rpc.context.OriginContext`. Available context types are defined in package `google.rpc.context`. This also provides mechanism to allowlist any protobuf message extension that can be sent in grpc metadata using “x-goog-ext--bin” and “x-goog-ext--jspb” format. For example, list any service specific protobuf types that can appear in grpc metadata as follows in your yaml file: Example: context: rules: - selector: \"google.example.library.v1.LibraryService.CreateBook\" allowed_request_extensions: - google.foo.v1.NewExtension allowed_response_extensions: - google.foo.v1.NewExtension You can also specify extension ID instead of fully qualified extension name here."
+        "smithy.api#documentation": "`Context` defines which contexts an API requests. Example: context: rules: - selector: \"*\" requested: - google.rpc.context.ProjectContext - google.rpc.context.OriginContext The above specifies that all methods in the API request `google.rpc.context.ProjectContext` and `google.rpc.context.OriginContext`. Available context types are defined in package `google.rpc.context`. This also provides mechanism to allowlist any protobuf message extension that can be sent in grpc metadata using \u201cx-goog-ext--bin\u201d and \u201cx-goog-ext--jspb\u201d format. For example, list any service specific protobuf types that can appear in grpc metadata as follows in your yaml file: Example: context: rules: - selector: \"google.example.library.v1.LibraryService.CreateBook\" allowed_request_extensions: - google.foo.v1.NewExtension allowed_response_extensions: - google.foo.v1.NewExtension You can also specify extension ID instead of fully qualified extension name here."
       }
     },
     "com.gcp.servicenetworking_v1#ContextRuleList": {
@@ -3439,7 +3439,7 @@
         "skipRequestedAddressValidation": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Optional. Skips validating if the requested_address is in use by SN VPC’s peering group. Compute Engine will still perform this check and fail the request if the requested_address is in use. Note that Compute Engine does not check for the existence of dynamic routes when performing this check. Caller of this API should make sure that there are no dynamic routes overlapping with the requested_address/prefix_length IP address range otherwise the created subnet could cause misrouting."
+            "smithy.api#documentation": "Optional. Skips validating if the requested_address is in use by SN VPC\u2019s peering group. Compute Engine will still perform this check and fail the request if the requested_address is in use. Note that Compute Engine does not check for the existence of dynamic routes when performing this check. Caller of this API should make sure that there are no dynamic routes overlapping with the requested_address/prefix_length IP address range otherwise the created subnet could cause misrouting."
           }
         },
         "requestedRanges": {
@@ -5480,6 +5480,9 @@
         },
         {
           "target": "com.gcp.servicenetworking_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.servicenetworking_v1#ConnectionAlreadyExists"
         }
       ],
       "traits": {
@@ -5544,6 +5547,9 @@
         },
         {
           "target": "com.gcp.servicenetworking_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.servicenetworking_v1#ConnectionAlreadyExists"
         }
       ],
       "traits": {
@@ -6303,6 +6309,35 @@
           "uri": "v1/{+parent}/dnsRecordSets:list"
         },
         "smithy.api#documentation": "Producers can use this method to retrieve a list of available DNS RecordSets available inside the private zone on the tenant host project accessible from their network."
+      }
+    },
+    "com.gcp.servicenetworking_v1#ConnectionAlreadyExists": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "A private services connection already exists for this network and service, so its allocated ranges cannot be changed through CreateConnection (HTTP 400 FAILED_PRECONDITION: 'Cannot modify allocated ranges in CreateConnection. Please use UpdateConnection.'), or the peering is already established. Not retryable; update the existing connection instead.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Cannot modify allocated ranges"
+            }
+          },
+          {
+            "status": 400,
+            "message": {
+              "includes": "already exists"
+            }
+          },
+          {
+            "status": 400,
+            "message": {
+              "includes": "already established"
+            }
+          }
+        ]
       }
     }
   }

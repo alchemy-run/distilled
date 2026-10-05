@@ -12,7 +12,7 @@ npm install @distilled.cloud/apache-superset effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as ApacheSuperset from "@distilled.cloud/apache-superset";
 
 const program = Effect.gen(function* () {

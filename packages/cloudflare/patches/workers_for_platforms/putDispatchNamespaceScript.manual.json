@@ -1,5 +1,5 @@
 {
-  "description": "Hand-authored typed multipart Workers-for-Platforms upload metadata. Keep shared metadata shapes manually synchronized with workers/putScript.manual.json. Both PUT endpoints use the same multipart metadata, including assets.config._headers and assets.config._redirects.",
+  "description": "Hand-authored typed multipart Workers-for-Platforms upload metadata. Keep shared metadata shapes manually synchronized with workers/putScript.manual.json. Both PUT endpoints use the same multipart metadata, including assets.config._headers and assets.config._redirects. Workers Issues observability.issues.enabled is documented at https://developers.cloudflare.com/workers/observability/issues/ (Wrangler 4.134.0+); omitting it on redeploy disables Issues. Shared upload metadata parity does not establish Workers for Platforms endpoint support. Alchemy WorkerIssues.test.ts live tests on 2026-10-05 verified PUT with issues-only observability (without top-level enabled), GET script-settings, combined GET settings, and PATCH false-to-true while preserving logs/traces. Optional top-level enabled follows Worker upload metadata parity, not a live Workers for Platforms probe.",
   "patches": [
     {
       "op": "add",
@@ -2479,15 +2479,28 @@
     },
     {
       "op": "add",
-      "path": "/shapes/com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataObservability",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptObservabilityIssues",
       "value": {
         "type": "structure",
         "members": {
           "enabled": {
             "target": "smithy.api#Boolean",
             "traits": {
-              "smithy.api#required": {}
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Whether Workers Issues error monitoring is enabled."
             }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptMetadataObservability",
+      "value": {
+        "type": "structure",
+        "members": {
+          "enabled": {
+            "target": "smithy.api#Boolean"
           },
           "head_sampling_rate": {
             "target": "smithy.api#Double",
@@ -2506,6 +2519,9 @@
             "traits": {
               "com.cloudflare.protocols#nullable": {}
             }
+          },
+          "issues": {
+            "target": "com.cloudflare.workers_for_platforms#PutDispatchNamespaceScriptObservabilityIssues"
           }
         }
       }

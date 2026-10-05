@@ -1,3 +1,22 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type ConfigError,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import {
+  makeRestProtocol,
+  unwrapRedactedDeep,
+  wrapSensitive,
+} from "@distilled.cloud/core/protocol-rest";
+import { failIfStrict, validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * Fly.io protocols — Machines REST, UI-EX REST (MPG), GraphQL add-ons, and
  * Sprites REST.
@@ -22,33 +41,16 @@ import * as Context from "effect/Context";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
 import * as Exit from "effect/Exit";
+import * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
+import * as MutableHashMap from "effect/MutableHashMap";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  makeRestProtocol,
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import {
   Credentials,
   DEFAULT_FLY_API_BASE_URL,
@@ -97,15 +99,10 @@ const flyErrorEnvelope = (body: unknown) => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const errors = b.errors as Record<string, unknown> | undefined;
-  const detail =
-    errors && typeof errors.detail === "string" ? errors.detail : undefined;
+  const detail = errors && typeof errors.detail === "string" ? errors.detail : undefined;
   return {
     message:
-      typeof b.error === "string"
-        ? b.error
-        : typeof b.message === "string"
-          ? b.message
-          : detail,
+      typeof b.error === "string" ? b.error : typeof b.message === "string" ? b.message : detail,
   };
 };
 
@@ -114,15 +111,8 @@ const spritesErrorEnvelope = (body: unknown) => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
   const message =
-    typeof b.message === "string"
-      ? b.message
-      : typeof b.error === "string"
-        ? b.error
-        : undefined;
-  const code =
-    typeof b.error === "string" && typeof b.message === "string"
-      ? b.error
-      : undefined;
+    typeof b.message === "string" ? b.message : typeof b.error === "string" ? b.error : undefined;
+  const code = typeof b.error === "string" && typeof b.message === "string" ? b.error : undefined;
   return { message, code };
 };
 
@@ -149,6 +139,7 @@ const FlyIoProtocolRest: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
   }),
   errorEnvelope: flyErrorEnvelope,
   unknownError: ({ message, body }) => new UnknownFlyIoError({ message, body }),
+  parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
 });
 
 export const FlyIoProtocol: Layer.Layer<API.Protocol> = Layer.effect(
@@ -172,17 +163,16 @@ export const FlyIoProtocol: Layer.Layer<API.Protocol> = Layer.effect(
 ).pipe(Layer.provide(FlyIoProtocolRest));
 
 /** MPG UI-EX REST at `https://api.fly.io` with the Machines bearer token. */
-export const FlyApiProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    credentials: resolveFlyCreds,
-    baseUrl: () => DEFAULT_FLY_API_BASE_URL,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope: flyErrorEnvelope,
-    unknownError: ({ message, body }) =>
-      new UnknownFlyIoError({ message, body }),
-  });
+export const FlyApiProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  credentials: resolveFlyCreds,
+  baseUrl: () => DEFAULT_FLY_API_BASE_URL,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope: flyErrorEnvelope,
+  unknownError: ({ message, body }) => new UnknownFlyIoError({ message, body }),
+  parseError: ({ body, cause }) => new FlyIoParseError({ body, cause }),
+});
 
 const parseMaybeNdjson = (body: unknown): unknown => {
   if (typeof body !== "string") return body;
@@ -228,8 +218,7 @@ const parseSpritesExecFrames = (
   return { stdout, stderr, exit_code };
 };
 
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** Strip a leading `FlyV1` / `Bearer` scheme so we can re-prefix `FlyV1`. */
 const stripFlyAuthScheme = (token: string): string => {
@@ -250,9 +239,7 @@ const isMintOp = (http: HttpTrait | undefined): boolean =>
 
 const SPRITES_NOT_ENABLED = /sprites not enabled/i;
 
-const readResponseText = (
-  response: HttpClientResponse.HttpClientResponse,
-): Effect.Effect<string> =>
+const readResponseText = (response: HttpClientResponse.HttpClientResponse): Effect.Effect<string> =>
   response.text.pipe(
     Effect.orDie,
     Effect.map((text) => text ?? ""),
@@ -287,8 +274,7 @@ const failHttp = (
   headers: Record<string, string | undefined>,
 ): Effect.Effect<never> => {
   const env = errorEnv(body);
-  const message =
-    env.message ?? (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
+  const message = env.message ?? (text.trim().length > 0 ? text.trim() : `HTTP ${status}`);
   if (status === 401 && SPRITES_NOT_ENABLED.test(haystackOf(body, message))) {
     return fail(new SpritesNotEnabled({ message }));
   }
@@ -329,13 +315,11 @@ const orgFromGraphql = (body: unknown): string | undefined => {
   if (data === null || typeof data !== "object") return undefined;
   const viewer = (data as { viewer?: unknown }).viewer;
   const root = viewer !== null && typeof viewer === "object" ? viewer : data;
-  const personal = (root as { personalOrganization?: { slug?: unknown } })
-    .personalOrganization;
+  const personal = (root as { personalOrganization?: { slug?: unknown } }).personalOrganization;
   if (typeof personal?.slug === "string" && personal.slug.length > 0) {
     return personal.slug;
   }
-  const nodes = (root as { organizations?: { nodes?: unknown } }).organizations
-    ?.nodes;
+  const nodes = (root as { organizations?: { nodes?: unknown } }).organizations?.nodes;
   if (Array.isArray(nodes)) {
     for (const node of nodes) {
       if (
@@ -354,13 +338,10 @@ const orgFromGraphql = (body: unknown): string | undefined => {
 const discoverOrgSlug = (fly: Config) =>
   Effect.gen(function* () {
     const http = yield* HttpClient.HttpClient;
-    const token = Redacted.value(fly.apiKey);
     const machinesRoot = fly.apiBaseUrl.replace(/\/+$/, "");
-    const currentReq = HttpClientRequest.make("GET")(
-      `${machinesRoot}/v1/tokens/current`,
-    ).pipe(
+    const currentReq = HttpClientRequest.make("GET")(`${machinesRoot}/v1/tokens/current`).pipe(
       HttpClientRequest.setHeaders({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${Redacted.value(fly.apiKey)}`,
         Accept: "application/json",
       }),
     );
@@ -372,16 +353,13 @@ const discoverOrgSlug = (fly: Config) =>
       if (slug !== undefined) return slug;
     }
 
-    const gqlReq = HttpClientRequest.make("POST")(
-      `${DEFAULT_FLY_API_BASE_URL}/graphql`,
-    ).pipe(
+    const gqlReq = HttpClientRequest.make("POST")(`${DEFAULT_FLY_API_BASE_URL}/graphql`).pipe(
       HttpClientRequest.setHeaders({
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${Redacted.value(fly.apiKey)}`,
         Accept: "application/json",
       }),
       HttpClientRequest.bodyJsonUnsafe({
-        query:
-          "{ viewer { personalOrganization { slug } organizations { nodes { slug } } } }",
+        query: "{ viewer { personalOrganization { slug } organizations { nodes { slug } } } }",
       }),
     );
     const gqlRes = yield* http.execute(gqlReq);
@@ -393,8 +371,7 @@ const discoverOrgSlug = (fly: Config) =>
     }
 
     return yield* new FlyConfigError({
-      message:
-        "Could not discover a Fly organization slug from /tokens/current or GraphQL",
+      message: "Could not discover a Fly organization slug from /tokens/current or GraphQL",
     });
   });
 
@@ -423,9 +400,7 @@ const mintOnce = (fly: Config) =>
       return yield* failHttp(response.status, json, text, headers);
     }
     const token =
-      json !== null && typeof json === "object"
-        ? (json as { token?: unknown }).token
-        : undefined;
+      json !== null && typeof json === "object" ? (json as { token?: unknown }).token : undefined;
     if (typeof token !== "string" || token.length === 0) {
       return yield* fail(
         new FlyIoParseError({
@@ -434,36 +409,40 @@ const mintOnce = (fly: Config) =>
         }),
       );
     }
-    // Cache the raw string, not a Redacted whose registry entry may be erased.
-    return token;
+    return Redacted.make(token);
   });
 
-const mintedTokens = new Map<string, string>();
-const mintInFlight = new Map<
-  string,
-  Deferred.Deferred<string, Effect.Error<ReturnType<typeof mintOnce>>>
+// Keyed by the Fly token itself: `Redacted` hashes and compares by value.
+const mintedTokens = MutableHashMap.empty<Redacted.Redacted<string>, Redacted.Redacted<string>>();
+const mintInFlight = MutableHashMap.empty<
+  Redacted.Redacted<string>,
+  Deferred.Deferred<Redacted.Redacted<string>, Effect.Error<ReturnType<typeof mintOnce>>>
 >();
 
 /** Mint (and process-wide cache) a Sprites bearer from `FLY_API_TOKEN`. */
 const mintSpritesToken = (fly: Config) =>
   Effect.uninterruptibleMask((restore) =>
     Effect.suspend(() => {
-      const key = Redacted.value(fly.apiKey);
-      const hit = mintedTokens.get(key);
-      if (hit !== undefined) return Effect.succeed(hit);
-      const pending = mintInFlight.get(key);
-      if (pending !== undefined) return restore(Deferred.await(pending));
+      const key = fly.apiKey;
+      const hit = MutableHashMap.get(mintedTokens, key);
+      if (Option.isSome(hit)) return Effect.succeed(hit.value);
+      const pending = MutableHashMap.get(mintInFlight, key);
+      if (Option.isSome(pending)) {
+        return restore(Deferred.await(pending.value));
+      }
       const result = Deferred.makeUnsafe<
-        string,
+        Redacted.Redacted<string>,
         Effect.Error<ReturnType<typeof mintOnce>>
       >();
-      mintInFlight.set(key, result);
+      MutableHashMap.set(mintInFlight, key, result);
       return restore(mintOnce(fly)).pipe(
         Effect.onExit((exit) =>
           Effect.gen(function* () {
-            if (Exit.isSuccess(exit)) mintedTokens.set(key, exit.value);
+            if (Exit.isSuccess(exit)) {
+              MutableHashMap.set(mintedTokens, key, exit.value);
+            }
             // Release all waiters, including on defects and owner interruption.
-            mintInFlight.delete(key);
+            MutableHashMap.remove(mintInFlight, key);
             yield* Deferred.done(result, exit);
           }),
         ),
@@ -487,7 +466,7 @@ const encodeSpritesRequest = ({
       authorization = `FlyV1 ${stripFlyAuthScheme(Redacted.value(fly.apiKey))}`;
     } else {
       const token = yield* mintSpritesToken(fly);
-      authorization = `Bearer ${token}`;
+      authorization = `Bearer ${Redacted.value(token)}`;
     }
     return buildRequest({
       input: unwrapRedactedDeep(input),
@@ -510,9 +489,7 @@ const decodeSpritesResponse = ({
   readonly errors: ReadonlyArray<unknown>;
 }) =>
   Effect.gen(function* () {
-    const buffer = yield* response.arrayBuffer.pipe(
-      Effect.map((bytes) => new Uint8Array(bytes)),
-    );
+    const buffer = yield* response.arrayBuffer.pipe(Effect.map((bytes) => new Uint8Array(bytes)));
     const text = new TextDecoder().decode(buffer);
     const execFrames = parseSpritesExecFrames(buffer);
     let json: unknown;
@@ -529,12 +506,8 @@ const decodeSpritesResponse = ({
 
     if (status >= 400) {
       const env = nonJson ? {} : errorEnv(json);
-      const message =
-        env.message ??
-        (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
-      if (
-        SPRITES_NOT_ENABLED.test(haystackOf(nonJson ? text : json, message))
-      ) {
+      const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+      if (SPRITES_NOT_ENABLED.test(haystackOf(nonJson ? text : json, message))) {
         return yield* fail(new SpritesNotEnabled({ message }));
       }
       const typed = matchTypedError(
@@ -550,9 +523,7 @@ const decodeSpritesResponse = ({
       );
       if (typed !== undefined) return yield* fail(typed);
 
-      const StatusErrorClass = (HTTP_STATUS_MAP as Record<number, unknown>)[
-        status
-      ] as
+      const StatusErrorClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
         | (new (args: {
             message: string;
             retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
@@ -582,13 +553,19 @@ const decodeSpritesResponse = ({
       );
     }
 
-    if (execFrames !== undefined) {
-      return wrapSensitive(outputAst, mapKeys(outputAst, execFrames, "decode"));
-    }
-
-    let body: unknown = nonJson ? text : (json ?? {});
-    body = parseMaybeNdjson(body);
-    return wrapSensitive(outputAst, mapKeys(outputAst, body, "decode"));
+    // Strict mode checks the mapped body (or parsed exec frames) against the
+    // output schema.
+    const body: unknown = execFrames ?? parseMaybeNdjson(nonJson ? text : (json ?? {}));
+    const mapped = yield* validateResponse(
+      outputAst,
+      mapKeys(outputAst, body, "decode"),
+      (cause) =>
+        new FlyIoParseError({
+          body: execFrames ?? (nonJson ? text : json),
+          cause,
+        }),
+    ).pipe(Effect.catch(fail));
+    return wrapSensitive(outputAst, mapped);
   });
 
 /** Sprites REST at `https://api.sprites.dev/v1`, minted from `FLY_API_TOKEN`. */
@@ -596,9 +573,7 @@ export const SpritesProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     encode: (args) =>
-      encodeSpritesRequest(
-        args,
-      ) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+      encodeSpritesRequest(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: (args) => decodeSpritesResponse(args) as Effect.Effect<unknown>,
   }),
 );
@@ -639,9 +614,7 @@ const matchGraphqlError = (
       headers,
     });
     if (typed !== undefined) return fail(typed);
-    if (
-      /not authorized to access this createextensiontosagreement/i.test(message)
-    ) {
+    if (/not authorized to access this createextensiontosagreement/i.test(message)) {
       return fail(new CreateExtensionTosAgreementNotAuthorized({ message }));
     }
     const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
@@ -700,9 +673,7 @@ const graphqlEncode = ({
     }
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     const variables: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(
-      (input ?? {}) as Record<string, unknown>,
-    )) {
+    for (const [k, v] of Object.entries((input ?? {}) as Record<string, unknown>)) {
       if (v !== undefined) variables[k] = v;
     }
     const url = `${DEFAULT_FLY_API_BASE_URL}${http?.uri ?? "/graphql"}`;
@@ -748,12 +719,14 @@ const graphqlDecode = ({
       if (status >= 400) {
         return yield* matchGraphqlError(status, text, headers, errors);
       }
-      return yield* fail(
+      // Lenient mode returns the body as read.
+      return yield* failIfStrict(
         new FlyIoParseError({
           body: text,
           cause: "response body is not valid JSON",
         }),
-      );
+        text,
+      ).pipe(Effect.catch(fail));
     }
 
     const envelope = json as { data?: unknown; errors?: unknown[] } | null;
@@ -768,9 +741,7 @@ const graphqlDecode = ({
 
     const path = getAnn(outputAst, responsePathSymbol) as string | undefined;
     let payload: unknown =
-      envelope !== null && typeof envelope === "object"
-        ? envelope.data
-        : undefined;
+      envelope !== null && typeof envelope === "object" ? envelope.data : undefined;
     if (path !== undefined) {
       for (const seg of path.split(".")) {
         payload =
@@ -779,14 +750,19 @@ const graphqlDecode = ({
             : undefined;
       }
     }
-    return payload === undefined ? null : payload;
+    // Strict mode checks the payload at the response path against the
+    // output schema.
+    return yield* validateResponse(
+      outputAst,
+      payload === undefined ? null : payload,
+      (cause) => new FlyIoParseError({ body: json, cause }),
+    ).pipe(Effect.catch(fail));
   });
 
 export const FlyGraphqlProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
-    encode: (args) =>
-      graphqlEncode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => graphqlEncode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: graphqlDecode,
   }),
 );

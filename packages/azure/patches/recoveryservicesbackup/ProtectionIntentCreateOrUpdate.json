@@ -1,0 +1,15 @@
+{
+  "description": "ProtectionIntent is polymorphic on protectionIntentItemType (AzureWorkloadSQLAutoProtectionIntent, AzureWorkloadContainerAutoProtectionIntent); add the subtype member `workloadItemType`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.recoveryservicesbackup#ProtectionIntent/members/workloadItemType",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Workload item type to auto-protect, e.g. `SQLInstance` (AzureWorkloadSQLAutoProtectionIntent)."
+        }
+      }
+    }
+  ]
+}

@@ -23,8 +23,8 @@ git submodule add https://github.com/distilled-mirror/spec-mirror-onepassword.gi
 From `.meta/`:
 
 ```sh
-bun install
-bun run fetch-specs
+pnpm install
+pnpm run fetch-specs
 ```
 
 ---

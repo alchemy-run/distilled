@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * generate — turn the Smithy JSON models in .generated-specs into an Effect SDK.
  *
@@ -13,13 +13,13 @@
  * protocol/retry names.
  *
  * Run twice to cover both trees (see package.json `generate`):
- *   bun scripts/generate.ts
- *   bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
+ *   node --conditions=bun scripts/generate.ts
+ *   node --conditions=bun scripts/generate.ts --smithy .generated-specs/unstable --out src/unstable-services
  */
 
-import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import { PURE } from "@distilled.cloud/core/codegen/emit";
+import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { lowerFirst } from "@distilled.cloud/core/codegen/naming";
 
 const ERROR_MATCHERS_TRAIT = "com.gcp.protocols#errorMatchers";
@@ -61,10 +61,7 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   shapeOverride: ({ def, name }) => {
     const simple = SIMPLE_SHAPES[def.type as string];
     if (!simple) return undefined;
-    return [
-      `export type ${name} = ${simple[0]};`,
-      `export const ${name} = ${PURE}${simple[1]};\n`,
-    ];
+    return [`export type ${name} = ${simple[0]};`, `export const ${name} = ${PURE}${simple[1]};\n`];
   },
 
   // The standard GCP error envelope fields, declared on every generated 4xx
@@ -105,7 +102,7 @@ const makeGcpSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
 
 runGeneratorCli({
   description: "Generate the GCP Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   smithyDir: ".generated-specs/stable",
   outDir: "src/services",
   spec: (model) => makeGcpSpec(model.metadata ?? {}),

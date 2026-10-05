@@ -1,0 +1,33 @@
+{
+  "description": "Type the HTTP 400 FAILED_PRECONDITION returned when deleting a QA scorecard's only revision. It surfaced as a generic BadRequest, so callers matched on the message.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#QaScorecardOnlyRevision",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The revision is the scorecard's only revision and cannot be deleted on its own (HTTP 400 FAILED_PRECONDITION); it goes away with the scorecard. Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "only revision of a scorecard cannot be deleted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.contactcenterinsights_v1#DeleteProjectsLocationsQaScorecardsRevisions/errors/-",
+      "value": {
+        "target": "com.gcp.contactcenterinsights_v1#QaScorecardOnlyRevision"
+      }
+    }
+  ]
+}

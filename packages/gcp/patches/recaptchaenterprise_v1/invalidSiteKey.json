@@ -1,0 +1,33 @@
+{
+  "description": "Type the 400 an assessment returns while a just-created site key has not propagated ('siteKey is invalid'). It surfaced as a generic BadRequest, so callers matched the message to retry it.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#InvalidSiteKey",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The event's site key is unknown to reCAPTCHA (HTTP 400: 'siteKey is invalid'). Retryable briefly after the key is created; otherwise the key id is wrong.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "siteKey is invalid"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#CreateProjectsAssessments/errors/-",
+      "value": {
+        "target": "com.gcp.recaptchaenterprise_v1#InvalidSiteKey"
+      }
+    }
+  ]
+}

@@ -54,7 +54,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -292,7 +292,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -475,13 +475,13 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "cert_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -553,7 +553,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -625,7 +625,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -641,7 +641,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -717,7 +717,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -733,7 +733,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -808,7 +808,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -1310,7 +1310,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -1428,7 +1428,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -1528,7 +1528,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1544,7 +1544,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -1644,7 +1644,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1660,7 +1660,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -1743,7 +1743,7 @@
         "cert_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "cert_status": {
@@ -1871,7 +1871,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1887,7 +1887,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {
@@ -1978,7 +1978,7 @@
         "certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1994,7 +1994,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Certificate identifier tag."
           }
         },
         "certificate": {

@@ -4491,9 +4491,7 @@
             "input": {
               "filters": {
                 "status": ["ACTIVE"],
-                "sourceArn": [
-                  "arn:aws:eks:us-west-2:123456789012:cluster/example1"
-                ],
+                "sourceArn": ["arn:aws:eks:us-west-2:123456789012:cluster/example1"],
                 "alias": ["alias1"]
               }
             },

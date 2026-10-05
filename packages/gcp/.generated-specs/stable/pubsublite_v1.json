@@ -1256,6 +1256,9 @@
         },
         {
           "target": "com.gcp.pubsublite_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.pubsublite_v1#PubSubLiteTurnedDown"
         }
       ],
       "traits": {
@@ -1499,6 +1502,9 @@
         },
         {
           "target": "com.gcp.pubsublite_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.pubsublite_v1#PubSubLiteTurnedDown"
         }
       ],
       "traits": {
@@ -2139,6 +2145,9 @@
         },
         {
           "target": "com.gcp.pubsublite_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.pubsublite_v1#PubSubLiteTurnedDown"
         }
       ],
       "traits": {
@@ -2352,6 +2361,23 @@
           "uri": "v1/topicStats/{+topic}:computeMessageStats"
         },
         "smithy.api#documentation": "Compute statistics about a range of messages in a given topic and partition."
+      }
+    },
+    "com.gcp.pubsublite_v1#PubSubLiteTurnedDown": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "Pub/Sub Lite is turned down for this project (HTTP 403 PERMISSION_DENIED). Not retryable; migrate to Pub/Sub or Managed Kafka.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "Pub/Sub Lite is deprecated"
+            }
+          }
+        ]
       }
     }
   }

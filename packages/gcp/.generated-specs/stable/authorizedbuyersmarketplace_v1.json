@@ -2997,6 +2997,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3062,6 +3065,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3131,6 +3137,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3200,6 +3209,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3254,6 +3266,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3304,6 +3319,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3354,6 +3372,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3391,6 +3412,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3441,6 +3465,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3499,6 +3526,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3553,6 +3583,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3603,6 +3636,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3653,6 +3689,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3690,6 +3729,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3747,6 +3789,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3797,6 +3842,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3848,6 +3896,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3902,6 +3953,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3959,6 +4013,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -3996,6 +4053,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4033,6 +4093,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4091,6 +4154,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4132,6 +4198,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4189,6 +4258,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4247,6 +4319,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4301,6 +4376,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4351,6 +4429,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4401,6 +4482,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4451,6 +4535,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4501,6 +4588,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4544,6 +4634,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4581,6 +4674,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4632,6 +4728,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4686,6 +4785,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4736,6 +4838,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4773,6 +4878,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4823,6 +4931,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4888,6 +4999,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4942,6 +5056,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -4992,6 +5109,9 @@
         },
         {
           "target": "com.gcp.authorizedbuyersmarketplace_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient"
         }
       ],
       "traits": {
@@ -5000,6 +5120,23 @@
           "uri": "v1/{+name}:subscribe"
         },
         "smithy.api#documentation": "Subscribe to the auction package for the specified buyer. Once subscribed, the bidder will receive a call out for inventory matching the auction package targeting criteria with the auction package deal ID and the specified buyer."
+      }
+    },
+    "com.gcp.authorizedbuyersmarketplace_v1#AuthorizedBuyersScopeInsufficient": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the `https://www.googleapis.com/auth/authorized-buyers-marketplace` OAuth scope (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

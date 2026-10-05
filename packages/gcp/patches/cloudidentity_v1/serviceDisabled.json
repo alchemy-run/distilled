@@ -1,0 +1,516 @@
+{
+  "description": "Type the Cloud Identity API-disabled answer (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: 'Cloud Identity API has not been used in project N before or it is disabled.'). It surfaced as the generic Forbidden, so callers could not tell an unactivated service from a missing permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ServiceDisabled",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The Cloud Identity API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "has not been used in project"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#AddInboundSamlSsoProfilesIdpCredentials/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ApproveDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#BlockDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CancelCustomersUserinvitations/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CancelWipeDevices/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CancelWipeDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CheckTransitiveMembershipGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateAllowlistedDomains/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateDevices/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateInboundOidcSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateInboundSamlSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreateInboundSsoAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#CreatePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteAllowlistedDomains/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteDevices/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteInboundOidcSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteInboundSamlSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteInboundSamlSsoProfilesIdpCredentials/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeleteInboundSsoAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#DeletePolicies/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetAllowlistedDomains/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetCustomersUserinvitations/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetDevices/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetDevicesDeviceUsersClientStates/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetInboundOidcSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetInboundSamlSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetInboundSamlSsoProfilesIdpCredentials/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetInboundSsoAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetMembershipGraphGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#GetSecuritySettingsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#IsInvitableUserCustomersUserinvitations/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListAllowlistedDomains/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListCustomersUserinvitations/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListDevices/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListDevicesDeviceUsersClientStates/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListInboundOidcSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListInboundSamlSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListInboundSamlSsoProfilesIdpCredentials/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListInboundSsoAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ListPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#LookupDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#LookupGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#LookupGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#ModifyMembershipRolesGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#PatchDevicesDeviceUsersClientStates/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#PatchGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#PatchInboundOidcSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#PatchInboundSamlSsoProfiles/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#PatchInboundSsoAssignments/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#PatchPolicies/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#SearchDirectGroupsGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#SearchGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#SearchTransitiveGroupsGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#SearchTransitiveMembershipsGroupsMemberships/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#SendCustomersUserinvitations/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#UpdateSecuritySettingsGroups/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#WipeDevices/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudidentity_v1#WipeDevicesDeviceUsers/errors/-",
+      "value": {
+        "target": "com.gcp.cloudidentity_v1#ServiceDisabled"
+      }
+    }
+  ]
+}

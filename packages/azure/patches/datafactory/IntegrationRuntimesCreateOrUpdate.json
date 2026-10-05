@@ -1,0 +1,25 @@
+{
+  "description": "IntegrationRuntime is polymorphic on `type`; the converted model keeps only the base members, so S.Struct strips the subtype payload (typeProperties, managedVirtualNetwork) on encode and decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#IntegrationRuntime/members/typeProperties",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Type-specific integration runtime properties (polymorphic on `type`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#IntegrationRuntime/members/managedVirtualNetwork",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Managed Virtual Network reference (Managed integration runtimes)."
+        }
+      }
+    }
+  ]
+}

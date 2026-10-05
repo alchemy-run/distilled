@@ -988,6 +988,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1053,6 +1056,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1133,6 +1139,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1197,6 +1206,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1247,6 +1259,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1319,6 +1334,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1373,6 +1391,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1423,6 +1444,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1473,6 +1497,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1524,6 +1551,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1592,6 +1622,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1650,6 +1683,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1698,6 +1734,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1748,6 +1787,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1798,6 +1840,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1835,6 +1880,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1872,6 +1920,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1922,6 +1973,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1987,6 +2041,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2028,6 +2085,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2093,6 +2153,9 @@
         },
         {
           "target": "com.gcp.agentidentity_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.agentidentity_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2105,6 +2168,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.agentidentity_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

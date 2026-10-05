@@ -4762,6 +4762,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -4812,6 +4815,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -4849,6 +4855,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -4899,6 +4908,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -4956,6 +4968,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5006,6 +5021,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5056,6 +5074,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5113,6 +5134,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5170,6 +5194,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5220,6 +5247,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5270,6 +5300,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -5320,6 +5353,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6312,6 +6348,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6362,6 +6401,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6412,6 +6454,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6469,6 +6514,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6526,6 +6574,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6570,6 +6621,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6621,6 +6675,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6675,6 +6732,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6718,6 +6778,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6775,6 +6838,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6826,6 +6892,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6880,6 +6949,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6930,6 +7002,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -6980,6 +7055,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7030,6 +7108,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7073,6 +7154,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7130,6 +7214,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7180,6 +7267,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7237,6 +7327,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7274,6 +7367,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7332,6 +7428,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7386,6 +7485,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7436,6 +7538,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7486,6 +7591,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7543,6 +7651,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7594,6 +7705,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7648,6 +7762,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7691,6 +7808,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7741,6 +7861,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7783,6 +7906,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7847,6 +7973,9 @@
         },
         {
           "target": "com.gcp.datacatalog_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
         }
       ],
       "traits": {
@@ -7979,6 +8108,23 @@
           "uri": "v1/{+name}:retrieveEffectiveConfig"
         },
         "smithy.api#documentation": "Retrieves the effective configuration related to the migration from Data Catalog to Dataplex Universal Catalog for a specific organization or project. If there is no specific configuration set for the resource, the setting is checked hierarchicahlly through the ancestors of the resource, starting from the resource itself."
+      }
+    },
+    "com.gcp.datacatalog_v1#DataCatalogDeprecated": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The project may no longer use this Data Catalog API because it moved to Dataplex Universal Catalog (HTTP 400 INVALID_ARGUMENT: 'Project \u2026 is not allowed to perform read/write operations due to Data Catalog deprecation.'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "due to Data Catalog deprecation"
+            }
+          }
+        ]
       }
     }
   }

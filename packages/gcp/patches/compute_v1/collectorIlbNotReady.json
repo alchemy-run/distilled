@@ -1,0 +1,40 @@
+{
+  "description": "Type the packet-mirroring 'collector ILB not ready' answer (HTTP 400: \"Invalid value for field 'resource.collectorIlb.url': '\u2026'. Forwarding Rule specified as collector ILB is not ready\"). A just-created internal forwarding rule is briefly not accepted as a collector; it surfaced as the generic BadRequest, so callers matched the message to retry. Observed live 2026-09-29 in us-central1.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#CollectorIlbNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The forwarding rule used as the packet-mirroring collector is still being programmed (HTTP 400: 'Forwarding Rule specified as collector ILB is not ready'). Retryable after a few seconds.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "specified as collector ILB is not ready"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#InsertPacketMirrorings/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#CollectorIlbNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#PatchPacketMirrorings/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#CollectorIlbNotReady"
+      }
+    }
+  ]
+}

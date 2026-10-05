@@ -1,0 +1,29 @@
+{
+  "description": "Type deleting an instance's last cluster (HTTP 400 FAILED_PRECONDITION). It surfaced as a generic BadRequest, so the Cluster provider matched message strings to tell it apart from malformed requests.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#LastClusterDeletion",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The cluster is the instance's last LIVE cluster and cannot be deleted on its own; delete the instance instead (HTTP 400 FAILED_PRECONDITION: 'Cannot delete the last LIVE Cluster in an Instance'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "Cannot delete the last LIVE Cluster" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigtableadmin_v2#DeleteProjectsInstancesClusters/errors/-",
+      "value": { "target": "com.gcp.bigtableadmin_v2#LastClusterDeletion" }
+    }
+  ]
+}

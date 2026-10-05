@@ -1,0 +1,15 @@
+{
+  "description": "The spec names the site extension's ID and type `extension_id` / `extension_type`, but Microsoft.Web returns them as `properties.id` and `properties.type` (observed on GET and install of sites/siteextensions).",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.azure.web#SiteExtensionInfoProperties/members/extension_id",
+      "path": "/shapes/com.azure.web#SiteExtensionInfoProperties/members/id"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.azure.web#SiteExtensionInfoProperties/members/extension_type",
+      "path": "/shapes/com.azure.web#SiteExtensionInfoProperties/members/type"
+    }
+  ]
+}

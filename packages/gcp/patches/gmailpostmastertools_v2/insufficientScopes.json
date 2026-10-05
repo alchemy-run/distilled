@@ -1,0 +1,124 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#BatchQueryDomainStats/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#CreateDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#CreateDomainsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#DeleteDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#DeleteDomainsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#GetComplianceStatusDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#GetDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#GetDomainsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#GetVerificationTokenDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#ListDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#ListDomainsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#PatchDomainsUsers/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#QueryDomainsDomainStats/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gmailpostmastertools_v2#VerifyDomains/errors/-",
+      "value": {
+        "target": "com.gcp.gmailpostmastertools_v2#InsufficientScopes"
+      }
+    }
+  ]
+}

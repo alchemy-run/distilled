@@ -12,7 +12,7 @@ npm install @distilled.cloud/surrealdb effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Surrealdb from "@distilled.cloud/surrealdb";
 
 const program = Effect.gen(function* () {

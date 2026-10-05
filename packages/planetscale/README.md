@@ -12,7 +12,7 @@ npm install @distilled.cloud/planetscale effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as PlanetScale from "@distilled.cloud/planetscale";
 
 const program = Effect.gen(function* () {

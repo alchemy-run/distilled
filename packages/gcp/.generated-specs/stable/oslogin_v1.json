@@ -383,6 +383,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -434,6 +437,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -491,6 +497,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -534,6 +543,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -571,6 +583,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -621,6 +636,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -671,6 +689,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -714,6 +735,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -764,6 +788,9 @@
         },
         {
           "target": "com.gcp.oslogin_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.oslogin_v1#UserCredentialMismatch"
         }
       ],
       "traits": {
@@ -772,6 +799,23 @@
           "uri": "v1/{+parent}:signSshPublicKey"
         },
         "smithy.api#documentation": "Signs an SSH public key for a user to authenticate to a virtual machine on Google Compute Engine."
+      }
+    },
+    "com.gcp.oslogin_v1#UserCredentialMismatch": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The `users/{user}` in the request is not the authenticated identity (HTTP 403: 'End user credentials must match the user specified in the request.'). Service accounts cannot use `users/me`; name the account email instead.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "credentials must match the user specified"
+            }
+          }
+        ]
       }
     }
   }

@@ -29,6 +29,17 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
+        }
+      }
+    },
     "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddScriptTagItem": {
       "type": "structure",
       "members": {
@@ -626,12 +637,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -642,7 +663,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#CreateAccessibilityTreeRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -691,10 +712,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "interestingOnly": {
           "target": "smithy.api#Boolean"
@@ -719,12 +737,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -930,6 +942,17 @@
           "code": 200
         },
         "smithy.api#documentation": "Returns the page's accessibility tree. Use `interestingOnly` to only return semantically meaningful nodes; use `root` to scope the tree to a CSS-selector-anchored subtree. Control page loading with `gotoOptions` and `waitFor*` options."
+      }
+    },
+    "com.cloudflare.browser_rendering#ContentCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
+        }
       }
     },
     "com.cloudflare.browser_rendering#ContentCreateRequestAddScriptTagItem": {
@@ -1696,6 +1719,17 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#CrawlCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
           }
         }
       }
@@ -2848,6 +2882,17 @@
         "smithy.api#documentation": "Generates time-limited URLs to view a remote browser session. Set `guardrails: { mode: 'readonly' }` to create a view-only link."
       }
     },
+    "com.cloudflare.browser_rendering#JsonCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
+        }
+      }
+    },
     "com.cloudflare.browser_rendering#JsonCreateRequestAddScriptTagItem": {
       "type": "structure",
       "members": {
@@ -3493,6 +3538,17 @@
         "target": "smithy.api#Document"
       }
     },
+    "com.cloudflare.browser_rendering#LinksCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
+        }
+      }
+    },
     "com.cloudflare.browser_rendering#LinksCreateRequestAddScriptTagItem": {
       "type": "structure",
       "members": {
@@ -4085,6 +4141,17 @@
         "target": "smithy.api#String"
       }
     },
+    "com.cloudflare.browser_rendering#MarkdownCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
+        }
+      }
+    },
     "com.cloudflare.browser_rendering#MarkdownCreateRequestAddScriptTagItem": {
       "type": "structure",
       "members": {
@@ -4668,6 +4735,17 @@
         },
         "visible": {
           "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#PdfCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
         }
       }
     },
@@ -5512,21 +5590,15 @@
         }
       }
     },
-    "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsItem": {
-      "type": "structure",
+    "com.cloudflare.browser_rendering#ScrapeCreateRequestBrowser": {
+      "type": "enum",
       "members": {
-        "selector": {
-          "target": "smithy.api#String",
+        "KITESURF": {
+          "target": "smithy.api#Unit",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#enumValue": "kitesurf"
           }
         }
-      }
-    },
-    "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsList": {
-      "type": "list",
-      "member": {
-        "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsItem"
       }
     },
     "com.cloudflare.browser_rendering#ScrapeCreateRequestAddScriptTagItem": {
@@ -5838,6 +5910,23 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestCookiesItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsItem": {
+      "type": "structure",
+      "members": {
+        "selector": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsItem"
       }
     },
     "com.cloudflare.browser_rendering#ScrapeCreateRequestGotoOptionsWaitUntilCase0": {
@@ -6215,6 +6304,17 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.browser_rendering#ScrapeCreateResultItem"
+      }
+    },
+    "com.cloudflare.browser_rendering#ScreenshotCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
+        }
       }
     },
     "com.cloudflare.browser_rendering#ScreenshotCreateRequestAddScriptTagItem": {
@@ -6904,6 +7004,17 @@
         },
         "visible": {
           "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.browser_rendering#SnapshotCreateRequestBrowser": {
+      "type": "enum",
+      "members": {
+        "KITESURF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "kitesurf"
+          }
         }
       }
     },
@@ -8080,12 +8191,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#ContentCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -8096,7 +8217,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -8145,10 +8266,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ContentCreateRequestRejectRequestPatternList",
@@ -8167,12 +8285,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -8266,7 +8378,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#CrawlCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -8297,6 +8409,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Attempt to proceed when 'awaited' events fail or timeout."
+          }
+        },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#CrawlCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend for this crawl. Set to `kitesurf` to render pages with Kitesurf (beta). Only valid when `render` is `true`."
           }
         },
         "contentUse": {
@@ -8665,12 +8783,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#JsonCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -8681,7 +8809,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#JsonCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -8736,10 +8864,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "prompt": {
           "target": "smithy.api#String"
@@ -8764,12 +8889,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -8840,12 +8959,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#LinksCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -8856,7 +8985,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -8908,10 +9037,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#LinksCreateRequestRejectRequestPatternList",
@@ -8930,12 +9056,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -9009,12 +9129,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -9025,7 +9155,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -9074,10 +9204,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#MarkdownCreateRequestRejectRequestPatternList",
@@ -9096,12 +9223,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -9172,12 +9293,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#PdfCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -9188,7 +9319,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -9237,10 +9368,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "pdfOptions": {
           "target": "com.cloudflare.browser_rendering#PdfCreateRequestPdfOptions",
@@ -9265,12 +9393,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -9326,6 +9448,13 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
@@ -9333,11 +9462,8 @@
             "smithy.api#httpQuery": "cacheTTL"
           }
         },
-        "elements": {
-          "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsList",
-          "traits": {
-            "smithy.api#required": {}
-          }
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -9348,7 +9474,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -9387,6 +9513,9 @@
             "smithy.api#documentation": "Check [options](https://pptr.dev/api/puppeteer.page.setcookie)."
           }
         },
+        "elements": {
+          "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestElementsList"
+        },
         "emulateMediaType": {
           "target": "smithy.api#String"
         },
@@ -9397,10 +9526,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ScrapeCreateRequestRejectRequestPatternList",
@@ -9419,12 +9545,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -9495,12 +9615,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -9511,7 +9641,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -9560,10 +9690,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#ScreenshotCreateRequestRejectRequestPatternList",
@@ -9594,12 +9721,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"
@@ -9655,12 +9776,22 @@
             "smithy.api#required": {}
           }
         },
+        "browser": {
+          "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestBrowser",
+          "traits": {
+            "smithy.api#documentation": "Rendering backend. Set to `kitesurf` to use Kitesurf (beta).",
+            "smithy.api#httpQuery": "browser"
+          }
+        },
         "cacheTTL": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Cache TTL default is 5s. Set to 0 to disable.",
             "smithy.api#httpQuery": "cacheTTL"
           }
+        },
+        "url": {
+          "target": "smithy.api#String"
         },
         "actionTimeout": {
           "target": "smithy.api#Double",
@@ -9671,7 +9802,7 @@
         "addScriptTag": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestAddScriptTagList",
           "traits": {
-            "smithy.api#documentation": "Adds a `&lt;script&gt;` tag into the page with the desired URL or content."
+            "smithy.api#documentation": "Adds a script element into the page with the desired URL or content."
           }
         },
         "addStyleTag": {
@@ -9723,10 +9854,7 @@
           }
         },
         "html": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Set the content of the page, eg: `<h1>Hello World!!</h1>`. Either `html` or `url` must be set."
-          }
+          "target": "smithy.api#String"
         },
         "rejectRequestPattern": {
           "target": "com.cloudflare.browser_rendering#SnapshotCreateRequestRejectRequestPatternList",
@@ -9748,12 +9876,6 @@
         },
         "setJavaScriptEnabled": {
           "target": "smithy.api#Boolean"
-        },
-        "url": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "URL to navigate to, eg. `https://example.com`."
-          }
         },
         "userAgent": {
           "target": "smithy.api#String"

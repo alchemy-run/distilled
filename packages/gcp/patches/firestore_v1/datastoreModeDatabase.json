@@ -1,0 +1,61 @@
+{
+  "description": "Type the rejection of Firestore document APIs against a Datastore-mode database (HTTP 400 FAILED_PRECONDITION). On GET it surfaced as an out-of-union BadRequest; elsewhere as a generic BadRequest.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DatastoreModeDatabase",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The database is in Datastore mode, which does not serve the Cloud Firestore document API (HTTP 400 FAILED_PRECONDITION: 'The Cloud Firestore API is not available for Firestore in Datastore Mode database ...'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "not available for Firestore in Datastore Mode"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsDatabasesDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#CreateDocumentProjectsDatabasesDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DeleteProjectsDatabasesDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsDatabasesDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#PatchProjectsDatabasesDocuments/errors/-",
+      "value": {
+        "target": "com.gcp.firestore_v1#DatastoreModeDatabase"
+      }
+    }
+  ]
+}

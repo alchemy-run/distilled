@@ -12,7 +12,7 @@ npm install @distilled.cloud/unkey effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Unkey from "@distilled.cloud/unkey";
 
 const program = Effect.gen(function* () {

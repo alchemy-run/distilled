@@ -1717,6 +1717,9 @@
         },
         {
           "target": "com.gcp.websecurityscanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.websecurityscanner_v1#StartingUrlIpNotReserved"
         }
       ],
       "traits": {
@@ -1872,6 +1875,9 @@
         },
         {
           "target": "com.gcp.websecurityscanner_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.websecurityscanner_v1#StartingUrlIpNotReserved"
         }
       ],
       "traits": {
@@ -2213,6 +2219,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Gets a Finding."
+      }
+    },
+    "com.gcp.websecurityscanner_v1#StartingUrlIpNotReserved": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "A starting URL's IP address is not reserved as a static address in this project (HTTP 400 FAILED_PRECONDITION). Reserve it first; retry briefly right after reserving.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "reserved as static for this project"
+            }
+          }
+        ]
       }
     }
   }

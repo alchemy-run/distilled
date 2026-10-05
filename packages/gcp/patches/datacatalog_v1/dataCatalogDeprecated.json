@@ -1,0 +1,327 @@
+{
+  "description": "Type the Data Catalog deprecation rejection on tag template and entry operations. Projects migrated to Dataplex get HTTP 400 INVALID_ARGUMENT ('Project \u2026 is not allowed to perform read operations due to Data Catalog deprecation.'); it surfaced as a generic BadRequest indistinguishable from a malformed request. Observed live 2026-09-29 on getProjectsLocationsTagTemplates/createProjectsLocationsTagTemplates.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DataCatalogDeprecated",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project may no longer use this Data Catalog API because it moved to Dataplex Universal Catalog (HTTP 400 INVALID_ARGUMENT: 'Project \u2026 is not allowed to perform read/write operations due to Data Catalog deprecation.'). Not retryable.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "due to Data Catalog deprecation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#CreateProjectsLocationsTagTemplatesFields/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#DeleteProjectsLocationsTagTemplatesFields/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetIamPolicyProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetIamPolicyProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetIamPolicyProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ImportProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#LookupEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ModifyEntryContactsProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ModifyEntryOverviewProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsEntryGroupsTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#PatchProjectsLocationsTagTemplatesFields/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ReconcileProjectsLocationsEntryGroupsEntriesTags/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#RenameProjectsLocationsTagTemplatesFields/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#RenameProjectsLocationsTagTemplatesFieldsEnumValues/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#SearchCatalog/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#SetIamPolicyProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#SetIamPolicyProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#StarProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#TestIamPermissionsProjectsLocationsEntryGroups/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#TestIamPermissionsProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#TestIamPermissionsProjectsLocationsTagTemplates/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#UnstarProjectsLocationsEntryGroupsEntries/errors/-",
+      "value": {
+        "target": "com.gcp.datacatalog_v1#DataCatalogDeprecated"
+      }
+    }
+  ]
+}

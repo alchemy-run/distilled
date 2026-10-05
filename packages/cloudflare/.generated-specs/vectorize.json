@@ -145,6 +145,41 @@
         }
       }
     },
+    "com.cloudflare.vectorize#IndexesCreateResponseConfigPreset": {
+      "type": "enum",
+      "members": {
+        "CF_BAAI_BGE_SMALL_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-small-en-v1.5"
+          }
+        },
+        "CF_BAAI_BGE_BASE_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-base-en-v1.5"
+          }
+        },
+        "CF_BAAI_BGE_LARGE_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-large-en-v1.5"
+          }
+        },
+        "OPENAI_TEXT_EMBEDDING_ADA_002": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai/text-embedding-ada-002"
+          }
+        },
+        "COHERE_EMBED_MULTILINGUAL_V2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere/embed-multilingual-v2.0"
+          }
+        }
+      }
+    },
     "com.cloudflare.vectorize#IndexesCreateResponseConfig": {
       "type": "structure",
       "members": {
@@ -160,6 +195,12 @@
           "traits": {
             "smithy.api#documentation": "Specifies the type of metric to use calculating distance.",
             "smithy.api#required": {}
+          }
+        },
+        "preset": {
+          "target": "com.cloudflare.vectorize#IndexesCreateResponseConfigPreset",
+          "traits": {
+            "smithy.api#documentation": "Specifies the preset to use for the index."
           }
         }
       }
@@ -193,6 +234,41 @@
         }
       }
     },
+    "com.cloudflare.vectorize#IndexesGetResponseConfigPreset": {
+      "type": "enum",
+      "members": {
+        "CF_BAAI_BGE_SMALL_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-small-en-v1.5"
+          }
+        },
+        "CF_BAAI_BGE_BASE_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-base-en-v1.5"
+          }
+        },
+        "CF_BAAI_BGE_LARGE_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-large-en-v1.5"
+          }
+        },
+        "OPENAI_TEXT_EMBEDDING_ADA_002": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai/text-embedding-ada-002"
+          }
+        },
+        "COHERE_EMBED_MULTILINGUAL_V2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere/embed-multilingual-v2.0"
+          }
+        }
+      }
+    },
     "com.cloudflare.vectorize#IndexesGetResponseConfig": {
       "type": "structure",
       "members": {
@@ -208,6 +284,12 @@
           "traits": {
             "smithy.api#documentation": "Specifies the type of metric to use calculating distance.",
             "smithy.api#required": {}
+          }
+        },
+        "preset": {
+          "target": "com.cloudflare.vectorize#IndexesGetResponseConfigPreset",
+          "traits": {
+            "smithy.api#documentation": "Specifies the preset to use for the index."
           }
         }
       }
@@ -258,6 +340,41 @@
         }
       }
     },
+    "com.cloudflare.vectorize#IndexesListResultItemConfigPreset": {
+      "type": "enum",
+      "members": {
+        "CF_BAAI_BGE_SMALL_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-small-en-v1.5"
+          }
+        },
+        "CF_BAAI_BGE_BASE_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-base-en-v1.5"
+          }
+        },
+        "CF_BAAI_BGE_LARGE_EN_V1_5": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "@cf/baai/bge-large-en-v1.5"
+          }
+        },
+        "OPENAI_TEXT_EMBEDDING_ADA_002": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openai/text-embedding-ada-002"
+          }
+        },
+        "COHERE_EMBED_MULTILINGUAL_V2_0": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cohere/embed-multilingual-v2.0"
+          }
+        }
+      }
+    },
     "com.cloudflare.vectorize#IndexesListResultItemConfig": {
       "type": "structure",
       "members": {
@@ -273,6 +390,12 @@
           "traits": {
             "smithy.api#documentation": "Specifies the type of metric to use calculating distance.",
             "smithy.api#required": {}
+          }
+        },
+        "preset": {
+          "target": "com.cloudflare.vectorize#IndexesListResultItemConfigPreset",
+          "traits": {
+            "smithy.api#documentation": "Specifies the preset to use for the index."
           }
         }
       }

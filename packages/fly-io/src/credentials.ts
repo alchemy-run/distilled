@@ -53,18 +53,15 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("Fly-ioCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "Fly-ioCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   apiKey: EffectConfig.String("FLY_API_TOKEN").pipe(
     EffectConfig.orElse(() => EffectConfig.String("FLY_IO_API_KEY")),
   ),
-  apiBaseUrl: EffectConfig.String("FLY_API_HOSTNAME").pipe(
-    EffectConfig.withDefault(""),
-  ),
+  apiBaseUrl: EffectConfig.String("FLY_API_HOSTNAME").pipe(EffectConfig.withDefault("")),
 });
 
 export const CredentialsFromEnv = Layer.succeed(
@@ -73,8 +70,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "FLY_API_TOKEN (or FLY_IO_API_KEY) environment variable is required",
+          message: "FLY_API_TOKEN (or FLY_IO_API_KEY) environment variable is required",
         }),
     ),
     Effect.map(({ apiKey, apiBaseUrl }) => ({
@@ -85,15 +81,15 @@ export const CredentialsFromEnv = Layer.succeed(
   ),
 );
 
-/** Convenience layer from a plain API token + optional base URL. */
+/** Convenience layer from a redacted API token + optional base URL. */
 export const credentials = (config: {
-  readonly apiKey: string;
+  readonly apiKey: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.make(config.apiKey),
+      apiKey: config.apiKey,
       apiBaseUrl: normalizeApiBaseUrl(config.apiBaseUrl),
     }),
   );

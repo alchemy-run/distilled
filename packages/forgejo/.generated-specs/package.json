@@ -1,5 +1,4 @@
 {
-  "smithy": "2.0",
   "metadata": {
     "suppressions": [
       {
@@ -1330,5 +1329,6 @@
         "smithy.api#documentation": "This documentation describes the Forgejo API."
       }
     }
-  }
+  },
+  "smithy": "2.0"
 }

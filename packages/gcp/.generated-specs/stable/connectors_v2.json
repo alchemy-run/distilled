@@ -5129,6 +5129,9 @@
         },
         {
           "target": "com.gcp.connectors_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.connectors_v2#EntitiesNotImplemented"
         }
       ],
       "traits": {
@@ -5179,6 +5182,9 @@
         },
         {
           "target": "com.gcp.connectors_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.connectors_v2#EntitiesNotImplemented"
         }
       ],
       "traits": {
@@ -5280,6 +5286,9 @@
         },
         {
           "target": "com.gcp.connectors_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.connectors_v2#EntitiesNotImplemented"
         }
       ],
       "traits": {
@@ -5423,6 +5432,9 @@
         },
         {
           "target": "com.gcp.connectors_v2#Forbidden"
+        },
+        {
+          "target": "com.gcp.connectors_v2#EntitiesNotImplemented"
         }
       ],
       "traits": {
@@ -5484,6 +5496,9 @@
         },
         {
           "target": "com.gcp.connectors_v2#Conflict"
+        },
+        {
+          "target": "com.gcp.connectors_v2#EntitiesNotImplemented"
         }
       ],
       "traits": {
@@ -5492,6 +5507,19 @@
           "uri": "v2/{+name}"
         },
         "smithy.api#documentation": "Updates an existing entity row matching the entity type and entity id specified in the request. The fields in the entity row that need to be modified are contained in the body of the request. All unspecified fields are left unchanged. The response message contains a `Entity` message object returned as a response by the external system."
+      }
+    },
+    "com.gcp.connectors_v2#EntitiesNotImplemented": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "Entity operations are not available for this connection (HTTP 501 UNIMPLEMENTED: 'Operation is not implemented, or supported, or enabled.'), e.g. because the connection does not exist. Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 501
+          }
+        ]
       }
     }
   }

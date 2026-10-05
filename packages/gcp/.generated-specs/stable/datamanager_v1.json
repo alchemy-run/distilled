@@ -3202,7 +3202,7 @@
         "mobileDeviceId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The mobile identifier for advertisers. This would be IDFA on iOS, AdID on Android, or other platforms’ identifiers for advertisers."
+            "smithy.api#documentation": "Optional. The mobile identifier for advertisers. This would be IDFA on iOS, AdID on Android, or other platforms\u2019 identifiers for advertisers."
           }
         },
         "wbraid": {
@@ -3250,7 +3250,7 @@
         "landingPageDeviceInfo": {
           "target": "com.gcp.datamanager_v1#DeviceInfo",
           "traits": {
-            "smithy.api#documentation": "Optional. Information gathered about the device being used (if any) at the time of landing onto the advertiser’s site after interacting with the ad."
+            "smithy.api#documentation": "Optional. Information gathered about the device being used (if any) at the time of landing onto the advertiser\u2019s site after interacting with the ad."
           }
         }
       },
@@ -4436,7 +4436,7 @@
         "category": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Optional. The category of device. For example, “desktop”, “tablet”, “mobile”, “smart TV”."
+            "smithy.api#documentation": "Optional. The category of device. For example, \u201cdesktop\u201d, \u201ctablet\u201d, \u201cmobile\u201d, \u201csmart TV\u201d."
           }
         },
         "ipAddress": {
@@ -6679,6 +6679,9 @@
         },
         {
           "target": "com.gcp.datamanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
         }
       ],
       "traits": {
@@ -6743,6 +6746,9 @@
         },
         {
           "target": "com.gcp.datamanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
         }
       ],
       "traits": {
@@ -6801,6 +6807,9 @@
         },
         {
           "target": "com.gcp.datamanager_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
         }
       ],
       "traits": {
@@ -6862,6 +6871,9 @@
         },
         {
           "target": "com.gcp.datamanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
         }
       ],
       "traits": {
@@ -6912,6 +6924,9 @@
         },
         {
           "target": "com.gcp.datamanager_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.datamanager_v1#DataManagerScopeInsufficient"
         }
       ],
       "traits": {
@@ -7046,6 +7061,23 @@
           "uri": "v1/audienceMembers:ingest"
         },
         "smithy.api#documentation": "Uploads a list of AudienceMember resources to the provided Destination."
+      }
+    },
+    "com.gcp.datamanager_v1#DataManagerScopeInsufficient": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the Data Manager OAuth scope (`https://www.googleapis.com/auth/datamanager`) (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). A `cloud-platform` token is not enough. Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

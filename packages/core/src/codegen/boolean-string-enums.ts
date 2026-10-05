@@ -45,11 +45,7 @@ const booleanEnumIds = (shapes: Record<string, any>): Set<string> => {
     const values = Object.values(shape.members ?? {}).map(
       (m: any) => m?.traits?.["smithy.api#enumValue"],
     );
-    if (
-      values.length === 2 &&
-      values.includes("true") &&
-      values.includes("false")
-    ) {
+    if (values.length === 2 && values.includes("true") && values.includes("false")) {
       out.add(id);
     }
   }
@@ -132,11 +128,7 @@ export const booleanStringEnums = (model: any): BooleanStringEnumResult => {
   const requestOnly = requestOnlyShapes(shapes);
   const boolLists = new Set<string>();
   for (const [id, shape] of Object.entries(shapes)) {
-    if (
-      shape?.type === "list" &&
-      boolEnums.has(shape.member?.target) &&
-      requestOnly.has(id)
-    ) {
+    if (shape?.type === "list" && boolEnums.has(shape.member?.target) && requestOnly.has(id)) {
       boolLists.add(id);
     }
   }

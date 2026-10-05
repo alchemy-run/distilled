@@ -11,7 +11,9 @@
  * - Errors wrapped in <ErrorResponse><Error>...</Error><RequestId>...</RequestId></ErrorResponse>
  */
 
+import { failIfStrict } from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
+import * as Result from "effect/Result";
 import * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
@@ -36,20 +38,13 @@ import {
 } from "../util/ast.ts";
 import { sanitizeErrorCode } from "../util/error.ts";
 import { readStreamAsText } from "../util/stream.ts";
-import {
-  deserializePrimitive,
-  extractXmlRoot,
-  parseXml,
-  unwrapArrayValue,
-} from "../util/xml.ts";
+import { deserializePrimitive, extractXmlRoot, parseXml, unwrapArrayValue } from "../util/xml.ts";
 
 // =============================================================================
 // Protocol Export
 // =============================================================================
 
-export const awsQueryProtocol: Protocol = (
-  operation: Operation,
-): ProtocolHandler => {
+export const awsQueryProtocol: Protocol = (operation: Operation): ProtocolHandler => {
   const inputSchema = operation.input;
   const outputSchema = operation.output;
   const inputAst = inputSchema.ast;
@@ -67,9 +62,7 @@ export const awsQueryProtocol: Protocol = (
   // fallback is wrong for services whose input shapes aren't named after the
   // operation at all (e.g. AutoScaling's `AutoScalingGroupNamesType`).
   const identifier = getIdentifier(inputAst) ?? "";
-  const action =
-    operation.operationName ??
-    identifier.replace(/(?:Request|Input|Message)$/, "");
+  const action = operation.operationName ?? identifier.replace(/(?:Request|Input|Message)$/, "");
   const version = getServiceVersion(inputAst) ?? "";
 
   return {
@@ -93,12 +86,7 @@ export const awsQueryProtocol: Protocol = (
       params.push(`Version=${encodeURIComponent(version)}`);
 
       // Serialize already-encoded input members
-      serializeMembers(
-        inputAst,
-        encoded as Record<string, unknown>,
-        "",
-        params,
-      );
+      serializeMembers(inputAst, encoded as Record<string, unknown>, "", params);
 
       request.body = params.join("&");
 
@@ -113,7 +101,12 @@ export const awsQueryProtocol: Protocol = (
 
       // Parse body XML
       if (bodyText) {
-        const parsed = yield* parseXml(bodyText);
+        const read = yield* Effect.result(parseXml(bodyText));
+        // Lenient mode returns the body as read.
+        if (Result.isFailure(read)) {
+          return yield* failIfStrict(read.failure, bodyText);
+        }
+        const parsed = read.success;
 
         // AWS Query response structure:
         // <{OperationName}Response xmlns="...">
@@ -130,9 +123,7 @@ export const awsQueryProtocol: Protocol = (
         // Look for the Result wrapper inside the Response
         if (content && typeof content === "object") {
           // Find the *Result key (e.g., GetUserResult, ListUsersResult)
-          const resultKey = Object.keys(content).find((k) =>
-            k.endsWith("Result"),
-          );
+          const resultKey = Object.keys(content).find((k) => k.endsWith("Result"));
           if (resultKey) {
             content = content[resultKey] as Record<string, unknown>;
           }
@@ -183,11 +174,7 @@ export const awsQueryProtocol: Protocol = (
 
       // Legacy query services (SimpleDB) wrap errors EC2-style:
       // <Response><Errors><Error><Code>..</Code><Message>..</Message></Error></Errors><RequestID>..</RequestID></Response>
-      if (
-        !errorContent &&
-        parsed.Response &&
-        typeof parsed.Response === "object"
-      ) {
+      if (!errorContent && parsed.Response && typeof parsed.Response === "object") {
         const responseObj = parsed.Response as Record<string, unknown>;
         if (typeof responseObj.RequestID === "string") {
           requestId = responseObj.RequestID;
@@ -195,9 +182,10 @@ export const awsQueryProtocol: Protocol = (
         if (responseObj.Errors && typeof responseObj.Errors === "object") {
           const errors = responseObj.Errors as Record<string, unknown>;
           if (errors.Error && typeof errors.Error === "object") {
-            errorContent = (
-              Array.isArray(errors.Error) ? errors.Error[0] : errors.Error
-            ) as Record<string, unknown>;
+            errorContent = (Array.isArray(errors.Error) ? errors.Error[0] : errors.Error) as Record<
+              string,
+              unknown
+            >;
           }
         }
       }
@@ -283,17 +271,13 @@ function serializeValue(
 
   // Handle Date objects (v4: S.Date remains Date after encode)
   if (value instanceof Date) {
-    params.push(
-      `${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`,
-    );
+    params.push(`${encodeURIComponent(key)}=${encodeURIComponent(value.toISOString())}`);
     return;
   }
 
   // Handle primitives (includes encoded dates as strings, blobs as base64)
   if (typeof value !== "object") {
-    params.push(
-      `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
-    );
+    params.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
     return;
   }
 
@@ -307,15 +291,11 @@ function serializeValue(
 
     // AWS Query uses "member" as default for list elements
     // xmlName trait on the element AST can override this
-    const elementTag = elementAST
-      ? (getXmlName(elementAST) ?? "member")
-      : "member";
+    const elementTag = elementAST ? (getXmlName(elementAST) ?? "member") : "member";
 
     for (let i = 0; i < value.length; i++) {
       // AWS Query format: Key.member.N for non-flattened, Key.N for flattened
-      const itemKey = isFlattened
-        ? `${key}.${i + 1}`
-        : `${key}.${elementTag}.${i + 1}`;
+      const itemKey = isFlattened ? `${key}.${i + 1}` : `${key}.${elementTag}.${i + 1}`;
       serializeValue(elementAST ?? ast, value[i], itemKey, params);
     }
     return;
@@ -339,9 +319,7 @@ function serializeValue(
       const [k, v] = entries[i];
       // AWS Query format: Key.entry.N.key/value for non-flattened
       // Flattened: Key.N.key/value
-      const entryPrefix = isFlattened
-        ? `${key}.${i + 1}`
-        : `${key}.entry.${i + 1}`;
+      const entryPrefix = isFlattened ? `${key}.${i + 1}` : `${key}.entry.${i + 1}`;
       params.push(
         `${encodeURIComponent(`${entryPrefix}.${keyName}`)}=${encodeURIComponent(String(k))}`,
       );
@@ -399,10 +377,7 @@ function deserializeValue(ast: AST.AST, value: unknown): unknown {
   return value;
 }
 
-function deserializeObject(
-  ast: AST.AST,
-  value: Record<string, unknown>,
-): Record<string, unknown> {
+function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record<string, unknown> {
   const result: Record<string, unknown> = {};
 
   for (const prop of getEncodedPropertySignatures(ast)) {

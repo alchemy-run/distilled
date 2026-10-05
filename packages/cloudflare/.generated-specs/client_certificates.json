@@ -272,7 +272,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Client Certificate Tag"
           }
         },
         "certificate": {
@@ -535,7 +535,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Client Certificate Tag"
           }
         },
         "certificate": {
@@ -689,7 +689,7 @@
         "client_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Client Certificate Tag",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -705,7 +705,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Client Certificate Tag"
           }
         },
         "certificate": {
@@ -856,7 +856,7 @@
         "client_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Client Certificate Tag",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -872,7 +872,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Client Certificate Tag"
           }
         },
         "certificate": {
@@ -1118,7 +1118,7 @@
         "client_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Client Certificate Tag",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1137,7 +1137,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Client Certificate Tag"
           }
         },
         "certificate": {

@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * MongoDB Atlas Effect SDK.
@@ -13,7 +14,6 @@
  * kept the wire names on the TS surface).
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -82,7 +82,7 @@ const atlasSpec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the MongoDB Atlas Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // patches/ (if it ever exists) holds OpenAPI-document patches consumed by
   // scripts/convert.ts; there is no smithy-model patch chain.
   patchesDir: false,

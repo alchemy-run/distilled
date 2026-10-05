@@ -1,0 +1,26 @@
+{
+  "description": "Type notificationConfigs.insert's HTTP 400 for a topic the Cloud Storage service agent cannot publish to ('Cloud Pub/Sub topic '...' not found, or user 'service-N@gs-project-accounts...' does not have permission to it.'). It surfaced as a generic BadRequest, so callers matched on the message to wait out IAM propagation after granting roles/pubsub.publisher.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#NotificationTopicUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The Pub/Sub topic does not exist or the bucket's Cloud Storage service agent may not publish to it (HTTP 400). Retryable while a fresh roles/pubsub.publisher grant propagates.",
+          "com.gcp.protocols#errorMatchers": [
+            { "status": 400, "message": { "includes": "Cloud Pub/Sub topic" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storage_v1#InsertNotifications/errors/-",
+      "value": { "target": "com.gcp.storage_v1#NotificationTopicUnavailable" }
+    }
+  ]
+}

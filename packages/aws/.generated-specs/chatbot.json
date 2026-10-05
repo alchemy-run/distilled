@@ -633,10 +633,7 @@
           "uri": "/create-ms-teams-channel-configuration",
           "code": 201
         },
-        "smithy.api#suppress": [
-          "OperationInputOutputName.input",
-          "OperationInputOutputName.output"
-        ]
+        "smithy.api#suppress": ["OperationInputOutputName.input", "OperationInputOutputName.output"]
       }
     },
     "com.amazonaws.chatbot#CreateSlackChannelConfiguration": {
@@ -1387,10 +1384,7 @@
           "uri": "/delete-ms-teams-channel-configuration",
           "code": 204
         },
-        "smithy.api#suppress": [
-          "OperationInputOutputName.input",
-          "OperationInputOutputName.output"
-        ]
+        "smithy.api#suppress": ["OperationInputOutputName.input", "OperationInputOutputName.output"]
       }
     },
     "com.amazonaws.chatbot#DeleteMicrosoftTeamsConfiguredTeam": {
@@ -1422,10 +1416,7 @@
           "uri": "/delete-ms-teams-configured-teams",
           "code": 204
         },
-        "smithy.api#suppress": [
-          "OperationInputOutputName.input",
-          "OperationInputOutputName.output"
-        ]
+        "smithy.api#suppress": ["OperationInputOutputName.input", "OperationInputOutputName.output"]
       }
     },
     "com.amazonaws.chatbot#DeleteMicrosoftTeamsUserIdentity": {
@@ -2432,10 +2423,7 @@
           "code": 200
         },
         "smithy.api#readonly": {},
-        "smithy.api#suppress": [
-          "OperationInputOutputName.input",
-          "OperationInputOutputName.output"
-        ]
+        "smithy.api#suppress": ["OperationInputOutputName.input", "OperationInputOutputName.output"]
       }
     },
     "com.amazonaws.chatbot#GetTeamsChannelConfigurationException": {
@@ -2691,9 +2679,7 @@
             "title": "List custom actions",
             "input": {},
             "output": {
-              "CustomActions": [
-                "arn:aws:chatbot::1234567890:custom-action/my-custom-action"
-              ]
+              "CustomActions": ["arn:aws:chatbot::1234567890:custom-action/my-custom-action"]
             }
           }
         ],
@@ -2802,10 +2788,7 @@
           "items": "TeamChannelConfigurations"
         },
         "smithy.api#readonly": {},
-        "smithy.api#suppress": [
-          "OperationInputOutputName.input",
-          "OperationInputOutputName.output"
-        ]
+        "smithy.api#suppress": ["OperationInputOutputName.input", "OperationInputOutputName.output"]
       }
     },
     "com.amazonaws.chatbot#ListMicrosoftTeamsConfiguredTeams": {
@@ -4187,10 +4170,7 @@
           "uri": "/update-ms-teams-channel-configuration",
           "code": 200
         },
-        "smithy.api#suppress": [
-          "OperationInputOutputName.input",
-          "OperationInputOutputName.output"
-        ]
+        "smithy.api#suppress": ["OperationInputOutputName.input", "OperationInputOutputName.output"]
       }
     },
     "com.amazonaws.chatbot#UpdateSlackChannelConfiguration": {
@@ -4510,12 +4490,7 @@
         "aws.auth#sigv4": {
           "name": "chatbot"
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#auth": ["aws.auth#sigv4"],
         "smithy.api#cors": {
@@ -4527,11 +4502,7 @@
             "x-amzn-platform-id",
             "x-amzn-trace-id"
           ],
-          "additionalExposedHeaders": [
-            "x-amzn-errortype",
-            "x-amzn-requestid",
-            "x-amzn-trace-id"
-          ],
+          "additionalExposedHeaders": ["x-amzn-errortype", "x-amzn-requestid", "x-amzn-trace-id"],
           "maxAge": 86400
         },
         "smithy.api#documentation": "<p>The <i>AWS Chatbot API Reference</i> provides descriptions, API request parameters, and the XML response for each of the AWS Chatbot API actions.</p>\n         <p>AWS Chatbot APIs are currently available in the following Regions:</p>\n         <ul>\n            <li>\n               <p>US East (Ohio) - <code>us-east-2</code>\n               </p>\n            </li>\n            <li>\n               <p>US West (Oregon) - <code>us-west-2</code>\n               </p>\n            </li>\n            <li>\n               <p>Asia Pacific (Singapore) - <code>ap-southeast-1</code>\n               </p>\n            </li>\n            <li>\n               <p>Europe (Ireland) - <code>eu-west-1</code>\n               </p>\n            </li>\n         </ul>\n         <p>The AWS Chatbot console can only be used in US East (Ohio). Your configuration data however, is stored in each of the relevant available Regions.</p>\n         <note>\n            <p>Your AWS CloudTrail events are logged in whatever Region you call from, not US East (N. Virginia) by default.</p>\n         </note>",

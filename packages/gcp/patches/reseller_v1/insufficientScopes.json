@@ -1,0 +1,145 @@
+{
+  "description": "Type the OAuth-scope rejection (HTTP 403 PERMISSION_DENIED, reason ACCESS_TOKEN_SCOPE_INSUFFICIENT: 'Request had insufficient authentication scopes.'). This API needs a product-specific OAuth scope that a cloud-platform token does not carry; it surfaced as the generic Forbidden, indistinguishable from a missing IAM permission.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#InsufficientScopes",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "insufficient authentication scopes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#ActivateSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#ChangePlanSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#ChangeRenewalSettingsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#ChangeSeatsSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#DeleteSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#GetCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#GetSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#GetwatchdetailsResellernotify/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#InsertCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#InsertSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#ListSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#PatchCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#RegisterResellernotify/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#StartPaidServiceSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#SuspendSubscriptions/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#UnregisterResellernotify/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.reseller_v1#UpdateCustomers/errors/-",
+      "value": {
+        "target": "com.gcp.reseller_v1#InsufficientScopes"
+      }
+    }
+  ]
+}

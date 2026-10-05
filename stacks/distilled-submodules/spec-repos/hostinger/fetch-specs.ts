@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Mirrors Hostinger's OpenAPI spec and first-party docs into ../specs/.
  *
@@ -8,7 +8,7 @@
  * raw.githubusercontent.com.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * The files are saved to:
  *   ../specs/openapi.json
@@ -18,6 +18,7 @@
  */
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "hostinger/api";
@@ -58,9 +59,7 @@ const fetchText = async (url: string): Promise<string> => {
     },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return await response.text();
 };
@@ -68,10 +67,7 @@ const fetchText = async (url: string): Promise<string> => {
 async function main() {
   const openapiUrl = rawUrl(OPENAPI_PATH);
   console.log(`Fetching OpenAPI spec from ${openapiUrl}...`);
-  const spec = JSON.parse(await fetchText(openapiUrl)) as Record<
-    string,
-    unknown
-  >;
+  const spec = JSON.parse(await fetchText(openapiUrl)) as Record<string, unknown>;
 
   // Fail here rather than three steps later in the generator: a login page or
   // a gutted response is still valid JSON, but it is not an OpenAPI document.
@@ -82,7 +78,7 @@ async function main() {
   }
 
   console.log(`Writing spec to ${OPENAPI_OUTPUT}...`);
-  await Bun.write(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OPENAPI_OUTPUT, JSON.stringify(spec, null, 2) + "\n");
 
   const docs: Array<{ path: string; source: string; bytes: number }> = [];
   for (const file of DOC_FILES) {
@@ -90,7 +86,7 @@ async function main() {
     console.log(`Fetching docs ${url}...`);
     const text = await fetchText(url);
     const outputPath = `${DOCS_DIR}/${file.output}`;
-    await Bun.write(outputPath, text.endsWith("\n") ? text : `${text}\n`);
+    await writeFile(outputPath, text.endsWith("\n") ? text : `${text}\n`);
     docs.push({ path: file.output, source: url, bytes: text.length });
   }
 
@@ -111,10 +107,7 @@ async function main() {
     },
     docs,
   };
-  await Bun.write(
-    `${DOCS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2) + "\n",
-  );
+  await writeFile(`${DOCS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2) + "\n");
 
   console.log(
     `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths, ${docs.length} docs`,

@@ -1416,7 +1416,7 @@
         "emailMapping": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "IdP field that maps to the user’s email address"
+            "smithy.api#documentation": "IdP field that maps to the user\u2019s email address"
           }
         }
       },
@@ -1828,7 +1828,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Defines a logical CCAIP component that e.g. “EMAIL”, \"CRM\". For more information see go/ccaip-private-path-v2. Each logical component is associated with a list of service attachments."
+        "smithy.api#documentation": "Defines a logical CCAIP component that e.g. \u201cEMAIL\u201d, \"CRM\". For more information see go/ccaip-private-path-v2. Each logical component is associated with a list of service attachments."
       }
     },
     "com.gcp.contactcenteraiplatform_v1alpha1#GetProjectsLocationsRequest": {
@@ -1884,6 +1884,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1949,6 +1952,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1990,6 +1996,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2066,6 +2075,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2130,6 +2142,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2194,6 +2209,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2231,6 +2249,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2296,6 +2317,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2350,6 +2374,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2415,6 +2442,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2469,6 +2499,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2506,6 +2539,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Forbidden"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2549,6 +2585,9 @@
         },
         {
           "target": "com.gcp.contactcenteraiplatform_v1alpha1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2557,6 +2596,23 @@
           "uri": "v1alpha1/{+name}"
         },
         "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.contactcenteraiplatform_v1alpha1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The API is not enabled on the project (HTTP 403 PERMISSION_DENIED, reason SERVICE_DISABLED: \"<API> has not been used in project <n> before or it is disabled.\").",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

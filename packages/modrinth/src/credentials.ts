@@ -29,22 +29,20 @@ export interface Config {
   readonly userAgent: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ModrinthCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ModrinthCredentials",
+) {}
 
 /** Layer from an optional API token + optional base URL / User-Agent. */
 export const fromApiKey = (config: {
-  readonly apiKey?: string;
+  readonly apiKey?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
   readonly userAgent?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey:
-        config.apiKey !== undefined ? Redacted.make(config.apiKey) : undefined,
+      apiKey: config.apiKey !== undefined ? config.apiKey : undefined,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       userAgent: config.userAgent ?? DEFAULT_USER_AGENT,
     }),
@@ -57,9 +55,7 @@ export const fromApiKey = (config: {
 export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
   Effect.succeed({
-    apiKey: process.env.MODRINTH_API_KEY
-      ? Redacted.make(process.env.MODRINTH_API_KEY)
-      : undefined,
+    apiKey: process.env.MODRINTH_API_KEY ? Redacted.make(process.env.MODRINTH_API_KEY) : undefined,
     apiBaseUrl: process.env.MODRINTH_API_BASE_URL ?? DEFAULT_API_BASE_URL,
     userAgent: process.env.MODRINTH_USER_AGENT ?? DEFAULT_USER_AGENT,
   }),

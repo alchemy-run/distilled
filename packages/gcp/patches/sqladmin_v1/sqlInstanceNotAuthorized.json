@@ -1,0 +1,166 @@
+{
+  "description": "Type Cloud SQL's 403 'The client is not authorized to make this request.' on instance-child operations. Cloud SQL answers it for databases/users/sslCerts/backupRuns of a missing instance (observed live 2026-09-29: getDatabases/listDatabases/deleteDatabases/getUsers/listUsers/deleteUsers/getSslCerts/listSslCerts/getBackupRuns/listBackupRuns on a nonexistent instance, while getInstances answers 404). A distinct tag lets callers confirm the instance is gone instead of treating every Forbidden as missing.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#SqlInstanceNotAuthorized",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Cloud SQL answered HTTP 403 'The client is not authorized to make this request.' for a database, user, SSL certificate, or backup run call. It returns exactly this for children of an instance that does not exist (getInstances on the same instance answers 404), and also when the caller lacks permission, so confirm the instance with getInstances before treating it as missing.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "The client is not authorized to make this request"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#CreateEphemeralSslCerts/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteBackupRuns/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteSslCerts/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#DeleteUsers/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetBackupRuns/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetSslCerts/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#GetUsers/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#InsertBackupRuns/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#InsertDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#InsertSslCerts/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#InsertUsers/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListBackupRuns/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListSslCerts/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#ListUsers/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#PatchDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#UpdateDatabases/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.sqladmin_v1#UpdateUsers/errors/-",
+      "value": {
+        "target": "com.gcp.sqladmin_v1#SqlInstanceNotAuthorized"
+      }
+    }
+  ]
+}

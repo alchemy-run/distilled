@@ -1,0 +1,25 @@
+{
+  "description": "OutboundRule is polymorphic on `type` (FQDN, PrivateEndpoint, ServiceTag); the converted model keeps only the base members, so S.Struct strips the subtype `destination` on encode and decode. Add it as an untyped document to the input and output shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRuleInput/members/destination",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Rule destination (polymorphic on `type`): an FQDN string, a `{ serviceResourceId, subresourceTarget }` private endpoint target, or a `{ serviceTag, protocol, portRanges, action }` service tag."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices#OutboundRule/members/destination",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Rule destination (polymorphic on `type`)."
+        }
+      }
+    }
+  ]
+}

@@ -8275,7 +8275,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "A revision of a QaScorecard. Modifying published scorecard fields would invalidate existing scorecard results — the questions may have changed, or the score weighting will make existing scores impossible to understand. So changes must create a new revision, rather than modifying the existing resource."
+        "smithy.api#documentation": "A revision of a QaScorecard. Modifying published scorecard fields would invalidate existing scorecard results \u2014 the questions may have changed, or the score weighting will make existing scores impossible to understand. So changes must create a new revision, rather than modifying the existing resource."
       }
     },
     "com.gcp.contactcenterinsights_v1#GoogleCloudContactcenterinsightsV1QaScorecardRevisionStateEnum": {
@@ -28383,6 +28383,9 @@
         },
         {
           "target": "com.gcp.contactcenterinsights_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenterinsights_v1#QaScorecardOnlyRevision"
         }
       ],
       "traits": {
@@ -28577,6 +28580,9 @@
         },
         {
           "target": "com.gcp.contactcenterinsights_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenterinsights_v1#QaScorecardPreconditionFailed"
         }
       ],
       "traits": {
@@ -28741,6 +28747,9 @@
         },
         {
           "target": "com.gcp.contactcenterinsights_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.contactcenterinsights_v1#QaScorecardPreconditionFailed"
         }
       ],
       "traits": {
@@ -34058,6 +34067,40 @@
           "uri": "v1/{+parent}/insightsdata:export"
         },
         "smithy.api#documentation": "Export insights data to a destination defined in the request body."
+      }
+    },
+    "com.gcp.contactcenterinsights_v1#QaScorecardPreconditionFailed": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The scorecard revision is not in a state that allows this change (HTTP 400 FAILED_PRECONDITION 'Precondition check failed.'), e.g. a new revision while the current one is still being created. Retryable briefly.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Precondition check failed"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.contactcenterinsights_v1#QaScorecardOnlyRevision": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The revision is the scorecard's only revision and cannot be deleted on its own (HTTP 400 FAILED_PRECONDITION); it goes away with the scorecard. Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "only revision of a scorecard cannot be deleted"
+            }
+          }
+        ]
       }
     }
   }

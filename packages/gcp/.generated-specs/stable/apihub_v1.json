@@ -6376,6 +6376,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6413,6 +6416,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6489,6 +6495,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6554,6 +6563,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6608,6 +6620,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6673,6 +6688,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6720,6 +6738,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6757,6 +6778,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6814,6 +6838,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6851,6 +6878,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6908,6 +6938,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -6965,6 +6998,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7008,6 +7044,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7066,6 +7105,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7120,6 +7162,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7157,6 +7202,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7215,6 +7263,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7269,6 +7320,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7319,6 +7373,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7362,6 +7419,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7419,6 +7479,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7456,6 +7519,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7513,6 +7579,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7550,6 +7619,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7607,6 +7679,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7657,6 +7732,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7714,6 +7792,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7751,6 +7832,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7794,6 +7878,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7852,6 +7939,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7906,6 +7996,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -7956,6 +8049,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8006,6 +8102,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8043,6 +8142,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8100,6 +8202,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8143,6 +8248,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8201,6 +8309,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8262,6 +8373,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8319,6 +8433,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8356,6 +8473,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8406,6 +8526,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8464,6 +8587,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8525,6 +8651,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8582,6 +8711,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8619,6 +8751,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8669,6 +8804,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8726,6 +8864,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8784,6 +8925,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8825,6 +8969,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8882,6 +9029,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8932,6 +9082,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -8969,6 +9122,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9027,6 +9183,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9098,6 +9257,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9155,6 +9317,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9198,6 +9363,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9235,6 +9403,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9292,6 +9463,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9335,6 +9509,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9372,6 +9549,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9430,6 +9610,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9491,6 +9674,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9549,6 +9735,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9603,6 +9792,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9640,6 +9832,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9677,6 +9872,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9714,6 +9912,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9771,6 +9972,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9814,6 +10018,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9871,6 +10078,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9928,6 +10138,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -9971,6 +10184,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10022,6 +10238,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10063,6 +10282,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10120,6 +10342,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10157,6 +10382,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10208,6 +10436,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10249,6 +10480,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10300,6 +10534,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10361,6 +10598,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10426,6 +10666,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10467,6 +10710,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10524,6 +10770,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10582,6 +10831,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10623,6 +10875,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10680,6 +10935,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10723,6 +10981,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10781,6 +11042,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10842,6 +11106,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10879,6 +11146,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10922,6 +11192,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -10979,6 +11252,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -11044,6 +11320,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -11098,6 +11377,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -11135,6 +11417,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -11178,6 +11463,9 @@
         },
         {
           "target": "com.gcp.apihub_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.apihub_v1#ApiHubNotProvisioned"
         }
       ],
       "traits": {
@@ -11186,6 +11474,23 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`."
+      }
+    },
+    "com.gcp.apihub_v1#ApiHubNotProvisioned": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The project has no provisioned API hub instance (HTTP 400 FAILED_PRECONDITION: \"Invalid resource state for ...: API Hub instance is not provisioned for this project\").",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "API Hub instance is not provisioned"
+            }
+          }
+        ]
       }
     }
   }

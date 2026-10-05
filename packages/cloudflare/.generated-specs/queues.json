@@ -53,7 +53,9 @@
       "totalCount": "total_count",
       "visibilityTimeoutMs": "visibility_timeout_ms",
       "workerName": "worker_name",
-      "workflowName": "workflow_name"
+      "workflowName": "workflow_name",
+      "repoName": "repo_name",
+      "zoneId": "zone_id"
     },
     "distilled.finalized": true
   },
@@ -2667,7 +2669,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/peek",
           "code": 200
         },
-        "smithy.api#documentation": "Peek messages from a Queue without leasing them. Messages remain available for subsequent peek or pull operations."
+        "smithy.api#documentation": "Peek messages from a Queue without leasing them. Each message includes a ref that can be passed to the purge endpoint, and remains available for subsequent peek or pull operations until it is purged."
       }
     },
     "com.cloudflare.queues#MessagesPullResponseMessagesItem": {
@@ -2845,7 +2847,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/purge",
           "code": 200
         },
-        "smithy.api#documentation": "Delete peeked messages from a Queue by their ref. Purged messages aren't considered delivered, they are instantly deleted from this queue and do not affect metrics."
+        "smithy.api#documentation": "Delete messages from a Queue by using refs returned by the peek endpoint. Purging messages does not count as delivery and does not affect metrics."
       }
     },
     "com.cloudflare.queues#MessagesPushRequestContentType": {
@@ -3463,6 +3465,15 @@
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflow"
+        },
+        "MqEventSourceArtifacts": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifacts"
+        },
+        "MqEventSourceArtifactsRepo": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepo"
+        },
+        "MqEventSourceEmailSending": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceEmailSending"
         }
       }
     },
@@ -3753,6 +3764,15 @@
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflow"
+        },
+        "MqEventSourceArtifacts": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifacts"
+        },
+        "MqEventSourceArtifactsRepo": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepo"
+        },
+        "MqEventSourceEmailSending": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceEmailSending"
         }
       }
     },
@@ -4043,6 +4063,15 @@
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflow"
+        },
+        "MqEventSourceArtifacts": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifacts"
+        },
+        "MqEventSourceArtifactsRepo": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepo"
+        },
+        "MqEventSourceEmailSending": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceEmailSending"
         }
       }
     },
@@ -4333,6 +4362,15 @@
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflow"
+        },
+        "MqEventSourceArtifacts": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifacts"
+        },
+        "MqEventSourceArtifactsRepo": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepo"
+        },
+        "MqEventSourceEmailSending": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceEmailSending"
         }
       }
     },
@@ -4669,6 +4707,15 @@
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflow"
+        },
+        "MqEventSourceArtifacts": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifacts"
+        },
+        "MqEventSourceArtifactsRepo": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepo"
+        },
+        "MqEventSourceEmailSending": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceEmailSending"
         }
       }
     },
@@ -5062,6 +5109,15 @@
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflow"
+        },
+        "MqEventSourceArtifacts": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifacts"
+        },
+        "MqEventSourceArtifactsRepo": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepo"
+        },
+        "MqEventSourceEmailSending": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceEmailSending"
         }
       }
     },
@@ -5524,7 +5580,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/ack",
           "code": 200
         },
-        "smithy.api#documentation": "Acknowledge + Retry messages from a Queue"
+        "smithy.api#documentation": "Acknowledges successfully processed Queue messages and retries messages that were not processed successfully."
       },
       "errors": [
         {
@@ -5612,7 +5668,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/batch",
           "code": 200
         },
-        "smithy.api#documentation": "Push a batch of message to a Queue"
+        "smithy.api#documentation": "Pushes a batch of messages to a Queue."
       },
       "errors": [
         {
@@ -5685,7 +5741,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new consumer for a Queue"
+        "smithy.api#documentation": "Creates a consumer for a Queue."
       },
       "errors": [
         {
@@ -5779,7 +5835,7 @@
           "uri": "/accounts/{account_id}/queues",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new queue"
+        "smithy.api#documentation": "Creates a Queue in the account."
       },
       "errors": [
         {
@@ -5871,7 +5927,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new event subscription for a queue"
+        "smithy.api#documentation": "Creates an event subscription for a Queue."
       },
       "errors": [
         {
@@ -6010,7 +6066,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes the consumer for a queue.",
+        "smithy.api#documentation": "Deletes a consumer from a Queue.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6074,7 +6130,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a queue",
+        "smithy.api#documentation": "Deletes a Queue.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6130,7 +6186,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an existing event subscription",
+        "smithy.api#documentation": "Deletes an existing Queue event subscription.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6245,7 +6301,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the consumer for a queue by consumer id",
+        "smithy.api#documentation": "Returns a Queue consumer by identifier.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -6324,7 +6380,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/metrics",
           "code": 200
         },
-        "smithy.api#documentation": "Return best-effort metrics for a queue. Values may be approximate due to the distributed nature of queues.",
+        "smithy.api#documentation": "Returns best-effort metrics for a Queue. Values may be approximate due to the distributed nature of Queues.",
         "smithy.api#readonly": {}
       }
     },
@@ -6396,7 +6452,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get details about a specific queue.",
+        "smithy.api#documentation": "Returns details about a specific Queue.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -6485,7 +6541,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get details about an existing event subscription",
+        "smithy.api#documentation": "Returns an existing Queue event subscription.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -6603,7 +6659,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers",
           "code": 200
         },
-        "smithy.api#documentation": "Returns the consumers for a Queue",
+        "smithy.api#documentation": "Returns the consumers configured for a Queue.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -6733,7 +6789,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "Get a paginated list of event subscriptions with optional sorting and filtering",
+        "smithy.api#documentation": "Returns a paginated list of Queue event subscriptions with optional sorting and filtering.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -6822,7 +6878,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a Queue."
+        "smithy.api#documentation": "Updates part of a Queue's configuration."
       },
       "errors": [
         {
@@ -6919,7 +6975,7 @@
           "uri": "/accounts/{account_id}/event_subscriptions/subscriptions/{subscription_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update an existing event subscription"
+        "smithy.api#documentation": "Updates an existing Queue event subscription."
       },
       "errors": [
         {
@@ -7060,7 +7116,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages/pull",
           "code": 200
         },
-        "smithy.api#documentation": "Pull a batch of messages from a Queue"
+        "smithy.api#documentation": "Pulls a batch of messages from a Queue for an HTTP pull consumer."
       },
       "errors": [
         {
@@ -7151,7 +7207,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/messages",
           "code": 200
         },
-        "smithy.api#documentation": "Push a message to a Queue"
+        "smithy.api#documentation": "Pushes a message to a Queue."
       },
       "errors": [
         {
@@ -7227,7 +7283,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/purge",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes all messages from the Queue."
+        "smithy.api#documentation": "Starts a purge that deletes all messages from a Queue."
       },
       "errors": [
         {
@@ -7260,7 +7316,7 @@
         "delete_messages_permanently": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Confimation that all messages will be deleted permanently."
+            "smithy.api#documentation": "Confirms that all messages will be permanently deleted."
           }
         }
       },
@@ -7321,7 +7377,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/purge",
           "code": 200
         },
-        "smithy.api#documentation": "Get details about a Queue's purge status.",
+        "smithy.api#documentation": "Returns the status of a Queue purge operation.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7392,7 +7448,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}/consumers/{consumer_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates the consumer for a queue, or creates one if it does not exist.",
+        "smithy.api#documentation": "Replaces a Queue consumer, or creates it if it does not exist.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -7495,7 +7551,7 @@
           "uri": "/accounts/{account_id}/queues/{queue_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a Queue. Note that this endpoint does not support partial updates. If successful, the Queue's configuration is overwritten with the supplied configuration.",
+        "smithy.api#documentation": "Replaces a Queue's configuration with the supplied configuration. This endpoint does not support partial updates.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -7580,6 +7636,558 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifacts": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS_REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts.repo"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifacts namespace of the repository"
+          }
+        },
+        "repo_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the repository"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifacts": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS_REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts.repo"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifacts namespace of the repository"
+          }
+        },
+        "repo_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the repository"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifacts": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS_REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts.repo"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifacts namespace of the repository"
+          }
+        },
+        "repo_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the repository"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifacts": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS_REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts.repo"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifacts namespace of the repository"
+          }
+        },
+        "repo_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the repository"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifacts": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS_REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts.repo"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifacts namespace of the repository"
+          }
+        },
+        "repo_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the repository"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifacts": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType": {
+      "type": "enum",
+      "members": {
+        "ARTIFACTS_REPO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "artifacts.repo"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepo": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Artifacts namespace of the repository"
+          }
+        },
+        "repo_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Name of the repository"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceEmailSendingType": {
+      "type": "enum",
+      "members": {
+        "EMAIL_SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email.sending"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceEmailSending": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending domain: the zone apex or a verified sending subdomain"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceEmailSendingType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone ID of the sending domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceEmailSendingType": {
+      "type": "enum",
+      "members": {
+        "EMAIL_SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email.sending"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceEmailSending": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending domain: the zone apex or a verified sending subdomain"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceEmailSendingType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone ID of the sending domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceEmailSendingType": {
+      "type": "enum",
+      "members": {
+        "EMAIL_SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email.sending"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceEmailSending": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending domain: the zone apex or a verified sending subdomain"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceEmailSendingType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone ID of the sending domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceEmailSendingType": {
+      "type": "enum",
+      "members": {
+        "EMAIL_SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email.sending"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceEmailSending": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending domain: the zone apex or a verified sending subdomain"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceEmailSendingType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone ID of the sending domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceEmailSendingType": {
+      "type": "enum",
+      "members": {
+        "EMAIL_SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email.sending"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceEmailSending": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending domain: the zone apex or a verified sending subdomain"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceEmailSendingType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone ID of the sending domain"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceEmailSendingType": {
+      "type": "enum",
+      "members": {
+        "EMAIL_SENDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "email.sending"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceEmailSending": {
+      "type": "structure",
+      "members": {
+        "domain": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Sending domain: the zone apex or a verified sending subdomain"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceEmailSendingType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone ID of the sending domain"
+          }
+        }
       }
     },
     "com.cloudflare.queues#QueueHttpPullNotEnabled": {

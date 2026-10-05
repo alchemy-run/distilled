@@ -1,3 +1,24 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  ConfigError,
+  GatewayTimeout,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  ServiceUnavailable,
+  Unauthorized,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  getProps,
+  hasPropAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { validateResponse } from "@distilled.cloud/core/response-validation";
+import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import { httpSymbol, querySymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * SlackProtocol — hand-written.
  *
@@ -25,48 +46,19 @@
  *             a gzipped NDJSON file.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
+import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import type * as AST from "effect/SchemaAST";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
-import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as Redacted from "effect/Redacted";
-import * as API from "@distilled.cloud/core/api";
-import {
-  httpSymbol,
-  querySymbol,
-  type HttpTrait,
-} from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  getProps,
-  hasPropAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  ConfigError,
-  GatewayTimeout,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  ServiceUnavailable,
-  Unauthorized,
-} from "@distilled.cloud/core/errors";
-import {
-  parseRetryAfterForStatus,
-  parseServerRetryHint,
-} from "@distilled.cloud/core/retry-after";
+import type * as AST from "effect/SchemaAST";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   type DefaultErrors,
   SlackError,
   SlackHttpError,
+  SlackParseError,
   SlackRateLimited,
 } from "./errors.ts";
 
@@ -76,10 +68,7 @@ import {
  * SlackOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type SlackOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type SlackOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Slack operation. */
 export type SlackOpContext = Credentials | HttpClient.HttpClient;
@@ -88,8 +77,7 @@ export type SlackOpContext = Credentials | HttpClient.HttpClient;
 // Slack failures are real typed errors that an operation re-surfaces via its
 // `errors: [...]` list. Fail with the instance and erase the error type here;
 // `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /**
  * Envelope slugs that mean "the token is no good" on ANY method — mapped to
@@ -131,8 +119,7 @@ const serializeForWire = (input: unknown, inputAst: AST.AST): unknown => {
     return input;
   }
   const isForm =
-    (getAnn(inputAst, httpSymbol) as HttpTrait | undefined)?.contentType ===
-    "form-urlencoded";
+    (getAnn(inputAst, httpSymbol) as HttpTrait | undefined)?.contentType === "form-urlencoded";
   const props = getProps(inputAst);
   if (props.length === 0) return input;
   let out: Record<string, unknown> | undefined;
@@ -160,13 +147,7 @@ const serializeForWire = (input: unknown, inputAst: AST.AST): unknown => {
 // request instead. Like the error channel above, the requirement is erased at
 // this boundary (Protocol effects are typed with no requirements) and
 // reintroduced for callers by the generated `SlackOpContext` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
@@ -194,9 +175,7 @@ const decode = ({
     // Read as BYTES first: the analytics export answers a successful call
     // with a gzipped file, which a text read would corrupt. Everything else
     // decodes from the same buffer.
-    const bytes = new Uint8Array(
-      yield* response.arrayBuffer.pipe(Effect.orDie),
-    );
+    const bytes = new Uint8Array(yield* response.arrayBuffer.pipe(Effect.orDie));
     const text = new TextDecoder().decode(bytes);
     if (process.env.DISTILLED_DEBUG_HTTP) {
       console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
@@ -225,8 +204,7 @@ const decode = ({
       // (e.g. `invalid_arguments`); some envelopes use a bare `errors` list.
       const detailMessages = (
         [
-          ...((json?.response_metadata as { messages?: unknown[] } | undefined)
-            ?.messages ?? []),
+          ...((json?.response_metadata as { messages?: unknown[] } | undefined)?.messages ?? []),
           ...((Array.isArray(json?.errors) ? json.errors : []) as unknown[]),
         ] as unknown[]
       ).filter((m): m is string => typeof m === "string");
@@ -271,20 +249,15 @@ const decode = ({
           new SlackError({
             code: slug,
             ...(message !== slug ? { message } : {}),
-            ...(typeof json?.needed === "string"
-              ? { needed: json.needed }
-              : {}),
-            ...(typeof json?.provided === "string"
-              ? { provided: json.provided }
-              : {}),
+            ...(typeof json?.needed === "string" ? { needed: json.needed } : {}),
+            ...(typeof json?.provided === "string" ? { provided: json.provided } : {}),
             ...(detailMessages.length > 0 ? { messages: detailMessages } : {}),
           }),
         );
       }
 
       // 5. No envelope at all: HTTP-status classes / retryable 5xx / raw.
-      const StatusErrorClass =
-        HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+      const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (StatusErrorClass) {
         return yield* fail(
           new StatusErrorClass({
@@ -301,29 +274,37 @@ const decode = ({
           }),
         );
       }
-      return yield* fail(
-        new SlackHttpError({ status, message, body: text.slice(0, 2000) }),
-      );
+      return yield* fail(new SlackHttpError({ status, message, body: text.slice(0, 2000) }));
     }
 
     // Successful non-JSON body: raw bytes (the analytics file download —
     // modeled as a Document output, so the bytes pass through verbatim).
+    // Strict mode fails them for every other (struct) output.
     if (json === undefined) {
-      return bytes;
+      return yield* validateResponse(
+        outputAst,
+        bytes,
+        (cause) => new SlackParseError({ body: text, cause }),
+      ).pipe(Effect.catch(fail));
     }
 
     // 2xx envelope: the body IS the payload (`ok` rides along as a modeled
     // member). Wire→TS key mapping is schema-driven; sensitive members
-    // (OAuth access/refresh tokens) wrap in Redacted.
-    return wrapSensitive(outputAst, mapKeys(outputAst, json, "decode"));
+    // (OAuth access/refresh tokens) wrap in Redacted. Strict mode checks the
+    // mapped payload against the output schema first.
+    const mapped = yield* validateResponse(
+      outputAst,
+      mapKeys(outputAst, json, "decode"),
+      (cause) => new SlackParseError({ body: json, cause }),
+    ).pipe(Effect.catch(fail));
+    return wrapSensitive(outputAst, mapped);
   });
 
 export const SlackProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

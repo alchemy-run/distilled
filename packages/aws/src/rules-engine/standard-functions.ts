@@ -8,8 +8,7 @@
 import type { ParsedUrl, RulesValue } from "./expression.ts";
 
 /** Returns true if the value is set (not null or undefined). */
-export const isSet = (value: RulesValue): boolean =>
-  value !== null && value !== undefined;
+export const isSet = (value: RulesValue): boolean => value !== null && value !== undefined;
 
 /** Returns the boolean negation of the input. */
 export const not = (value: RulesValue): boolean => !value;
@@ -160,10 +159,7 @@ export function uriEncode(value: RulesValue): RulesValue {
 }
 
 /** Checks if a string is a valid DNS host label. */
-export function isValidHostLabel(
-  value: RulesValue,
-  allowSubDomains: RulesValue,
-): boolean {
+export function isValidHostLabel(value: RulesValue, allowSubDomains: RulesValue): boolean {
   if (typeof value !== "string" || value.length === 0) {
     return false;
   }

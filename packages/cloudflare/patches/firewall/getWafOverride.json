@@ -15,16 +15,6 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.firewall#GetWafOverride/input/target",
       "value": "com.cloudflare.firewall#GetWafOverrideRequest"
-    },
-    {
-      "op": "move",
-      "from": "/shapes/com.cloudflare.firewall#WafOverridesGetResponse",
-      "path": "/shapes/com.cloudflare.firewall#GetWafOverrideResponse"
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.cloudflare.firewall#GetWafOverride/output/target",
-      "value": "com.cloudflare.firewall#GetWafOverrideResponse"
     }
   ]
 }

@@ -916,9 +916,7 @@
             "input": {
               "networkId": "00000000",
               "userId": "12345",
-              "appIds": [
-                "d3135a42dcb6437780b16c3ca9581fe64e6822773cd6b965d25fc9929c89aca6"
-              ]
+              "appIds": ["d3135a42dcb6437780b16c3ca9581fe64e6822773cd6b965d25fc9929c89aca6"]
             },
             "error": {
               "shapeId": "com.amazonaws.wickr#ForbiddenError",

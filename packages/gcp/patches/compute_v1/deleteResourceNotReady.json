@@ -1,0 +1,40 @@
+{
+  "description": "Type the resourceNotReady answer on regional backend service and subnetwork deletes (HTTP 400: \"The resource 'projects/…/regions/…/backendServices/…' is not ready\"). Compute rejects the delete while another operation is still in flight on the resource — e.g. right after a packet-mirroring deployment that used the backend's forwarding rule is torn down. It surfaced as the generic BadRequest, so callers had no tag to retry on. Observed live 2026-09-29 in us-central1.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#ResourceNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The resource has an operation in flight and cannot be modified yet (HTTP 400 resourceNotReady: \"The resource '…' is not ready\"). Retryable after a few seconds.",
+          "com.gcp.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "' is not ready"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteRegionBackendServices/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#ResourceNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.compute_v1#DeleteSubnetworks/errors/-",
+      "value": {
+        "target": "com.gcp.compute_v1#ResourceNotReady"
+      }
+    }
+  ]
+}

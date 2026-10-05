@@ -12,10 +12,7 @@ import type { TimestampFormatType } from "../traits.ts";
  * @param date - The date to format
  * @param format - The format type: "http-date", "epoch-seconds", or "date-time" (default)
  */
-export function formatTimestamp(
-  date: Date,
-  format: TimestampFormatType = "date-time",
-): string {
+export function formatTimestamp(date: Date, format: TimestampFormatType = "date-time"): string {
   switch (format) {
     case "http-date":
       return date.toUTCString();

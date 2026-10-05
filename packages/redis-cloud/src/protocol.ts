@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * RedisCloudProtocol — hand-written.
  *
@@ -15,14 +18,11 @@
  *             HTTP-status classes, then {@link UnknownRedisCloudError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, formatHeaders, type Config } from "./credentials.ts";
-import { UnknownRedisCloudError } from "./errors.ts";
+import { UnknownRedisCloudError, RedisCloudParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Redis Cloud operation. Generated
@@ -34,30 +34,26 @@ export type RedisCloudOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownRedisCloudError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | RedisCloudParseError;
 
 /** Context (requirements) shared by every generated Redis Cloud operation. */
 export type RedisCloudOpContext = Credentials | HttpClient.HttpClient;
 
-export const RedisCloudProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const RedisCloudProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => formatHeaders(creds),
+  unknownError: ({ code, message, body }) =>
+    new UnknownRedisCloudError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => formatHeaders(creds),
-    unknownError: ({ code, message, body }) =>
-      new UnknownRedisCloudError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new RedisCloudParseError({ body, cause }),
+});

@@ -1,3 +1,4 @@
+import * as Pagination from "@distilled.cloud/core/pagination";
 /**
  * Polar pagination — hand-written.
  *
@@ -8,28 +9,20 @@
  */
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import * as Pagination from "@distilled.cloud/core/pagination";
 
 /**
  * Increment `page` from 1 until it reaches `pagination.max_page` (or a page
  * comes back with no items).
  */
-export const paginatePolar: Pagination.PaginationStrategy = (
-  operation,
-  input,
-  pagination,
-) => {
+export const paginatePolar: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   const outputToken = pagination.outputToken;
   if (!inputToken || !outputToken) {
-    return Stream.die(
-      new Error("Polar page pagination requires inputToken and outputToken"),
-    );
+    return Stream.die(new Error("Polar page pagination requires inputToken and outputToken"));
   }
 
   type State = { page: number; done: boolean };
-  const startPage =
-    typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+  const startPage = typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
 
   return Stream.unfold({ page: startPage, done: false } as State, (state) =>
     Effect.gen(function* () {
@@ -40,14 +33,9 @@ export const paginatePolar: Pagination.PaginationStrategy = (
         [inputToken]: state.page,
       } as typeof input;
       const response = yield* operation(requestPayload);
-      const maxPage = Pagination.getPath(response, outputToken) as
-        | number
-        | null
-        | undefined;
+      const maxPage = Pagination.getPath(response, outputToken) as number | null | undefined;
       const items = pagination.items
-        ? (Pagination.getPath(response, pagination.items) as
-            | readonly unknown[]
-            | undefined)
+        ? (Pagination.getPath(response, pagination.items) as readonly unknown[] | undefined)
         : undefined;
 
       return [

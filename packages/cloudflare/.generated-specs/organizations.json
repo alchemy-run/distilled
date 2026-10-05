@@ -834,7 +834,7 @@
         }
       }
     },
-    "com.cloudflare.organizations#BillingUsageGetResultItemTags": {
+    "com.cloudflare.organizations#BillingUsageGetResultItemTagsValue": {
       "type": "union",
       "members": {
         "String": {
@@ -845,23 +845,18 @@
         }
       }
     },
+    "com.cloudflare.organizations#BillingUsageGetResultItemTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.organizations#BillingUsageGetResultItemTagsValue"
+      }
+    },
     "com.cloudflare.organizations#BillingUsageGetResultItem": {
       "type": "structure",
       "members": {
-        "BillingAccountId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag).",
-            "smithy.api#required": {}
-          }
-        },
-        "BillingAccountName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Display name of the Cloudflare account.",
-            "smithy.api#required": {}
-          }
-        },
         "ChargeCategory": {
           "target": "com.cloudflare.organizations#BillingUsageGetResultItemChargeCategory",
           "traits": {
@@ -939,17 +934,22 @@
             "smithy.api#required": {}
           }
         },
-        "x_BillableMetricName": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter.",
-            "smithy.api#required": {}
-          }
-        },
         "BilledCost": {
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring)."
+          }
+        },
+        "BillingAccountId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account."
+          }
+        },
+        "BillingAccountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level."
           }
         },
         "BillingCurrency": {
@@ -1043,9 +1043,15 @@
           }
         },
         "Tags": {
-          "target": "com.cloudflare.organizations#BillingUsageGetResultItemTags",
+          "target": "com.cloudflare.organizations#BillingUsageGetResultItemTagsMap",
           "traits": {
             "smithy.api#documentation": "Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings."
+          }
+        },
+        "x_BillableMetricName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter."
           }
         },
         "x_ProductCategoryName": {
@@ -1069,13 +1075,13 @@
         "x_ZoneId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Cloudflare extension."
+            "smithy.api#documentation": "The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension."
           }
         },
         "x_ZoneName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The display name of the Cloudflare zone. Cloudflare extension."
+            "smithy.api#documentation": "The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension."
           }
         }
       }
@@ -3097,7 +3103,7 @@
           "uri": "/organizations/{organization_id}/accounts",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve a list of accounts that belong to a specific organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+        "smithy.api#documentation": "Retrieve the accounts immediately attached to a specific organization. Accounts attached to sub-organizations are not included. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
         "smithy.api#readonly": {}
       }
     },
@@ -3209,7 +3215,7 @@
           "uri": "/organizations",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new organization for a user. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
+        "smithy.api#documentation": "Create a new organization for a user. Sub-organization creation availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)"
       },
       "errors": [
         {
@@ -3290,7 +3296,7 @@
           "uri": "/organizations/{organization_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) **Access Control:** Restricted to enterprise organizations.",
+        "smithy.api#documentation": "Delete an organization. The organization MUST be empty before deleting. It must not contain any sub-organizations, accounts, members or users. Sub-organization deletion availability depends on the organization's capabilities. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/) **Access Control:** Restricted to enterprise organizations.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -3346,7 +3352,7 @@
           "uri": "/organizations/{organization_id}/billable/usage",
           "code": 200
         },
-        "smithy.api#documentation": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days.",
+        "smithy.api#documentation": "Returns cost and usage data for all accounts within an organization, aligned with the [FinOps FOCUS v1.3](https://focus.finops.org/focus-specification/v1-3/) Cost and Usage dataset specification. Each record represents one billable metric for one account on one day. This includes all metered usage, including usage that falls within free-tier allowances and may result in zero cost. The response includes usage for every account belonging to the specified organization. **Note:** Cost and pricing fields are not yet populated and will be absent from responses until billing integration is complete. When `from` and `to` are omitted, defaults to the start of the current month through today. The maximum date range is 31 days. An organization with no accounts, or an organization ID that does not exist, returns a successful response with an empty result set rather than an error.",
         "smithy.api#readonly": {}
       }
     },
@@ -3929,7 +3935,7 @@
           "uri": "/organizations/{organization_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Modify organization. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
+        "smithy.api#documentation": "Update an organization's name. (Currently in Public Beta - see https://developers.cloudflare.com/fundamentals/organizations/)",
         "smithy.api#idempotent": {}
       },
       "errors": [

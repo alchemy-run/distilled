@@ -1628,6 +1628,9 @@
         },
         {
           "target": "com.gcp.bigqueryreservation_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.bigqueryreservation_v1#ReservationBasedFairnessRequired"
         }
       ],
       "traits": {
@@ -2119,6 +2122,9 @@
         },
         {
           "target": "com.gcp.bigqueryreservation_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.bigqueryreservation_v1#CapacityCommitmentNotExpired"
         }
       ],
       "traits": {
@@ -2183,6 +2189,9 @@
         },
         {
           "target": "com.gcp.bigqueryreservation_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.bigqueryreservation_v1#CommitmentPlanNotSupported"
         }
       ],
       "traits": {
@@ -3040,6 +3049,57 @@
           "uri": "v1/{+parent}/assignments"
         },
         "smithy.api#documentation": "Creates an assignment object which allows the given project to submit jobs of a certain type using slots from the specified reservation. Currently a resource (project, folder, organization) can only have one assignment per each (job_type, location) combination, and that reservation will be used for all jobs of the matching type. Different assignments can be created on different levels of the projects, folders or organization hierarchy. During query execution, the assignment is looked up at the project, folder and organization levels in that order. The first assignment found is applied to the query. When creating assignments, it does not matter if other assignments exist at higher levels. Example: * The organization `organizationA` contains two projects, `project1` and `project2`. * Assignments for all three entities (`organizationA`, `project1`, and `project2`) could all be created and mapped to the same or different reservations. \"None\" assignments represent an absence of the assignment. Projects assigned to None use on-demand pricing. To create a \"None\" assignment, use \"none\" as a reservation_id in the parent. Example parent: `projects/myproject/locations/US/reservations/none`. Returns `google.rpc.Code.PERMISSION_DENIED` if user does not have 'bigquery.admin' permissions on the project using the reservation and the project that owns this reservation. Returns `google.rpc.Code.INVALID_ARGUMENT` when location of the assignment does not match location of the reservation."
+      }
+    },
+    "com.gcp.bigqueryreservation_v1#CapacityCommitmentNotExpired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The capacity commitment is still inside its committed period and cannot be deleted yet (HTTP 400 FAILED_PRECONDITION). Retry after `commitmentEndTime`.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "[Cc]ommitment_end_time|cannot be deleted|committed period|[Pp]recondition|still active"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.bigqueryreservation_v1#ReservationBasedFairnessRequired": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "Reservation groups need Reservation Based Fairness enabled for the project/edition (HTTP 400). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Reservation Based Fairness"
+            }
+          }
+        ]
+      }
+    },
+    "com.gcp.bigqueryreservation_v1#CommitmentPlanNotSupported": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The commitment plan is not sold for the requested edition (e.g. FLEX_FLAT_RATE is end of sale for editions) (HTTP 400). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "[Ee]nd of sale|Editions commitment|Plan must be"
+            }
+          }
+        ]
       }
     }
   }

@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * MongoDB Atlas credentials — hand-written.
  *
@@ -17,7 +18,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://cloud.mongodb.com";
 
@@ -31,22 +31,28 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config, ConfigError>
->()("Mongodb-atlasCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  "Mongodb-atlasCredentials",
+) {}
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
-  readonly clientSecret: string;
+  readonly clientSecret: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
+}
+
+/** Client credentials with the secret redacted and the base URL resolved. */
+interface ResolvedClientCredentials {
+  readonly clientId: string;
+  readonly clientSecret: Redacted.Redacted<string>;
+  readonly apiBaseUrl: string;
 }
 
 /** Exchange service-account credentials for an OAuth2 access token. */
 const exchangeToken = (
-  config: Required<ClientCredentialsConfig>,
+  config: ResolvedClientCredentials,
 ): Effect.Effect<
-  { accessToken: string; expiresInSeconds: number },
+  { accessToken: Redacted.Redacted<string>; expiresInSeconds: number },
   ConfigError
 > =>
   Effect.gen(function* () {
@@ -55,7 +61,7 @@ const exchangeToken = (
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${btoa(`${config.clientId}:${config.clientSecret}`)}`,
+          Authorization: `Basic ${btoa(`${config.clientId}:${Redacted.value(config.clientSecret)}`)}`,
         },
         body: "grant_type=client_credentials",
       }),
@@ -69,9 +75,7 @@ const exchangeToken = (
     );
 
     if (!res.ok) {
-      const text = yield* Effect.tryPromise(() => res.text()).pipe(
-        Effect.orElseSucceed(() => ""),
-      );
+      const text = yield* Effect.tryPromise(() => res.text()).pipe(Effect.orElseSucceed(() => ""));
       return yield* new ConfigError({
         message: `OAuth2 token exchange failed: ${res.status} ${text}`,
       });
@@ -93,7 +97,7 @@ const exchangeToken = (
     }
 
     return {
-      accessToken: data.access_token,
+      accessToken: Redacted.make(data.access_token),
       expiresInSeconds:
         typeof data.expires_in === "number" && data.expires_in > 0
           ? data.expires_in
@@ -106,7 +110,7 @@ const exchangeToken = (
  * shortly before expiry, then re-exchanges.
  */
 const cachedTokenEffect = (
-  load: Effect.Effect<Required<ClientCredentialsConfig>, ConfigError>,
+  load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
 ): Effect.Effect<Config, ConfigError> => {
   let cached: Config | undefined;
   let refreshAt = 0;
@@ -119,24 +123,19 @@ const cachedTokenEffect = (
       const config = yield* load;
       const token = yield* exchangeToken(config);
       cached = {
-        accessToken: Redacted.make(token.accessToken),
+        accessToken: token.accessToken,
         apiBaseUrl: config.apiBaseUrl,
       };
       refreshAt =
         Date.now() +
-        Math.max(
-          token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS,
-          TOKEN_REFRESH_WINDOW_MS,
-        );
+        Math.max(token.expiresInSeconds * 1000 - TOKEN_REFRESH_WINDOW_MS, TOKEN_REFRESH_WINDOW_MS);
       return cached;
     });
   });
 };
 
 /** Layer from service-account client credentials (OAuth2 client_credentials). */
-export const fromClientCredentials = (
-  config: ClientCredentialsConfig,
-): Layer.Layer<Credentials> =>
+export const fromClientCredentials = (config: ClientCredentialsConfig): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     cachedTokenEffect(
@@ -150,13 +149,13 @@ export const fromClientCredentials = (
 
 /** Layer from an already-obtained bearer access token. */
 export const fromAccessToken = (config: {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      accessToken: Redacted.make(config.accessToken),
+      accessToken: config.accessToken,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
@@ -183,9 +182,8 @@ export const fromEnv = (): Layer.Layer<Credentials> =>
         }
         return Effect.succeed({
           clientId,
-          clientSecret,
-          apiBaseUrl:
-            process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
+          clientSecret: Redacted.make(clientSecret),
+          apiBaseUrl: process.env.MONGODB_ATLAS_API_BASE_URL ?? DEFAULT_API_BASE_URL,
         });
       }),
     ),

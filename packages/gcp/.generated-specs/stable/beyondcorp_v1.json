@@ -3682,6 +3682,9 @@
         },
         {
           "target": "com.gcp.beyondcorp_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented"
         }
       ],
       "traits": {
@@ -4391,6 +4394,9 @@
         },
         {
           "target": "com.gcp.beyondcorp_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented"
         }
       ],
       "traits": {
@@ -4927,6 +4933,9 @@
         },
         {
           "target": "com.gcp.beyondcorp_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented"
         }
       ],
       "traits": {
@@ -5842,6 +5851,19 @@
           "uri": "v1/{+name}"
         },
         "smithy.api#documentation": "Deletes a single application."
+      }
+    },
+    "com.gcp.beyondcorp_v1#AppConnectorsNotImplemented": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#documentation": "BeyondCorp app connectors, connections, and gateways are not available to this project (HTTP 501 UNIMPLEMENTED: 'This function is not implemented'). Not retryable.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 501
+          }
+        ]
       }
     }
   }

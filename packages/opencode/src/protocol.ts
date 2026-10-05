@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * OpencodeProtocol — hand-written.
  *
@@ -14,15 +17,12 @@
  *             HTTP-status classes, then {@link UnknownOpencodeError}.
  */
 import * as Effect from "effect/Effect";
+import type * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
-import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { UnknownOpencodeError } from "./errors.ts";
+import { UnknownOpencodeError, OpencodeParseError } from "./errors.ts";
 
 /**
  * Error channel shared by every generated OpenCode operation. Generated
@@ -34,38 +34,34 @@ export type OpencodeOpError =
   | InstanceType<(typeof API_ERRORS)[number]>
   | UnknownOpencodeError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | OpencodeParseError;
 
 /** Context (requirements) shared by every generated OpenCode operation. */
 export type OpencodeOpContext = Credentials | HttpClient.HttpClient;
 
-export const OpencodeProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const OpencodeProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds): Record<string, string> => {
+    const headers: Record<string, string> = {};
+    if (creds.password !== undefined) {
+      headers.Authorization = `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`;
+    }
+    return headers;
+  },
+  // OpenCode's error body is `{ name?, message }` — the factory's default
+  // lenient envelope covers it.
+  unknownError: ({ code, message, body }) =>
+    new UnknownOpencodeError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds): Record<string, string> => {
-      const headers: Record<string, string> = {};
-      if (creds.password !== undefined) {
-        headers.Authorization = `Basic ${btoa(`${creds.username}:${Redacted.value(creds.password)}`)}`;
-      }
-      return headers;
-    },
-    // OpenCode's error body is `{ name?, message }` — the factory's default
-    // lenient envelope covers it.
-    unknownError: ({ code, message, body }) =>
-      new UnknownOpencodeError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+  parseError: ({ body, cause }) => new OpencodeParseError({ body, cause }),
+});

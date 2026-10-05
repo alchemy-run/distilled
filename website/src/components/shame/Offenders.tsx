@@ -28,11 +28,7 @@ export const UsedBadge = () => (
   </span>
 );
 
-const OffenderRow = (props: {
-  s: RankedPackage;
-  rank: number;
-  max: number;
-}) => {
+const OffenderRow = (props: { s: RankedPackage; rank: number; max: number }) => {
   const per100 = () => props.s.per100 ?? 0;
   const width = () => Math.max(2, Math.round((per100() / props.max) * 100));
   const tier = () => TIER[props.rank - 1];
@@ -46,10 +42,8 @@ const OffenderRow = (props: {
       classList={{
         "border-[color-mix(in_oklab,var(--rose)_55%,var(--line))] bg-[radial-gradient(36rem_10rem_at_0%_0%,color-mix(in_oklab,var(--rose)_16%,transparent),transparent_70%),color-mix(in_oklab,var(--bg-2)_85%,transparent)]":
           tier() === "gold",
-        "border-[color-mix(in_oklab,var(--rose)_32%,var(--line))]":
-          tier() === "silver",
-        "border-[color-mix(in_oklab,var(--rose)_18%,var(--line))]":
-          tier() === "bronze",
+        "border-[color-mix(in_oklab,var(--rose)_32%,var(--line))]": tier() === "silver",
+        "border-[color-mix(in_oklab,var(--rose)_18%,var(--line))]": tier() === "bronze",
       }}
     >
       <span
@@ -79,10 +73,7 @@ const OffenderRow = (props: {
             <UsedBadge />
           </Show>
           <span class="ml-auto font-mono text-[0.8rem] whitespace-nowrap text-fg-3">
-            <b class="text-[1.05rem] text-rose-2 tabular-nums">
-              {rate(per100())}
-            </b>{" "}
-            fixes / 100 ops
+            <b class="text-[1.05rem] text-rose-2 tabular-nums">{rate(per100())}</b> fixes / 100 ops
           </span>
         </div>
         <Bar width={width()} />
@@ -94,14 +85,9 @@ const OffenderRow = (props: {
             <b>{n(props.s.operations)}</b> operations
           </span>
           <span>
-            <b>{n(props.s.files)}</b> patch{" "}
-            {props.s.files === 1 ? "file" : "files"}
+            <b>{n(props.s.files)}</b> patch {props.s.files === 1 ? "file" : "files"}
           </span>
-          <a
-            class="ml-auto text-fg-2"
-            href={patchesUrl(props.s.dir)}
-            rel="noopener"
-          >
+          <a class="ml-auto text-fg-2" href={patchesUrl(props.s.dir)} rel="noopener">
             see patches →
           </a>
         </div>
@@ -111,8 +97,7 @@ const OffenderRow = (props: {
               <span
                 class="chip"
                 classList={{
-                  "border-[color-mix(in_oklab,var(--rose)_45%,var(--line-2))]":
-                    kind === "remove",
+                  "border-[color-mix(in_oklab,var(--rose)_45%,var(--line-2))]": kind === "remove",
                 }}
               >
                 <b>{n(count)}</b> {OP_LABELS[kind] ?? kind}
@@ -125,15 +110,11 @@ const OffenderRow = (props: {
   );
 };
 
-export const Offenders = (props: {
-  offenders: ReadonlyArray<RankedPackage>;
-}) => {
+export const Offenders = (props: { offenders: ReadonlyArray<RankedPackage> }) => {
   const max = () => props.offenders[0]?.per100 ?? 1;
   return (
     <ol class="m-0 grid list-none gap-[0.6rem] p-0">
-      <For each={props.offenders}>
-        {(s, i) => <OffenderRow s={s} rank={i() + 1} max={max()} />}
-      </For>
+      <For each={props.offenders}>{(s, i) => <OffenderRow s={s} rank={i() + 1} max={max()} />}</For>
     </ol>
   );
 };

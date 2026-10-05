@@ -12,7 +12,7 @@ npm install @distilled.cloud/resend effect
 
 ```ts
 import { Effect, Layer } from "effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Resend from "@distilled.cloud/resend";
 
 const program = Effect.gen(function* () {

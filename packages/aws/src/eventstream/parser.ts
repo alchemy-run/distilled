@@ -41,8 +41,9 @@ export const parseEventStream = (
   input: ReadableStream<Uint8Array>,
 ): Stream.Stream<StreamEvent, EventStreamParseError> => {
   // Convert ReadableStream to Effect Stream of chunks
-  const chunkStream: Stream.Stream<Uint8Array, EventStreamDecodeError> =
-    Stream.unfold(input.getReader(), (reader) =>
+  const chunkStream: Stream.Stream<Uint8Array, EventStreamDecodeError> = Stream.unfold(
+    input.getReader(),
+    (reader) =>
       Effect.tryPromise({
         try: () => reader.read(),
         catch: (e) =>
@@ -50,11 +51,9 @@ export const parseEventStream = (
             message: `Failed to read from stream: ${e}`,
           }),
       }).pipe(
-        Effect.map((result) =>
-          result.done ? undefined : ([result.value, reader] as const),
-        ),
+        Effect.map((result) => (result.done ? undefined : ([result.value, reader] as const))),
       ),
-    );
+  );
 
   // Process chunks with buffering to extract complete messages
   return Stream.unwrap(
@@ -68,9 +67,7 @@ export const parseEventStream = (
           Effect.gen(function* () {
             // Append chunk to buffer
             const currentBuffer = yield* Ref.get(bufferRef);
-            const newBuffer = new Uint8Array(
-              currentBuffer.length + chunk.length,
-            );
+            const newBuffer = new Uint8Array(currentBuffer.length + chunk.length);
             newBuffer.set(currentBuffer);
             newBuffer.set(chunk, currentBuffer.length);
             yield* Ref.set(bufferRef, newBuffer);
@@ -277,10 +274,6 @@ export const parseEventStreamToUnion = (
   eventPayloadMap?: Record<string, string>,
 ): Stream.Stream<ParsedEvent, EventStreamParseError> =>
   decodeEventStreamUnion(
-    transformEventStreamToUnion(
-      parseEventStream(input),
-      payloadParser,
-      eventPayloadMap,
-    ),
+    transformEventStreamToUnion(parseEventStream(input), payloadParser, eventPayloadMap),
     eventSchema,
   );

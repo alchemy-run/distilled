@@ -7682,9 +7682,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -7702,9 +7700,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -7722,9 +7718,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -7742,9 +7736,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -7762,9 +7754,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -7782,9 +7772,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8048,9 +8036,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8089,9 +8075,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8130,9 +8114,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8173,9 +8155,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8192,9 +8172,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8362,9 +8340,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8382,9 +8358,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8402,9 +8376,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8422,9 +8394,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8442,9 +8412,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8462,9 +8430,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8728,9 +8694,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8769,9 +8733,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8810,9 +8772,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8853,9 +8813,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -8872,9 +8830,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9042,9 +8998,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9062,9 +9016,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9082,9 +9034,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9102,9 +9052,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9122,9 +9070,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9142,9 +9088,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9408,9 +9352,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9449,9 +9391,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9490,9 +9430,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9533,9 +9471,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9552,9 +9488,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1",
                 "Endpoint": "https://example.com"
@@ -9695,9 +9629,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -9723,9 +9655,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -9751,9 +9681,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -9779,9 +9707,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -9807,9 +9733,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -9835,9 +9759,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -10063,9 +9985,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -10078,9 +9998,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -10093,9 +10011,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -10143,9 +10059,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -10170,9 +10084,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "local"
               }
@@ -10320,9 +10232,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10348,9 +10258,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10376,9 +10284,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10404,9 +10310,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10432,9 +10336,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10460,9 +10362,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10688,9 +10588,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10703,9 +10601,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10718,9 +10614,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10768,9 +10662,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10795,9 +10687,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "local"
               }
@@ -10945,9 +10835,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -10973,9 +10861,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11001,9 +10887,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11029,9 +10913,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11057,9 +10939,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11085,9 +10965,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11313,9 +11191,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11328,9 +11204,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11343,9 +11217,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11393,9 +11265,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11420,9 +11290,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "local"
               }
@@ -11603,9 +11471,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -11625,9 +11491,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -11647,9 +11511,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -11669,9 +11531,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -11691,9 +11551,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -11713,9 +11571,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -11974,9 +11830,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -12015,9 +11869,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -12059,9 +11911,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -12103,9 +11953,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -12124,9 +11972,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-east-1"
               }
@@ -12294,9 +12140,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12316,9 +12160,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12338,9 +12180,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12360,9 +12200,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12382,9 +12220,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12404,9 +12240,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12653,9 +12487,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12692,9 +12524,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12736,9 +12566,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12780,9 +12608,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12801,9 +12627,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "us-east-1"
               }
@@ -12918,9 +12742,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -12935,9 +12757,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -12952,9 +12772,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -12969,9 +12787,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -12986,9 +12802,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13003,9 +12817,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13176,9 +12988,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13191,9 +13001,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13206,9 +13014,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13245,9 +13051,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13261,9 +13065,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "required",
                 "Region": "cn-north-1"
               }
@@ -13424,9 +13226,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13443,9 +13243,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13462,9 +13260,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13481,9 +13277,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13500,9 +13294,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13519,9 +13311,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13776,9 +13566,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13817,9 +13605,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13858,9 +13644,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13899,9 +13683,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -13917,9 +13699,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "disabled",
                 "Region": "us-east-1"
               }
@@ -14046,9 +13826,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14065,9 +13843,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14084,9 +13860,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14103,9 +13877,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14122,9 +13894,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14141,9 +13911,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14332,9 +14100,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14349,9 +14115,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14366,9 +14130,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14407,9 +14169,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14425,9 +14185,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "cn-north-1"
               }
@@ -14554,9 +14312,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14573,9 +14329,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14592,9 +14346,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14611,9 +14363,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14630,9 +14380,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14649,9 +14397,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14840,9 +14586,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14857,9 +14601,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14874,9 +14616,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14915,9 +14655,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -14933,9 +14671,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-iso-east-1"
               }
@@ -15062,9 +14798,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "AccountId": "111111111111",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15081,9 +14815,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15100,9 +14832,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15119,9 +14849,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15138,9 +14866,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:dynamodb:us-west-2:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-west-2:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-west-2:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15157,9 +14883,7 @@
                 "UseDualStack": false,
                 "AccountId": "111111111111",
                 "ResourceArn": "arn:aws:s3:us-west-2:222222222222:stream/testStream",
-                "ResourceArnList": [
-                  "arn:aws:s3:us-east-1:333333333333:stream/testStream"
-                ],
+                "ResourceArnList": ["arn:aws:s3:us-east-1:333333333333:stream/testStream"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15348,9 +15072,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15365,9 +15087,7 @@
               "params": {
                 "UseFIPS": true,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15382,9 +15102,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": true,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15423,9 +15141,7 @@
               "params": {
                 "UseFIPS": false,
                 "UseDualStack": false,
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }
@@ -15441,9 +15157,7 @@
                 "UseFIPS": false,
                 "UseDualStack": false,
                 "ResourceArn": "arn:aws:dynamodb:us-east-1:222222222222:table/table_name",
-                "ResourceArnList": [
-                  "arn:aws:dynamodb:us-east-1:333333333333:table/table_name"
-                ],
+                "ResourceArnList": ["arn:aws:dynamodb:us-east-1:333333333333:table/table_name"],
                 "AccountIdEndpointMode": "preferred",
                 "Region": "us-gov-east-1"
               }

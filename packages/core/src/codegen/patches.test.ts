@@ -1,7 +1,7 @@
-import { afterEach, describe, expect, test } from "bun:test";
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { afterEach, describe, expect, test } from "vitest";
 import {
   FINALIZED_KEY,
   SKIP_PATCHES_ENV,
@@ -36,16 +36,10 @@ const model = () => ({
 const scaffold = (patches?: Record<string, unknown>) => {
   const root = mkdtempSync(join(tmpdir(), "finalize-"));
   mkdirSync(join(root, ".generated-specs"));
-  writeFileSync(
-    join(root, ".generated-specs", "svc.json"),
-    JSON.stringify(model()),
-  );
+  writeFileSync(join(root, ".generated-specs", "svc.json"), JSON.stringify(model()));
   if (patches) {
     mkdirSync(join(root, "patches", "svc"), { recursive: true });
-    writeFileSync(
-      join(root, "patches", "svc", "a.json"),
-      JSON.stringify(patches),
-    );
+    writeFileSync(join(root, "patches", "svc", "a.json"), JSON.stringify(patches));
   }
   return root;
 };
@@ -71,16 +65,12 @@ describe("finalizeConvert", () => {
   test("refuses a second pass", async () => {
     const root = scaffold();
     await finalizeConvert({ root });
-    await expect(finalizeConvert({ root })).rejects.toThrow(
-      /already finalized/,
-    );
+    await expect(finalizeConvert({ root })).rejects.toThrow(/already finalized/);
   });
 
   test("applies Smithy patches and repairs the service list after a move", async () => {
     const root = scaffold({
-      patches: [
-        { op: "move", from: "/shapes/ns#AppsGet", path: "/shapes/ns#FetchApp" },
-      ],
+      patches: [{ op: "move", from: "/shapes/ns#AppsGet", path: "/shapes/ns#FetchApp" }],
     });
     await finalizeConvert({ root });
     const m = read(root);
@@ -172,13 +162,9 @@ describe(SKIP_PATCHES_ENV, () => {
   test("a basename or a path suffix drops that file", async () => {
     const dir = patchDir();
     process.env[SKIP_PATCHES_ENV] = "a.json";
-    expect(
-      (await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop()),
-    ).toEqual(["b.json"]);
+    expect((await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop())).toEqual(["b.json"]);
     process.env[SKIP_PATCHES_ENV] = "svc/b.json";
-    expect(
-      (await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop()),
-    ).toEqual(["a.json"]);
+    expect((await listRfc6902PatchFiles(dir)).map((f) => f.split("/").pop())).toEqual(["a.json"]);
     process.env[SKIP_PATCHES_ENV] = "other/b.json";
     expect((await listRfc6902PatchFiles(dir)).length).toBe(2);
   });

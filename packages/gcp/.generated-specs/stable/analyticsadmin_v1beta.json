@@ -2906,6 +2906,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -2963,6 +2966,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3020,6 +3026,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3070,6 +3079,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3127,6 +3139,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3173,6 +3188,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3216,6 +3234,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3253,6 +3274,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3290,6 +3314,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3341,6 +3368,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3395,6 +3425,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3438,6 +3471,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3489,6 +3525,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3543,6 +3582,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3580,6 +3622,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3623,6 +3668,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3680,6 +3728,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3731,6 +3782,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3778,6 +3832,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3815,6 +3872,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3872,6 +3932,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3922,6 +3985,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -3973,6 +4039,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4020,6 +4089,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4070,6 +4142,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4127,6 +4202,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4177,6 +4255,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4228,6 +4309,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4275,6 +4359,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4312,6 +4399,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4369,6 +4459,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4419,6 +4512,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4456,6 +4552,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4507,6 +4606,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4561,6 +4663,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4618,6 +4723,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4668,6 +4776,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4725,6 +4836,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4768,6 +4882,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4805,6 +4922,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4856,6 +4976,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4911,6 +5034,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -4965,6 +5091,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5002,6 +5131,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5052,6 +5184,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5109,6 +5244,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5152,6 +5290,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5198,6 +5339,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5235,6 +5379,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5272,6 +5419,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5329,6 +5479,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5379,6 +5532,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5422,6 +5578,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5472,6 +5631,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Conflict"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5522,6 +5684,9 @@
         },
         {
           "target": "com.gcp.analyticsadmin_v1beta#Forbidden"
+        },
+        {
+          "target": "com.gcp.analyticsadmin_v1beta#InsufficientScopes"
         }
       ],
       "traits": {
@@ -5534,6 +5699,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.analyticsadmin_v1beta#InsufficientScopes": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The access token lacks the OAuth scope this API requires (HTTP 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "insufficient authentication scopes"
+            }
+          }
+        ]
       }
     }
   }

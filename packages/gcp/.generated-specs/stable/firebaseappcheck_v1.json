@@ -1208,6 +1208,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1284,6 +1287,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1334,6 +1340,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1384,6 +1393,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1434,6 +1446,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1484,6 +1499,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1534,6 +1552,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1584,6 +1605,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1634,6 +1658,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1684,6 +1711,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1734,6 +1764,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1784,6 +1817,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1841,6 +1877,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1891,6 +1930,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1928,6 +1970,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -1985,6 +2030,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2029,6 +2077,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2066,6 +2117,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2103,6 +2157,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2160,6 +2217,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2204,6 +2264,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2248,6 +2311,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2305,6 +2371,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2342,6 +2411,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2392,6 +2464,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2449,6 +2524,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2500,6 +2578,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2554,6 +2635,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2591,6 +2675,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2628,6 +2715,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2685,6 +2775,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2729,6 +2822,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2766,6 +2862,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2816,6 +2915,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2873,6 +2975,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2924,6 +3029,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -2986,6 +3094,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3040,6 +3151,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3077,6 +3191,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Forbidden"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3127,6 +3244,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3184,6 +3304,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3234,6 +3357,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3284,6 +3410,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3334,6 +3463,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3384,6 +3516,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3434,6 +3569,9 @@
         },
         {
           "target": "com.gcp.firebaseappcheck_v1#Conflict"
+        },
+        {
+          "target": "com.gcp.firebaseappcheck_v1#ServiceDisabled"
         }
       ],
       "traits": {
@@ -3442,6 +3580,23 @@
           "uri": "v1/{+app}:exchangeDebugToken"
         },
         "smithy.api#documentation": "Validates a debug token secret that you have previously created using CreateDebugToken. If valid, returns an AppCheckToken. Note that a restrictive quota is enforced on this method to prevent accidental exposure of the app to abuse."
+      }
+    },
+    "com.gcp.firebaseappcheck_v1#ServiceDisabled": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "The Firebase App Check API is not enabled for the calling project (HTTP 403 SERVICE_DISABLED).",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 403,
+            "message": {
+              "includes": "has not been used in project"
+            }
+          }
+        ]
       }
     }
   }

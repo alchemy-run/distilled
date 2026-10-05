@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
 import * as Effect from "effect/Effect";
+import { describe, it } from "vitest";
 import { ParseError } from "../errors.ts";
 import { parseXml } from "./xml.ts";
 

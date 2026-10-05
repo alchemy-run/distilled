@@ -2,12 +2,12 @@
 
 `@distilled.cloud/acme` implements the ACME account and certificate lifecycle
 with Effect and WebCrypto. Install it alongside `effect`, save this as
-`example.ts`, and run `bun example.ts` to read Let's Encrypt's staging directory:
+`example.ts`, and run `node example.ts` to read Let's Encrypt's staging directory:
 
 ```ts
 import * as Acme from "@distilled.cloud/acme";
 import * as Effect from "effect/Effect";
-import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as FetchHttpClient from "effect/http/FetchHttpClient";
 
 const program = Effect.gen(function* () {
   const accountKey = yield* Acme.Jose.generateAccountKey();
@@ -61,7 +61,7 @@ server errors merely because their URN is unknown.
 [`manual-specs/acme.json`](./manual-specs/acme.json) is authored from
 [RFC 8555](https://www.rfc-editor.org/rfc/rfc8555), not downloaded or mirrored.
 Edit that model and the handwritten protocol, never generated service files.
-From this package directory, regenerate with `bun scripts/generate.ts`; format
+From this package directory, regenerate with `node --conditions=bun scripts/generate.ts`; format
 changed paths with `pnpm exec oxfmt <paths>` from the workspace root.
 
 The SDK covers directory discovery, nonces, accounts, orders, authorizations,

@@ -2589,6 +2589,9 @@
         },
         {
           "target": "com.gcp.translate_v3#Conflict"
+        },
+        {
+          "target": "com.gcp.translate_v3#AdaptiveMtDatasetTooSmall"
         }
       ],
       "traits": {
@@ -4661,6 +4664,23 @@
           "inputToken": "pageToken",
           "outputToken": "nextPageToken"
         }
+      }
+    },
+    "com.gcp.translate_v3#AdaptiveMtDatasetTooSmall": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The Adaptive MT dataset has fewer than 5 sentence pairs (HTTP 400 INVALID_ARGUMENT: \"Dataset has less than 5 sentences.\"). Import more sentence pairs before translating.",
+        "com.gcp.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "Dataset has less than 5 sentences"
+            }
+          }
+        ]
       }
     }
   }

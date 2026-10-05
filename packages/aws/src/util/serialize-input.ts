@@ -20,6 +20,24 @@ import {
 import { getEncodedPropertySignatures } from "./ast.ts";
 
 /**
+ * Percent-encode a URI label value: everything except RFC 3986 unreserved
+ * characters, so "/" becomes "%2F" (Smithy / AWS SDK `extendedEncodeURIComponent`).
+ */
+export const encodeLabel = (value: string): string =>
+  encodeURIComponent(value).replace(
+    /[!'()*]/g,
+    (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase(),
+  );
+
+/**
+ * Encode a greedy `{Label+}` value: each "/"-separated segment is encoded
+ * with {@link encodeLabel} and the "/" separators are kept, so an S3 key
+ * `a/b c` becomes `a/b%20c` and `/a` becomes `/a`.
+ */
+export const encodeGreedyLabel = (value: string): string =>
+  value.split("/").map(encodeLabel).join("/");
+
+/**
  * Apply the @http trait (method, uri) to the request.
  */
 export function applyHttpTrait(ast: AST.AST, request: Request): void {
@@ -41,11 +59,7 @@ export function applyHttpTrait(ast: AST.AST, request: Request): void {
  * - Collects @httpPayload for body serialization
  * - Collects remaining members as body content
  */
-export function bindInputToRequest(
-  ast: AST.AST,
-  input: Record<string, unknown>,
-  request: Request,
-) {
+export function bindInputToRequest(ast: AST.AST, input: Record<string, unknown>, request: Request) {
   // Use encoded property signatures - these have wire format keys matching the encoded input
   const props = getEncodedPropertySignatures(ast);
 
@@ -73,8 +87,9 @@ export function bindInputToRequest(
       // Use explicit label name if provided (needed when JsonName differs from URI template placeholder)
       const labelName = getHttpLabelName(prop) ?? name;
       request.path = request.path.replace(
-        new RegExp(`\\{${labelName}\\+?\\}`),
-        encodeURIComponent(String(value)),
+        new RegExp(`\\{${labelName}(\\+?)\\}`),
+        (_, greedy: string) =>
+          greedy ? encodeGreedyLabel(String(value)) : encodeLabel(String(value)),
       );
     } else if (queryParam !== undefined) {
       // Handle arrays as repeated query parameters (e.g., tagKeys=A&tagKeys=B)
