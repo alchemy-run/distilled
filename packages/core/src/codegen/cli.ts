@@ -4,8 +4,9 @@
  * Owns the smithy→SDK pipeline every SDK package shares: scan the model
  * directory (plus optional hand-authored manual specs), compile each model
  * through {@link generateService} with the provider's {@link SdkSpec}, write
- * the service modules and the namespaced barrel. RFC-6902 patches apply in
- * convert so `.generated-specs` is already the patched model.
+ * the service modules and the namespaced barrel. Convert-stage patches are
+ * already in `.generated-specs`; a generate-stage package's
+ * `patches/<resource>/` are applied here (see `codegen/patches`).
  *
  * A provider's `scripts/generate.ts` is: trait consts + an SdkSpec + a
  * `runGeneratorCli` call.
@@ -19,6 +20,7 @@ import * as Path from "effect/Path";
 import { barrel } from "./emit.ts";
 import { formatGenerated } from "./format.ts";
 import { generateService, type SdkSpec } from "./generator.ts";
+import { applyModelPatches, patchStage } from "./patches.ts";
 
 export interface GeneratorCliOptions {
   /** Command description shown in --help. */
@@ -77,8 +79,11 @@ export interface GeneratorCliOptions {
   /** Directory of hand-authored models merged after the generated ones. */
   readonly manualSpecsDir?: string;
   /**
-   * RFC-6902 patches apply in convert, never here. Only `false` is accepted
-   * so a string is a type error rather than a silently ignored setting.
+   * Where patches come from is the package's declared stage (`distilled.patches`
+   * in package.json, see `codegen/patches`): convert-stage patches are already
+   * in `.generated-specs`; generate-stage ones (`patches/<resource>/*.json`)
+   * are applied here before {@link transformModel}. Only `false` is accepted
+   * so a path is a type error rather than a silently ignored setting.
    */
   readonly patchesDir?: false;
   /**
@@ -122,6 +127,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
         yield* Console.log(`   Output: ${outDir}`);
 
         yield* options.prepare?.({ root, outDir }) ?? Effect.void;
+        const generateStage = patchStage(root) === "generate";
 
         // Generated models plus optional manual-specs (hand-authored models
         // for APIs the provider's spec source doesn't cover). A manual model
@@ -164,6 +170,9 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
           const resource = options.resourceName?.({ model, file }) ?? file.replace(/\.json$/, "");
           if (config.resource && resource !== config.resource) continue;
 
+          if (generateStage) {
+            applyModelPatches(model, path.join(root, "patches", resource));
+          }
           if (options.transformModel) {
             const note = options.transformModel(model, resource);
             if (note) yield* Console.log(`   ${note}`);

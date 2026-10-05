@@ -53,15 +53,26 @@ pnpm patches:audit <pkg> --ops    # also one per op inside every needed file
 pnpm patches:audit <pkg> --only <substring>
 ```
 
-The audit converts once with every patch, then once per patch with that
-patch left out (`DISTILLED_SKIP_PATCHES`, a dev-time seam in
-`@distilled.cloud/core/codegen/patches`), and diffs `.generated-specs`:
+Always name the package: an audit of a convert-stage package re-runs
+`convert` once per patch file, so it is never run across the repo.
+
+The audit (`@distilled.cloud/core/codegen/patch-audit`) builds the model
+once with every patch, then once per patch with that patch left out
+(`DISTILLED_SKIP_PATCHES`, a dev-time seam in
+`@distilled.cloud/core/codegen/patches`), and diffs the result. How it
+builds the model depends on the package's patch stage (`distilled.patches`
+in package.json, see the `distilled-sdk-patch` skill):
+
+- **convert** — re-runs `convert`, so the spec mirror must be fetched
+  (step 1); without it the package is reported as skipped.
+- **generate** — applies `patches/<model>/` to the committed
+  `.generated-specs` in memory. No mirror, seconds per package.
 
 | Verdict | Meaning | Do |
 | --- | --- | --- |
 | `🗑 no effect` | the model is byte-identical without it | delete the file |
 | `✔ needed` | the model differs; the pointers are listed | keep, and read the diff — it is the patch's description, mechanically |
-| `🔗 convert fails without it` | a later patch targets what this one adds | keep both, or delete both |
+| `🔗 the build fails without it` | a later patch targets what this one adds | keep both, or delete both |
 | `op N: no effect` (`--ops`) | one op in a needed file is dead | remove that op |
 
 Verdicts are one-at-a-time. Two patches that add the same thing each look

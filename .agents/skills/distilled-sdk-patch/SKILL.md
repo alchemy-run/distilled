@@ -6,9 +6,20 @@ description: Add or change a patch in packages/<pkg>/patches/ to correct a disti
 # Patching a distilled SDK
 
 A patch is a claim that the upstream description is wrong about the wire.
-It lives in `packages/<pkg>/patches/`, applies during `convert`, and is
-committed together with the `.generated-specs/` and `src/services/` it
-produces. How convert applies patches (OpenAPI pointers before convert,
+It lives in `packages/<pkg>/patches/` and is committed together with the
+`src/services/` it produces. A package applies patches at one of two
+stages, set by `distilled.patches` in its package.json (engine:
+`packages/core/src/codegen/patches.ts`):
+
+- **convert** (the default): applied by `convert`, so `.generated-specs/`
+  is the patched model and is committed with the patch.
+- **generate** (`"distilled": { "patches": "generate" }`, e.g. azure):
+  `patches/<model>/*.json` are Smithy ops the generator applies to the
+  unpatched `.generated-specs/<model>.json`. Regenerating is enough to land
+  a fix, and the audit needs no spec mirror. Prefer this stage for a
+  package whose patches are all Smithy pointers.
+
+How convert applies patches (OpenAPI pointers before convert,
 Smithy pointers after, stale pointers fail the run, operation names are
 `operationNames` in convert and never a patch) is in the `distilled-sdk`
 skill, step 5.
@@ -34,6 +45,7 @@ callers a type they trust.
 | --- | --- |
 | One OpenAPI spec (`planetscale`, `neon`) | flat `patches/<topic>.patch.json` |
 | Several specs in one package (`fly-io`, `gcp`, `axiom`) | a subdirectory per spec — whichever one the package's `convert.ts` passes as its patches dir (`patches/machines/`, `patches/aiplatform_v1/`, `patches/v1-edge-ingest/`) |
+| Generate stage (`azure`) | `patches/<model>/<topic>.json`, Smithy pointers only — `<model>` is the `.generated-specs/<model>.json` it patches |
 | Cloudflare | `patches/<service>/<operation>.json`; error shapes shared by a service go once in `patches/<service>/_errors.json` |
 | AWS | `patches/<sdkId>.json` — a typed config for `applyAwsSpecPatches` (`errors`, `syntheticErrors`, `errorCategories`, `enums`, …), not RFC-6902. Follow the neighbours. |
 
@@ -158,8 +170,8 @@ matchers, nullability, sensitive members) is tested once in
 pnpm patches:audit <pkg> --only <file> --ops
 ```
 
-The audit (`distilled-sdk-update`, step 3) converts with and without the
-file and lists every pointer in the model that changed. Read that list
+The audit (`distilled-sdk-update`, step 3) builds the model with and
+without the file and lists every pointer in the model that changed. Read that list
 against the description:
 
 - **needed**, and the changed shapes are exactly the ones meant — done.
@@ -170,6 +182,7 @@ against the description:
 
 Then check the generated TypeScript reads the way a caller needs, run
 `pnpm exec tsc -b packages/<pkg> --noCheck false`, and commit the patch
-with the `.generated-specs/` and `src/services/` it produced, as
+with the `src/services/` it produced (and `.generated-specs/` for a
+convert-stage package), as
 `fix(<pkg>): …` naming what callers gain ("type 422s observed on the live
 API").
