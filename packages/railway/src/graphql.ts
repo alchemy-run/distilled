@@ -82,22 +82,10 @@ const RailwayNotFoundSpec: ErrorSpec<RailwayNotFound> = errorSpec(
     { code: "BUCKET_NOT_FOUND" },
     { code: "RESOURCE_NOT_FOUND" },
     { code: "INTERNAL_SERVER_ERROR", messageIncludes: "Project not found" },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "ServiceInstance not found",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "BucketInstance not found",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "VolumeInstance not found",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "Source canvas view not found",
-    },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "ServiceInstance not found" },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "BucketInstance not found" },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "VolumeInstance not found" },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "Source canvas view not found" },
     { code: "INTERNAL_SERVER_ERROR", messageIncludes: "Login session" },
   ],
 );
@@ -110,12 +98,7 @@ export class RailwayOperationInProgress extends S.TaggedError<RailwayOperationIn
 const RailwayOperationInProgressSpec: ErrorSpec<RailwayOperationInProgress> = errorSpec(
   RailwayOperationInProgress,
   "RailwayOperationInProgress",
-  [
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "operation is already in progress",
-    },
-  ],
+  [{ code: "INTERNAL_SERVER_ERROR", messageIncludes: "operation is already in progress" }],
   { retryable: true },
 );
 
@@ -142,18 +125,9 @@ const RailwayRateLimitedSpec: ErrorSpec<RailwayRateLimited> = errorSpec(
   [
     { code: "RATE_LIMITED" },
     { code: "TOO_MANY_REQUESTS" },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "creating projects too quickly",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "creating volumes too quickly",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "creating environments too quickly",
-    },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "creating projects too quickly" },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "creating volumes too quickly" },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "creating environments too quickly" },
     {
       code: "INTERNAL_SERVER_ERROR",
       messageIncludes: "one environment can be created per user every 30s",
@@ -183,10 +157,7 @@ const RailwaySandboxCheckpointNotFoundSpec: ErrorSpec<RailwaySandboxCheckpointNo
   RailwaySandboxCheckpointNotFound,
   "RailwaySandboxCheckpointNotFound",
   [
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Sandbox checkpoint not found",
-    },
+    { code: "INTERNAL_SERVER_ERROR", message: "Sandbox checkpoint not found" },
     {
       code: "INTERNAL_SERVER_ERROR",
       message:
@@ -223,43 +194,22 @@ const RailwaySandboxValidationErrorSpec: ErrorSpec<RailwaySandboxValidationError
       code: "INTERNAL_SERVER_ERROR",
       message: "Provide either template.name or template.instructions, not both",
     },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "cpu must be greater than 0 and at most ",
-    },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "cpu must be greater than 0 and at most " },
     {
       code: "INTERNAL_SERVER_ERROR",
       messageIncludes: "memoryGB must be at least 0.000000001 GB (1 byte) and at most ",
     },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "idleTimeoutMinutes must be between 1 and ",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Public domains require PRIVATE network isolation",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "publicDomains ports must be between 1 and 65535",
-    },
+    { code: "INTERNAL_SERVER_ERROR", messageIncludes: "idleTimeoutMinutes must be between 1 and " },
+    { code: "INTERNAL_SERVER_ERROR", message: "Public domains require PRIVATE network isolation" },
+    { code: "INTERNAL_SERVER_ERROR", message: "publicDomains ports must be between 1 and 65535" },
     {
       code: "INTERNAL_SERVER_ERROR",
       message:
         "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters",
     },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "publicDomains ports must be unique",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "publicDomains prefixes must be unique",
-    },
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      message: "publicDomains supports at most 10 domains",
-    },
+    { code: "INTERNAL_SERVER_ERROR", message: "publicDomains ports must be unique" },
+    { code: "INTERNAL_SERVER_ERROR", message: "publicDomains prefixes must be unique" },
+    { code: "INTERNAL_SERVER_ERROR", message: "publicDomains supports at most 10 domains" },
   ],
 );
 
@@ -271,12 +221,7 @@ export class RailwayServiceDomainCreateFailed extends S.TaggedError<RailwayServi
 const RailwayServiceDomainCreateFailedSpec: ErrorSpec<RailwayServiceDomainCreateFailed> = errorSpec(
   RailwayServiceDomainCreateFailed,
   "RailwayServiceDomainCreateFailed",
-  [
-    {
-      code: "INTERNAL_SERVER_ERROR",
-      messageIncludes: "Failed to create service domain",
-    },
-  ],
+  [{ code: "INTERNAL_SERVER_ERROR", messageIncludes: "Failed to create service domain" }],
   { retryable: true },
 );
 
@@ -367,20 +312,27 @@ export type ActiveFeatureFlag =
   | "ACTIVITY_FEED_HISTORY"
   | "AGENT_BOOTSTRAPS"
   | "AGENT_BYOK"
+  | "AGENT_BYOK_ANTHROPIC"
+  | "AGENT_BYOK_CHATGPT"
+  | "AGENT_BYOK_FIREWORKS"
+  | "AGENT_BYOK_OPENAI"
+  | "AGENT_BYOK_OPENROUTER"
   | "AGENT_CONNECTORS"
-  | "BOT_CLOUD_AGENTS"
+  | "AGENT_TASKS"
   | "CHAT_SANDBOX"
+  | "CLEARANCE"
   | "CLOUD_AGENTS"
+  | "CLOUD_AGENT_BUILDER"
   | "CLOUD_AGENT_CHAT"
   | "CS_MCP_EXPRESS"
-  | "DEBUG_SMART_DIAGNOSIS"
   | "EMAIL_FORWARDING"
+  | "HA_FOR_MONGO"
   | "IN_DASHBOARD_SUPPORT"
   | "MAGIC_CONFIG"
   | "MYSQL_PITR"
   | "PRIORITY_BOARDING"
   | "RAILWAY_AGENT_DASHBOARD"
-  | "TEMPLATE_CHAT"
+  | "RAILWAY_AGENT_FEED"
   | "TRACING"
   | "USAGE_INSIGHTS"
   | "VM_STORAGE_TRACES";
@@ -388,6 +340,8 @@ export type ActiveFeatureFlag =
 export type ActivePlatformFlag =
   | "AGENT_USAGE_CH_INGEST"
   | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+  | "BLOCK_TRIAL_RESTRICTION_APPEALS"
+  | "BUILDER_V4_ROLLOUT"
   | "BUILD_DEPLOY_QUEUE_V2"
   | "CAC_T0_KILLSWITCH"
   | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -407,39 +361,47 @@ export type ActivePlatformFlag =
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
+  | "MCP_OAUTH_AUDIENCE_ENFORCE"
+  | "MCP_OAUTH_CIMD"
+  | "MCP_OAUTH_SCOPE_CHALLENGES"
+  | "MCP_OAUTH_TOKEN_ROUTE_FENCE"
   | "NEW_PROJECT_PAGE"
   | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
   | "NUDGES"
   | "NUDGE_BACKUP_SCHEDULE_MISSING"
+  | "NUDGE_FIRST_DEPLOY_FAILED"
   | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
   | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
   | "NUDGE_UPGRADE_TO_PRO"
   | "OAUTH_DCR_KILLSWITCH"
   | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
   | "PROJECT_HISTORY_DUAL_WRITE"
-  | "PROJECT_HISTORY_READ_FROM_CH"
+  | "RADAR_HTTP_PATTERN_DETECTION"
+  | "RELAY_SPEND_RESERVATION_KILLSWITCH"
   | "REMOVE_DEPLOYMENT_COMPACT"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "SSH_ANON_PROVISIONING"
+  | "SSH_TRIAL_GUEST_IDLE_SLEEP"
   | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
   | "STRIPE_METERS_NEW_ACCOUNTS"
   | "STRIPE_METERS_SHADOW_ENABLED"
   | "STRIPE_WEBHOOK_DISPUTE_CANCELLATION"
+  | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
   | "UPDATED_VM_QUERIES"
   | "USAGE_CH_READS"
   | "VM_COUPON_MIGRATION"
   | "VM_USAGE_CH_INGEST"
   | "WORKSPACE_MCP_KILLSWITCH";
 
-export type ActiveProjectFeatureFlag = "PLACEHOLDER";
+export type ActiveProjectFeatureFlag = "PLACEHOLDER" | "RBS_VOLUMES";
 
 export type ActiveServiceFeatureFlag =
+  | "BUILDER_V4"
   | "COPY_VOLUME_TO_ENVIRONMENT"
-  | "ENABLE_DOCKER_EXTENSION"
   | "PLACEHOLDER"
   | "SKIPPED_BUILDS"
-  | "USE_VM_RUNTIME";
+  | "USE_DEPLOYMENT_VMS";
 
 export type Builder = "HEROKU" | "NIXPACKS" | "PAKETO" | "RAILPACK";
 
@@ -495,6 +457,19 @@ export type CloudAgentStatus =
   | "RUNNING"
   | "SLEEPING"
   | "STARTING";
+
+export type CloudAgentTaskInteractionAction = "ACCEPT" | "ALLOW" | "CANCEL" | "DECLINE" | "DENY";
+
+export type CloudAgentTaskMode = "FOLLOW_UP" | "PROMPT" | "STEER";
+
+export type CloudAgentTaskStatus =
+  | "AWAITING_INPUT"
+  | "COMPLETED"
+  | "FAILED"
+  | "PENDING"
+  | "RUNNING";
+
+export type CloudAgentTaskVia = "API" | "MCP";
 
 export type CnameCheckStatus = "ERROR" | "INFO" | "INVALID" | "VALID" | "WAITING";
 
@@ -693,6 +668,8 @@ export type Plan = "FREE" | "HOBBY" | "PRO";
 export type PlatformFeatureFlag =
   | "AGENT_USAGE_CH_INGEST"
   | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+  | "BLOCK_TRIAL_RESTRICTION_APPEALS"
+  | "BUILDER_V4_ROLLOUT"
   | "BUILD_DEPLOY_QUEUE_V2"
   | "CAC_T0_KILLSWITCH"
   | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -712,25 +689,33 @@ export type PlatformFeatureFlag =
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
+  | "MCP_OAUTH_AUDIENCE_ENFORCE"
+  | "MCP_OAUTH_CIMD"
+  | "MCP_OAUTH_SCOPE_CHALLENGES"
+  | "MCP_OAUTH_TOKEN_ROUTE_FENCE"
   | "NEW_PROJECT_PAGE"
   | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
   | "NUDGES"
   | "NUDGE_BACKUP_SCHEDULE_MISSING"
+  | "NUDGE_FIRST_DEPLOY_FAILED"
   | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
   | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
   | "NUDGE_UPGRADE_TO_PRO"
   | "OAUTH_DCR_KILLSWITCH"
   | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
   | "PROJECT_HISTORY_DUAL_WRITE"
-  | "PROJECT_HISTORY_READ_FROM_CH"
+  | "RADAR_HTTP_PATTERN_DETECTION"
+  | "RELAY_SPEND_RESERVATION_KILLSWITCH"
   | "REMOVE_DEPLOYMENT_COMPACT"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "SSH_ANON_PROVISIONING"
+  | "SSH_TRIAL_GUEST_IDLE_SLEEP"
   | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
   | "STRIPE_METERS_NEW_ACCOUNTS"
   | "STRIPE_METERS_SHADOW_ENABLED"
   | "STRIPE_WEBHOOK_DISPUTE_CANCELLATION"
+  | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
   | "UPDATED_VM_QUERIES"
   | "USAGE_CH_READS"
   | "VM_COUPON_MIGRATION"
@@ -955,6 +940,13 @@ export interface BucketUpdateInput {
   readonly name: string;
 }
 
+export interface ClearanceTokenCreateInput {
+  readonly environmentId?: string | null;
+  readonly expiresInDays?: number | null;
+  readonly name: string;
+  readonly projectId: string;
+}
+
 export interface CliAuthEventTrackInput {
   readonly agentSessionId?: string | null;
   readonly arch?: string | null;
@@ -1051,6 +1043,33 @@ export interface CloudAgentStateReportInput {
   readonly agents: ReadonlyArray<CloudAgentSnapshotInput>;
   readonly cloudAgentId: string;
   readonly reportedAt: string;
+}
+
+export interface CloudAgentTaskDispatchInput {
+  readonly agentName?: string | null;
+  readonly cloudAgentId?: string | null;
+  readonly environmentId: string;
+  readonly externalRef?: string | null;
+  readonly idempotencyKey?: string | null;
+  readonly metadata?: unknown | null;
+  readonly mode?: "FOLLOW_UP" | "PROMPT" | "STEER" | null;
+  readonly outputSchema?: unknown | null;
+  readonly projectId: string;
+  readonly prompt: string;
+  readonly replyToTaskId?: string | null;
+  readonly sessionId?: string | null;
+  readonly source?: CloudAgentSourceInput | null;
+  readonly webhookProgress?: boolean | null;
+  readonly webhookSecret?: string | null;
+  readonly webhookUrl?: string | null;
+}
+
+export interface CloudAgentTaskRespondInput {
+  readonly action: "ACCEPT" | "ALLOW" | "CANCEL" | "DECLINE" | "DENY";
+  readonly answeredBy?: string | null;
+  readonly content?: unknown | null;
+  readonly requestId: string;
+  readonly taskId: string;
 }
 
 export interface CreateNotificationRuleInput {
@@ -1189,6 +1208,12 @@ export interface EnableServiceCdnInput {
   readonly serviceId: string;
 }
 
+export interface EnvironmentClearanceDefaultUpdateInput {
+  readonly enabled: boolean;
+  readonly environmentId: string;
+  readonly projectId: string;
+}
+
 export interface EnvironmentConfigPlanCommentUpsertInput {
   readonly environmentId: string;
   readonly githubOidcToken: string;
@@ -1237,20 +1262,27 @@ export interface FeatureFlagToggleInput {
     | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
+    | "AGENT_BYOK_ANTHROPIC"
+    | "AGENT_BYOK_CHATGPT"
+    | "AGENT_BYOK_FIREWORKS"
+    | "AGENT_BYOK_OPENAI"
+    | "AGENT_BYOK_OPENROUTER"
     | "AGENT_CONNECTORS"
-    | "BOT_CLOUD_AGENTS"
+    | "AGENT_TASKS"
     | "CHAT_SANDBOX"
+    | "CLEARANCE"
     | "CLOUD_AGENTS"
+    | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
     | "CS_MCP_EXPRESS"
-    | "DEBUG_SMART_DIAGNOSIS"
     | "EMAIL_FORWARDING"
+    | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MYSQL_PITR"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "TEMPLATE_CHAT"
+    | "RAILWAY_AGENT_FEED"
     | "TRACING"
     | "USAGE_INSIGHTS"
     | "VM_STORAGE_TRACES";
@@ -1422,6 +1454,11 @@ export interface PrivateNetworkEndpointCreateOrGetInput {
   readonly tags: ReadonlyArray<string>;
 }
 
+export interface ProjectClearanceDefaultUpdateInput {
+  readonly enabled: boolean;
+  readonly projectId: string;
+}
+
 export interface ProjectCreateInput {
   readonly defaultEnvironmentName?: string | null;
   readonly description?: string | null;
@@ -1440,7 +1477,7 @@ export interface ProjectCreateRepo {
 }
 
 export interface ProjectFeatureFlagToggleInput {
-  readonly flag: "PLACEHOLDER";
+  readonly flag: "PLACEHOLDER" | "RBS_VOLUMES";
   readonly projectId: string;
 }
 
@@ -1504,8 +1541,6 @@ export interface ProjectUpdateInput {
   readonly isPublic?: boolean | null;
   readonly name?: string | null;
   readonly prDeploys?: boolean | null;
-  readonly tracingEnabled?: boolean | null;
-  readonly tracingSampleRate?: number | null;
 }
 
 export interface PurgeServiceCacheInput {
@@ -1671,16 +1706,23 @@ export interface ServiceDomainUpdateInput {
 
 export interface ServiceFeatureFlagToggleInput {
   readonly flag:
+    | "BUILDER_V4"
     | "COPY_VOLUME_TO_ENVIRONMENT"
-    | "ENABLE_DOCKER_EXTENSION"
     | "PLACEHOLDER"
     | "SKIPPED_BUILDS"
-    | "USE_VM_RUNTIME";
+    | "USE_DEPLOYMENT_VMS";
   readonly serviceId: string;
 }
 
 export interface ServiceInstanceAutoDeployUpdateInput {
   readonly enabled: boolean;
+  readonly environmentId: string;
+  readonly projectId: string;
+  readonly serviceId: string;
+}
+
+export interface ServiceInstanceClearanceUpdateInput {
+  readonly enabled?: boolean | null;
   readonly environmentId: string;
   readonly projectId: string;
   readonly serviceId: string;
@@ -1694,6 +1736,7 @@ export interface ServiceInstanceLimitsUpdateInput {
 }
 
 export interface ServiceInstanceUpdateInput {
+  readonly autoInstrumentationEnabled?: boolean | null;
   readonly buildCommand?: string | null;
   readonly builder?: "HEROKU" | "NIXPACKS" | "PAKETO" | "RAILPACK" | null;
   readonly cronSchedule?: string | null;
@@ -1717,6 +1760,7 @@ export interface ServiceInstanceUpdateInput {
   readonly sleepApplication?: boolean | null;
   readonly source?: ServiceSourceInput | null;
   readonly startCommand?: string | null;
+  readonly tracingEnabled?: boolean | null;
   readonly watchPatterns?: ReadonlyArray<string> | null;
 }
 
@@ -1728,7 +1772,6 @@ export interface ServiceSourceInput {
 export interface ServiceUpdateInput {
   readonly icon?: string | null;
   readonly name?: string | null;
-  readonly tracingEnabled?: boolean | null;
 }
 
 export interface SetServiceUnderAttackModeInput {
@@ -2021,6 +2064,11 @@ export interface VolumeInstanceUpdateInput {
 
 export interface VolumeUpdateInput {
   readonly name?: string | null;
+}
+
+export interface WebhookHeaderInput {
+  readonly name: string;
+  readonly value: string;
 }
 
 export interface WorkspaceInviteCodeCreateInput {
@@ -2335,6 +2383,29 @@ export interface ChangeSetPreview {
   readonly effects: unknown;
 }
 
+/** A Railway Authentication machine token: gets non-human callers past the sign-in on a project's protected services. The token itself is only returned when it's created. */
+export interface ClearanceToken {
+  readonly createdAt: string;
+  readonly creator: ClearanceTokenCreator | null;
+  readonly environmentId: string | null;
+  readonly environmentName: string | null;
+  readonly expiresAt: string;
+  readonly id: string;
+  readonly name: string;
+}
+
+export interface ClearanceTokenCreatePayload {
+  readonly clearanceToken: ClearanceToken;
+  readonly token: string;
+}
+
+export interface ClearanceTokenCreator {
+  readonly avatar: string | null;
+  readonly email: string;
+  readonly id: string;
+  readonly name: string | null;
+}
+
 /** A persistent cloud agent for running coding harnesses. */
 export interface CloudAgent {
   readonly agentWsUrl: string | null;
@@ -2364,11 +2435,21 @@ export interface CloudAgentCheckpoint {
   readonly status: "FAILED" | "IN_PROGRESS" | "SUCCEEDED";
 }
 
+export interface CloudAgentDeployResult {
+  readonly deploymentId: string;
+  readonly serviceId: string;
+}
+
 /** One public domain on an agent's machine. */
 export interface CloudAgentDomain {
   readonly domain: string;
   readonly port: number;
   readonly prefix: string;
+}
+
+export interface CloudAgentRepository {
+  readonly path: string;
+  readonly repo: string;
 }
 
 /** The state of one coding agent session in a cloud agent. */
@@ -2389,9 +2470,91 @@ export interface CloudAgentSnapshot {
 /** Workspace provenance: the GitHub repo cloned into the agent's workspace at create time. */
 export interface CloudAgentSource {
   readonly branch: string | null;
+  readonly dir: string | null;
   readonly repo: string;
+  readonly repos: ReadonlyArray<CloudAgentRepository> | null;
   readonly serviceId: string | null;
   readonly status: "CLONING" | "FAILED" | "READY" | null;
+}
+
+/** Task lifecycle and correlation. Read cloudAgentTask for the latest session response. */
+export interface CloudAgentTask {
+  readonly cloudAgentId: string | null;
+  readonly completedAt: string | null;
+  readonly createdAt: string;
+  readonly createdVia: "API" | "MCP";
+  readonly error: string | null;
+  readonly externalRef: string | null;
+  readonly id: string;
+  readonly metadata: unknown | null;
+  readonly promptPreview: string | null;
+  readonly requestedByUserId: string | null;
+  readonly sessionId: string | null;
+  readonly startedAt: string | null;
+  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly structuredOutput: unknown | null;
+  readonly text: string | null;
+}
+
+export interface CloudAgentTaskCancelResult {
+  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly taskId: string;
+}
+
+export interface CloudAgentTaskHandle {
+  readonly cloudAgentId: string;
+  readonly replayed: boolean;
+  readonly sessionId: string;
+  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly taskId: string;
+}
+
+/** A question the task's run is waiting on: a tool approval or an MCP server's form. */
+export interface CloudAgentTaskInteraction {
+  readonly actions: ReadonlyArray<"ACCEPT" | "ALLOW" | "CANCEL" | "DECLINE" | "DENY">;
+  readonly expiresAt: string | null;
+  readonly fields: unknown | null;
+  readonly kind: string;
+  readonly message: string | null;
+  readonly requestedAt: string | null;
+  readonly requestId: string;
+  readonly server: string | null;
+  readonly summary: unknown | null;
+  readonly tool: string | null;
+}
+
+export interface CloudAgentTaskPage {
+  readonly nextCursor: string | null;
+  readonly tasks: ReadonlyArray<CloudAgentTask>;
+}
+
+export interface CloudAgentTaskProgress {
+  readonly attempt: number | null;
+  readonly steps: number;
+  readonly todos: unknown | null;
+  readonly tools: ReadonlyArray<string>;
+  readonly updatedAt: string;
+}
+
+export interface CloudAgentTaskRespondResult {
+  readonly outcome: string;
+  readonly taskId: string;
+}
+
+export interface CloudAgentTaskResult {
+  readonly cloudAgentId: string;
+  readonly completedAt: string | null;
+  readonly error: string | null;
+  readonly externalRef: string | null;
+  readonly metadata: unknown | null;
+  readonly pendingInteractions: ReadonlyArray<CloudAgentTaskInteraction>;
+  readonly progress: CloudAgentTaskProgress | null;
+  readonly sessionId: string;
+  readonly sessionState: string | null;
+  readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
+  readonly structuredOutput: unknown | null;
+  readonly taskId: string;
+  readonly text: string | null;
 }
 
 export interface CnameCheck {
@@ -2886,6 +3049,12 @@ export interface EgressMigrationResult {
 export interface Environment {
   readonly canAccess: boolean;
   readonly canvasGroupRefs: unknown;
+  readonly clearanceCachingTurnedOff: ReadonlyArray<string>;
+  readonly clearanceDefault: boolean;
+  readonly clearanceDefaultUpdatedAt: string | null;
+  readonly clearancePropagatedAt: string | null;
+  readonly clearancePropagationError: string | null;
+  readonly clearanceServiceCounts: EnvironmentClearanceServiceCounts;
   readonly config: unknown;
   readonly configEtag: string;
   readonly createdAt: string;
@@ -2904,6 +3073,12 @@ export interface Environment {
   readonly updatedAt: string;
   readonly variables: ReadonlyArray<Variable>;
   readonly volumeInstances: ReadonlyArray<VolumeInstance>;
+}
+
+export interface EnvironmentClearanceServiceCounts {
+  readonly inheriting: number;
+  readonly off: number;
+  readonly on: number;
 }
 
 export interface EnvironmentConfigPlanCommentUpsertResult {
@@ -3189,6 +3364,11 @@ export interface HttpMetricsResult {
 export interface HttpMetricsSample {
   readonly ts: number;
   readonly value: number;
+}
+
+export interface IacPartialOwnershipResult {
+  readonly affectedResources: ReadonlyArray<string>;
+  readonly iacPartials: unknown;
 }
 
 export interface Incident {
@@ -3651,6 +3831,8 @@ export interface PlatformFeatureFlagStatus {
   readonly flag:
     | "AGENT_USAGE_CH_INGEST"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+    | "BLOCK_TRIAL_RESTRICTION_APPEALS"
+    | "BUILDER_V4_ROLLOUT"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
     | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -3670,25 +3852,33 @@ export interface PlatformFeatureFlagStatus {
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
+    | "MCP_OAUTH_AUDIENCE_ENFORCE"
+    | "MCP_OAUTH_CIMD"
+    | "MCP_OAUTH_SCOPE_CHALLENGES"
+    | "MCP_OAUTH_TOKEN_ROUTE_FENCE"
     | "NEW_PROJECT_PAGE"
     | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
     | "NUDGES"
     | "NUDGE_BACKUP_SCHEDULE_MISSING"
+    | "NUDGE_FIRST_DEPLOY_FAILED"
     | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
     | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
     | "NUDGE_UPGRADE_TO_PRO"
     | "OAUTH_DCR_KILLSWITCH"
     | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
     | "PROJECT_HISTORY_DUAL_WRITE"
-    | "PROJECT_HISTORY_READ_FROM_CH"
+    | "RADAR_HTTP_PATTERN_DETECTION"
+    | "RELAY_SPEND_RESERVATION_KILLSWITCH"
     | "REMOVE_DEPLOYMENT_COMPACT"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
     | "SSH_ANON_PROVISIONING"
+    | "SSH_TRIAL_GUEST_IDLE_SLEEP"
     | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
     | "STRIPE_METERS_NEW_ACCOUNTS"
     | "STRIPE_METERS_SHADOW_ENABLED"
     | "STRIPE_WEBHOOK_DISPUTE_CANCELLATION"
+    | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
     | "UPDATED_VM_QUERIES"
     | "USAGE_CH_READS"
     | "VM_COUPON_MIGRATION"
@@ -3782,6 +3972,8 @@ export interface Project {
   readonly baseEnvironmentId: string | null;
   readonly botPrEnvironments: boolean;
   readonly buckets: ReadonlyArray<Bucket>;
+  readonly clearanceDefaultForNewEnvironments: boolean;
+  readonly clearanceTokens: ReadonlyArray<ClearanceToken>;
   readonly createdAt: string;
   readonly deletedAt: string | null;
   readonly deployments: ReadonlyArray<Deployment>;
@@ -3789,7 +3981,7 @@ export interface Project {
   readonly description: string | null;
   readonly environments: ReadonlyArray<Environment>;
   readonly expiredAt: string | null;
-  readonly featureFlags: ReadonlyArray<"PLACEHOLDER">;
+  readonly featureFlags: ReadonlyArray<"PLACEHOLDER" | "RBS_VOLUMES">;
   readonly focusedPrEnvironments: boolean;
   readonly groups: ReadonlyArray<Group>;
   readonly id: string;
@@ -4550,15 +4742,16 @@ export interface SandboxTemplateBuild {
 }
 
 export interface Service {
+  readonly autoInstrumentationEnabled: boolean;
   readonly createdAt: string;
   readonly deletedAt: string | null;
   readonly deployments: ReadonlyArray<Deployment>;
   readonly featureFlags: ReadonlyArray<
+    | "BUILDER_V4"
     | "COPY_VOLUME_TO_ENVIRONMENT"
-    | "ENABLE_DOCKER_EXTENSION"
     | "PLACEHOLDER"
     | "SKIPPED_BUILDS"
-    | "USE_VM_RUNTIME"
+    | "USE_DEPLOYMENT_VMS"
   >;
   readonly groupId: string | null;
   readonly hasHiddenRegistryCredentialsFromTemplate: boolean;
@@ -4613,8 +4806,11 @@ export interface ServiceDomain {
 
 export interface ServiceInstance {
   readonly activeDeployments: ReadonlyArray<Deployment>;
+  readonly autoInstrumentationEnabled: boolean;
   readonly buildCommand: string | null;
   readonly builder: "HEROKU" | "NIXPACKS" | "PAKETO" | "RAILPACK";
+  readonly clearance: boolean | null;
+  readonly clearanceEffective: boolean;
   readonly createdAt: string;
   readonly cronSchedule: string | null;
   readonly deletedAt: string | null;
@@ -4649,6 +4845,7 @@ export interface ServiceInstance {
   readonly sleepApplication: boolean | null;
   readonly source: ServiceSource | null;
   readonly startCommand: string | null;
+  readonly tracingEnabled: boolean;
   readonly updatedAt: string;
   readonly upstreamUrl: string | null;
   readonly watchPatterns: ReadonlyArray<string>;
@@ -4687,6 +4884,13 @@ export interface ServiceServiceInstancesConnectionEdge {
 export interface ServiceSource {
   readonly image: string | null;
   readonly repo: string | null;
+}
+
+/** Whether a service's requests are producing spans, per exporting hop. The edge tracing a request says nothing about the app behind it. */
+export interface ServiceTracingStatus {
+  readonly lastEdgeSpanAt: string | null;
+  readonly lastServiceSpanAt: string | null;
+  readonly serviceId: string;
 }
 
 export interface Session {
@@ -4816,20 +5020,27 @@ export interface TeamMember {
     | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
+    | "AGENT_BYOK_ANTHROPIC"
+    | "AGENT_BYOK_CHATGPT"
+    | "AGENT_BYOK_FIREWORKS"
+    | "AGENT_BYOK_OPENAI"
+    | "AGENT_BYOK_OPENROUTER"
     | "AGENT_CONNECTORS"
-    | "BOT_CLOUD_AGENTS"
+    | "AGENT_TASKS"
     | "CHAT_SANDBOX"
+    | "CLEARANCE"
     | "CLOUD_AGENTS"
+    | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
     | "CS_MCP_EXPRESS"
-    | "DEBUG_SMART_DIAGNOSIS"
     | "EMAIL_FORWARDING"
+    | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MYSQL_PITR"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "TEMPLATE_CHAT"
+    | "RAILWAY_AGENT_FEED"
     | "TRACING"
     | "USAGE_INSIGHTS"
     | "VM_STORAGE_TRACES"
@@ -4904,6 +5115,7 @@ export interface TemplateCreator {
 }
 
 export interface TemplateDeployPayload {
+  readonly operationId: string | null;
   readonly projectId: string;
   readonly workflowId: string | null;
 }
@@ -4955,6 +5167,58 @@ export interface TemplateServicesConnectionEdge {
   readonly node: TemplateService;
 }
 
+/** One span of a trace */
+export interface TraceSpan {
+  readonly component: string;
+  readonly deploymentId: string | null;
+  readonly deploymentInstanceId: string | null;
+  readonly durationMs: number;
+  readonly events: ReadonlyArray<TraceSpanEvent>;
+  readonly kind: string;
+  readonly links: ReadonlyArray<TraceSpanLink>;
+  readonly name: string;
+  readonly parentSpanId: string | null;
+  readonly resourceAttributes: unknown;
+  readonly serviceId: string | null;
+  readonly serviceName: string;
+  readonly spanAttributes: unknown;
+  readonly spanId: string;
+  readonly startedAt: string;
+  readonly statusCode: string;
+  readonly statusMessage: string;
+  readonly traceId: string;
+}
+
+/** A timestamped event on a span */
+export interface TraceSpanEvent {
+  readonly attributes: unknown;
+  readonly name: string;
+  readonly timestamp: string;
+}
+
+/** A link from a span to a span in another trace */
+export interface TraceSpanLink {
+  readonly spanId: string;
+  readonly traceId: string;
+}
+
+/** One trace of an environment: the request as a whole, summarised from its spans */
+export interface TraceSummary {
+  readonly durationMs: number;
+  readonly errorCount: number;
+  readonly hasEdge: boolean;
+  readonly rootComponent: string;
+  readonly rootServerAddress: string | null;
+  readonly rootServiceId: string;
+  readonly rootServiceName: string;
+  readonly rootSpanName: string;
+  readonly rootUrlPath: string | null;
+  readonly serviceName: string | null;
+  readonly spanCount: number;
+  readonly startedAt: string;
+  readonly traceId: string;
+}
+
 export interface TrustedDomain {
   readonly domainName: string;
   readonly id: string;
@@ -5003,20 +5267,27 @@ export interface User {
     | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
+    | "AGENT_BYOK_ANTHROPIC"
+    | "AGENT_BYOK_CHATGPT"
+    | "AGENT_BYOK_FIREWORKS"
+    | "AGENT_BYOK_OPENAI"
+    | "AGENT_BYOK_OPENROUTER"
     | "AGENT_CONNECTORS"
-    | "BOT_CLOUD_AGENTS"
+    | "AGENT_TASKS"
     | "CHAT_SANDBOX"
+    | "CLEARANCE"
     | "CLOUD_AGENTS"
+    | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
     | "CS_MCP_EXPRESS"
-    | "DEBUG_SMART_DIAGNOSIS"
     | "EMAIL_FORWARDING"
+    | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MYSQL_PITR"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "TEMPLATE_CHAT"
+    | "RAILWAY_AGENT_FEED"
     | "TRACING"
     | "USAGE_INSIGHTS"
     | "VM_STORAGE_TRACES"
@@ -5035,6 +5306,8 @@ export interface User {
   readonly platformFeatureFlags: ReadonlyArray<
     | "AGENT_USAGE_CH_INGEST"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
+    | "BLOCK_TRIAL_RESTRICTION_APPEALS"
+    | "BUILDER_V4_ROLLOUT"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
     | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -5054,25 +5327,33 @@ export interface User {
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
+    | "MCP_OAUTH_AUDIENCE_ENFORCE"
+    | "MCP_OAUTH_CIMD"
+    | "MCP_OAUTH_SCOPE_CHALLENGES"
+    | "MCP_OAUTH_TOKEN_ROUTE_FENCE"
     | "NEW_PROJECT_PAGE"
     | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
     | "NUDGES"
     | "NUDGE_BACKUP_SCHEDULE_MISSING"
+    | "NUDGE_FIRST_DEPLOY_FAILED"
     | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
     | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
     | "NUDGE_UPGRADE_TO_PRO"
     | "OAUTH_DCR_KILLSWITCH"
     | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
     | "PROJECT_HISTORY_DUAL_WRITE"
-    | "PROJECT_HISTORY_READ_FROM_CH"
+    | "RADAR_HTTP_PATTERN_DETECTION"
+    | "RELAY_SPEND_RESERVATION_KILLSWITCH"
     | "REMOVE_DEPLOYMENT_COMPACT"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
     | "SSH_ANON_PROVISIONING"
+    | "SSH_TRIAL_GUEST_IDLE_SLEEP"
     | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
     | "STRIPE_METERS_NEW_ACCOUNTS"
     | "STRIPE_METERS_SHADOW_ENABLED"
     | "STRIPE_WEBHOOK_DISPUTE_CANCELLATION"
+    | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
     | "UPDATED_VM_QUERIES"
     | "USAGE_CH_READS"
     | "VM_COUPON_MIGRATION"
@@ -5385,20 +5666,27 @@ export interface WorkspaceMember {
     | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
+    | "AGENT_BYOK_ANTHROPIC"
+    | "AGENT_BYOK_CHATGPT"
+    | "AGENT_BYOK_FIREWORKS"
+    | "AGENT_BYOK_OPENAI"
+    | "AGENT_BYOK_OPENROUTER"
     | "AGENT_CONNECTORS"
-    | "BOT_CLOUD_AGENTS"
+    | "AGENT_TASKS"
     | "CHAT_SANDBOX"
+    | "CLEARANCE"
     | "CLOUD_AGENTS"
+    | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
     | "CS_MCP_EXPRESS"
-    | "DEBUG_SMART_DIAGNOSIS"
     | "EMAIL_FORWARDING"
+    | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
     | "MYSQL_PITR"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "TEMPLATE_CHAT"
+    | "RAILWAY_AGENT_FEED"
     | "TRACING"
     | "USAGE_INSIGHTS"
     | "VM_STORAGE_TRACES"
@@ -5455,10 +5743,7 @@ export interface WorkspaceProjectsConnectionEdge {
 }
 
 export const AccessGroup: TypeMeta = { name: "AccessGroup", fields: {} };
-export const AccessGroupMember: TypeMeta = {
-  name: "AccessGroupMember",
-  fields: {},
-};
+export const AccessGroupMember: TypeMeta = { name: "AccessGroupMember", fields: {} };
 export const AccessGroupMembersConnection: TypeMeta = {
   name: "AccessGroupMembersConnection",
   fields: {},
@@ -5467,10 +5752,7 @@ export const AccessGroupMembersConnectionEdge: TypeMeta = {
   name: "AccessGroupMembersConnectionEdge",
   fields: {},
 };
-export const AccessGroupProject: TypeMeta = {
-  name: "AccessGroupProject",
-  fields: {},
-};
+export const AccessGroupProject: TypeMeta = { name: "AccessGroupProject", fields: {} };
 export const AccessGroupProjectsConnection: TypeMeta = {
   name: "AccessGroupProjectsConnection",
   fields: {},
@@ -5481,109 +5763,68 @@ export const AccessGroupProjectsConnectionEdge: TypeMeta = {
 };
 export const AccessRule: TypeMeta = { name: "AccessRule", fields: {} };
 export const AdoptionInfo: TypeMeta = { name: "AdoptionInfo", fields: {} };
-export const AgentUsageSummary: TypeMeta = {
-  name: "AgentUsageSummary",
-  fields: {},
-};
-export const AggregatedUsage: TypeMeta = {
-  name: "AggregatedUsage",
-  fields: {},
-};
+export const AgentUsageSummary: TypeMeta = { name: "AgentUsageSummary", fields: {} };
+export const AggregatedUsage: TypeMeta = { name: "AggregatedUsage", fields: {} };
 export const AllDomains: TypeMeta = { name: "AllDomains", fields: {} };
 export const ApiToken: TypeMeta = { name: "ApiToken", fields: {} };
-export const ApiTokenContext: TypeMeta = {
-  name: "ApiTokenContext",
-  fields: {},
-};
-export const ApiTokenRateLimit: TypeMeta = {
-  name: "ApiTokenRateLimit",
-  fields: {},
-};
-export const ApiTokenWorkspace: TypeMeta = {
-  name: "ApiTokenWorkspace",
-  fields: {},
-};
-export const AppliedByMember: TypeMeta = {
-  name: "AppliedByMember",
-  fields: {},
-};
+export const ApiTokenContext: TypeMeta = { name: "ApiTokenContext", fields: {} };
+export const ApiTokenRateLimit: TypeMeta = { name: "ApiTokenRateLimit", fields: {} };
+export const ApiTokenWorkspace: TypeMeta = { name: "ApiTokenWorkspace", fields: {} };
+export const AppliedByMember: TypeMeta = { name: "AppliedByMember", fields: {} };
 export const AuditLog: TypeMeta = { name: "AuditLog", fields: {} };
-export const AuditLogEventTypeInfo: TypeMeta = {
-  name: "AuditLogEventTypeInfo",
-  fields: {},
-};
+export const AuditLogEventTypeInfo: TypeMeta = { name: "AuditLogEventTypeInfo", fields: {} };
 export const BillingPeriod: TypeMeta = { name: "BillingPeriod", fields: {} };
-export const BotScopeBindingInfo: TypeMeta = {
-  name: "BotScopeBindingInfo",
-  fields: {},
-};
+export const BotScopeBindingInfo: TypeMeta = { name: "BotScopeBindingInfo", fields: {} };
 export const Bucket: TypeMeta = { name: "Bucket", fields: {} };
-export const BucketInstanceDetails: TypeMeta = {
-  name: "BucketInstanceDetails",
-  fields: {},
-};
+export const BucketInstanceDetails: TypeMeta = { name: "BucketInstanceDetails", fields: {} };
 export const BucketS3CompatibleCredentials: TypeMeta = {
   name: "BucketS3CompatibleCredentials",
   fields: {},
 };
-export const CanvasViewMergePreview: TypeMeta = {
-  name: "CanvasViewMergePreview",
+export const CanvasViewMergePreview: TypeMeta = { name: "CanvasViewMergePreview", fields: {} };
+export const CertificatePublicData: TypeMeta = { name: "CertificatePublicData", fields: {} };
+export const ChangeOperationResult: TypeMeta = { name: "ChangeOperationResult", fields: {} };
+export const ChangeSetApplyResult: TypeMeta = { name: "ChangeSetApplyResult", fields: {} };
+export const ChangeSetPreview: TypeMeta = { name: "ChangeSetPreview", fields: {} };
+export const ClearanceToken: TypeMeta = { name: "ClearanceToken", fields: {} };
+export const ClearanceTokenCreatePayload: TypeMeta = {
+  name: "ClearanceTokenCreatePayload",
   fields: {},
 };
-export const CertificatePublicData: TypeMeta = {
-  name: "CertificatePublicData",
-  fields: {},
-};
-export const ChangeOperationResult: TypeMeta = {
-  name: "ChangeOperationResult",
-  fields: {},
-};
-export const ChangeSetApplyResult: TypeMeta = {
-  name: "ChangeSetApplyResult",
-  fields: {},
-};
-export const ChangeSetPreview: TypeMeta = {
-  name: "ChangeSetPreview",
-  fields: {},
-};
+export const ClearanceTokenCreator: TypeMeta = { name: "ClearanceTokenCreator", fields: {} };
 export const CloudAgent: TypeMeta = { name: "CloudAgent", fields: {} };
-export const CloudAgentCheckpoint: TypeMeta = {
-  name: "CloudAgentCheckpoint",
+export const CloudAgentCheckpoint: TypeMeta = { name: "CloudAgentCheckpoint", fields: {} };
+export const CloudAgentDeployResult: TypeMeta = { name: "CloudAgentDeployResult", fields: {} };
+export const CloudAgentDomain: TypeMeta = { name: "CloudAgentDomain", fields: {} };
+export const CloudAgentRepository: TypeMeta = { name: "CloudAgentRepository", fields: {} };
+export const CloudAgentSnapshot: TypeMeta = { name: "CloudAgentSnapshot", fields: {} };
+export const CloudAgentSource: TypeMeta = { name: "CloudAgentSource", fields: {} };
+export const CloudAgentTask: TypeMeta = { name: "CloudAgentTask", fields: {} };
+export const CloudAgentTaskCancelResult: TypeMeta = {
+  name: "CloudAgentTaskCancelResult",
   fields: {},
 };
-export const CloudAgentDomain: TypeMeta = {
-  name: "CloudAgentDomain",
+export const CloudAgentTaskHandle: TypeMeta = { name: "CloudAgentTaskHandle", fields: {} };
+export const CloudAgentTaskInteraction: TypeMeta = {
+  name: "CloudAgentTaskInteraction",
   fields: {},
 };
-export const CloudAgentSnapshot: TypeMeta = {
-  name: "CloudAgentSnapshot",
+export const CloudAgentTaskPage: TypeMeta = { name: "CloudAgentTaskPage", fields: {} };
+export const CloudAgentTaskProgress: TypeMeta = { name: "CloudAgentTaskProgress", fields: {} };
+export const CloudAgentTaskRespondResult: TypeMeta = {
+  name: "CloudAgentTaskRespondResult",
   fields: {},
 };
-export const CloudAgentSource: TypeMeta = {
-  name: "CloudAgentSource",
-  fields: {},
-};
+export const CloudAgentTaskResult: TypeMeta = { name: "CloudAgentTaskResult", fields: {} };
 export const CnameCheck: TypeMeta = { name: "CnameCheck", fields: {} };
-export const ComplianceAgreementsInfo: TypeMeta = {
-  name: "ComplianceAgreementsInfo",
-  fields: {},
-};
-export const ConnectedServiceInstance: TypeMeta = {
-  name: "ConnectedServiceInstance",
-  fields: {},
-};
+export const ComplianceAgreementsInfo: TypeMeta = { name: "ComplianceAgreementsInfo", fields: {} };
+export const ConnectedServiceInstance: TypeMeta = { name: "ConnectedServiceInstance", fields: {} };
 export const Container: TypeMeta = { name: "Container", fields: {} };
 export const Credit: TypeMeta = { name: "Credit", fields: {} };
 export const CustomDomain: TypeMeta = { name: "CustomDomain", fields: {} };
-export const CustomDomainStatus: TypeMeta = {
-  name: "CustomDomainStatus",
-  fields: {},
-};
+export const CustomDomainStatus: TypeMeta = { name: "CustomDomainStatus", fields: {} };
 export const Customer: TypeMeta = { name: "Customer", fields: {} };
-export const CustomerAddress: TypeMeta = {
-  name: "CustomerAddress",
-  fields: {},
-};
+export const CustomerAddress: TypeMeta = { name: "CustomerAddress", fields: {} };
 export const CustomerCreditsConnection: TypeMeta = {
   name: "CustomerCreditsConnection",
   fields: {},
@@ -5592,86 +5833,45 @@ export const CustomerCreditsConnectionEdge: TypeMeta = {
   name: "CustomerCreditsConnectionEdge",
   fields: {},
 };
-export const CustomerInvoice: TypeMeta = {
-  name: "CustomerInvoice",
-  fields: {},
-};
-export const CustomerSubscription: TypeMeta = {
-  name: "CustomerSubscription",
-  fields: {},
-};
+export const CustomerInvoice: TypeMeta = { name: "CustomerInvoice", fields: {} };
+export const CustomerSubscription: TypeMeta = { name: "CustomerSubscription", fields: {} };
 export const CustomerTaxId: TypeMeta = { name: "CustomerTaxId", fields: {} };
 export const DNSRecords: TypeMeta = { name: "DNSRecords", fields: {} };
 export const Deployment: TypeMeta = { name: "Deployment", fields: {} };
-export const DeploymentCreator: TypeMeta = {
-  name: "DeploymentCreator",
-  fields: {},
-};
+export const DeploymentCreator: TypeMeta = { name: "DeploymentCreator", fields: {} };
 export const DeploymentDeploymentInstance: TypeMeta = {
   name: "DeploymentDeploymentInstance",
   fields: {},
 };
-export const DeploymentEvent: TypeMeta = {
-  name: "DeploymentEvent",
-  fields: {},
-};
-export const DeploymentEventPayload: TypeMeta = {
-  name: "DeploymentEventPayload",
-  fields: {},
-};
+export const DeploymentEvent: TypeMeta = { name: "DeploymentEvent", fields: {} };
+export const DeploymentEventPayload: TypeMeta = { name: "DeploymentEventPayload", fields: {} };
 export const DeploymentInstanceExecution: TypeMeta = {
   name: "DeploymentInstanceExecution",
   fields: {},
 };
-export const DeploymentSnapshot: TypeMeta = {
-  name: "DeploymentSnapshot",
-  fields: {},
-};
-export const DeploymentSocket: TypeMeta = {
-  name: "DeploymentSocket",
-  fields: {},
-};
-export const DeploymentTrigger: TypeMeta = {
-  name: "DeploymentTrigger",
-  fields: {},
-};
+export const DeploymentSnapshot: TypeMeta = { name: "DeploymentSnapshot", fields: {} };
+export const DeploymentSocket: TypeMeta = { name: "DeploymentSocket", fields: {} };
+export const DeploymentTrigger: TypeMeta = { name: "DeploymentTrigger", fields: {} };
 export const DnsQueryLog: TypeMeta = { name: "DnsQueryLog", fields: {} };
-export const DockerComposeImport: TypeMeta = {
-  name: "DockerComposeImport",
-  fields: {},
-};
+export const DockerComposeImport: TypeMeta = { name: "DockerComposeImport", fields: {} };
 export const Domain: TypeMeta = { name: "Domain", fields: {} };
-export const DomainAvailable: TypeMeta = {
-  name: "DomainAvailable",
-  fields: {},
-};
-export const DomainWithStatus: TypeMeta = {
-  name: "DomainWithStatus",
-  fields: {},
-};
-export const EdgeCachingConfig: TypeMeta = {
-  name: "EdgeCachingConfig",
-  fields: {},
-};
+export const DomainAvailable: TypeMeta = { name: "DomainAvailable", fields: {} };
+export const DomainWithStatus: TypeMeta = { name: "DomainWithStatus", fields: {} };
+export const EdgeCachingConfig: TypeMeta = { name: "EdgeCachingConfig", fields: {} };
 export const EdgeConfig: TypeMeta = { name: "EdgeConfig", fields: {} };
-export const EdgeRuleDiagnostic: TypeMeta = {
-  name: "EdgeRuleDiagnostic",
-  fields: {},
-};
-export const EdgeTracingConfig: TypeMeta = {
-  name: "EdgeTracingConfig",
-  fields: {},
-};
+export const EdgeRuleDiagnostic: TypeMeta = { name: "EdgeRuleDiagnostic", fields: {} };
+export const EdgeTracingConfig: TypeMeta = { name: "EdgeTracingConfig", fields: {} };
 export const EgressGateway: TypeMeta = { name: "EgressGateway", fields: {} };
 export const EgressMigrationEnvironmentResult: TypeMeta = {
   name: "EgressMigrationEnvironmentResult",
   fields: {},
 };
-export const EgressMigrationResult: TypeMeta = {
-  name: "EgressMigrationResult",
+export const EgressMigrationResult: TypeMeta = { name: "EgressMigrationResult", fields: {} };
+export const Environment: TypeMeta = { name: "Environment", fields: {} };
+export const EnvironmentClearanceServiceCounts: TypeMeta = {
+  name: "EnvironmentClearanceServiceCounts",
   fields: {},
 };
-export const Environment: TypeMeta = { name: "Environment", fields: {} };
 export const EnvironmentConfigPlanCommentUpsertResult: TypeMeta = {
   name: "EnvironmentConfigPlanCommentUpsertResult",
   fields: {},
@@ -5692,14 +5892,8 @@ export const EnvironmentDeploymentsConnectionEdge: TypeMeta = {
   name: "EnvironmentDeploymentsConnectionEdge",
   fields: {},
 };
-export const EnvironmentMeta: TypeMeta = {
-  name: "EnvironmentMeta",
-  fields: {},
-};
-export const EnvironmentPatch: TypeMeta = {
-  name: "EnvironmentPatch",
-  fields: {},
-};
+export const EnvironmentMeta: TypeMeta = { name: "EnvironmentMeta", fields: {} };
+export const EnvironmentPatch: TypeMeta = { name: "EnvironmentPatch", fields: {} };
 export const EnvironmentServiceInstancesConnection: TypeMeta = {
   name: "EnvironmentServiceInstancesConnection",
   fields: {},
@@ -5726,26 +5920,14 @@ export const EnvironmentVolumeInstancesConnectionEdge: TypeMeta = {
 };
 export const EstimatedUsage: TypeMeta = { name: "EstimatedUsage", fields: {} };
 export const Event: TypeMeta = { name: "Event", fields: {} };
-export const ExternalWorkspace: TypeMeta = {
-  name: "ExternalWorkspace",
-  fields: {},
-};
-export const FunctionRuntime: TypeMeta = {
-  name: "FunctionRuntime",
-  fields: {},
-};
-export const FunctionRuntimeVersion: TypeMeta = {
-  name: "FunctionRuntimeVersion",
-  fields: {},
-};
+export const ExternalWorkspace: TypeMeta = { name: "ExternalWorkspace", fields: {} };
+export const FunctionRuntime: TypeMeta = { name: "FunctionRuntime", fields: {} };
+export const FunctionRuntimeVersion: TypeMeta = { name: "FunctionRuntimeVersion", fields: {} };
 export const GitHubAccess: TypeMeta = { name: "GitHubAccess", fields: {} };
 export const GitHubBranch: TypeMeta = { name: "GitHubBranch", fields: {} };
 export const GitHubCheck: TypeMeta = { name: "GitHubCheck", fields: {} };
 export const GitHubPRInfo: TypeMeta = { name: "GitHubPRInfo", fields: {} };
-export const GitHubPRInfoResult: TypeMeta = {
-  name: "GitHubPRInfoResult",
-  fields: {},
-};
+export const GitHubPRInfoResult: TypeMeta = { name: "GitHubPRInfoResult", fields: {} };
 export const GitHubRepo: TypeMeta = { name: "GitHubRepo", fields: {} };
 export const GitHubRepoWithoutInstallation: TypeMeta = {
   name: "GitHubRepoWithoutInstallation",
@@ -5767,20 +5949,15 @@ export const HttpMetricsByStatusResult: TypeMeta = {
   name: "HttpMetricsByStatusResult",
   fields: {},
 };
-export const HttpMetricsResult: TypeMeta = {
-  name: "HttpMetricsResult",
-  fields: {},
-};
-export const HttpMetricsSample: TypeMeta = {
-  name: "HttpMetricsSample",
+export const HttpMetricsResult: TypeMeta = { name: "HttpMetricsResult", fields: {} };
+export const HttpMetricsSample: TypeMeta = { name: "HttpMetricsSample", fields: {} };
+export const IacPartialOwnershipResult: TypeMeta = {
+  name: "IacPartialOwnershipResult",
   fields: {},
 };
 export const Incident: TypeMeta = { name: "Incident", fields: {} };
 export const Integration: TypeMeta = { name: "Integration", fields: {} };
-export const IntegrationAuth: TypeMeta = {
-  name: "IntegrationAuth",
-  fields: {},
-};
+export const IntegrationAuth: TypeMeta = { name: "IntegrationAuth", fields: {} };
 export const IntegrationAuthIntegrationsConnection: TypeMeta = {
   name: "IntegrationAuthIntegrationsConnection",
   fields: {},
@@ -5793,32 +5970,20 @@ export const InviteCode: TypeMeta = { name: "InviteCode", fields: {} };
 export const Log: TypeMeta = { name: "Log", fields: {} };
 export const LogAttribute: TypeMeta = { name: "LogAttribute", fields: {} };
 export const LogTags: TypeMeta = { name: "LogTags", fields: {} };
-export const MaintainerWorkspace: TypeMeta = {
-  name: "MaintainerWorkspace",
-  fields: {},
-};
+export const MaintainerWorkspace: TypeMeta = { name: "MaintainerWorkspace", fields: {} };
 export const Maintenance: TypeMeta = { name: "Maintenance", fields: {} };
 export const Metric: TypeMeta = { name: "Metric", fields: {} };
 export const MetricTags: TypeMeta = { name: "MetricTags", fields: {} };
 export const MetricsResult: TypeMeta = { name: "MetricsResult", fields: {} };
-export const MonitorThresholdConfig: TypeMeta = {
-  name: "MonitorThresholdConfig",
-  fields: {},
-};
+export const MonitorThresholdConfig: TypeMeta = { name: "MonitorThresholdConfig", fields: {} };
 export const MysqlPitrRestorableWindow: TypeMeta = {
   name: "MysqlPitrRestorableWindow",
   fields: {},
 };
 export const NetworkFlowLog: TypeMeta = { name: "NetworkFlowLog", fields: {} };
 export const Node: TypeMeta = { name: "Node", fields: {} };
-export const NotificationChannel: TypeMeta = {
-  name: "NotificationChannel",
-  fields: {},
-};
-export const NotificationDelivery: TypeMeta = {
-  name: "NotificationDelivery",
-  fields: {},
-};
+export const NotificationChannel: TypeMeta = { name: "NotificationChannel", fields: {} };
+export const NotificationDelivery: TypeMeta = { name: "NotificationDelivery", fields: {} };
 export const NotificationDeliveryCreated: TypeMeta = {
   name: "NotificationDeliveryCreated",
   fields: {},
@@ -5827,18 +5992,9 @@ export const NotificationDeliveryResolved: TypeMeta = {
   name: "NotificationDeliveryResolved",
   fields: {},
 };
-export const NotificationInstance: TypeMeta = {
-  name: "NotificationInstance",
-  fields: {},
-};
-export const NotificationRule: TypeMeta = {
-  name: "NotificationRule",
-  fields: {},
-};
-export const ObservabilityDashboard: TypeMeta = {
-  name: "ObservabilityDashboard",
-  fields: {},
-};
+export const NotificationInstance: TypeMeta = { name: "NotificationInstance", fields: {} };
+export const NotificationRule: TypeMeta = { name: "NotificationRule", fields: {} };
+export const ObservabilityDashboard: TypeMeta = { name: "ObservabilityDashboard", fields: {} };
 export const ObservabilityDashboardAlert: TypeMeta = {
   name: "ObservabilityDashboardAlert",
   fields: {},
@@ -5863,10 +6019,7 @@ export const PageInfo: TypeMeta = { name: "PageInfo", fields: {} };
 export const PartnerProfile: TypeMeta = { name: "PartnerProfile", fields: {} };
 export const Passkey: TypeMeta = { name: "Passkey", fields: {} };
 export const PaymentMethod: TypeMeta = { name: "PaymentMethod", fields: {} };
-export const PaymentMethodCard: TypeMeta = {
-  name: "PaymentMethodCard",
-  fields: {},
-};
+export const PaymentMethodCard: TypeMeta = { name: "PaymentMethodCard", fields: {} };
 export const PitrHaClusterReplicationHealth: TypeMeta = {
   name: "PitrHaClusterReplicationHealth",
   fields: {},
@@ -5879,18 +6032,12 @@ export const PitrHaWorkflowMemberProgress: TypeMeta = {
   name: "PitrHaWorkflowMemberProgress",
   fields: {},
 };
-export const PitrHaWorkflowProgress: TypeMeta = {
-  name: "PitrHaWorkflowProgress",
-  fields: {},
-};
+export const PitrHaWorkflowProgress: TypeMeta = { name: "PitrHaWorkflowProgress", fields: {} };
 export const PitrRestoreScratchEstimate: TypeMeta = {
   name: "PitrRestoreScratchEstimate",
   fields: {},
 };
-export const PlanLimitOverride: TypeMeta = {
-  name: "PlanLimitOverride",
-  fields: {},
-};
+export const PlanLimitOverride: TypeMeta = { name: "PlanLimitOverride", fields: {} };
 export const PlatformFeatureFlagStatus: TypeMeta = {
   name: "PlatformFeatureFlagStatus",
   fields: {},
@@ -5915,23 +6062,14 @@ export const PluginVariablesConnectionEdge: TypeMeta = {
 };
 export const Preferences: TypeMeta = { name: "Preferences", fields: {} };
 export const PrivateNetwork: TypeMeta = { name: "PrivateNetwork", fields: {} };
-export const PrivateNetworkEndpoint: TypeMeta = {
-  name: "PrivateNetworkEndpoint",
-  fields: {},
-};
+export const PrivateNetworkEndpoint: TypeMeta = { name: "PrivateNetworkEndpoint", fields: {} };
 export const Project: TypeMeta = { name: "Project", fields: {} };
-export const ProjectBucketsConnection: TypeMeta = {
-  name: "ProjectBucketsConnection",
-  fields: {},
-};
+export const ProjectBucketsConnection: TypeMeta = { name: "ProjectBucketsConnection", fields: {} };
 export const ProjectBucketsConnectionEdge: TypeMeta = {
   name: "ProjectBucketsConnectionEdge",
   fields: {},
 };
-export const ProjectComplianceInfo: TypeMeta = {
-  name: "ProjectComplianceInfo",
-  fields: {},
-};
+export const ProjectComplianceInfo: TypeMeta = { name: "ProjectComplianceInfo", fields: {} };
 export const ProjectDeploymentTriggersConnection: TypeMeta = {
   name: "ProjectDeploymentTriggersConnection",
   fields: {},
@@ -5956,38 +6094,17 @@ export const ProjectEnvironmentsConnectionEdge: TypeMeta = {
   name: "ProjectEnvironmentsConnectionEdge",
   fields: {},
 };
-export const ProjectGroupsConnection: TypeMeta = {
-  name: "ProjectGroupsConnection",
-  fields: {},
-};
+export const ProjectGroupsConnection: TypeMeta = { name: "ProjectGroupsConnection", fields: {} };
 export const ProjectGroupsConnectionEdge: TypeMeta = {
   name: "ProjectGroupsConnectionEdge",
   fields: {},
 };
-export const ProjectHistoryConnection: TypeMeta = {
-  name: "ProjectHistoryConnection",
-  fields: {},
-};
-export const ProjectHistoryEntry: TypeMeta = {
-  name: "ProjectHistoryEntry",
-  fields: {},
-};
-export const ProjectHistoryEntryEdge: TypeMeta = {
-  name: "ProjectHistoryEntryEdge",
-  fields: {},
-};
-export const ProjectHistoryPageInfo: TypeMeta = {
-  name: "ProjectHistoryPageInfo",
-  fields: {},
-};
-export const ProjectInvitation: TypeMeta = {
-  name: "ProjectInvitation",
-  fields: {},
-};
-export const ProjectInvitationInviter: TypeMeta = {
-  name: "ProjectInvitationInviter",
-  fields: {},
-};
+export const ProjectHistoryConnection: TypeMeta = { name: "ProjectHistoryConnection", fields: {} };
+export const ProjectHistoryEntry: TypeMeta = { name: "ProjectHistoryEntry", fields: {} };
+export const ProjectHistoryEntryEdge: TypeMeta = { name: "ProjectHistoryEntryEdge", fields: {} };
+export const ProjectHistoryPageInfo: TypeMeta = { name: "ProjectHistoryPageInfo", fields: {} };
+export const ProjectInvitation: TypeMeta = { name: "ProjectInvitation", fields: {} };
+export const ProjectInvitationInviter: TypeMeta = { name: "ProjectInvitationInviter", fields: {} };
 export const ProjectMember: TypeMeta = { name: "ProjectMember", fields: {} };
 export const ProjectMemberPermissionsInfo: TypeMeta = {
   name: "ProjectMemberPermissionsInfo",
@@ -5997,22 +6114,10 @@ export const ProjectMemberTwoFactorInfo: TypeMeta = {
   name: "ProjectMemberTwoFactorInfo",
   fields: {},
 };
-export const ProjectOperation: TypeMeta = {
-  name: "ProjectOperation",
-  fields: {},
-};
-export const ProjectOperationActor: TypeMeta = {
-  name: "ProjectOperationActor",
-  fields: {},
-};
-export const ProjectPermission: TypeMeta = {
-  name: "ProjectPermission",
-  fields: {},
-};
-export const ProjectPluginsConnection: TypeMeta = {
-  name: "ProjectPluginsConnection",
-  fields: {},
-};
+export const ProjectOperation: TypeMeta = { name: "ProjectOperation", fields: {} };
+export const ProjectOperationActor: TypeMeta = { name: "ProjectOperationActor", fields: {} };
+export const ProjectPermission: TypeMeta = { name: "ProjectPermission", fields: {} };
+export const ProjectPluginsConnection: TypeMeta = { name: "ProjectPluginsConnection", fields: {} };
 export const ProjectPluginsConnectionEdge: TypeMeta = {
   name: "ProjectPluginsConnectionEdge",
   fields: {},
@@ -6025,14 +6130,8 @@ export const ProjectProjectPermissionsConnectionEdge: TypeMeta = {
   name: "ProjectProjectPermissionsConnectionEdge",
   fields: {},
 };
-export const ProjectResourceAccess: TypeMeta = {
-  name: "ProjectResourceAccess",
-  fields: {},
-};
-export const ProjectServiceUsagePage: TypeMeta = {
-  name: "ProjectServiceUsagePage",
-  fields: {},
-};
+export const ProjectResourceAccess: TypeMeta = { name: "ProjectResourceAccess", fields: {} };
+export const ProjectServiceUsagePage: TypeMeta = { name: "ProjectServiceUsagePage", fields: {} };
 export const ProjectServiceUsagePageInfo: TypeMeta = {
   name: "ProjectServiceUsagePageInfo",
   fields: {},
@@ -6046,40 +6145,25 @@ export const ProjectServicesConnectionEdge: TypeMeta = {
   fields: {},
 };
 export const ProjectToken: TypeMeta = { name: "ProjectToken", fields: {} };
-export const ProjectVolumesConnection: TypeMeta = {
-  name: "ProjectVolumesConnection",
-  fields: {},
-};
+export const ProjectVolumesConnection: TypeMeta = { name: "ProjectVolumesConnection", fields: {} };
 export const ProjectVolumesConnectionEdge: TypeMeta = {
   name: "ProjectVolumesConnectionEdge",
   fields: {},
 };
-export const ProjectWorkspaceMember: TypeMeta = {
-  name: "ProjectWorkspaceMember",
-  fields: {},
-};
+export const ProjectWorkspaceMember: TypeMeta = { name: "ProjectWorkspaceMember", fields: {} };
 export const ProjectWorkspaceMembersResponse: TypeMeta = {
   name: "ProjectWorkspaceMembersResponse",
   fields: {},
 };
 export const ProviderAuth: TypeMeta = { name: "ProviderAuth", fields: {} };
-export const PublicProjectInformation: TypeMeta = {
-  name: "PublicProjectInformation",
-  fields: {},
-};
+export const PublicProjectInformation: TypeMeta = { name: "PublicProjectInformation", fields: {} };
 export const PublicStats: TypeMeta = { name: "PublicStats", fields: {} };
-export const QueryApiTokensConnection: TypeMeta = {
-  name: "QueryApiTokensConnection",
-  fields: {},
-};
+export const QueryApiTokensConnection: TypeMeta = { name: "QueryApiTokensConnection", fields: {} };
 export const QueryApiTokensConnectionEdge: TypeMeta = {
   name: "QueryApiTokensConnectionEdge",
   fields: {},
 };
-export const QueryAuditLogsConnection: TypeMeta = {
-  name: "QueryAuditLogsConnection",
-  fields: {},
-};
+export const QueryAuditLogsConnection: TypeMeta = { name: "QueryAuditLogsConnection", fields: {} };
 export const QueryAuditLogsConnectionEdge: TypeMeta = {
   name: "QueryAuditLogsConnectionEdge",
   fields: {},
@@ -6148,10 +6232,7 @@ export const QueryEnvironmentsConnectionEdge: TypeMeta = {
   name: "QueryEnvironmentsConnectionEdge",
   fields: {},
 };
-export const QueryEventsConnection: TypeMeta = {
-  name: "QueryEventsConnection",
-  fields: {},
-};
+export const QueryEventsConnection: TypeMeta = { name: "QueryEventsConnection", fields: {} };
 export const QueryEventsConnectionEdge: TypeMeta = {
   name: "QueryEventsConnectionEdge",
   fields: {},
@@ -6188,10 +6269,7 @@ export const QueryObservabilityDashboardsConnectionEdge: TypeMeta = {
   name: "QueryObservabilityDashboardsConnectionEdge",
   fields: {},
 };
-export const QueryPasskeysConnection: TypeMeta = {
-  name: "QueryPasskeysConnection",
-  fields: {},
-};
+export const QueryPasskeysConnection: TypeMeta = { name: "QueryPasskeysConnection", fields: {} };
 export const QueryPasskeysConnectionEdge: TypeMeta = {
   name: "QueryPasskeysConnectionEdge",
   fields: {},
@@ -6204,10 +6282,7 @@ export const QueryProjectTokensConnectionEdge: TypeMeta = {
   name: "QueryProjectTokensConnectionEdge",
   fields: {},
 };
-export const QueryProjectsConnection: TypeMeta = {
-  name: "QueryProjectsConnection",
-  fields: {},
-};
+export const QueryProjectsConnection: TypeMeta = { name: "QueryProjectsConnection", fields: {} };
 export const QueryProjectsConnectionEdge: TypeMeta = {
   name: "QueryProjectsConnectionEdge",
   fields: {},
@@ -6220,18 +6295,12 @@ export const QuerySandboxSessionsConnectionEdge: TypeMeta = {
   name: "QuerySandboxSessionsConnectionEdge",
   fields: {},
 };
-export const QuerySandboxesConnection: TypeMeta = {
-  name: "QuerySandboxesConnection",
-  fields: {},
-};
+export const QuerySandboxesConnection: TypeMeta = { name: "QuerySandboxesConnection", fields: {} };
 export const QuerySandboxesConnectionEdge: TypeMeta = {
   name: "QuerySandboxesConnectionEdge",
   fields: {},
 };
-export const QuerySessionsConnection: TypeMeta = {
-  name: "QuerySessionsConnection",
-  fields: {},
-};
+export const QuerySessionsConnection: TypeMeta = { name: "QuerySessionsConnection", fields: {} };
 export const QuerySessionsConnectionEdge: TypeMeta = {
   name: "QuerySessionsConnectionEdge",
   fields: {},
@@ -6260,10 +6329,7 @@ export const QueryTemplateSearchConnectionEdge: TypeMeta = {
   name: "QueryTemplateSearchConnectionEdge",
   fields: {},
 };
-export const QueryTemplatesConnection: TypeMeta = {
-  name: "QueryTemplatesConnection",
-  fields: {},
-};
+export const QueryTemplatesConnection: TypeMeta = { name: "QueryTemplatesConnection", fields: {} };
 export const QueryTemplatesConnectionEdge: TypeMeta = {
   name: "QueryTemplatesConnectionEdge",
   fields: {},
@@ -6301,10 +6367,7 @@ export const QueryWorkspaceTemplatesConnectionEdge: TypeMeta = {
   fields: {},
 };
 export const RailwayDomain: TypeMeta = { name: "RailwayDomain", fields: {} };
-export const RailwayDomainDnsRecord: TypeMeta = {
-  name: "RailwayDomainDnsRecord",
-  fields: {},
-};
+export const RailwayDomainDnsRecord: TypeMeta = { name: "RailwayDomainDnsRecord", fields: {} };
 export const RailwayDomainEmailForwardingLimits: TypeMeta = {
   name: "RailwayDomainEmailForwardingLimits",
   fields: {},
@@ -6317,10 +6380,7 @@ export const RailwayDomainEmailForwardingTeardown: TypeMeta = {
   name: "RailwayDomainEmailForwardingTeardown",
   fields: {},
 };
-export const RailwayDomainNameservers: TypeMeta = {
-  name: "RailwayDomainNameservers",
-  fields: {},
-};
+export const RailwayDomainNameservers: TypeMeta = { name: "RailwayDomainNameservers", fields: {} };
 export const RecoveryCodes: TypeMeta = { name: "RecoveryCodes", fields: {} };
 export const ReferralInfo: TypeMeta = { name: "ReferralInfo", fields: {} };
 export const ReferralStats: TypeMeta = { name: "ReferralStats", fields: {} };
@@ -6330,14 +6390,8 @@ export const RegionDeploymentConstraints: TypeMeta = {
   name: "RegionDeploymentConstraints",
   fields: {},
 };
-export const RegionDeprecationInfo: TypeMeta = {
-  name: "RegionDeprecationInfo",
-  fields: {},
-};
-export const ResolvedFileConfig: TypeMeta = {
-  name: "ResolvedFileConfig",
-  fields: {},
-};
+export const RegionDeprecationInfo: TypeMeta = { name: "RegionDeprecationInfo", fields: {} };
+export const ResolvedFileConfig: TypeMeta = { name: "ResolvedFileConfig", fields: {} };
 export const ResourceAccess: TypeMeta = { name: "ResourceAccess", fields: {} };
 export const SSHSignupClaimableWorkspace: TypeMeta = {
   name: "SSHSignupClaimableWorkspace",
@@ -6346,29 +6400,14 @@ export const SSHSignupClaimableWorkspace: TypeMeta = {
 export const SSHSignupInfo: TypeMeta = { name: "SSHSignupInfo", fields: {} };
 export const SSHSignupTrial: TypeMeta = { name: "SSHSignupTrial", fields: {} };
 export const Sandbox: TypeMeta = { name: "Sandbox", fields: {} };
-export const SandboxCheckpoint: TypeMeta = {
-  name: "SandboxCheckpoint",
-  fields: {},
-};
+export const SandboxCheckpoint: TypeMeta = { name: "SandboxCheckpoint", fields: {} };
 export const SandboxDomain: TypeMeta = { name: "SandboxDomain", fields: {} };
-export const SandboxExecResult: TypeMeta = {
-  name: "SandboxExecResult",
-  fields: {},
-};
+export const SandboxExecResult: TypeMeta = { name: "SandboxExecResult", fields: {} };
 export const SandboxSession: TypeMeta = { name: "SandboxSession", fields: {} };
-export const SandboxSessionRunState: TypeMeta = {
-  name: "SandboxSessionRunState",
-  fields: {},
-};
-export const SandboxTemplateBuild: TypeMeta = {
-  name: "SandboxTemplateBuild",
-  fields: {},
-};
+export const SandboxSessionRunState: TypeMeta = { name: "SandboxSessionRunState", fields: {} };
+export const SandboxTemplateBuild: TypeMeta = { name: "SandboxTemplateBuild", fields: {} };
 export const Service: TypeMeta = { name: "Service", fields: {} };
-export const ServiceBackupInfo: TypeMeta = {
-  name: "ServiceBackupInfo",
-  fields: {},
-};
+export const ServiceBackupInfo: TypeMeta = { name: "ServiceBackupInfo", fields: {} };
 export const ServiceDeploymentsConnection: TypeMeta = {
   name: "ServiceDeploymentsConnection",
   fields: {},
@@ -6378,10 +6417,7 @@ export const ServiceDeploymentsConnectionEdge: TypeMeta = {
   fields: {},
 };
 export const ServiceDomain: TypeMeta = { name: "ServiceDomain", fields: {} };
-export const ServiceInstance: TypeMeta = {
-  name: "ServiceInstance",
-  fields: {},
-};
+export const ServiceInstance: TypeMeta = { name: "ServiceInstance", fields: {} };
 export const ServiceInstanceAutoDeployStatus: TypeMeta = {
   name: "ServiceInstanceAutoDeployStatus",
   fields: {},
@@ -6407,68 +6443,36 @@ export const ServiceServiceInstancesConnectionEdge: TypeMeta = {
   fields: {},
 };
 export const ServiceSource: TypeMeta = { name: "ServiceSource", fields: {} };
+export const ServiceTracingStatus: TypeMeta = { name: "ServiceTracingStatus", fields: {} };
 export const Session: TypeMeta = { name: "Session", fields: {} };
 export const Signal: TypeMeta = { name: "Signal", fields: {} };
 export const SignalChange: TypeMeta = { name: "SignalChange", fields: {} };
-export const SignalEvaluation: TypeMeta = {
-  name: "SignalEvaluation",
-  fields: {},
-};
-export const SimilarTemplate: TypeMeta = {
-  name: "SimilarTemplate",
-  fields: {},
-};
-export const SpendCommitment: TypeMeta = {
-  name: "SpendCommitment",
-  fields: {},
-};
+export const SignalEvaluation: TypeMeta = { name: "SignalEvaluation", fields: {} };
+export const SimilarTemplate: TypeMeta = { name: "SimilarTemplate", fields: {} };
+export const SpendCommitment: TypeMeta = { name: "SpendCommitment", fields: {} };
 export const SshPublicKey: TypeMeta = { name: "SshPublicKey", fields: {} };
 export const StaleWhileRevalidateConfig: TypeMeta = {
   name: "StaleWhileRevalidateConfig",
   fields: {},
 };
-export const SubscriptionDiscount: TypeMeta = {
-  name: "SubscriptionDiscount",
-  fields: {},
-};
-export const SubscriptionItem: TypeMeta = {
-  name: "SubscriptionItem",
-  fields: {},
-};
+export const SubscriptionDiscount: TypeMeta = { name: "SubscriptionDiscount", fields: {} };
+export const SubscriptionItem: TypeMeta = { name: "SubscriptionItem", fields: {} };
 export const TCPProxy: TypeMeta = { name: "TCPProxy", fields: {} };
 export const Team: TypeMeta = { name: "Team", fields: {} };
 export const TeamMember: TypeMeta = { name: "TeamMember", fields: {} };
 export const TeamPermission: TypeMeta = { name: "TeamPermission", fields: {} };
-export const TeamProjectsConnection: TypeMeta = {
-  name: "TeamProjectsConnection",
-  fields: {},
-};
+export const TeamProjectsConnection: TypeMeta = { name: "TeamProjectsConnection", fields: {} };
 export const TeamProjectsConnectionEdge: TypeMeta = {
   name: "TeamProjectsConnectionEdge",
   fields: {},
 };
 export const Template: TypeMeta = { name: "Template", fields: {} };
-export const TemplateCreator: TypeMeta = {
-  name: "TemplateCreator",
-  fields: {},
-};
-export const TemplateDeployPayload: TypeMeta = {
-  name: "TemplateDeployPayload",
-  fields: {},
-};
+export const TemplateCreator: TypeMeta = { name: "TemplateCreator", fields: {} };
+export const TemplateDeployPayload: TypeMeta = { name: "TemplateDeployPayload", fields: {} };
 export const TemplateGuide: TypeMeta = { name: "TemplateGuide", fields: {} };
-export const TemplateMetrics: TypeMeta = {
-  name: "TemplateMetrics",
-  fields: {},
-};
-export const TemplateSearchResult: TypeMeta = {
-  name: "TemplateSearchResult",
-  fields: {},
-};
-export const TemplateService: TypeMeta = {
-  name: "TemplateService",
-  fields: {},
-};
+export const TemplateMetrics: TypeMeta = { name: "TemplateMetrics", fields: {} };
+export const TemplateSearchResult: TypeMeta = { name: "TemplateSearchResult", fields: {} };
+export const TemplateService: TypeMeta = { name: "TemplateService", fields: {} };
 export const TemplateServicesConnection: TypeMeta = {
   name: "TemplateServicesConnection",
   fields: {},
@@ -6477,27 +6481,22 @@ export const TemplateServicesConnectionEdge: TypeMeta = {
   name: "TemplateServicesConnectionEdge",
   fields: {},
 };
+export const TraceSpan: TypeMeta = { name: "TraceSpan", fields: {} };
+export const TraceSpanEvent: TypeMeta = { name: "TraceSpanEvent", fields: {} };
+export const TraceSpanLink: TypeMeta = { name: "TraceSpanLink", fields: {} };
+export const TraceSummary: TypeMeta = { name: "TraceSummary", fields: {} };
 export const TrustedDomain: TypeMeta = { name: "TrustedDomain", fields: {} };
 export const TrustedDomainVerificationData: TypeMeta = {
   name: "TrustedDomainVerificationData",
   fields: {},
 };
 export const TwoFactorInfo: TypeMeta = { name: "TwoFactorInfo", fields: {} };
-export const TwoFactorInfoSecret: TypeMeta = {
-  name: "TwoFactorInfoSecret",
-  fields: {},
-};
+export const TwoFactorInfoSecret: TypeMeta = { name: "TwoFactorInfoSecret", fields: {} };
 export const UsageLimit: TypeMeta = { name: "UsageLimit", fields: {} };
 export const User: TypeMeta = { name: "User", fields: {} };
-export const UserKickbackEarnings: TypeMeta = {
-  name: "UserKickbackEarnings",
-  fields: {},
-};
+export const UserKickbackEarnings: TypeMeta = { name: "UserKickbackEarnings", fields: {} };
 export const UserProfile: TypeMeta = { name: "UserProfile", fields: {} };
-export const UserProfileResponse: TypeMeta = {
-  name: "UserProfileResponse",
-  fields: {},
-};
+export const UserProfileResponse: TypeMeta = { name: "UserProfileResponse", fields: {} };
 export const UserProfileResponsePublicProjectsConnection: TypeMeta = {
   name: "UserProfileResponsePublicProjectsConnection",
   fields: {},
@@ -6506,10 +6505,7 @@ export const UserProfileResponsePublicProjectsConnectionEdge: TypeMeta = {
   name: "UserProfileResponsePublicProjectsConnectionEdge",
   fields: {},
 };
-export const UserProjectsConnection: TypeMeta = {
-  name: "UserProjectsConnection",
-  fields: {},
-};
+export const UserProjectsConnection: TypeMeta = { name: "UserProjectsConnection", fields: {} };
 export const UserProjectsConnectionEdge: TypeMeta = {
   name: "UserProjectsConnectionEdge",
   fields: {},
@@ -6528,10 +6524,7 @@ export const VercelInfo: TypeMeta = { name: "VercelInfo", fields: {} };
 export const VercelProject: TypeMeta = { name: "VercelProject", fields: {} };
 export const Volume: TypeMeta = { name: "Volume", fields: {} };
 export const VolumeInstance: TypeMeta = { name: "VolumeInstance", fields: {} };
-export const VolumeInstanceBackup: TypeMeta = {
-  name: "VolumeInstanceBackup",
-  fields: {},
-};
+export const VolumeInstanceBackup: TypeMeta = { name: "VolumeInstanceBackup", fields: {} };
 export const VolumeInstanceBackupSchedule: TypeMeta = {
   name: "VolumeInstanceBackupSchedule",
   fields: {},
@@ -6567,10 +6560,7 @@ export const WorkspaceAccessGroupsConnectionEdge: TypeMeta = {
   name: "WorkspaceAccessGroupsConnectionEdge",
   fields: {},
 };
-export const WorkspaceIdPConnection: TypeMeta = {
-  name: "WorkspaceIdPConnection",
-  fields: {},
-};
+export const WorkspaceIdPConnection: TypeMeta = { name: "WorkspaceIdPConnection", fields: {} };
 export const WorkspaceIdentityProvider: TypeMeta = {
   name: "WorkspaceIdentityProvider",
   fields: {},
@@ -6583,14 +6573,8 @@ export const WorkspaceIdentityProvidersConnectionEdge: TypeMeta = {
   name: "WorkspaceIdentityProvidersConnectionEdge",
   fields: {},
 };
-export const WorkspaceMember: TypeMeta = {
-  name: "WorkspaceMember",
-  fields: {},
-};
-export const WorkspacePolicy: TypeMeta = {
-  name: "WorkspacePolicy",
-  fields: {},
-};
+export const WorkspaceMember: TypeMeta = { name: "WorkspaceMember", fields: {} };
+export const WorkspacePolicy: TypeMeta = { name: "WorkspacePolicy", fields: {} };
 export const WorkspacePolicyDeploySourceAllowlist: TypeMeta = {
   name: "WorkspacePolicyDeploySourceAllowlist",
   fields: {},
@@ -6623,10 +6607,7 @@ export const ObservabilityDashboardMonitorConfig: TypeMeta = {
   name: "ObservabilityDashboardMonitorConfig",
   fields: {},
 };
-export const PublicProjectInvitation: TypeMeta = {
-  name: "PublicProjectInvitation",
-  fields: {},
-};
+export const PublicProjectInvitation: TypeMeta = { name: "PublicProjectInvitation", fields: {} };
 
 Object.assign(AccessGroup.fields, {
   createdAt: scalarField("createdAt"),
@@ -6871,6 +6852,28 @@ Object.assign(ChangeSetPreview.fields, {
   effects: scalarField("effects"),
 });
 
+Object.assign(ClearanceToken.fields, {
+  createdAt: scalarField("createdAt"),
+  creator: objectField("creator", ClearanceTokenCreator),
+  environmentId: scalarField("environmentId"),
+  environmentName: scalarField("environmentName"),
+  expiresAt: scalarField("expiresAt"),
+  id: scalarField("id"),
+  name: scalarField("name"),
+});
+
+Object.assign(ClearanceTokenCreatePayload.fields, {
+  clearanceToken: objectField("clearanceToken", ClearanceToken),
+  token: scalarField("token"),
+});
+
+Object.assign(ClearanceTokenCreator.fields, {
+  avatar: scalarField("avatar"),
+  email: scalarField("email"),
+  id: scalarField("id"),
+  name: scalarField("name"),
+});
+
 Object.assign(CloudAgent.fields, {
   agentWsUrl: scalarField("agentWsUrl"),
   consoleTargetId: scalarField("consoleTargetId"),
@@ -6898,10 +6901,20 @@ Object.assign(CloudAgentCheckpoint.fields, {
   status: scalarField("status"),
 });
 
+Object.assign(CloudAgentDeployResult.fields, {
+  deploymentId: scalarField("deploymentId"),
+  serviceId: scalarField("serviceId"),
+});
+
 Object.assign(CloudAgentDomain.fields, {
   domain: scalarField("domain"),
   port: scalarField("port"),
   prefix: scalarField("prefix"),
+});
+
+Object.assign(CloudAgentRepository.fields, {
+  path: scalarField("path"),
+  repo: scalarField("repo"),
 });
 
 Object.assign(CloudAgentSnapshot.fields, {
@@ -6920,9 +6933,89 @@ Object.assign(CloudAgentSnapshot.fields, {
 
 Object.assign(CloudAgentSource.fields, {
   branch: scalarField("branch"),
+  dir: scalarField("dir"),
   repo: scalarField("repo"),
+  repos: listField("repos", CloudAgentRepository),
   serviceId: scalarField("serviceId"),
   status: scalarField("status"),
+});
+
+Object.assign(CloudAgentTask.fields, {
+  cloudAgentId: scalarField("cloudAgentId"),
+  completedAt: scalarField("completedAt"),
+  createdAt: scalarField("createdAt"),
+  createdVia: scalarField("createdVia"),
+  error: scalarField("error"),
+  externalRef: scalarField("externalRef"),
+  id: scalarField("id"),
+  metadata: scalarField("metadata"),
+  promptPreview: scalarField("promptPreview"),
+  requestedByUserId: scalarField("requestedByUserId"),
+  sessionId: scalarField("sessionId"),
+  startedAt: scalarField("startedAt"),
+  status: scalarField("status"),
+  structuredOutput: scalarField("structuredOutput"),
+  text: scalarField("text"),
+});
+
+Object.assign(CloudAgentTaskCancelResult.fields, {
+  status: scalarField("status"),
+  taskId: scalarField("taskId"),
+});
+
+Object.assign(CloudAgentTaskHandle.fields, {
+  cloudAgentId: scalarField("cloudAgentId"),
+  replayed: scalarField("replayed"),
+  sessionId: scalarField("sessionId"),
+  status: scalarField("status"),
+  taskId: scalarField("taskId"),
+});
+
+Object.assign(CloudAgentTaskInteraction.fields, {
+  actions: scalarField("actions"),
+  expiresAt: scalarField("expiresAt"),
+  fields: scalarField("fields"),
+  kind: scalarField("kind"),
+  message: scalarField("message"),
+  requestedAt: scalarField("requestedAt"),
+  requestId: scalarField("requestId"),
+  server: scalarField("server"),
+  summary: scalarField("summary"),
+  tool: scalarField("tool"),
+});
+
+Object.assign(CloudAgentTaskPage.fields, {
+  nextCursor: scalarField("nextCursor"),
+  tasks: listField("tasks", CloudAgentTask),
+});
+
+Object.assign(CloudAgentTaskProgress.fields, {
+  attempt: scalarField("attempt"),
+  steps: scalarField("steps"),
+  todos: scalarField("todos"),
+  tools: scalarField("tools"),
+  updatedAt: scalarField("updatedAt"),
+});
+
+Object.assign(CloudAgentTaskRespondResult.fields, {
+  outcome: scalarField("outcome"),
+  taskId: scalarField("taskId"),
+});
+
+Object.assign(CloudAgentTaskResult.fields, {
+  cloudAgentId: scalarField("cloudAgentId"),
+  completedAt: scalarField("completedAt"),
+  error: scalarField("error"),
+  externalRef: scalarField("externalRef"),
+  metadata: scalarField("metadata"),
+  pendingInteractions: listField("pendingInteractions", CloudAgentTaskInteraction),
+  progress: objectField("progress", CloudAgentTaskProgress),
+  sessionId: scalarField("sessionId"),
+  sessionState: scalarField("sessionState"),
+  status: scalarField("status"),
+  structuredOutput: scalarField("structuredOutput"),
+  taskId: scalarField("taskId"),
+  text: scalarField("text"),
 });
 
 Object.assign(CnameCheck.fields, {
@@ -7296,6 +7389,12 @@ Object.assign(EgressMigrationResult.fields, {
 Object.assign(Environment.fields, {
   canAccess: scalarField("canAccess"),
   canvasGroupRefs: scalarField("canvasGroupRefs"),
+  clearanceCachingTurnedOff: scalarField("clearanceCachingTurnedOff"),
+  clearanceDefault: scalarField("clearanceDefault"),
+  clearanceDefaultUpdatedAt: scalarField("clearanceDefaultUpdatedAt"),
+  clearancePropagatedAt: scalarField("clearancePropagatedAt"),
+  clearancePropagationError: scalarField("clearancePropagationError"),
+  clearanceServiceCounts: objectField("clearanceServiceCounts", EnvironmentClearanceServiceCounts),
   config: scalarField("config"),
   configEtag: scalarField("configEtag"),
   createdAt: scalarField("createdAt"),
@@ -7339,6 +7438,12 @@ Object.assign(Environment.fields, {
     first: "Int",
     last: "Int",
   }),
+});
+
+Object.assign(EnvironmentClearanceServiceCounts.fields, {
+  inheriting: scalarField("inheriting"),
+  off: scalarField("off"),
+  on: scalarField("on"),
 });
 
 Object.assign(EnvironmentConfigPlanCommentUpsertResult.fields, {
@@ -7599,6 +7704,11 @@ Object.assign(HttpMetricsResult.fields, {
 Object.assign(HttpMetricsSample.fields, {
   ts: scalarField("ts"),
   value: scalarField("value"),
+});
+
+Object.assign(IacPartialOwnershipResult.fields, {
+  affectedResources: scalarField("affectedResources"),
+  iacPartials: scalarField("iacPartials"),
 });
 
 Object.assign(Incident.fields, {
@@ -8068,6 +8178,8 @@ Object.assign(Project.fields, {
     first: "Int",
     last: "Int",
   }),
+  clearanceDefaultForNewEnvironments: scalarField("clearanceDefaultForNewEnvironments"),
+  clearanceTokens: listField("clearanceTokens", ClearanceToken),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
   deployments: connectionField("deployments", Deployment, {
@@ -8869,6 +8981,7 @@ Object.assign(SandboxTemplateBuild.fields, {
 });
 
 Object.assign(Service.fields, {
+  autoInstrumentationEnabled: scalarField("autoInstrumentationEnabled"),
   createdAt: scalarField("createdAt"),
   deletedAt: scalarField("deletedAt"),
   deployments: connectionField("deployments", Deployment, {
@@ -8941,8 +9054,11 @@ Object.assign(ServiceDomain.fields, {
 
 Object.assign(ServiceInstance.fields, {
   activeDeployments: listField("activeDeployments", Deployment),
+  autoInstrumentationEnabled: scalarField("autoInstrumentationEnabled"),
   buildCommand: scalarField("buildCommand"),
   builder: scalarField("builder"),
+  clearance: scalarField("clearance"),
+  clearanceEffective: scalarField("clearanceEffective"),
   createdAt: scalarField("createdAt"),
   cronSchedule: scalarField("cronSchedule"),
   deletedAt: scalarField("deletedAt"),
@@ -8977,6 +9093,7 @@ Object.assign(ServiceInstance.fields, {
   sleepApplication: scalarField("sleepApplication"),
   source: objectField("source", ServiceSource),
   startCommand: scalarField("startCommand"),
+  tracingEnabled: scalarField("tracingEnabled"),
   updatedAt: scalarField("updatedAt"),
   upstreamUrl: scalarField("upstreamUrl"),
   watchPatterns: scalarField("watchPatterns"),
@@ -9015,6 +9132,12 @@ Object.assign(ServiceServiceInstancesConnectionEdge.fields, {
 Object.assign(ServiceSource.fields, {
   image: scalarField("image"),
   repo: scalarField("repo"),
+});
+
+Object.assign(ServiceTracingStatus.fields, {
+  lastEdgeSpanAt: scalarField("lastEdgeSpanAt"),
+  lastServiceSpanAt: scalarField("lastServiceSpanAt"),
+  serviceId: scalarField("serviceId"),
 });
 
 Object.assign(Session.fields, {
@@ -9221,6 +9344,7 @@ Object.assign(TemplateCreator.fields, {
 });
 
 Object.assign(TemplateDeployPayload.fields, {
+  operationId: scalarField("operationId"),
   projectId: scalarField("projectId"),
   workflowId: scalarField("workflowId"),
 });
@@ -9270,6 +9394,54 @@ Object.assign(TemplateServicesConnection.fields, {
 Object.assign(TemplateServicesConnectionEdge.fields, {
   cursor: scalarField("cursor"),
   node: objectField("node", TemplateService),
+});
+
+Object.assign(TraceSpan.fields, {
+  component: scalarField("component"),
+  deploymentId: scalarField("deploymentId"),
+  deploymentInstanceId: scalarField("deploymentInstanceId"),
+  durationMs: scalarField("durationMs"),
+  events: listField("events", TraceSpanEvent),
+  kind: scalarField("kind"),
+  links: listField("links", TraceSpanLink),
+  name: scalarField("name"),
+  parentSpanId: scalarField("parentSpanId"),
+  resourceAttributes: scalarField("resourceAttributes"),
+  serviceId: scalarField("serviceId"),
+  serviceName: scalarField("serviceName"),
+  spanAttributes: scalarField("spanAttributes"),
+  spanId: scalarField("spanId"),
+  startedAt: scalarField("startedAt"),
+  statusCode: scalarField("statusCode"),
+  statusMessage: scalarField("statusMessage"),
+  traceId: scalarField("traceId"),
+});
+
+Object.assign(TraceSpanEvent.fields, {
+  attributes: scalarField("attributes"),
+  name: scalarField("name"),
+  timestamp: scalarField("timestamp"),
+});
+
+Object.assign(TraceSpanLink.fields, {
+  spanId: scalarField("spanId"),
+  traceId: scalarField("traceId"),
+});
+
+Object.assign(TraceSummary.fields, {
+  durationMs: scalarField("durationMs"),
+  errorCount: scalarField("errorCount"),
+  hasEdge: scalarField("hasEdge"),
+  rootComponent: scalarField("rootComponent"),
+  rootServerAddress: scalarField("rootServerAddress"),
+  rootServiceId: scalarField("rootServiceId"),
+  rootServiceName: scalarField("rootServiceName"),
+  rootSpanName: scalarField("rootSpanName"),
+  rootUrlPath: scalarField("rootUrlPath"),
+  serviceName: scalarField("serviceName"),
+  spanCount: scalarField("spanCount"),
+  startedAt: scalarField("startedAt"),
+  traceId: scalarField("traceId"),
 });
 
 Object.assign(TrustedDomain.fields, {
@@ -9708,17 +9880,13 @@ Object.assign(WorkspaceProjectsConnectionEdge.fields, {
   node: objectField("node", Project),
 });
 
-Object.assign(NotificationDeliveryUpdate.fields, {
-  __typename: scalarField("__typename"),
-});
+Object.assign(NotificationDeliveryUpdate.fields, { __typename: scalarField("__typename") });
 
 Object.assign(ObservabilityDashboardMonitorConfig.fields, {
   __typename: scalarField("__typename"),
 });
 
-Object.assign(PublicProjectInvitation.fields, {
-  __typename: scalarField("__typename"),
-});
+Object.assign(PublicProjectInvitation.fields, { __typename: scalarField("__typename") });
 
 export const Railway = {
   adminVolumeInstancesForVolume: (args: {
@@ -9903,13 +10071,7 @@ export const Railway = {
       "cloudAgentCheckpoints",
       CloudAgentCheckpoint,
       args,
-      {
-        after: "String",
-        before: "String",
-        environmentId: "ID!",
-        first: "Int",
-        last: "Int",
-      },
+      { after: "String", before: "String", environmentId: "ID!", first: "Int", last: "Int" },
       globalErrors,
     ),
   cloudAgentConsoleSessions: (args: {
@@ -9924,13 +10086,7 @@ export const Railway = {
       "cloudAgentConsoleSessions",
       SandboxSession,
       args,
-      {
-        after: "String",
-        before: "String",
-        cloudAgentId: "ID!",
-        first: "Int",
-        last: "Int",
-      },
+      { after: "String", before: "String", cloudAgentId: "ID!", first: "Int", last: "Int" },
       globalErrors,
     ),
   cloudAgents: (args: {
@@ -9943,6 +10099,42 @@ export const Railway = {
       CloudAgent,
       args,
       { environmentId: "ID!", mine: "Boolean" },
+      globalErrors,
+    ),
+  cloudAgentTask: (args: {
+    readonly cloudAgentId: string;
+    readonly sessionId: string;
+    readonly taskId?: string | null;
+  }): Query<CloudAgentTaskResult, RailwayGlobalError> =>
+    root(
+      "query",
+      "cloudAgentTask",
+      CloudAgentTaskResult,
+      args,
+      { cloudAgentId: "String!", sessionId: "String!", taskId: "String" },
+      globalErrors,
+    ),
+  cloudAgentTasks: (args: {
+    readonly environmentId: string;
+    readonly cloudAgentId?: string | null;
+    readonly cursor?: string | null;
+    readonly limit?: number | null;
+    readonly sessionId?: string | null;
+    readonly status?: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING" | null;
+  }): Query<CloudAgentTaskPage, RailwayGlobalError> =>
+    root(
+      "query",
+      "cloudAgentTasks",
+      CloudAgentTaskPage,
+      args,
+      {
+        cloudAgentId: "String",
+        cursor: "String",
+        environmentId: "String!",
+        limit: "Int",
+        sessionId: "String",
+        status: "CloudAgentTaskStatus",
+      },
       globalErrors,
     ),
   complianceAgreements: (args: {
@@ -9994,13 +10186,7 @@ export const Railway = {
       "deploymentEvents",
       DeploymentEvent,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        id: "String!",
-        last: "Int",
-      },
+      { after: "String", before: "String", first: "Int", id: "String!", last: "Int" },
       globalErrors,
     ),
   deploymentInstanceExecutions: (args: {
@@ -10236,12 +10422,7 @@ export const Railway = {
       "environmentHistory",
       ProjectHistoryEntry,
       args,
-      {
-        after: "String",
-        environmentId: "String!",
-        filter: "HistoryFilterInput",
-        first: "Int",
-      },
+      { after: "String", environmentId: "String!", filter: "HistoryFilterInput", first: "Int" },
       globalErrors,
     ),
   environmentLogs: (args: {
@@ -10283,13 +10464,7 @@ export const Railway = {
       "environmentPatches",
       EnvironmentPatch,
       args,
-      {
-        after: "String",
-        before: "String",
-        environmentId: "String!",
-        first: "Int",
-        last: "Int",
-      },
+      { after: "String", before: "String", environmentId: "String!", first: "Int", last: "Int" },
       globalErrors,
     ),
   environmentPendingWork: (args: {
@@ -10642,13 +10817,7 @@ export const Railway = {
       "integrations",
       Integration,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        projectId: "String!",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", projectId: "String!" },
       globalErrors,
     ),
   inviteCode: (args: { readonly code: string }): Query<InviteCode, RailwayGlobalError> =>
@@ -10827,13 +10996,7 @@ export const Railway = {
       "observabilityDashboards",
       ObservabilityDashboard,
       args,
-      {
-        after: "String",
-        before: "String",
-        environmentId: "String!",
-        first: "Int",
-        last: "Int",
-      },
+      { after: "String", before: "String", environmentId: "String!", first: "Int", last: "Int" },
       globalErrors,
     ),
   passkeys: (args?: {
@@ -10915,11 +11078,7 @@ export const Railway = {
       "privateNetworkEndpoint",
       PrivateNetworkEndpoint,
       args,
-      {
-        environmentId: "String!",
-        privateNetworkId: "String!",
-        serviceId: "String!",
-      },
+      { environmentId: "String!", privateNetworkId: "String!", serviceId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   privateNetworkEndpointNameAvailable: (args: {
@@ -10932,11 +11091,7 @@ export const Railway = {
       "privateNetworkEndpointNameAvailable",
       false,
       args,
-      {
-        environmentId: "String!",
-        prefix: "String!",
-        privateNetworkId: "String!",
-      },
+      { environmentId: "String!", prefix: "String!", privateNetworkId: "String!" },
       globalErrors,
     ),
   privateNetworks: (args: {
@@ -11117,13 +11272,7 @@ export const Railway = {
       "projectTokens",
       ProjectToken,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        projectId: "String!",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", projectId: "String!" },
       globalErrors,
     ),
   projectWorkspaceMembers: (args: {
@@ -11448,13 +11597,7 @@ export const Railway = {
       "sshPublicKeys",
       SshPublicKey,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        workspaceId: "String",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", workspaceId: "String" },
       globalErrors,
     ),
   sshSignupInfo: (args: { readonly code: string }): Query<SSHSignupInfo, RailwayGlobalError> =>
@@ -11485,13 +11628,7 @@ export const Railway = {
       "teamTemplates",
       Template,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        teamId: "String!",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", teamId: "String!" },
       globalErrors,
     ),
   template: (args?: {
@@ -11571,6 +11708,53 @@ export const Railway = {
       { projectId: "String!" },
       globalErrors,
     ),
+  trace: (args: {
+    readonly environmentId: string;
+    readonly traceId: string;
+    readonly maxSpans?: number | null;
+  }): Query<ReadonlyArray<TraceSpan>, RailwayGlobalError> =>
+    rootList(
+      "query",
+      "trace",
+      TraceSpan,
+      args,
+      { environmentId: "String!", maxSpans: "Int", traceId: "String!" },
+      globalErrors,
+    ),
+  traces: (args: {
+    readonly environmentId: string;
+    readonly endDate?: string | null;
+    readonly filter?: string | null;
+    readonly limit?: number | null;
+    readonly serviceId?: string | null;
+    readonly startDate?: string | null;
+  }): Query<ReadonlyArray<TraceSummary>, RailwayGlobalError> =>
+    rootList(
+      "query",
+      "traces",
+      TraceSummary,
+      args,
+      {
+        endDate: "String",
+        environmentId: "String!",
+        filter: "String",
+        limit: "Int",
+        serviceId: "String",
+        startDate: "String",
+      },
+      globalErrors,
+    ),
+  tracingStatus: (args: {
+    readonly environmentId: string;
+  }): Query<ReadonlyArray<ServiceTracingStatus>, RailwayGlobalError> =>
+    rootList(
+      "query",
+      "tracingStatus",
+      ServiceTracingStatus,
+      args,
+      { environmentId: "String!" },
+      globalErrors,
+    ),
   trustedDomains: (args: {
     readonly workspaceId: string;
     readonly after?: string | null;
@@ -11583,13 +11767,7 @@ export const Railway = {
       "trustedDomains",
       TrustedDomain,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        workspaceId: "String!",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", workspaceId: "String!" },
       globalErrors,
     ),
   twoFactorInfo: (): Query<TwoFactorInfo, RailwayGlobalError> =>
@@ -11768,11 +11946,7 @@ export const Railway = {
       "volumeInstancePitrRestoreEstimate",
       PitrRestoreScratchEstimate,
       args,
-      {
-        sourceRepoPath: "String",
-        targetTimestamp: "DateTime!",
-        volumeInstanceId: "String!",
-      },
+      { sourceRepoPath: "String", targetTimestamp: "DateTime!", volumeInstanceId: "String!" },
       globalErrors,
     ),
   workflowStatus: (args: {
@@ -11800,13 +11974,7 @@ export const Railway = {
       "workspaceIdentityProviders",
       WorkspaceIdentityProvider,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        workspaceId: "String!",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", workspaceId: "String!" },
       globalErrors,
     ),
   workspacePolicy: (args: {
@@ -11829,10 +11997,7 @@ export const Railway = {
       "workspacePolicySelectableDeploySources",
       WorkspacePolicySelectableDeploySource,
       args,
-      {
-        sourceType: "WorkspacePolicyDeploySourceType!",
-        workspaceId: "String!",
-      },
+      { sourceType: "WorkspacePolicyDeploySourceType!", workspaceId: "String!" },
       globalErrors,
     ),
   workspaceTemplates: (args: {
@@ -11847,13 +12012,7 @@ export const Railway = {
       "workspaceTemplates",
       Template,
       args,
-      {
-        after: "String",
-        before: "String",
-        first: "Int",
-        last: "Int",
-        workspaceId: "String!",
-      },
+      { after: "String", before: "String", first: "Int", last: "Int", workspaceId: "String!" },
       globalErrors,
     ),
   workspaceUsageTotals: (args: {
@@ -12060,6 +12219,19 @@ export const Railway = {
       { sourceEnvironmentId: "String!", targetEnvironmentId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
+  clearanceTokenCreate: (args: {
+    readonly input: ClearanceTokenCreateInput;
+  }): Query<ClearanceTokenCreatePayload, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "clearanceTokenCreate",
+      ClearanceTokenCreatePayload,
+      args,
+      { input: "ClearanceTokenCreateInput!" },
+      globalErrors,
+    ),
+  clearanceTokenRevoke: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf("mutation", "clearanceTokenRevoke", false, args, { id: "String!" }, globalErrors),
   clearPitrHaWorkflowProgress: (args: {
     readonly environmentId: string;
     readonly rootServiceId: string;
@@ -12121,6 +12293,20 @@ export const Railway = {
     ),
   cloudAgentDelete: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
     rootLeaf("mutation", "cloudAgentDelete", false, args, { id: "ID!" }, globalErrors),
+  cloudAgentDeploy: (args: {
+    readonly id: string;
+    readonly path?: string | null;
+    readonly regions?: unknown | null;
+    readonly serviceName?: string | null;
+  }): Query<CloudAgentDeployResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "cloudAgentDeploy",
+      CloudAgentDeployResult,
+      args,
+      { id: "ID!", path: "String", regions: "JSON", serviceName: "String" },
+      globalErrors,
+    ),
   cloudAgentFeedbackCreate: (args: {
     readonly input: CloudAgentFeedbackInput;
   }): Query<string, RailwayGlobalError> =>
@@ -12168,6 +12354,51 @@ export const Railway = {
       false,
       args,
       { input: "CloudAgentStateReportInput!" },
+      globalErrors,
+    ),
+  cloudAgentTaskCancel: (args: {
+    readonly taskId: string;
+  }): Query<CloudAgentTaskCancelResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "cloudAgentTaskCancel",
+      CloudAgentTaskCancelResult,
+      args,
+      { taskId: "String!" },
+      globalErrors,
+    ),
+  cloudAgentTaskDispatch: (args: {
+    readonly input: CloudAgentTaskDispatchInput;
+  }): Query<CloudAgentTaskHandle, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "cloudAgentTaskDispatch",
+      CloudAgentTaskHandle,
+      args,
+      { input: "CloudAgentTaskDispatchInput!" },
+      globalErrors,
+    ),
+  cloudAgentTaskRecover: (args: {
+    readonly cloudAgentId: string;
+    readonly sessionId: string;
+  }): Query<CloudAgentTaskResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "cloudAgentTaskRecover",
+      CloudAgentTaskResult,
+      args,
+      { cloudAgentId: "String!", sessionId: "String!" },
+      globalErrors,
+    ),
+  cloudAgentTaskRespond: (args: {
+    readonly input: CloudAgentTaskRespondInput;
+  }): Query<CloudAgentTaskRespondResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "cloudAgentTaskRespond",
+      CloudAgentTaskRespondResult,
+      args,
+      { input: "CloudAgentTaskRespondInput!" },
       globalErrors,
     ),
   cloudAgentWake: (args: { readonly id: string }): Query<CloudAgent, RailwayGlobalError> =>
@@ -12469,6 +12700,17 @@ export const Railway = {
       },
       globalErrors,
     ),
+  environmentClearanceDefaultUpdate: (args: {
+    readonly input: EnvironmentClearanceDefaultUpdateInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "environmentClearanceDefaultUpdate",
+      false,
+      args,
+      { input: "EnvironmentClearanceDefaultUpdateInput!" },
+      globalErrors,
+    ),
   environmentConfigPlanCommentUpsert: (args: {
     readonly input: EnvironmentConfigPlanCommentUpsertInput;
   }): Query<EnvironmentConfigPlanCommentUpsertResult, RailwayGlobalError> =>
@@ -12494,10 +12736,51 @@ export const Railway = {
       RailwayNotFoundSpec,
       ...globalErrors,
     ]),
+  environmentIacPartialRelease: (args: {
+    readonly environmentId: string;
+    readonly partial: string;
+    readonly baseConfigEtag?: string | null;
+    readonly resources?: ReadonlyArray<string> | null;
+  }): Query<IacPartialOwnershipResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "environmentIacPartialRelease",
+      IacPartialOwnershipResult,
+      args,
+      {
+        baseConfigEtag: "String",
+        environmentId: "String!",
+        partial: "String!",
+        resources: "[String!]",
+      },
+      globalErrors,
+    ),
+  environmentIacPartialTransfer: (args: {
+    readonly environmentId: string;
+    readonly fromPartial: string;
+    readonly toPartial: string;
+    readonly baseConfigEtag?: string | null;
+    readonly resources?: ReadonlyArray<string> | null;
+  }): Query<IacPartialOwnershipResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "environmentIacPartialTransfer",
+      IacPartialOwnershipResult,
+      args,
+      {
+        baseConfigEtag: "String",
+        environmentId: "String!",
+        fromPartial: "String!",
+        resources: "[String!]",
+        toPartial: "String!",
+      },
+      globalErrors,
+    ),
   environmentPatchCommit: (args: {
     readonly environmentId: string;
     readonly commitMessage?: string | null;
     readonly patch?: unknown | null;
+    readonly skipDeploys?: boolean | null;
   }): Query<string, RailwayNotFound | RailwayGlobalError> =>
     rootLeaf(
       "mutation",
@@ -12508,6 +12791,7 @@ export const Railway = {
         commitMessage: "String",
         environmentId: "String!",
         patch: "EnvironmentConfig",
+        skipDeploys: "Boolean",
       },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
@@ -12521,11 +12805,7 @@ export const Railway = {
       "environmentPatchCommitStaged",
       false,
       args,
-      {
-        commitMessage: "String",
-        environmentId: "String!",
-        skipDeploys: "Boolean",
-      },
+      { commitMessage: "String", environmentId: "String!", skipDeploys: "Boolean" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   environmentPatchRestage: (args: {
@@ -12573,11 +12853,7 @@ export const Railway = {
       "environmentStageChanges",
       EnvironmentPatch,
       args,
-      {
-        environmentId: "String!",
-        input: "EnvironmentConfig!",
-        merge: "Boolean",
-      },
+      { environmentId: "String!", input: "EnvironmentConfig!", merge: "Boolean" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   environmentTriggersDeploy: (args: {
@@ -12960,6 +13236,17 @@ export const Railway = {
       Project,
       args,
       { id: "String!", workspaceId: "String!" },
+      globalErrors,
+    ),
+  projectClearanceDefaultUpdate: (args: {
+    readonly input: ProjectClearanceDefaultUpdateInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "projectClearanceDefaultUpdate",
+      false,
+      args,
+      { input: "ProjectClearanceDefaultUpdateInput!" },
       globalErrors,
     ),
   projectCreate: (args: {
@@ -13410,12 +13697,7 @@ export const Railway = {
       "sandboxExec",
       SandboxExecResult,
       args,
-      {
-        command: "String!",
-        environmentId: "String!",
-        id: "String!",
-        timeoutSec: "Int",
-      },
+      { command: "String!", environmentId: "String!", id: "String!", timeoutSec: "Int" },
       [RailwaySandboxNotFoundSpec, ...globalErrors],
     ),
   sandboxHeartbeat: (args: {
@@ -13598,6 +13880,17 @@ export const Railway = {
       { environmentId: "String!", serviceId: "String!" },
       globalErrors,
     ),
+  serviceInstanceClearanceUpdate: (args: {
+    readonly input: ServiceInstanceClearanceUpdateInput;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "serviceInstanceClearanceUpdate",
+      false,
+      args,
+      { input: "ServiceInstanceClearanceUpdateInput!" },
+      globalErrors,
+    ),
   serviceInstanceDeploy: (args: {
     readonly environmentId: string;
     readonly serviceId: string;
@@ -13663,11 +13956,7 @@ export const Railway = {
       "serviceInstanceUpdate",
       false,
       args,
-      {
-        environmentId: "String",
-        input: "ServiceInstanceUpdateInput!",
-        serviceId: "String!",
-      },
+      { environmentId: "String", input: "ServiceInstanceUpdateInput!", serviceId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   serviceInstanceVulnRemediationDismiss: (args: {
@@ -13931,12 +14220,7 @@ export const Railway = {
       "templateVolumeUpdate",
       Template,
       args,
-      {
-        serviceId: "String!",
-        sizeMB: "Int",
-        templateId: "String!",
-        volumeId: "String!",
-      },
+      { serviceId: "String!", sizeMB: "Int", templateId: "String!", volumeId: "String!" },
       globalErrors,
     ),
   trustedDomainCreate: (args: {
@@ -14204,10 +14488,7 @@ export const Railway = {
       "volumeInstanceBackupScheduleUpdate",
       false,
       args,
-      {
-        kinds: "[VolumeInstanceBackupScheduleKind!]!",
-        volumeInstanceId: "String!",
-      },
+      { kinds: "[VolumeInstanceBackupScheduleKind!]!", volumeInstanceId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   volumeInstancePITRRestore: (args: {
@@ -14239,11 +14520,7 @@ export const Railway = {
       "volumeInstanceUpdate",
       false,
       args,
-      {
-        environmentId: "String",
-        input: "VolumeInstanceUpdateInput!",
-        volumeId: "String!",
-      },
+      { environmentId: "String", input: "VolumeInstanceUpdateInput!", volumeId: "String!" },
       [RailwayNotFoundSpec, ...globalErrors],
     ),
   volumeUpdate: (args: {
@@ -14261,13 +14538,20 @@ export const Railway = {
   webhookTest: (args: {
     readonly payload: string;
     readonly url: string;
+    readonly headers?: ReadonlyArray<WebhookHeaderInput> | null;
+    readonly notificationRuleId?: string | null;
   }): Query<number, RailwayGlobalError> =>
     rootLeaf(
       "mutation",
       "webhookTest",
       false,
       args,
-      { payload: "String!", url: "String!" },
+      {
+        headers: "[WebhookHeaderInput!]",
+        notificationRuleId: "String",
+        payload: "String!",
+        url: "String!",
+      },
       globalErrors,
     ),
   workspaceDelete: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
