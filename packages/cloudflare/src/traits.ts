@@ -104,3 +104,19 @@ export const BinaryResponseBody = () => makeAnnotation(binaryResponseBodySymbol,
 
 /** The TS type of a `BinaryResponseBody()` member. */
 export type BinaryResponseBody = Stream.Stream<Uint8Array, HttpClientError.HttpClientError>;
+
+// =============================================================================
+// Per-operation host
+// =============================================================================
+
+export const hostSymbol = Symbol.for("@distilled.cloud/cloudflare/host");
+
+/**
+ * Marks an operation input whose requests go to their own origin instead of
+ * the credentials' API base URL — K2's data plane is served from
+ * `https://{stream_id}.k2.cloudflarestorage.com`, one host per stream.
+ * `{name}` placeholders are filled from the input's `Label(name)` members,
+ * exactly like the route's own labels. This mirrors
+ * `com.cloudflare.protocols#host` in the Smithy models.
+ */
+export const Host = (template: string) => makeAnnotation(hostSymbol, template);

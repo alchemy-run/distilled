@@ -258,6 +258,8 @@ export interface SdkSpec {
     readonly id: string;
     readonly isOpIo: boolean;
     readonly httpTrait: unknown | undefined;
+    /** Traits of the operation whose INPUT this shape is (undefined otherwise). */
+    readonly opTraits: Readonly<Record<string, unknown>> | undefined;
   }) => string[];
 
   /**
@@ -441,6 +443,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   //    operation has an input shape that can carry operation-level traits.
   const operations = collectOperations(shapes);
   const httpFor: Record<string, any> = {}; // input shape id → http trait
+  const opTraitsFor: Record<string, Record<string, unknown>> = {}; // input shape id → op traits
   const ns = modelNamespace(operations, shapes, spec.namespaceFallback ?? "smithy.unknown");
 
   const selected: OpEntry[] = [];
@@ -453,6 +456,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
 
     const http = op.def.traits?.["smithy.api#http"];
     if (http) httpFor[input] = http;
+    if (op.def.traits) opTraitsFor[input] = op.def.traits;
   }
 
   if (selected.length === 0) return { code: "", operations: 0 };
@@ -879,6 +883,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         id,
         isOpIo: opIoShapes.has(id),
         httpTrait: httpFor[id],
+        opTraits: opTraitsFor[id],
       };
       const pipes = spec.structPipes?.(structCtx) ?? [
         ...(structCtx.httpTrait ? [`T.Http(${JSON.stringify(structCtx.httpTrait)})`] : []),

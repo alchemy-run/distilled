@@ -60,6 +60,7 @@ export * as iam from "./iam.ts";
 export * as images from "./images.ts";
 export * as intel from "./intel.ts";
 export * as ips from "./ips.ts";
+export * as k2 from "./k2.ts";
 export * as keyless_certificates from "./keyless_certificates.ts";
 export * as kv from "./kv.ts";
 export * as leaked_credential_checks from "./leaked_credential_checks.ts";
