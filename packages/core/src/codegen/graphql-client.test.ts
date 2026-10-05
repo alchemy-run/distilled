@@ -1,5 +1,4 @@
 import { describe, expect, test } from "bun:test";
-import { buildSchema, introspectionFromSchema } from "graphql";
 import { applyOperation } from "../json-patch.ts";
 import {
   convertGraphQLClient,
@@ -185,14 +184,5 @@ describe("GraphQL Query SDK generator", () => {
       "Project.id: unknown GraphQL error MissingError",
     );
     expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow("Incomplete GraphQL NON_NULL");
-  });
-
-  test("SDL round-trip through convert still produces a model", () => {
-    const source = buildSchema(`
-      type Query { ping: String }
-    `);
-    const model = convertGraphQLClient(introspectionFromSchema(source));
-    expect(model.queryType).toBe("Query");
-    expect(model.types.Query?.fields?.ping?.type).toBe("String");
   });
 });

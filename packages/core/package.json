@@ -30,9 +30,6 @@
   "scripts": {
     "build": "tsc -b"
   },
-  "dependencies": {
-    "graphql": "16.11.0"
-  },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",
     "@types/bun": "catalog:",

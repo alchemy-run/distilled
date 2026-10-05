@@ -630,10 +630,6 @@ importers:
         version: 26.2.0
 
   packages/core:
-    dependencies:
-      graphql:
-        specifier: 16.11.0
-        version: 16.11.0
     devDependencies:
       '@effect/platform-bun':
         specifier: 'catalog:'
