@@ -1,6 +1,7 @@
-import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { credentials } from "./credentials.ts";
 import * as Retry from "./retry.ts";
 import {
@@ -42,12 +43,10 @@ describe("Worker container metadata", () => {
         accountId: "account",
         scriptName: "worker",
         metadata: { mainModule: "index.js", containers },
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       (request) => {
         expect(request.method).toBe("PUT");
-        expect(request.url).toEndWith(
-          "/accounts/account/workers/scripts/worker",
-        );
+        expect(request.url.endsWith("/accounts/account/workers/scripts/worker")).toBe(true);
         expect(request.body._tag).toBe("FormData");
         if (request.body._tag === "FormData") {
           const metadata = request.body.formData.get("metadata");
@@ -72,11 +71,11 @@ describe("Worker container metadata", () => {
         accountId: "account",
         scriptName: "worker",
         metadata: { mainModule: "index.js", containers },
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       (request) => {
         expect(request.method).toBe("POST");
-        expect(request.url).toEndWith(
-          "/accounts/account/workers/scripts/worker/versions",
+        expect(request.url.endsWith("/accounts/account/workers/scripts/worker/versions")).toBe(
+          true,
         );
         expect(request.body._tag).toBe("FormData");
         if (request.body._tag === "FormData") {
@@ -105,7 +104,7 @@ describe("Worker container metadata", () => {
         accountId: "account",
         scriptName: "worker",
         versionId: "version",
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       { body: envelope(version) },
     );
     const expected = {
@@ -122,7 +121,7 @@ describe("Worker container metadata", () => {
         accountId: "account",
         scriptName: "worker",
         versionId: "version",
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       {
         body: envelope({
           resources: {
@@ -148,13 +147,13 @@ describe("Worker container metadata", () => {
         accountId: "account",
         workerId: "worker",
         containers,
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       (request) => {
         expect(request.body._tag).toBe("Uint8Array");
         if (request.body._tag === "Uint8Array") {
-          expect(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          ).toEqual({ containers: wireContainers });
+          expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({
+            containers: wireContainers,
+          });
         }
         return { body: envelope(betaVersion) };
       },
@@ -170,7 +169,7 @@ describe("Worker container metadata", () => {
         accountId: "account",
         workerId: "worker",
         versionId: "version",
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       { body: envelope(betaVersion) },
     );
     const expected = { _tag: "Success", success: { containers } };
@@ -182,7 +181,7 @@ describe("Worker container metadata", () => {
     const { lenient, strict } = await runValidationModes(
       listBetaWorkerVersions({ accountId: "account", workerId: "worker" }).pipe(
         Retry.none,
-        Effect.provide(credentials({ apiToken: "test" })),
+        Effect.provide(credentials({ apiToken: Redacted.make("test") })),
       ),
       { body: envelope([betaVersion]) },
     );
@@ -197,7 +196,7 @@ describe("Worker container metadata", () => {
         accountId: "account",
         workerId: "worker",
         versionId: "version",
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       {
         body: envelope({
           ...betaVersion,

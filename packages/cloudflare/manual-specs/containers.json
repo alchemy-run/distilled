@@ -831,7 +831,7 @@
         "instances": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Fleet-only field; omitted for durable_object applications. Observed 2026-10-01: https://github.com/alchemy-run/distilled/pull/685#issuecomment-5959230924"
           }
         },
         "max_instances": {
@@ -861,7 +861,7 @@
         "version": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#required": {}
+            "smithy.api#documentation": "Fleet-only field; omitted for durable_object applications. Observed 2026-10-01: https://github.com/alchemy-run/distilled/pull/685#issuecomment-5959230924"
           }
         },
         "observability": {

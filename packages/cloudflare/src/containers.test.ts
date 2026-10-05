@@ -1,6 +1,7 @@
-import { describe, expect, test } from "bun:test";
 import { runValidationModes } from "@distilled.cloud/core/testing";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
+import { describe, expect, test } from "vitest";
 import { credentials } from "./credentials.ts";
 import * as Retry from "./retry.ts";
 import {
@@ -18,9 +19,7 @@ const application = {
   name: "sandbox",
   account_id: "account",
   created_at: "2026-09-30T00:00:00Z",
-  version: 1,
   scheduling_policy: "durable_object",
-  instances: 0,
   configuration: {},
   durable_objects: { namespace_id: "namespace" },
 };
@@ -37,24 +36,20 @@ const wireConfiguration = {
 const image = "registry.cloudflare.com/account/sandbox@sha256:digest";
 
 describe("Durable Object Container API", () => {
-  test("creates an application without a deployment image or max_instances", async () => {
+  test("decodes omitted fleet fields in both validation modes", async () => {
     const { lenient, strict } = await runValidationModes(
       createDurableObjectContainerApplication({
         accountId: "account",
         name: "sandbox",
         schedulingPolicy: "durable_object",
         durableObjects: { namespaceId: "namespace" },
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       (request) => {
         expect(request.method).toBe("POST");
-        expect(request.url).toEndWith(
-          "/accounts/account/containers/applications",
-        );
+        expect(request.url.endsWith("/accounts/account/containers/applications")).toBe(true);
         expect(request.body._tag).toBe("Uint8Array");
         if (request.body._tag === "Uint8Array")
-          expect(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          ).toEqual({
+          expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({
             name: "sandbox",
             scheduling_policy: "durable_object",
             durable_objects: { namespace_id: "namespace" },
@@ -79,13 +74,11 @@ describe("Durable Object Container API", () => {
         durableObjects: { namespaceId: "namespace" },
         configuration,
         observability: { logs: { enabled: true } },
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       (request) => {
         expect(request.body._tag).toBe("Uint8Array");
         if (request.body._tag === "Uint8Array") {
-          expect(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          ).toEqual({
+          expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({
             name: "sandbox",
             scheduling_policy: "durable_object",
             durable_objects: { namespace_id: "namespace" },
@@ -117,17 +110,15 @@ describe("Durable Object Container API", () => {
         applicationId: "namespace",
         configuration,
         observability: { logs: { enabled: false } },
-      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+      }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
       (request) => {
         expect(request.method).toBe("PATCH");
-        expect(request.url).toEndWith(
-          "/accounts/account/containers/applications/namespace",
+        expect(request.url.endsWith("/accounts/account/containers/applications/namespace")).toBe(
+          true,
         );
         expect(request.body._tag).toBe("Uint8Array");
         if (request.body._tag === "Uint8Array") {
-          expect(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          ).toEqual({
+          expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({
             configuration: wireConfiguration,
             observability: { logs: { enabled: false } },
           });
@@ -151,17 +142,13 @@ describe("Durable Object Container API", () => {
       }).pipe(Effect.map((item) => [item])),
       application,
     ],
-    [
-      "lists",
-      listContainerApplications({ accountId: "account" }),
-      [application],
-    ],
+    ["lists", listContainerApplications({ accountId: "account" }), [application]],
   ] as const) {
     test(`${name} native applications without fleet-only fields`, async () => {
       const { lenient, strict } = await runValidationModes(
         operation.pipe(
           Retry.none,
-          Effect.provide(credentials({ apiToken: "test" })),
+          Effect.provide(credentials({ apiToken: Redacted.make("test") })),
         ),
         { body: envelope(result) },
       );
@@ -186,17 +173,15 @@ describe("Durable Object Container API", () => {
         prepareContainerImage({
           accountId: "account",
           image,
-        }).pipe(Retry.none, Effect.provide(credentials({ apiToken: "test" }))),
+        }).pipe(Retry.none, Effect.provide(credentials({ apiToken: Redacted.make("test") }))),
         (request) => {
           expect(request.method).toBe("POST");
-          expect(request.url).toEndWith(
-            "/accounts/account/containers/image-preparations",
+          expect(request.url.endsWith("/accounts/account/containers/image-preparations")).toBe(
+            true,
           );
           expect(request.body._tag).toBe("Uint8Array");
           if (request.body._tag === "Uint8Array") {
-            expect(
-              JSON.parse(new TextDecoder().decode(request.body.body)),
-            ).toEqual({ image });
+            expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({ image });
           }
           return {
             body: envelope({
@@ -231,7 +216,7 @@ describe("Durable Object Container API", () => {
       const { lenient, strict } = await runValidationModes(
         prepareContainerImage({ accountId: "account", image: "image" }).pipe(
           Retry.none,
-          Effect.provide(credentials({ apiToken: "test" })),
+          Effect.provide(credentials({ apiToken: Redacted.make("test") })),
         ),
         {
           status: 400,
@@ -262,13 +247,7 @@ describe("Durable Object Container API", () => {
       '{"error":"VALIDATE_INPUT","details":{"image":"invalid input: expected string, received undefined"}}',
       "BadRequest",
     ],
-    [
-      "different error message",
-      400,
-      1000,
-      "Invalid request body",
-      "BadRequest",
-    ],
+    ["different error message", 400, 1000, "Invalid request body", "BadRequest"],
     [
       "different error code",
       400,
@@ -288,7 +267,7 @@ describe("Durable Object Container API", () => {
       const { lenient, strict } = await runValidationModes(
         prepareContainerImage({ accountId: "account", image }).pipe(
           Retry.none,
-          Effect.provide(credentials({ apiToken: "test" })),
+          Effect.provide(credentials({ apiToken: Redacted.make("test") })),
         ),
         {
           status,

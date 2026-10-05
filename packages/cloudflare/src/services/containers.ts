@@ -53,11 +53,7 @@ export class ContainerImagePreparationInvalidImage
           includes: "image must be digest-pinned and hosted in a supported managed registry",
         },
       },
-      {
-        status: 400,
-        code: 1000,
-        message: { includes: "image does not exist in this account" },
-      },
+      { status: 400, code: 1000, message: { includes: "image does not exist in this account" } },
     ],
   ) {}
 
@@ -226,9 +222,7 @@ export const WranglerSSHConfiguration = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     port: S.optional(S.NullOr(S.Number)),
   }),
-).annotate({
-  identifier: "WranglerSSHConfiguration",
-}) as any as S.Schema<WranglerSSHConfiguration>;
+).annotate({ identifier: "WranglerSSHConfiguration" }) as any as S.Schema<WranglerSSHConfiguration>;
 
 /** An SSH public key provided by the user. Source: https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/UserSSHPublicKey.ts (2026-09-30). */
 export interface UserSSHPublicKey {
@@ -240,9 +234,7 @@ export const UserSSHPublicKey = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     publicKey: S.String.pipe(T.Body("public_key")),
   }),
-).annotate({
-  identifier: "UserSSHPublicKey",
-}) as any as S.Schema<UserSSHPublicKey>;
+).annotate({ identifier: "UserSSHPublicKey" }) as any as S.Schema<UserSSHPublicKey>;
 
 export type UserSSHPublicKeyList = Array<UserSSHPublicKey>;
 export const UserSSHPublicKeyList = /*@__PURE__*/ S.Array(
@@ -307,9 +299,7 @@ export const ContainerApplicationLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     enabled: S.optional(S.NullOr(S.Boolean)),
   }),
-).annotate({
-  identifier: "ContainerApplicationLogs",
-}) as any as S.Schema<ContainerApplicationLogs>;
+).annotate({ identifier: "ContainerApplicationLogs" }) as any as S.Schema<ContainerApplicationLogs>;
 
 export interface ContainerApplicationObservability {
   logs?: ContainerApplicationLogs | null;
@@ -327,14 +317,16 @@ export interface ContainerApplicationItem {
   name: string;
   accountId: string;
   schedulingPolicy: string;
-  instances: number;
+  /** Fleet-only field; omitted for durable_object applications. Observed 2026-10-01: https://github.com/alchemy-run/distilled/pull/685#issuecomment-5959230924 */
+  instances?: number | null;
   maxInstances?: number | null;
   constraints?: unknown | null;
   affinities?: unknown | null;
   configuration: ContainerApplicationConfiguration;
   durableObjects?: DurableObjectsRef | null;
   createdAt: string;
-  version: number;
+  /** Fleet-only field; omitted for durable_object applications. Observed 2026-10-01: https://github.com/alchemy-run/distilled/pull/685#issuecomment-5959230924 */
+  version?: number | null;
   observability?: ContainerApplicationObservability | null;
 }
 export const ContainerApplicationItem = /*@__PURE__*/ S.suspend(() =>
@@ -343,14 +335,14 @@ export const ContainerApplicationItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     accountId: S.String.pipe(T.Body("account_id")),
     schedulingPolicy: S.String.pipe(T.Body("scheduling_policy")),
-    instances: S.Number,
+    instances: S.optional(S.NullOr(S.Number)),
     maxInstances: S.optional(S.NullOr(S.Number).pipe(T.Body("max_instances"))),
     constraints: S.optional(S.NullOr(S.Unknown)),
     affinities: S.optional(S.NullOr(S.Unknown)),
     configuration: ContainerApplicationConfiguration,
     durableObjects: S.optional(S.NullOr(DurableObjectsRef).pipe(T.Body("durable_objects"))),
     createdAt: S.String.pipe(T.Body("created_at")),
-    version: S.Number,
+    version: S.optional(S.NullOr(S.Number)),
     observability: S.optional(S.NullOr(ContainerApplicationObservability)),
   }),
 ).annotate({ identifier: "ContainerApplicationItem" }) as any as S.Schema<ContainerApplicationItem>;
@@ -479,11 +471,7 @@ export const CreateDurableObjectContainerApplicationRequest = /*@__PURE__*/ S.su
     configuration: S.optional(DurableObjectContainerConfiguration),
     observability: S.optional(ContainerApplicationObservability),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/containers/applications",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/accounts/{account_id}/containers/applications", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateDurableObjectContainerApplicationRequest",
