@@ -1,0 +1,15 @@
+{
+  "description": "ConnectionPropertiesV2 is polymorphic on `authType`; the converted model keeps only the base members, so S.Struct strips the subtype `credentials` (ApiKey key, CustomKeys keys, ServicePrincipal client secret, ...) on encode. Add it as an untyped document on the input shape shared by account and project connection PUT/PATCH.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices#ConnectionPropertiesV2Input/members/credentials",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Auth-type-specific credentials (polymorphic on `authType`), e.g. `{ key }` for ApiKey or `{ keys: {...} }` for CustomKeys. Write-only."
+        }
+      }
+    }
+  ]
+}

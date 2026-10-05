@@ -621,7 +621,7 @@
         "keyless_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Keyless certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -637,7 +637,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier."
+            "smithy.api#documentation": "Keyless certificate identifier tag."
           }
         }
       },
@@ -686,7 +686,7 @@
         "keyless_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Keyless certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -871,7 +871,7 @@
         "keyless_certificate_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier.",
+            "smithy.api#documentation": "Keyless certificate identifier tag.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }

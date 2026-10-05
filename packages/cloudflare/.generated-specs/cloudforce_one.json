@@ -2279,6 +2279,12 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Threat Signals article title; null for historical provenance without a stored title."
+          }
         }
       }
     },
@@ -2495,6 +2501,12 @@
       }
     },
     "com.cloudflare.cloudforce_one#ThreatEventsListRequestSearchList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatEventsListRequestSearchBranchesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -3720,7 +3732,7 @@
         "relatedEventsLimit": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events.",
+            "smithy.api#documentation": "Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events. For JSON responses, when the limit hides events, the indicator carries `relatedEventsHasMore: true` and the response includes an advisory message — the cap is never applied silently. STIX and TAXII representations do not include related-event data.",
             "smithy.api#httpQuery": "relatedEventsLimit"
           }
         },
@@ -3978,6 +3990,13 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Threat Signals article title; null for historical provenance without a stored title.",
+            "smithy.api#required": {}
+          }
         }
       }
     },
@@ -4089,7 +4108,16 @@
           }
         },
         "relatedEvents": {
-          "target": "com.cloudflare.cloudforce_one#ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsRelatedEventsList"
+          "target": "com.cloudflare.cloudforce_one#ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsRelatedEventsList",
+          "traits": {
+            "smithy.api#documentation": "Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them."
+          }
+        },
+        "relatedEventsHasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event."
+          }
         },
         "tags": {
           "target": "com.cloudflare.cloudforce_one#ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsTagsList"
@@ -4661,7 +4689,16 @@
           }
         },
         "relatedEvents": {
-          "target": "com.cloudflare.cloudforce_one#GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList"
+          "target": "com.cloudflare.cloudforce_one#GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList",
+          "traits": {
+            "smithy.api#documentation": "Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them."
+          }
+        },
+        "relatedEventsHasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event."
+          }
         },
         "tags": {
           "target": "com.cloudflare.cloudforce_one#GetThreatEventsIndicatorsByDatasetResponseTagsList"
@@ -4800,6 +4837,13 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Threat Signals article title; null for historical provenance without a stored title.",
+            "smithy.api#required": {}
+          }
         }
       }
     },
@@ -4911,7 +4955,16 @@
           }
         },
         "relatedEvents": {
-          "target": "com.cloudflare.cloudforce_one#ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList"
+          "target": "com.cloudflare.cloudforce_one#ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList",
+          "traits": {
+            "smithy.api#documentation": "Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them."
+          }
+        },
+        "relatedEventsHasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event."
+          }
         },
         "tags": {
           "target": "com.cloudflare.cloudforce_one#ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemTagsList"
@@ -6117,7 +6170,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/{event_id}/relationships",
           "code": 200
         },
-        "smithy.api#documentation": "The `event_id` must be defined (to list existing events (and their IDs), use the [`Filter and List Events`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/methods/list/) endpoint). Also, must provide query parameters.",
+        "smithy.api#documentation": "Deprecated; use GET /events/by-id/{event_id}/relationships. Available through 2026-11-28.",
         "smithy.api#readonly": {}
       }
     },
@@ -8726,7 +8779,7 @@
         "internalAliases": {
           "target": "com.cloudflare.cloudforce_one#EditThreatEventsTagRequestInternalAliasesList",
           "traits": {
-            "smithy.api#documentation": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts."
+            "smithy.api#documentation": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses."
           }
         },
         "internalDescription": {
@@ -9658,7 +9711,7 @@
         "internalAliases": {
           "target": "com.cloudflare.cloudforce_one#EditThreatEventsTagResponseInternalAliasesList",
           "traits": {
-            "smithy.api#documentation": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts."
+            "smithy.api#documentation": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses."
           }
         },
         "internalDescription": {
@@ -9738,7 +9791,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/tags/{tag_uuid}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a Source-of-Truth tag by UUID."
+        "smithy.api#documentation": "Updates an account-owned Source-of-Truth tag by UUID and returns its complete owner projection."
       }
     },
     "com.cloudflare.cloudforce_one#ListThreatEventsTagsRequestCache": {
@@ -10730,7 +10783,7 @@
         "internalAliases": {
           "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsResponseTagsItemInternalAliasesList",
           "traits": {
-            "smithy.api#documentation": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts."
+            "smithy.api#documentation": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses."
           }
         },
         "internalDescription": {
@@ -10833,7 +10886,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/tags",
           "code": 200
         },
-        "smithy.api#documentation": "Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). Country values may be passed as alpha-2, alpha-3, name, or common alias.",
+        "smithy.api#documentation": "Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). The authenticated account owns these account-scoped tags and receives their complete owner projection. Country values may be passed as alpha-2, alpha-3, name, or common alias. Purple TLP remains CFONE-only.",
         "smithy.api#readonly": {}
       }
     },
@@ -11394,7 +11447,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/tags/categories/{category_uuid}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes a Source-of-Truth tag category by UUID.",
+        "smithy.api#documentation": "Deprecated; use DELETE /events/tag-categories/{category_uuid}. Available through 2026-11-28.",
         "smithy.api#idempotent": {}
       }
     },
@@ -11904,7 +11957,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/tags/categories/{category_uuid}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates a Source-of-Truth tag category by UUID."
+        "smithy.api#documentation": "Deprecated; use PATCH /events/tag-categories/{category_uuid}. Available through 2026-11-28."
       }
     },
     "com.cloudflare.cloudforce_one#ListThreatEventsTagsCategoriesRequest": {
@@ -12386,7 +12439,16 @@
           }
         },
         "relatedEvents": {
-          "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsList"
+          "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsList",
+          "traits": {
+            "smithy.api#documentation": "Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them."
+          }
+        },
+        "relatedEventsHasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event."
+          }
         },
         "tags": {
           "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsIndicatorsResponseIndicatorsItemTagsList"
@@ -12644,7 +12706,16 @@
           }
         },
         "relatedEvents": {
-          "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList"
+          "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList",
+          "traits": {
+            "smithy.api#documentation": "Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them."
+          }
+        },
+        "relatedEventsHasMore": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event."
+          }
         },
         "tags": {
           "target": "com.cloudflare.cloudforce_one#ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemTagsList"
@@ -12888,6 +12959,4269 @@
         "smithy.api#readonly": {}
       }
     },
+    "com.cloudflare.cloudforce_one#ThreatSignalsHealthRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsHealthResponseStatus": {
+      "type": "enum",
+      "members": {
+        "OK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ok"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsHealthResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "com.cloudflare.cloudforce_one#ThreatSignalsHealthResponseStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Raw response payload (operation does not use the standard v4 result envelope)."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsHealth": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsHealthRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsHealthResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/health",
+          "code": 200
+        },
+        "smithy.api#documentation": "Checks that the Threat Signals API is reachable.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#SearchThreatSignalRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "feed_id"
+          }
+        },
+        "max_results": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "max_results"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#SearchThreatSignalResponseResultsItem": {
+      "type": "structure",
+      "members": {
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#SearchThreatSignalResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#SearchThreatSignalResponseResultsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#SearchThreatSignalResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of unique article candidates returned in this response. Equal to results.length.",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.cloudflare.cloudforce_one#SearchThreatSignalResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#SearchThreatSignal": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#SearchThreatSignalRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#SearchThreatSignalResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Searches the account's Threat Signals articles using keyword and semantic retrieval.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEditRequestArticleIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEditRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_ids": {
+          "target": "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEditRequestArticleIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEditResponse": {
+      "type": "structure",
+      "members": {
+        "updated_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEdit": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEditRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEditResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Marks up to 50 Threat Signals articles as read or unread."
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseBulletPoints": {
+      "type": "structure",
+      "members": {
+        "impact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "what_happened": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "who_affected": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseIndicatorExtractionStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseTagsItemAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseTagsItem": {
+      "type": "structure",
+      "members": {
+        "applied_by": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseTagsItemAppliedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseTagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseTagsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bullet_points": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseBulletPoints",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "content_r2_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fetched_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "indicator_extraction_status": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseIndicatorExtractionStatus",
+          "traits": {
+            "smithy.api#documentation": "Progress of the article's indicator extraction and IOC contextualization run. complete and failed are terminal; unknown means no run has been recorded.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseMetadataMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Persisted enrichment summary. Null until enrichment produces a summary.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary_r2_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponseTagsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skill_version": {
+          "target": "smithy.api#String"
+        },
+        "tag_skill_version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsArticle": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Marks a Threat Signals article as read or unread."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseBulletPoints": {
+      "type": "structure",
+      "members": {
+        "impact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "what_happened": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "who_affected": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseIndicatorExtractionStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in_progress"
+          }
+        },
+        "COMPLETE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "complete"
+          }
+        },
+        "FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "failed"
+          }
+        },
+        "UNKNOWN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unknown"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseMetadataMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseTagsItemAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseTagsItem": {
+      "type": "structure",
+      "members": {
+        "applied_by": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseTagsItemAppliedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseTagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseTagsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bullet_points": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseBulletPoints",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "content_r2_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fetched_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "indicator_extraction_status": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseIndicatorExtractionStatus",
+          "traits": {
+            "smithy.api#documentation": "Progress of the article's indicator extraction and IOC contextualization run. complete and failed are terminal; unknown means no run has been recorded.",
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseMetadataMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Persisted enrichment summary. Null until enrichment produces a summary.",
+            "smithy.api#required": {}
+          }
+        },
+        "summary_r2_key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponseTagsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skill_version": {
+          "target": "smithy.api#String"
+        },
+        "tag_skill_version": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticle": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticleResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves a Threat Signals article with its summary, tags and indicator status.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestArticleIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestSourceType": {
+      "type": "enum",
+      "members": {
+        "CURATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "curated"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestTagAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestTagCategoryIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestTagIdList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestArticleIdList",
+          "traits": {
+            "smithy.api#documentation": "Repeatable article UUID filter. Returns the union of matching account-owned articles; use this to list every Threat Signals article referenced by an indicator's sources.",
+            "smithy.api#httpQuery": "article_id"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque cursor from a previous response's `next_cursor`. When provided, pagination, ordering, totals, and article filters come from the cursor. Sending `per_page`, `sort`, `include_total`, or any article filter alongside it returns a 400 `CursorFilterConflictError`.",
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "feed_category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "feed_category"
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "feed_id"
+          }
+        },
+        "fetched_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fetched_after"
+          }
+        },
+        "fetched_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "fetched_before"
+          }
+        },
+        "include_total": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_total"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "per_page"
+          }
+        },
+        "published_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "published_after"
+          }
+        },
+        "published_before": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "published_before"
+          }
+        },
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "read"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "search"
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sort"
+          }
+        },
+        "source_type": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestSourceType",
+          "traits": {
+            "smithy.api#httpQuery": "source_type"
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legacy human-readable tag-value filter. Ignored when tag_id is supplied; prefer tag_id.",
+            "smithy.api#httpQuery": "tag"
+          }
+        },
+        "tag_applied_by": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestTagAppliedBy",
+          "traits": {
+            "smithy.api#documentation": "Assignment provenance filter. When combined with tag_id or tag_category_id, the matching assignment must have this provenance.",
+            "smithy.api#httpQuery": "tag_applied_by"
+          }
+        },
+        "tag_category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Legacy category-name disambiguator for tag. It has no effect without tag; prefer tag_category_id.",
+            "smithy.api#httpQuery": "tag_category"
+          }
+        },
+        "tag_category_id": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestTagCategoryIdList",
+          "traits": {
+            "smithy.api#documentation": "Repeatable tag-category UUID filter. An article matches any selected category; when tag_id is also present, the tag and category groups are ANDed.",
+            "smithy.api#httpQuery": "tag_category_id"
+          }
+        },
+        "tag_id": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequestTagIdList",
+          "traits": {
+            "smithy.api#documentation": "Repeatable tag UUID filter. An article matches any selected tag.",
+            "smithy.api#httpQuery": "tag_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItemTagsItem": {
+      "type": "structure",
+      "members": {
+        "applied_by": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItemTagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItemTagsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Threat Events dataset identifier for the article redirect. Null when the account feeds dataset mapping is unavailable.",
+            "smithy.api#required": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Threat Events event identifier associated with this article for a UI redirect. Null when no event has been linked.",
+            "smithy.api#required": {}
+          }
+        },
+        "feed_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "fetched_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "link": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "published_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "read_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Persisted enrichment summary. Null until enrichment produces a summary.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItemTagsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponse": {
+      "type": "structure",
+      "members": {
+        "articles": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponseArticlesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "next_cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count_is_exact": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsArticles": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticlesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists articles from the account's Threat Signals feeds.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesContentRequestFormat": {
+      "type": "enum",
+      "members": {
+        "TEXT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "text"
+          }
+        },
+        "HTML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "html"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesContentRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "format": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesContentRequestFormat",
+          "traits": {
+            "smithy.api#httpQuery": "format"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesContent": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesContentRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/content",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves the stored body of a Threat Signals article as plain text or HTML.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesSkillOutputRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesSkillOutputResponse": {
+      "type": "structure",
+      "members": {
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "custom_skill_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded output schema of the skill. Null when the skill no longer exists.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "custom_output": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Skill output. Parsed JSON when the stored output is valid JSON, otherwise the raw string."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesSkillOutput": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesSkillOutputRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesSkillOutputResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/skills/{skill_id}/output",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves the stored output of a skill for a Threat Signals article.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTagRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "tag_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTagResponseAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTagResponse": {
+      "type": "structure",
+      "members": {
+        "applied_by": {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTagResponseAppliedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTagRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTagResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/tags",
+          "code": 200
+        },
+        "smithy.api#documentation": "Applies a tag from the account's tag catalog to a Threat Signals article."
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTagRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "tag_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTagResponseAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTagResponse": {
+      "type": "structure",
+      "members": {
+        "applied_by": {
+          "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTagResponseAppliedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTagRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTagResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/tags/{tag_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Removes a tag from a Threat Signals article.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponseTagsItemAppliedBy": {
+      "type": "enum",
+      "members": {
+        "AI": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ai"
+          }
+        },
+        "ANALYST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "analyst"
+          }
+        },
+        "SYSTEM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "system"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponseTagsItem": {
+      "type": "structure",
+      "members": {
+        "applied_by": {
+          "target": "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponseTagsItemAppliedBy",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "categoryId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponseTagsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponseTagsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponse": {
+      "type": "structure",
+      "members": {
+        "tag_skill_version": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponseTagsList",
+          "traits": {
+            "smithy.api#documentation": "Final hydrated assignment set; may be empty when no applicable tags are selected.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTag": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTagResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/articles/{article_id}/tag",
+          "code": 200
+        },
+        "smithy.api#documentation": "Runs the default AI tagging skill on an article and replaces its AI-applied tags."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesResponseCategoriesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Wire value accepted by the feed `category_id` field.",
+            "smithy.api#required": {}
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Plain-language description of the category.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display label.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesResponseCategoriesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesResponseCategoriesItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesResponse": {
+      "type": "structure",
+      "members": {
+        "categories": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesResponseCategoriesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsCategories": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsCategoriesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/categories",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists the predefined categories that can be assigned to feeds.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsFeedRequestCategoryId": {
+      "type": "enum",
+      "members": {
+        "B12A0FD6_F7B9_5393_9EF3_F888D506C550": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b12a0fd6-f7b9-5393-9ef3-f888d506c550"
+          }
+        },
+        "D5B70EAA_626F_5761_B55B_6D9590DF49FB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "d5b70eaa-626f-5761-b55b-6d9590df49fb"
+          }
+        },
+        "_3B572D2B_890D_5286_9433_F18C85079030": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "3b572d2b-890d-5286-9433-f18c85079030"
+          }
+        },
+        "_17F90D3B_37D3_5241_8AD4_7D6ABBC2006C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "17f90d3b-37d3-5241-8ad4-7d6abbc2006c"
+          }
+        },
+        "C68F28E9_7E8F_5D4B_853B_F3076893A9EE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c68f28e9-7e8f-5d4b-853b-f3076893a9ee"
+          }
+        },
+        "BB0E4A94_38AB_5C14_80A7_28CEE9F4B139": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bb0e4a94-38ab-5c14-80a7-28cee9f4b139"
+          }
+        },
+        "B1EF66D9_A73C_58DC_B269_22D34DFD11F4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b1ef66d9-a73c-58dc-b269-22d34dfd11f4"
+          }
+        },
+        "AB02A976_0A20_5C76_A553_7F6325AFACFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ab02a976-0a20-5c76-a553-7f6325afacfe"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsFeedRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "category_id": {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsFeedRequestCategoryId",
+          "traits": {
+            "smithy.api#documentation": "One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories."
+          }
+        },
+        "curated_feed_id": {
+          "target": "smithy.api#String"
+        },
+        "display_name": {
+          "target": "smithy.api#String"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "poll_interval_s": {
+          "target": "smithy.api#Double"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        },
+        "url": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsFeedResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "category_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feed category identifier. Null when unset.",
+            "smithy.api#required": {}
+          }
+        },
+        "category_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the feed category. Null when unset or unresolvable.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "curated_feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Curated catalog feed this subscription was created from. Null for custom feeds.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_polled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "poll_interval_s": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`custom` for a feed added by URL, `curated` for a curated catalog feed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Polling health: `active`, or `error` after a failed poll.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscribed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsFeed": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsFeedRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsFeedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds",
+          "code": 200
+        },
+        "smithy.api#documentation": "Subscribes the account to a custom or curated Threat Signals feed."
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsFeedRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsFeedResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "category_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feed category identifier. Null when unset.",
+            "smithy.api#required": {}
+          }
+        },
+        "category_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the feed category. Null when unset or unresolvable.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "curated_feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Curated catalog feed this subscription was created from. Null for custom feeds.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_polled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "poll_interval_s": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`custom` for a feed added by URL, `curated` for a curated catalog feed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Polling health: `active`, or `error` after a failed poll.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscribed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsFeed": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsFeedRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsFeedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Unsubscribes the account from a Threat Signals feed and deletes its articles.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsFeedRequestCategoryId": {
+      "type": "enum",
+      "members": {
+        "B12A0FD6_F7B9_5393_9EF3_F888D506C550": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b12a0fd6-f7b9-5393-9ef3-f888d506c550"
+          }
+        },
+        "D5B70EAA_626F_5761_B55B_6D9590DF49FB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "d5b70eaa-626f-5761-b55b-6d9590df49fb"
+          }
+        },
+        "_3B572D2B_890D_5286_9433_F18C85079030": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "3b572d2b-890d-5286-9433-f18c85079030"
+          }
+        },
+        "_17F90D3B_37D3_5241_8AD4_7D6ABBC2006C": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "17f90d3b-37d3-5241-8ad4-7d6abbc2006c"
+          }
+        },
+        "C68F28E9_7E8F_5D4B_853B_F3076893A9EE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "c68f28e9-7e8f-5d4b-853b-f3076893a9ee"
+          }
+        },
+        "BB0E4A94_38AB_5C14_80A7_28CEE9F4B139": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bb0e4a94-38ab-5c14-80a7-28cee9f4b139"
+          }
+        },
+        "B1EF66D9_A73C_58DC_B269_22D34DFD11F4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "b1ef66d9-a73c-58dc-b269-22d34dfd11f4"
+          }
+        },
+        "AB02A976_0A20_5C76_A553_7F6325AFACFE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ab02a976-0a20-5c76-a553-7f6325afacfe"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsFeedRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "category_id": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsFeedRequestCategoryId",
+          "traits": {
+            "smithy.api#documentation": "One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories."
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "poll_interval_s": {
+          "target": "smithy.api#Double"
+        },
+        "title": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsFeedResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "category_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feed category identifier. Null when unset.",
+            "smithy.api#required": {}
+          }
+        },
+        "category_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the feed category. Null when unset or unresolvable.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "curated_feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Curated catalog feed this subscription was created from. Null for custom feeds.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_polled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "poll_interval_s": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`custom` for a feed added by URL, `curated` for a curated catalog feed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Polling health: `active`, or `error` after a failed poll.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscribed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsFeed": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsFeedRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsFeedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates a Threat Signals feed subscription."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsRequestSourceType": {
+      "type": "enum",
+      "members": {
+        "CURATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "curated"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "category": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "category"
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "enabled"
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "limit"
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "per_page"
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sort"
+          }
+        },
+        "source_type": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsRequestSourceType",
+          "traits": {
+            "smithy.api#httpQuery": "source_type"
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "status"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsResponseFeedsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "category_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Feed category identifier. Null when unset.",
+            "smithy.api#required": {}
+          }
+        },
+        "category_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Display name of the feed category. Null when unset or unresolvable.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "curated_feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Curated catalog feed this subscription was created from. Null for custom feeds.",
+            "smithy.api#required": {}
+          }
+        },
+        "display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "last_polled_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "poll_interval_s": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "`custom` for a feed added by URL, `curated` for a curated catalog feed.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Polling health: `active`, or `error` after a failed poll.",
+            "smithy.api#required": {}
+          }
+        },
+        "subscribed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsResponseFeedsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsResponseFeedsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of feeds on this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "feeds": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsResponseFeedsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsFeeds": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsFeedsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists the account's Threat Signals feed subscriptions.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#PollThreatSignalsFeedRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "feed_id"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponseFeedsItemStatus": {
+      "type": "enum",
+      "members": {
+        "WORKFLOW_CREATED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workflow_created"
+          }
+        },
+        "ERROR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "error"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponseFeedsItem": {
+      "type": "structure",
+      "members": {
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponseFeedsItemStatus",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "workflow_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_enabled": {
+          "target": "smithy.api#Boolean"
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponseFeedsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponseFeedsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponse": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feeds": {
+          "target": "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponseFeedsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "triggered": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#PollThreatSignalsFeed": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#PollThreatSignalsFeedRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#PollThreatSignalsFeedResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/poll",
+          "code": 200
+        },
+        "smithy.api#documentation": "Starts an immediate poll of one or all Threat Signals feeds."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsRawRequestFormat": {
+      "type": "enum",
+      "members": {
+        "XML": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "xml"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsRawRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "format": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsRawRequestFormat",
+          "traits": {
+            "smithy.api#httpQuery": "format"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsRaw": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsRawRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}/raw",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves the feed document fetched by the most recent poll.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponseSkillsItemSource": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponseSkillsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded skill configuration. Always null for default skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "1 when active, 0 when inactive.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded JSON Schema the skill output must satisfy.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponseSkillsItemSource",
+          "traits": {
+            "smithy.api#documentation": "`default` for Cloudforce One managed skills (read-only), `custom` for account skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponseSkillsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponseSkillsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponse": {
+      "type": "structure",
+      "members": {
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skills": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponseSkillsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkillResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}/skills",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves the effective skill pipeline for a Threat Signals feed.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillRequestSkillIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_ids": {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillRequestSkillIdsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillResponseSkillsItem": {
+      "type": "structure",
+      "members": {
+        "position": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Zero-based pipeline position.",
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillResponseSkillsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillResponseSkillsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillResponse": {
+      "type": "structure",
+      "members": {
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skills": {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillResponseSkillsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkillResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/feeds/{feed_id}/skills",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replaces the ordered custom skills assigned to a Threat Signals feed.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "article_id"
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "feed_id"
+          }
+        },
+        "include_total": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_total"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "per_page"
+          }
+        },
+        "search": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "NFC-normalized and trimmed, case-insensitive literal substring search of indicator values. Requires 3–500 Unicode code points; the upper code-point bound is described here because OpenAPI string length cannot precisely express it without imposing UTF-16 semantics.",
+            "smithy.api#httpQuery": "search"
+          }
+        },
+        "sort": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "sort"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponseIndicatorsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "article_title": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Threat Events dataset identifier for navigating from this indicator. Null when the account feeds dataset mapping is unavailable.",
+            "smithy.api#required": {}
+          }
+        },
+        "feed_display_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponseIndicatorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponseIndicatorsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponsePagination": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Ordinal of this cursor page; not a total-results offset.",
+            "smithy.api#required": {}
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count_is_exact": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponse": {
+      "type": "structure",
+      "members": {
+        "indicators": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponseIndicatorsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pagination": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponsePagination",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsIndicators": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsIndicatorsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/indicators",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists indicators of compromise extracted from the account's Threat Signals articles.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "query": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "query",
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "feed_id"
+          }
+        },
+        "max_results": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "max_results"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchResponseResultsItem": {
+      "type": "structure",
+      "members": {
+        "article_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "event_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "feed_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "score": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "text": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchResponseResultsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchResponseResultsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of unique article candidates returned in this response. Equal to results.length.",
+            "smithy.api#required": {}
+          }
+        },
+        "results": {
+          "target": "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchResponseResultsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearch": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearchResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/search",
+          "code": 200
+        },
+        "smithy.api#documentation": "Searches the account's Threat Signals articles using keyword and semantic retrieval.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillRequestType": {
+      "type": "enum",
+      "members": {
+        "SUMMARY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "summary"
+          }
+        },
+        "TAGS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tags"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillRequestType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillResponseSource": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded skill configuration. Always null for default skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "1 when active, 0 when inactive.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded JSON Schema the skill output must satisfy.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillResponseSource",
+          "traits": {
+            "smithy.api#documentation": "`default` for Cloudforce One managed skills (read-only), `custom` for account skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#CreateThreatSignalsSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsSkillResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates a custom AI skill for the account."
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkillRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkillResponseSource": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkillResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded skill configuration. Always null for default skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "1 when active, 0 when inactive.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded JSON Schema the skill output must satisfy.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkillResponseSource",
+          "traits": {
+            "smithy.api#documentation": "`default` for Cloudforce One managed skills (read-only), `custom` for account skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkillRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkillResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Deletes a custom skill. Default skills cannot be deleted.",
+        "smithy.api#idempotent": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsSkillRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String"
+        },
+        "is_active": {
+          "target": "smithy.api#Boolean"
+        },
+        "name": {
+          "target": "smithy.api#String"
+        },
+        "output_schema": {
+          "target": "smithy.api#String"
+        },
+        "prompt": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsSkillResponseSource": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsSkillResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded skill configuration. Always null for default skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "1 when active, 0 when inactive.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded JSON Schema the skill output must satisfy.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsSkillResponseSource",
+          "traits": {
+            "smithy.api#documentation": "`default` for Cloudforce One managed skills (read-only), `custom` for account skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#EditThreatSignalsSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsSkillRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#EditThreatSignalsSkillResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Updates a custom skill. Default skills are read-only."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillResponseSource": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded skill configuration. Always null for default skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "1 when active, 0 when inactive.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded JSON Schema the skill output must satisfy.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillResponseSource",
+          "traits": {
+            "smithy.api#documentation": "`default` for Cloudforce One managed skills (read-only), `custom` for account skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkill": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves a default or custom skill by ID.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#httpQuery": "per_page"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponseSkillsItemSource": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponseSkillsItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded skill configuration. Always null for default skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "is_active": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "1 when active, 0 when inactive.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "output_schema": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded JSON Schema the skill output must satisfy.",
+            "smithy.api#required": {}
+          }
+        },
+        "prompt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "source": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponseSkillsItemSource",
+          "traits": {
+            "smithy.api#documentation": "`default` for Cloudforce One managed skills (read-only), `custom` for account skills.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponseSkillsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponseSkillsItem"
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponse": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of skills on this page.",
+            "smithy.api#required": {}
+          }
+        },
+        "custom_skills_available": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the authenticated account may access custom-skill capabilities under Stakeout's Threat Signals access-mode policy. This is a policy availability indicator, not a row-existence indicator. False for threat_signals_only mode; true for entitled, allowlisted, cfone_internal, and service modes.",
+            "smithy.api#required": {}
+          }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skills": {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponseSkillsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "total_count": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#ListThreatSignalsSkills": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#ListThreatSignalsSkillsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills",
+          "code": 200
+        },
+        "smithy.api#documentation": "Lists the default and custom skills available to the account.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryRequestSkillId": {
+      "type": "enum",
+      "members": {
+        "DEFAULT_TAGGING_SKILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default-tagging-skill"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryRequestSkillId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryResponseSkillId": {
+      "type": "enum",
+      "members": {
+        "DEFAULT_TAGGING_SKILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default-tagging-skill"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryResponse": {
+      "type": "structure",
+      "members": {
+        "category_uuids": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryResponseCategoryUuidsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryResponseSkillId",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategory": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}/tag-categories",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves the tag categories the default tagging skill may choose tags from.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryRequestSkillId": {
+      "type": "enum",
+      "members": {
+        "DEFAULT_TAGGING_SKILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default-tagging-skill"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryRequestSkillId",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "category_uuids": {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryRequestCategoryUuidsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryResponseSkillId": {
+      "type": "enum",
+      "members": {
+        "DEFAULT_TAGGING_SKILL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "default-tagging-skill"
+          }
+        }
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryResponse": {
+      "type": "structure",
+      "members": {
+        "category_uuids": {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryResponseCategoryUuidsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "skill_id": {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryResponseSkillId",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategory": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategoryResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/accounts/{account_id}/cloudforce-one/v2/threat-signals/skills/{skill_id}/tag-categories",
+          "code": 200
+        },
+        "smithy.api#documentation": "Replaces the tag categories the default tagging skill may choose tags from.",
+        "smithy.api#idempotent": {}
+      }
+    },
     "com.cloudflare.cloudforce_one#CloudforceOne": {
       "type": "service",
       "version": "4.0",
@@ -13002,6 +17336,93 @@
         },
         {
           "target": "com.cloudflare.cloudforce_one#ListThreatEventsTargetIndustriesCatalog"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ThreatSignalsHealth"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#SearchThreatSignal"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ThreatSignalsArticlesBulkEdit"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsArticle"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticle"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsArticles"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesContent"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsArticlesSkillOutput"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsArticlesTag"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsArticlesTag"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GenerateThreatSignalsArticlesTag"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsCategories"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsFeed"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsFeed"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsFeed"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsFeeds"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#PollThreatSignalsFeed"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsRaw"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsFeedsSkill"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsFeedsSkill"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsIndicators"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ThreatSignalsSearchSearch"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#CreateThreatSignalsSkill"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#DeleteThreatSignalsSkill"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#EditThreatSignalsSkill"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkill"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#ListThreatSignalsSkills"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#GetThreatSignalsSkillsTagCategory"
+        },
+        {
+          "target": "com.cloudflare.cloudforce_one#UpdateThreatSignalsSkillsTagCategory"
         },
         {
           "target": "com.cloudflare.cloudforce_one#BulkCreateThreatEvents"
@@ -14402,7 +18823,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/tags/create",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new tag to be used accross threat events."
+        "smithy.api#documentation": "Creates an account-owned tag for threat events and returns its complete owner projection."
       }
     },
     "com.cloudflare.cloudforce_one#CreateThreatEventTagRequest": {
@@ -14476,7 +18897,7 @@
         "internalAliases": {
           "target": "com.cloudflare.cloudforce_one#ThreatEventsTagsCreateRequestInternalAliasesList",
           "traits": {
-            "smithy.api#documentation": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts."
+            "smithy.api#documentation": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses."
           }
         },
         "internalDescription": {
@@ -14598,7 +19019,7 @@
         "internalAliases": {
           "target": "com.cloudflare.cloudforce_one#ThreatEventsTagsCreateResponseInternalAliasesList",
           "traits": {
-            "smithy.api#documentation": "Internal structured aliases ({ value, confidence 1-10, tlp }). CFONE-only: never returned to non-CFONE accounts."
+            "smithy.api#documentation": "Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses."
           }
         },
         "internalDescription": {
@@ -14881,7 +19302,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/categories/{category_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Removes a threat event category from Cloudforce One.",
+        "smithy.api#documentation": "Deprecated; use DELETE /events/event-categories/by-id/{category_id}. Available through 2026-11-28.",
         "smithy.api#idempotent": {}
       }
     },
@@ -15731,7 +20152,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/categories/{category_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves details for a specific threat event category.",
+        "smithy.api#documentation": "Deprecated; use GET /events/event-categories/by-id/{category_id}. Available through 2026-11-28.",
         "smithy.api#readonly": {}
       }
     },
@@ -16438,6 +20859,13 @@
           "traits": {
             "smithy.api#httpQuery": "search"
           }
+        },
+        "searchBranches": {
+          "target": "com.cloudflare.cloudforce_one#ThreatEventsListRequestSearchBranchesList",
+          "traits": {
+            "smithy.api#documentation": "JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`.",
+            "smithy.api#httpQuery": "searchBranches"
+          }
         }
       },
       "traits": {
@@ -17068,7 +21496,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/categories/{category_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Partially updates a threat event category in Cloudforce One, modifying specific fields without replacing the entire category."
+        "smithy.api#documentation": "Deprecated; use PATCH /events/event-categories/by-id/{category_id}. Available through 2026-11-28."
       }
     },
     "com.cloudflare.cloudforce_one#PatchThreatEventCategoryRequest": {
@@ -17394,7 +21822,7 @@
           "uri": "/accounts/{account_id}/cloudforce-one/events/raw/{dataset_id}/{event_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves the raw data associated with an event. Searches across all shards in the dataset.",
+        "smithy.api#documentation": "Deprecated; use GET /events/datasets/{dataset_id}/events/{event_id}/raw. Available through 2026-11-28.",
         "smithy.api#readonly": {}
       }
     },

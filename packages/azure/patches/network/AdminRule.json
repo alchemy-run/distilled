@@ -1,0 +1,101 @@
+{
+  "description": "BaseAdminRule is polymorphic (x-ms-discriminator kind: Custom -> AdminRule, Default -> DefaultAdminRule) and the converter kept only the base members, so admin rules could not send or read their properties. Add a merged `properties` member to the request, responses, and list item.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#AdminRuleStringList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#AdminRuleAddressPrefixItemList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.network#AddressPrefixItem"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#AdminRulePropertiesFormat",
+      "value": {
+        "type": "structure",
+        "members": {
+          "description": {
+            "target": "smithy.api#String"
+          },
+          "flag": {
+            "target": "smithy.api#String"
+          },
+          "protocol": {
+            "target": "smithy.api#String"
+          },
+          "access": {
+            "target": "smithy.api#String"
+          },
+          "direction": {
+            "target": "smithy.api#String"
+          },
+          "priority": {
+            "target": "smithy.api#Integer"
+          },
+          "sources": {
+            "target": "com.azure.network#AdminRuleAddressPrefixItemList"
+          },
+          "destinations": {
+            "target": "com.azure.network#AdminRuleAddressPrefixItemList"
+          },
+          "sourcePortRanges": {
+            "target": "com.azure.network#AdminRuleStringList"
+          },
+          "destinationPortRanges": {
+            "target": "com.azure.network#AdminRuleStringList"
+          },
+          "provisioningState": {
+            "target": "smithy.api#String"
+          },
+          "resourceGuid": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Properties of a Custom (properties) or Default (flag) security admin rule."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#AdminRulesCreateOrUpdateRequest/members/properties",
+      "value": {
+        "target": "com.azure.network#AdminRulePropertiesFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#AdminRulesCreateOrUpdateResponse/members/properties",
+      "value": {
+        "target": "com.azure.network#AdminRulePropertiesFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#GetAdminRuleResponse/members/properties",
+      "value": {
+        "target": "com.azure.network#AdminRulePropertiesFormat"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.network#BaseAdminRule/members/properties",
+      "value": {
+        "target": "com.azure.network#AdminRulePropertiesFormat"
+      }
+    }
+  ]
+}

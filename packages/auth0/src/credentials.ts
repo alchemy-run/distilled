@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Auth0 credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Build the Management API base URL for a tenant domain. */
 export const apiBaseUrlForDomain = (domain: string): string => {
@@ -24,21 +24,20 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("Auth0Credentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "Auth0Credentials",
+) {}
 
 /** Layer from a Management API token + tenant domain. */
 export const fromToken = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly domain: string;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       domain: config.domain,
       apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForDomain(config.domain),
     }),
@@ -56,8 +55,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (!domain || !token) {
       return yield* new ConfigError({
-        message:
-          "AUTH0_DOMAIN and AUTH0_MANAGEMENT_TOKEN environment variables are required",
+        message: "AUTH0_DOMAIN and AUTH0_MANAGEMENT_TOKEN environment variables are required",
       });
     }
 

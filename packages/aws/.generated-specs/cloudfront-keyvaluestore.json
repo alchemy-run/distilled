@@ -602,9 +602,7 @@
                                                                     {
                                                                       "name": "sigv4a",
                                                                       "signingName": "cloudfront-keyvaluestore",
-                                                                      "signingRegionSet": [
-                                                                        "*"
-                                                                      ]
+                                                                      "signingRegionSet": ["*"]
                                                                     }
                                                                   ]
                                                                 },
@@ -660,9 +658,7 @@
                                                                 {
                                                                   "name": "sigv4a",
                                                                   "signingName": "cloudfront-keyvaluestore",
-                                                                  "signingRegionSet": [
-                                                                    "*"
-                                                                  ]
+                                                                  "signingRegionSet": ["*"]
                                                                 }
                                                               ]
                                                             },
@@ -690,9 +686,7 @@
                                                         {
                                                           "name": "sigv4a",
                                                           "signingName": "cloudfront-keyvaluestore",
-                                                          "signingRegionSet": [
-                                                            "*"
-                                                          ]
+                                                          "signingRegionSet": ["*"]
                                                         }
                                                       ]
                                                     },

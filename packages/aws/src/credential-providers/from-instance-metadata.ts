@@ -1,22 +1,14 @@
+import * as Effect from "effect/Effect";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Option from "effect/Option";
 /**
  * Credentials of the EC2 instance role, from the instance metadata service.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
-import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { createLazyProvider } from "../credentials-service.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-  env,
-  retry,
-} from "./credential-source.ts";
+import { type CredentialSource, CredentialSourceError, env, retry } from "./credential-source.ts";
 import { requestText } from "./http-client.ts";
-import {
-  DEFAULT_TIMEOUT_MS,
-  parseImdsCredentials,
-} from "./metadata-credentials.ts";
+import { DEFAULT_TIMEOUT_MS, parseImdsCredentials } from "./metadata-credentials.ts";
 
 const IMDS_PATH = "/latest/meta-data/iam/security-credentials/";
 const IMDS_TOKEN_PATH = "/latest/api/token";
@@ -36,21 +28,16 @@ export interface FromInstanceMetadataOptions {
    * `ec2_metadata_v1_disabled`). The Node entry point reads them; the
    * environment always wins.
    */
-  readonly profileConfig?: Effect.Effect<
-    Readonly<Record<string, string | undefined>> | undefined
-  >;
+  readonly profileConfig?: Effect.Effect<Readonly<Record<string, string | undefined>> | undefined>;
 }
 
 const instanceMetadataEndpoint = (
   profileConfig: Readonly<Record<string, string | undefined>> | undefined,
 ): Effect.Effect<string, CredentialSourceError> => {
-  const endpoint =
-    env(ENV_IMDS_ENDPOINT) ?? profileConfig?.ec2_metadata_service_endpoint;
+  const endpoint = env(ENV_IMDS_ENDPOINT) ?? profileConfig?.ec2_metadata_service_endpoint;
   if (endpoint) return Effect.succeed(endpoint);
   const mode =
-    env(ENV_IMDS_ENDPOINT_MODE) ??
-    profileConfig?.ec2_metadata_service_endpoint_mode ??
-    "IPv4";
+    env(ENV_IMDS_ENDPOINT_MODE) ?? profileConfig?.ec2_metadata_service_endpoint_mode ?? "IPv4";
   switch (mode) {
     case "IPv4":
       return Effect.succeed("http://169.254.169.254");
@@ -74,9 +61,7 @@ const STATIC_STABILITY_DOC_URL =
  * When IMDS is unreachable, keep using the last credentials it handed out
  * and retry in 5–10 minutes rather than failing the request outright.
  */
-const extendCredentials = (
-  credentials: AwsCredentialIdentity,
-): AwsCredentialIdentity => {
+const extendCredentials = (credentials: AwsCredentialIdentity): AwsCredentialIdentity => {
   const refreshInterval =
     STATIC_STABILITY_REFRESH_INTERVAL_SECONDS +
     Math.floor(Math.random() * STATIC_STABILITY_REFRESH_INTERVAL_SECONDS);
@@ -110,10 +95,7 @@ export const instanceMetadataSource = (
     method: "GET" | "PUT",
     headers: Record<string, string>,
   ) =>
-    requestText(
-      HttpClientRequest.make(method)(`${endpoint}${path}`, { headers }),
-      timeoutMs,
-    ).pipe(
+    requestText(HttpClientRequest.make(method)(`${endpoint}${path}`, { headers }), timeoutMs).pipe(
       Effect.flatMap(({ status, text }) =>
         status >= 200 && status < 300
           ? Effect.succeed(text)
@@ -137,21 +119,14 @@ export const instanceMetadataSource = (
     const envValue = env(ENV_IMDS_V1_DISABLED);
     const blockedByEnv = !!envValue && envValue !== "false";
     const profileValue =
-      envValue === undefined
-        ? profileConfig?.ec2_metadata_v1_disabled
-        : undefined;
+      envValue === undefined ? profileConfig?.ec2_metadata_v1_disabled : undefined;
     const blockedByProfile = !!profileValue && profileValue !== "false";
-    if (!options.ec2MetadataV1Disabled && !blockedByEnv && !blockedByProfile)
-      return;
+    if (!options.ec2MetadataV1Disabled && !blockedByEnv && !blockedByProfile) return;
     const causes: string[] = [];
     if (options.ec2MetadataV1Disabled)
-      causes.push(
-        "credential provider initialization (runtime option ec2MetadataV1Disabled)",
-      );
-    if (blockedByProfile)
-      causes.push("config file profile (ec2_metadata_v1_disabled)");
-    if (blockedByEnv)
-      causes.push(`process environment variable (${ENV_IMDS_V1_DISABLED})`);
+      causes.push("credential provider initialization (runtime option ec2MetadataV1Disabled)");
+    if (blockedByProfile) causes.push("config file profile (ec2_metadata_v1_disabled)");
+    if (blockedByEnv) causes.push(`process environment variable (${ENV_IMDS_V1_DISABLED})`);
     return new CredentialSourceError({
       message: `AWS EC2 Metadata v1 fallback has been blocked by AWS SDK configuration in the following: [${causes.join(", ")}].`,
       tryNextLink: false,
@@ -164,8 +139,7 @@ export const instanceMetadataSource = (
     profileConfig: Readonly<Record<string, string | undefined>> | undefined,
   ): CredentialSource =>
     Effect.suspend(() => {
-      const isV1 =
-        disableFetchToken || headers[X_AWS_EC2_METADATA_TOKEN] === undefined;
+      const isV1 = disableFetchToken || headers[X_AWS_EC2_METADATA_TOKEN] === undefined;
       if (isV1) {
         const blocked = v1FallbackBlocked(profileConfig);
         if (blocked) return Effect.fail(blocked);
@@ -175,19 +149,12 @@ export const instanceMetadataSource = (
         return Effect.fail(error);
       };
       return retry(
-        imdsRequest(endpoint, IMDS_PATH, "GET", headers).pipe(
-          Effect.catch(onUnauthorized),
-        ),
+        imdsRequest(endpoint, IMDS_PATH, "GET", headers).pipe(Effect.catch(onUnauthorized)),
         maxRetries,
       ).pipe(
         Effect.flatMap((profile) =>
           retry(
-            imdsRequest(
-              endpoint,
-              IMDS_PATH + profile.trim(),
-              "GET",
-              headers,
-            ).pipe(
+            imdsRequest(endpoint, IMDS_PATH + profile.trim(), "GET", headers).pipe(
               Effect.catch(onUnauthorized),
               Effect.flatMap(parseImdsCredentials),
             ),
@@ -198,9 +165,7 @@ export const instanceMetadataSource = (
     });
 
   const resolve: CredentialSource = Effect.gen(function* () {
-    const profileConfig = options.profileConfig
-      ? yield* options.profileConfig
-      : undefined;
+    const profileConfig = options.profileConfig ? yield* options.profileConfig : undefined;
     const endpoint = yield* instanceMetadataEndpoint(profileConfig);
     if (disableFetchToken) {
       return yield* getCredentials(endpoint, {}, profileConfig);
@@ -263,11 +228,5 @@ const hints = [
 ];
 
 /** The EC2 instance role, from the instance metadata service. */
-export const fromInstanceMetadata = (
-  options: FromInstanceMetadataOptions = {},
-) =>
-  createLazyProvider(
-    instanceMetadataSource(options),
-    "instance-metadata",
-    hints,
-  );
+export const fromInstanceMetadata = (options: FromInstanceMetadataOptions = {}) =>
+  createLazyProvider(instanceMetadataSource(options), "instance-metadata", hints);

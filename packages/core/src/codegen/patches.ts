@@ -1,11 +1,18 @@
 /**
- * RFC-6902 patch application for convert (dev-time only).
+ * RFC-6902 patch application (dev-time only), at one of two stages a
+ * package declares in its package.json (`distilled.patches`, see
+ * {@link patchStage}):
  *
- * OpenAPI ops (`/paths`, `/components`, …) apply to the spec before
- * conversion; Smithy ops (`/shapes`, `/metadata`, `/smithy`) apply to the
- * model after conversion. `.generated-specs` is the patched model.
- * `scripts/generate.ts` does not apply patches.
+ *   convert   (default) OpenAPI ops (`/paths`, `/components`, …) apply to
+ *             the spec before conversion; Smithy ops (`/shapes`,
+ *             `/metadata`, `/smithy`) apply to the model after it.
+ *             `.generated-specs` is the patched model.
+ *   generate  `patches/<model>/*.json` are Smithy ops applied by the
+ *             generator to `.generated-specs/<model>.json`, which stays the
+ *             unpatched convert output. A fix lands by regenerating, without
+ *             the spec mirror.
  */
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import {
@@ -27,9 +34,7 @@ export interface ApplyPatchesResult {
 
 /** Smithy-model JSON pointers — OpenAPI has no `/shapes` tree. */
 export const isSmithyPatchPath = (pointer: string): boolean =>
-  pointer.startsWith("/shapes") ||
-  pointer.startsWith("/metadata") ||
-  pointer.startsWith("/smithy");
+  pointer.startsWith("/shapes") || pointer.startsWith("/metadata") || pointer.startsWith("/smithy");
 
 const exists = async (p: string): Promise<boolean> => {
   try {
@@ -100,14 +105,9 @@ const skipList = (): SkipList | undefined => {
 };
 
 const skipsFile = (list: SkipList | undefined, file: string): boolean =>
-  list !== undefined &&
-  (list.all || list.files.some((entry) => skipMatches(file, entry)));
+  list !== undefined && (list.all || list.files.some((entry) => skipMatches(file, entry)));
 
-const skipsOp = (
-  list: SkipList | undefined,
-  file: string,
-  index: number,
-): boolean => {
+const skipsOp = (list: SkipList | undefined, file: string, index: number): boolean => {
   if (list === undefined) return false;
   for (const [entry, indices] of list.ops) {
     if (indices.has(index) && skipMatches(file, entry)) return true;
@@ -127,8 +127,8 @@ export const listRfc6902PatchFiles = async (dir: string): Promise<string[]> => {
     .filter((f) => f.endsWith(".json"))
     .sort(
       (a, b) =>
-        Number(a.endsWith(".manual.json")) -
-          Number(b.endsWith(".manual.json")) || a.localeCompare(b),
+        Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
+        a.localeCompare(b),
     )
     .map((f) => path.join(dir, f))
     .filter((f) => !skipsFile(skip, f));
@@ -181,29 +181,73 @@ export const applyRfc6902Files = async (
   return result;
 };
 
+/** Where a package applies its patches; see the module comment. */
+export type PatchStage = "convert" | "generate";
+
+/** The stage `<root>/package.json` declares under `distilled.patches`. */
+export const patchStage = (root: string): PatchStage => {
+  const manifest = path.join(root, "package.json");
+  if (!existsSync(manifest)) return "convert";
+  const stage = JSON.parse(readFileSync(manifest, "utf8"))?.distilled?.patches;
+  if (stage === undefined || stage === "convert") return "convert";
+  if (stage === "generate") return stage;
+  throw new Error(`${manifest}: distilled.patches must be "convert" or "generate", got ${stage}`);
+};
+
+/**
+ * Apply a generate-stage model's patches: every `*.json` in `dir`
+ * (`*.manual.json` last), honouring {@link SKIP_PATCHES_ENV}. A stale or
+ * failing op throws — a generate run must not drop a patch silently.
+ * Returns the number of ops applied; a missing dir applies none.
+ */
+export const applyModelPatches = (model: unknown, dir: string): number => {
+  if (!existsSync(dir)) return 0;
+  const skip = skipList();
+  let applied = 0;
+  const files = readdirSync(dir)
+    .filter((f) => f.endsWith(".json"))
+    .sort(
+      (a, b) =>
+        Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
+        a.localeCompare(b),
+    )
+    .map((f) => path.join(dir, f));
+  for (const file of files) {
+    if (skipsFile(skip, file)) continue;
+    const parsed = JSON.parse(readFileSync(file, "utf8")) as PatchFile;
+    for (const [index, op] of (parsed.patches ?? []).entries()) {
+      if (skipsOp(skip, file, index)) continue;
+      try {
+        applyOperation(model, op);
+        applied++;
+      } catch (e) {
+        const kind = isStaleTargetError(e) ? "stale target" : "failed";
+        const label = `${path.basename(dir)}/${path.basename(file)}`;
+        throw new Error(
+          `${label} [${op.op} ${op.path}]: ${kind}: ${e instanceof Error ? e.message : String(e)}`,
+        );
+      }
+    }
+  }
+  return applied;
+};
+
 /**
  * An RFC-6902 `move` that renames an operation shape leaves the service's
  * `operations` list pointing at the old id. Drop entries whose target no
  * longer exists and append operation shapes the list is missing, keeping
  * the existing order. Returns the number of services whose list changed.
  */
-export const syncServiceOperations = (model: {
-  shapes?: Record<string, any>;
-}): number => {
+export const syncServiceOperations = (model: { shapes?: Record<string, any> }): number => {
   const shapes = model.shapes ?? {};
-  const opIds = Object.keys(shapes).filter(
-    (id) => shapes[id]?.type === "operation",
-  );
+  const opIds = Object.keys(shapes).filter((id) => shapes[id]?.type === "operation");
   let changed = 0;
   for (const def of Object.values(shapes)) {
     if (def?.type !== "service") continue;
     const current: Array<{ target: string }> = def.operations ?? [];
     const kept = current.filter((o) => shapes[o.target]?.type === "operation");
     const listed = new Set(kept.map((o) => o.target));
-    const after = [
-      ...kept,
-      ...opIds.filter((id) => !listed.has(id)).map((target) => ({ target })),
-    ];
+    const after = [...kept, ...opIds.filter((id) => !listed.has(id)).map((target) => ({ target }))];
     if (JSON.stringify(current) !== JSON.stringify(after)) {
       def.operations = after;
       changed++;
@@ -218,9 +262,7 @@ export const syncServiceOperations = (model: {
  * A convert that produces any is broken — generate would emit references
  * to types that do not exist.
  */
-export const danglingTargets = (model: {
-  shapes?: Record<string, any>;
-}): string[] => {
+export const danglingTargets = (model: { shapes?: Record<string, any> }): string[] => {
   const shapes = model.shapes ?? {};
   const ids = new Set(Object.keys(shapes));
   const out: string[] = [];
@@ -230,9 +272,7 @@ export const danglingTargets = (model: {
       return;
     }
     if (node === null || typeof node !== "object") return;
-    for (const [key, value] of Object.entries(
-      node as Record<string, unknown>,
-    )) {
+    for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
       if (key === "target" && typeof value === "string") {
         if (!value.startsWith("smithy.") && !ids.has(value)) {
           out.push(`${owner} → ${value}`);
@@ -270,9 +310,7 @@ export const finalizeConvert = async (o: {
   const specsDir = path.resolve(o.root, o.outDir ?? ".generated-specs");
   if (!(await exists(specsDir))) return;
   const patchesDir =
-    o.patchesDir === false
-      ? undefined
-      : path.resolve(o.root, o.patchesDir ?? "patches");
+    o.patchesDir === false ? undefined : path.resolve(o.root, o.patchesDir ?? "patches");
   const naming = o.operationNaming ?? "verbNoun";
 
   const walk = async (dir: string): Promise<string[]> => {
@@ -281,10 +319,7 @@ export const finalizeConvert = async (o: {
       const p = path.join(dir, ent.name);
       if (ent.isDirectory()) {
         out.push(...(await walk(p)));
-      } else if (
-        ent.name.endsWith(".json") &&
-        !(o.exclude?.(ent.name) ?? false)
-      ) {
+      } else if (ent.name.endsWith(".json") && !(o.exclude?.(ent.name) ?? false)) {
         out.push(p);
       }
     }
@@ -303,9 +338,7 @@ export const finalizeConvert = async (o: {
       );
     }
     if (patchesDir) {
-      const patchFiles = await listRfc6902PatchFiles(
-        path.join(patchesDir, resource),
-      );
+      const patchFiles = await listRfc6902PatchFiles(path.join(patchesDir, resource));
       const applied = await applyRfc6902Files(model, patchFiles, {
         onStalePatch: o.onStalePatch,
         include: (op) => isSmithyPatchPath(op.path),
@@ -331,9 +364,7 @@ export const finalizeConvert = async (o: {
         console.log(`   verbNoun ${resource}: renamed ${renamed} operation(s)`);
       }
       for (const c of collisions) {
-        console.warn(
-          `   ⚠️  verbNoun collision ${resource}: ${c} (kept original)`,
-        );
+        console.warn(`   ⚠️  verbNoun collision ${resource}: ${c} (kept original)`);
       }
     }
 

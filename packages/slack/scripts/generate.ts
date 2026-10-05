@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Slack
  * Effect SDK.
@@ -25,7 +26,6 @@
  *     member for callers to thread.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -106,7 +106,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Slack Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   spec: (model) => {
     // The converter records non-JSON request encodings as an operation trait
     // but only merges `multipart` into `smithy.api#http` itself —

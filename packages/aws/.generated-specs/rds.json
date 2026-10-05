@@ -13326,11 +13326,7 @@
             "output": {
               "DBCluster": {
                 "AllocatedStorage": 20,
-                "AvailabilityZones": [
-                  "eu-central-1b",
-                  "eu-central-1c",
-                  "eu-central-1a"
-                ],
+                "AvailabilityZones": ["eu-central-1b", "eu-central-1c", "eu-central-1a"],
                 "BackupRetentionPeriod": 7,
                 "DBClusterIdentifier": "mycluster",
                 "DBClusterParameterGroup": "default.aurora-postgresql10",
@@ -15591,11 +15587,7 @@
             "output": {
               "DBClusterSnapshots": [
                 {
-                  "AvailabilityZones": [
-                    "us-east-1a",
-                    "us-east-1b",
-                    "us-east-1e"
-                  ],
+                  "AvailabilityZones": ["us-east-1a", "us-east-1b", "us-east-1e"],
                   "DBClusterSnapshotIdentifier": "myclustersnapshotcopy",
                   "DBClusterIdentifier": "mydbcluster",
                   "SnapshotCreateTime": "2019-06-04T09:16:42.649Z",
@@ -15616,11 +15608,7 @@
                   "IAMDatabaseAuthenticationEnabled": false
                 },
                 {
-                  "AvailabilityZones": [
-                    "us-east-1a",
-                    "us-east-1b",
-                    "us-east-1e"
-                  ],
+                  "AvailabilityZones": ["us-east-1a", "us-east-1b", "us-east-1e"],
                   "DBClusterSnapshotIdentifier": "rds:mydbcluster-2019-06-20-09-16",
                   "DBClusterIdentifier": "mydbcluster",
                   "SnapshotCreateTime": "2019-06-20T09:16:26.569Z",
@@ -15871,11 +15859,7 @@
               "DBClusters": [
                 {
                   "AllocatedStorage": 1,
-                  "AvailabilityZones": [
-                    "us-east-1a",
-                    "us-east-1b",
-                    "us-east-1e"
-                  ],
+                  "AvailabilityZones": ["us-east-1a", "us-east-1b", "us-east-1e"],
                   "BackupRetentionPeriod": 1,
                   "DatabaseName": "mydbcluster",
                   "DBClusterIdentifier": "mydbcluster",
@@ -15963,11 +15947,7 @@
               "DBClusters": [
                 {
                   "AllocatedStorage": 1,
-                  "AvailabilityZones": [
-                    "us-east-1d",
-                    "us-east-1a",
-                    "us-east-1c"
-                  ],
+                  "AvailabilityZones": ["us-east-1d", "us-east-1a", "us-east-1c"],
                   "BackupRetentionPeriod": 1,
                   "DBClusterIdentifier": "my-vpcless-cluster",
                   "DBClusterParameterGroup": "default.aurora-postgresql17",
@@ -18361,12 +18341,7 @@
                 },
                 {
                   "SourceType": "db-snapshot",
-                  "EventCategories": [
-                    "deletion",
-                    "creation",
-                    "restoration",
-                    "notification"
-                  ]
+                  "EventCategories": ["deletion", "creation", "restoration", "notification"]
                 },
                 {
                   "SourceType": "db-cluster",
@@ -23379,11 +23354,7 @@
             "output": {
               "DBCluster": {
                 "AllocatedStorage": 1,
-                "AvailabilityZones": [
-                  "eu-central-1b",
-                  "eu-central-1c",
-                  "eu-central-1a"
-                ],
+                "AvailabilityZones": ["eu-central-1b", "eu-central-1c", "eu-central-1a"],
                 "BackupRetentionPeriod": 14,
                 "DatabaseName": "",
                 "DBClusterIdentifier": "cluster-2",
@@ -27976,9 +27947,7 @@
                 "GlobalClusterMembers": [
                   {
                     "DBClusterArn": "arn:aws:rds:us-east-1:123456789012:cluster:js-global-cluster",
-                    "Readers": [
-                      "arn:aws:rds:us-west-2:123456789012:cluster:DB-1"
-                    ],
+                    "Readers": ["arn:aws:rds:us-west-2:123456789012:cluster:DB-1"],
                     "IsWriter": true
                   },
                   {

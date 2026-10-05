@@ -4,6 +4,7 @@
  * process. Each layer is defined in its provider's own file.
  */
 export * from "./credentials-service.ts";
+export type { Secret } from "./credential-providers/credential-source.ts";
 export {
   createCredentialChain,
   propertyProviderChain,
@@ -11,7 +12,10 @@ export {
 export { fromCognitoIdentityPool } from "./credential-providers/from-cognito-identity-pool.ts";
 export { fromCognitoIdentity } from "./credential-providers/from-cognito-identity.ts";
 export { fromContainerMetadata } from "./credential-providers/from-container-metadata.ts";
-export { fromCredentials } from "./credential-providers/from-credentials.ts";
+export {
+  fromCredentials,
+  type StaticCredentials,
+} from "./credential-providers/from-credentials.ts";
 export { fromEnv } from "./credential-providers/from-env.ts";
 export { fromHttp } from "./credential-providers/from-http.ts";
 export { fromInstanceMetadata } from "./credential-providers/from-instance-metadata.ts";

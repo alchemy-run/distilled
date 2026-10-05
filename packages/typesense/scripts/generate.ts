@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect SDK.
  *
@@ -12,7 +13,6 @@
  * matchers), protocol/retry names, and the import header.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -64,13 +64,12 @@ const spec: SdkSpec = {
   },
 
   // No common error classes → drop the empty errors import.
-  postProcess: (code) =>
-    code.replace(/^import \{\s*\} from "\.\.\/errors\.ts";\n/m, ""),
+  postProcess: (code) => code.replace(/^import \{\s*\} from "\.\.\/errors\.ts";\n/m, ""),
 };
 
 runGeneratorCli({
   description: "Generate the Typesense Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — there is no smithy-model patch chain.
   patchesDir: false,

@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — Whop's two OpenAPI descriptions → Smithy JSON models in
  * .generated-specs.
@@ -53,15 +53,15 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import {
   applyOperation,
   isStaleTargetError,
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 
-const rootDir = path.resolve(import.meta.dir, "..");
+const rootDir = path.resolve(import.meta.dirname, "..");
 const specDir = path.join(rootDir, "specs");
 const patchDir = path.join(rootDir, "patches");
 const outDir = path.join(rootDir, ".generated-specs");
@@ -145,7 +145,7 @@ for (const surface of SURFACES) {
   const specPath = path.join(specDir, surface.file);
   if (!fs.existsSync(specPath)) {
     throw new Error(
-      `${specPath} not found — run \`bun run spec:download\` to fetch the OpenAPI documents`,
+      `${specPath} not found — run \`pnpm run spec:download\` to fetch the OpenAPI documents`,
     );
   }
   documents.set(surface.id, JSON.parse(fs.readFileSync(specPath, "utf-8")));
@@ -169,9 +169,7 @@ for (const surface of SURFACES) {
     .readdirSync(dir)
     .filter((f) => f.endsWith(".patch.json"))
     .sort((a, b) => a.localeCompare(b))) {
-    const parsed = JSON.parse(
-      fs.readFileSync(path.join(dir, pf), "utf-8"),
-    ) as PatchFile;
+    const parsed = JSON.parse(fs.readFileSync(path.join(dir, pf), "utf-8")) as PatchFile;
     for (const patchOp of parsed.patches ?? []) {
       try {
         applyOperation(doc, patchOp);
@@ -179,13 +177,9 @@ for (const surface of SURFACES) {
         const msg = e instanceof Error ? e.message : String(e);
         if (isStaleTargetError(msg)) {
           staleOps++;
-          console.warn(
-            `   ⚠️  stale: ${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]`,
-          );
+          console.warn(`   ⚠️  stale: ${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]`);
         } else {
-          badPatches.push(
-            `${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`,
-          );
+          badPatches.push(`${surface.id}/${pf} [${patchOp.op} ${patchOp.path}]: ${msg}`);
         }
       }
     }
@@ -194,13 +188,10 @@ for (const surface of SURFACES) {
 }
 if (badPatches.length) {
   for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
+  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
 }
 console.log(
-  `🩹 ${patchFiles} patch files applied` +
-    (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
+  `🩹 ${patchFiles} patch files applied` + (staleOps ? ` (${staleOps} stale op(s) skipped)` : ""),
 );
 
 // ============================================================================
@@ -236,9 +227,7 @@ const renames = new Map<string, string>(
 );
 for (const [from, to] of renames) {
   if (to in legacy.components.schemas || to in versioned.components.schemas) {
-    throw new Error(
-      `renaming legacy schema ${from} → ${to} would collide with an existing shape`,
-    );
+    throw new Error(`renaming legacy schema ${from} → ${to} would collide with an existing shape`);
   }
 }
 
@@ -309,9 +298,7 @@ const addRoute = (
 ): void => {
   if (!merged.paths[pathTemplate]) {
     // Carry any path-level params into the merged item.
-    merged.paths[pathTemplate] = pathItem.parameters
-      ? { parameters: pathItem.parameters }
-      : {};
+    merged.paths[pathTemplate] = pathItem.parameters ? { parameters: pathItem.parameters } : {};
   }
   merged.paths[pathTemplate][method] = op;
   routeSurface.set(routeKey(method, pathTemplate), surface.id);
@@ -395,9 +382,7 @@ for (const [pathTemplate, pathItem] of Object.entries<any>(merged.paths)) {
     if (surface === "legacy") {
       op.description =
         `[Legacy API — https://docs.whop.com/api-reference]` +
-        (typeof op.description === "string" && op.description
-          ? `\n\n${op.description}`
-          : "");
+        (typeof op.description === "string" && op.description ? `\n\n${op.description}` : "");
     }
 
     const rawTag: string | undefined =
@@ -412,9 +397,7 @@ for (const [pathTemplate, pathItem] of Object.entries<any>(merged.paths)) {
     if (!tagBuckets.has(slug)) tagBuckets.set(slug, {});
     const bucketPaths = tagBuckets.get(slug)!;
     if (!bucketPaths[pathTemplate]) {
-      bucketPaths[pathTemplate] = pathItem.parameters
-        ? { parameters: pathItem.parameters }
-        : {};
+      bucketPaths[pathTemplate] = pathItem.parameters ? { parameters: pathItem.parameters } : {};
     }
     bucketPaths[pathTemplate][method] = op;
   }
@@ -432,9 +415,7 @@ const collisions: string[] = [];
 for (const [slug, claims] of nameClaims) {
   for (const [name, keys] of claims) {
     if (keys.length > 1) {
-      collisions.push(
-        `${slug} :: ${name}\n` + keys.map((k) => `  ${k}`).join("\n"),
-      );
+      collisions.push(`${slug} :: ${name}\n` + keys.map((k) => `  ${k}`).join("\n"));
     }
   }
 }
@@ -463,10 +444,7 @@ const deref = (node: any): any =>
     ? node.$ref
         .split("/")
         .slice(1)
-        .reduce(
-          (acc: any, key: string) => acc?.[key.replace(/~1/g, "/")],
-          merged,
-        )
+        .reduce((acc: any, key: string) => acc?.[key.replace(/~1/g, "/")], merged)
     : node;
 
 /**
@@ -568,9 +546,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     // ride the common error channel instead of every operation's own union.
   });
 
-  const operations = Object.entries<any>(model.shapes).filter(
-    ([, s]) => s.type === "operation",
-  );
+  const operations = Object.entries<any>(model.shapes).filter(([, s]) => s.type === "operation");
   if (operations.length === 0) continue; // all-deprecated bucket
 
   // Spell the idempotency header input like the rest of the input.
@@ -622,19 +598,14 @@ for (const slug of [...tagBuckets.keys()].sort()) {
   );
   if (surfaces.size > 1) mixedBuckets.push(slug);
 
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
   written++;
   totalOps += operations.length;
   totalPaginated += paginated;
 }
 
 if (mixedBuckets.length) {
-  console.log(
-    `🔗 ${mixedBuckets.length} module(s) hold both surfaces: ${mixedBuckets.join(", ")}`,
-  );
+  console.log(`🔗 ${mixedBuckets.length} module(s) hold both surfaces: ${mixedBuckets.join(", ")}`);
 }
 
 // ============================================================================

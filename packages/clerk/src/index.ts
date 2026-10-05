@@ -15,11 +15,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  ClerkProtocol,
-  type ClerkOpError,
-  type ClerkOpContext,
-} from "./protocol.ts";
+export { ClerkProtocol, type ClerkOpError, type ClerkOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";

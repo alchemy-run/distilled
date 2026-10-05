@@ -3,7 +3,7 @@ packages:
   # Deployment stacks. Not published, not part of `tsc -b` — but members so
   # one `pnpm install` covers them and their versions live in one lockfile.
   - stacks/*
-  # Benchmark suites. Not published, not part of `tsc -b`; run with bun.
+  # Benchmark suites. Not published, not part of `tsc -b`; run with node.
   - benches/*
   # Landing page + Alchemy deploy stack. Private, not in the SDK tsconfig
   # graph; CI typechecks it with `pnpm --filter "./website" run typecheck`.
@@ -15,43 +15,28 @@ allowBuilds:
   workerd: true
 
 catalog:
-  "@effect/platform-bun": ">=4.0.0-rc.118 || >=4.0.0"
-  "@effect/platform-node": ">=4.0.0-rc.118 || >=4.0.0"
+  "@effect/platform-node": "^4.0.0"
   "@oxc-project/types": "^0.146.0"
-  "@smithy/types": "^4.17.2"
-  "@types/bun": "1.3.14"
   "@types/node": "26.2.0"
+  alchemy: "2.0.0-beta.80"
   changelogithub: "^13.16.1"
-  dedent: "^1.7.2"
-  effect: ">=4.0.0-rc.118 || >=4.0.0"
+  effect: "^4.0.0"
   graphql: "^16.14.2"
   husky: "^9.1.7"
   mitata: "^1.0.34"
-  oxfmt: "^0.66.0"
-  oxlint: "^1.82.0"
-  pathe: "^2.0.3"
+  oxfmt: "^0.71.0"
+  oxlint: "^1.86.0"
   rolldown: "1.2.5"
   typescript: "^7.0.2"
+  vitest: "^4.1.8"
   yaml: "^2.9.0"
-overrides:
-  "@effect/platform-bun@4.0.0-rc.112>@effect/platform-node-shared": "4.0.0-rc.112"
-  "@effect/platform-node@4.0.0-rc.112>@effect/platform-node-shared": "4.0.0-rc.112"
-
-catalogs:
-  # Compatibility line used by the deployment-stack fixtures.
-  alchemy:
-    "@effect/platform-bun": "4.0.0-rc.112"
-    "@effect/platform-node": "4.0.0-rc.112"
-    alchemy: "2.0.0-beta.77"
-    effect: "4.0.0-rc.112"
 minimumReleaseAgeExclude:
-  - "@effect/atom-react@4.0.0-rc.118"
-  - "@effect/platform-bun@4.0.0-rc.118"
-  - "@effect/platform-node-shared@4.0.0-rc.118"
-  - "@effect/platform-node@4.0.0-rc.118"
-  - "@effect/sql-d1@4.0.0-rc.118"
-  - "@effect/sql-mysql2@4.0.0-rc.118"
-  - "@effect/sql-pg@4.0.0-rc.118"
-  - "@effect/sql-sqlite-do@4.0.0-rc.118"
-  - "@effect/vitest@4.0.0-rc.118"
-  - effect@4.0.0-rc.118
+  - "@effect/atom-react@4.0.0"
+  - "@effect/platform-node-shared@4.0.0"
+  - "@effect/platform-node@4.0.0"
+  - "@effect/sql-d1@4.0.0"
+  - "@effect/sql-mysql2@4.0.0"
+  - "@effect/sql-pg@4.0.0"
+  - "@effect/sql-sqlite-do@4.0.0"
+  - "@effect/vitest@4.0.0"
+  - effect@4.0.0

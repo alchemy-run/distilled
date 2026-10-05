@@ -4181,6 +4181,12 @@
             "smithy.api#required": {}
           }
         },
+        "Idempotency_Key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Idempotency-Key"
+          }
+        },
         "defaultCreator": {
           "target": "smithy.api#String",
           "traits": {

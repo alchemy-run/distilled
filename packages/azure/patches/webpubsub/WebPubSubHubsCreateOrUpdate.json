@@ -1,0 +1,45 @@
+{
+  "description": "EventListenerFilter and EventListenerEndpoint are polymorphic on `type`; the converted model keeps only the discriminator, so S.Struct strips the EventNameFilter (`systemEvents`, `userEventPattern`) and EventHubEndpoint (`fullyQualifiedNamespace`, `eventHubName`) payloads on encode and decode. Add the subtype members to the base shapes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub#EventListenerFilter/members/systemEvents",
+      "value": {
+        "target": "com.azure.webpubsub#EventHandlerSystemEventsList",
+        "traits": {
+          "smithy.api#documentation": "EventNameFilter: system events to forward (`connected`, `disconnected`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub#EventListenerFilter/members/userEventPattern",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventNameFilter: matching pattern for user event names (`*`, `event1,event2`, or a single name)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub#EventListenerEndpoint/members/fullyQualifiedNamespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHubEndpoint: fully qualified Event Hubs namespace, e.g. `my.servicebus.windows.net`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub#EventListenerEndpoint/members/eventHubName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "EventHubEndpoint: name of the event hub."
+        }
+      }
+    }
+  ]
+}

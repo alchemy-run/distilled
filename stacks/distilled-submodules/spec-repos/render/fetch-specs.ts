@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 /**
  * Fetches the Render Public API OpenAPI spec (and a snapshot of the vendor
  * API docs page) to ../specs/.
@@ -8,21 +8,21 @@
  * There is no git repo and no versioned URL, so the mirror snapshots it.
  *
  * Usage:
- *   bun run fetch-specs.ts
+ *   node fetch-specs.ts
  *
  * Written to:
  *   ../specs/openapi.json
  *   ../specs/api-docs.html
  */
 
-const OPENAPI_SPEC_URL =
-  "https://api-docs.render.com/openapi/render-public-api-1.json";
+const OPENAPI_SPEC_URL = "https://api-docs.render.com/openapi/render-public-api-1.json";
 const DOCS_URL = "https://render.com/docs/api";
 const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 const DOCS_PATH = `${SPECS_DIR}/api-docs.html`;
 
 import { existsSync, mkdirSync } from "fs";
+import { writeFile } from "fs/promises";
 
 if (!existsSync(SPECS_DIR)) {
   mkdirSync(SPECS_DIR, { recursive: true });
@@ -37,9 +37,7 @@ async function fetchJson(url: string): Promise<Record<string, unknown>> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   return (await response.json()) as Record<string, unknown>;
@@ -54,9 +52,7 @@ async function fetchText(url: string): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   return await response.text();
@@ -78,18 +74,16 @@ async function main() {
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
   // 2-space indent + trailing newline so a whitespace-only change upstream
   // produces no diff.
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
+  await writeFile(OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
   console.log(`Fetching vendor docs from ${DOCS_URL}...`);
   const docs = await fetchText(DOCS_URL);
   if (docs.trim().length === 0) {
     throw new Error(`${DOCS_URL} returned an empty document`);
   }
-  await Bun.write(DOCS_PATH, docs.endsWith("\n") ? docs : docs + "\n");
+  await writeFile(DOCS_PATH, docs.endsWith("\n") ? docs : docs + "\n");
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

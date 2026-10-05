@@ -54,7 +54,7 @@ this table is the whole decision.
 
 A YAML spec does not have to be converted in the mirror: `spec-repos/coinbase`
 mirrors `openapi.yaml` verbatim and `packages/coinbase/scripts/convert.ts`
-passes `parse: (text) => Bun.YAML.parse(text)` to `runOpenApiConvert`. Convert
+passes `parse` from the `yaml` package to `runOpenApiConvert`. Convert
 in the mirror only when the upstream is an endpoint rather than a file.
 
 **When the user says "like GitHub"** they mean a few files out of a big repo —
@@ -109,7 +109,7 @@ packages/<pkg>/specs/.local/
 ```
 
 The directory is gitignored. Re-run the command to refetch after editing the
-fetch script (the `bun install` only happens once).
+fetch script (the `pnpm install` only happens once).
 
 ## Step 4 — write the package
 
@@ -133,6 +133,36 @@ Public surface: re-export the generated barrel at the package root
 not `Pkg.Services.vms.createVm`. Do not add a `Services` namespace. A
 single-service package re-exports operations on the root (`Pkg.listX`) the
 same way.
+
+### Credentials
+
+`src/credentials.ts` is hand-written (copy `packages/s2/src/credentials.ts`).
+Every secret it touches is a `Redacted.Redacted<string>` from
+`effect/Redacted`: API keys, tokens (access, refresh, bearer, session),
+passwords, client secrets, private keys, and signing or HMAC secrets. Base
+URLs, account and org IDs, emails, usernames, client IDs and key IDs stay
+plain strings.
+
+- **Inputs take `Redacted<string>` only.** Type a secret parameter of
+  `fromApiKey`, `credentials`, `fromToken` and the like, and any callback
+  that returns one (an OAuth `load`/`refresh`), as `Redacted.Redacted<string>`.
+  Do not type it `string`, and do not type it `string | Redacted<string>`. A
+  plain string is how a secret ends up in a log or an error, so the caller
+  wraps it.
+- **The resolved credentials hold `Redacted`.** The value the `Credentials`
+  service yields, and any cache of it, keeps each secret redacted.
+- **Redact environment secrets on read.** Use `Config.Redacted("<ENV>")`.
+- **Unwrap at the point of use.** Call `Redacted.value` only where the
+  header, query string, body or signature is built, and never put a secret
+  in an error message or an error field. Anything minted at runtime (an
+  exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
+
+This must print nothing:
+
+```sh
+grep -niE 'readonly \w*(key|token|secret|password)\??: string' \
+  packages/<pkg>/src/credentials.ts
+```
 
 ### Errors and response validation
 
@@ -176,13 +206,19 @@ Strict mode surfaces every spec inaccuracy (an undocumented `null`, a new
 enum member) as a `<Pkg>ParseError`; that is the cost of opting in, and why
 strict is never the default.
 
-Every SDK ships `src/response-validation.test.ts` (copy
-`packages/s2/src/response-validation.test.ts`). It uses
-`runValidationModes` from `@distilled.cloud/core/testing` to run one real
-operation against a canned response in both modes and asserts: a matching
-body succeeds in both; a mismatched body succeeds in lenient and fails with
-`<Pkg>ParseError` in strict; and what a non-JSON body does in each. CI runs
-every `packages/*/src/response-validation.test.ts`.
+Do not add tests to a generated SDK. Generated code is tested once, through
+the generator and the protocols in `packages/core`. `packages/core/src/sdks.test.ts`
+runs against every package and checks the glue a new SDK hand-writes: its
+`<Pkg>OpError` union reaches `<Pkg>ParseError` (so `catchTag` on a strict
+call typechecks), something outside `src/services/` constructs it, and
+`errors.ts` exports it. A new package is covered the moment it exists; a
+package that cannot follow the pattern goes in that file's exemption list
+with the reason. A package gets a test
+only for code someone wrote by hand in it — a custom protocol
+(`packages/fly-io/src/protocol.ts`, everything in `packages/aws`), or
+credentials logic like `packages/prisma/test/credentials.test.ts` — next to
+that code. No live tests: calls against real APIs belong to Alchemy's test
+suite.
 
 Before opening the PR, confirm the parse error and the unknown-error
 fallback are both constructed outside the generated code — this must print
@@ -240,7 +276,7 @@ leaves anything already verb-first or ambiguous (`WatchPodList`,
 `AppGetOrCreate`, `accountById`) unchanged. Irregulars go in
 `operationNames` (lookup by `"METHOD path"`, then operationId) — PUT vs
 PATCH that share an upstream id need the path key. Cases live in
-`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`bun test`); add
+`packages/core/src/codegen/rewrite-operation-ids.test.ts` (`pnpm vitest run`); add
 one before changing the heuristic. Do not RFC-6902-patch
 `/paths/~1foo/get/operationId`; those break when upstream adds a prefix.
 Patch the spec, not the generated TypeScript. Writing and checking a
@@ -405,8 +441,7 @@ Body, in order:
    quick start.
 4. `Checks: pnpm specs:check` green, `tsc -b packages/<pkg> --noCheck false`
    green, `DISTILLED_SPECS_LOCAL=1 pnpm generate <pkg>` reproduces output,
-   the error-construction check from step 4 finds both classes, and
-   `bun test src/response-validation.test.ts` passes.
+   and the error-construction check from step 4 finds both classes.
 
 ```sh
 git push -u origin HEAD

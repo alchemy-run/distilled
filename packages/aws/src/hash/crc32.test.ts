@@ -1,5 +1,5 @@
-import { describe, expect, test } from "bun:test";
 import * as zlib from "node:zlib";
+import { describe, expect, test } from "vitest";
 import { Crc32 } from "./crc32.ts";
 
 const textEncoder = new TextEncoder();

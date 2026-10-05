@@ -1,14 +1,11 @@
+import * as Effect from "effect/Effect";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 /**
  * The credentials document the container, HTTP and instance metadata
  * endpoints all return, and the GET that fetches it.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-} from "./credential-source.ts";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
+import { type CredentialSource, CredentialSourceError } from "./credential-source.ts";
 import { requestText } from "./http-client.ts";
 
 export const DEFAULT_TIMEOUT_MS = 1000;
@@ -29,9 +26,7 @@ const isImdsCredentials = (arg: unknown): arg is ImdsCredentials =>
   typeof (arg as ImdsCredentials).Token === "string" &&
   typeof (arg as ImdsCredentials).Expiration === "string";
 
-const fromImdsCredentials = (
-  creds: ImdsCredentials,
-): AwsCredentialIdentity => ({
+const fromImdsCredentials = (creds: ImdsCredentials): AwsCredentialIdentity => ({
   accessKeyId: creds.AccessKeyId,
   secretAccessKey: creds.SecretAccessKey,
   sessionToken: creds.Token,
@@ -55,8 +50,7 @@ export const parseImdsCredentials = (
         ? Effect.succeed(fromImdsCredentials(parsed))
         : Effect.fail(
             new CredentialSourceError({
-              message:
-                "Invalid response received from instance metadata service.",
+              message: "Invalid response received from instance metadata service.",
             }),
           ),
     ),

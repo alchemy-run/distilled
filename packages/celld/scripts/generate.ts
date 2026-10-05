@@ -1,13 +1,12 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 runGeneratorCli({
   description: "Generate the Celld SDK from the source-derived Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   spec: (model) => ({
-    sourceNote:
-      "the Celld v0.6.0 source-derived Smithy specifications in specs/",
+    sourceNote: "the Celld v0.6.0 source-derived Smithy specifications in specs/",
     nullableTrait: "com.distilled.openapi#nullable",
     errorMatchersTrait: "com.distilled.openapi#errorMatchers",
     memberTraitPipes: { "com.distilled.http#labelEncoding": "T.LabelEncoding" },

@@ -302,6 +302,12 @@
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
           }
         },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
+          }
+        },
         "stale_zone_configuration": {
           "target": "com.cloudflare.bot_management#GetResultBotFightModeConfigurationStaleZoneConfiguration",
           "traits": {
@@ -589,6 +595,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
+          }
+        },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
           }
         },
         "optimize_wordpress": {
@@ -921,6 +933,12 @@
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
           }
         },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
+          }
+        },
         "optimize_wordpress": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1234,6 +1252,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
+          }
+        },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
           }
         },
         "stale_zone_configuration": {
@@ -1877,6 +1901,12 @@
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
           }
         },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
+          }
+        },
         "stale_zone_configuration": {
           "target": "com.cloudflare.bot_management#UpdateResultBotFightModeConfigurationStaleZoneConfiguration",
           "traits": {
@@ -2164,6 +2194,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
+          }
+        },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
           }
         },
         "optimize_wordpress": {
@@ -2496,6 +2532,12 @@
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
           }
         },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
+          }
+        },
         "optimize_wordpress": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -2809,6 +2851,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
+          }
+        },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
           }
         },
         "stale_zone_configuration": {
@@ -3355,6 +3403,12 @@
           "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "Enable cloudflare managed robots.txt. If an existing robots.txt is detected, then managed robots.txt will be prepended to the existing robots.txt."
+          }
+        },
+        "jsd_api_results_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether to use JavaScript Detection results submitted through the API for this zone."
           }
         },
         "stale_zone_configuration": {

@@ -118,6 +118,754 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase0Action": {
+      "type": "enum",
+      "members": {
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        },
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase0ProfilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase0": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase0Action",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "profiles": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase0ProfilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemAction": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemCheckItem": {
+      "type": "enum",
+      "members": {
+        "REQUEST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REQUEST"
+          }
+        },
+        "RESPONSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RESPONSE"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemCheckList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemCheckItem"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemProfilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "action": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemAction",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "check": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemCheckList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "profiles": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItemProfilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesItem"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlpCase1": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "policies": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1PoliciesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestDlp": {
+      "type": "union",
+      "members": {
+        "CreateRequestDlpCase0": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase0"
+        },
+        "CreateRequestDlpCase1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlpCase1"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptP1": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS1": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS10": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS11": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS12": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS13": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS2": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS3": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS4": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS5": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS6": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS7": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS8": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS9": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsPrompt": {
+      "type": "structure",
+      "members": {
+        "P1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptP1"
+        },
+        "S1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS1"
+        },
+        "S10": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS10"
+        },
+        "S11": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS11"
+        },
+        "S12": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS12"
+        },
+        "S13": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS13"
+        },
+        "S2": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS2"
+        },
+        "S3": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS3"
+        },
+        "S4": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS4"
+        },
+        "S5": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS5"
+        },
+        "S6": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS6"
+        },
+        "S7": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS7"
+        },
+        "S8": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS8"
+        },
+        "S9": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPromptS9"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseP1": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS1": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS10": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS11": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS12": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS13": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS2": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS3": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS4": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS5": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS6": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS7": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS8": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS9": {
+      "type": "enum",
+      "members": {
+        "FLAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "FLAG"
+          }
+        },
+        "BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "BLOCK"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponse": {
+      "type": "structure",
+      "members": {
+        "P1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseP1"
+        },
+        "S1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS1"
+        },
+        "S10": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS10"
+        },
+        "S11": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS11"
+        },
+        "S12": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS12"
+        },
+        "S13": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS13"
+        },
+        "S2": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS2"
+        },
+        "S3": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS3"
+        },
+        "S4": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS4"
+        },
+        "S5": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS5"
+        },
+        "S6": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS6"
+        },
+        "S7": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS7"
+        },
+        "S8": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS8"
+        },
+        "S9": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponseS9"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestGuardrails": {
+      "type": "structure",
+      "members": {
+        "prompt": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsPrompt",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "response": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrailsResponse",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.ai_gateway#CreateRequestLogManagementStrategy": {
       "type": "enum",
       "members": {
@@ -133,6 +881,61 @@
             "smithy.api#enumValue": "DELETE_OLDEST"
           }
         }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestOtelItemHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestOtelItemContentType": {
+      "type": "enum",
+      "members": {
+        "JSON": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "json"
+          }
+        },
+        "PROTOBUF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "protobuf"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestOtelItem": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestOtelItemHeadersMap",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "authorization": {
+          "target": "smithy.api#String"
+        },
+        "content_type": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestOtelItemContentType"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestOtelList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.ai_gateway#CreateRequestOtelItem"
       }
     },
     "com.cloudflare.ai_gateway#CreateRequestRateLimitingTechnique": {
@@ -171,6 +974,263 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "exponential"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemLimitType": {
+      "type": "enum",
+      "members": {
+        "COST": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "cost"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataModeMode": {
+      "type": "enum",
+      "members": {
+        "PARTITION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "partition"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataMode": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataModeMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1Mode": {
+      "type": "enum",
+      "members": {
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "filter"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1Mode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1ValuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadata": {
+      "type": "union",
+      "members": {
+        "Mode": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataMode"
+        },
+        "CreateRequestSpendLimitsRulesItemMetadataCase1": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadataCase1"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModelMode": {
+      "type": "enum",
+      "members": {
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "filter"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModelValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModel": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModelMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModelValuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemProviderMode": {
+      "type": "enum",
+      "members": {
+        "FILTER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "filter"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemProviderValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemProvider": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemProviderMode",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemProviderValuesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemTechnique": {
+      "type": "enum",
+      "members": {
+        "FIXED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fixed"
+          }
+        },
+        "SLIDING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sliding"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItem": {
+      "type": "structure",
+      "members": {
+        "limit": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
+            "smithy.api#required": {}
+          }
+        },
+        "limitType": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemLimitType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "window": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "exclusiveMinimum",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "metadata": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemMetadata"
+        },
+        "model": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemModel"
+        },
+        "provider": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemProvider"
+        },
+        "technique": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItemTechnique"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesItem"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestSpendLimits": {
+      "type": "structure",
+      "members": {
+        "enabled": {
+          "target": "smithy.api#Boolean"
+        },
+        "rules": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimitsRulesList"
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestStripeUsageEventsItem": {
+      "type": "structure",
+      "members": {
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestStripeUsageEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.ai_gateway#CreateRequestStripeUsageEventsItem"
+      }
+    },
+    "com.cloudflare.ai_gateway#CreateRequestStripe": {
+      "type": "structure",
+      "members": {
+        "authorization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "usage_events": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestStripeUsageEventsList",
+          "traits": {
+            "smithy.api#required": {}
           }
         }
       }
@@ -4734,7 +5794,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -7611,7 +8671,10 @@
           "target": "smithy.api#Boolean"
         },
         "headers": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials."
+          }
         },
         "js_example": {
           "target": "smithy.api#String"
@@ -8468,7 +9531,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -14853,7 +15916,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -15145,7 +16208,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -15437,7 +16500,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -15729,7 +16792,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -15842,7 +16905,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -16195,7 +17258,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -16694,7 +17757,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new AI Gateway."
+        "smithy.api#documentation": "Creates an AI Gateway in the account with the specified caching, rate limiting, logging, and authentication settings. The gateway ID appears in request URLs and must be unique within the account."
       },
       "errors": [
         {
@@ -16715,7 +17778,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -16761,6 +17824,15 @@
             "smithy.api#documentation": "Requires customer-provided provider credentials and prevents fallback to Unified Billing."
           }
         },
+        "dlp": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestDlp"
+        },
+        "guardrails": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestGuardrails"
+        },
+        "log_classification": {
+          "target": "smithy.api#Boolean"
+        },
         "log_management": {
           "target": "smithy.api#Double"
         },
@@ -16772,6 +17844,9 @@
         },
         "logpush_public_key": {
           "target": "smithy.api#String"
+        },
+        "otel": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestOtelList"
         },
         "rate_limiting_technique": {
           "target": "com.cloudflare.ai_gateway#CreateRequestRateLimitingTechnique"
@@ -16794,8 +17869,14 @@
             "smithy.api#documentation": "Maximum number of retry attempts for failed requests (1-5)"
           }
         },
+        "spend_limits": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestSpendLimits"
+        },
         "store_id": {
           "target": "smithy.api#String"
+        },
+        "stripe": {
+          "target": "com.cloudflare.ai_gateway#CreateRequestStripe"
         },
         "workers_ai_billing_mode": {
           "target": "com.cloudflare.ai_gateway#CreateRequestWorkersAiBillingMode",
@@ -16817,7 +17898,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -17053,6 +18134,12 @@
             "smithy.api#documentation": "Top-up amount in cents (min 1000).",
             "smithy.api#required": {}
           }
+        },
+        "payment_method_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Stripe PaymentMethod to charge instead of the customer's default payment method."
+          }
         }
       },
       "traits": {
@@ -17115,7 +18202,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/billing/topup/config",
           "code": 200
         },
-        "smithy.api#documentation": "Configure auto top-up with a balance threshold and top-up amount."
+        "smithy.api#documentation": "Configure auto top-up with a balance threshold and top-up amount. Dashboard sessions only: API token, OAuth, and service credentials are rejected with 403."
       }
     },
     "com.cloudflare.ai_gateway#CreateBillingTopupConfigRequest": {
@@ -17182,7 +18269,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/custom-providers",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new AI Gateway."
+        "smithy.api#documentation": "Creates an account-level custom provider that forwards AI Gateway requests to the HTTPS base URL you supply. Requests reference the provider as `custom-{slug}`, so the slug must be unique within the account."
       }
     },
     "com.cloudflare.ai_gateway#CreateCustomProviderRequest": {
@@ -17226,7 +18313,10 @@
           "target": "smithy.api#Boolean"
         },
         "headers": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials."
+          }
         },
         "js_example": {
           "target": "smithy.api#String"
@@ -17294,7 +18384,10 @@
           "target": "smithy.api#Boolean"
         },
         "headers": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials."
+          }
         },
         "js_example": {
           "target": "smithy.api#String"
@@ -17328,7 +18421,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new AI Gateway."
+        "smithy.api#documentation": "Creates a dataset that selects gateway logs matching the specified filters for use in evaluations. Evaluations and datasets are deprecated and unavailable to new accounts."
       },
       "errors": [
         {
@@ -17352,7 +18445,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -17410,7 +18503,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -17446,7 +18539,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/deployments",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new AI Gateway Dynamic Route Deployment."
+        "smithy.api#documentation": "Deploys the specified version of a dynamic route so that it serves traffic. Deploy an earlier version to roll back."
       },
       "errors": [
         {
@@ -17548,7 +18641,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new AI Gateway Dynamic Route."
+        "smithy.api#documentation": "Creates a dynamic route on an AI Gateway from the specified routing elements. Clients call the route by using `dynamic/{name}` as the model name."
       },
       "errors": [
         {
@@ -17664,7 +18757,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new AI Gateway."
+        "smithy.api#documentation": "Creates an evaluation that scores the logs in a dataset with the specified evaluator types. Evaluations and datasets are deprecated and unavailable to new accounts."
       },
       "errors": [
         {
@@ -17688,7 +18781,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -17740,7 +18833,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -17794,7 +18887,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new AI Gateway."
+        "smithy.api#documentation": "Stores an upstream AI provider API key for an AI Gateway in the Secrets Store configured on the gateway, with an optional rate limit. Pass `secret` to store a new key, or omit it to use an existing Secrets Store secret."
       },
       "errors": [
         {
@@ -17821,7 +18914,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -17851,7 +18944,10 @@
           "target": "smithy.api#Double"
         },
         "secret": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Provider API key to store in the Secrets Store configured on the gateway."
+          }
         },
         "secret_id": {
           "target": "smithy.api#String"
@@ -17885,7 +18981,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -17939,7 +19035,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions",
           "code": 200
         },
-        "smithy.api#documentation": "Create a new AI Gateway Dynamic Route Version."
+        "smithy.api#documentation": "Creates a new version of a dynamic route from the specified routing elements. The version does not serve traffic until you deploy it."
       },
       "errors": [
         {
@@ -18118,7 +19214,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an AI Gateway dataset.",
+        "smithy.api#documentation": "Permanently deletes an AI Gateway, its configuration, and its stored logs.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -18140,7 +19236,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18156,7 +19252,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -18345,7 +19441,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/billing/topup/config",
           "code": 200
         },
-        "smithy.api#documentation": "Remove the auto top-up configuration for the account.",
+        "smithy.api#documentation": "Remove the auto top-up configuration for the account. Dashboard sessions only: API token, OAuth, and service credentials are rejected with 403.",
         "smithy.api#idempotent": {}
       }
     },
@@ -18393,7 +19489,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/custom-providers/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an AI Gateway dataset.",
+        "smithy.api#documentation": "Deletes a custom provider and every pricing rule that belongs to it.",
         "smithy.api#idempotent": {}
       }
     },
@@ -18471,7 +19567,10 @@
           "target": "smithy.api#Boolean"
         },
         "headers": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials."
+          }
         },
         "js_example": {
           "target": "smithy.api#String"
@@ -18505,7 +19604,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an AI Gateway dataset.",
+        "smithy.api#documentation": "Deletes a dataset. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -18527,7 +19626,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18574,7 +19673,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -18610,7 +19709,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete an AI Gateway Dynamic Route.",
+        "smithy.api#documentation": "Deletes a dynamic route from an AI Gateway.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -18710,7 +19809,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an AI Gateway dataset.",
+        "smithy.api#documentation": "Deletes an evaluation and its results. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -18732,7 +19831,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18773,7 +19872,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -18844,7 +19943,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18892,7 +19991,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves details for a specific AI Gateway dataset.",
+        "smithy.api#documentation": "Retrieves the configuration of an AI Gateway.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -18914,7 +20013,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -18930,7 +20029,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -19188,7 +20287,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/custom-providers/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves details for a specific AI Gateway dataset.",
+        "smithy.api#documentation": "Retrieves a custom provider, including its slug, base URL, and custom headers.",
         "smithy.api#readonly": {}
       }
     },
@@ -19266,7 +20365,10 @@
           "target": "smithy.api#Boolean"
         },
         "headers": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON object of extra HTTP headers that AI Gateway sends to the provider. Values can contain credentials."
+          }
         },
         "js_example": {
           "target": "smithy.api#String"
@@ -19300,7 +20402,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves details for a specific AI Gateway dataset.",
+        "smithy.api#documentation": "Retrieves a dataset and its log filters. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -19322,7 +20424,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19369,7 +20471,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -19405,7 +20507,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get an AI Gateway Dynamic Route.",
+        "smithy.api#documentation": "Retrieves a dynamic route with its routing elements, active version, and current deployment.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -19517,7 +20619,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves details for a specific AI Gateway dataset.",
+        "smithy.api#documentation": "Retrieves an evaluation and its results. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -19539,7 +20641,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19580,7 +20682,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -19651,7 +20753,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19813,7 +20915,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -19859,7 +20961,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions/{version_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get an AI Gateway Dynamic Route Version.",
+        "smithy.api#documentation": "Retrieves a saved version of a dynamic route, including its routing elements.",
         "smithy.api#readonly": {}
       }
     },
@@ -20136,7 +21238,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all AI Gateway evaluator types configured for the account.",
+        "smithy.api#documentation": "Lists the AI Gateways in the account. Use `search` to filter by gateway ID.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20210,7 +21312,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/custom-providers",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all AI Gateway evaluator types configured for the account.",
+        "smithy.api#documentation": "Lists the custom providers configured for the account, ordered by position and then name.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20296,7 +21398,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all AI Gateway evaluator types configured for the account.",
+        "smithy.api#documentation": "Lists the datasets defined for an AI Gateway. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20325,7 +21427,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20395,7 +21497,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/deployments",
           "code": 200
         },
-        "smithy.api#documentation": "List all AI Gateway Dynamic Route Deployments.",
+        "smithy.api#documentation": "Lists the deployment history of a dynamic route.",
         "smithy.api#readonly": {}
       }
     },
@@ -20457,7 +21559,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes",
           "code": 200
         },
-        "smithy.api#documentation": "List all AI Gateway Dynamic Routes.",
+        "smithy.api#documentation": "Lists the dynamic routes configured on an AI Gateway.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -20531,7 +21633,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/evaluations",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all AI Gateway evaluator types configured for the account.",
+        "smithy.api#documentation": "Lists the evaluations run on an AI Gateway. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20555,7 +21657,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20625,7 +21727,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/evaluation-types",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all available evaluator types for scoring AI gateway responses.",
+        "smithy.api#documentation": "Lists the evaluator types that evaluations can use to score AI Gateway responses. Evaluations are deprecated and unavailable to new accounts.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20728,7 +21830,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -20832,6 +21934,7 @@
         "model": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Model filter.",
             "smithy.api#httpQuery": "model"
           }
         },
@@ -20886,6 +21989,7 @@
         "search": {
           "target": "smithy.api#String",
           "traits": {
+            "smithy.api#documentation": "Free-text search over log metadata.",
             "smithy.api#httpQuery": "search"
           }
         },
@@ -20935,7 +22039,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/provider_configs",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all AI Gateway evaluator types configured for the account.",
+        "smithy.api#documentation": "Lists the provider keys stored for an AI Gateway. Responses show a masked preview of each key, never the key itself.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -20959,7 +22063,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21010,7 +22114,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}/versions",
           "code": 200
         },
-        "smithy.api#documentation": "List all AI Gateway Dynamic Route Versions.",
+        "smithy.api#documentation": "Lists the saved versions of a dynamic route.",
         "smithy.api#readonly": {}
       }
     },
@@ -21072,7 +22176,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/routes/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Update an AI Gateway Dynamic Route."
+        "smithy.api#documentation": "Updates the name of a dynamic route. To change routing behaviour, create and deploy a new version."
       },
       "errors": [
         {
@@ -21163,7 +22267,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21235,7 +22339,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21283,7 +22387,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21374,7 +22478,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates an existing AI Gateway dataset.",
+        "smithy.api#documentation": "Updates the configuration of an AI Gateway, such as its caching, rate limiting, logging, and authentication settings.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -21396,7 +22500,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21517,7 +22621,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },
@@ -21658,7 +22762,7 @@
           "uri": "/accounts/{account_id}/ai-gateway/gateways/{gateway_id}/datasets/{id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates an existing AI Gateway dataset.",
+        "smithy.api#documentation": "Replaces the name, log filters, and enabled state of a dataset. Evaluations and datasets are deprecated and unavailable to new accounts.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -21680,7 +22784,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -21745,7 +22849,7 @@
         "gateway_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "gateway id",
+            "smithy.api#documentation": "Unique identifier of the AI Gateway within the account.",
             "smithy.api#required": {}
           }
         },

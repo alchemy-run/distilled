@@ -3,10 +3,10 @@
  * response.
  */
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Option from "effect/Option";
 import { CredentialSourceError } from "./credential-source.ts";
 
 /**

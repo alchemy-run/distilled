@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * Squarespace Effect SDK.
@@ -12,7 +13,6 @@
  * no member renaming or wire dictionaries appear here.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -87,10 +87,7 @@ const squarespaceSpec: SdkSpec = {
       : code,
 };
 
-const itemsMember = (
-  shapes: Record<string, any>,
-  output: any,
-): string | undefined => {
+const itemsMember = (shapes: Record<string, any>, output: any): string | undefined => {
   for (const [name, member] of Object.entries<any>(output?.members ?? {})) {
     if (name === "pagination") continue;
     const target = shapes[member?.target];
@@ -101,7 +98,7 @@ const itemsMember = (
 
 runGeneratorCli({
   description: "Generate the Squarespace Effect SDK from the Smithy model",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,

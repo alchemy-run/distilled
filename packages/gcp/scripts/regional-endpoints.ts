@@ -3,7 +3,7 @@
  * `endpoints[]` (regional `*.{location}.rep.googleapis.com` hosts and
  * locational `{location}-*.googleapis.com` hosts).
  *
- *   bun scripts/regional-endpoints.ts
+ *   node scripts/regional-endpoints.ts
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -13,7 +13,7 @@ interface DiscoveryEndpoint {
   location: string;
 }
 
-const root = path.resolve(import.meta.dir, "..");
+const root = path.resolve(import.meta.dirname, "..");
 const specsDir = path.join(root, "specs/spec-mirror-gcp/specs");
 
 /** Global base URL → per-location host template → locations served. */
@@ -27,9 +27,7 @@ for (const file of fs.readdirSync(specsDir).sort()) {
   const servicePath: string = doc.servicePath ?? "";
   for (const endpoint of doc.endpoints as DiscoveryEndpoint[]) {
     if (!endpoint.endpointUrl.includes(endpoint.location)) continue;
-    const template =
-      endpoint.endpointUrl.replace(endpoint.location, "{location}") +
-      servicePath;
+    const template = endpoint.endpointUrl.replace(endpoint.location, "{location}") + servicePath;
     // Prefer `.rep.googleapis.com` (regional) over locational hosts: Google
     // recommends regional endpoints and they enforce data residency.
     const byTemplate = table.get(baseUrl) ?? new Map<string, Set<string>>();

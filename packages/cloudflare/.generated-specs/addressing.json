@@ -2618,7 +2618,7 @@
         "member_account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of the Cloudflare account to remove from the address map.",
+            "smithy.api#documentation": "Identifier of a Cloudflare account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -4814,7 +4814,7 @@
         "member_account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of the Cloudflare account to add as a member of the address map.",
+            "smithy.api#documentation": "Identifier of a Cloudflare account.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }

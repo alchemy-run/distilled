@@ -143,6 +143,12 @@
             "smithy.api#enumValue": "d1_database"
           }
         },
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        },
         "DNS_RECORD": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1423,6 +1429,71 @@
         },
         "type": {
           "target": "com.cloudflare.resource_tagging#ListResultItemD1DatabaseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version."
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#ListResultItemDeviceTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.resource_tagging#ListResultItemDeviceType": {
+      "type": "enum",
+      "members": {
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#ListResultItemDevice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the unique resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ETag identifier for optimistic concurrency control. Formatted as \"v1:\" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemDeviceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemDeviceType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -3105,6 +3176,9 @@
         "D1Database": {
           "target": "com.cloudflare.resource_tagging#ListResultItemD1Database"
         },
+        "Device": {
+          "target": "com.cloudflare.resource_tagging#ListResultItemDevice"
+        },
         "DNSRecord": {
           "target": "com.cloudflare.resource_tagging#ListResultItemDNSRecord"
         },
@@ -3264,6 +3338,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "d1_database"
+          }
+        },
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
           }
         },
         "DURABLE_OBJECT_NAMESPACE": {
@@ -4498,6 +4578,71 @@
         },
         "type": {
           "target": "com.cloudflare.resource_tagging#AccountTagsGetResultD1DatabaseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version."
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsGetResultDeviceTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsGetResultDeviceType": {
+      "type": "enum",
+      "members": {
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsGetResultDevice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the unique resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ETag identifier for optimistic concurrency control. Formatted as \"v1:\" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultDeviceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultDeviceType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -6180,6 +6325,9 @@
         "D1Database": {
           "target": "com.cloudflare.resource_tagging#AccountTagsGetResultD1Database"
         },
+        "Device": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsGetResultDevice"
+        },
         "DNSRecord": {
           "target": "com.cloudflare.resource_tagging#AccountTagsGetResultDNSRecord"
         },
@@ -6251,191 +6399,6 @@
         },
         "ZoneRuleset": {
           "target": "com.cloudflare.resource_tagging#AccountTagsGetResultZoneRuleset"
-        }
-      }
-    },
-    "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestAccountLevelWorkerVersion": {
-      "type": "enum",
-      "members": {
-        "ACCESS_APPLICATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "access_application"
-          }
-        },
-        "ACCESS_GROUP": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "access_group"
-          }
-        },
-        "ACCOUNT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "account"
-          }
-        },
-        "ACCOUNT_RULESET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "account_ruleset"
-          }
-        },
-        "AI_GATEWAY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "ai_gateway"
-          }
-        },
-        "ALERTING_POLICY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "alerting_policy"
-          }
-        },
-        "ALERTING_WEBHOOK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "alerting_webhook"
-          }
-        },
-        "CLOUDFLARED_TUNNEL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cloudflared_tunnel"
-          }
-        },
-        "CWS_DEPLOYMENT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cws_deployment"
-          }
-        },
-        "CWS_POLICY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cws_policy"
-          }
-        },
-        "CWS_POLICY_SET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cws_policy_set"
-          }
-        },
-        "CWS_WORKLOAD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cws_workload"
-          }
-        },
-        "D1_DATABASE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "d1_database"
-          }
-        },
-        "DURABLE_OBJECT_NAMESPACE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "durable_object_namespace"
-          }
-        },
-        "GATEWAY_LIST": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gateway_list"
-          }
-        },
-        "GATEWAY_RULE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "gateway_rule"
-          }
-        },
-        "IMAGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "image"
-          }
-        },
-        "INFRASTRUCTURE_TARGET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "infrastructure_target"
-          }
-        },
-        "KV_NAMESPACE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "kv_namespace"
-          }
-        },
-        "LOAD_BALANCER_MONITOR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "load_balancer_monitor"
-          }
-        },
-        "LOAD_BALANCER_POOL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "load_balancer_pool"
-          }
-        },
-        "PAGES_PROJECT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "pages_project"
-          }
-        },
-        "QUEUE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "queue"
-          }
-        },
-        "R2_BUCKET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "r2_bucket"
-          }
-        },
-        "RESOURCE_SHARE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "resource_share"
-          }
-        },
-        "STREAM_LIVE_INPUT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "stream_live_input"
-          }
-        },
-        "STREAM_VIDEO": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "stream_video"
-          }
-        },
-        "VECTORIZE_INDEX": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "vectorize_index"
-          }
-        },
-        "WORKER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "worker"
-          }
-        },
-        "WORKER_VERSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "worker_version"
-          }
         }
       }
     },
@@ -6520,6 +6483,12 @@
             "smithy.api#enumValue": "d1_database"
           }
         },
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        },
         "DURABLE_OBJECT_NAMESPACE": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -6618,9 +6587,26 @@
         }
       }
     },
+    "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceTypeEnum": {
+      "type": "enum",
+      "members": {
+        "WORKER_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_version"
+          }
+        }
+      }
+    },
     "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceType": {
       "type": "enum",
       "members": {
+        "WORKER_VERSION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "worker_version"
+          }
+        },
         "ACCESS_APPLICATION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -6697,6 +6683,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "d1_database"
+          }
+        },
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
           }
         },
         "DURABLE_OBJECT_NAMESPACE": {
@@ -6793,12 +6785,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "worker"
-          }
-        },
-        "WORKER_VERSION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "worker_version"
           }
         }
       }
@@ -7940,6 +7926,71 @@
         },
         "type": {
           "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultD1DatabaseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version."
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResultDeviceTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResultDeviceType": {
+      "type": "enum",
+      "members": {
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#AccountTagsUpdateResultDevice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the unique resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ETag identifier for optimistic concurrency control. Formatted as \"v1:\" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultDeviceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultDeviceType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -9622,6 +9673,9 @@
         "D1Database": {
           "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultD1Database"
         },
+        "Device": {
+          "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultDevice"
+        },
         "DNSRecord": {
           "target": "com.cloudflare.resource_tagging#AccountTagsUpdateResultDNSRecord"
         },
@@ -9892,6 +9946,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "d1_database"
+          }
+        },
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
           }
         },
         "DNS_RECORD": {
@@ -11245,6 +11305,71 @@
         },
         "type": {
           "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultD1DatabaseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version."
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#ZoneTagsGetResultDeviceTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.resource_tagging#ZoneTagsGetResultDeviceType": {
+      "type": "enum",
+      "members": {
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#ZoneTagsGetResultDevice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the unique resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ETag identifier for optimistic concurrency control. Formatted as \"v1:\" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultDeviceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultDeviceType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -12927,6 +13052,9 @@
         "D1Database": {
           "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultD1Database"
         },
+        "Device": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultDevice"
+        },
         "DNSRecord": {
           "target": "com.cloudflare.resource_tagging#ZoneTagsGetResultDNSRecord"
         },
@@ -13066,69 +13194,9 @@
         }
       }
     },
-    "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceTypeResourceTaggingSetTagsRequestZoneLevelAccessApplicationPolicy": {
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceTypeEnum": {
       "type": "enum",
       "members": {
-        "API_GATEWAY_OPERATION": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "api_gateway_operation"
-          }
-        },
-        "CUSTOM_CERTIFICATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "custom_certificate"
-          }
-        },
-        "CUSTOM_HOSTNAME": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "custom_hostname"
-          }
-        },
-        "DNS_RECORD": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "dns_record"
-          }
-        },
-        "HEALTHCHECK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "healthcheck"
-          }
-        },
-        "LOAD_BALANCER": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "load_balancer"
-          }
-        },
-        "MANAGED_CLIENT_CERTIFICATE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "managed_client_certificate"
-          }
-        },
-        "WORKER_ROUTE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "worker_route"
-          }
-        },
-        "ZONE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "zone"
-          }
-        },
-        "ZONE_RULESET": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "zone_ruleset"
-          }
-        },
         "ACCESS_APPLICATION_POLICY": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -13140,6 +13208,12 @@
     "com.cloudflare.resource_tagging#ZoneTagsUpdateRequestResourceType": {
       "type": "enum",
       "members": {
+        "ACCESS_APPLICATION_POLICY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "access_application_policy"
+          }
+        },
         "API_GATEWAY_OPERATION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -13198,12 +13272,6 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "zone_ruleset"
-          }
-        },
-        "ACCESS_APPLICATION_POLICY": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "access_application_policy"
           }
         }
       }
@@ -14345,6 +14413,71 @@
         },
         "type": {
           "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultD1DatabaseType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "tags_updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Monotonic version of the resource's tags: the timestamp assigned when the tags were last written. Returned by read endpoints, by 2PC prepare (the version that will be assigned on commit, unless a concurrent write lands first, in which case a newer version is assigned), and by 2PC commit (the authoritative committed version). Omitted for untagged resources and delete commits: a deleted resource has no current version, and deletions are ordered by event order rather than by version."
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDeviceTagsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDeviceType": {
+      "type": "enum",
+      "members": {
+        "DEVICE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "device"
+          }
+        }
+      }
+    },
+    "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDevice": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifies the unique resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "etag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ETag identifier for optimistic concurrency control. Formatted as \"v1:\" where the hash is the base64url-encoded SHA-256 (truncated to 128 bits) of the tags map canonicalized using RFC 8785 (JSON Canonicalization Scheme). Clients should treat ETags as opaque strings and pass them back via the If-Match header on write operations.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable name of the resource.",
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDeviceTagsMap",
+          "traits": {
+            "smithy.api#documentation": "Contains key-value pairs of tags. Keys may contain at most 256 characters. Values may contain at most 1024 characters and may be empty for key-only tags.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDeviceType",
           "traits": {
             "smithy.api#required": {}
           }
@@ -16027,6 +16160,9 @@
         "D1Database": {
           "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultD1Database"
         },
+        "Device": {
+          "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDevice"
+        },
         "DNSRecord": {
           "target": "com.cloudflare.resource_tagging#ZoneTagsUpdateResultDNSRecord"
         },
@@ -16737,7 +16873,7 @@
           "uri": "/accounts/{account_id}/tags",
           "code": 200
         },
-        "smithy.api#documentation": "Creates or updates tags for a specific account-level resource.",
+        "smithy.api#documentation": "Creates or updates tags for a specific account-level resource. Replaces all existing tags for the resource.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -16770,7 +16906,7 @@
         "resource_type": {
           "target": "com.cloudflare.resource_tagging#AccountTagsUpdateRequestResourceType",
           "traits": {
-            "smithy.api#documentation": "Enum for base account-level resource types (those with no extra required fields).",
+            "smithy.api#documentation": "Enum for worker_version resource type.",
             "smithy.api#required": {}
           }
         },

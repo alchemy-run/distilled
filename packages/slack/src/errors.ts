@@ -26,12 +26,11 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
 import { withCategory } from "@distilled.cloud/core/error-category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
 import { DurationSchema, RETRYABLE } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * A Slack API error envelope: `ok: false` with a machine-readable slug.
@@ -53,46 +52,33 @@ export class SlackError extends Schema.TaggedError<SlackError>()("SlackError", {
  * Slack rate limit — a 429 or the `rate_limited`/`ratelimited` slug. Slack
  * answers with a `Retry-After` header the default retry policy honors.
  */
-export class SlackRateLimited extends Schema.TaggedError<SlackRateLimited>()(
-  "SlackRateLimited",
-  {
-    code: Schema.String,
-    message: Schema.optional(Schema.String),
-    retryAfter: Schema.optional(DurationSchema),
-  },
-).pipe(withCategory(RETRYABLE), Category.withThrottlingError) {}
+export class SlackRateLimited extends Schema.TaggedError<SlackRateLimited>()("SlackRateLimited", {
+  code: Schema.String,
+  message: Schema.optional(Schema.String),
+  retryAfter: Schema.optional(DurationSchema),
+}).pipe(withCategory(RETRYABLE), Category.withThrottlingError) {}
 
 /**
  * HTTP error — a non-2xx response without a parseable Slack error envelope
  * (proxy pages, HTML 5xx bodies).
  */
-export class SlackHttpError extends Schema.TaggedError<SlackHttpError>()(
-  "SlackHttpError",
-  {
-    status: Schema.Number,
-    message: Schema.String,
-    body: Schema.optional(Schema.String),
-  },
-) {}
+export class SlackHttpError extends Schema.TaggedError<SlackHttpError>()("SlackHttpError", {
+  status: Schema.Number,
+  message: Schema.String,
+  body: Schema.optional(Schema.String),
+}) {}
 
 /** Schema parse error wrapper. */
-export class SlackParseError extends Schema.TaggedError<SlackParseError>()(
-  "SlackParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class SlackParseError extends Schema.TaggedError<SlackParseError>()("SlackParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any Slack operation may surface in addition to the shared HTTP
  * status errors.
  */
-export type ClientErrors =
-  | SlackError
-  | SlackRateLimited
-  | SlackHttpError
-  | SlackParseError;
+export type ClientErrors = SlackError | SlackRateLimited | SlackHttpError | SlackParseError;
 
 /**
  * Default Slack operation errors: the shared HTTP status errors from core

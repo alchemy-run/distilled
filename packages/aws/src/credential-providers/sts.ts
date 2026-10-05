@@ -1,3 +1,5 @@
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 /**
  * The STS calls the credential providers make: `sts:AssumeRole` and
  * `sts:AssumeRoleWithWebIdentity`, the region they are made in, and the MFA
@@ -7,22 +9,11 @@
  * the browser as well as in Node. The generated `sts` service is imported on
  * first use so an application that never assumes a role never pays for it.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
-import {
-  Credentials,
-  fromAwsCredentialIdentity,
-} from "../credentials-service.ts";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
+import { Credentials, fromAwsCredentialIdentity } from "../credentials-service.ts";
 import * as Region from "../region.ts";
-import type {
-  AssumeRoleRequest,
-  AssumeRoleWithWebIdentityRequest,
-} from "../services/sts.ts";
-import {
-  type CredentialSource,
-  CredentialSourceError,
-} from "./credential-source.ts";
+import type { AssumeRoleRequest, AssumeRoleWithWebIdentityRequest } from "../services/sts.ts";
+import { type CredentialSource, CredentialSourceError } from "./credential-source.ts";
 import { withHttpClient } from "./http-client.ts";
 
 const unredact = (value: string | Redacted.Redacted<string>): string =>
@@ -41,10 +32,7 @@ export const stsRegion = (
     ? Effect.succeed(region as Region.RegionName)
     : Region.fromEnvironment.pipe(
         Effect.catch(() =>
-          Effect.map(
-            fallback,
-            (resolved) => (resolved ?? "us-east-1") as Region.RegionName,
-          ),
+          Effect.map(fallback, (resolved) => (resolved ?? "us-east-1") as Region.RegionName),
         ),
       );
 
@@ -130,12 +118,7 @@ export const assumeRoleWithWebIdentity = (
     const response = yield* STS.assumeRoleWithWebIdentity(params).pipe(
       Effect.provideService(
         Credentials,
-        Effect.succeed(
-          fromAwsCredentialIdentity(
-            { accessKeyId: "", secretAccessKey: "" },
-            region,
-          ),
-        ),
+        Effect.succeed(fromAwsCredentialIdentity({ accessKeyId: "", secretAccessKey: "" }, region)),
       ),
       withHttpClient,
       Effect.mapError(stsFailure),
@@ -144,9 +127,7 @@ export const assumeRoleWithWebIdentity = (
   });
 
 /** Answers an `mfa_serial` / `SerialNumber` prompt. */
-export type MfaCodeProvider = (
-  mfaSerial: string,
-) => Effect.Effect<string, unknown>;
+export type MfaCodeProvider = (mfaSerial: string) => Effect.Effect<string, unknown>;
 
 /**
  * The `TokenCode` for a role that requires MFA. Without a code provider the

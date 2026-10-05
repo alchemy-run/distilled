@@ -863,7 +863,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#required": {}
           }
         },
@@ -1339,7 +1339,7 @@
           "uri": "/accounts/{account_id}/challenges/widgets",
           "code": 200
         },
-        "smithy.api#documentation": "Lists challenge widgets."
+        "smithy.api#documentation": "Creates a Turnstile widget for an account."
       }
     },
     "com.cloudflare.turnstile#CreateWidgetRequest": {
@@ -1363,7 +1363,7 @@
         "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter widgets by field using case-insensitive substring matching. Format: `field:value`",
+            "smithy.api#documentation": "Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value`",
             "smithy.api#httpQuery": "filter"
           }
         },
@@ -1525,7 +1525,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#required": {}
           }
         },
@@ -1561,7 +1561,7 @@
           "uri": "/accounts/{account_id}/challenges/widgets/{sitekey}",
           "code": 200
         },
-        "smithy.api#documentation": "Destroy a Turnstile Widget.",
+        "smithy.api#documentation": "Deletes a Turnstile widget from an account.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -1587,7 +1587,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1679,7 +1679,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#required": {}
           }
         },
@@ -1715,7 +1715,7 @@
           "uri": "/accounts/{account_id}/challenges/widgets/{sitekey}",
           "code": 200
         },
-        "smithy.api#documentation": "Show a single challenge widget configuration.",
+        "smithy.api#documentation": "Returns the configuration of a Turnstile widget.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -1741,7 +1741,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1833,7 +1833,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#required": {}
           }
         },
@@ -1869,7 +1869,7 @@
           "uri": "/accounts/{account_id}/challenges/widgets",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all turnstile widgets of an account.",
+        "smithy.api#documentation": "Lists Turnstile widgets for an account.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -1901,7 +1901,7 @@
         "filter": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter widgets by field using case-insensitive substring matching. Format: `field:value`",
+            "smithy.api#documentation": "Filter widgets by field. The `name` field uses case-insensitive substring matching; `sitekey` uses exact matching. Format: `field:value`",
             "smithy.api#httpQuery": "filter"
           }
         },
@@ -1960,7 +1960,7 @@
           "uri": "/accounts/{account_id}/challenges/widgets/{sitekey}/rotate_secret",
           "code": 200
         },
-        "smithy.api#documentation": "Generate a new secret key for this widget. If `invalidate_immediately` is set to `false`, the previous secret remains valid for 2 hours. Note that secrets cannot be rotated again during the grace period."
+        "smithy.api#documentation": "Generates a new secret key for this widget. If `invalidate_immediately` is set to `false`, the previous secret remains valid for 2 hours. Note that secrets cannot be rotated again during the grace period."
       }
     },
     "com.cloudflare.turnstile#RotateSecretWidgetRequest": {
@@ -1977,7 +1977,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2075,7 +2075,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#required": {}
           }
         },
@@ -2111,7 +2111,7 @@
           "uri": "/accounts/{account_id}/challenges/widgets/{sitekey}",
           "code": 200
         },
-        "smithy.api#documentation": "Update the configuration of a widget.",
+        "smithy.api#documentation": "Updates the configuration of a Turnstile widget.",
         "smithy.api#idempotent": {}
       }
     },
@@ -2129,7 +2129,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2271,7 +2271,7 @@
         "sitekey": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Widget item identifier tag.",
+            "smithy.api#documentation": "Unique identifier for a Turnstile widget.",
             "smithy.api#required": {}
           }
         },

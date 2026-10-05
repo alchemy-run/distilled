@@ -63,10 +63,16 @@ pnpm generate [<pkg>…]      # convert + generate + format; all packages if no 
 pnpm patches:audit <pkg>    # which of packages/<pkg>/patches/ the spec no longer needs
 ```
 
-Package manager is pnpm 11 (`packageManager` pins it), Node 24
-(`.node-version`). Bun runs the scripts under `scripts/` and
-`packages/*/scripts/`, so you need both on PATH. A `pre-commit` hook runs
-`bun format`.
+Package manager is pnpm 12 (`packageManager` pins it), Node 24
+(`.node-version`). Node runs the scripts under `scripts/` and
+`packages/*/scripts/` directly (native TypeScript type stripping). A script
+that imports a workspace package (`@distilled.cloud/*`) runs with
+`node --conditions=bun`, which resolves it to `src/*.ts` through the `bun`
+export condition; without the flag Node picks the tsc-built `lib/`. Keep the
+flag off scripts that don't need it and out of workspace-wide `NODE_OPTIONS`:
+third-party packages (srvx, h3, alchemy, …) ship Bun-only builds under the
+same condition. Tests use vitest: `pnpm vitest run
+<paths>`. A `pre-commit` hook runs `pnpm format`.
 
 ## Things that will surprise you
 

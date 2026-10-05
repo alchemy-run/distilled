@@ -36,12 +36,10 @@ export interface SpecRepo {
 }
 
 /** Stable identity for repository and scaffold logical IDs. */
-export const mirrorId = (specRepo: SpecRepo) =>
-  specRepo.mirror ?? specRepo.package;
+export const mirrorId = (specRepo: SpecRepo) => specRepo.mirror ?? specRepo.package;
 
 /** Repository name for a mirror. */
-export const repositoryName = (specRepo: SpecRepo) =>
-  `spec-mirror-${mirrorId(specRepo)}`;
+export const repositoryName = (specRepo: SpecRepo) => `spec-mirror-${mirrorId(specRepo)}`;
 
 export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "adyen" },
@@ -169,8 +167,8 @@ export const PER_REPO: readonly ScaffoldEntry[] = [
  * Read the file set for every mirror off disk, keyed by repository name.
  *
  * Reading at deploy time rather than importing keeps the fetch scripts as
- * ordinary files: they target Bun and each other's dependencies, so they are
- * deliberately outside this stack's TypeScript program.
+ * ordinary files: they target Node and each mirror's own dependencies, so
+ * they are deliberately outside this stack's TypeScript program.
  */
 export const loadScaffolds = Effect.gen(function* () {
   const fs = yield* FileSystem.FileSystem;

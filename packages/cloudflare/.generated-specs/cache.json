@@ -29,6 +29,301 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.cache#InvalidateRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Request headers and the values the content was cached with."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL of the content."
+          }
+        }
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem"
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequestFiles": {
+      "type": "union",
+      "members": {
+        "CachePurgeSingleFile": {
+          "target": "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileList"
+        },
+        "CachePurgeSingleFileWithURLAndHeaders": {
+          "target": "com.cloudflare.cache#InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList"
+        }
+      }
+    },
+    "com.cloudflare.cache#InvalidateRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.cache#InvalidateRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+          }
+        },
+        "hosts": {
+          "target": "com.cloudflare.cache#InvalidateRequestHostsList",
+          "traits": {
+            "smithy.api#documentation": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+          }
+        },
+        "prefixes": {
+          "target": "com.cloudflare.cache#InvalidateRequestPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+          }
+        },
+        "purge_everything": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+          }
+        },
+        "files": {
+          "target": "com.cloudflare.cache#InvalidateRequestFiles",
+          "traits": {
+            "smithy.api#documentation": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cache#InvalidateResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cache#Invalidate": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cache#InvalidateRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cache#InvalidateResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/zones/{zone_id}/invalidate_cache",
+          "code": 200
+        },
+        "smithy.api#documentation": "Marks cached content as stale in every Cloudflare data center and cache tier, including Cache Reserve. The content stays in cache. The next request for it makes Cloudflare revalidate it with your origin, using the `ETag` and `Last-Modified` values it was cached with: - If your origin answers `304 Not Modified`, Cloudflare serves the cached copy without downloading it again, and `CF-Cache-Status` is `REVALIDATED`. - If your origin sends a full response, Cloudflare serves and caches the new content, and `CF-Cache-Status` is `EXPIRED`. With Tiered Cache, each tier revalidates with the tier above it, so a visitor can see `EXPIRED` even when your origin answered `304`. Until content is revalidated, your `stale-while-revalidate` and `stale-if-error` directives still apply, counted from the time you invalidated it. For example, if your origin fails during revalidation, Cloudflare can keep serving the stale copy for the `stale-if-error` window."
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestHostsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestPrefixesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem": {
+      "type": "structure",
+      "members": {
+        "headers": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Request headers and the values the content was cached with."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL of the content."
+          }
+        }
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem"
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequestFiles": {
+      "type": "union",
+      "members": {
+        "CachePurgeSingleFile": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileList"
+        },
+        "CachePurgeSingleFileWithURLAndHeaders": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList"
+        }
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "environment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+          }
+        },
+        "hosts": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestHostsList",
+          "traits": {
+            "smithy.api#documentation": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+          }
+        },
+        "prefixes": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestPrefixesList",
+          "traits": {
+            "smithy.api#documentation": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+          }
+        },
+        "purge_everything": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+          }
+        },
+        "files": {
+          "target": "com.cloudflare.cache#InvalidateEnvironmentRequestFiles",
+          "traits": {
+            "smithy.api#documentation": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironmentResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.cache#InvalidateEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.cache#InvalidateEnvironmentRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.cache#InvalidateEnvironmentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/zones/{zone_id}/environments/{environment_id}/invalidate_cache",
+          "code": 200
+        },
+        "smithy.api#documentation": "Marks cached content as stale for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/invalidate_cache`: the next request for invalidated content makes Cloudflare revalidate it with your origin, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To delete the content instead, use `POST /zones/{zone_id}/environments/{environment_id}/purge_cache`. Invalidating by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments."
+      }
+    },
     "com.cloudflare.cache#PurgeRequestTagsList": {
       "type": "list",
       "member": {
@@ -66,10 +361,16 @@
       "type": "structure",
       "members": {
         "headers": {
-          "target": "com.cloudflare.cache#PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap"
+          "target": "com.cloudflare.cache#PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Request headers and the values the content was cached with."
+          }
         },
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL of the content."
+          }
         }
       }
     },
@@ -127,10 +428,16 @@
       "type": "structure",
       "members": {
         "headers": {
-          "target": "com.cloudflare.cache#PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap"
+          "target": "com.cloudflare.cache#PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap",
+          "traits": {
+            "smithy.api#documentation": "Request headers and the values the content was cached with."
+          }
         },
         "url": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full URL of the content."
+          }
         }
       }
     },
@@ -2670,6 +2977,12 @@
       "version": "4.0",
       "operations": [
         {
+          "target": "com.cloudflare.cache#Invalidate"
+        },
+        {
+          "target": "com.cloudflare.cache#InvalidateEnvironment"
+        },
+        {
           "target": "com.cloudflare.cache#OriginCloudRegionsBulkDeleteV1"
         },
         {
@@ -4159,7 +4472,8 @@
           "method": "POST",
           "uri": "/zones/{zone_id}/purge_cache",
           "code": 200
-        }
+        },
+        "smithy.api#documentation": "Deletes cached content in every Cloudflare data center and cache tier, including Cache Reserve. The next request for purged content is a cache `MISS`: Cloudflare fetches the full response from your origin and caches it again. Cloudflare does not serve purged content from cache again, even if your origin is unavailable. To keep content cached and have Cloudflare revalidate it with your origin instead, use `POST /zones/{zone_id}/invalidate_cache`."
       }
     },
     "com.cloudflare.cache#PurgeCacheRequest": {
@@ -4175,31 +4489,31 @@
         "tags": {
           "target": "com.cloudflare.cache#PurgeRequestTagsList",
           "traits": {
-            "smithy.api#documentation": "For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+            "smithy.api#documentation": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
           }
         },
         "hosts": {
           "target": "com.cloudflare.cache#PurgeRequestHostsList",
           "traits": {
-            "smithy.api#documentation": "For more information purging by hostnames, please refer to [purge by hostname documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+            "smithy.api#documentation": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
           }
         },
         "prefixes": {
           "target": "com.cloudflare.cache#PurgeRequestPrefixesList",
           "traits": {
-            "smithy.api#documentation": "For more information on purging by prefixes, please refer to [purge by prefix documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+            "smithy.api#documentation": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
           }
         },
         "purge_everything": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "For more information, please refer to [purge everything documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+            "smithy.api#documentation": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
           }
         },
         "files": {
           "target": "com.cloudflare.cache#PurgeRequestFiles",
           "traits": {
-            "smithy.api#documentation": "For more information on purging files, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+            "smithy.api#documentation": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
           }
         }
       },
@@ -4236,7 +4550,7 @@
           "uri": "/zones/{zone_id}/environments/{environment_id}/purge_cache",
           "code": 200
         },
-        "smithy.api#documentation": "Purge cached content scoped to a specific environment. Supports the same purge types as the zone-level endpoint (purge everything, by URL, by tag, host, or prefix)."
+        "smithy.api#documentation": "Deletes cached content for one environment of the zone. Content cached for the zone's other environments, including production, is not affected. Otherwise this works like `POST /zones/{zone_id}/purge_cache`: the next request for purged content is a cache `MISS`, and the request body takes the same fields. Environments are part of [Version Management](https://developers.cloudflare.com/version-management/). To keep content cached and have Cloudflare revalidate it instead, use `POST /zones/{zone_id}/environments/{environment_id}/invalidate_cache`. Purging by URL (`files`) does not work for environments that select requests by IP address, country, ASN, or threat score, and fails with error `1136`. Use `tags`, `hosts`, `prefixes`, or `purge_everything` for those environments."
       }
     },
     "com.cloudflare.cache#PurgeEnvironmentCacheRequest": {
@@ -4259,31 +4573,31 @@
         "tags": {
           "target": "com.cloudflare.cache#PurgeEnvironmentRequestTagsList",
           "traits": {
-            "smithy.api#documentation": "For more information on cache tags and purging by tags, please refer to [purge by cache-tags documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
+            "smithy.api#documentation": "Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/)."
           }
         },
         "hosts": {
           "target": "com.cloudflare.cache#PurgeEnvironmentRequestHostsList",
           "traits": {
-            "smithy.api#documentation": "For more information purging by hostnames, please refer to [purge by hostname documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
+            "smithy.api#documentation": "Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/)."
           }
         },
         "prefixes": {
           "target": "com.cloudflare.cache#PurgeEnvironmentRequestPrefixesList",
           "traits": {
-            "smithy.api#documentation": "For more information on purging by prefixes, please refer to [purge by prefix documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
+            "smithy.api#documentation": "URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/)."
           }
         },
         "purge_everything": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "For more information, please refer to [purge everything documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
+            "smithy.api#documentation": "Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/)."
           }
         },
         "files": {
           "target": "com.cloudflare.cache#PurgeEnvironmentRequestFiles",
           "traits": {
-            "smithy.api#documentation": "For more information on purging files, please refer to [purge by single-file documentation page](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
+            "smithy.api#documentation": "Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/)."
           }
         }
       },

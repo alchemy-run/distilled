@@ -1,4 +1,4 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
 /**
  * convert — turn Modal's proto3 gRPC API into Smithy 2.0 JSON models.
  *
@@ -18,15 +18,15 @@
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import {
   convertProtoToSmithy,
   parseProto,
   rpcGroupName,
 } from "@distilled.cloud/core/codegen/proto";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
-const ROOT = path.resolve(import.meta.dir, "..");
+const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_DIR = path.join(ROOT, ".generated-specs");
 
 const PROTO_FILES = ["api.proto", "task_command_router.proto"] as const;
@@ -48,13 +48,10 @@ const toSlug = (group: string): string => {
 };
 
 const files = PROTO_FILES.map((name) => {
-  const specPath = resolveSpecPath(
-    ROOT,
-    `specs/spec-mirror-modal/specs/${name}`,
-  );
+  const specPath = resolveSpecPath(ROOT, `specs/spec-mirror-modal/specs/${name}`);
   if (!fs.existsSync(specPath)) {
     throw new Error(
-      `${specPath} not found — run \`pnpm specs:local modal\` (or \`bun run specs:fetch\` once the mirror exists)`,
+      `${specPath} not found — run \`pnpm specs:local modal\` (or \`pnpm run specs:fetch\` once the mirror exists)`,
     );
   }
   return parseProto(fs.readFileSync(specPath, "utf-8"), name);

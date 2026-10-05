@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Slack credentials — hand-written.
  *
@@ -22,7 +23,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /**
  * Slack Web API base URL. Every method is `POST/GET <base>/<method>`.
@@ -35,10 +35,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("SlackCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "SlackCredentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // SLACK_BOT_TOKEN is the spelling Bolt and most hosting platforms use;
@@ -57,8 +56,7 @@ export const CredentialsFromEnv = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message:
-            "SLACK_BOT_TOKEN (or SLACK_TOKEN) environment variable is required",
+          message: "SLACK_BOT_TOKEN (or SLACK_TOKEN) environment variable is required",
         }),
     ),
     Effect.map(({ token, apiBaseUrl }) => ({
@@ -70,17 +68,17 @@ export const CredentialsFromEnv = Layer.succeed(
 );
 
 /**
- * Convenience layer from a plain token + optional base URL. Pass an empty
+ * Convenience layer from a redacted token + optional base URL. Pass an empty
  * token (`""`) for the credential-less OAuth exchange methods.
  */
 export const credentials = (config: {
-  readonly token: string;
+  readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      token: Redacted.make(config.token),
+      token: config.token,
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );

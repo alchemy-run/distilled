@@ -1,0 +1,17 @@
+{
+  "description": "DeleteCertificate requires an If-Match ETag header (the spec's If-Match parameter was dropped by the converter), so the delete could not be called. Add the required ifMatch header member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iothub#DeleteCertificateRequest/members/ifMatch",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "If-Match",
+          "smithy.api#required": {},
+          "smithy.api#documentation": "ETag of the certificate. A value of \"*\" applies to any version."
+        }
+      }
+    }
+  ]
+}

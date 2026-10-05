@@ -1,4 +1,5 @@
-#!/usr/bin/env bun
+#!/usr/bin/env -S node --conditions=bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the Modal
  * Effect SDK.
@@ -12,7 +13,6 @@
  * Smithy member names, so no renaming.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
@@ -58,7 +58,7 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the Modal Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
   spec: () => spec,
