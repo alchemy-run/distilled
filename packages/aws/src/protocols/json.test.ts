@@ -950,6 +950,40 @@ describe("restJson1 response deserialization", () => {
     ).toEqual({ Metadata: { color: "red", Size: "L" } });
   });
 
+  test("an empty prefix binds every header, including ones bound to httpHeader members", async () => {
+    const output = S.Struct({
+      Specific: S.optional(S.String).pipe(T.HttpHeader("hello")),
+      All: S.optional(S.Record(S.String, S.String)).pipe(T.HttpPrefixHeaders("")),
+    });
+    const handler = restJson1Protocol(op(S.Any, output));
+    expect(
+      await runStrict(
+        handler.deserializeResponse(response("", { headers: { "x-foo": "Foo", hello: "There" } })),
+      ),
+    ).toEqual({ Specific: "There", All: { "x-foo": "Foo", hello: "There" } });
+  });
+
+  test("DataExchange SendApiAsset: a string payload is the body as-is in both modes", async () => {
+    const handler = restJson1Protocol(
+      op(DataExchange.SendApiAssetRequest, DataExchange.SendApiAssetResponse),
+    );
+    const headers = { "content-type": "text/plain", "x-request-id": "r-1" };
+    for (const body of ["plain text, not JSON", '{"x":1}', "[1,2]"]) {
+      const expected = { Body: body, ResponseHeaders: headers };
+      expect(await run(handler.deserializeResponse(response(body, { headers })))).toEqual(expected);
+      expect(await runStrict(handler.deserializeResponse(response(body, { headers })))).toEqual(
+        expected,
+      );
+    }
+  });
+
+  test("DataExchange SendApiAsset: an empty string payload is omitted", async () => {
+    const handler = restJson1Protocol(
+      op(DataExchange.SendApiAssetRequest, DataExchange.SendApiAssetResponse),
+    );
+    expect(await runStrict(handler.deserializeResponse(response("")))).toEqual({});
+  });
+
   test("GeoMaps GetTile: a blob payload is re-encoded to base64", async () => {
     const handler = restJson1Protocol(op(GeoMaps.GetTileRequest, GeoMaps.GetTileResponse));
     const tile = Uint8Array.of(0x1a, 0x00, 0xff, 0x80);

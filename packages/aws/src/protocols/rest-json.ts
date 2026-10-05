@@ -119,7 +119,10 @@ export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandl
         isNumber: isNumberAST(prop.type),
         isBoolean: isBooleanAST(prop.type),
       });
-    } else if (prefix) {
+    } else if (prefix !== undefined) {
+      // An empty prefix binds every response header (Smithy
+      // RestJsonHttpEmptyPrefixHeadersResponseClient), including ones also
+      // bound to httpHeader members.
       prefixHeaderProps.push({ name, prefix: prefix.toLowerCase() });
     } else if (hasHttpPayload(prop)) {
       const isEventStream = isOutputEventStream(prop.type);
@@ -332,9 +335,10 @@ export const restJson1Protocol: Protocol = (operation: Operation): ProtocolHandl
       // Non-streaming response - read body as text
       const bodyText = yield* readStreamAsText(response.body);
 
-      // Handle httpPayload with raw body
-      if (outputPayloadProp?.isRaw && bodyText) {
-        result[outputPayloadProp.name] = bodyText;
+      // A string httpPayload is the body as-is, not a JSON document.
+      if (outputPayloadProp?.isRaw) {
+        if (bodyText) result[outputPayloadProp.name] = bodyText;
+        return result;
       }
 
       // Parse JSON body (reviver converts null → undefined since AWS returns null for absent fields)
