@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "DataExchange",
-  serviceShapeName: "DataExchange",
-});
+const svc = T.AwsApiService({ sdkId: "DataExchange", serviceShapeName: "DataExchange" });
 const auth = T.AwsAuthSigv4({ name: "dataexchange" });
 const ver = T.ServiceVersion("2017-07-25");
 const proto = T.AwsProtocolsRestJson1();
@@ -126,10 +123,7 @@ export class ThrottlingException
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      ExceptionCause: S.optional(S.String),
-    },
+    { message: S.String.pipe(T.ErrorMessage()), ExceptionCause: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type DataGrantArn = string;
@@ -147,9 +141,7 @@ export const AcceptDataGrantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "AcceptDataGrantRequest",
-}) as any as S.Schema<AcceptDataGrantRequest>;
+).annotate({ identifier: "AcceptDataGrantRequest" }) as any as S.Schema<AcceptDataGrantRequest>;
 export type DataGrantName = string;
 export type SenderPrincipal = string;
 export type ReceiverPrincipal = string;
@@ -189,9 +181,7 @@ export const AcceptDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "AcceptDataGrantResponse",
-}) as any as S.Schema<AcceptDataGrantResponse>;
+).annotate({ identifier: "AcceptDataGrantResponse" }) as any as S.Schema<AcceptDataGrantResponse>;
 export interface CancelJobRequest {
   JobId: string;
 }
@@ -199,9 +189,7 @@ export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/v1/jobs/{JobId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelJobRequest",
-}) as any as S.Schema<CancelJobRequest>;
+).annotate({ identifier: "CancelJobRequest" }) as any as S.Schema<CancelJobRequest>;
 export interface CancelJobResponse {}
 export const CancelJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelJobResponse",
@@ -228,9 +216,7 @@ export const CreateDataGrantRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     Tags: S.optional(MapOf__string),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/data-grants" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDataGrantRequest",
-}) as any as S.Schema<CreateDataGrantRequest>;
+).annotate({ identifier: "CreateDataGrantRequest" }) as any as S.Schema<CreateDataGrantRequest>;
 export interface CreateDataGrantResponse {
   Name: string;
   SenderPrincipal: string;
@@ -266,9 +252,7 @@ export const CreateDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Tags: S.optional(MapOf__string),
   }),
-).annotate({
-  identifier: "CreateDataGrantResponse",
-}) as any as S.Schema<CreateDataGrantResponse>;
+).annotate({ identifier: "CreateDataGrantResponse" }) as any as S.Schema<CreateDataGrantResponse>;
 export type AssetType = string;
 export type Name = string;
 export interface CreateDataSetRequest {
@@ -284,19 +268,14 @@ export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     Tags: S.optional(MapOf__string),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/data-sets" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDataSetRequest",
-}) as any as S.Schema<CreateDataSetRequest>;
+).annotate({ identifier: "CreateDataSetRequest" }) as any as S.Schema<CreateDataSetRequest>;
 export type Origin = string;
 export interface OriginDetails {
   ProductId?: string;
   DataGrantId?: string;
 }
 export const OriginDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProductId: S.optional(S.String),
-    DataGrantId: S.optional(S.String),
-  }),
+  S.Struct({ ProductId: S.optional(S.String), DataGrantId: S.optional(S.String) }),
 ).annotate({ identifier: "OriginDetails" }) as any as S.Schema<OriginDetails>;
 export interface CreateDataSetResponse {
   Arn?: string;
@@ -325,9 +304,7 @@ export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(MapOf__string),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "CreateDataSetResponse",
-}) as any as S.Schema<CreateDataSetResponse>;
+).annotate({ identifier: "CreateDataSetResponse" }) as any as S.Schema<CreateDataSetResponse>;
 export type ServerSideEncryptionTypes = string;
 export interface ExportServerSideEncryption {
   KmsKeyArn?: string;
@@ -363,18 +340,14 @@ export interface Action {
   ExportRevisionToS3?: AutoExportRevisionToS3RequestDetails;
 }
 export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExportRevisionToS3: S.optional(AutoExportRevisionToS3RequestDetails),
-  }),
+  S.Struct({ ExportRevisionToS3: S.optional(AutoExportRevisionToS3RequestDetails) }),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export interface RevisionPublished {
   DataSetId: string;
 }
 export const RevisionPublished = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DataSetId: S.String }),
-).annotate({
-  identifier: "RevisionPublished",
-}) as any as S.Schema<RevisionPublished>;
+).annotate({ identifier: "RevisionPublished" }) as any as S.Schema<RevisionPublished>;
 export interface Event {
   RevisionPublished?: RevisionPublished;
 }
@@ -387,16 +360,10 @@ export interface CreateEventActionRequest {
   Tags?: { [key: string]: string | undefined };
 }
 export const CreateEventActionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Action: Action,
-    Event: Event,
-    Tags: S.optional(MapOf__string),
-  }).pipe(
+  S.Struct({ Action: Action, Event: Event, Tags: S.optional(MapOf__string) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/v1/event-actions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateEventActionRequest",
-}) as any as S.Schema<CreateEventActionRequest>;
+).annotate({ identifier: "CreateEventActionRequest" }) as any as S.Schema<CreateEventActionRequest>;
 export interface CreateEventActionResponse {
   Action?: Action;
   Arn?: string;
@@ -433,9 +400,7 @@ export interface AssetConfiguration {
 }
 export const AssetConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: S.optional(ListOfTag) }),
-).annotate({
-  identifier: "AssetConfiguration",
-}) as any as S.Schema<AssetConfiguration>;
+).annotate({ identifier: "AssetConfiguration" }) as any as S.Schema<AssetConfiguration>;
 export interface ExportAssetToSignedUrlRequestDetails {
   AssetId: string;
   DataSetId: string;
@@ -453,9 +418,7 @@ export interface AssetDestinationEntry {
 }
 export const AssetDestinationEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AssetId: S.String, Bucket: S.String, Key: S.optional(S.String) }),
-).annotate({
-  identifier: "AssetDestinationEntry",
-}) as any as S.Schema<AssetDestinationEntry>;
+).annotate({ identifier: "AssetDestinationEntry" }) as any as S.Schema<AssetDestinationEntry>;
 export type ListOfAssetDestinationEntry = AssetDestinationEntry[];
 export const ListOfAssetDestinationEntry = /*@__PURE__*/ S.Array(AssetDestinationEntry);
 export interface ExportAssetsToS3RequestDetails {
@@ -480,14 +443,8 @@ export interface RevisionDestinationEntry {
   RevisionId: string;
 }
 export const RevisionDestinationEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Bucket: S.String,
-    KeyPattern: S.optional(S.String),
-    RevisionId: S.String,
-  }),
-).annotate({
-  identifier: "RevisionDestinationEntry",
-}) as any as S.Schema<RevisionDestinationEntry>;
+  S.Struct({ Bucket: S.String, KeyPattern: S.optional(S.String), RevisionId: S.String }),
+).annotate({ identifier: "RevisionDestinationEntry" }) as any as S.Schema<RevisionDestinationEntry>;
 export type ListOfRevisionDestinationEntry = RevisionDestinationEntry[];
 export const ListOfRevisionDestinationEntry = /*@__PURE__*/ S.Array(RevisionDestinationEntry);
 export interface ExportRevisionsToS3RequestDetails {
@@ -513,12 +470,7 @@ export interface ImportAssetFromSignedUrlRequestDetails {
   RevisionId: string;
 }
 export const ImportAssetFromSignedUrlRequestDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssetName: S.String,
-    DataSetId: S.String,
-    Md5Hash: S.String,
-    RevisionId: S.String,
-  }),
+  S.Struct({ AssetName: S.String, DataSetId: S.String, Md5Hash: S.String, RevisionId: S.String }),
 ).annotate({
   identifier: "ImportAssetFromSignedUrlRequestDetails",
 }) as any as S.Schema<ImportAssetFromSignedUrlRequestDetails>;
@@ -528,9 +480,7 @@ export interface AssetSourceEntry {
 }
 export const AssetSourceEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Bucket: S.String, Key: S.String }),
-).annotate({
-  identifier: "AssetSourceEntry",
-}) as any as S.Schema<AssetSourceEntry>;
+).annotate({ identifier: "AssetSourceEntry" }) as any as S.Schema<AssetSourceEntry>;
 export type ListOfAssetSourceEntry = AssetSourceEntry[];
 export const ListOfAssetSourceEntry = /*@__PURE__*/ S.Array(AssetSourceEntry);
 export interface ImportAssetsFromS3RequestDetails {
@@ -539,11 +489,7 @@ export interface ImportAssetsFromS3RequestDetails {
   RevisionId: string;
 }
 export const ImportAssetsFromS3RequestDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssetSources: ListOfAssetSourceEntry,
-    DataSetId: S.String,
-    RevisionId: S.String,
-  }),
+  S.Struct({ AssetSources: ListOfAssetSourceEntry, DataSetId: S.String, RevisionId: S.String }),
 ).annotate({
   identifier: "ImportAssetsFromS3RequestDetails",
 }) as any as S.Schema<ImportAssetsFromS3RequestDetails>;
@@ -662,10 +608,7 @@ export interface DatabaseLFTagPolicyAndPermissions {
   Permissions: string[];
 }
 export const DatabaseLFTagPolicyAndPermissions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Expression: ListOfLFTags,
-    Permissions: ListOfDatabaseLFTagPolicyPermissions,
-  }),
+  S.Struct({ Expression: ListOfLFTags, Permissions: ListOfDatabaseLFTagPolicyPermissions }),
 ).annotate({
   identifier: "DatabaseLFTagPolicyAndPermissions",
 }) as any as S.Schema<DatabaseLFTagPolicyAndPermissions>;
@@ -677,10 +620,7 @@ export interface TableLFTagPolicyAndPermissions {
   Permissions: string[];
 }
 export const TableLFTagPolicyAndPermissions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Expression: ListOfLFTags,
-    Permissions: ListOfTableTagPolicyLFPermissions,
-  }),
+  S.Struct({ Expression: ListOfLFTags, Permissions: ListOfTableTagPolicyLFPermissions }),
 ).annotate({
   identifier: "TableLFTagPolicyAndPermissions",
 }) as any as S.Schema<TableLFTagPolicyAndPermissions>;
@@ -745,9 +685,7 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
     Details: RequestDetails,
     Type: S.String,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateJobRequest",
-}) as any as S.Schema<CreateJobRequest>;
+).annotate({ identifier: "CreateJobRequest" }) as any as S.Schema<CreateJobRequest>;
 export interface ExportAssetToSignedUrlResponseDetails {
   AssetId: string;
   DataSetId: string;
@@ -824,11 +762,7 @@ export interface ImportAssetsFromS3ResponseDetails {
   RevisionId: string;
 }
 export const ImportAssetsFromS3ResponseDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AssetSources: ListOfAssetSourceEntry,
-    DataSetId: S.String,
-    RevisionId: S.String,
-  }),
+  S.Struct({ AssetSources: ListOfAssetSourceEntry, DataSetId: S.String, RevisionId: S.String }),
 ).annotate({
   identifier: "ImportAssetsFromS3ResponseDetails",
 }) as any as S.Schema<ImportAssetsFromS3ResponseDetails>;
@@ -937,9 +871,7 @@ export const ResponseDetails = /*@__PURE__*/ S.suspend(() =>
       ImportAssetsFromLakeFormationTagPolicyResponseDetails,
     ),
   }),
-).annotate({
-  identifier: "ResponseDetails",
-}) as any as S.Schema<ResponseDetails>;
+).annotate({ identifier: "ResponseDetails" }) as any as S.Schema<ResponseDetails>;
 export type Code = string;
 export interface ImportAssetFromSignedUrlJobErrorDetails {
   AssetName: string;
@@ -1007,9 +939,7 @@ export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(S.String),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "CreateJobResponse",
-}) as any as S.Schema<CreateJobResponse>;
+).annotate({ identifier: "CreateJobResponse" }) as any as S.Schema<CreateJobResponse>;
 export type __stringMin0Max16384 = string;
 export interface CreateRevisionRequest {
   Comment?: string;
@@ -1031,9 +961,7 @@ export const CreateRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateRevisionRequest",
-}) as any as S.Schema<CreateRevisionRequest>;
+).annotate({ identifier: "CreateRevisionRequest" }) as any as S.Schema<CreateRevisionRequest>;
 export type __stringMin10Max512 = string;
 export interface CreateRevisionResponse {
   Arn?: string;
@@ -1064,9 +992,7 @@ export const CreateRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     Revoked: S.optional(S.Boolean),
     RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "CreateRevisionResponse",
-}) as any as S.Schema<CreateRevisionResponse>;
+).annotate({ identifier: "CreateRevisionResponse" }) as any as S.Schema<CreateRevisionResponse>;
 export interface DeleteAssetRequest {
   AssetId: string;
   DataSetId: string;
@@ -1090,9 +1016,7 @@ export const DeleteAssetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAssetRequest",
-}) as any as S.Schema<DeleteAssetRequest>;
+).annotate({ identifier: "DeleteAssetRequest" }) as any as S.Schema<DeleteAssetRequest>;
 export interface DeleteAssetResponse {}
 export const DeleteAssetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssetResponse",
@@ -1112,9 +1036,7 @@ export const DeleteDataGrantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteDataGrantRequest",
-}) as any as S.Schema<DeleteDataGrantRequest>;
+).annotate({ identifier: "DeleteDataGrantRequest" }) as any as S.Schema<DeleteDataGrantRequest>;
 export interface DeleteDataGrantResponse {}
 export const DeleteDataGrantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDataGrantResponse",
@@ -1133,9 +1055,7 @@ export const DeleteDataSetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteDataSetRequest",
-}) as any as S.Schema<DeleteDataSetRequest>;
+).annotate({ identifier: "DeleteDataSetRequest" }) as any as S.Schema<DeleteDataSetRequest>;
 export interface DeleteDataSetResponse {}
 export const DeleteDataSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDataSetResponse",
@@ -1154,9 +1074,7 @@ export const DeleteEventActionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEventActionRequest",
-}) as any as S.Schema<DeleteEventActionRequest>;
+).annotate({ identifier: "DeleteEventActionRequest" }) as any as S.Schema<DeleteEventActionRequest>;
 export interface DeleteEventActionResponse {}
 export const DeleteEventActionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEventActionResponse",
@@ -1171,10 +1089,7 @@ export const DeleteRevisionRequest = /*@__PURE__*/ S.suspend(() =>
     RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}" }),
       svc,
       auth,
       proto,
@@ -1182,9 +1097,7 @@ export const DeleteRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteRevisionRequest",
-}) as any as S.Schema<DeleteRevisionRequest>;
+).annotate({ identifier: "DeleteRevisionRequest" }) as any as S.Schema<DeleteRevisionRequest>;
 export interface DeleteRevisionResponse {}
 export const DeleteRevisionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRevisionResponse",
@@ -1212,26 +1125,20 @@ export const GetAssetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAssetRequest",
-}) as any as S.Schema<GetAssetRequest>;
+).annotate({ identifier: "GetAssetRequest" }) as any as S.Schema<GetAssetRequest>;
 export type __doubleMin0 = number;
 export interface S3SnapshotAsset {
   Size: number;
 }
 export const S3SnapshotAsset = /*@__PURE__*/ S.suspend(() => S.Struct({ Size: S.Number })).annotate(
-  {
-    identifier: "S3SnapshotAsset",
-  },
+  { identifier: "S3SnapshotAsset" },
 ) as any as S.Schema<S3SnapshotAsset>;
 export interface RedshiftDataShareAsset {
   Arn: string;
 }
 export const RedshiftDataShareAsset = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }),
-).annotate({
-  identifier: "RedshiftDataShareAsset",
-}) as any as S.Schema<RedshiftDataShareAsset>;
+).annotate({ identifier: "RedshiftDataShareAsset" }) as any as S.Schema<RedshiftDataShareAsset>;
 export interface ApiGatewayApiAsset {
   ApiDescription?: string;
   ApiEndpoint?: string;
@@ -1257,9 +1164,7 @@ export const ApiGatewayApiAsset = /*@__PURE__*/ S.suspend(() =>
     ProtocolType: S.optional(S.String),
     Stage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ApiGatewayApiAsset",
-}) as any as S.Schema<ApiGatewayApiAsset>;
+).annotate({ identifier: "ApiGatewayApiAsset" }) as any as S.Schema<ApiGatewayApiAsset>;
 export interface S3DataAccessAsset {
   Bucket: string;
   KeyPrefixes?: string[];
@@ -1277,52 +1182,35 @@ export const S3DataAccessAsset = /*@__PURE__*/ S.suspend(() =>
     S3AccessPointArn: S.optional(S.String),
     KmsKeysToGrant: S.optional(ListOfKmsKeysToGrant),
   }),
-).annotate({
-  identifier: "S3DataAccessAsset",
-}) as any as S.Schema<S3DataAccessAsset>;
+).annotate({ identifier: "S3DataAccessAsset" }) as any as S.Schema<S3DataAccessAsset>;
 export type LFResourceType = string;
 export interface DatabaseLFTagPolicy {
   Expression: LFTag[];
 }
 export const DatabaseLFTagPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Expression: ListOfLFTags }),
-).annotate({
-  identifier: "DatabaseLFTagPolicy",
-}) as any as S.Schema<DatabaseLFTagPolicy>;
+).annotate({ identifier: "DatabaseLFTagPolicy" }) as any as S.Schema<DatabaseLFTagPolicy>;
 export interface TableLFTagPolicy {
   Expression: LFTag[];
 }
 export const TableLFTagPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Expression: ListOfLFTags }),
-).annotate({
-  identifier: "TableLFTagPolicy",
-}) as any as S.Schema<TableLFTagPolicy>;
+).annotate({ identifier: "TableLFTagPolicy" }) as any as S.Schema<TableLFTagPolicy>;
 export interface LFResourceDetails {
   Database?: DatabaseLFTagPolicy;
   Table?: TableLFTagPolicy;
 }
 export const LFResourceDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Database: S.optional(DatabaseLFTagPolicy),
-    Table: S.optional(TableLFTagPolicy),
-  }),
-).annotate({
-  identifier: "LFResourceDetails",
-}) as any as S.Schema<LFResourceDetails>;
+  S.Struct({ Database: S.optional(DatabaseLFTagPolicy), Table: S.optional(TableLFTagPolicy) }),
+).annotate({ identifier: "LFResourceDetails" }) as any as S.Schema<LFResourceDetails>;
 export interface LFTagPolicyDetails {
   CatalogId: string;
   ResourceType: string;
   ResourceDetails: LFResourceDetails;
 }
 export const LFTagPolicyDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CatalogId: S.String,
-    ResourceType: S.String,
-    ResourceDetails: LFResourceDetails,
-  }),
-).annotate({
-  identifier: "LFTagPolicyDetails",
-}) as any as S.Schema<LFTagPolicyDetails>;
+  S.Struct({ CatalogId: S.String, ResourceType: S.String, ResourceDetails: LFResourceDetails }),
+).annotate({ identifier: "LFTagPolicyDetails" }) as any as S.Schema<LFTagPolicyDetails>;
 export interface LakeFormationDataPermissionDetails {
   LFTagPolicy?: LFTagPolicyDetails;
 }
@@ -1394,9 +1282,7 @@ export const GetAssetResponse = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(MapOf__string),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetAssetResponse",
-}) as any as S.Schema<GetAssetResponse>;
+).annotate({ identifier: "GetAssetResponse" }) as any as S.Schema<GetAssetResponse>;
 export interface GetDataGrantRequest {
   DataGrantId: string;
 }
@@ -1411,9 +1297,7 @@ export const GetDataGrantRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDataGrantRequest",
-}) as any as S.Schema<GetDataGrantRequest>;
+).annotate({ identifier: "GetDataGrantRequest" }) as any as S.Schema<GetDataGrantRequest>;
 export interface GetDataGrantResponse {
   Name: string;
   SenderPrincipal: string;
@@ -1449,9 +1333,7 @@ export const GetDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     Tags: S.optional(MapOf__string),
   }),
-).annotate({
-  identifier: "GetDataGrantResponse",
-}) as any as S.Schema<GetDataGrantResponse>;
+).annotate({ identifier: "GetDataGrantResponse" }) as any as S.Schema<GetDataGrantResponse>;
 export interface GetDataSetRequest {
   DataSetId: string;
 }
@@ -1466,9 +1348,7 @@ export const GetDataSetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetDataSetRequest",
-}) as any as S.Schema<GetDataSetRequest>;
+).annotate({ identifier: "GetDataSetRequest" }) as any as S.Schema<GetDataSetRequest>;
 export interface GetDataSetResponse {
   Arn?: string;
   AssetType?: string;
@@ -1496,9 +1376,7 @@ export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(MapOf__string),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetDataSetResponse",
-}) as any as S.Schema<GetDataSetResponse>;
+).annotate({ identifier: "GetDataSetResponse" }) as any as S.Schema<GetDataSetResponse>;
 export interface GetEventActionRequest {
   EventActionId: string;
 }
@@ -1513,9 +1391,7 @@ export const GetEventActionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEventActionRequest",
-}) as any as S.Schema<GetEventActionRequest>;
+).annotate({ identifier: "GetEventActionRequest" }) as any as S.Schema<GetEventActionRequest>;
 export interface GetEventActionResponse {
   Action?: Action;
   Arn?: string;
@@ -1535,9 +1411,7 @@ export const GetEventActionResponse = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(MapOf__string),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetEventActionResponse",
-}) as any as S.Schema<GetEventActionResponse>;
+).annotate({ identifier: "GetEventActionResponse" }) as any as S.Schema<GetEventActionResponse>;
 export interface GetJobRequest {
   JobId: string;
 }
@@ -1631,10 +1505,7 @@ export const GetRevisionRequest = /*@__PURE__*/ S.suspend(() =>
     RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}",
-      }),
+      T.Http({ method: "GET", uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}" }),
       svc,
       auth,
       proto,
@@ -1642,9 +1513,7 @@ export const GetRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetRevisionRequest",
-}) as any as S.Schema<GetRevisionRequest>;
+).annotate({ identifier: "GetRevisionRequest" }) as any as S.Schema<GetRevisionRequest>;
 export interface GetRevisionResponse {
   Arn?: string;
   Comment?: string;
@@ -1674,9 +1543,7 @@ export const GetRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     Revoked: S.optional(S.Boolean),
     RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "GetRevisionResponse",
-}) as any as S.Schema<GetRevisionResponse>;
+).annotate({ identifier: "GetRevisionResponse" }) as any as S.Schema<GetRevisionResponse>;
 export type MaxResults = number;
 export interface ListDataGrantsRequest {
   MaxResults?: number;
@@ -1687,9 +1554,7 @@ export const ListDataGrantsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/data-grants" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDataGrantsRequest",
-}) as any as S.Schema<ListDataGrantsRequest>;
+).annotate({ identifier: "ListDataGrantsRequest" }) as any as S.Schema<ListDataGrantsRequest>;
 export interface DataGrantSummaryEntry {
   Name: string;
   SenderPrincipal: string;
@@ -1719,9 +1584,7 @@ export const DataGrantSummaryEntry = /*@__PURE__*/ S.suspend(() =>
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "DataGrantSummaryEntry",
-}) as any as S.Schema<DataGrantSummaryEntry>;
+).annotate({ identifier: "DataGrantSummaryEntry" }) as any as S.Schema<DataGrantSummaryEntry>;
 export type ListOfDataGrantSummaryEntry = DataGrantSummaryEntry[];
 export const ListOfDataGrantSummaryEntry = /*@__PURE__*/ S.Array(DataGrantSummaryEntry);
 export type NextToken = string;
@@ -1734,9 +1597,7 @@ export const ListDataGrantsResponse = /*@__PURE__*/ S.suspend(() =>
     DataGrantSummaries: S.optional(ListOfDataGrantSummaryEntry),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListDataGrantsResponse",
-}) as any as S.Schema<ListDataGrantsResponse>;
+).annotate({ identifier: "ListDataGrantsResponse" }) as any as S.Schema<ListDataGrantsResponse>;
 export interface ListDataSetRevisionsRequest {
   DataSetId: string;
   MaxResults?: number;
@@ -1795,10 +1656,7 @@ export interface ListDataSetRevisionsResponse {
   Revisions?: RevisionEntry[];
 }
 export const ListDataSetRevisionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Revisions: S.optional(ListOfRevisionEntry),
-  }),
+  S.Struct({ NextToken: S.optional(S.String), Revisions: S.optional(ListOfRevisionEntry) }),
 ).annotate({
   identifier: "ListDataSetRevisionsResponse",
 }) as any as S.Schema<ListDataSetRevisionsResponse>;
@@ -1813,9 +1671,7 @@ export const ListDataSetsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/data-sets" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDataSetsRequest",
-}) as any as S.Schema<ListDataSetsRequest>;
+).annotate({ identifier: "ListDataSetsRequest" }) as any as S.Schema<ListDataSetsRequest>;
 export interface DataSetEntry {
   Arn: string;
   AssetType: string;
@@ -1849,13 +1705,8 @@ export interface ListDataSetsResponse {
   NextToken?: string;
 }
 export const ListDataSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataSets: S.optional(ListOfDataSetEntry),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDataSetsResponse",
-}) as any as S.Schema<ListDataSetsResponse>;
+  S.Struct({ DataSets: S.optional(ListOfDataSetEntry), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListDataSetsResponse" }) as any as S.Schema<ListDataSetsResponse>;
 export interface ListEventActionsRequest {
   EventSourceId?: string;
   MaxResults?: number;
@@ -1867,9 +1718,7 @@ export const ListEventActionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/event-actions" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEventActionsRequest",
-}) as any as S.Schema<ListEventActionsRequest>;
+).annotate({ identifier: "ListEventActionsRequest" }) as any as S.Schema<ListEventActionsRequest>;
 export interface EventActionEntry {
   Action: Action;
   Arn: string;
@@ -1887,9 +1736,7 @@ export const EventActionEntry = /*@__PURE__*/ S.suspend(() =>
     Id: S.String,
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
-).annotate({
-  identifier: "EventActionEntry",
-}) as any as S.Schema<EventActionEntry>;
+).annotate({ identifier: "EventActionEntry" }) as any as S.Schema<EventActionEntry>;
 export type ListOfEventActionEntry = EventActionEntry[];
 export const ListOfEventActionEntry = /*@__PURE__*/ S.Array(EventActionEntry);
 export interface ListEventActionsResponse {
@@ -1897,13 +1744,8 @@ export interface ListEventActionsResponse {
   NextToken?: string;
 }
 export const ListEventActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EventActions: S.optional(ListOfEventActionEntry),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEventActionsResponse",
-}) as any as S.Schema<ListEventActionsResponse>;
+  S.Struct({ EventActions: S.optional(ListOfEventActionEntry), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListEventActionsResponse" }) as any as S.Schema<ListEventActionsResponse>;
 export interface ListJobsRequest {
   DataSetId?: string;
   MaxResults?: number;
@@ -1917,9 +1759,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RevisionId: S.optional(S.String).pipe(T.HttpQuery("revisionId")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListJobsRequest",
-}) as any as S.Schema<ListJobsRequest>;
+).annotate({ identifier: "ListJobsRequest" }) as any as S.Schema<ListJobsRequest>;
 export interface JobEntry {
   Arn: string;
   AssetConfiguration?: AssetConfiguration;
@@ -1951,13 +1791,8 @@ export interface ListJobsResponse {
   NextToken?: string;
 }
 export const ListJobsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Jobs: S.optional(ListOfJobEntry),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListJobsResponse",
-}) as any as S.Schema<ListJobsResponse>;
+  S.Struct({ Jobs: S.optional(ListOfJobEntry), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListJobsResponse" }) as any as S.Schema<ListJobsResponse>;
 export type AcceptanceStateFilterValue = string;
 export type AcceptanceStateFilterValues = string[];
 export const AcceptanceStateFilterValues = /*@__PURE__*/ S.Array(S.String);
@@ -2037,10 +1872,7 @@ export const ListRevisionAssetsRequest = /*@__PURE__*/ S.suspend(() =>
     RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets",
-      }),
+      T.Http({ method: "GET", uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets" }),
       svc,
       auth,
       proto,
@@ -2084,10 +1916,7 @@ export interface ListRevisionAssetsResponse {
   NextToken?: string;
 }
 export const ListRevisionAssetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Assets: S.optional(ListOfAssetEntry),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Assets: S.optional(ListOfAssetEntry), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRevisionAssetsResponse",
 }) as any as S.Schema<ListRevisionAssetsResponse>;
@@ -2121,10 +1950,7 @@ export const RevokeRevisionRequest = /*@__PURE__*/ S.suspend(() =>
     RevocationComment: S.String,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/revoke",
-      }),
+      T.Http({ method: "POST", uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/revoke" }),
       svc,
       auth,
       proto,
@@ -2132,9 +1958,7 @@ export const RevokeRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "RevokeRevisionRequest",
-}) as any as S.Schema<RevokeRevisionRequest>;
+).annotate({ identifier: "RevokeRevisionRequest" }) as any as S.Schema<RevokeRevisionRequest>;
 export interface RevokeRevisionResponse {
   Arn?: string;
   Comment?: string;
@@ -2162,9 +1986,7 @@ export const RevokeRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     Revoked: S.optional(S.Boolean),
     RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "RevokeRevisionResponse",
-}) as any as S.Schema<RevokeRevisionResponse>;
+).annotate({ identifier: "RevokeRevisionResponse" }) as any as S.Schema<RevokeRevisionResponse>;
 export interface SendApiAssetRequest {
   Body?: string;
   QueryStringParameters?: { [key: string]: string | undefined };
@@ -2188,9 +2010,7 @@ export const SendApiAssetRequest = /*@__PURE__*/ S.suspend(() =>
     Path: S.optional(S.String).pipe(T.HttpHeader("x-amzn-dataexchange-path")),
     RevisionId: S.String.pipe(T.HttpHeader("x-amzn-dataexchange-revision-id")),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/v1" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "SendApiAssetRequest",
-}) as any as S.Schema<SendApiAssetRequest>;
+).annotate({ identifier: "SendApiAssetRequest" }) as any as S.Schema<SendApiAssetRequest>;
 export interface SendApiAssetResponse {
   Body?: string;
   ResponseHeaders?: { [key: string]: string | undefined };
@@ -2200,9 +2020,7 @@ export const SendApiAssetResponse = /*@__PURE__*/ S.suspend(() =>
     Body: S.optional(S.String).pipe(T.HttpPayload()),
     ResponseHeaders: S.optional(MapOf__string).pipe(T.HttpPrefixHeaders("")),
   }),
-).annotate({
-  identifier: "SendApiAssetResponse",
-}) as any as S.Schema<SendApiAssetResponse>;
+).annotate({ identifier: "SendApiAssetResponse" }) as any as S.Schema<SendApiAssetResponse>;
 export interface LakeFormationTagPolicyDetails {
   Database?: string;
   Table?: string;
@@ -2231,9 +2049,7 @@ export const RedshiftDataShareDetails = /*@__PURE__*/ S.suspend(() =>
     Schema: S.optional(S.String),
     View: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RedshiftDataShareDetails",
-}) as any as S.Schema<RedshiftDataShareDetails>;
+).annotate({ identifier: "RedshiftDataShareDetails" }) as any as S.Schema<RedshiftDataShareDetails>;
 export type ListOfRedshiftDataShares = RedshiftDataShareDetails[];
 export const ListOfRedshiftDataShares = /*@__PURE__*/ S.Array(RedshiftDataShareDetails);
 export interface S3DataAccessDetails {
@@ -2241,13 +2057,8 @@ export interface S3DataAccessDetails {
   Keys?: string[];
 }
 export const S3DataAccessDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyPrefixes: S.optional(ListOf__string),
-    Keys: S.optional(ListOf__string),
-  }),
-).annotate({
-  identifier: "S3DataAccessDetails",
-}) as any as S.Schema<S3DataAccessDetails>;
+  S.Struct({ KeyPrefixes: S.optional(ListOf__string), Keys: S.optional(ListOf__string) }),
+).annotate({ identifier: "S3DataAccessDetails" }) as any as S.Schema<S3DataAccessDetails>;
 export type ListOfS3DataAccesses = S3DataAccessDetails[];
 export const ListOfS3DataAccesses = /*@__PURE__*/ S.Array(S3DataAccessDetails);
 export interface ScopeDetails {
@@ -2268,19 +2079,13 @@ export interface DataUpdateRequestDetails {
   DataUpdatedAt?: Date;
 }
 export const DataUpdateRequestDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-  }),
-).annotate({
-  identifier: "DataUpdateRequestDetails",
-}) as any as S.Schema<DataUpdateRequestDetails>;
+  S.Struct({ DataUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))) }),
+).annotate({ identifier: "DataUpdateRequestDetails" }) as any as S.Schema<DataUpdateRequestDetails>;
 export interface DeprecationRequestDetails {
   DeprecationAt: Date;
 }
 export const DeprecationRequestDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeprecationAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-  }),
+  S.Struct({ DeprecationAt: T.DateFromString.pipe(T.TimestampFormat("date-time")) }),
 ).annotate({
   identifier: "DeprecationRequestDetails",
 }) as any as S.Schema<DeprecationRequestDetails>;
@@ -2291,14 +2096,8 @@ export interface SchemaChangeDetails {
   Description?: string;
 }
 export const SchemaChangeDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Type: S.String,
-    Description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SchemaChangeDetails",
-}) as any as S.Schema<SchemaChangeDetails>;
+  S.Struct({ Name: S.String, Type: S.String, Description: S.optional(S.String) }),
+).annotate({ identifier: "SchemaChangeDetails" }) as any as S.Schema<SchemaChangeDetails>;
 export type ListOfSchemaChangeDetails = SchemaChangeDetails[];
 export const ListOfSchemaChangeDetails = /*@__PURE__*/ S.Array(SchemaChangeDetails);
 export interface SchemaChangeRequestDetails {
@@ -2324,9 +2123,7 @@ export const NotificationDetails = /*@__PURE__*/ S.suspend(() =>
     Deprecation: S.optional(DeprecationRequestDetails),
     SchemaChange: S.optional(SchemaChangeRequestDetails),
   }),
-).annotate({
-  identifier: "NotificationDetails",
-}) as any as S.Schema<NotificationDetails>;
+).annotate({ identifier: "NotificationDetails" }) as any as S.Schema<NotificationDetails>;
 export type NotificationType = string;
 export interface SendDataSetNotificationRequest {
   Scope?: ScopeDetails;
@@ -2359,9 +2156,7 @@ export const SendDataSetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SendDataSetNotificationRequest>;
 export interface SendDataSetNotificationResponse {}
 export const SendDataSetNotificationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "SendDataSetNotificationResponse",
-  },
+  { identifier: "SendDataSetNotificationResponse" },
 ) as any as S.Schema<SendDataSetNotificationResponse>;
 export interface StartJobRequest {
   JobId: string;
@@ -2370,9 +2165,7 @@ export const StartJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/v1/jobs/{JobId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartJobRequest",
-}) as any as S.Schema<StartJobRequest>;
+).annotate({ identifier: "StartJobRequest" }) as any as S.Schema<StartJobRequest>;
 export interface StartJobResponse {}
 export const StartJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartJobResponse",
@@ -2382,17 +2175,12 @@ export interface TagResourceRequest {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: MapOf__string,
-  })
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: MapOf__string })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2408,9 +2196,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2440,9 +2226,7 @@ export const UpdateAssetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateAssetRequest",
-}) as any as S.Schema<UpdateAssetRequest>;
+).annotate({ identifier: "UpdateAssetRequest" }) as any as S.Schema<UpdateAssetRequest>;
 export interface UpdateAssetResponse {
   Arn?: string;
   AssetDetails?: AssetDetails;
@@ -2468,9 +2252,7 @@ export const UpdateAssetResponse = /*@__PURE__*/ S.suspend(() =>
     SourceId: S.optional(S.String),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "UpdateAssetResponse",
-}) as any as S.Schema<UpdateAssetResponse>;
+).annotate({ identifier: "UpdateAssetResponse" }) as any as S.Schema<UpdateAssetResponse>;
 export interface UpdateDataSetRequest {
   DataSetId: string;
   Description?: string;
@@ -2491,9 +2273,7 @@ export const UpdateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateDataSetRequest",
-}) as any as S.Schema<UpdateDataSetRequest>;
+).annotate({ identifier: "UpdateDataSetRequest" }) as any as S.Schema<UpdateDataSetRequest>;
 export interface UpdateDataSetResponse {
   Arn?: string;
   AssetType?: string;
@@ -2519,9 +2299,7 @@ export const UpdateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     SourceId: S.optional(S.String),
     UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "UpdateDataSetResponse",
-}) as any as S.Schema<UpdateDataSetResponse>;
+).annotate({ identifier: "UpdateDataSetResponse" }) as any as S.Schema<UpdateDataSetResponse>;
 export interface UpdateEventActionRequest {
   Action?: Action;
   EventActionId: string;
@@ -2540,9 +2318,7 @@ export const UpdateEventActionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateEventActionRequest",
-}) as any as S.Schema<UpdateEventActionRequest>;
+).annotate({ identifier: "UpdateEventActionRequest" }) as any as S.Schema<UpdateEventActionRequest>;
 export interface UpdateEventActionResponse {
   Action?: Action;
   Arn?: string;
@@ -2577,10 +2353,7 @@ export const UpdateRevisionRequest = /*@__PURE__*/ S.suspend(() =>
     RevisionId: S.String.pipe(T.HttpLabel("RevisionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}",
-      }),
+      T.Http({ method: "PATCH", uri: "/v1/data-sets/{DataSetId}/revisions/{RevisionId}" }),
       svc,
       auth,
       proto,
@@ -2588,9 +2361,7 @@ export const UpdateRevisionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateRevisionRequest",
-}) as any as S.Schema<UpdateRevisionRequest>;
+).annotate({ identifier: "UpdateRevisionRequest" }) as any as S.Schema<UpdateRevisionRequest>;
 export interface UpdateRevisionResponse {
   Arn?: string;
   Comment?: string;
@@ -2618,9 +2389,7 @@ export const UpdateRevisionResponse = /*@__PURE__*/ S.suspend(() =>
     Revoked: S.optional(S.Boolean),
     RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "UpdateRevisionResponse",
-}) as any as S.Schema<UpdateRevisionResponse>;
+).annotate({ identifier: "UpdateRevisionResponse" }) as any as S.Schema<UpdateRevisionResponse>;
 export type ResourceType = string;
 export type ExceptionCause = string;
 export type LimitName = string;

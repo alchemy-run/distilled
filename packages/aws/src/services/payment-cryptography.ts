@@ -104,10 +104,7 @@ export class PublicPolicyException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      ResourceId: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ResourceId: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -204,12 +201,8 @@ export interface ReplicationStatusType {
 }
 export const ReplicationStatusType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Status: S.String, StatusMessage: S.optional(S.String) }),
-).annotate({
-  identifier: "ReplicationStatusType",
-}) as any as S.Schema<ReplicationStatusType>;
-export type ReplicationStatus = {
-  [key: string]: ReplicationStatusType | undefined;
-};
+).annotate({ identifier: "ReplicationStatusType" }) as any as S.Schema<ReplicationStatusType>;
+export type ReplicationStatus = { [key: string]: ReplicationStatusType | undefined };
 export const ReplicationStatus = /*@__PURE__*/ S.Record(
   S.String,
   ReplicationStatusType.pipe(S.optional),
@@ -297,9 +290,7 @@ export const AssociateMpaTeamInput = /*@__PURE__*/ S.suspend(() =>
     MpaTeamArn: S.String,
     RequesterComment: S.optional(SensitiveString),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssociateMpaTeamInput",
-}) as any as S.Schema<AssociateMpaTeamInput>;
+).annotate({ identifier: "AssociateMpaTeamInput" }) as any as S.Schema<AssociateMpaTeamInput>;
 export type AssociationState = string;
 export interface MpaTeamAssociation {
   Action: string;
@@ -314,17 +305,13 @@ export const MpaTeamAssociation = /*@__PURE__*/ S.suspend(() =>
     AssociationState: S.String,
     MpaStatus: S.optional(MpaStatus),
   }),
-).annotate({
-  identifier: "MpaTeamAssociation",
-}) as any as S.Schema<MpaTeamAssociation>;
+).annotate({ identifier: "MpaTeamAssociation" }) as any as S.Schema<MpaTeamAssociation>;
 export interface AssociateMpaTeamOutput {
   MpaTeamAssociation: MpaTeamAssociation;
 }
 export const AssociateMpaTeamOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MpaTeamAssociation: MpaTeamAssociation }),
-).annotate({
-  identifier: "AssociateMpaTeamOutput",
-}) as any as S.Schema<AssociateMpaTeamOutput>;
+).annotate({ identifier: "AssociateMpaTeamOutput" }) as any as S.Schema<AssociateMpaTeamOutput>;
 export type AliasName = string;
 export interface CreateAliasInput {
   AliasName: string;
@@ -334,9 +321,7 @@ export const CreateAliasInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AliasName: S.String, KeyArn: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateAliasInput",
-}) as any as S.Schema<CreateAliasInput>;
+).annotate({ identifier: "CreateAliasInput" }) as any as S.Schema<CreateAliasInput>;
 export interface Alias {
   AliasName: string;
   KeyArn?: string;
@@ -348,9 +333,7 @@ export interface CreateAliasOutput {
   Alias: Alias;
 }
 export const CreateAliasOutput = /*@__PURE__*/ S.suspend(() => S.Struct({ Alias: Alias })).annotate(
-  {
-    identifier: "CreateAliasOutput",
-  },
+  { identifier: "CreateAliasOutput" },
 ) as any as S.Schema<CreateAliasOutput>;
 export type TagKey = string;
 export type TagValue = string;
@@ -396,9 +379,7 @@ export const DeleteAliasInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AliasName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAliasInput",
-}) as any as S.Schema<DeleteAliasInput>;
+).annotate({ identifier: "DeleteAliasInput" }) as any as S.Schema<DeleteAliasInput>;
 export interface DeleteAliasOutput {}
 export const DeleteAliasOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAliasOutput",
@@ -408,10 +389,9 @@ export interface DeleteKeyInput {
   DeleteKeyInDays?: number;
 }
 export const DeleteKeyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KeyIdentifier: S.String,
-    DeleteKeyInDays: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ KeyIdentifier: S.String, DeleteKeyInDays: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({ identifier: "DeleteKeyInput" }) as any as S.Schema<DeleteKeyInput>;
 export interface DeleteKeyOutput {
   Key: Key;
@@ -457,13 +437,10 @@ export interface DisassociateMpaTeamInput {
   RequesterComment?: string | redacted.Redacted<string>;
 }
 export const DisassociateMpaTeamInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Action: S.String,
-    RequesterComment: S.optional(SensitiveString),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisassociateMpaTeamInput",
-}) as any as S.Schema<DisassociateMpaTeamInput>;
+  S.Struct({ Action: S.String, RequesterComment: S.optional(SensitiveString) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DisassociateMpaTeamInput" }) as any as S.Schema<DisassociateMpaTeamInput>;
 export interface DisassociateMpaTeamOutput {
   MpaTeamAssociation: MpaTeamAssociation;
 }
@@ -494,17 +471,13 @@ export type KeyExportability = string;
 export type KeyVersion = string;
 export type OptionalBlockId = string | redacted.Redacted<string>;
 export type OptionalBlockValue = string | redacted.Redacted<string>;
-export type OptionalBlocks = {
-  [key: string]: string | redacted.Redacted<string> | undefined;
-};
+export type OptionalBlocks = { [key: string]: string | redacted.Redacted<string> | undefined };
 export const OptionalBlocks = /*@__PURE__*/ S.Record(S.String, SensitiveString.pipe(S.optional));
 export interface KeyBlockHeaders {
   KeyModesOfUse?: KeyModesOfUse;
   KeyExportability?: string;
   KeyVersion?: string;
-  OptionalBlocks?: {
-    [key: string]: string | redacted.Redacted<string> | undefined;
-  };
+  OptionalBlocks?: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export const KeyBlockHeaders = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -513,21 +486,14 @@ export const KeyBlockHeaders = /*@__PURE__*/ S.suspend(() =>
     KeyVersion: S.optional(S.String),
     OptionalBlocks: S.optional(OptionalBlocks),
   }),
-).annotate({
-  identifier: "KeyBlockHeaders",
-}) as any as S.Schema<KeyBlockHeaders>;
+).annotate({ identifier: "KeyBlockHeaders" }) as any as S.Schema<KeyBlockHeaders>;
 export interface ExportTr31KeyBlock {
   WrappingKeyIdentifier: string;
   KeyBlockHeaders?: KeyBlockHeaders;
 }
 export const ExportTr31KeyBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WrappingKeyIdentifier: S.String,
-    KeyBlockHeaders: S.optional(KeyBlockHeaders),
-  }),
-).annotate({
-  identifier: "ExportTr31KeyBlock",
-}) as any as S.Schema<ExportTr31KeyBlock>;
+  S.Struct({ WrappingKeyIdentifier: S.String, KeyBlockHeaders: S.optional(KeyBlockHeaders) }),
+).annotate({ identifier: "ExportTr31KeyBlock" }) as any as S.Schema<ExportTr31KeyBlock>;
 export type CertificateType = string;
 export type ExportTokenId = string;
 export type Tr34KeyBlockFormat = string;
@@ -553,9 +519,7 @@ export const ExportTr34KeyBlock = /*@__PURE__*/ S.suspend(() =>
     RandomNonce: S.optional(S.String),
     KeyBlockHeaders: S.optional(KeyBlockHeaders),
   }),
-).annotate({
-  identifier: "ExportTr34KeyBlock",
-}) as any as S.Schema<ExportTr34KeyBlock>;
+).annotate({ identifier: "ExportTr34KeyBlock" }) as any as S.Schema<ExportTr34KeyBlock>;
 export type WrappingKeySpec = string;
 export interface ExportKeyCryptogram {
   CertificateAuthorityPublicKeyIdentifier: string;
@@ -568,9 +532,7 @@ export const ExportKeyCryptogram = /*@__PURE__*/ S.suspend(() =>
     WrappingKeyCertificate: S.String,
     WrappingSpec: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportKeyCryptogram",
-}) as any as S.Schema<ExportKeyCryptogram>;
+).annotate({ identifier: "ExportKeyCryptogram" }) as any as S.Schema<ExportKeyCryptogram>;
 export type SymmetricKeyAlgorithm =
   | "TDES_2KEY"
   | "TDES_3KEY"
@@ -632,10 +594,7 @@ export interface ExportAs2805KeyCryptogram {
   As2805KeyVariant: As2805KeyVariant;
 }
 export const ExportAs2805KeyCryptogram = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WrappingKeyIdentifier: S.String,
-    As2805KeyVariant: As2805KeyVariant,
-  }),
+  S.Struct({ WrappingKeyIdentifier: S.String, As2805KeyVariant: As2805KeyVariant }),
 ).annotate({
   identifier: "ExportAs2805KeyCryptogram",
 }) as any as S.Schema<ExportAs2805KeyCryptogram>;
@@ -688,9 +647,7 @@ export interface ExportDukptInitialKey {
 }
 export const ExportDukptInitialKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeySerialNumber: S.String }),
-).annotate({
-  identifier: "ExportDukptInitialKey",
-}) as any as S.Schema<ExportDukptInitialKey>;
+).annotate({ identifier: "ExportDukptInitialKey" }) as any as S.Schema<ExportDukptInitialKey>;
 export interface ExportAttributes {
   ExportDukptInitialKey?: ExportDukptInitialKey;
   KeyCheckValueAlgorithm?: string;
@@ -700,9 +657,7 @@ export const ExportAttributes = /*@__PURE__*/ S.suspend(() =>
     ExportDukptInitialKey: S.optional(ExportDukptInitialKey),
     KeyCheckValueAlgorithm: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportAttributes",
-}) as any as S.Schema<ExportAttributes>;
+).annotate({ identifier: "ExportAttributes" }) as any as S.Schema<ExportAttributes>;
 export interface ExportKeyInput {
   KeyMaterial: ExportKeyMaterial;
   ExportKeyIdentifier: string;
@@ -738,9 +693,7 @@ export interface ExportKeyOutput {
 }
 export const ExportKeyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ WrappedKey: S.optional(WrappedKey) }),
-).annotate({
-  identifier: "ExportKeyOutput",
-}) as any as S.Schema<ExportKeyOutput>;
+).annotate({ identifier: "ExportKeyOutput" }) as any as S.Schema<ExportKeyOutput>;
 export interface GetAliasInput {
   AliasName: string;
 }
@@ -775,9 +728,7 @@ export const CertificateSubjectType = /*@__PURE__*/ S.suspend(() =>
     StateOrProvince: S.optional(S.String),
     EmailAddress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CertificateSubjectType",
-}) as any as S.Schema<CertificateSubjectType>;
+).annotate({ identifier: "CertificateSubjectType" }) as any as S.Schema<CertificateSubjectType>;
 export interface GetCertificateSigningRequestInput {
   KeyIdentifier: string;
   SigningAlgorithm: string;
@@ -939,9 +890,7 @@ export const GetResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetResourcePolicyInput",
-}) as any as S.Schema<GetResourcePolicyInput>;
+).annotate({ identifier: "GetResourcePolicyInput" }) as any as S.Schema<GetResourcePolicyInput>;
 export type ResourcePolicy = string;
 export interface GetResourcePolicyOutput {
   ResourceArn: string;
@@ -949,18 +898,14 @@ export interface GetResourcePolicyOutput {
 }
 export const GetResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Policy: S.String }),
-).annotate({
-  identifier: "GetResourcePolicyOutput",
-}) as any as S.Schema<GetResourcePolicyOutput>;
+).annotate({ identifier: "GetResourcePolicyOutput" }) as any as S.Schema<GetResourcePolicyOutput>;
 export interface RootCertificatePublicKey {
   KeyAttributes: KeyAttributes;
   PublicKeyCertificate: string;
 }
 export const RootCertificatePublicKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyAttributes: KeyAttributes, PublicKeyCertificate: S.String }),
-).annotate({
-  identifier: "RootCertificatePublicKey",
-}) as any as S.Schema<RootCertificatePublicKey>;
+).annotate({ identifier: "RootCertificatePublicKey" }) as any as S.Schema<RootCertificatePublicKey>;
 export interface TrustedCertificatePublicKey {
   KeyAttributes: KeyAttributes;
   PublicKeyCertificate: string;
@@ -981,13 +926,8 @@ export interface ImportTr31KeyBlock {
   WrappedKeyBlock: string | redacted.Redacted<string>;
 }
 export const ImportTr31KeyBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    WrappingKeyIdentifier: S.String,
-    WrappedKeyBlock: SensitiveString,
-  }),
-).annotate({
-  identifier: "ImportTr31KeyBlock",
-}) as any as S.Schema<ImportTr31KeyBlock>;
+  S.Struct({ WrappingKeyIdentifier: S.String, WrappedKeyBlock: SensitiveString }),
+).annotate({ identifier: "ImportTr31KeyBlock" }) as any as S.Schema<ImportTr31KeyBlock>;
 export type Tr34WrappedKeyBlock = string | redacted.Redacted<string>;
 export interface ImportTr34KeyBlock {
   CertificateAuthorityPublicKeyIdentifier: string;
@@ -1010,9 +950,7 @@ export const ImportTr34KeyBlock = /*@__PURE__*/ S.suspend(() =>
     KeyBlockFormat: S.String,
     RandomNonce: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportTr34KeyBlock",
-}) as any as S.Schema<ImportTr34KeyBlock>;
+).annotate({ identifier: "ImportTr34KeyBlock" }) as any as S.Schema<ImportTr34KeyBlock>;
 export type WrappedKeyCryptogram = string | redacted.Redacted<string>;
 export interface ImportKeyCryptogram {
   KeyAttributes: KeyAttributes;
@@ -1029,9 +967,7 @@ export const ImportKeyCryptogram = /*@__PURE__*/ S.suspend(() =>
     ImportToken: S.String,
     WrappingSpec: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ImportKeyCryptogram",
-}) as any as S.Schema<ImportKeyCryptogram>;
+).annotate({ identifier: "ImportKeyCryptogram" }) as any as S.Schema<ImportKeyCryptogram>;
 export interface ImportDiffieHellmanTr31KeyBlock {
   PrivateKeyIdentifier: string;
   CertificateAuthorityPublicKeyIdentifier: string;
@@ -1186,9 +1122,7 @@ export const ListAliasesInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAliasesInput",
-}) as any as S.Schema<ListAliasesInput>;
+).annotate({ identifier: "ListAliasesInput" }) as any as S.Schema<ListAliasesInput>;
 export type Aliases = Alias[];
 export const Aliases = /*@__PURE__*/ S.Array(Alias);
 export interface ListAliasesOutput {
@@ -1197,9 +1131,7 @@ export interface ListAliasesOutput {
 }
 export const ListAliasesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Aliases: Aliases, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAliasesOutput",
-}) as any as S.Schema<ListAliasesOutput>;
+).annotate({ identifier: "ListAliasesOutput" }) as any as S.Schema<ListAliasesOutput>;
 export interface ListKeysInput {
   KeyState?: string;
   NextToken?: string;
@@ -1254,9 +1186,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags: (Tag & { Value: TagValue })[];
   NextToken?: string;
@@ -1274,18 +1204,14 @@ export const PutResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutResourcePolicyInput",
-}) as any as S.Schema<PutResourcePolicyInput>;
+).annotate({ identifier: "PutResourcePolicyInput" }) as any as S.Schema<PutResourcePolicyInput>;
 export interface PutResourcePolicyOutput {
   ResourceArn: string;
   Policy: string;
 }
 export const PutResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Policy: S.String }),
-).annotate({
-  identifier: "PutResourcePolicyOutput",
-}) as any as S.Schema<PutResourcePolicyOutput>;
+).annotate({ identifier: "PutResourcePolicyOutput" }) as any as S.Schema<PutResourcePolicyOutput>;
 export interface RemoveKeyReplicationRegionsInput {
   KeyIdentifier: string;
   ReplicationRegions: string[];
@@ -1312,9 +1238,7 @@ export const RestoreKeyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyIdentifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RestoreKeyInput",
-}) as any as S.Schema<RestoreKeyInput>;
+).annotate({ identifier: "RestoreKeyInput" }) as any as S.Schema<RestoreKeyInput>;
 export interface RestoreKeyOutput {
   Key: Key;
 }
@@ -1328,9 +1252,7 @@ export const StartKeyUsageInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyIdentifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartKeyUsageInput",
-}) as any as S.Schema<StartKeyUsageInput>;
+).annotate({ identifier: "StartKeyUsageInput" }) as any as S.Schema<StartKeyUsageInput>;
 export interface StartKeyUsageOutput {
   Key: Key;
 }
@@ -1344,9 +1266,7 @@ export const StopKeyUsageInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ KeyIdentifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StopKeyUsageInput",
-}) as any as S.Schema<StopKeyUsageInput>;
+).annotate({ identifier: "StopKeyUsageInput" }) as any as S.Schema<StopKeyUsageInput>;
 export interface StopKeyUsageOutput {
   Key: Key;
 }
@@ -1361,9 +1281,7 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -1378,9 +1296,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -1393,16 +1309,12 @@ export const UpdateAliasInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AliasName: S.String, KeyArn: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAliasInput",
-}) as any as S.Schema<UpdateAliasInput>;
+).annotate({ identifier: "UpdateAliasInput" }) as any as S.Schema<UpdateAliasInput>;
 export interface UpdateAliasOutput {
   Alias: Alias;
 }
 export const UpdateAliasOutput = /*@__PURE__*/ S.suspend(() => S.Struct({ Alias: Alias })).annotate(
-  {
-    identifier: "UpdateAliasOutput",
-  },
+  { identifier: "UpdateAliasOutput" },
 ) as any as S.Schema<UpdateAliasOutput>;
 export type AddKeyReplicationRegionsError =
   | AccessDeniedException

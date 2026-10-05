@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "FreeTier",
-  serviceShapeName: "AWSFreeTierService",
-});
+const svc = T.AwsApiService({ sdkId: "FreeTier", serviceShapeName: "AWSFreeTierService" });
 const auth = T.AwsAuthSigv4({ name: "freetier" });
 const ver = T.ServiceVersion("2023-09-07");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -25,13 +22,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = () => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingName: "freetier",
-        signingRegion: "cn-northwest-1",
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingName: "freetier", signingRegion: "cn-northwest-1" }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
@@ -53,13 +44,7 @@ const rules = T.EndpointResolver((p, _) => {
           return e(
             "https://freetier.us-east-1.api.aws",
             {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "freetier",
-                  signingRegion: "us-east-1",
-                },
-              ],
+              authSchemes: [{ name: "sigv4", signingName: "freetier", signingRegion: "us-east-1" }],
             },
             {},
           );
@@ -149,10 +134,9 @@ export interface GetAccountActivityRequest {
   languageCode?: LanguageCode;
 }
 export const GetAccountActivityRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    activityId: S.String,
-    languageCode: S.optional(LanguageCode),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ activityId: S.String, languageCode: S.optional(LanguageCode) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetAccountActivityRequest",
 }) as any as S.Schema<GetAccountActivityRequest>;
@@ -237,9 +221,7 @@ export const GetAccountPlanStateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetAccountPlanStateResponse>;
 export type Expressions = Expression[];
 export const Expressions = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Expression> => Expression).annotate({
-    identifier: "Expression",
-  }),
+  S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
 ) as any as S.Schema<Expressions>;
 export type Dimension =
   | "SERVICE"
@@ -273,9 +255,7 @@ export interface DimensionValues {
 }
 export const DimensionValues = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: Dimension, Values: Values, MatchOptions: MatchOptions }),
-).annotate({
-  identifier: "DimensionValues",
-}) as any as S.Schema<DimensionValues>;
+).annotate({ identifier: "DimensionValues" }) as any as S.Schema<DimensionValues>;
 export interface Expression {
   Or?: Expression[];
   And?: Expression[];
@@ -287,9 +267,7 @@ export const Expression = /*@__PURE__*/ S.suspend(() =>
     Or: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
     And: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
     Not: S.optional(
-      S.suspend((): S.Schema<Expression> => Expression).annotate({
-        identifier: "Expression",
-      }),
+      S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
     ),
     Dimensions: S.optional(DimensionValues),
   }),
@@ -307,9 +285,7 @@ export const GetFreeTierUsageRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetFreeTierUsageRequest",
-}) as any as S.Schema<GetFreeTierUsageRequest>;
+).annotate({ identifier: "GetFreeTierUsageRequest" }) as any as S.Schema<GetFreeTierUsageRequest>;
 export interface FreeTierUsage {
   service?: string;
   operation?: string;
@@ -344,9 +320,7 @@ export interface GetFreeTierUsageResponse {
 }
 export const GetFreeTierUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ freeTierUsages: FreeTierUsages, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetFreeTierUsageResponse",
-}) as any as S.Schema<GetFreeTierUsageResponse>;
+).annotate({ identifier: "GetFreeTierUsageResponse" }) as any as S.Schema<GetFreeTierUsageResponse>;
 export type FilterActivityStatuses = ActivityStatus[];
 export const FilterActivityStatuses = /*@__PURE__*/ S.Array(ActivityStatus);
 export interface ListAccountActivitiesRequest {
@@ -378,9 +352,7 @@ export const ActivitySummary = /*@__PURE__*/ S.suspend(() =>
     reward: ActivityReward,
     status: ActivityStatus,
   }),
-).annotate({
-  identifier: "ActivitySummary",
-}) as any as S.Schema<ActivitySummary>;
+).annotate({ identifier: "ActivitySummary" }) as any as S.Schema<ActivitySummary>;
 export type Activities = ActivitySummary[];
 export const Activities = /*@__PURE__*/ S.Array(ActivitySummary);
 export interface ListAccountActivitiesResponse {

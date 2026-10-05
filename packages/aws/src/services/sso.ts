@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SSO",
-  serviceShapeName: "SWBPortalService",
-});
+const svc = T.AwsApiService({ sdkId: "SSO", serviceShapeName: "SWBPortalService" });
 const auth = T.AwsAuthSigv4({ name: "awsssoportal" });
 const ver = T.ServiceVersion("2019-06-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -138,9 +135,7 @@ export const RoleCredentials = /*@__PURE__*/ S.suspend(() =>
     sessionToken: S.optional(SensitiveString),
     expiration: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RoleCredentials",
-}) as any as S.Schema<RoleCredentials>;
+).annotate({ identifier: "RoleCredentials" }) as any as S.Schema<RoleCredentials>;
 export interface GetRoleCredentialsResponse {
   roleCredentials?: RoleCredentials;
 }
@@ -164,9 +159,7 @@ export const ListAccountRolesRequest = /*@__PURE__*/ S.suspend(() =>
     accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
     accountId: S.String.pipe(T.HttpQuery("account_id")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/assignment/roles" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAccountRolesRequest",
-}) as any as S.Schema<ListAccountRolesRequest>;
+).annotate({ identifier: "ListAccountRolesRequest" }) as any as S.Schema<ListAccountRolesRequest>;
 export interface RoleInfo {
   roleName?: string;
   accountId?: string;
@@ -181,13 +174,8 @@ export interface ListAccountRolesResponse {
   roleList?: RoleInfo[];
 }
 export const ListAccountRolesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    roleList: S.optional(RoleListType),
-  }),
-).annotate({
-  identifier: "ListAccountRolesResponse",
-}) as any as S.Schema<ListAccountRolesResponse>;
+  S.Struct({ nextToken: S.optional(S.String), roleList: S.optional(RoleListType) }),
+).annotate({ identifier: "ListAccountRolesResponse" }) as any as S.Schema<ListAccountRolesResponse>;
 export interface ListAccountsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -201,9 +189,7 @@ export const ListAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/assignment/accounts" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListAccountsRequest",
-}) as any as S.Schema<ListAccountsRequest>;
+).annotate({ identifier: "ListAccountsRequest" }) as any as S.Schema<ListAccountsRequest>;
 export type AccountNameType = string;
 export type EmailAddressType = string;
 export interface AccountInfo {
@@ -225,20 +211,15 @@ export interface ListAccountsResponse {
   accountList?: AccountInfo[];
 }
 export const ListAccountsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    accountList: S.optional(AccountListType),
-  }),
-).annotate({
-  identifier: "ListAccountsResponse",
-}) as any as S.Schema<ListAccountsResponse>;
+  S.Struct({ nextToken: S.optional(S.String), accountList: S.optional(AccountListType) }),
+).annotate({ identifier: "ListAccountsResponse" }) as any as S.Schema<ListAccountsResponse>;
 export interface LogoutRequest {
   accessToken: string | redacted.Redacted<string>;
 }
 export const LogoutRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/logout" }), svc, auth, proto, ver, rules)),
+  S.Struct({ accessToken: SensitiveString.pipe(T.HttpHeader("x-amz-sso_bearer_token")) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/logout" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({ identifier: "LogoutRequest" }) as any as S.Schema<LogoutRequest>;
 export interface LogoutResponse {}
 export const LogoutResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

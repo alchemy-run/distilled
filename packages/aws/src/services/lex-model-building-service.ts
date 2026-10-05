@@ -135,14 +135,10 @@ export class ResourceInUseException
     "ResourceInUseException",
     {
       referenceType: S.optional(
-        S.suspend(() => ReferenceType).annotate({
-          identifier: "ReferenceType",
-        }),
+        S.suspend(() => ReferenceType).annotate({ identifier: "ReferenceType" }),
       ),
       exampleReference: S.optional(
-        S.suspend(() => ResourceReference).annotate({
-          identifier: "ResourceReference",
-        }),
+        S.suspend(() => ResourceReference).annotate({ identifier: "ResourceReference" }),
       ),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
@@ -154,15 +150,10 @@ export interface CreateBotVersionRequest {
   checksum?: string;
 }
 export const CreateBotVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    checksum: S.optional(S.String),
-  }).pipe(
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")), checksum: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/bots/{name}/versions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateBotVersionRequest",
-}) as any as S.Schema<CreateBotVersionRequest>;
+).annotate({ identifier: "CreateBotVersionRequest" }) as any as S.Schema<CreateBotVersionRequest>;
 export type Description = string;
 export type IntentName = string;
 export type Version = string;
@@ -186,11 +177,7 @@ export interface Message {
   groupNumber?: number;
 }
 export const Message = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    contentType: ContentType,
-    content: S.String,
-    groupNumber: S.optional(S.Number),
-  }),
+  S.Struct({ contentType: ContentType, content: S.String, groupNumber: S.optional(S.Number) }),
 ).annotate({ identifier: "Message" }) as any as S.Schema<Message>;
 export type MessageList = Message[];
 export const MessageList = /*@__PURE__*/ S.Array(Message);
@@ -202,11 +189,7 @@ export interface Prompt {
   responseCard?: string;
 }
 export const Prompt = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messages: MessageList,
-    maxAttempts: S.Number,
-    responseCard: S.optional(S.String),
-  }),
+  S.Struct({ messages: MessageList, maxAttempts: S.Number, responseCard: S.optional(S.String) }),
 ).annotate({ identifier: "Prompt" }) as any as S.Schema<Prompt>;
 export interface Statement {
   messages: Message[];
@@ -281,18 +264,13 @@ export const CreateBotVersionResponse = /*@__PURE__*/ S.suspend(() =>
     enableModelImprovements: S.optional(S.Boolean),
     detectSentiment: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "CreateBotVersionResponse",
-}) as any as S.Schema<CreateBotVersionResponse>;
+).annotate({ identifier: "CreateBotVersionResponse" }) as any as S.Schema<CreateBotVersionResponse>;
 export interface CreateIntentVersionRequest {
   name: string;
   checksum?: string;
 }
 export const CreateIntentVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    checksum: S.optional(S.String),
-  }).pipe(
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")), checksum: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/intents/{name}/versions" }),
       svc,
@@ -323,9 +301,7 @@ export interface SlotDefaultValue {
 }
 export const SlotDefaultValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ defaultValue: S.String }),
-).annotate({
-  identifier: "SlotDefaultValue",
-}) as any as S.Schema<SlotDefaultValue>;
+).annotate({ identifier: "SlotDefaultValue" }) as any as S.Schema<SlotDefaultValue>;
 export type SlotDefaultValueList = SlotDefaultValue[];
 export const SlotDefaultValueList = /*@__PURE__*/ S.Array(SlotDefaultValue);
 export interface SlotDefaultValueSpec {
@@ -333,9 +309,7 @@ export interface SlotDefaultValueSpec {
 }
 export const SlotDefaultValueSpec = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ defaultValueList: SlotDefaultValueList }),
-).annotate({
-  identifier: "SlotDefaultValueSpec",
-}) as any as S.Schema<SlotDefaultValueSpec>;
+).annotate({ identifier: "SlotDefaultValueSpec" }) as any as S.Schema<SlotDefaultValueSpec>;
 export interface Slot {
   name: string;
   description?: string;
@@ -393,9 +367,7 @@ export interface FulfillmentActivity {
 }
 export const FulfillmentActivity = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: FulfillmentActivityType, codeHook: S.optional(CodeHook) }),
-).annotate({
-  identifier: "FulfillmentActivity",
-}) as any as S.Schema<FulfillmentActivity>;
+).annotate({ identifier: "FulfillmentActivity" }) as any as S.Schema<FulfillmentActivity>;
 export type BuiltinIntentSignature = string;
 export type KendraIndexArn = string;
 export type QueryFilterString = string;
@@ -406,14 +378,8 @@ export interface KendraConfiguration {
   role: string;
 }
 export const KendraConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kendraIndex: S.String,
-    queryFilterString: S.optional(S.String),
-    role: S.String,
-  }),
-).annotate({
-  identifier: "KendraConfiguration",
-}) as any as S.Schema<KendraConfiguration>;
+  S.Struct({ kendraIndex: S.String, queryFilterString: S.optional(S.String), role: S.String }),
+).annotate({ identifier: "KendraConfiguration" }) as any as S.Schema<KendraConfiguration>;
 export type InputContextName = string;
 export interface InputContext {
   name: string;
@@ -432,11 +398,7 @@ export interface OutputContext {
   turnsToLive: number;
 }
 export const OutputContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    timeToLiveInSeconds: S.Number,
-    turnsToLive: S.Number,
-  }),
+  S.Struct({ name: S.String, timeToLiveInSeconds: S.Number, turnsToLive: S.Number }),
 ).annotate({ identifier: "OutputContext" }) as any as S.Schema<OutputContext>;
 export type OutputContextList = OutputContext[];
 export const OutputContextList = /*@__PURE__*/ S.Array(OutputContext);
@@ -490,10 +452,7 @@ export interface CreateSlotTypeVersionRequest {
   checksum?: string;
 }
 export const CreateSlotTypeVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.HttpLabel("name")),
-    checksum: S.optional(S.String),
-  }).pipe(
+  S.Struct({ name: S.String.pipe(T.HttpLabel("name")), checksum: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/slottypes/{name}/versions" }),
       svc,
@@ -515,9 +474,7 @@ export interface EnumerationValue {
 }
 export const EnumerationValue = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ value: S.String, synonyms: S.optional(SynonymList) }),
-).annotate({
-  identifier: "EnumerationValue",
-}) as any as S.Schema<EnumerationValue>;
+).annotate({ identifier: "EnumerationValue" }) as any as S.Schema<EnumerationValue>;
 export type EnumerationValues = EnumerationValue[];
 export const EnumerationValues = /*@__PURE__*/ S.Array(EnumerationValue);
 export type SlotValueSelectionStrategy = "ORIGINAL_VALUE" | "TOP_RESOLUTION" | (string & {});
@@ -537,9 +494,7 @@ export interface SlotTypeConfiguration {
 }
 export const SlotTypeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ regexConfiguration: S.optional(SlotTypeRegexConfiguration) }),
-).annotate({
-  identifier: "SlotTypeConfiguration",
-}) as any as S.Schema<SlotTypeConfiguration>;
+).annotate({ identifier: "SlotTypeConfiguration" }) as any as S.Schema<SlotTypeConfiguration>;
 export type SlotTypeConfigurations = SlotTypeConfiguration[];
 export const SlotTypeConfigurations = /*@__PURE__*/ S.Array(SlotTypeConfiguration);
 export interface CreateSlotTypeVersionResponse {
@@ -577,9 +532,7 @@ export const DeleteBotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/bots/{name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteBotRequest",
-}) as any as S.Schema<DeleteBotRequest>;
+).annotate({ identifier: "DeleteBotRequest" }) as any as S.Schema<DeleteBotRequest>;
 export interface DeleteBotResponse {}
 export const DeleteBotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBotResponse",
@@ -603,9 +556,7 @@ export const DeleteBotAliasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBotAliasRequest",
-}) as any as S.Schema<DeleteBotAliasRequest>;
+).annotate({ identifier: "DeleteBotAliasRequest" }) as any as S.Schema<DeleteBotAliasRequest>;
 export interface DeleteBotAliasResponse {}
 export const DeleteBotAliasResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBotAliasResponse",
@@ -623,10 +574,7 @@ export const DeleteBotChannelAssociationRequest = /*@__PURE__*/ S.suspend(() =>
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
-      }),
+      T.Http({ method: "DELETE", uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}" }),
       svc,
       auth,
       proto,
@@ -662,9 +610,7 @@ export const DeleteBotVersionRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBotVersionRequest",
-}) as any as S.Schema<DeleteBotVersionRequest>;
+).annotate({ identifier: "DeleteBotVersionRequest" }) as any as S.Schema<DeleteBotVersionRequest>;
 export interface DeleteBotVersionResponse {}
 export const DeleteBotVersionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBotVersionResponse",
@@ -676,9 +622,7 @@ export const DeleteIntentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/intents/{name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteIntentRequest",
-}) as any as S.Schema<DeleteIntentRequest>;
+).annotate({ identifier: "DeleteIntentRequest" }) as any as S.Schema<DeleteIntentRequest>;
 export interface DeleteIntentResponse {}
 export const DeleteIntentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIntentResponse",
@@ -715,9 +659,7 @@ export const DeleteSlotTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/slottypes/{name}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteSlotTypeRequest",
-}) as any as S.Schema<DeleteSlotTypeRequest>;
+).annotate({ identifier: "DeleteSlotTypeRequest" }) as any as S.Schema<DeleteSlotTypeRequest>;
 export interface DeleteSlotTypeResponse {}
 export const DeleteSlotTypeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSlotTypeResponse",
@@ -766,9 +708,7 @@ export const DeleteUtterancesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteUtterancesRequest",
-}) as any as S.Schema<DeleteUtterancesRequest>;
+).annotate({ identifier: "DeleteUtterancesRequest" }) as any as S.Schema<DeleteUtterancesRequest>;
 export interface DeleteUtterancesResponse {}
 export const DeleteUtterancesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteUtterancesResponse",
@@ -853,9 +793,7 @@ export const GetBotAliasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBotAliasRequest",
-}) as any as S.Schema<GetBotAliasRequest>;
+).annotate({ identifier: "GetBotAliasRequest" }) as any as S.Schema<GetBotAliasRequest>;
 export type LogType = "AUDIO" | "TEXT" | (string & {});
 export const LogType = S.String;
 
@@ -880,9 +818,7 @@ export const LogSettingsResponse = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.optional(S.String),
     resourcePrefix: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogSettingsResponse",
-}) as any as S.Schema<LogSettingsResponse>;
+).annotate({ identifier: "LogSettingsResponse" }) as any as S.Schema<LogSettingsResponse>;
 export type LogSettingsResponseList = LogSettingsResponse[];
 export const LogSettingsResponseList = /*@__PURE__*/ S.Array(LogSettingsResponse);
 export type IamRoleArn = string;
@@ -891,13 +827,8 @@ export interface ConversationLogsResponse {
   iamRoleArn?: string;
 }
 export const ConversationLogsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logSettings: S.optional(LogSettingsResponseList),
-    iamRoleArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConversationLogsResponse",
-}) as any as S.Schema<ConversationLogsResponse>;
+  S.Struct({ logSettings: S.optional(LogSettingsResponseList), iamRoleArn: S.optional(S.String) }),
+).annotate({ identifier: "ConversationLogsResponse" }) as any as S.Schema<ConversationLogsResponse>;
 export interface GetBotAliasResponse {
   name?: string;
   description?: string;
@@ -919,9 +850,7 @@ export const GetBotAliasResponse = /*@__PURE__*/ S.suspend(() =>
     checksum: S.optional(S.String),
     conversationLogs: S.optional(ConversationLogsResponse),
   }),
-).annotate({
-  identifier: "GetBotAliasResponse",
-}) as any as S.Schema<GetBotAliasResponse>;
+).annotate({ identifier: "GetBotAliasResponse" }) as any as S.Schema<GetBotAliasResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetBotAliasesRequest {
@@ -939,9 +868,7 @@ export const GetBotAliasesRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/bots/{botName}/aliases" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetBotAliasesRequest",
-}) as any as S.Schema<GetBotAliasesRequest>;
+).annotate({ identifier: "GetBotAliasesRequest" }) as any as S.Schema<GetBotAliasesRequest>;
 export interface BotAliasMetadata {
   name?: string;
   description?: string;
@@ -963,9 +890,7 @@ export const BotAliasMetadata = /*@__PURE__*/ S.suspend(() =>
     checksum: S.optional(S.String),
     conversationLogs: S.optional(ConversationLogsResponse),
   }),
-).annotate({
-  identifier: "BotAliasMetadata",
-}) as any as S.Schema<BotAliasMetadata>;
+).annotate({ identifier: "BotAliasMetadata" }) as any as S.Schema<BotAliasMetadata>;
 export type BotAliasMetadataList = BotAliasMetadata[];
 export const BotAliasMetadataList = /*@__PURE__*/ S.Array(BotAliasMetadata);
 export interface GetBotAliasesResponse {
@@ -973,13 +898,8 @@ export interface GetBotAliasesResponse {
   nextToken?: string;
 }
 export const GetBotAliasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BotAliases: S.optional(BotAliasMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotAliasesResponse",
-}) as any as S.Schema<GetBotAliasesResponse>;
+  S.Struct({ BotAliases: S.optional(BotAliasMetadataList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetBotAliasesResponse" }) as any as S.Schema<GetBotAliasesResponse>;
 export interface GetBotChannelAssociationRequest {
   name: string;
   botName: string;
@@ -992,10 +912,7 @@ export const GetBotChannelAssociationRequest = /*@__PURE__*/ S.suspend(() =>
     botAlias: S.String.pipe(T.HttpLabel("botAlias")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}",
-      }),
+      T.Http({ method: "GET", uri: "/bots/{botName}/aliases/{botAlias}/channels/{name}" }),
       svc,
       auth,
       proto,
@@ -1057,10 +974,7 @@ export const GetBotChannelAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bots/{botName}/aliases/{botAlias}/channels",
-      }),
+      T.Http({ method: "GET", uri: "/bots/{botName}/aliases/{botAlias}/channels" }),
       svc,
       auth,
       proto,
@@ -1094,9 +1008,7 @@ export const BotChannelAssociation = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ChannelStatus),
     failureReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "BotChannelAssociation",
-}) as any as S.Schema<BotChannelAssociation>;
+).annotate({ identifier: "BotChannelAssociation" }) as any as S.Schema<BotChannelAssociation>;
 export type BotChannelAssociationList = BotChannelAssociation[];
 export const BotChannelAssociationList = /*@__PURE__*/ S.Array(BotChannelAssociation);
 export interface GetBotChannelAssociationsResponse {
@@ -1148,13 +1060,8 @@ export interface GetBotsResponse {
   nextToken?: string;
 }
 export const GetBotsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bots: S.optional(BotMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotsResponse",
-}) as any as S.Schema<GetBotsResponse>;
+  S.Struct({ bots: S.optional(BotMetadataList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetBotsResponse" }) as any as S.Schema<GetBotsResponse>;
 export interface GetBotVersionsRequest {
   name: string;
   nextToken?: string;
@@ -1168,21 +1075,14 @@ export const GetBotVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/bots/{name}/versions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetBotVersionsRequest",
-}) as any as S.Schema<GetBotVersionsRequest>;
+).annotate({ identifier: "GetBotVersionsRequest" }) as any as S.Schema<GetBotVersionsRequest>;
 export interface GetBotVersionsResponse {
   bots?: BotMetadata[];
   nextToken?: string;
 }
 export const GetBotVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    bots: S.optional(BotMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetBotVersionsResponse",
-}) as any as S.Schema<GetBotVersionsResponse>;
+  S.Struct({ bots: S.optional(BotMetadataList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetBotVersionsResponse" }) as any as S.Schema<GetBotVersionsResponse>;
 export interface GetBuiltinIntentRequest {
   signature: string;
 }
@@ -1197,9 +1097,7 @@ export const GetBuiltinIntentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBuiltinIntentRequest",
-}) as any as S.Schema<GetBuiltinIntentRequest>;
+).annotate({ identifier: "GetBuiltinIntentRequest" }) as any as S.Schema<GetBuiltinIntentRequest>;
 export type LocaleList = Locale[];
 export const LocaleList = /*@__PURE__*/ S.Array(Locale);
 export interface BuiltinIntentSlot {
@@ -1207,9 +1105,7 @@ export interface BuiltinIntentSlot {
 }
 export const BuiltinIntentSlot = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String) }),
-).annotate({
-  identifier: "BuiltinIntentSlot",
-}) as any as S.Schema<BuiltinIntentSlot>;
+).annotate({ identifier: "BuiltinIntentSlot" }) as any as S.Schema<BuiltinIntentSlot>;
 export type BuiltinIntentSlotList = BuiltinIntentSlot[];
 export const BuiltinIntentSlotList = /*@__PURE__*/ S.Array(BuiltinIntentSlot);
 export interface GetBuiltinIntentResponse {
@@ -1223,9 +1119,7 @@ export const GetBuiltinIntentResponse = /*@__PURE__*/ S.suspend(() =>
     supportedLocales: S.optional(LocaleList),
     slots: S.optional(BuiltinIntentSlotList),
   }),
-).annotate({
-  identifier: "GetBuiltinIntentResponse",
-}) as any as S.Schema<GetBuiltinIntentResponse>;
+).annotate({ identifier: "GetBuiltinIntentResponse" }) as any as S.Schema<GetBuiltinIntentResponse>;
 export interface GetBuiltinIntentsRequest {
   locale?: Locale;
   signatureContains?: string;
@@ -1239,21 +1133,14 @@ export const GetBuiltinIntentsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/builtins/intents" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetBuiltinIntentsRequest",
-}) as any as S.Schema<GetBuiltinIntentsRequest>;
+).annotate({ identifier: "GetBuiltinIntentsRequest" }) as any as S.Schema<GetBuiltinIntentsRequest>;
 export interface BuiltinIntentMetadata {
   signature?: string;
   supportedLocales?: Locale[];
 }
 export const BuiltinIntentMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signature: S.optional(S.String),
-    supportedLocales: S.optional(LocaleList),
-  }),
-).annotate({
-  identifier: "BuiltinIntentMetadata",
-}) as any as S.Schema<BuiltinIntentMetadata>;
+  S.Struct({ signature: S.optional(S.String), supportedLocales: S.optional(LocaleList) }),
+).annotate({ identifier: "BuiltinIntentMetadata" }) as any as S.Schema<BuiltinIntentMetadata>;
 export type BuiltinIntentMetadataList = BuiltinIntentMetadata[];
 export const BuiltinIntentMetadataList = /*@__PURE__*/ S.Array(BuiltinIntentMetadata);
 export interface GetBuiltinIntentsResponse {
@@ -1261,10 +1148,7 @@ export interface GetBuiltinIntentsResponse {
   nextToken?: string;
 }
 export const GetBuiltinIntentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intents: S.optional(BuiltinIntentMetadataList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ intents: S.optional(BuiltinIntentMetadataList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetBuiltinIntentsResponse",
 }) as any as S.Schema<GetBuiltinIntentsResponse>;
@@ -1292,13 +1176,8 @@ export interface BuiltinSlotTypeMetadata {
   supportedLocales?: Locale[];
 }
 export const BuiltinSlotTypeMetadata = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    signature: S.optional(S.String),
-    supportedLocales: S.optional(LocaleList),
-  }),
-).annotate({
-  identifier: "BuiltinSlotTypeMetadata",
-}) as any as S.Schema<BuiltinSlotTypeMetadata>;
+  S.Struct({ signature: S.optional(S.String), supportedLocales: S.optional(LocaleList) }),
+).annotate({ identifier: "BuiltinSlotTypeMetadata" }) as any as S.Schema<BuiltinSlotTypeMetadata>;
 export type BuiltinSlotTypeMetadataList = BuiltinSlotTypeMetadata[];
 export const BuiltinSlotTypeMetadataList = /*@__PURE__*/ S.Array(BuiltinSlotTypeMetadata);
 export interface GetBuiltinSlotTypesResponse {
@@ -1306,10 +1185,7 @@ export interface GetBuiltinSlotTypesResponse {
   nextToken?: string;
 }
 export const GetBuiltinSlotTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slotTypes: S.optional(BuiltinSlotTypeMetadataList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ slotTypes: S.optional(BuiltinSlotTypeMetadataList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetBuiltinSlotTypesResponse",
 }) as any as S.Schema<GetBuiltinSlotTypesResponse>;
@@ -1333,9 +1209,7 @@ export const GetExportRequest = /*@__PURE__*/ S.suspend(() =>
     resourceType: ResourceType.pipe(T.HttpQuery("resourceType")),
     exportType: ExportType.pipe(T.HttpQuery("exportType")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/exports" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetExportRequest",
-}) as any as S.Schema<GetExportRequest>;
+).annotate({ identifier: "GetExportRequest" }) as any as S.Schema<GetExportRequest>;
 export type ExportStatus = "IN_PROGRESS" | "READY" | "FAILED" | (string & {});
 export const ExportStatus = S.String;
 
@@ -1358,9 +1232,7 @@ export const GetExportResponse = /*@__PURE__*/ S.suspend(() =>
     failureReason: S.optional(S.String),
     url: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetExportResponse",
-}) as any as S.Schema<GetExportResponse>;
+).annotate({ identifier: "GetExportResponse" }) as any as S.Schema<GetExportResponse>;
 export interface GetImportRequest {
   importId: string;
 }
@@ -1368,9 +1240,7 @@ export const GetImportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ importId: S.String.pipe(T.HttpLabel("importId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/imports/{importId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetImportRequest",
-}) as any as S.Schema<GetImportRequest>;
+).annotate({ identifier: "GetImportRequest" }) as any as S.Schema<GetImportRequest>;
 export type MergeStrategy = "OVERWRITE_LATEST" | "FAIL_ON_CONFLICT" | (string & {});
 export const MergeStrategy = S.String;
 
@@ -1398,9 +1268,7 @@ export const GetImportResponse = /*@__PURE__*/ S.suspend(() =>
     failureReason: S.optional(StringList),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "GetImportResponse",
-}) as any as S.Schema<GetImportResponse>;
+).annotate({ identifier: "GetImportResponse" }) as any as S.Schema<GetImportResponse>;
 export interface GetIntentRequest {
   name: string;
   version: string;
@@ -1419,9 +1287,7 @@ export const GetIntentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetIntentRequest",
-}) as any as S.Schema<GetIntentRequest>;
+).annotate({ identifier: "GetIntentRequest" }) as any as S.Schema<GetIntentRequest>;
 export interface GetIntentResponse {
   name?: string;
   description?: string;
@@ -1463,9 +1329,7 @@ export const GetIntentResponse = /*@__PURE__*/ S.suspend(() =>
     inputContexts: S.optional(InputContextList),
     outputContexts: S.optional(OutputContextList),
   }),
-).annotate({
-  identifier: "GetIntentResponse",
-}) as any as S.Schema<GetIntentResponse>;
+).annotate({ identifier: "GetIntentResponse" }) as any as S.Schema<GetIntentResponse>;
 export interface GetIntentsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1477,9 +1341,7 @@ export const GetIntentsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/intents" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetIntentsRequest",
-}) as any as S.Schema<GetIntentsRequest>;
+).annotate({ identifier: "GetIntentsRequest" }) as any as S.Schema<GetIntentsRequest>;
 export interface IntentMetadata {
   name?: string;
   description?: string;
@@ -1503,13 +1365,8 @@ export interface GetIntentsResponse {
   nextToken?: string;
 }
 export const GetIntentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intents: S.optional(IntentMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetIntentsResponse",
-}) as any as S.Schema<GetIntentsResponse>;
+  S.Struct({ intents: S.optional(IntentMetadataList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetIntentsResponse" }) as any as S.Schema<GetIntentsResponse>;
 export interface GetIntentVersionsRequest {
   name: string;
   nextToken?: string;
@@ -1523,18 +1380,13 @@ export const GetIntentVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/intents/{name}/versions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetIntentVersionsRequest",
-}) as any as S.Schema<GetIntentVersionsRequest>;
+).annotate({ identifier: "GetIntentVersionsRequest" }) as any as S.Schema<GetIntentVersionsRequest>;
 export interface GetIntentVersionsResponse {
   intents?: IntentMetadata[];
   nextToken?: string;
 }
 export const GetIntentVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    intents: S.optional(IntentMetadataList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ intents: S.optional(IntentMetadataList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetIntentVersionsResponse",
 }) as any as S.Schema<GetIntentVersionsResponse>;
@@ -1553,9 +1405,7 @@ export const GetMigrationRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetMigrationRequest",
-}) as any as S.Schema<GetMigrationRequest>;
+).annotate({ identifier: "GetMigrationRequest" }) as any as S.Schema<GetMigrationRequest>;
 export type V2BotId = string;
 export type MigrationStatus = "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export const MigrationStatus = S.String;
@@ -1614,9 +1464,7 @@ export const GetMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     migrationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     alerts: S.optional(MigrationAlerts),
   }),
-).annotate({
-  identifier: "GetMigrationResponse",
-}) as any as S.Schema<GetMigrationResponse>;
+).annotate({ identifier: "GetMigrationResponse" }) as any as S.Schema<GetMigrationResponse>;
 export type MigrationSortAttribute = "V1_BOT_NAME" | "MIGRATION_DATE_TIME" | (string & {});
 export const MigrationSortAttribute = S.String;
 
@@ -1640,9 +1488,7 @@ export const GetMigrationsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/migrations" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetMigrationsRequest",
-}) as any as S.Schema<GetMigrationsRequest>;
+).annotate({ identifier: "GetMigrationsRequest" }) as any as S.Schema<GetMigrationsRequest>;
 export interface MigrationSummary {
   migrationId?: string;
   v1BotName?: string;
@@ -1666,9 +1512,7 @@ export const MigrationSummary = /*@__PURE__*/ S.suspend(() =>
     migrationStrategy: S.optional(MigrationStrategy),
     migrationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "MigrationSummary",
-}) as any as S.Schema<MigrationSummary>;
+).annotate({ identifier: "MigrationSummary" }) as any as S.Schema<MigrationSummary>;
 export type MigrationSummaryList = MigrationSummary[];
 export const MigrationSummaryList = /*@__PURE__*/ S.Array(MigrationSummary);
 export interface GetMigrationsResponse {
@@ -1680,9 +1524,7 @@ export const GetMigrationsResponse = /*@__PURE__*/ S.suspend(() =>
     migrationSummaries: S.optional(MigrationSummaryList),
     nextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetMigrationsResponse",
-}) as any as S.Schema<GetMigrationsResponse>;
+).annotate({ identifier: "GetMigrationsResponse" }) as any as S.Schema<GetMigrationsResponse>;
 export interface GetSlotTypeRequest {
   name: string;
   version: string;
@@ -1701,9 +1543,7 @@ export const GetSlotTypeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetSlotTypeRequest",
-}) as any as S.Schema<GetSlotTypeRequest>;
+).annotate({ identifier: "GetSlotTypeRequest" }) as any as S.Schema<GetSlotTypeRequest>;
 export interface GetSlotTypeResponse {
   name?: string;
   description?: string;
@@ -1729,9 +1569,7 @@ export const GetSlotTypeResponse = /*@__PURE__*/ S.suspend(() =>
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
   }),
-).annotate({
-  identifier: "GetSlotTypeResponse",
-}) as any as S.Schema<GetSlotTypeResponse>;
+).annotate({ identifier: "GetSlotTypeResponse" }) as any as S.Schema<GetSlotTypeResponse>;
 export interface GetSlotTypesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -1743,9 +1581,7 @@ export const GetSlotTypesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nameContains: S.optional(S.String).pipe(T.HttpQuery("nameContains")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/slottypes" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetSlotTypesRequest",
-}) as any as S.Schema<GetSlotTypesRequest>;
+).annotate({ identifier: "GetSlotTypesRequest" }) as any as S.Schema<GetSlotTypesRequest>;
 export interface SlotTypeMetadata {
   name?: string;
   description?: string;
@@ -1761,9 +1597,7 @@ export const SlotTypeMetadata = /*@__PURE__*/ S.suspend(() =>
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     version: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SlotTypeMetadata",
-}) as any as S.Schema<SlotTypeMetadata>;
+).annotate({ identifier: "SlotTypeMetadata" }) as any as S.Schema<SlotTypeMetadata>;
 export type SlotTypeMetadataList = SlotTypeMetadata[];
 export const SlotTypeMetadataList = /*@__PURE__*/ S.Array(SlotTypeMetadata);
 export interface GetSlotTypesResponse {
@@ -1771,13 +1605,8 @@ export interface GetSlotTypesResponse {
   nextToken?: string;
 }
 export const GetSlotTypesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slotTypes: S.optional(SlotTypeMetadataList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetSlotTypesResponse",
-}) as any as S.Schema<GetSlotTypesResponse>;
+  S.Struct({ slotTypes: S.optional(SlotTypeMetadataList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "GetSlotTypesResponse" }) as any as S.Schema<GetSlotTypesResponse>;
 export interface GetSlotTypeVersionsRequest {
   name: string;
   nextToken?: string;
@@ -1806,10 +1635,7 @@ export interface GetSlotTypeVersionsResponse {
   nextToken?: string;
 }
 export const GetSlotTypeVersionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    slotTypes: S.optional(SlotTypeMetadataList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ slotTypes: S.optional(SlotTypeMetadataList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetSlotTypeVersionsResponse",
 }) as any as S.Schema<GetSlotTypeVersionsResponse>;
@@ -1830,10 +1656,7 @@ export const GetUtterancesViewRequest = /*@__PURE__*/ S.suspend(() =>
     statusType: StatusType.pipe(T.HttpQuery("status_type")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/bots/{botName}/utterances?view=aggregation",
-      }),
+      T.Http({ method: "GET", uri: "/bots/{botName}/utterances?view=aggregation" }),
       svc,
       auth,
       proto,
@@ -1841,9 +1664,7 @@ export const GetUtterancesViewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetUtterancesViewRequest",
-}) as any as S.Schema<GetUtterancesViewRequest>;
+).annotate({ identifier: "GetUtterancesViewRequest" }) as any as S.Schema<GetUtterancesViewRequest>;
 export type UtteranceString = string;
 export type Count = number;
 export interface UtteranceData {
@@ -1869,10 +1690,7 @@ export interface UtteranceList {
   utterances?: UtteranceData[];
 }
 export const UtteranceList = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botVersion: S.optional(S.String),
-    utterances: S.optional(ListOfUtterance),
-  }),
+  S.Struct({ botVersion: S.optional(S.String), utterances: S.optional(ListOfUtterance) }),
 ).annotate({ identifier: "UtteranceList" }) as any as S.Schema<UtteranceList>;
 export type ListsOfUtterances = UtteranceList[];
 export const ListsOfUtterances = /*@__PURE__*/ S.Array(UtteranceList);
@@ -1881,10 +1699,7 @@ export interface GetUtterancesViewResponse {
   utterances?: UtteranceList[];
 }
 export const GetUtterancesViewResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    botName: S.optional(S.String),
-    utterances: S.optional(ListsOfUtterances),
-  }),
+  S.Struct({ botName: S.optional(S.String), utterances: S.optional(ListsOfUtterances) }),
 ).annotate({
   identifier: "GetUtterancesViewResponse",
 }) as any as S.Schema<GetUtterancesViewResponse>;
@@ -2027,9 +1842,7 @@ export const LogSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     resourceArn: S.String,
   }),
-).annotate({
-  identifier: "LogSettingsRequest",
-}) as any as S.Schema<LogSettingsRequest>;
+).annotate({ identifier: "LogSettingsRequest" }) as any as S.Schema<LogSettingsRequest>;
 export type LogSettingsRequestList = LogSettingsRequest[];
 export const LogSettingsRequestList = /*@__PURE__*/ S.Array(LogSettingsRequest);
 export interface ConversationLogsRequest {
@@ -2038,9 +1851,7 @@ export interface ConversationLogsRequest {
 }
 export const ConversationLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ logSettings: LogSettingsRequestList, iamRoleArn: S.String }),
-).annotate({
-  identifier: "ConversationLogsRequest",
-}) as any as S.Schema<ConversationLogsRequest>;
+).annotate({ identifier: "ConversationLogsRequest" }) as any as S.Schema<ConversationLogsRequest>;
 export interface PutBotAliasRequest {
   name: string;
   description?: string;
@@ -2069,9 +1880,7 @@ export const PutBotAliasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutBotAliasRequest",
-}) as any as S.Schema<PutBotAliasRequest>;
+).annotate({ identifier: "PutBotAliasRequest" }) as any as S.Schema<PutBotAliasRequest>;
 export interface PutBotAliasResponse {
   name?: string;
   description?: string;
@@ -2095,9 +1904,7 @@ export const PutBotAliasResponse = /*@__PURE__*/ S.suspend(() =>
     conversationLogs: S.optional(ConversationLogsResponse),
     tags: S.optional(TagList),
   }),
-).annotate({
-  identifier: "PutBotAliasResponse",
-}) as any as S.Schema<PutBotAliasResponse>;
+).annotate({ identifier: "PutBotAliasResponse" }) as any as S.Schema<PutBotAliasResponse>;
 export interface PutIntentRequest {
   name: string;
   description?: string;
@@ -2144,9 +1951,7 @@ export const PutIntentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutIntentRequest",
-}) as any as S.Schema<PutIntentRequest>;
+).annotate({ identifier: "PutIntentRequest" }) as any as S.Schema<PutIntentRequest>;
 export interface PutIntentResponse {
   name?: string;
   description?: string;
@@ -2190,9 +1995,7 @@ export const PutIntentResponse = /*@__PURE__*/ S.suspend(() =>
     inputContexts: S.optional(InputContextList),
     outputContexts: S.optional(OutputContextList),
   }),
-).annotate({
-  identifier: "PutIntentResponse",
-}) as any as S.Schema<PutIntentResponse>;
+).annotate({ identifier: "PutIntentResponse" }) as any as S.Schema<PutIntentResponse>;
 export interface PutSlotTypeRequest {
   name: string;
   description?: string;
@@ -2223,9 +2026,7 @@ export const PutSlotTypeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutSlotTypeRequest",
-}) as any as S.Schema<PutSlotTypeRequest>;
+).annotate({ identifier: "PutSlotTypeRequest" }) as any as S.Schema<PutSlotTypeRequest>;
 export interface PutSlotTypeResponse {
   name?: string;
   description?: string;
@@ -2253,9 +2054,7 @@ export const PutSlotTypeResponse = /*@__PURE__*/ S.suspend(() =>
     parentSlotTypeSignature: S.optional(S.String),
     slotTypeConfigurations: S.optional(SlotTypeConfigurations),
   }),
-).annotate({
-  identifier: "PutSlotTypeResponse",
-}) as any as S.Schema<PutSlotTypeResponse>;
+).annotate({ identifier: "PutSlotTypeResponse" }) as any as S.Schema<PutSlotTypeResponse>;
 export interface StartImportRequest {
   payload: Uint8Array;
   resourceType: ResourceType;
@@ -2269,9 +2068,7 @@ export const StartImportRequest = /*@__PURE__*/ S.suspend(() =>
     mergeStrategy: MergeStrategy,
     tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/imports" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartImportRequest",
-}) as any as S.Schema<StartImportRequest>;
+).annotate({ identifier: "StartImportRequest" }) as any as S.Schema<StartImportRequest>;
 export interface StartImportResponse {
   name?: string;
   resourceType?: ResourceType;
@@ -2291,9 +2088,7 @@ export const StartImportResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "StartImportResponse",
-}) as any as S.Schema<StartImportResponse>;
+).annotate({ identifier: "StartImportResponse" }) as any as S.Schema<StartImportResponse>;
 export type V2BotName = string;
 export interface StartMigrationRequest {
   v1BotName: string;
@@ -2310,9 +2105,7 @@ export const StartMigrationRequest = /*@__PURE__*/ S.suspend(() =>
     v2BotRole: S.String,
     migrationStrategy: MigrationStrategy,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/migrations" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartMigrationRequest",
-}) as any as S.Schema<StartMigrationRequest>;
+).annotate({ identifier: "StartMigrationRequest" }) as any as S.Schema<StartMigrationRequest>;
 export interface StartMigrationResponse {
   v1BotName?: string;
   v1BotVersion?: string;
@@ -2334,23 +2127,16 @@ export const StartMigrationResponse = /*@__PURE__*/ S.suspend(() =>
     migrationStrategy: S.optional(MigrationStrategy),
     migrationTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "StartMigrationResponse",
-}) as any as S.Schema<StartMigrationResponse>;
+).annotate({ identifier: "StartMigrationResponse" }) as any as S.Schema<StartMigrationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagList,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2368,9 +2154,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2384,9 +2168,7 @@ export interface ResourceReference {
 }
 export const ResourceReference = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.optional(S.String), version: S.optional(S.String) }),
-).annotate({
-  identifier: "ResourceReference",
-}) as any as S.Schema<ResourceReference>;
+).annotate({ identifier: "ResourceReference" }) as any as S.Schema<ResourceReference>;
 export type CreateBotVersionError =
   | BadRequestException
   | ConflictException

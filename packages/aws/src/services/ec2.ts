@@ -7,7 +7,7 @@ import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
-import { SensitiveString } from "../sensitive.ts";
+import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://ec2.amazonaws.com/doc/2016-11-15");
 const svc = T.AwsApiService({ sdkId: "EC2", serviceShapeName: "AmazonEC2" });
@@ -1329,6 +1329,7 @@ export type ResourceType =
   | "ipam-pool-allocation"
   | "capacity-reservation-cancellation-quote"
   | "application-status-check"
+  | "capacity-reservation-modification-quote"
   | (string & {});
 export const ResourceType = S.String;
 
@@ -1358,14 +1359,10 @@ export const TagSpecification = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("Tag")),
   }),
-).annotate({
-  identifier: "TagSpecification",
-}) as any as S.Schema<TagSpecification>;
+).annotate({ identifier: "TagSpecification" }) as any as S.Schema<TagSpecification>;
 export type TagSpecificationList = TagSpecification[];
 export const TagSpecificationList = /*@__PURE__*/ S.Array(
-  TagSpecification.pipe(T.XmlName("item")).annotate({
-    identifier: "TagSpecification",
-  }),
+  TagSpecification.pipe(T.XmlName("item")).annotate({ identifier: "TagSpecification" }),
 );
 export interface AcceptAddressTransferRequest {
   Address?: string;
@@ -1421,9 +1418,7 @@ export const AddressTransfer = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AddressTransferStatus"),
     ),
   }),
-).annotate({
-  identifier: "AddressTransfer",
-}) as any as S.Schema<AddressTransfer>;
+).annotate({ identifier: "AddressTransfer" }) as any as S.Schema<AddressTransfer>;
 export interface AcceptAddressTransferResult {
   AddressTransfer?: AddressTransfer;
 }
@@ -1442,10 +1437,9 @@ export interface AcceptCapacityReservationBillingOwnershipRequest {
   CapacityReservationId?: string;
 }
 export const AcceptCapacityReservationBillingOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    CapacityReservationId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), CapacityReservationId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "AcceptCapacityReservationBillingOwnershipRequest",
 }) as any as S.Schema<AcceptCapacityReservationBillingOwnershipRequest>;
@@ -1470,10 +1464,7 @@ export interface TargetConfigurationRequest {
   OfferingId?: string;
 }
 export const TargetConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceCount: S.optional(S.Number),
-    OfferingId: S.optional(S.String),
-  }),
+  S.Struct({ InstanceCount: S.optional(S.Number), OfferingId: S.optional(S.String) }),
 ).annotate({
   identifier: "TargetConfigurationRequest",
 }) as any as S.Schema<TargetConfigurationRequest>;
@@ -1642,14 +1633,10 @@ export const SubnetAssociation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("State"),
     ),
   }),
-).annotate({
-  identifier: "SubnetAssociation",
-}) as any as S.Schema<SubnetAssociation>;
+).annotate({ identifier: "SubnetAssociation" }) as any as S.Schema<SubnetAssociation>;
 export type SubnetAssociationList = SubnetAssociation[];
 export const SubnetAssociationList = /*@__PURE__*/ S.Array(
-  SubnetAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "SubnetAssociation",
-  }),
+  SubnetAssociation.pipe(T.XmlName("item")).annotate({ identifier: "SubnetAssociation" }),
 );
 export interface TransitGatewayMulticastDomainAssociations {
   TransitGatewayMulticastDomainId?: string;
@@ -1755,9 +1742,7 @@ export const PeeringAttachmentStatus = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "PeeringAttachmentStatus",
-}) as any as S.Schema<PeeringAttachmentStatus>;
+).annotate({ identifier: "PeeringAttachmentStatus" }) as any as S.Schema<PeeringAttachmentStatus>;
 export type TransitGatewayAttachmentState =
   | "initiating"
   | "initiatingRequest"
@@ -1970,9 +1955,7 @@ export const UnsuccessfulItemError = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "UnsuccessfulItemError",
-}) as any as S.Schema<UnsuccessfulItemError>;
+).annotate({ identifier: "UnsuccessfulItemError" }) as any as S.Schema<UnsuccessfulItemError>;
 export interface UnsuccessfulItem {
   Error?: UnsuccessfulItemError;
   ResourceId?: string;
@@ -1984,14 +1967,10 @@ export const UnsuccessfulItem = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "UnsuccessfulItemError" }),
     ResourceId: S.optional(S.String).pipe(T.XmlName("resourceId"), T.Ec2QueryName("ResourceId")),
   }),
-).annotate({
-  identifier: "UnsuccessfulItem",
-}) as any as S.Schema<UnsuccessfulItem>;
+).annotate({ identifier: "UnsuccessfulItem" }) as any as S.Schema<UnsuccessfulItem>;
 export type UnsuccessfulItemSet = UnsuccessfulItem[];
 export const UnsuccessfulItemSet = /*@__PURE__*/ S.Array(
-  UnsuccessfulItem.pipe(T.XmlName("item")).annotate({
-    identifier: "UnsuccessfulItem",
-  }),
+  UnsuccessfulItem.pipe(T.XmlName("item")).annotate({ identifier: "UnsuccessfulItem" }),
 );
 export interface AcceptVpcEndpointConnectionsResult {
   Unsuccessful?: UnsuccessfulItem[];
@@ -2035,9 +2014,7 @@ export const Ipv6CidrBlock = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Ipv6CidrBlock" }) as any as S.Schema<Ipv6CidrBlock>;
 export type Ipv6CidrBlockSet = Ipv6CidrBlock[];
 export const Ipv6CidrBlockSet = /*@__PURE__*/ S.Array(
-  Ipv6CidrBlock.pipe(T.XmlName("item")).annotate({
-    identifier: "Ipv6CidrBlock",
-  }),
+  Ipv6CidrBlock.pipe(T.XmlName("item")).annotate({ identifier: "Ipv6CidrBlock" }),
 );
 export interface CidrBlock {
   CidrBlock?: string;
@@ -2161,9 +2138,7 @@ export const VpcPeeringConnection = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("VpcPeeringConnectionId"),
     ),
   }),
-).annotate({
-  identifier: "VpcPeeringConnection",
-}) as any as S.Schema<VpcPeeringConnection>;
+).annotate({ identifier: "VpcPeeringConnection" }) as any as S.Schema<VpcPeeringConnection>;
 export interface AcceptVpcPeeringConnectionResult {
   VpcPeeringConnection?: VpcPeeringConnection;
 }
@@ -2221,9 +2196,7 @@ export const AsnAssociation = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AsnAssociation" }) as any as S.Schema<AsnAssociation>;
 export type AsnAssociationSet = AsnAssociation[];
 export const AsnAssociationSet = /*@__PURE__*/ S.Array(
-  AsnAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "AsnAssociation",
-  }),
+  AsnAssociation.pipe(T.XmlName("item")).annotate({ identifier: "AsnAssociation" }),
 );
 export type ByoipCidrState =
   | "advertised"
@@ -2285,9 +2258,7 @@ export const AdvertiseByoipCidrResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("byoipCidr"), T.Ec2QueryName("ByoipCidr"))
       .annotate({ identifier: "ByoipCidr" }),
   }).pipe(ns),
-).annotate({
-  identifier: "AdvertiseByoipCidrResult",
-}) as any as S.Schema<AdvertiseByoipCidrResult>;
+).annotate({ identifier: "AdvertiseByoipCidrResult" }) as any as S.Schema<AdvertiseByoipCidrResult>;
 export type DomainType = "vpc" | "standard" | (string & {});
 export const DomainType = S.String;
 
@@ -2314,9 +2285,7 @@ export const AllocateAddressRequest = /*@__PURE__*/ S.suspend(() =>
     IpamPoolId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AllocateAddressRequest",
-}) as any as S.Schema<AllocateAddressRequest>;
+).annotate({ identifier: "AllocateAddressRequest" }) as any as S.Schema<AllocateAddressRequest>;
 export interface AllocateAddressResult {
   AllocationId?: string;
   PublicIpv4Pool?: string;
@@ -2353,9 +2322,7 @@ export const AllocateAddressResult = /*@__PURE__*/ S.suspend(() =>
     CarrierIp: S.optional(S.String).pipe(T.XmlName("carrierIp"), T.Ec2QueryName("CarrierIp")),
     PublicIp: S.optional(S.String).pipe(T.XmlName("publicIp"), T.Ec2QueryName("PublicIp")),
   }).pipe(ns),
-).annotate({
-  identifier: "AllocateAddressResult",
-}) as any as S.Schema<AllocateAddressResult>;
+).annotate({ identifier: "AllocateAddressResult" }) as any as S.Schema<AllocateAddressResult>;
 export type HostRecovery = "on" | "off" | (string & {});
 export const HostRecovery = S.String;
 
@@ -2374,9 +2341,7 @@ export interface HostCpuOptionsRequest {
 }
 export const HostCpuOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AmdSevSnp: S.optional(AmdSevSnp) }),
-).annotate({
-  identifier: "HostCpuOptionsRequest",
-}) as any as S.Schema<HostCpuOptionsRequest>;
+).annotate({ identifier: "HostCpuOptionsRequest" }) as any as S.Schema<HostCpuOptionsRequest>;
 export type AutoPlacement = "on" | "off" | (string & {});
 export const AutoPlacement = S.String;
 
@@ -2421,9 +2386,7 @@ export const AllocateHostsRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailabilityZone"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AllocateHostsRequest",
-}) as any as S.Schema<AllocateHostsRequest>;
+).annotate({ identifier: "AllocateHostsRequest" }) as any as S.Schema<AllocateHostsRequest>;
 export type ResponseHostIdList = string[];
 export const ResponseHostIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export interface AllocateHostsResult {
@@ -2436,9 +2399,7 @@ export const AllocateHostsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("HostIdSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "AllocateHostsResult",
-}) as any as S.Schema<AllocateHostsResult>;
+).annotate({ identifier: "AllocateHostsResult" }) as any as S.Schema<AllocateHostsResult>;
 export type IpamPoolAllocationAllowedCidrs = string[];
 export const IpamPoolAllocationAllowedCidrs = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("item")),
@@ -2522,9 +2483,7 @@ export const IpamPoolAllocation = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "IpamPoolAllocation",
-}) as any as S.Schema<IpamPoolAllocation>;
+).annotate({ identifier: "IpamPoolAllocation" }) as any as S.Schema<IpamPoolAllocation>;
 export interface AllocateIpamPoolCidrResult {
   IpamPoolAllocation?: IpamPoolAllocation;
 }
@@ -2671,9 +2630,7 @@ export const AssignedPrivateIpAddress = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PrivateIpAddress"),
     ),
   }),
-).annotate({
-  identifier: "AssignedPrivateIpAddress",
-}) as any as S.Schema<AssignedPrivateIpAddress>;
+).annotate({ identifier: "AssignedPrivateIpAddress" }) as any as S.Schema<AssignedPrivateIpAddress>;
 export type AssignedPrivateIpAddressList = AssignedPrivateIpAddress[];
 export const AssignedPrivateIpAddressList = /*@__PURE__*/ S.Array(
   AssignedPrivateIpAddress.pipe(T.XmlName("item")).annotate({
@@ -2687,9 +2644,7 @@ export const Ipv4PrefixSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Ipv4Prefix: S.optional(S.String).pipe(T.XmlName("ipv4Prefix"), T.Ec2QueryName("Ipv4Prefix")),
   }),
-).annotate({
-  identifier: "Ipv4PrefixSpecification",
-}) as any as S.Schema<Ipv4PrefixSpecification>;
+).annotate({ identifier: "Ipv4PrefixSpecification" }) as any as S.Schema<Ipv4PrefixSpecification>;
 export type Ipv4PrefixesList = Ipv4PrefixSpecification[];
 export const Ipv4PrefixesList = /*@__PURE__*/ S.Array(
   Ipv4PrefixSpecification.pipe(T.XmlName("item")).annotate({
@@ -2792,14 +2747,10 @@ export const NatGatewayAddress = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailabilityZoneId"),
     ),
   }),
-).annotate({
-  identifier: "NatGatewayAddress",
-}) as any as S.Schema<NatGatewayAddress>;
+).annotate({ identifier: "NatGatewayAddress" }) as any as S.Schema<NatGatewayAddress>;
 export type NatGatewayAddressList = NatGatewayAddress[];
 export const NatGatewayAddressList = /*@__PURE__*/ S.Array(
-  NatGatewayAddress.pipe(T.XmlName("item")).annotate({
-    identifier: "NatGatewayAddress",
-  }),
+  NatGatewayAddress.pipe(T.XmlName("item")).annotate({ identifier: "NatGatewayAddress" }),
 );
 export interface AssignPrivateNatGatewayAddressResult {
   NatGatewayId?: string;
@@ -2850,9 +2801,7 @@ export const AssociateAddressRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AllowReassociation"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssociateAddressRequest",
-}) as any as S.Schema<AssociateAddressRequest>;
+).annotate({ identifier: "AssociateAddressRequest" }) as any as S.Schema<AssociateAddressRequest>;
 export interface AssociateAddressResult {
   AssociationId?: string;
 }
@@ -2863,9 +2812,7 @@ export const AssociateAddressResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AssociationId"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "AssociateAddressResult",
-}) as any as S.Schema<AssociateAddressResult>;
+).annotate({ identifier: "AssociateAddressResult" }) as any as S.Schema<AssociateAddressResult>;
 export type ApplicationStatusCheckId = string;
 export interface CustomTagKeyValueRequestPair {
   Key?: string;
@@ -3046,9 +2993,7 @@ export const AssociationStatus = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(AssociationStatusCode).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "AssociationStatus",
-}) as any as S.Schema<AssociationStatus>;
+).annotate({ identifier: "AssociationStatus" }) as any as S.Schema<AssociationStatus>;
 export interface AssociateClientVpnTargetNetworkResult {
   AssociationId?: string;
   Status?: AssociationStatus;
@@ -3159,9 +3104,7 @@ export const IamInstanceProfile = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String).pipe(T.XmlName("arn"), T.Ec2QueryName("Arn")),
     Id: S.optional(S.String).pipe(T.XmlName("id"), T.Ec2QueryName("Id")),
   }),
-).annotate({
-  identifier: "IamInstanceProfile",
-}) as any as S.Schema<IamInstanceProfile>;
+).annotate({ identifier: "IamInstanceProfile" }) as any as S.Schema<IamInstanceProfile>;
 export type IamInstanceProfileAssociationState =
   | "associating"
   | "associated"
@@ -3342,9 +3285,7 @@ export const InstanceEventWindow = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(InstanceEventWindowState).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "InstanceEventWindow",
-}) as any as S.Schema<InstanceEventWindow>;
+).annotate({ identifier: "InstanceEventWindow" }) as any as S.Schema<InstanceEventWindow>;
 export interface AssociateInstanceEventWindowResult {
   InstanceEventWindow?: InstanceEventWindow;
 }
@@ -3560,9 +3501,7 @@ export const RouteServerAssociation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("State"),
     ),
   }),
-).annotate({
-  identifier: "RouteServerAssociation",
-}) as any as S.Schema<RouteServerAssociation>;
+).annotate({ identifier: "RouteServerAssociation" }) as any as S.Schema<RouteServerAssociation>;
 export interface AssociateRouteServerResult {
   RouteServerAssociation?: RouteServerAssociation;
 }
@@ -3722,9 +3661,7 @@ export const SubnetCidrBlockState = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("StatusMessage"),
     ),
   }),
-).annotate({
-  identifier: "SubnetCidrBlockState",
-}) as any as S.Schema<SubnetCidrBlockState>;
+).annotate({ identifier: "SubnetCidrBlockState" }) as any as S.Schema<SubnetCidrBlockState>;
 export type Ipv6AddressAttribute = "public" | "private" | (string & {});
 export const Ipv6AddressAttribute = S.String;
 
@@ -4052,9 +3989,7 @@ export const VpcCidrBlockState = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("StatusMessage"),
     ),
   }),
-).annotate({
-  identifier: "VpcCidrBlockState",
-}) as any as S.Schema<VpcCidrBlockState>;
+).annotate({ identifier: "VpcCidrBlockState" }) as any as S.Schema<VpcCidrBlockState>;
 export interface VpcIpv6CidrBlockAssociation {
   AssociationId?: string;
   Ipv6CidrBlock?: string;
@@ -4107,9 +4042,7 @@ export const VpcCidrBlockAssociation = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("cidrBlockState"), T.Ec2QueryName("CidrBlockState"))
       .annotate({ identifier: "VpcCidrBlockState" }),
   }),
-).annotate({
-  identifier: "VpcCidrBlockAssociation",
-}) as any as S.Schema<VpcCidrBlockAssociation>;
+).annotate({ identifier: "VpcCidrBlockAssociation" }) as any as S.Schema<VpcCidrBlockAssociation>;
 export interface AssociateVpcCidrBlockResult {
   Ipv6CidrBlockAssociation?: VpcIpv6CidrBlockAssociation;
   CidrBlockAssociation?: VpcCidrBlockAssociation;
@@ -4214,9 +4147,7 @@ export interface EnaSrdUdpSpecification {
 }
 export const EnaSrdUdpSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EnaSrdUdpEnabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "EnaSrdUdpSpecification",
-}) as any as S.Schema<EnaSrdUdpSpecification>;
+).annotate({ identifier: "EnaSrdUdpSpecification" }) as any as S.Schema<EnaSrdUdpSpecification>;
 export interface EnaSrdSpecification {
   EnaSrdEnabled?: boolean;
   EnaSrdUdpSpecification?: EnaSrdUdpSpecification;
@@ -4226,9 +4157,7 @@ export const EnaSrdSpecification = /*@__PURE__*/ S.suspend(() =>
     EnaSrdEnabled: S.optional(S.Boolean),
     EnaSrdUdpSpecification: S.optional(EnaSrdUdpSpecification),
   }),
-).annotate({
-  identifier: "EnaSrdSpecification",
-}) as any as S.Schema<EnaSrdSpecification>;
+).annotate({ identifier: "EnaSrdSpecification" }) as any as S.Schema<EnaSrdSpecification>;
 export interface AttachNetworkInterfaceRequest {
   NetworkCardIndex?: number;
   EnaSrdSpecification?: EnaSrdSpecification;
@@ -4553,9 +4482,7 @@ export const VerifiedAccessInstance = /*@__PURE__*/ S.suspend(() =>
       )
       .annotate({ identifier: "VerifiedAccessInstanceCustomSubDomain" }),
   }),
-).annotate({
-  identifier: "VerifiedAccessInstance",
-}) as any as S.Schema<VerifiedAccessInstance>;
+).annotate({ identifier: "VerifiedAccessInstance" }) as any as S.Schema<VerifiedAccessInstance>;
 export interface AttachVerifiedAccessTrustProviderResult {
   VerifiedAccessTrustProvider?: VerifiedAccessTrustProvider;
   VerifiedAccessInstance?: VerifiedAccessInstance;
@@ -4589,9 +4516,7 @@ export const AttachVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     EbsCardIndex: S.optional(S.Number),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AttachVolumeRequest",
-}) as any as S.Schema<AttachVolumeRequest>;
+).annotate({ identifier: "AttachVolumeRequest" }) as any as S.Schema<AttachVolumeRequest>;
 export type VolumeAttachmentState =
   | "attaching"
   | "attached"
@@ -4639,9 +4564,7 @@ export const VolumeAttachment = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AttachTime"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "VolumeAttachment",
-}) as any as S.Schema<VolumeAttachment>;
+).annotate({ identifier: "VolumeAttachment" }) as any as S.Schema<VolumeAttachment>;
 export type VpnGatewayId = string;
 export interface AttachVpnGatewayRequest {
   VpcId?: string;
@@ -4654,9 +4577,7 @@ export const AttachVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     VpnGatewayId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AttachVpnGatewayRequest",
-}) as any as S.Schema<AttachVpnGatewayRequest>;
+).annotate({ identifier: "AttachVpnGatewayRequest" }) as any as S.Schema<AttachVpnGatewayRequest>;
 export type AttachmentStatus =
   | "attaching"
   | "attached"
@@ -4685,9 +4606,7 @@ export const AttachVpnGatewayResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("attachment"), T.Ec2QueryName("Attachment"))
       .annotate({ identifier: "VpcAttachment" }),
   }).pipe(ns),
-).annotate({
-  identifier: "AttachVpnGatewayResult",
-}) as any as S.Schema<AttachVpnGatewayResult>;
+).annotate({ identifier: "AttachVpnGatewayResult" }) as any as S.Schema<AttachVpnGatewayResult>;
 export interface AuthorizeClientVpnIngressRequest {
   ClientVpnEndpointId?: string;
   TargetNetworkCidr?: string;
@@ -4770,14 +4689,10 @@ export const UserIdGroupPair = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PeeringStatus"),
     ),
   }),
-).annotate({
-  identifier: "UserIdGroupPair",
-}) as any as S.Schema<UserIdGroupPair>;
+).annotate({ identifier: "UserIdGroupPair" }) as any as S.Schema<UserIdGroupPair>;
 export type UserIdGroupPairList = UserIdGroupPair[];
 export const UserIdGroupPairList = /*@__PURE__*/ S.Array(
-  UserIdGroupPair.pipe(T.XmlName("item")).annotate({
-    identifier: "UserIdGroupPair",
-  }),
+  UserIdGroupPair.pipe(T.XmlName("item")).annotate({ identifier: "UserIdGroupPair" }),
 );
 export interface IpRange {
   Description?: string;
@@ -4917,9 +4832,7 @@ export const ReferencedSecurityGroup = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("VpcPeeringConnectionId"),
     ),
   }),
-).annotate({
-  identifier: "ReferencedSecurityGroup",
-}) as any as S.Schema<ReferencedSecurityGroup>;
+).annotate({ identifier: "ReferencedSecurityGroup" }) as any as S.Schema<ReferencedSecurityGroup>;
 export interface SecurityGroupRule {
   SecurityGroupRuleId?: string;
   GroupId?: string;
@@ -4967,14 +4880,10 @@ export const SecurityGroupRule = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SecurityGroupRuleArn"),
     ),
   }),
-).annotate({
-  identifier: "SecurityGroupRule",
-}) as any as S.Schema<SecurityGroupRule>;
+).annotate({ identifier: "SecurityGroupRule" }) as any as S.Schema<SecurityGroupRule>;
 export type SecurityGroupRuleList = SecurityGroupRule[];
 export const SecurityGroupRuleList = /*@__PURE__*/ S.Array(
-  SecurityGroupRule.pipe(T.XmlName("item")).annotate({
-    identifier: "SecurityGroupRule",
-  }),
+  SecurityGroupRule.pipe(T.XmlName("item")).annotate({ identifier: "SecurityGroupRule" }),
 );
 export interface AuthorizeSecurityGroupEgressResult {
   Return?: boolean;
@@ -5101,12 +5010,13 @@ export const BatchModifyIpamRoutingPolicyRegistrationsResult = /*@__PURE__*/ S.s
 ).annotate({
   identifier: "BatchModifyIpamRoutingPolicyRegistrationsResult",
 }) as any as S.Schema<BatchModifyIpamRoutingPolicyRegistrationsResult>;
+export type SecureBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export type S3StorageUploadPolicySignature = string | redacted.Redacted<string>;
 export interface S3Storage {
   AWSAccessKeyId?: string;
   Bucket?: string;
   Prefix?: string;
-  UploadPolicy?: Uint8Array;
+  UploadPolicy?: Uint8Array | redacted.Redacted<Uint8Array>;
   UploadPolicySignature?: string | redacted.Redacted<string>;
 }
 export const S3Storage = /*@__PURE__*/ S.suspend(() =>
@@ -5114,7 +5024,7 @@ export const S3Storage = /*@__PURE__*/ S.suspend(() =>
     AWSAccessKeyId: S.optional(S.String),
     Bucket: S.optional(S.String).pipe(T.XmlName("bucket"), T.Ec2QueryName("Bucket")),
     Prefix: S.optional(S.String).pipe(T.XmlName("prefix"), T.Ec2QueryName("Prefix")),
-    UploadPolicy: S.optional(T.Blob).pipe(
+    UploadPolicy: S.optional(SensitiveBlob).pipe(
       T.XmlName("uploadPolicy"),
       T.Ec2QueryName("UploadPolicy"),
     ),
@@ -5143,9 +5053,7 @@ export const BundleInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     Storage: S.optional(Storage),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "BundleInstanceRequest",
-}) as any as S.Schema<BundleInstanceRequest>;
+).annotate({ identifier: "BundleInstanceRequest" }) as any as S.Schema<BundleInstanceRequest>;
 export type BundleTaskState =
   | "pending"
   | "waiting-for-shutdown"
@@ -5166,9 +5074,7 @@ export const BundleTaskError = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "BundleTaskError",
-}) as any as S.Schema<BundleTaskError>;
+).annotate({ identifier: "BundleTaskError" }) as any as S.Schema<BundleTaskError>;
 export interface BundleTask {
   InstanceId?: string;
   BundleId?: string;
@@ -5210,9 +5116,7 @@ export const BundleInstanceResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("bundleInstanceTask"), T.Ec2QueryName("BundleInstanceTask"))
       .annotate({ identifier: "BundleTask" }),
   }).pipe(ns),
-).annotate({
-  identifier: "BundleInstanceResult",
-}) as any as S.Schema<BundleInstanceResult>;
+).annotate({ identifier: "BundleInstanceResult" }) as any as S.Schema<BundleInstanceResult>;
 export type BundleId = string;
 export interface CancelBundleTaskRequest {
   BundleId?: string;
@@ -5223,9 +5127,7 @@ export const CancelBundleTaskRequest = /*@__PURE__*/ S.suspend(() =>
     BundleId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CancelBundleTaskRequest",
-}) as any as S.Schema<CancelBundleTaskRequest>;
+).annotate({ identifier: "CancelBundleTaskRequest" }) as any as S.Schema<CancelBundleTaskRequest>;
 export interface CancelBundleTaskResult {
   BundleTask?: BundleTask;
 }
@@ -5235,9 +5137,7 @@ export const CancelBundleTaskResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("bundleInstanceTask"), T.Ec2QueryName("BundleInstanceTask"))
       .annotate({ identifier: "BundleTask" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CancelBundleTaskResult",
-}) as any as S.Schema<CancelBundleTaskResult>;
+).annotate({ identifier: "CancelBundleTaskResult" }) as any as S.Schema<CancelBundleTaskResult>;
 export type ApplyCancellationCharges = "commitment-wind-down" | (string & {});
 export const ApplyCancellationCharges = S.String;
 
@@ -5407,9 +5307,7 @@ export const CancelConversionRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ReasonMessage"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CancelConversionRequest",
-}) as any as S.Schema<CancelConversionRequest>;
+).annotate({ identifier: "CancelConversionRequest" }) as any as S.Schema<CancelConversionRequest>;
 export interface CancelConversionTaskResponse {}
 export const CancelConversionTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -5422,10 +5320,9 @@ export interface CancelDeclarativePoliciesReportRequest {
   ReportId?: string;
 }
 export const CancelDeclarativePoliciesReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    ReportId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), ReportId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CancelDeclarativePoliciesReportRequest",
 }) as any as S.Schema<CancelDeclarativePoliciesReportRequest>;
@@ -5450,24 +5347,19 @@ export const CancelExportTaskRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ExportTaskId"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CancelExportTaskRequest",
-}) as any as S.Schema<CancelExportTaskRequest>;
+).annotate({ identifier: "CancelExportTaskRequest" }) as any as S.Schema<CancelExportTaskRequest>;
 export interface CancelExportTaskResponse {}
 export const CancelExportTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CancelExportTaskResponse",
-}) as any as S.Schema<CancelExportTaskResponse>;
+).annotate({ identifier: "CancelExportTaskResponse" }) as any as S.Schema<CancelExportTaskResponse>;
 export interface CancelImageLaunchPermissionRequest {
   ImageId?: string;
   DryRun?: boolean;
 }
 export const CancelImageLaunchPermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CancelImageLaunchPermissionRequest",
 }) as any as S.Schema<CancelImageLaunchPermissionRequest>;
@@ -5493,9 +5385,7 @@ export const CancelImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     ImportTaskId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CancelImportTaskRequest",
-}) as any as S.Schema<CancelImportTaskRequest>;
+).annotate({ identifier: "CancelImportTaskRequest" }) as any as S.Schema<CancelImportTaskRequest>;
 export interface CancelImportTaskResult {
   ImportTaskId?: string;
   PreviousState?: string;
@@ -5513,9 +5403,7 @@ export const CancelImportTaskResult = /*@__PURE__*/ S.suspend(() =>
     ),
     State: S.optional(S.String).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
   }).pipe(ns),
-).annotate({
-  identifier: "CancelImportTaskResult",
-}) as any as S.Schema<CancelImportTaskResult>;
+).annotate({ identifier: "CancelImportTaskResult" }) as any as S.Schema<CancelImportTaskResult>;
 export type ReservedInstancesListingId = string;
 export interface CancelReservedInstancesListingRequest {
   ReservedInstancesListingId?: string;
@@ -5548,9 +5436,7 @@ export const InstanceCount = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "InstanceCount" }) as any as S.Schema<InstanceCount>;
 export type InstanceCountList = InstanceCount[];
 export const InstanceCountList = /*@__PURE__*/ S.Array(
-  InstanceCount.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceCount",
-  }),
+  InstanceCount.pipe(T.XmlName("item")).annotate({ identifier: "InstanceCount" }),
 );
 export type CurrencyCodeValues = "USD" | (string & {});
 export const CurrencyCodeValues = S.String;
@@ -5574,9 +5460,7 @@ export const PriceSchedule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PriceSchedule" }) as any as S.Schema<PriceSchedule>;
 export type PriceScheduleList = PriceSchedule[];
 export const PriceScheduleList = /*@__PURE__*/ S.Array(
-  PriceSchedule.pipe(T.XmlName("item")).annotate({
-    identifier: "PriceSchedule",
-  }),
+  PriceSchedule.pipe(T.XmlName("item")).annotate({ identifier: "PriceSchedule" }),
 );
 export type ListingStatus = "active" | "pending" | "cancelled" | "closed" | (string & {});
 export const ListingStatus = S.String;
@@ -5627,9 +5511,7 @@ export const ReservedInstancesListing = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("UpdateDate"),
     ),
   }),
-).annotate({
-  identifier: "ReservedInstancesListing",
-}) as any as S.Schema<ReservedInstancesListing>;
+).annotate({ identifier: "ReservedInstancesListing" }) as any as S.Schema<ReservedInstancesListing>;
 export type ReservedInstancesListingList = ReservedInstancesListing[];
 export const ReservedInstancesListingList = /*@__PURE__*/ S.Array(
   ReservedInstancesListing.pipe(T.XmlName("item")).annotate({
@@ -5881,9 +5763,7 @@ export const CopyFpgaImageRequest = /*@__PURE__*/ S.suspend(() =>
     SourceRegion: S.optional(S.String),
     ClientToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CopyFpgaImageRequest",
-}) as any as S.Schema<CopyFpgaImageRequest>;
+).annotate({ identifier: "CopyFpgaImageRequest" }) as any as S.Schema<CopyFpgaImageRequest>;
 export interface CopyFpgaImageResult {
   FpgaImageId?: string;
 }
@@ -5891,9 +5771,7 @@ export const CopyFpgaImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FpgaImageId: S.optional(S.String).pipe(T.XmlName("fpgaImageId"), T.Ec2QueryName("FpgaImageId")),
   }).pipe(ns),
-).annotate({
-  identifier: "CopyFpgaImageResult",
-}) as any as S.Schema<CopyFpgaImageResult>;
+).annotate({ identifier: "CopyFpgaImageResult" }) as any as S.Schema<CopyFpgaImageResult>;
 export type CopyImageClientToken = string;
 export type ImageDescriptionRequest = string;
 export type KmsKeyId = string;
@@ -5931,9 +5809,7 @@ export const CopyImageRequest = /*@__PURE__*/ S.suspend(() =>
     DestinationAvailabilityZoneId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CopyImageRequest",
-}) as any as S.Schema<CopyImageRequest>;
+).annotate({ identifier: "CopyImageRequest" }) as any as S.Schema<CopyImageRequest>;
 export interface CopyImageResult {
   ImageId?: string;
 }
@@ -5941,9 +5817,7 @@ export const CopyImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ImageId: S.optional(S.String).pipe(T.XmlName("imageId"), T.Ec2QueryName("ImageId")),
   }).pipe(ns),
-).annotate({
-  identifier: "CopyImageResult",
-}) as any as S.Schema<CopyImageResult>;
+).annotate({ identifier: "CopyImageResult" }) as any as S.Schema<CopyImageResult>;
 export type CopySnapshotRequestPSU = string | redacted.Redacted<string>;
 export type SnapshotCompletionDurationMinutesRequest = number;
 export interface CopySnapshotRequest {
@@ -5981,9 +5855,7 @@ export const CopySnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     DestinationAvailabilityZone: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CopySnapshotRequest",
-}) as any as S.Schema<CopySnapshotRequest>;
+).annotate({ identifier: "CopySnapshotRequest" }) as any as S.Schema<CopySnapshotRequest>;
 export interface CopySnapshotResult {
   Tags?: Tag[];
   SnapshotId?: string;
@@ -5993,9 +5865,7 @@ export const CopySnapshotResult = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
     SnapshotId: S.optional(S.String).pipe(T.XmlName("snapshotId"), T.Ec2QueryName("SnapshotId")),
   }).pipe(ns),
-).annotate({
-  identifier: "CopySnapshotResult",
-}) as any as S.Schema<CopySnapshotResult>;
+).annotate({ identifier: "CopySnapshotResult" }) as any as S.Schema<CopySnapshotResult>;
 export type VolumeType = "standard" | "io1" | "io2" | "gp2" | "sc1" | "st1" | "gp3" | (string & {});
 export const VolumeType = S.String;
 
@@ -6009,6 +5879,8 @@ export interface CopyVolumesRequest {
   MultiAttachEnabled?: boolean;
   Throughput?: number;
   ClientToken?: string;
+  Encrypted?: boolean;
+  KmsKeyId?: string;
 }
 export const CopyVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6021,10 +5893,10 @@ export const CopyVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     MultiAttachEnabled: S.optional(S.Boolean),
     Throughput: S.optional(S.Number),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Encrypted: S.optional(S.Boolean),
+    KmsKeyId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CopyVolumesRequest",
-}) as any as S.Schema<CopyVolumesRequest>;
+).annotate({ identifier: "CopyVolumesRequest" }) as any as S.Schema<CopyVolumesRequest>;
 export type SSEType = "sse-ebs" | "sse-kms" | "none" | (string & {});
 export const SSEType = S.String;
 
@@ -6042,9 +5914,7 @@ export const OperatorResponse = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("HiddenByDefault"),
     ),
   }),
-).annotate({
-  identifier: "OperatorResponse",
-}) as any as S.Schema<OperatorResponse>;
+).annotate({ identifier: "OperatorResponse" }) as any as S.Schema<OperatorResponse>;
 export type VolumeState =
   | "creating"
   | "available"
@@ -6057,9 +5927,7 @@ export const VolumeState = S.String;
 
 export type VolumeAttachmentList = VolumeAttachment[];
 export const VolumeAttachmentList = /*@__PURE__*/ S.Array(
-  VolumeAttachment.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeAttachment",
-  }),
+  VolumeAttachment.pipe(T.XmlName("item")).annotate({ identifier: "VolumeAttachment" }),
 );
 export interface Volume {
   AvailabilityZoneId?: string;
@@ -6074,6 +5942,8 @@ export interface Volume {
   SseType?: SSEType;
   Operator?: OperatorResponse;
   VolumeInitializationRate?: number;
+  VolumeArn?: string;
+  OwnerId?: string;
   VolumeId?: string;
   Size?: number;
   SnapshotId?: string;
@@ -6115,6 +5985,8 @@ export const Volume = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("volumeInitializationRate"),
       T.Ec2QueryName("VolumeInitializationRate"),
     ),
+    VolumeArn: S.optional(S.String).pipe(T.XmlName("volumeArn"), T.Ec2QueryName("VolumeArn")),
+    OwnerId: S.optional(S.String).pipe(T.XmlName("ownerId"), T.Ec2QueryName("OwnerId")),
     VolumeId: S.optional(S.String).pipe(T.XmlName("volumeId"), T.Ec2QueryName("VolumeId")),
     Size: S.optional(S.Number).pipe(T.XmlName("size"), T.Ec2QueryName("Size")),
     SnapshotId: S.optional(S.String).pipe(T.XmlName("snapshotId"), T.Ec2QueryName("SnapshotId")),
@@ -6146,18 +6018,13 @@ export const CopyVolumesResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Volumes: S.optional(VolumeList).pipe(T.XmlName("volumeSet"), T.Ec2QueryName("VolumeSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "CopyVolumesResult",
-}) as any as S.Schema<CopyVolumesResult>;
+).annotate({ identifier: "CopyVolumesResult" }) as any as S.Schema<CopyVolumesResult>;
 export interface HealthCheckPathSourceRequestObject {
   SubnetId?: string;
   SecurityGroupId?: string;
 }
 export const HealthCheckPathSourceRequestObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetId: S.optional(S.String),
-    SecurityGroupId: S.optional(S.String),
-  }),
+  S.Struct({ SubnetId: S.optional(S.String), SecurityGroupId: S.optional(S.String) }),
 ).annotate({
   identifier: "HealthCheckPathSourceRequestObject",
 }) as any as S.Schema<HealthCheckPathSourceRequestObject>;
@@ -6166,10 +6033,7 @@ export interface HealthCheckPathDestinationRequestObject {
   SecurityGroupId?: string;
 }
 export const HealthCheckPathDestinationRequestObject = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetId: S.optional(S.String),
-    SecurityGroupId: S.optional(S.String),
-  }),
+  S.Struct({ SubnetId: S.optional(S.String), SecurityGroupId: S.optional(S.String) }),
 ).annotate({
   identifier: "HealthCheckPathDestinationRequestObject",
 }) as any as S.Schema<HealthCheckPathDestinationRequestObject>;
@@ -6611,21 +6475,19 @@ export const CapacityAllocation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AllocationMetadataList"),
     ),
   }),
-).annotate({
-  identifier: "CapacityAllocation",
-}) as any as S.Schema<CapacityAllocation>;
+).annotate({ identifier: "CapacityAllocation" }) as any as S.Schema<CapacityAllocation>;
 export type CapacityAllocations = CapacityAllocation[];
 export const CapacityAllocations = /*@__PURE__*/ S.Array(
-  CapacityAllocation.pipe(T.XmlName("item")).annotate({
-    identifier: "CapacityAllocation",
-  }),
+  CapacityAllocation.pipe(T.XmlName("item")).annotate({ identifier: "CapacityAllocation" }),
 );
 export type CapacityReservationType = "default" | "capacity-block" | (string & {});
 export const CapacityReservationType = S.String;
 
+export type BoxedLong = number;
 export interface CapacityReservationCommitmentInfo {
   CommittedInstanceCount?: number;
   CommitmentEndDate?: Date;
+  CommitmentDuration?: number;
 }
 export const CapacityReservationCommitmentInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6636,6 +6498,10 @@ export const CapacityReservationCommitmentInfo = /*@__PURE__*/ S.suspend(() =>
     CommitmentEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
       T.XmlName("commitmentEndDate"),
       T.Ec2QueryName("CommitmentEndDate"),
+    ),
+    CommitmentDuration: S.optional(S.Number).pipe(
+      T.XmlName("commitmentDuration"),
+      T.Ec2QueryName("CommitmentDuration"),
     ),
   }),
 ).annotate({
@@ -6655,12 +6521,16 @@ export const InterruptibleCapacityReservationAllocationStatus = S.String;
 export type InterruptionType = "adhoc" | (string & {});
 export const InterruptionType = S.String;
 
+export type ZeroSizePreference = "retain" | "default" | (string & {});
+export const ZeroSizePreference = S.String;
+
 export interface InterruptibleCapacityAllocation {
   InstanceCount?: number;
   TargetInstanceCount?: number;
   Status?: InterruptibleCapacityReservationAllocationStatus;
   InterruptibleCapacityReservationId?: string;
   InterruptionType?: InterruptionType;
+  ZeroSizePreference?: ZeroSizePreference;
 }
 export const InterruptibleCapacityAllocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6684,6 +6554,10 @@ export const InterruptibleCapacityAllocation = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("interruptionType"),
       T.Ec2QueryName("InterruptionType"),
     ),
+    ZeroSizePreference: S.optional(ZeroSizePreference).pipe(
+      T.XmlName("zeroSizePreference"),
+      T.Ec2QueryName("ZeroSizePreference"),
+    ),
   }),
 ).annotate({
   identifier: "InterruptibleCapacityAllocation",
@@ -6703,9 +6577,47 @@ export const InterruptionInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InterruptionType"),
     ),
   }),
+).annotate({ identifier: "InterruptionInfo" }) as any as S.Schema<InterruptionInfo>;
+export type CapacityReservationAdjustmentStatus =
+  | "requested"
+  | "applied"
+  | "rejected"
+  | (string & {});
+export const CapacityReservationAdjustmentStatus = S.String;
+
+export interface CapacityReservationAdjustmentDetails {
+  StartDate?: Date;
+  EndDate?: Date;
+  CommitmentEndDate?: Date;
+  EndDateType?: string;
+  CommitmentDuration?: number;
+}
+export const CapacityReservationAdjustmentDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("startDate"),
+      T.Ec2QueryName("StartDate"),
+    ),
+    EndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("endDate"),
+      T.Ec2QueryName("EndDate"),
+    ),
+    CommitmentEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("commitmentEndDate"),
+      T.Ec2QueryName("CommitmentEndDate"),
+    ),
+    EndDateType: S.optional(S.String).pipe(T.XmlName("endDateType"), T.Ec2QueryName("EndDateType")),
+    CommitmentDuration: S.optional(S.Number).pipe(
+      T.XmlName("commitmentDuration"),
+      T.Ec2QueryName("CommitmentDuration"),
+    ),
+  }),
 ).annotate({
-  identifier: "InterruptionInfo",
-}) as any as S.Schema<InterruptionInfo>;
+  identifier: "CapacityReservationAdjustmentDetails",
+}) as any as S.Schema<CapacityReservationAdjustmentDetails>;
+export type CapacityReservationLaunchStatus = "launchable" | "unlaunchable" | (string & {});
+export const CapacityReservationLaunchStatus = S.String;
+
 export interface CapacityReservation {
   CapacityReservationId?: string;
   OwnerId?: string;
@@ -6738,6 +6650,11 @@ export interface CapacityReservation {
   Interruptible?: boolean;
   InterruptibleCapacityAllocation?: InterruptibleCapacityAllocation;
   InterruptionInfo?: InterruptionInfo;
+  AdjustmentStatus?: CapacityReservationAdjustmentStatus;
+  AdjustmentDetails?: CapacityReservationAdjustmentDetails;
+  OriginalStartDate?: Date;
+  ZeroSizePreference?: ZeroSizePreference;
+  LaunchStatus?: CapacityReservationLaunchStatus;
 }
 export const CapacityReservation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -6853,10 +6770,27 @@ export const CapacityReservation = /*@__PURE__*/ S.suspend(() =>
     InterruptionInfo: S.optional(InterruptionInfo)
       .pipe(T.XmlName("interruptionInfo"), T.Ec2QueryName("InterruptionInfo"))
       .annotate({ identifier: "InterruptionInfo" }),
+    AdjustmentStatus: S.optional(CapacityReservationAdjustmentStatus).pipe(
+      T.XmlName("adjustmentStatus"),
+      T.Ec2QueryName("AdjustmentStatus"),
+    ),
+    AdjustmentDetails: S.optional(CapacityReservationAdjustmentDetails)
+      .pipe(T.XmlName("adjustmentDetails"), T.Ec2QueryName("AdjustmentDetails"))
+      .annotate({ identifier: "CapacityReservationAdjustmentDetails" }),
+    OriginalStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("originalStartDate"),
+      T.Ec2QueryName("OriginalStartDate"),
+    ),
+    ZeroSizePreference: S.optional(ZeroSizePreference).pipe(
+      T.XmlName("zeroSizePreference"),
+      T.Ec2QueryName("ZeroSizePreference"),
+    ),
+    LaunchStatus: S.optional(CapacityReservationLaunchStatus).pipe(
+      T.XmlName("launchStatus"),
+      T.Ec2QueryName("LaunchStatus"),
+    ),
   }),
-).annotate({
-  identifier: "CapacityReservation",
-}) as any as S.Schema<CapacityReservation>;
+).annotate({ identifier: "CapacityReservation" }) as any as S.Schema<CapacityReservation>;
 export interface CreateCapacityReservationResult {
   CapacityReservation?: CapacityReservation;
 }
@@ -6952,7 +6886,6 @@ export const CapacityReservationConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CapacityReservationConfiguration",
 }) as any as S.Schema<CapacityReservationConfiguration>;
-export type BoxedLong = number;
 export interface CancellationTerms {
   CancellationType?: ApplyCancellationCharges;
   ReservationState?: string;
@@ -6983,14 +6916,10 @@ export const CancellationTerms = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ChargeEndDate"),
     ),
   }),
-).annotate({
-  identifier: "CancellationTerms",
-}) as any as S.Schema<CancellationTerms>;
+).annotate({ identifier: "CancellationTerms" }) as any as S.Schema<CancellationTerms>;
 export type CancellationTermsSet = CancellationTerms[];
 export const CancellationTermsSet = /*@__PURE__*/ S.Array(
-  CancellationTerms.pipe(T.XmlName("item")).annotate({
-    identifier: "CancellationTerms",
-  }),
+  CancellationTerms.pipe(T.XmlName("item")).annotate({ identifier: "CancellationTerms" }),
 );
 export interface CapacityReservationCancellationQuote {
   CapacityReservationCancellationQuoteId?: string;
@@ -7051,6 +6980,147 @@ export const CreateCapacityReservationCancellationQuoteResult = /*@__PURE__*/ S.
 ).annotate({
   identifier: "CreateCapacityReservationCancellationQuoteResult",
 }) as any as S.Schema<CreateCapacityReservationCancellationQuoteResult>;
+export interface CreateCapacityReservationDateChangeQuoteRequest {
+  CapacityReservationId?: string;
+  NewStartDate?: Date;
+  ClientToken?: string;
+  TagSpecifications?: TagSpecification[];
+  DryRun?: boolean;
+}
+export const CreateCapacityReservationDateChangeQuoteRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CapacityReservationId: S.optional(S.String),
+    NewStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "CreateCapacityReservationDateChangeQuoteRequest",
+}) as any as S.Schema<CreateCapacityReservationDateChangeQuoteRequest>;
+export type CapacityReservationModificationQuoteId = string;
+export type CapacityReservationModificationQuoteState = "active" | "expired" | (string & {});
+export const CapacityReservationModificationQuoteState = S.String;
+
+export interface ModificationQuoteCurrentConfiguration {
+  InstanceCount?: number;
+  ReservationState?: string;
+  StartDate?: Date;
+  OriginalStartDate?: Date;
+}
+export const ModificationQuoteCurrentConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InstanceCount: S.optional(S.Number).pipe(
+      T.XmlName("instanceCount"),
+      T.Ec2QueryName("InstanceCount"),
+    ),
+    ReservationState: S.optional(S.String).pipe(
+      T.XmlName("reservationState"),
+      T.Ec2QueryName("ReservationState"),
+    ),
+    StartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("startDate"),
+      T.Ec2QueryName("StartDate"),
+    ),
+    OriginalStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("originalStartDate"),
+      T.Ec2QueryName("OriginalStartDate"),
+    ),
+  }),
+).annotate({
+  identifier: "ModificationQuoteCurrentConfiguration",
+}) as any as S.Schema<ModificationQuoteCurrentConfiguration>;
+export interface ModificationReservationUpdate {
+  NewCommitmentEndDate?: Date;
+  NewStartDate?: Date;
+  NewCommitmentDuration?: number;
+}
+export const ModificationReservationUpdate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NewCommitmentEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("newCommitmentEndDate"),
+      T.Ec2QueryName("NewCommitmentEndDate"),
+    ),
+    NewStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("newStartDate"),
+      T.Ec2QueryName("NewStartDate"),
+    ),
+    NewCommitmentDuration: S.optional(S.Number).pipe(
+      T.XmlName("newCommitmentDuration"),
+      T.Ec2QueryName("NewCommitmentDuration"),
+    ),
+  }),
+).annotate({
+  identifier: "ModificationReservationUpdate",
+}) as any as S.Schema<ModificationReservationUpdate>;
+export interface ModificationTerms {
+  ReservationUpdate?: ModificationReservationUpdate;
+}
+export const ModificationTerms = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservationUpdate: S.optional(ModificationReservationUpdate)
+      .pipe(T.XmlName("reservationUpdate"), T.Ec2QueryName("ReservationUpdate"))
+      .annotate({ identifier: "ModificationReservationUpdate" }),
+  }),
+).annotate({ identifier: "ModificationTerms" }) as any as S.Schema<ModificationTerms>;
+export interface CapacityReservationModificationQuote {
+  CapacityReservationModificationQuoteId?: string;
+  CapacityReservationId?: string;
+  CreateTime?: Date;
+  ExpirationTime?: Date;
+  QuoteState?: CapacityReservationModificationQuoteState;
+  CurrentConfiguration?: ModificationQuoteCurrentConfiguration;
+  ModificationTerms?: ModificationTerms;
+  Tags?: Tag[];
+}
+export const CapacityReservationModificationQuote = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CapacityReservationModificationQuoteId: S.optional(S.String).pipe(
+      T.XmlName("capacityReservationModificationQuoteId"),
+      T.Ec2QueryName("CapacityReservationModificationQuoteId"),
+    ),
+    CapacityReservationId: S.optional(S.String).pipe(
+      T.XmlName("capacityReservationId"),
+      T.Ec2QueryName("CapacityReservationId"),
+    ),
+    CreateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("createTime"),
+      T.Ec2QueryName("CreateTime"),
+    ),
+    ExpirationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.XmlName("expirationTime"),
+      T.Ec2QueryName("ExpirationTime"),
+    ),
+    QuoteState: S.optional(CapacityReservationModificationQuoteState).pipe(
+      T.XmlName("quoteState"),
+      T.Ec2QueryName("QuoteState"),
+    ),
+    CurrentConfiguration: S.optional(ModificationQuoteCurrentConfiguration)
+      .pipe(T.XmlName("currentConfiguration"), T.Ec2QueryName("CurrentConfiguration"))
+      .annotate({ identifier: "ModificationQuoteCurrentConfiguration" }),
+    ModificationTerms: S.optional(ModificationTerms)
+      .pipe(T.XmlName("modificationTerms"), T.Ec2QueryName("ModificationTerms"))
+      .annotate({ identifier: "ModificationTerms" }),
+    Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
+  }),
+).annotate({
+  identifier: "CapacityReservationModificationQuote",
+}) as any as S.Schema<CapacityReservationModificationQuote>;
+export interface CreateCapacityReservationDateChangeQuoteResult {
+  CapacityReservationModificationQuote?: CapacityReservationModificationQuote;
+}
+export const CreateCapacityReservationDateChangeQuoteResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CapacityReservationModificationQuote: S.optional(CapacityReservationModificationQuote)
+      .pipe(
+        T.XmlName("capacityReservationModificationQuote"),
+        T.Ec2QueryName("CapacityReservationModificationQuote"),
+      )
+      .annotate({ identifier: "CapacityReservationModificationQuote" }),
+  }).pipe(ns),
+).annotate({
+  identifier: "CreateCapacityReservationDateChangeQuoteResult",
+}) as any as S.Schema<CreateCapacityReservationDateChangeQuoteResult>;
 export type InstanceType =
   | "a1.medium"
   | "a1.large"
@@ -8457,6 +8527,29 @@ export type InstanceType =
   | "c9gd.24xlarge"
   | "c9gd.48xlarge"
   | "c9gd.metal-48xl"
+  | "r9g.medium"
+  | "r9g.large"
+  | "r9g.xlarge"
+  | "r9g.2xlarge"
+  | "r9g.4xlarge"
+  | "r9g.8xlarge"
+  | "r9g.12xlarge"
+  | "r9g.16xlarge"
+  | "r9g.24xlarge"
+  | "r9g.48xlarge"
+  | "r9g.metal-48xl"
+  | "r9gd.medium"
+  | "r9gd.large"
+  | "r9gd.xlarge"
+  | "r9gd.2xlarge"
+  | "r9gd.4xlarge"
+  | "r9gd.8xlarge"
+  | "r9gd.12xlarge"
+  | "r9gd.16xlarge"
+  | "r9gd.24xlarge"
+  | "r9gd.48xlarge"
+  | "r9gd.metal-48xl"
+  | "m9g.medium"
   | (string & {});
 export const InstanceType = S.String;
 
@@ -8576,9 +8669,7 @@ export const FleetCapacityReservation = /*@__PURE__*/ S.suspend(() =>
     Weight: S.optional(S.Number).pipe(T.XmlName("weight"), T.Ec2QueryName("Weight")),
     Priority: S.optional(S.Number).pipe(T.XmlName("priority"), T.Ec2QueryName("Priority")),
   }),
-).annotate({
-  identifier: "FleetCapacityReservation",
-}) as any as S.Schema<FleetCapacityReservation>;
+).annotate({ identifier: "FleetCapacityReservation" }) as any as S.Schema<FleetCapacityReservation>;
 export type FleetCapacityReservationSet = FleetCapacityReservation[];
 export const FleetCapacityReservationSet = /*@__PURE__*/ S.Array(
   FleetCapacityReservation.pipe(T.XmlName("item")).annotate({
@@ -8755,16 +8846,16 @@ export interface ConnectionLogOptions {
   Enabled?: boolean;
   CloudwatchLogGroup?: string;
   CloudwatchLogStream?: string;
+  IncludeAuthorizationPolicyContext?: boolean;
 }
 export const ConnectionLogOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     CloudwatchLogGroup: S.optional(S.String),
     CloudwatchLogStream: S.optional(S.String),
+    IncludeAuthorizationPolicyContext: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ConnectionLogOptions",
-}) as any as S.Schema<ConnectionLogOptions>;
+).annotate({ identifier: "ConnectionLogOptions" }) as any as S.Schema<ConnectionLogOptions>;
 export type TransportProtocol = "tcp" | "udp" | (string & {});
 export const TransportProtocol = S.String;
 
@@ -8776,25 +8867,15 @@ export interface ClientConnectOptions {
   LambdaFunctionArn?: string;
 }
 export const ClientConnectOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    LambdaFunctionArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ClientConnectOptions",
-}) as any as S.Schema<ClientConnectOptions>;
+  S.Struct({ Enabled: S.optional(S.Boolean), LambdaFunctionArn: S.optional(S.String) }),
+).annotate({ identifier: "ClientConnectOptions" }) as any as S.Schema<ClientConnectOptions>;
 export interface ClientLoginBannerOptions {
   Enabled?: boolean;
   BannerText?: string;
 }
 export const ClientLoginBannerOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    BannerText: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ClientLoginBannerOptions",
-}) as any as S.Schema<ClientLoginBannerOptions>;
+  S.Struct({ Enabled: S.optional(S.Boolean), BannerText: S.optional(S.String) }),
+).annotate({ identifier: "ClientLoginBannerOptions" }) as any as S.Schema<ClientLoginBannerOptions>;
 export interface ClientRouteEnforcementOptions {
   Enforced?: boolean;
 }
@@ -8831,6 +8912,39 @@ export const TransitGatewayConfigurationInputStructure = /*@__PURE__*/ S.suspend
 ).annotate({
   identifier: "TransitGatewayConfigurationInputStructure",
 }) as any as S.Schema<TransitGatewayConfigurationInputStructure>;
+export type ClientVpnDeviceTrustProviderType = "crowdstrike" | "jamf" | "jumpcloud" | (string & {});
+export const ClientVpnDeviceTrustProviderType = S.String;
+
+export interface ClientVpnTrustProviderRequest {
+  TrustProviderType?: ClientVpnDeviceTrustProviderType;
+  TenantId?: string;
+  PublicSigningKeyUrl?: string;
+}
+export const ClientVpnTrustProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TrustProviderType: S.optional(ClientVpnDeviceTrustProviderType),
+    TenantId: S.optional(S.String),
+    PublicSigningKeyUrl: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ClientVpnTrustProviderRequest",
+}) as any as S.Schema<ClientVpnTrustProviderRequest>;
+export type ClientVpnTrustProviderRequestList = ClientVpnTrustProviderRequest[];
+export const ClientVpnTrustProviderRequestList = /*@__PURE__*/ S.Array(
+  ClientVpnTrustProviderRequest.pipe(T.XmlName("item")).annotate({
+    identifier: "ClientVpnTrustProviderRequest",
+  }),
+);
+export interface DevicePostureOptions {
+  TrustProviders?: ClientVpnTrustProviderRequest[];
+  Enabled?: boolean;
+}
+export const DevicePostureOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TrustProviders: S.optional(ClientVpnTrustProviderRequestList).pipe(T.XmlName("TrustProvider")),
+    Enabled: S.optional(S.Boolean),
+  }),
+).annotate({ identifier: "DevicePostureOptions" }) as any as S.Schema<DevicePostureOptions>;
 export interface CreateClientVpnEndpointRequest {
   ClientCidrBlock?: string;
   ServerCertificateArn?: string;
@@ -8855,6 +8969,7 @@ export interface CreateClientVpnEndpointRequest {
   EndpointIpAddressType?: EndpointIpAddressType;
   TrafficIpAddressType?: TrafficIpAddressType;
   TransitGatewayConfiguration?: TransitGatewayConfigurationInputStructure;
+  DevicePostureOptions?: DevicePostureOptions;
 }
 export const CreateClientVpnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -8883,6 +8998,7 @@ export const CreateClientVpnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     EndpointIpAddressType: S.optional(EndpointIpAddressType),
     TrafficIpAddressType: S.optional(TrafficIpAddressType),
     TransitGatewayConfiguration: S.optional(TransitGatewayConfigurationInputStructure),
+    DevicePostureOptions: S.optional(DevicePostureOptions),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClientVpnEndpointRequest",
@@ -8905,9 +9021,7 @@ export const ClientVpnEndpointStatus = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(ClientVpnEndpointStatusCode).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "ClientVpnEndpointStatus",
-}) as any as S.Schema<ClientVpnEndpointStatus>;
+).annotate({ identifier: "ClientVpnEndpointStatus" }) as any as S.Schema<ClientVpnEndpointStatus>;
 export interface CreateClientVpnEndpointResult {
   ClientVpnEndpointId?: string;
   Status?: ClientVpnEndpointStatus;
@@ -8964,9 +9078,7 @@ export const ClientVpnRouteStatus = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(ClientVpnRouteStatusCode).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "ClientVpnRouteStatus",
-}) as any as S.Schema<ClientVpnRouteStatus>;
+).annotate({ identifier: "ClientVpnRouteStatus" }) as any as S.Schema<ClientVpnRouteStatus>;
 export interface CreateClientVpnRouteResult {
   Status?: ClientVpnRouteStatus;
 }
@@ -8991,9 +9103,7 @@ export const CreateCoipCidrRequest = /*@__PURE__*/ S.suspend(() =>
     CoipPoolId: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCoipCidrRequest",
-}) as any as S.Schema<CreateCoipCidrRequest>;
+).annotate({ identifier: "CreateCoipCidrRequest" }) as any as S.Schema<CreateCoipCidrRequest>;
 export interface CoipCidr {
   Cidr?: string;
   CoipPoolId?: string;
@@ -9018,9 +9128,7 @@ export const CreateCoipCidrResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("coipCidr"), T.Ec2QueryName("CoipCidr"))
       .annotate({ identifier: "CoipCidr" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateCoipCidrResult",
-}) as any as S.Schema<CreateCoipCidrResult>;
+).annotate({ identifier: "CreateCoipCidrResult" }) as any as S.Schema<CreateCoipCidrResult>;
 export type LocalGatewayRoutetableId = string;
 export interface CreateCoipPoolRequest {
   LocalGatewayRouteTableId?: string;
@@ -9033,9 +9141,7 @@ export const CreateCoipPoolRequest = /*@__PURE__*/ S.suspend(() =>
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCoipPoolRequest",
-}) as any as S.Schema<CreateCoipPoolRequest>;
+).annotate({ identifier: "CreateCoipPoolRequest" }) as any as S.Schema<CreateCoipPoolRequest>;
 export interface CoipPool {
   PoolId?: string;
   PoolCidrs?: string[];
@@ -9067,9 +9173,7 @@ export const CreateCoipPoolResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("coipPool"), T.Ec2QueryName("CoipPool"))
       .annotate({ identifier: "CoipPool" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateCoipPoolResult",
-}) as any as S.Schema<CreateCoipPoolResult>;
+).annotate({ identifier: "CreateCoipPoolResult" }) as any as S.Schema<CreateCoipPoolResult>;
 export type GatewayType = "ipsec.1" | (string & {});
 export const GatewayType = S.String;
 
@@ -9131,9 +9235,7 @@ export const CustomerGateway = /*@__PURE__*/ S.suspend(() =>
     IpAddress: S.optional(S.String).pipe(T.XmlName("ipAddress"), T.Ec2QueryName("IpAddress")),
     BgpAsn: S.optional(S.String).pipe(T.XmlName("bgpAsn"), T.Ec2QueryName("BgpAsn")),
   }),
-).annotate({
-  identifier: "CustomerGateway",
-}) as any as S.Schema<CustomerGateway>;
+).annotate({ identifier: "CustomerGateway" }) as any as S.Schema<CustomerGateway>;
 export interface CreateCustomerGatewayResult {
   CustomerGateway?: CustomerGateway;
 }
@@ -9208,9 +9310,7 @@ export const BlockPublicAccessStates = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InternetGatewayBlockMode"),
     ),
   }),
-).annotate({
-  identifier: "BlockPublicAccessStates",
-}) as any as S.Schema<BlockPublicAccessStates>;
+).annotate({ identifier: "BlockPublicAccessStates" }) as any as S.Schema<BlockPublicAccessStates>;
 export type SubnetState =
   | "pending"
   | "available"
@@ -9331,9 +9431,7 @@ export const CreateDefaultVpcRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DryRun: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateDefaultVpcRequest",
-}) as any as S.Schema<CreateDefaultVpcRequest>;
+).annotate({ identifier: "CreateDefaultVpcRequest" }) as any as S.Schema<CreateDefaultVpcRequest>;
 export type Tenancy = "default" | "dedicated" | "host" | (string & {});
 export const Tenancy = S.String;
 
@@ -9459,9 +9557,7 @@ export const VpcEncryptionControl = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "VpcEncryptionControlExclusions" }),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "VpcEncryptionControl",
-}) as any as S.Schema<VpcEncryptionControl>;
+).annotate({ identifier: "VpcEncryptionControl" }) as any as S.Schema<VpcEncryptionControl>;
 export type VpcState = "pending" | "available" | "deleting" | (string & {});
 export const VpcState = S.String;
 
@@ -9520,9 +9616,7 @@ export const CreateDefaultVpcResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("vpc"), T.Ec2QueryName("Vpc"))
       .annotate({ identifier: "Vpc" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateDefaultVpcResult",
-}) as any as S.Schema<CreateDefaultVpcResult>;
+).annotate({ identifier: "CreateDefaultVpcResult" }) as any as S.Schema<CreateDefaultVpcResult>;
 export type SensitiveMacCredentials = string | redacted.Redacted<string>;
 export interface CreateDelegateMacVolumeOwnershipTaskRequest {
   ClientToken?: string;
@@ -9644,9 +9738,7 @@ export const MacModificationTask = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TaskType"),
     ),
   }),
-).annotate({
-  identifier: "MacModificationTask",
-}) as any as S.Schema<MacModificationTask>;
+).annotate({ identifier: "MacModificationTask" }) as any as S.Schema<MacModificationTask>;
 export interface CreateDelegateMacVolumeOwnershipTaskResult {
   MacModificationTask?: MacModificationTask;
 }
@@ -9668,14 +9760,10 @@ export const NewDhcpConfiguration = /*@__PURE__*/ S.suspend(() =>
     Key: S.optional(S.String).pipe(T.XmlName("key"), T.Ec2QueryName("Key")),
     Values: S.optional(ValueStringList).pipe(T.XmlName("Value")),
   }),
-).annotate({
-  identifier: "NewDhcpConfiguration",
-}) as any as S.Schema<NewDhcpConfiguration>;
+).annotate({ identifier: "NewDhcpConfiguration" }) as any as S.Schema<NewDhcpConfiguration>;
 export type NewDhcpConfigurationList = NewDhcpConfiguration[];
 export const NewDhcpConfigurationList = /*@__PURE__*/ S.Array(
-  NewDhcpConfiguration.pipe(T.XmlName("item")).annotate({
-    identifier: "NewDhcpConfiguration",
-  }),
+  NewDhcpConfiguration.pipe(T.XmlName("item")).annotate({ identifier: "NewDhcpConfiguration" }),
 );
 export interface CreateDhcpOptionsRequest {
   DhcpConfigurations?: NewDhcpConfiguration[];
@@ -9691,22 +9779,16 @@ export const CreateDhcpOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDhcpOptionsRequest",
-}) as any as S.Schema<CreateDhcpOptionsRequest>;
+).annotate({ identifier: "CreateDhcpOptionsRequest" }) as any as S.Schema<CreateDhcpOptionsRequest>;
 export interface AttributeValue {
   Value?: string;
 }
 export const AttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({ identifier: "AttributeValue" }) as any as S.Schema<AttributeValue>;
 export type DhcpConfigurationValueList = AttributeValue[];
 export const DhcpConfigurationValueList = /*@__PURE__*/ S.Array(
-  AttributeValue.pipe(T.XmlName("item")).annotate({
-    identifier: "AttributeValue",
-  }),
+  AttributeValue.pipe(T.XmlName("item")).annotate({ identifier: "AttributeValue" }),
 );
 export interface DhcpConfiguration {
   Key?: string;
@@ -9720,14 +9802,10 @@ export const DhcpConfiguration = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ValueSet"),
     ),
   }),
-).annotate({
-  identifier: "DhcpConfiguration",
-}) as any as S.Schema<DhcpConfiguration>;
+).annotate({ identifier: "DhcpConfiguration" }) as any as S.Schema<DhcpConfiguration>;
 export type DhcpConfigurationList = DhcpConfiguration[];
 export const DhcpConfigurationList = /*@__PURE__*/ S.Array(
-  DhcpConfiguration.pipe(T.XmlName("item")).annotate({
-    identifier: "DhcpConfiguration",
-  }),
+  DhcpConfiguration.pipe(T.XmlName("item")).annotate({ identifier: "DhcpConfiguration" }),
 );
 export interface DhcpOptions {
   OwnerId?: string;
@@ -9758,9 +9836,7 @@ export const CreateDhcpOptionsResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("dhcpOptions"), T.Ec2QueryName("DhcpOptions"))
       .annotate({ identifier: "DhcpOptions" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateDhcpOptionsResult",
-}) as any as S.Schema<CreateDhcpOptionsResult>;
+).annotate({ identifier: "CreateDhcpOptionsResult" }) as any as S.Schema<CreateDhcpOptionsResult>;
 export interface CreateEgressOnlyInternetGatewayRequest {
   ClientToken?: string;
   DryRun?: boolean;
@@ -9858,9 +9934,7 @@ export interface FleetSpotMaintenanceStrategiesRequest {
   CapacityRebalance?: FleetSpotCapacityRebalanceRequest;
 }
 export const FleetSpotMaintenanceStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CapacityRebalance: S.optional(FleetSpotCapacityRebalanceRequest),
-  }),
+  S.Struct({ CapacityRebalance: S.optional(FleetSpotCapacityRebalanceRequest) }),
 ).annotate({
   identifier: "FleetSpotMaintenanceStrategiesRequest",
 }) as any as S.Schema<FleetSpotMaintenanceStrategiesRequest>;
@@ -9888,9 +9962,7 @@ export const SpotOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     MinTargetCapacity: S.optional(S.Number),
     MaxTotalPrice: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SpotOptionsRequest",
-}) as any as S.Schema<SpotOptionsRequest>;
+).annotate({ identifier: "SpotOptionsRequest" }) as any as S.Schema<SpotOptionsRequest>;
 export type FleetOnDemandAllocationStrategy = "lowest-price" | "prioritized" | (string & {});
 export const FleetOnDemandAllocationStrategy = S.String;
 
@@ -9903,9 +9975,7 @@ export interface CapacityReservationOptionsRequest {
   UsageStrategy?: FleetCapacityReservationUsageStrategy;
 }
 export const CapacityReservationOptionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    UsageStrategy: S.optional(FleetCapacityReservationUsageStrategy),
-  }),
+  S.Struct({ UsageStrategy: S.optional(FleetCapacityReservationUsageStrategy) }),
 ).annotate({
   identifier: "CapacityReservationOptionsRequest",
 }) as any as S.Schema<CapacityReservationOptionsRequest>;
@@ -9926,9 +9996,7 @@ export const OnDemandOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     MinTargetCapacity: S.optional(S.Number),
     MaxTotalPrice: S.optional(S.String),
   }),
-).annotate({
-  identifier: "OnDemandOptionsRequest",
-}) as any as S.Schema<OnDemandOptionsRequest>;
+).annotate({ identifier: "OnDemandOptionsRequest" }) as any as S.Schema<OnDemandOptionsRequest>;
 export type ReservedCapacityAllocationStrategy = "prioritized" | (string & {});
 export const ReservedCapacityAllocationStrategy = S.String;
 
@@ -10146,18 +10214,14 @@ export interface VCpuCountRangeRequest {
 }
 export const VCpuCountRangeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "VCpuCountRangeRequest",
-}) as any as S.Schema<VCpuCountRangeRequest>;
+).annotate({ identifier: "VCpuCountRangeRequest" }) as any as S.Schema<VCpuCountRangeRequest>;
 export interface MemoryMiBRequest {
   Min?: number;
   Max?: number;
 }
 export const MemoryMiBRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "MemoryMiBRequest",
-}) as any as S.Schema<MemoryMiBRequest>;
+).annotate({ identifier: "MemoryMiBRequest" }) as any as S.Schema<MemoryMiBRequest>;
 export type CpuManufacturer = "intel" | "amd" | "amazon-web-services" | "apple" | (string & {});
 export const CpuManufacturer = S.String;
 
@@ -10169,9 +10233,7 @@ export interface MemoryGiBPerVCpuRequest {
 }
 export const MemoryGiBPerVCpuRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "MemoryGiBPerVCpuRequest",
-}) as any as S.Schema<MemoryGiBPerVCpuRequest>;
+).annotate({ identifier: "MemoryGiBPerVCpuRequest" }) as any as S.Schema<MemoryGiBPerVCpuRequest>;
 export type ExcludedInstanceType = string;
 export type ExcludedInstanceTypeSet = string[];
 export const ExcludedInstanceTypeSet = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
@@ -10234,9 +10296,7 @@ export interface AcceleratorCountRequest {
 }
 export const AcceleratorCountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Min: S.optional(S.Number), Max: S.optional(S.Number) }),
-).annotate({
-  identifier: "AcceleratorCountRequest",
-}) as any as S.Schema<AcceleratorCountRequest>;
+).annotate({ identifier: "AcceleratorCountRequest" }) as any as S.Schema<AcceleratorCountRequest>;
 export type AcceleratorManufacturer =
   | "amazon-web-services"
   | "amd"
@@ -10521,9 +10581,7 @@ export const CreateFleetRequest = /*@__PURE__*/ S.suspend(() =>
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
     Context: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFleetRequest",
-}) as any as S.Schema<CreateFleetRequest>;
+).annotate({ identifier: "CreateFleetRequest" }) as any as S.Schema<CreateFleetRequest>;
 export type FleetId = string;
 export interface FleetLaunchTemplateSpecification {
   LaunchTemplateId?: string;
@@ -10552,9 +10610,7 @@ export const PlacementResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     GroupName: S.optional(S.String).pipe(T.XmlName("groupName"), T.Ec2QueryName("GroupName")),
   }),
-).annotate({
-  identifier: "PlacementResponse",
-}) as any as S.Schema<PlacementResponse>;
+).annotate({ identifier: "PlacementResponse" }) as any as S.Schema<PlacementResponse>;
 export interface VCpuCountRange {
   Min?: number;
   Max?: number;
@@ -10584,9 +10640,7 @@ export const MemoryGiBPerVCpu = /*@__PURE__*/ S.suspend(() =>
     Min: S.optional(S.Number).pipe(T.XmlName("min"), T.Ec2QueryName("Min")),
     Max: S.optional(S.Number).pipe(T.XmlName("max"), T.Ec2QueryName("Max")),
   }),
-).annotate({
-  identifier: "MemoryGiBPerVCpu",
-}) as any as S.Schema<MemoryGiBPerVCpu>;
+).annotate({ identifier: "MemoryGiBPerVCpu" }) as any as S.Schema<MemoryGiBPerVCpu>;
 export interface NetworkInterfaceCount {
   Min?: number;
   Max?: number;
@@ -10596,9 +10650,7 @@ export const NetworkInterfaceCount = /*@__PURE__*/ S.suspend(() =>
     Min: S.optional(S.Number).pipe(T.XmlName("min"), T.Ec2QueryName("Min")),
     Max: S.optional(S.Number).pipe(T.XmlName("max"), T.Ec2QueryName("Max")),
   }),
-).annotate({
-  identifier: "NetworkInterfaceCount",
-}) as any as S.Schema<NetworkInterfaceCount>;
+).annotate({ identifier: "NetworkInterfaceCount" }) as any as S.Schema<NetworkInterfaceCount>;
 export interface TotalLocalStorageGB {
   Min?: number;
   Max?: number;
@@ -10608,9 +10660,7 @@ export const TotalLocalStorageGB = /*@__PURE__*/ S.suspend(() =>
     Min: S.optional(S.Number).pipe(T.XmlName("min"), T.Ec2QueryName("Min")),
     Max: S.optional(S.Number).pipe(T.XmlName("max"), T.Ec2QueryName("Max")),
   }),
-).annotate({
-  identifier: "TotalLocalStorageGB",
-}) as any as S.Schema<TotalLocalStorageGB>;
+).annotate({ identifier: "TotalLocalStorageGB" }) as any as S.Schema<TotalLocalStorageGB>;
 export interface BaselineEbsBandwidthMbps {
   Min?: number;
   Max?: number;
@@ -10620,9 +10670,7 @@ export const BaselineEbsBandwidthMbps = /*@__PURE__*/ S.suspend(() =>
     Min: S.optional(S.Number).pipe(T.XmlName("min"), T.Ec2QueryName("Min")),
     Max: S.optional(S.Number).pipe(T.XmlName("max"), T.Ec2QueryName("Max")),
   }),
-).annotate({
-  identifier: "BaselineEbsBandwidthMbps",
-}) as any as S.Schema<BaselineEbsBandwidthMbps>;
+).annotate({ identifier: "BaselineEbsBandwidthMbps" }) as any as S.Schema<BaselineEbsBandwidthMbps>;
 export interface AcceleratorCount {
   Min?: number;
   Max?: number;
@@ -10632,9 +10680,7 @@ export const AcceleratorCount = /*@__PURE__*/ S.suspend(() =>
     Min: S.optional(S.Number).pipe(T.XmlName("min"), T.Ec2QueryName("Min")),
     Max: S.optional(S.Number).pipe(T.XmlName("max"), T.Ec2QueryName("Max")),
   }),
-).annotate({
-  identifier: "AcceleratorCount",
-}) as any as S.Schema<AcceleratorCount>;
+).annotate({ identifier: "AcceleratorCount" }) as any as S.Schema<AcceleratorCount>;
 export interface AcceleratorTotalMemoryMiB {
   Min?: number;
   Max?: number;
@@ -10656,9 +10702,7 @@ export const NetworkBandwidthGbps = /*@__PURE__*/ S.suspend(() =>
     Min: S.optional(S.Number).pipe(T.XmlName("min"), T.Ec2QueryName("Min")),
     Max: S.optional(S.Number).pipe(T.XmlName("max"), T.Ec2QueryName("Max")),
   }),
-).annotate({
-  identifier: "NetworkBandwidthGbps",
-}) as any as S.Schema<NetworkBandwidthGbps>;
+).annotate({ identifier: "NetworkBandwidthGbps" }) as any as S.Schema<NetworkBandwidthGbps>;
 export interface PerformanceFactorReference {
   InstanceFamily?: string;
 }
@@ -10688,9 +10732,7 @@ export const CpuPerformanceFactor = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ReferenceSet"),
     ),
   }),
-).annotate({
-  identifier: "CpuPerformanceFactor",
-}) as any as S.Schema<CpuPerformanceFactor>;
+).annotate({ identifier: "CpuPerformanceFactor" }) as any as S.Schema<CpuPerformanceFactor>;
 export interface BaselinePerformanceFactors {
   Cpu?: CpuPerformanceFactor;
 }
@@ -10825,9 +10867,7 @@ export const InstanceRequirements = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RequireEncryptionInTransit"),
     ),
   }),
-).annotate({
-  identifier: "InstanceRequirements",
-}) as any as S.Schema<InstanceRequirements>;
+).annotate({ identifier: "InstanceRequirements" }) as any as S.Schema<InstanceRequirements>;
 export interface EbsBlockDeviceResponse {
   Encrypted?: boolean;
   DeleteOnTermination?: boolean;
@@ -10852,9 +10892,7 @@ export const EbsBlockDeviceResponse = /*@__PURE__*/ S.suspend(() =>
     VolumeSize: S.optional(S.Number).pipe(T.XmlName("volumeSize"), T.Ec2QueryName("VolumeSize")),
     VolumeType: S.optional(VolumeType).pipe(T.XmlName("volumeType"), T.Ec2QueryName("VolumeType")),
   }),
-).annotate({
-  identifier: "EbsBlockDeviceResponse",
-}) as any as S.Schema<EbsBlockDeviceResponse>;
+).annotate({ identifier: "EbsBlockDeviceResponse" }) as any as S.Schema<EbsBlockDeviceResponse>;
 export interface BlockDeviceMappingResponse {
   DeviceName?: string;
   VirtualName?: string;
@@ -10973,14 +11011,10 @@ export const CreateFleetError_ = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ErrorMessage"),
     ),
   }),
-).annotate({
-  identifier: "CreateFleetError",
-}) as any as S.Schema<CreateFleetError_>;
+).annotate({ identifier: "CreateFleetError" }) as any as S.Schema<CreateFleetError_>;
 export type CreateFleetErrorsSet = CreateFleetError_[];
 export const CreateFleetErrorsSet = /*@__PURE__*/ S.Array(
-  CreateFleetError_.pipe(T.XmlName("item")).annotate({
-    identifier: "CreateFleetError",
-  }),
+  CreateFleetError_.pipe(T.XmlName("item")).annotate({ identifier: "CreateFleetError" }),
 );
 export type InstanceIdsSet = string[];
 export const InstanceIdsSet = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
@@ -11025,14 +11059,10 @@ export const CreateFleetInstance = /*@__PURE__*/ S.suspend(() =>
     ),
     SubnetId: S.optional(S.String).pipe(T.XmlName("subnetId"), T.Ec2QueryName("SubnetId")),
   }),
-).annotate({
-  identifier: "CreateFleetInstance",
-}) as any as S.Schema<CreateFleetInstance>;
+).annotate({ identifier: "CreateFleetInstance" }) as any as S.Schema<CreateFleetInstance>;
 export type CreateFleetInstancesSet = CreateFleetInstance[];
 export const CreateFleetInstancesSet = /*@__PURE__*/ S.Array(
-  CreateFleetInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "CreateFleetInstance",
-  }),
+  CreateFleetInstance.pipe(T.XmlName("item")).annotate({ identifier: "CreateFleetInstance" }),
 );
 export interface CreateFleetResult {
   FleetId?: string;
@@ -11051,9 +11081,7 @@ export const CreateFleetResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("FleetInstanceSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateFleetResult",
-}) as any as S.Schema<CreateFleetResult>;
+).annotate({ identifier: "CreateFleetResult" }) as any as S.Schema<CreateFleetResult>;
 export type FlowLogResourceId = string;
 export type FlowLogResourceIds = string[];
 export const FlowLogResourceIds = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
@@ -11159,9 +11187,7 @@ export const CreateFlowLogsRequest = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("TagFieldSpecification"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFlowLogsRequest",
-}) as any as S.Schema<CreateFlowLogsRequest>;
+).annotate({ identifier: "CreateFlowLogsRequest" }) as any as S.Schema<CreateFlowLogsRequest>;
 export interface CreateFlowLogsResult {
   ClientToken?: string;
   FlowLogIds?: string[];
@@ -11179,18 +11205,14 @@ export const CreateFlowLogsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Unsuccessful"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateFlowLogsResult",
-}) as any as S.Schema<CreateFlowLogsResult>;
+).annotate({ identifier: "CreateFlowLogsResult" }) as any as S.Schema<CreateFlowLogsResult>;
 export interface StorageLocation {
   Bucket?: string;
   Key?: string;
 }
 export const StorageLocation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Bucket: S.optional(S.String), Key: S.optional(S.String) }),
-).annotate({
-  identifier: "StorageLocation",
-}) as any as S.Schema<StorageLocation>;
+).annotate({ identifier: "StorageLocation" }) as any as S.Schema<StorageLocation>;
 export interface CreateFpgaImageRequest {
   DryRun?: boolean;
   InputStorageLocation?: StorageLocation;
@@ -11210,9 +11232,7 @@ export const CreateFpgaImageRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateFpgaImageRequest",
-}) as any as S.Schema<CreateFpgaImageRequest>;
+).annotate({ identifier: "CreateFpgaImageRequest" }) as any as S.Schema<CreateFpgaImageRequest>;
 export interface CreateFpgaImageResult {
   FpgaImageId?: string;
   FpgaImageGlobalId?: string;
@@ -11225,11 +11245,12 @@ export const CreateFpgaImageResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("FpgaImageGlobalId"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateFpgaImageResult",
-}) as any as S.Schema<CreateFpgaImageResult>;
+).annotate({ identifier: "CreateFpgaImageResult" }) as any as S.Schema<CreateFpgaImageResult>;
 export type SnapshotLocationEnum = "regional" | "local" | (string & {});
 export const SnapshotLocationEnum = S.String;
+
+export type BootModeOverrideValues = "uefi" | (string & {});
+export const BootModeOverrideValues = S.String;
 
 export interface EbsBlockDevice {
   DeleteOnTermination?: boolean;
@@ -11284,9 +11305,7 @@ export const BlockDeviceMapping = /*@__PURE__*/ S.suspend(() =>
     DeviceName: S.optional(S.String).pipe(T.XmlName("deviceName"), T.Ec2QueryName("DeviceName")),
     VirtualName: S.optional(S.String).pipe(T.XmlName("virtualName"), T.Ec2QueryName("VirtualName")),
   }),
-).annotate({
-  identifier: "BlockDeviceMapping",
-}) as any as S.Schema<BlockDeviceMapping>;
+).annotate({ identifier: "BlockDeviceMapping" }) as any as S.Schema<BlockDeviceMapping>;
 export type BlockDeviceMappingRequestList = BlockDeviceMapping[];
 export const BlockDeviceMappingRequestList = /*@__PURE__*/ S.Array(
   BlockDeviceMapping.pipe(T.XmlName("BlockDeviceMapping")).annotate({
@@ -11296,6 +11315,7 @@ export const BlockDeviceMappingRequestList = /*@__PURE__*/ S.Array(
 export interface CreateImageRequest {
   TagSpecifications?: TagSpecification[];
   SnapshotLocation?: SnapshotLocationEnum;
+  BootModeOverride?: BootModeOverrideValues;
   DryRun?: boolean;
   InstanceId?: string;
   Name?: string;
@@ -11307,6 +11327,7 @@ export const CreateImageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
     SnapshotLocation: S.optional(SnapshotLocationEnum),
+    BootModeOverride: S.optional(BootModeOverrideValues),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     InstanceId: S.optional(S.String).pipe(T.XmlName("instanceId"), T.Ec2QueryName("InstanceId")),
     Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
@@ -11317,9 +11338,7 @@ export const CreateImageRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("BlockDeviceMapping"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateImageRequest",
-}) as any as S.Schema<CreateImageRequest>;
+).annotate({ identifier: "CreateImageRequest" }) as any as S.Schema<CreateImageRequest>;
 export interface CreateImageResult {
   ImageId?: string;
 }
@@ -11327,9 +11346,7 @@ export const CreateImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ImageId: S.optional(S.String).pipe(T.XmlName("imageId"), T.Ec2QueryName("ImageId")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateImageResult",
-}) as any as S.Schema<CreateImageResult>;
+).annotate({ identifier: "CreateImageResult" }) as any as S.Schema<CreateImageResult>;
 export type ImageUsageResourceTypeName = string;
 export type ImageUsageResourceTypeOptionValue = string;
 export type ImageUsageResourceTypeOptionValuesList = string[];
@@ -11712,9 +11729,7 @@ export const InstanceExportDetails = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TargetEnvironment"),
     ),
   }),
-).annotate({
-  identifier: "InstanceExportDetails",
-}) as any as S.Schema<InstanceExportDetails>;
+).annotate({ identifier: "InstanceExportDetails" }) as any as S.Schema<InstanceExportDetails>;
 export type ExportTaskState = "active" | "cancelling" | "cancelled" | "completed" | (string & {});
 export const ExportTaskState = S.String;
 
@@ -11791,9 +11806,7 @@ export const InternetGateway = /*@__PURE__*/ S.suspend(() =>
     OwnerId: S.optional(S.String).pipe(T.XmlName("ownerId"), T.Ec2QueryName("OwnerId")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "InternetGateway",
-}) as any as S.Schema<InternetGateway>;
+).annotate({ identifier: "InternetGateway" }) as any as S.Schema<InternetGateway>;
 export interface CreateInternetGatewayResult {
   InternetGateway?: InternetGateway;
 }
@@ -11812,6 +11825,7 @@ export interface CreateInterruptibleCapacityReservationAllocationRequest {
   ClientToken?: string;
   DryRun?: boolean;
   TagSpecifications?: TagSpecification[];
+  ZeroSizePreference?: ZeroSizePreference;
 }
 export const CreateInterruptibleCapacityReservationAllocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -11820,6 +11834,7 @@ export const CreateInterruptibleCapacityReservationAllocationRequest = /*@__PURE
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     DryRun: S.optional(S.Boolean),
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
+    ZeroSizePreference: S.optional(ZeroSizePreference),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateInterruptibleCapacityReservationAllocationRequest",
@@ -11857,9 +11872,7 @@ export interface AddIpamOperatingRegion {
 }
 export const AddIpamOperatingRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RegionName: S.optional(S.String) }),
-).annotate({
-  identifier: "AddIpamOperatingRegion",
-}) as any as S.Schema<AddIpamOperatingRegion>;
+).annotate({ identifier: "AddIpamOperatingRegion" }) as any as S.Schema<AddIpamOperatingRegion>;
 export type AddIpamOperatingRegionSet = AddIpamOperatingRegion[];
 export const AddIpamOperatingRegionSet = /*@__PURE__*/ S.Array(AddIpamOperatingRegion);
 export type IpamTier = "free" | "advanced" | (string & {});
@@ -11889,9 +11902,7 @@ export const CreateIpamRequest = /*@__PURE__*/ S.suspend(() =>
     EnablePrivateGua: S.optional(S.Boolean),
     MeteredAccount: S.optional(IpamMeteredAccount),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateIpamRequest",
-}) as any as S.Schema<CreateIpamRequest>;
+).annotate({ identifier: "CreateIpamRequest" }) as any as S.Schema<CreateIpamRequest>;
 export type IpamScopeId = string;
 export interface IpamOperatingRegion {
   RegionName?: string;
@@ -11900,14 +11911,10 @@ export const IpamOperatingRegion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     RegionName: S.optional(S.String).pipe(T.XmlName("regionName"), T.Ec2QueryName("RegionName")),
   }),
-).annotate({
-  identifier: "IpamOperatingRegion",
-}) as any as S.Schema<IpamOperatingRegion>;
+).annotate({ identifier: "IpamOperatingRegion" }) as any as S.Schema<IpamOperatingRegion>;
 export type IpamOperatingRegionSet = IpamOperatingRegion[];
 export const IpamOperatingRegionSet = /*@__PURE__*/ S.Array(
-  IpamOperatingRegion.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamOperatingRegion",
-  }),
+  IpamOperatingRegion.pipe(T.XmlName("item")).annotate({ identifier: "IpamOperatingRegion" }),
 );
 export type IpamState =
   | "create-in-progress"
@@ -12003,9 +12010,7 @@ export const CreateIpamResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipam"), T.Ec2QueryName("Ipam"))
       .annotate({ identifier: "Ipam" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateIpamResult",
-}) as any as S.Schema<CreateIpamResult>;
+).annotate({ identifier: "CreateIpamResult" }) as any as S.Schema<CreateIpamResult>;
 export interface CreateIpamExternalResourceVerificationTokenRequest {
   DryRun?: boolean;
   IpamId?: string;
@@ -12093,7 +12098,7 @@ export const CreateIpamExternalResourceVerificationTokenResult = /*@__PURE__*/ S
 ).annotate({
   identifier: "CreateIpamExternalResourceVerificationTokenResult",
 }) as any as S.Schema<CreateIpamExternalResourceVerificationTokenResult>;
-export type Rir = "ripe" | "apnic" | "arin" | "lacnic" | (string & {});
+export type Rir = "ripe" | "apnic" | "arin" | "lacnic" | "nicbr" | (string & {});
 export const Rir = S.String;
 
 export interface CreateIpamInternetRegistryAssociationRequest {
@@ -12125,6 +12130,9 @@ export type IpamInternetRegistryAssociationState =
   | "enable-in-progress"
   | "enable-complete"
   | "enable-failed"
+  | "disable-in-progress"
+  | "disable-complete"
+  | "disable-failed"
   | "delete-in-progress"
   | "delete-complete"
   | "delete-failed"
@@ -12141,6 +12149,7 @@ export interface IpamInternetRegistryAssociation {
   OrganizationHandle?: string;
   Description?: string;
   State?: IpamInternetRegistryAssociationState;
+  StateMessage?: string;
   ChildRequestXml?: string;
   Tags?: Tag[];
 }
@@ -12166,6 +12175,10 @@ export const IpamInternetRegistryAssociation = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(IpamInternetRegistryAssociationState).pipe(
       T.XmlName("state"),
       T.Ec2QueryName("State"),
+    ),
+    StateMessage: S.optional(S.String).pipe(
+      T.XmlName("stateMessage"),
+      T.Ec2QueryName("StateMessage"),
     ),
     ChildRequestXml: S.optional(S.String).pipe(
       T.XmlName("childRequestXml"),
@@ -12204,9 +12217,7 @@ export const CreateIpamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     IpamId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateIpamPolicyRequest",
-}) as any as S.Schema<CreateIpamPolicyRequest>;
+).annotate({ identifier: "CreateIpamPolicyRequest" }) as any as S.Schema<CreateIpamPolicyRequest>;
 export type IpamPolicyId = string;
 export type IpamPolicyState =
   | "create-in-progress"
@@ -12267,9 +12278,7 @@ export const CreateIpamPolicyResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamPolicy"), T.Ec2QueryName("IpamPolicy"))
       .annotate({ identifier: "IpamPolicy" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateIpamPolicyResult",
-}) as any as S.Schema<CreateIpamPolicyResult>;
+).annotate({ identifier: "CreateIpamPolicyResult" }) as any as S.Schema<CreateIpamPolicyResult>;
 export type AddressFamily = "ipv4" | "ipv6" | (string & {});
 export const AddressFamily = S.String;
 
@@ -12280,14 +12289,10 @@ export interface RequestIpamResourceTag {
 }
 export const RequestIpamResourceTag = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
-).annotate({
-  identifier: "RequestIpamResourceTag",
-}) as any as S.Schema<RequestIpamResourceTag>;
+).annotate({ identifier: "RequestIpamResourceTag" }) as any as S.Schema<RequestIpamResourceTag>;
 export type RequestIpamResourceTagList = RequestIpamResourceTag[];
 export const RequestIpamResourceTagList = /*@__PURE__*/ S.Array(
-  RequestIpamResourceTag.pipe(T.XmlName("item")).annotate({
-    identifier: "RequestIpamResourceTag",
-  }),
+  RequestIpamResourceTag.pipe(T.XmlName("item")).annotate({ identifier: "RequestIpamResourceTag" }),
 );
 export type IpamPoolAwsService = "ec2" | "global-services" | (string & {});
 export const IpamPoolAwsService = S.String;
@@ -12355,9 +12360,7 @@ export const CreateIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
     PublicIpSource: S.optional(IpamPoolPublicIpSource),
     SourceResource: S.optional(IpamPoolSourceResourceRequest),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateIpamPoolRequest",
-}) as any as S.Schema<CreateIpamPoolRequest>;
+).annotate({ identifier: "CreateIpamPoolRequest" }) as any as S.Schema<CreateIpamPoolRequest>;
 export type IpamScopeType = "public" | "private" | (string & {});
 export const IpamScopeType = S.String;
 
@@ -12386,14 +12389,10 @@ export const IpamResourceTag = /*@__PURE__*/ S.suspend(() =>
     Key: S.optional(S.String).pipe(T.XmlName("key"), T.Ec2QueryName("Key")),
     Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
   }),
-).annotate({
-  identifier: "IpamResourceTag",
-}) as any as S.Schema<IpamResourceTag>;
+).annotate({ identifier: "IpamResourceTag" }) as any as S.Schema<IpamResourceTag>;
 export type IpamResourceTagList = IpamResourceTag[];
 export const IpamResourceTagList = /*@__PURE__*/ S.Array(
-  IpamResourceTag.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamResourceTag",
-  }),
+  IpamResourceTag.pipe(T.XmlName("item")).annotate({ identifier: "IpamResourceTag" }),
 );
 export interface IpamPoolSourceResource {
   ResourceId?: string;
@@ -12417,9 +12416,7 @@ export const IpamPoolSourceResource = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ResourceOwner"),
     ),
   }),
-).annotate({
-  identifier: "IpamPoolSourceResource",
-}) as any as S.Schema<IpamPoolSourceResource>;
+).annotate({ identifier: "IpamPoolSourceResource" }) as any as S.Schema<IpamPoolSourceResource>;
 export interface IpamPool {
   OwnerId?: string;
   IpamPoolId?: string;
@@ -12521,9 +12518,7 @@ export const CreateIpamPoolResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamPool"), T.Ec2QueryName("IpamPool"))
       .annotate({ identifier: "IpamPool" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateIpamPoolResult",
-}) as any as S.Schema<CreateIpamPoolResult>;
+).annotate({ identifier: "CreateIpamPoolResult" }) as any as S.Schema<CreateIpamPoolResult>;
 export type IpamPrefixListResolverRuleType =
   | "static-cidr"
   | "ipam-resource-cidr"
@@ -12695,9 +12690,7 @@ export const IpamPrefixListResolver = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LastVersionCreationStatusMessage"),
     ),
   }),
-).annotate({
-  identifier: "IpamPrefixListResolver",
-}) as any as S.Schema<IpamPrefixListResolver>;
+).annotate({ identifier: "IpamPrefixListResolver" }) as any as S.Schema<IpamPrefixListResolver>;
 export interface CreateIpamPrefixListResolverResult {
   IpamPrefixListResolver?: IpamPrefixListResolver;
 }
@@ -12924,9 +12917,7 @@ export const IpamResourceDiscovery = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("OrganizationalUnitExclusionSet"),
     ),
   }),
-).annotate({
-  identifier: "IpamResourceDiscovery",
-}) as any as S.Schema<IpamResourceDiscovery>;
+).annotate({ identifier: "IpamResourceDiscovery" }) as any as S.Schema<IpamResourceDiscovery>;
 export interface CreateIpamResourceDiscoveryResult {
   IpamResourceDiscovery?: IpamResourceDiscovery;
 }
@@ -13015,9 +13006,7 @@ export const CreateIpamScopeRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ExternalAuthorityConfiguration: S.optional(ExternalAuthorityConfiguration),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateIpamScopeRequest",
-}) as any as S.Schema<CreateIpamScopeRequest>;
+).annotate({ identifier: "CreateIpamScopeRequest" }) as any as S.Schema<CreateIpamScopeRequest>;
 export type IpamScopeState =
   | "create-in-progress"
   | "create-complete"
@@ -13102,9 +13091,7 @@ export const CreateIpamScopeResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamScope"), T.Ec2QueryName("IpamScope"))
       .annotate({ identifier: "IpamScope" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateIpamScopeResult",
-}) as any as S.Schema<CreateIpamScopeResult>;
+).annotate({ identifier: "CreateIpamScopeResult" }) as any as S.Schema<CreateIpamScopeResult>;
 export type KeyType = "rsa" | "ed25519" | (string & {});
 export const KeyType = S.String;
 
@@ -13126,9 +13113,7 @@ export const CreateKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
     KeyFormat: S.optional(KeyFormat),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateKeyPairRequest",
-}) as any as S.Schema<CreateKeyPairRequest>;
+).annotate({ identifier: "CreateKeyPairRequest" }) as any as S.Schema<CreateKeyPairRequest>;
 export interface KeyPair {
   KeyPairId?: string;
   Tags?: Tag[];
@@ -13373,9 +13358,7 @@ export type LaunchTemplateInstanceNetworkInterfaceSpecificationRequestList =
 export const LaunchTemplateInstanceNetworkInterfaceSpecificationRequestList = /*@__PURE__*/ S.Array(
   LaunchTemplateInstanceNetworkInterfaceSpecificationRequest.pipe(
     T.XmlName("InstanceNetworkInterfaceSpecification"),
-  ).annotate({
-    identifier: "LaunchTemplateInstanceNetworkInterfaceSpecificationRequest",
-  }),
+  ).annotate({ identifier: "LaunchTemplateInstanceNetworkInterfaceSpecificationRequest" }),
 );
 export type KeyPairName = string;
 export interface LaunchTemplatesMonitoringRequest {
@@ -13441,9 +13424,7 @@ export interface ElasticGpuSpecification {
 }
 export const ElasticGpuSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: S.optional(S.String) }),
-).annotate({
-  identifier: "ElasticGpuSpecification",
-}) as any as S.Schema<ElasticGpuSpecification>;
+).annotate({ identifier: "ElasticGpuSpecification" }) as any as S.Schema<ElasticGpuSpecification>;
 export type ElasticGpuSpecificationList = ElasticGpuSpecification[];
 export const ElasticGpuSpecificationList = /*@__PURE__*/ S.Array(
   ElasticGpuSpecification.pipe(T.XmlName("ElasticGpuSpecification")).annotate({
@@ -13667,9 +13648,7 @@ export interface OperatorRequest {
 }
 export const OperatorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Principal: S.optional(S.String) }),
-).annotate({
-  identifier: "OperatorRequest",
-}) as any as S.Schema<OperatorRequest>;
+).annotate({ identifier: "OperatorRequest" }) as any as S.Schema<OperatorRequest>;
 export type InstanceBandwidthWeighting = "default" | "vpc-1" | "ebs-1" | (string & {});
 export const InstanceBandwidthWeighting = S.String;
 
@@ -13694,9 +13673,7 @@ export type SecondaryInterfacePrivateIpAddressSpecificationListRequest =
 export const SecondaryInterfacePrivateIpAddressSpecificationListRequest = /*@__PURE__*/ S.Array(
   SecondaryInterfacePrivateIpAddressSpecificationRequest.pipe(
     T.XmlName("SecondaryInterfacePrivateIpAddressSpecification"),
-  ).annotate({
-    identifier: "SecondaryInterfacePrivateIpAddressSpecificationRequest",
-  }),
+  ).annotate({ identifier: "SecondaryInterfacePrivateIpAddressSpecificationRequest" }),
 );
 export type SecondarySubnetId = string;
 export type SecondaryInterfaceType = "secondary" | (string & {});
@@ -13733,9 +13710,7 @@ export const LaunchTemplateInstanceSecondaryInterfaceSpecificationRequestList =
   /*@__PURE__*/ S.Array(
     LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest.pipe(
       T.XmlName("InstanceSecondaryInterfaceSpecification"),
-    ).annotate({
-      identifier: "LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest",
-    }),
+    ).annotate({ identifier: "LaunchTemplateInstanceSecondaryInterfaceSpecificationRequest" }),
   );
 export interface RequestLaunchTemplateData {
   KernelId?: string;
@@ -13899,14 +13874,10 @@ export const ValidationError = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "ValidationError",
-}) as any as S.Schema<ValidationError>;
+).annotate({ identifier: "ValidationError" }) as any as S.Schema<ValidationError>;
 export type ErrorSet = ValidationError[];
 export const ErrorSet = /*@__PURE__*/ S.Array(
-  ValidationError.pipe(T.XmlName("item")).annotate({
-    identifier: "ValidationError",
-  }),
+  ValidationError.pipe(T.XmlName("item")).annotate({ identifier: "ValidationError" }),
 );
 export interface ValidationWarning {
   Errors?: ValidationError[];
@@ -13915,9 +13886,7 @@ export const ValidationWarning = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Errors: S.optional(ErrorSet).pipe(T.XmlName("errorSet"), T.Ec2QueryName("ErrorSet")),
   }),
-).annotate({
-  identifier: "ValidationWarning",
-}) as any as S.Schema<ValidationWarning>;
+).annotate({ identifier: "ValidationWarning" }) as any as S.Schema<ValidationWarning>;
 export interface CreateLaunchTemplateResult {
   LaunchTemplate?: LaunchTemplate;
   Warning?: ValidationWarning;
@@ -14043,14 +14012,10 @@ export const InstanceIpv6Address = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("IsPrimaryIpv6"),
     ),
   }),
-).annotate({
-  identifier: "InstanceIpv6Address",
-}) as any as S.Schema<InstanceIpv6Address>;
+).annotate({ identifier: "InstanceIpv6Address" }) as any as S.Schema<InstanceIpv6Address>;
 export type InstanceIpv6AddressList = InstanceIpv6Address[];
 export const InstanceIpv6AddressList = /*@__PURE__*/ S.Array(
-  InstanceIpv6Address.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceIpv6Address",
-  }),
+  InstanceIpv6Address.pipe(T.XmlName("item")).annotate({ identifier: "InstanceIpv6Address" }),
 );
 export interface Ipv4PrefixSpecificationResponse {
   Ipv4Prefix?: string;
@@ -14303,9 +14268,7 @@ export const LaunchTemplatePlacement = /*@__PURE__*/ S.suspend(() =>
     ),
     GroupId: S.optional(S.String).pipe(T.XmlName("groupId"), T.Ec2QueryName("GroupId")),
   }),
-).annotate({
-  identifier: "LaunchTemplatePlacement",
-}) as any as S.Schema<LaunchTemplatePlacement>;
+).annotate({ identifier: "LaunchTemplatePlacement" }) as any as S.Schema<LaunchTemplatePlacement>;
 export interface LaunchTemplateTagSpecification {
   ResourceType?: ResourceType;
   Tags?: Tag[];
@@ -14331,9 +14294,7 @@ export interface ElasticGpuSpecificationResponse {
   Type?: string;
 }
 export const ElasticGpuSpecificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(S.String).pipe(T.XmlName("type"), T.Ec2QueryName("Type")),
-  }),
+  S.Struct({ Type: S.optional(S.String).pipe(T.XmlName("type"), T.Ec2QueryName("Type")) }),
 ).annotate({
   identifier: "ElasticGpuSpecificationResponse",
 }) as any as S.Schema<ElasticGpuSpecificationResponse>;
@@ -14413,9 +14374,7 @@ export const CreditSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CpuCredits: S.optional(S.String).pipe(T.XmlName("cpuCredits"), T.Ec2QueryName("CpuCredits")),
   }),
-).annotate({
-  identifier: "CreditSpecification",
-}) as any as S.Schema<CreditSpecification>;
+).annotate({ identifier: "CreditSpecification" }) as any as S.Schema<CreditSpecification>;
 export interface LaunchTemplateCpuOptions {
   CoreCount?: number;
   ThreadsPerCore?: number;
@@ -14438,9 +14397,7 @@ export const LaunchTemplateCpuOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NestedVirtualization"),
     ),
   }),
-).annotate({
-  identifier: "LaunchTemplateCpuOptions",
-}) as any as S.Schema<LaunchTemplateCpuOptions>;
+).annotate({ identifier: "LaunchTemplateCpuOptions" }) as any as S.Schema<LaunchTemplateCpuOptions>;
 export interface CapacityReservationTargetResponse {
   CapacityReservationId?: string;
   CapacityReservationResourceGroupArn?: string;
@@ -14717,9 +14674,7 @@ export const ResponseLaunchTemplateData = /*@__PURE__*/ S.suspend(() =>
     ),
     IamInstanceProfile: S.optional(LaunchTemplateIamInstanceProfileSpecification)
       .pipe(T.XmlName("iamInstanceProfile"), T.Ec2QueryName("IamInstanceProfile"))
-      .annotate({
-        identifier: "LaunchTemplateIamInstanceProfileSpecification",
-      }),
+      .annotate({ identifier: "LaunchTemplateIamInstanceProfileSpecification" }),
     BlockDeviceMappings: S.optional(LaunchTemplateBlockDeviceMappingList).pipe(
       T.XmlName("blockDeviceMappingSet"),
       T.Ec2QueryName("BlockDeviceMappingSet"),
@@ -14788,9 +14743,7 @@ export const ResponseLaunchTemplateData = /*@__PURE__*/ S.suspend(() =>
         T.XmlName("capacityReservationSpecification"),
         T.Ec2QueryName("CapacityReservationSpecification"),
       )
-      .annotate({
-        identifier: "LaunchTemplateCapacityReservationSpecificationResponse",
-      }),
+      .annotate({ identifier: "LaunchTemplateCapacityReservationSpecificationResponse" }),
     LicenseSpecifications: S.optional(LaunchTemplateLicenseList).pipe(
       T.XmlName("licenseSet"),
       T.Ec2QueryName("LicenseSet"),
@@ -14876,9 +14829,7 @@ export const LaunchTemplateVersion = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
   }),
-).annotate({
-  identifier: "LaunchTemplateVersion",
-}) as any as S.Schema<LaunchTemplateVersion>;
+).annotate({ identifier: "LaunchTemplateVersion" }) as any as S.Schema<LaunchTemplateVersion>;
 export interface CreateLaunchTemplateVersionResult {
   LaunchTemplateVersion?: LaunchTemplateVersion;
   Warning?: ValidationWarning;
@@ -14973,9 +14924,7 @@ export const LocalGatewayRoute = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("DestinationPrefixListId"),
     ),
   }),
-).annotate({
-  identifier: "LocalGatewayRoute",
-}) as any as S.Schema<LocalGatewayRoute>;
+).annotate({ identifier: "LocalGatewayRoute" }) as any as S.Schema<LocalGatewayRoute>;
 export interface CreateLocalGatewayRouteResult {
   Route?: LocalGatewayRoute;
 }
@@ -15052,9 +15001,7 @@ export const LocalGatewayRouteTable = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("stateReason"), T.Ec2QueryName("StateReason"))
       .annotate({ identifier: "StateReason" }),
   }),
-).annotate({
-  identifier: "LocalGatewayRouteTable",
-}) as any as S.Schema<LocalGatewayRouteTable>;
+).annotate({ identifier: "LocalGatewayRouteTable" }) as any as S.Schema<LocalGatewayRouteTable>;
 export interface CreateLocalGatewayRouteTableResult {
   LocalGatewayRouteTable?: LocalGatewayRouteTable;
 }
@@ -15137,9 +15084,7 @@ export const CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult 
           T.XmlName("localGatewayRouteTableVirtualInterfaceGroupAssociation"),
           T.Ec2QueryName("LocalGatewayRouteTableVirtualInterfaceGroupAssociation"),
         )
-        .annotate({
-          identifier: "LocalGatewayRouteTableVirtualInterfaceGroupAssociation",
-        }),
+        .annotate({ identifier: "LocalGatewayRouteTableVirtualInterfaceGroupAssociation" }),
     }).pipe(ns),
   ).annotate({
     identifier: "CreateLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult",
@@ -15479,9 +15424,7 @@ export interface AddPrefixListEntry {
 }
 export const AddPrefixListEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cidr: S.optional(S.String), Description: S.optional(S.String) }),
-).annotate({
-  identifier: "AddPrefixListEntry",
-}) as any as S.Schema<AddPrefixListEntry>;
+).annotate({ identifier: "AddPrefixListEntry" }) as any as S.Schema<AddPrefixListEntry>;
 export type AddPrefixListEntries = AddPrefixListEntry[];
 export const AddPrefixListEntries = /*@__PURE__*/ S.Array(AddPrefixListEntry);
 export interface CreateManagedPrefixListRequest {
@@ -15572,9 +15515,7 @@ export const ManagedPrefixList = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("IpamPrefixListResolverSyncEnabled"),
     ),
   }),
-).annotate({
-  identifier: "ManagedPrefixList",
-}) as any as S.Schema<ManagedPrefixList>;
+).annotate({ identifier: "ManagedPrefixList" }) as any as S.Schema<ManagedPrefixList>;
 export interface CreateManagedPrefixListResult {
   PrefixList?: ManagedPrefixList;
 }
@@ -15601,9 +15542,7 @@ export const AvailabilityZoneAddress = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZoneId: S.optional(S.String),
     AllocationIds: S.optional(AllocationIdList).pipe(T.XmlName("AllocationId")),
   }),
-).annotate({
-  identifier: "AvailabilityZoneAddress",
-}) as any as S.Schema<AvailabilityZoneAddress>;
+).annotate({ identifier: "AvailabilityZoneAddress" }) as any as S.Schema<AvailabilityZoneAddress>;
 export type AvailabilityZoneAddresses = AvailabilityZoneAddress[];
 export const AvailabilityZoneAddresses = /*@__PURE__*/ S.Array(
   AvailabilityZoneAddress.pipe(T.XmlName("AvailabilityZoneAddress")).annotate({
@@ -15646,9 +15585,7 @@ export const CreateNatGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     SecondaryPrivateIpAddresses: S.optional(IpList).pipe(T.XmlName("SecondaryPrivateIpAddress")),
     SecondaryPrivateIpAddressCount: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateNatGatewayRequest",
-}) as any as S.Schema<CreateNatGatewayRequest>;
+).annotate({ identifier: "CreateNatGatewayRequest" }) as any as S.Schema<CreateNatGatewayRequest>;
 export interface ProvisionedBandwidth {
   ProvisionTime?: Date;
   Provisioned?: string;
@@ -15670,9 +15607,7 @@ export const ProvisionedBandwidth = /*@__PURE__*/ S.suspend(() =>
     Requested: S.optional(S.String).pipe(T.XmlName("requested"), T.Ec2QueryName("Requested")),
     Status: S.optional(S.String).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "ProvisionedBandwidth",
-}) as any as S.Schema<ProvisionedBandwidth>;
+).annotate({ identifier: "ProvisionedBandwidth" }) as any as S.Schema<ProvisionedBandwidth>;
 export type NatGatewayState =
   | "pending"
   | "failed"
@@ -15833,9 +15768,7 @@ export const CreateNatGatewayResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("natGateway"), T.Ec2QueryName("NatGateway"))
       .annotate({ identifier: "NatGateway" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateNatGatewayResult",
-}) as any as S.Schema<CreateNatGatewayResult>;
+).annotate({ identifier: "CreateNatGatewayResult" }) as any as S.Schema<CreateNatGatewayResult>;
 export interface CreateNetworkAclRequest {
   TagSpecifications?: TagSpecification[];
   ClientToken?: string;
@@ -15849,9 +15782,7 @@ export const CreateNetworkAclRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateNetworkAclRequest",
-}) as any as S.Schema<CreateNetworkAclRequest>;
+).annotate({ identifier: "CreateNetworkAclRequest" }) as any as S.Schema<CreateNetworkAclRequest>;
 export interface NetworkAclAssociation {
   NetworkAclAssociationId?: string;
   NetworkAclId?: string;
@@ -15869,14 +15800,10 @@ export const NetworkAclAssociation = /*@__PURE__*/ S.suspend(() =>
     ),
     SubnetId: S.optional(S.String).pipe(T.XmlName("subnetId"), T.Ec2QueryName("SubnetId")),
   }),
-).annotate({
-  identifier: "NetworkAclAssociation",
-}) as any as S.Schema<NetworkAclAssociation>;
+).annotate({ identifier: "NetworkAclAssociation" }) as any as S.Schema<NetworkAclAssociation>;
 export type NetworkAclAssociationList = NetworkAclAssociation[];
 export const NetworkAclAssociationList = /*@__PURE__*/ S.Array(
-  NetworkAclAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "NetworkAclAssociation",
-  }),
+  NetworkAclAssociation.pipe(T.XmlName("item")).annotate({ identifier: "NetworkAclAssociation" }),
 );
 export interface IcmpTypeCode {
   Code?: number;
@@ -15929,14 +15856,10 @@ export const NetworkAclEntry = /*@__PURE__*/ S.suspend(() =>
     RuleAction: S.optional(RuleAction).pipe(T.XmlName("ruleAction"), T.Ec2QueryName("RuleAction")),
     RuleNumber: S.optional(S.Number).pipe(T.XmlName("ruleNumber"), T.Ec2QueryName("RuleNumber")),
   }),
-).annotate({
-  identifier: "NetworkAclEntry",
-}) as any as S.Schema<NetworkAclEntry>;
+).annotate({ identifier: "NetworkAclEntry" }) as any as S.Schema<NetworkAclEntry>;
 export type NetworkAclEntryList = NetworkAclEntry[];
 export const NetworkAclEntryList = /*@__PURE__*/ S.Array(
-  NetworkAclEntry.pipe(T.XmlName("item")).annotate({
-    identifier: "NetworkAclEntry",
-  }),
+  NetworkAclEntry.pipe(T.XmlName("item")).annotate({ identifier: "NetworkAclEntry" }),
 );
 export interface NetworkAcl {
   Associations?: NetworkAclAssociation[];
@@ -15978,9 +15901,7 @@ export const CreateNetworkAclResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "NetworkAcl" }),
     ClientToken: S.optional(S.String).pipe(T.XmlName("clientToken"), T.Ec2QueryName("ClientToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateNetworkAclResult",
-}) as any as S.Schema<CreateNetworkAclResult>;
+).annotate({ identifier: "CreateNetworkAclResult" }) as any as S.Schema<CreateNetworkAclResult>;
 export type NetworkAclId = string;
 export interface CreateNetworkAclEntryRequest {
   DryRun?: boolean;
@@ -16062,9 +15983,7 @@ export const ResourceStatementRequest = /*@__PURE__*/ S.suspend(() =>
     Resources: S.optional(ValueStringList).pipe(T.XmlName("Resource")),
     ResourceTypes: S.optional(ValueStringList).pipe(T.XmlName("ResourceType")),
   }),
-).annotate({
-  identifier: "ResourceStatementRequest",
-}) as any as S.Schema<ResourceStatementRequest>;
+).annotate({ identifier: "ResourceStatementRequest" }) as any as S.Schema<ResourceStatementRequest>;
 export interface PathStatementRequest {
   PacketHeaderStatement?: PacketHeaderStatementRequest;
   ResourceStatement?: ResourceStatementRequest;
@@ -16074,9 +15993,7 @@ export const PathStatementRequest = /*@__PURE__*/ S.suspend(() =>
     PacketHeaderStatement: S.optional(PacketHeaderStatementRequest),
     ResourceStatement: S.optional(ResourceStatementRequest),
   }),
-).annotate({
-  identifier: "PathStatementRequest",
-}) as any as S.Schema<PathStatementRequest>;
+).annotate({ identifier: "PathStatementRequest" }) as any as S.Schema<PathStatementRequest>;
 export interface ThroughResourcesStatementRequest {
   ResourceStatement?: ResourceStatementRequest;
 }
@@ -16104,14 +16021,10 @@ export const AccessScopePathRequest = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("ThroughResource"),
     ),
   }),
-).annotate({
-  identifier: "AccessScopePathRequest",
-}) as any as S.Schema<AccessScopePathRequest>;
+).annotate({ identifier: "AccessScopePathRequest" }) as any as S.Schema<AccessScopePathRequest>;
 export type AccessScopePathListRequest = AccessScopePathRequest[];
 export const AccessScopePathListRequest = /*@__PURE__*/ S.Array(
-  AccessScopePathRequest.pipe(T.XmlName("item")).annotate({
-    identifier: "AccessScopePathRequest",
-  }),
+  AccessScopePathRequest.pipe(T.XmlName("item")).annotate({ identifier: "AccessScopePathRequest" }),
 );
 export interface CreateNetworkInsightsAccessScopeRequest {
   MatchPaths?: AccessScopePathRequest[];
@@ -16202,9 +16115,7 @@ export const PacketHeaderStatement = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ProtocolSet"),
     ),
   }),
-).annotate({
-  identifier: "PacketHeaderStatement",
-}) as any as S.Schema<PacketHeaderStatement>;
+).annotate({ identifier: "PacketHeaderStatement" }) as any as S.Schema<PacketHeaderStatement>;
 export interface ResourceStatement {
   Resources?: string[];
   ResourceTypes?: string[];
@@ -16220,9 +16131,7 @@ export const ResourceStatement = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ResourceTypeSet"),
     ),
   }),
-).annotate({
-  identifier: "ResourceStatement",
-}) as any as S.Schema<ResourceStatement>;
+).annotate({ identifier: "ResourceStatement" }) as any as S.Schema<ResourceStatement>;
 export interface PathStatement {
   PacketHeaderStatement?: PacketHeaderStatement;
   ResourceStatement?: ResourceStatement;
@@ -16273,14 +16182,10 @@ export const AccessScopePath = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ThroughResourceSet"),
     ),
   }),
-).annotate({
-  identifier: "AccessScopePath",
-}) as any as S.Schema<AccessScopePath>;
+).annotate({ identifier: "AccessScopePath" }) as any as S.Schema<AccessScopePath>;
 export type AccessScopePathList = AccessScopePath[];
 export const AccessScopePathList = /*@__PURE__*/ S.Array(
-  AccessScopePath.pipe(T.XmlName("item")).annotate({
-    identifier: "AccessScopePath",
-  }),
+  AccessScopePath.pipe(T.XmlName("item")).annotate({ identifier: "AccessScopePath" }),
 );
 export interface NetworkInsightsAccessScopeContent {
   NetworkInsightsAccessScopeId?: string;
@@ -16333,9 +16238,7 @@ export interface RequestFilterPortRange {
 }
 export const RequestFilterPortRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FromPort: S.optional(S.Number), ToPort: S.optional(S.Number) }),
-).annotate({
-  identifier: "RequestFilterPortRange",
-}) as any as S.Schema<RequestFilterPortRange>;
+).annotate({ identifier: "RequestFilterPortRange" }) as any as S.Schema<RequestFilterPortRange>;
 export interface PathRequestFilter {
   SourceAddress?: string;
   SourcePortRange?: RequestFilterPortRange;
@@ -16349,9 +16252,7 @@ export const PathRequestFilter = /*@__PURE__*/ S.suspend(() =>
     DestinationAddress: S.optional(S.String),
     DestinationPortRange: S.optional(RequestFilterPortRange),
   }),
-).annotate({
-  identifier: "PathRequestFilter",
-}) as any as S.Schema<PathRequestFilter>;
+).annotate({ identifier: "PathRequestFilter" }) as any as S.Schema<PathRequestFilter>;
 export interface CreateNetworkInsightsPathRequest {
   SourceIp?: string;
   DestinationIp?: string;
@@ -16392,9 +16293,7 @@ export const FilterPortRange = /*@__PURE__*/ S.suspend(() =>
     FromPort: S.optional(S.Number).pipe(T.XmlName("fromPort"), T.Ec2QueryName("FromPort")),
     ToPort: S.optional(S.Number).pipe(T.XmlName("toPort"), T.Ec2QueryName("ToPort")),
   }),
-).annotate({
-  identifier: "FilterPortRange",
-}) as any as S.Schema<FilterPortRange>;
+).annotate({ identifier: "FilterPortRange" }) as any as S.Schema<FilterPortRange>;
 export interface PathFilter {
   SourceAddress?: string;
   SourcePortRange?: FilterPortRange;
@@ -16474,9 +16373,7 @@ export const NetworkInsightsPath = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("filterAtDestination"), T.Ec2QueryName("FilterAtDestination"))
       .annotate({ identifier: "PathFilter" }),
   }),
-).annotate({
-  identifier: "NetworkInsightsPath",
-}) as any as S.Schema<NetworkInsightsPath>;
+).annotate({ identifier: "NetworkInsightsPath" }) as any as S.Schema<NetworkInsightsPath>;
 export interface CreateNetworkInsightsPathResult {
   NetworkInsightsPath?: NetworkInsightsPath;
 }
@@ -16694,14 +16591,10 @@ export const GroupIdentifier = /*@__PURE__*/ S.suspend(() =>
     GroupId: S.optional(S.String).pipe(T.XmlName("groupId"), T.Ec2QueryName("GroupId")),
     GroupName: S.optional(S.String).pipe(T.XmlName("groupName"), T.Ec2QueryName("GroupName")),
   }),
-).annotate({
-  identifier: "GroupIdentifier",
-}) as any as S.Schema<GroupIdentifier>;
+).annotate({ identifier: "GroupIdentifier" }) as any as S.Schema<GroupIdentifier>;
 export type GroupIdentifierList = GroupIdentifier[];
 export const GroupIdentifierList = /*@__PURE__*/ S.Array(
-  GroupIdentifier.pipe(T.XmlName("item")).annotate({
-    identifier: "GroupIdentifier",
-  }),
+  GroupIdentifier.pipe(T.XmlName("item")).annotate({ identifier: "GroupIdentifier" }),
 );
 export type NetworkInterfaceType =
   | "interface"
@@ -16776,9 +16669,7 @@ export const PublicIpDnsNameOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PublicDualStackDnsName"),
     ),
   }),
-).annotate({
-  identifier: "PublicIpDnsNameOptions",
-}) as any as S.Schema<PublicIpDnsNameOptions>;
+).annotate({ identifier: "PublicIpDnsNameOptions" }) as any as S.Schema<PublicIpDnsNameOptions>;
 export interface NetworkInterfacePrivateIpAddress {
   Association?: NetworkInterfaceAssociation;
   Primary?: boolean;
@@ -16816,9 +16707,7 @@ export const Ipv6PrefixSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Ipv6Prefix: S.optional(S.String).pipe(T.XmlName("ipv6Prefix"), T.Ec2QueryName("Ipv6Prefix")),
   }),
-).annotate({
-  identifier: "Ipv6PrefixSpecification",
-}) as any as S.Schema<Ipv6PrefixSpecification>;
+).annotate({ identifier: "Ipv6PrefixSpecification" }) as any as S.Schema<Ipv6PrefixSpecification>;
 export type Ipv6PrefixesList = Ipv6PrefixSpecification[];
 export const Ipv6PrefixesList = /*@__PURE__*/ S.Array(
   Ipv6PrefixSpecification.pipe(T.XmlName("item")).annotate({
@@ -16963,9 +16852,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailabilityZoneId"),
     ),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export interface CreateNetworkInterfaceResult {
   NetworkInterface?: NetworkInterface;
   ClientToken?: string;
@@ -17263,9 +17150,7 @@ export const ReplaceRootVolumeTask = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("DeleteReplacedRootVolume"),
     ),
   }),
-).annotate({
-  identifier: "ReplaceRootVolumeTask",
-}) as any as S.Schema<ReplaceRootVolumeTask>;
+).annotate({ identifier: "ReplaceRootVolumeTask" }) as any as S.Schema<ReplaceRootVolumeTask>;
 export interface CreateReplaceRootVolumeTaskResult {
   ReplaceRootVolumeTask?: ReplaceRootVolumeTask;
 }
@@ -17430,9 +17315,7 @@ export const CreateRouteRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NatGatewayId"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRouteRequest",
-}) as any as S.Schema<CreateRouteRequest>;
+).annotate({ identifier: "CreateRouteRequest" }) as any as S.Schema<CreateRouteRequest>;
 export interface CreateRouteResult {
   Return?: boolean;
 }
@@ -17440,9 +17323,7 @@ export const CreateRouteResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateRouteResult",
-}) as any as S.Schema<CreateRouteResult>;
+).annotate({ identifier: "CreateRouteResult" }) as any as S.Schema<CreateRouteResult>;
 export type RouteServerPersistRoutesAction = "enable" | "disable" | "reset" | (string & {});
 export const RouteServerPersistRoutesAction = S.String;
 
@@ -17465,9 +17346,7 @@ export const CreateRouteServerRequest = /*@__PURE__*/ S.suspend(() =>
     SnsNotificationsEnabled: S.optional(S.Boolean),
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRouteServerRequest",
-}) as any as S.Schema<CreateRouteServerRequest>;
+).annotate({ identifier: "CreateRouteServerRequest" }) as any as S.Schema<CreateRouteServerRequest>;
 export type RouteServerState =
   | "pending"
   | "available"
@@ -17533,9 +17412,7 @@ export const CreateRouteServerResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("routeServer"), T.Ec2QueryName("RouteServer"))
       .annotate({ identifier: "RouteServer" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateRouteServerResult",
-}) as any as S.Schema<CreateRouteServerResult>;
+).annotate({ identifier: "CreateRouteServerResult" }) as any as S.Schema<CreateRouteServerResult>;
 export interface CreateRouteServerEndpointRequest {
   RouteServerId?: string;
   SubnetId?: string;
@@ -17598,9 +17475,7 @@ export const RouteServerEndpoint = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "RouteServerEndpoint",
-}) as any as S.Schema<RouteServerEndpoint>;
+).annotate({ identifier: "RouteServerEndpoint" }) as any as S.Schema<RouteServerEndpoint>;
 export interface CreateRouteServerEndpointResult {
   RouteServerEndpoint?: RouteServerEndpoint;
 }
@@ -17669,9 +17544,7 @@ export const RouteServerBgpOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PeerLivenessDetection"),
     ),
   }),
-).annotate({
-  identifier: "RouteServerBgpOptions",
-}) as any as S.Schema<RouteServerBgpOptions>;
+).annotate({ identifier: "RouteServerBgpOptions" }) as any as S.Schema<RouteServerBgpOptions>;
 export type RouteServerBgpState = "up" | "down" | (string & {});
 export const RouteServerBgpState = S.String;
 
@@ -17682,9 +17555,7 @@ export const RouteServerBgpStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(RouteServerBgpState).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "RouteServerBgpStatus",
-}) as any as S.Schema<RouteServerBgpStatus>;
+).annotate({ identifier: "RouteServerBgpStatus" }) as any as S.Schema<RouteServerBgpStatus>;
 export type RouteServerBfdState = "up" | "down" | (string & {});
 export const RouteServerBfdState = S.String;
 
@@ -17695,9 +17566,7 @@ export const RouteServerBfdStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(RouteServerBfdState).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "RouteServerBfdStatus",
-}) as any as S.Schema<RouteServerBfdStatus>;
+).annotate({ identifier: "RouteServerBfdStatus" }) as any as S.Schema<RouteServerBfdStatus>;
 export interface RouteServerPeer {
   RouteServerPeerId?: string;
   RouteServerEndpointId?: string;
@@ -17755,9 +17624,7 @@ export const RouteServerPeer = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "RouteServerBfdStatus" }),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "RouteServerPeer",
-}) as any as S.Schema<RouteServerPeer>;
+).annotate({ identifier: "RouteServerPeer" }) as any as S.Schema<RouteServerPeer>;
 export interface CreateRouteServerPeerResult {
   RouteServerPeer?: RouteServerPeer;
 }
@@ -17783,9 +17650,7 @@ export const CreateRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateRouteTableRequest",
-}) as any as S.Schema<CreateRouteTableRequest>;
+).annotate({ identifier: "CreateRouteTableRequest" }) as any as S.Schema<CreateRouteTableRequest>;
 export interface RouteTableAssociation {
   Main?: boolean;
   RouteTableAssociationId?: string;
@@ -17816,14 +17681,10 @@ export const RouteTableAssociation = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("associationState"), T.Ec2QueryName("AssociationState"))
       .annotate({ identifier: "RouteTableAssociationState" }),
   }),
-).annotate({
-  identifier: "RouteTableAssociation",
-}) as any as S.Schema<RouteTableAssociation>;
+).annotate({ identifier: "RouteTableAssociation" }) as any as S.Schema<RouteTableAssociation>;
 export type RouteTableAssociationList = RouteTableAssociation[];
 export const RouteTableAssociationList = /*@__PURE__*/ S.Array(
-  RouteTableAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "RouteTableAssociation",
-  }),
+  RouteTableAssociation.pipe(T.XmlName("item")).annotate({ identifier: "RouteTableAssociation" }),
 );
 export interface PropagatingVgw {
   GatewayId?: string;
@@ -17835,9 +17696,7 @@ export const PropagatingVgw = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PropagatingVgw" }) as any as S.Schema<PropagatingVgw>;
 export type PropagatingVgwList = PropagatingVgw[];
 export const PropagatingVgwList = /*@__PURE__*/ S.Array(
-  PropagatingVgw.pipe(T.XmlName("item")).annotate({
-    identifier: "PropagatingVgw",
-  }),
+  PropagatingVgw.pipe(T.XmlName("item")).annotate({ identifier: "PropagatingVgw" }),
 );
 export type RouteOrigin =
   | "CreateRouteTable"
@@ -17975,9 +17834,7 @@ export const CreateRouteTableResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "RouteTable" }),
     ClientToken: S.optional(S.String).pipe(T.XmlName("clientToken"), T.Ec2QueryName("ClientToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateRouteTableResult",
-}) as any as S.Schema<CreateRouteTableResult>;
+).annotate({ identifier: "CreateRouteTableResult" }) as any as S.Schema<CreateRouteTableResult>;
 export type SecondaryNetworkType = "rdma" | (string & {});
 export const SecondaryNetworkType = S.String;
 
@@ -18080,9 +17937,7 @@ export const SecondaryNetwork = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "SecondaryNetwork",
-}) as any as S.Schema<SecondaryNetwork>;
+).annotate({ identifier: "SecondaryNetwork" }) as any as S.Schema<SecondaryNetwork>;
 export interface CreateSecondaryNetworkResult {
   SecondaryNetwork?: SecondaryNetwork;
   ClientToken?: string;
@@ -18216,9 +18071,7 @@ export const SecondarySubnet = /*@__PURE__*/ S.suspend(() =>
     StateReason: S.optional(S.String).pipe(T.XmlName("stateReason"), T.Ec2QueryName("StateReason")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "SecondarySubnet",
-}) as any as S.Schema<SecondarySubnet>;
+).annotate({ identifier: "SecondarySubnet" }) as any as S.Schema<SecondarySubnet>;
 export interface CreateSecondarySubnetResult {
   SecondarySubnet?: SecondarySubnet;
   ClientToken?: string;
@@ -18285,9 +18138,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     Location: S.optional(SnapshotLocationEnum),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSnapshotRequest",
-}) as any as S.Schema<CreateSnapshotRequest>;
+).annotate({ identifier: "CreateSnapshotRequest" }) as any as S.Schema<CreateSnapshotRequest>;
 export type StorageTier = "archive" | "standard" | (string & {});
 export const StorageTier = S.String;
 
@@ -18400,9 +18251,7 @@ export const InstanceSpecification = /*@__PURE__*/ S.suspend(() =>
     ExcludeBootVolume: S.optional(S.Boolean),
     ExcludeDataVolumeIds: S.optional(VolumeIdStringList).pipe(T.XmlName("ExcludeDataVolumeId")),
   }),
-).annotate({
-  identifier: "InstanceSpecification",
-}) as any as S.Schema<InstanceSpecification>;
+).annotate({ identifier: "InstanceSpecification" }) as any as S.Schema<InstanceSpecification>;
 export type CopyTagsFromSource = "volume" | (string & {});
 export const CopyTagsFromSource = S.String;
 
@@ -18425,9 +18274,7 @@ export const CreateSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     CopyTagsFromSource: S.optional(CopyTagsFromSource),
     Location: S.optional(SnapshotLocationEnum),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSnapshotsRequest",
-}) as any as S.Schema<CreateSnapshotsRequest>;
+).annotate({ identifier: "CreateSnapshotsRequest" }) as any as S.Schema<CreateSnapshotsRequest>;
 export interface SnapshotInfo {
   Description?: string;
   Tags?: Tag[];
@@ -18480,9 +18327,7 @@ export const CreateSnapshotsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SnapshotSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateSnapshotsResult",
-}) as any as S.Schema<CreateSnapshotsResult>;
+).annotate({ identifier: "CreateSnapshotsResult" }) as any as S.Schema<CreateSnapshotsResult>;
 export interface CreateSpotDatafeedSubscriptionRequest {
   DryRun?: boolean;
   Bucket?: string;
@@ -18506,9 +18351,7 @@ export const SpotInstanceStateFault = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "SpotInstanceStateFault",
-}) as any as S.Schema<SpotInstanceStateFault>;
+).annotate({ identifier: "SpotInstanceStateFault" }) as any as S.Schema<SpotInstanceStateFault>;
 export type DatafeedSubscriptionState = "Active" | "Inactive" | (string & {});
 export const DatafeedSubscriptionState = S.String;
 
@@ -18529,9 +18372,7 @@ export const SpotDatafeedSubscription = /*@__PURE__*/ S.suspend(() =>
     Prefix: S.optional(S.String).pipe(T.XmlName("prefix"), T.Ec2QueryName("Prefix")),
     State: S.optional(DatafeedSubscriptionState).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
   }),
-).annotate({
-  identifier: "SpotDatafeedSubscription",
-}) as any as S.Schema<SpotDatafeedSubscription>;
+).annotate({ identifier: "SpotDatafeedSubscription" }) as any as S.Schema<SpotDatafeedSubscription>;
 export interface CreateSpotDatafeedSubscriptionResult {
   SpotDatafeedSubscription?: SpotDatafeedSubscription;
 }
@@ -18612,9 +18453,7 @@ export const CreateSubnetRequest = /*@__PURE__*/ S.suspend(() =>
     Ipv6NetmaskLength: S.optional(S.Number),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSubnetRequest",
-}) as any as S.Schema<CreateSubnetRequest>;
+).annotate({ identifier: "CreateSubnetRequest" }) as any as S.Schema<CreateSubnetRequest>;
 export interface CreateSubnetResult {
   Subnet?: Subnet;
 }
@@ -18624,9 +18463,7 @@ export const CreateSubnetResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("subnet"), T.Ec2QueryName("Subnet"))
       .annotate({ identifier: "Subnet" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateSubnetResult",
-}) as any as S.Schema<CreateSubnetResult>;
+).annotate({ identifier: "CreateSubnetResult" }) as any as S.Schema<CreateSubnetResult>;
 export type SubnetCidrReservationType = "prefix" | "explicit" | (string & {});
 export const SubnetCidrReservationType = S.String;
 
@@ -18676,9 +18513,7 @@ export const SubnetCidrReservation = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "SubnetCidrReservation",
-}) as any as S.Schema<SubnetCidrReservation>;
+).annotate({ identifier: "SubnetCidrReservation" }) as any as S.Schema<SubnetCidrReservation>;
 export interface CreateSubnetCidrReservationResult {
   SubnetCidrReservation?: SubnetCidrReservation;
 }
@@ -18705,9 +18540,7 @@ export const CreateTagsRequest = /*@__PURE__*/ S.suspend(() =>
     Resources: S.optional(ResourceIdList).pipe(T.XmlName("ResourceId")),
     Tags: S.optional(TagList).pipe(T.XmlName("Tag")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTagsRequest",
-}) as any as S.Schema<CreateTagsRequest>;
+).annotate({ identifier: "CreateTagsRequest" }) as any as S.Schema<CreateTagsRequest>;
 export interface CreateTagsResponse {}
 export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "CreateTagsResponse",
@@ -18743,9 +18576,7 @@ export const TrafficMirrorPortRange = /*@__PURE__*/ S.suspend(() =>
     FromPort: S.optional(S.Number).pipe(T.XmlName("fromPort"), T.Ec2QueryName("FromPort")),
     ToPort: S.optional(S.Number).pipe(T.XmlName("toPort"), T.Ec2QueryName("ToPort")),
   }),
-).annotate({
-  identifier: "TrafficMirrorPortRange",
-}) as any as S.Schema<TrafficMirrorPortRange>;
+).annotate({ identifier: "TrafficMirrorPortRange" }) as any as S.Schema<TrafficMirrorPortRange>;
 export interface TrafficMirrorFilterRule {
   TrafficMirrorFilterRuleId?: string;
   TrafficMirrorFilterId?: string;
@@ -18797,9 +18628,7 @@ export const TrafficMirrorFilterRule = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "TrafficMirrorFilterRule",
-}) as any as S.Schema<TrafficMirrorFilterRule>;
+).annotate({ identifier: "TrafficMirrorFilterRule" }) as any as S.Schema<TrafficMirrorFilterRule>;
 export type TrafficMirrorFilterRuleList = TrafficMirrorFilterRule[];
 export const TrafficMirrorFilterRuleList = /*@__PURE__*/ S.Array(
   TrafficMirrorFilterRule.pipe(T.XmlName("item")).annotate({
@@ -18842,9 +18671,7 @@ export const TrafficMirrorFilter = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "TrafficMirrorFilter",
-}) as any as S.Schema<TrafficMirrorFilter>;
+).annotate({ identifier: "TrafficMirrorFilter" }) as any as S.Schema<TrafficMirrorFilter>;
 export interface CreateTrafficMirrorFilterResult {
   TrafficMirrorFilter?: TrafficMirrorFilter;
   ClientToken?: string;
@@ -18992,9 +18819,7 @@ export const TrafficMirrorSession = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "TrafficMirrorSession",
-}) as any as S.Schema<TrafficMirrorSession>;
+).annotate({ identifier: "TrafficMirrorSession" }) as any as S.Schema<TrafficMirrorSession>;
 export interface CreateTrafficMirrorSessionResult {
   TrafficMirrorSession?: TrafficMirrorSession;
   ClientToken?: string;
@@ -19071,9 +18896,7 @@ export const TrafficMirrorTarget = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("GatewayLoadBalancerEndpointId"),
     ),
   }),
-).annotate({
-  identifier: "TrafficMirrorTarget",
-}) as any as S.Schema<TrafficMirrorTarget>;
+).annotate({ identifier: "TrafficMirrorTarget" }) as any as S.Schema<TrafficMirrorTarget>;
 export interface CreateTrafficMirrorTargetResult {
   TrafficMirrorTarget?: TrafficMirrorTarget;
   ClientToken?: string;
@@ -19181,9 +19004,7 @@ export const EncryptionSupport = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("StateMessage"),
     ),
   }),
-).annotate({
-  identifier: "EncryptionSupport",
-}) as any as S.Schema<EncryptionSupport>;
+).annotate({ identifier: "EncryptionSupport" }) as any as S.Schema<EncryptionSupport>;
 export interface TransitGatewayOptions {
   AmazonSideAsn?: number;
   TransitGatewayCidrBlocks?: string[];
@@ -19248,9 +19069,7 @@ export const TransitGatewayOptions = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("encryptionSupport"), T.Ec2QueryName("EncryptionSupport"))
       .annotate({ identifier: "EncryptionSupport" }),
   }),
-).annotate({
-  identifier: "TransitGatewayOptions",
-}) as any as S.Schema<TransitGatewayOptions>;
+).annotate({ identifier: "TransitGatewayOptions" }) as any as S.Schema<TransitGatewayOptions>;
 export interface TransitGateway {
   TransitGatewayId?: string;
   TransitGatewayArn?: string;
@@ -19369,9 +19188,7 @@ export const TransitGatewayConnect = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "TransitGatewayConnectOptions" }),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "TransitGatewayConnect",
-}) as any as S.Schema<TransitGatewayConnect>;
+).annotate({ identifier: "TransitGatewayConnect" }) as any as S.Schema<TransitGatewayConnect>;
 export interface CreateTransitGatewayConnectResult {
   TransitGatewayConnect?: TransitGatewayConnect;
 }
@@ -19999,10 +19816,7 @@ export interface TransitGatewayRequestPolicyRuleMetaData {
   MetaDataValue?: string;
 }
 export const TransitGatewayRequestPolicyRuleMetaData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MetaDataKey: S.optional(S.String),
-    MetaDataValue: S.optional(S.String),
-  }),
+  S.Struct({ MetaDataKey: S.optional(S.String), MetaDataValue: S.optional(S.String) }),
 ).annotate({
   identifier: "TransitGatewayRequestPolicyRuleMetaData",
 }) as any as S.Schema<TransitGatewayRequestPolicyRuleMetaData>;
@@ -20090,9 +19904,7 @@ export const TransitGatewayPolicyRule = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("metaData"), T.Ec2QueryName("MetaData"))
       .annotate({ identifier: "TransitGatewayPolicyRuleMetaData" }),
   }),
-).annotate({
-  identifier: "TransitGatewayPolicyRule",
-}) as any as S.Schema<TransitGatewayPolicyRule>;
+).annotate({ identifier: "TransitGatewayPolicyRule" }) as any as S.Schema<TransitGatewayPolicyRule>;
 export type TransitGatewayPolicyTableEntryState = "active" | "deleted" | (string & {});
 export const TransitGatewayPolicyTableEntryState = S.String;
 
@@ -20319,9 +20131,7 @@ export const TransitGatewayRoute = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(TransitGatewayRouteType).pipe(T.XmlName("type"), T.Ec2QueryName("Type")),
     State: S.optional(TransitGatewayRouteState).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
   }),
-).annotate({
-  identifier: "TransitGatewayRoute",
-}) as any as S.Schema<TransitGatewayRoute>;
+).annotate({ identifier: "TransitGatewayRoute" }) as any as S.Schema<TransitGatewayRoute>;
 export interface CreateTransitGatewayRouteResult {
   Route?: TransitGatewayRoute;
 }
@@ -20393,9 +20203,7 @@ export const TransitGatewayRouteTable = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "TransitGatewayRouteTable",
-}) as any as S.Schema<TransitGatewayRouteTable>;
+).annotate({ identifier: "TransitGatewayRouteTable" }) as any as S.Schema<TransitGatewayRouteTable>;
 export interface CreateTransitGatewayRouteTableResult {
   TransitGatewayRouteTable?: TransitGatewayRouteTable;
 }
@@ -20638,10 +20446,7 @@ export interface VerifiedAccessSseSpecificationRequest {
   KmsKeyArn?: string;
 }
 export const VerifiedAccessSseSpecificationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomerManagedKeyEnabled: S.optional(S.Boolean),
-    KmsKeyArn: S.optional(S.String),
-  }),
+  S.Struct({ CustomerManagedKeyEnabled: S.optional(S.Boolean), KmsKeyArn: S.optional(S.String) }),
 ).annotate({
   identifier: "VerifiedAccessSseSpecificationRequest",
 }) as any as S.Schema<VerifiedAccessSseSpecificationRequest>;
@@ -20989,9 +20794,7 @@ export const VerifiedAccessEndpoint = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("cidrOptions"), T.Ec2QueryName("CidrOptions"))
       .annotate({ identifier: "VerifiedAccessEndpointCidrOptions" }),
   }),
-).annotate({
-  identifier: "VerifiedAccessEndpoint",
-}) as any as S.Schema<VerifiedAccessEndpoint>;
+).annotate({ identifier: "VerifiedAccessEndpoint" }) as any as S.Schema<VerifiedAccessEndpoint>;
 export interface CreateVerifiedAccessEndpointResult {
   VerifiedAccessEndpoint?: VerifiedAccessEndpoint;
 }
@@ -21071,9 +20874,7 @@ export const VerifiedAccessGroup = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("sseSpecification"), T.Ec2QueryName("SseSpecification"))
       .annotate({ identifier: "VerifiedAccessSseSpecificationResponse" }),
   }),
-).annotate({
-  identifier: "VerifiedAccessGroup",
-}) as any as S.Schema<VerifiedAccessGroup>;
+).annotate({ identifier: "VerifiedAccessGroup" }) as any as S.Schema<VerifiedAccessGroup>;
 export interface CreateVerifiedAccessGroupResult {
   VerifiedAccessGroup?: VerifiedAccessGroup;
 }
@@ -21145,10 +20946,7 @@ export interface CreateVerifiedAccessTrustProviderDeviceOptions {
   PublicSigningKeyUrl?: string;
 }
 export const CreateVerifiedAccessTrustProviderDeviceOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TenantId: S.optional(S.String),
-    PublicSigningKeyUrl: S.optional(S.String),
-  }),
+  S.Struct({ TenantId: S.optional(S.String), PublicSigningKeyUrl: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateVerifiedAccessTrustProviderDeviceOptions",
 }) as any as S.Schema<CreateVerifiedAccessTrustProviderDeviceOptions>;
@@ -21257,9 +21055,7 @@ export const CreateVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     Operator: S.optional(OperatorRequest),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateVolumeRequest",
-}) as any as S.Schema<CreateVolumeRequest>;
+).annotate({ identifier: "CreateVolumeRequest" }) as any as S.Schema<CreateVolumeRequest>;
 export type VpcEncryptionControlExclusionStateInput = "enable" | "disable" | (string & {});
 export const VpcEncryptionControlExclusionStateInput = S.String;
 
@@ -21326,9 +21122,7 @@ export const CreateVpcRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AmazonProvidedIpv6CidrBlock"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateVpcRequest",
-}) as any as S.Schema<CreateVpcRequest>;
+).annotate({ identifier: "CreateVpcRequest" }) as any as S.Schema<CreateVpcRequest>;
 export interface CreateVpcResult {
   Vpc?: Vpc;
 }
@@ -21338,9 +21132,7 @@ export const CreateVpcResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("vpc"), T.Ec2QueryName("Vpc"))
       .annotate({ identifier: "Vpc" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateVpcResult",
-}) as any as S.Schema<CreateVpcResult>;
+).annotate({ identifier: "CreateVpcResult" }) as any as S.Schema<CreateVpcResult>;
 export type InternetGatewayExclusionMode = "allow-bidirectional" | "allow-egress" | (string & {});
 export const InternetGatewayExclusionMode = S.String;
 
@@ -21465,6 +21257,7 @@ export type VpcEndpointType =
   | "GatewayLoadBalancer"
   | "Resource"
   | "ServiceNetwork"
+  | "Tunnel"
   | (string & {});
 export const VpcEndpointType = S.String;
 
@@ -21496,9 +21289,7 @@ export const DnsOptionsSpecification = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("PrivateDnsSpecifiedDomain"),
     ),
   }),
-).annotate({
-  identifier: "DnsOptionsSpecification",
-}) as any as S.Schema<DnsOptionsSpecification>;
+).annotate({ identifier: "DnsOptionsSpecification" }) as any as S.Schema<DnsOptionsSpecification>;
 export interface SubnetConfiguration {
   SubnetId?: string;
   Ipv4?: string;
@@ -21510,14 +21301,10 @@ export const SubnetConfiguration = /*@__PURE__*/ S.suspend(() =>
     Ipv4: S.optional(S.String),
     Ipv6: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SubnetConfiguration",
-}) as any as S.Schema<SubnetConfiguration>;
+).annotate({ identifier: "SubnetConfiguration" }) as any as S.Schema<SubnetConfiguration>;
 export type SubnetConfigurationsList = SubnetConfiguration[];
 export const SubnetConfigurationsList = /*@__PURE__*/ S.Array(
-  SubnetConfiguration.pipe(T.XmlName("item")).annotate({
-    identifier: "SubnetConfiguration",
-  }),
+  SubnetConfiguration.pipe(T.XmlName("item")).annotate({ identifier: "SubnetConfiguration" }),
 );
 export type ServiceNetworkArn = string;
 export type ResourceConfigurationArn = string;
@@ -21562,9 +21349,7 @@ export const CreateVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceConfigurationArn: S.optional(S.String),
     ServiceRegion: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateVpcEndpointRequest",
-}) as any as S.Schema<CreateVpcEndpointRequest>;
+).annotate({ identifier: "CreateVpcEndpointRequest" }) as any as S.Schema<CreateVpcEndpointRequest>;
 export type State =
   | "pendingAcceptance"
   | "pending"
@@ -21587,9 +21372,7 @@ export const SecurityGroupIdentifier = /*@__PURE__*/ S.suspend(() =>
     GroupId: S.optional(S.String).pipe(T.XmlName("groupId"), T.Ec2QueryName("GroupId")),
     GroupName: S.optional(S.String).pipe(T.XmlName("groupName"), T.Ec2QueryName("GroupName")),
   }),
-).annotate({
-  identifier: "SecurityGroupIdentifier",
-}) as any as S.Schema<SecurityGroupIdentifier>;
+).annotate({ identifier: "SecurityGroupIdentifier" }) as any as S.Schema<SecurityGroupIdentifier>;
 export type GroupIdentifierSet = SecurityGroupIdentifier[];
 export const GroupIdentifierSet = /*@__PURE__*/ S.Array(
   SecurityGroupIdentifier.pipe(T.XmlName("item")).annotate({
@@ -21661,20 +21444,20 @@ export const SubnetIpPrefixes = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("IpPrefixSet"),
     ),
   }),
-).annotate({
-  identifier: "SubnetIpPrefixes",
-}) as any as S.Schema<SubnetIpPrefixes>;
+).annotate({ identifier: "SubnetIpPrefixes" }) as any as S.Schema<SubnetIpPrefixes>;
 export type SubnetIpPrefixesList = SubnetIpPrefixes[];
 export const SubnetIpPrefixesList = /*@__PURE__*/ S.Array(
-  SubnetIpPrefixes.pipe(T.XmlName("item")).annotate({
-    identifier: "SubnetIpPrefixes",
-  }),
+  SubnetIpPrefixes.pipe(T.XmlName("item")).annotate({ identifier: "SubnetIpPrefixes" }),
 );
-export type PayerResponsibilityScope = "vpc-endpoint-charges" | (string & {});
+export type PayerResponsibilityScope =
+  | "vpc-endpoint-charges"
+  | "resource-gateway-charges"
+  | (string & {});
 export const PayerResponsibilityScope = S.String;
 
 export type PayerResponsibilityType =
   | "vpc-endpoint-account"
+  | "resource-gateway-account"
   | "vpc-endpoint-service-account"
   | (string & {});
 export const PayerResponsibilityType = S.String;
@@ -21691,9 +21474,7 @@ export const PayerResponsibilityEntry = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PayerResponsibilityType"),
     ),
   }),
-).annotate({
-  identifier: "PayerResponsibilityEntry",
-}) as any as S.Schema<PayerResponsibilityEntry>;
+).annotate({ identifier: "PayerResponsibilityEntry" }) as any as S.Schema<PayerResponsibilityEntry>;
 export type PayerResponsibilitySet = PayerResponsibilityEntry[];
 export const PayerResponsibilitySet = /*@__PURE__*/ S.Array(
   PayerResponsibilityEntry.pipe(T.XmlName("item")).annotate({
@@ -21827,9 +21608,7 @@ export const CreateVpcEndpointResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "VpcEndpoint" }),
     ClientToken: S.optional(S.String).pipe(T.XmlName("clientToken"), T.Ec2QueryName("ClientToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateVpcEndpointResult",
-}) as any as S.Schema<CreateVpcEndpointResult>;
+).annotate({ identifier: "CreateVpcEndpointResult" }) as any as S.Schema<CreateVpcEndpointResult>;
 export interface CreateVpcEndpointConnectionNotificationRequest {
   DryRun?: boolean;
   ServiceId?: string;
@@ -21898,9 +21677,7 @@ export const ConnectionNotification = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ServiceRegion"),
     ),
   }),
-).annotate({
-  identifier: "ConnectionNotification",
-}) as any as S.Schema<ConnectionNotification>;
+).annotate({ identifier: "ConnectionNotification" }) as any as S.Schema<ConnectionNotification>;
 export interface CreateVpcEndpointConnectionNotificationResult {
   ConnectionNotification?: ConnectionNotification;
   ClientToken?: string;
@@ -21954,14 +21731,10 @@ export const ServiceTypeDetail = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ServiceType"),
     ),
   }),
-).annotate({
-  identifier: "ServiceTypeDetail",
-}) as any as S.Schema<ServiceTypeDetail>;
+).annotate({ identifier: "ServiceTypeDetail" }) as any as S.Schema<ServiceTypeDetail>;
 export type ServiceTypeDetailSet = ServiceTypeDetail[];
 export const ServiceTypeDetailSet = /*@__PURE__*/ S.Array(
-  ServiceTypeDetail.pipe(T.XmlName("item")).annotate({
-    identifier: "ServiceTypeDetail",
-  }),
+  ServiceTypeDetail.pipe(T.XmlName("item")).annotate({ identifier: "ServiceTypeDetail" }),
 );
 export type ServiceState =
   | "Pending"
@@ -22013,14 +21786,10 @@ export const SupportedRegionDetail = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ServiceState"),
     ),
   }),
-).annotate({
-  identifier: "SupportedRegionDetail",
-}) as any as S.Schema<SupportedRegionDetail>;
+).annotate({ identifier: "SupportedRegionDetail" }) as any as S.Schema<SupportedRegionDetail>;
 export type SupportedRegionSet = SupportedRegionDetail[];
 export const SupportedRegionSet = /*@__PURE__*/ S.Array(
-  SupportedRegionDetail.pipe(T.XmlName("item")).annotate({
-    identifier: "SupportedRegionDetail",
-  }),
+  SupportedRegionDetail.pipe(T.XmlName("item")).annotate({ identifier: "SupportedRegionDetail" }),
 );
 export interface ServiceConfiguration {
   ServiceType?: ServiceTypeDetail[];
@@ -22107,9 +21876,7 @@ export const ServiceConfiguration = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RemoteAccessEnabled"),
     ),
   }),
-).annotate({
-  identifier: "ServiceConfiguration",
-}) as any as S.Schema<ServiceConfiguration>;
+).annotate({ identifier: "ServiceConfiguration" }) as any as S.Schema<ServiceConfiguration>;
 export interface CreateVpcEndpointServiceConfigurationResult {
   ServiceConfiguration?: ServiceConfiguration;
   ClientToken?: string;
@@ -22201,9 +21968,7 @@ export const VpnConcentrator = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(S.String).pipe(T.XmlName("type"), T.Ec2QueryName("Type")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "VpnConcentrator",
-}) as any as S.Schema<VpnConcentrator>;
+).annotate({ identifier: "VpnConcentrator" }) as any as S.Schema<VpnConcentrator>;
 export interface CreateVpnConcentratorResult {
   VpnConcentrator?: VpnConcentrator;
 }
@@ -22345,9 +22110,7 @@ export interface VpnTunnelLogOptionsSpecification {
   CloudWatchLogOptions?: CloudWatchLogOptionsSpecification;
 }
 export const VpnTunnelLogOptionsSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CloudWatchLogOptions: S.optional(CloudWatchLogOptionsSpecification),
-  }),
+  S.Struct({ CloudWatchLogOptions: S.optional(CloudWatchLogOptionsSpecification) }),
 ).annotate({
   identifier: "VpnTunnelLogOptionsSpecification",
 }) as any as S.Schema<VpnTunnelLogOptionsSpecification>;
@@ -22491,9 +22254,7 @@ export interface Phase1EncryptionAlgorithmsListValue {
   Value?: string;
 }
 export const Phase1EncryptionAlgorithmsListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({
   identifier: "Phase1EncryptionAlgorithmsListValue",
 }) as any as S.Schema<Phase1EncryptionAlgorithmsListValue>;
@@ -22507,9 +22268,7 @@ export interface Phase2EncryptionAlgorithmsListValue {
   Value?: string;
 }
 export const Phase2EncryptionAlgorithmsListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({
   identifier: "Phase2EncryptionAlgorithmsListValue",
 }) as any as S.Schema<Phase2EncryptionAlgorithmsListValue>;
@@ -22523,9 +22282,7 @@ export interface Phase1IntegrityAlgorithmsListValue {
   Value?: string;
 }
 export const Phase1IntegrityAlgorithmsListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({
   identifier: "Phase1IntegrityAlgorithmsListValue",
 }) as any as S.Schema<Phase1IntegrityAlgorithmsListValue>;
@@ -22539,9 +22296,7 @@ export interface Phase2IntegrityAlgorithmsListValue {
   Value?: string;
 }
 export const Phase2IntegrityAlgorithmsListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({
   identifier: "Phase2IntegrityAlgorithmsListValue",
 }) as any as S.Schema<Phase2IntegrityAlgorithmsListValue>;
@@ -22555,9 +22310,7 @@ export interface Phase1DHGroupNumbersListValue {
   Value?: number;
 }
 export const Phase1DHGroupNumbersListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.Number).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.Number).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({
   identifier: "Phase1DHGroupNumbersListValue",
 }) as any as S.Schema<Phase1DHGroupNumbersListValue>;
@@ -22571,9 +22324,7 @@ export interface Phase2DHGroupNumbersListValue {
   Value?: number;
 }
 export const Phase2DHGroupNumbersListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.Number).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
+  S.Struct({ Value: S.optional(S.Number).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
 ).annotate({
   identifier: "Phase2DHGroupNumbersListValue",
 }) as any as S.Schema<Phase2DHGroupNumbersListValue>;
@@ -22587,17 +22338,11 @@ export interface IKEVersionsListValue {
   Value?: string;
 }
 export const IKEVersionsListValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
-).annotate({
-  identifier: "IKEVersionsListValue",
-}) as any as S.Schema<IKEVersionsListValue>;
+  S.Struct({ Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
+).annotate({ identifier: "IKEVersionsListValue" }) as any as S.Schema<IKEVersionsListValue>;
 export type IKEVersionsList = IKEVersionsListValue[];
 export const IKEVersionsList = /*@__PURE__*/ S.Array(
-  IKEVersionsListValue.pipe(T.XmlName("item")).annotate({
-    identifier: "IKEVersionsListValue",
-  }),
+  IKEVersionsListValue.pipe(T.XmlName("item")).annotate({ identifier: "IKEVersionsListValue" }),
 );
 export interface CloudWatchLogOptions {
   LogEnabled?: boolean;
@@ -22628,9 +22373,7 @@ export const CloudWatchLogOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("BgpLogOutputFormat"),
     ),
   }),
-).annotate({
-  identifier: "CloudWatchLogOptions",
-}) as any as S.Schema<CloudWatchLogOptions>;
+).annotate({ identifier: "CloudWatchLogOptions" }) as any as S.Schema<CloudWatchLogOptions>;
 export interface VpnTunnelLogOptions {
   CloudWatchLogOptions?: CloudWatchLogOptions;
 }
@@ -22640,9 +22383,7 @@ export const VpnTunnelLogOptions = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("cloudWatchLogOptions"), T.Ec2QueryName("CloudWatchLogOptions"))
       .annotate({ identifier: "CloudWatchLogOptions" }),
   }),
-).annotate({
-  identifier: "VpnTunnelLogOptions",
-}) as any as S.Schema<VpnTunnelLogOptions>;
+).annotate({ identifier: "VpnTunnelLogOptions" }) as any as S.Schema<VpnTunnelLogOptions>;
 export interface TunnelOption {
   OutsideIpAddress?: string;
   TunnelInsideCidr?: string;
@@ -22817,9 +22558,7 @@ export const VpnConnectionOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TunnelBandwidth"),
     ),
   }),
-).annotate({
-  identifier: "VpnConnectionOptions",
-}) as any as S.Schema<VpnConnectionOptions>;
+).annotate({ identifier: "VpnConnectionOptions" }) as any as S.Schema<VpnConnectionOptions>;
 export type VpnStaticRouteSource = "Static" | (string & {});
 export const VpnStaticRouteSource = S.String;
 
@@ -22843,9 +22582,7 @@ export const VpnStaticRoute = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "VpnStaticRoute" }) as any as S.Schema<VpnStaticRoute>;
 export type VpnStaticRouteList = VpnStaticRoute[];
 export const VpnStaticRouteList = /*@__PURE__*/ S.Array(
-  VpnStaticRoute.pipe(T.XmlName("item")).annotate({
-    identifier: "VpnStaticRoute",
-  }),
+  VpnStaticRoute.pipe(T.XmlName("item")).annotate({ identifier: "VpnStaticRoute" }),
 );
 export type TelemetryStatus = "UP" | "DOWN" | (string & {});
 export const TelemetryStatus = S.String;
@@ -23009,14 +22746,10 @@ export const CreateVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     AmazonSideAsn: S.optional(S.Number),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateVpnGatewayRequest",
-}) as any as S.Schema<CreateVpnGatewayRequest>;
+).annotate({ identifier: "CreateVpnGatewayRequest" }) as any as S.Schema<CreateVpnGatewayRequest>;
 export type VpcAttachmentList = VpcAttachment[];
 export const VpcAttachmentList = /*@__PURE__*/ S.Array(
-  VpcAttachment.pipe(T.XmlName("item")).annotate({
-    identifier: "VpcAttachment",
-  }),
+  VpcAttachment.pipe(T.XmlName("item")).annotate({ identifier: "VpcAttachment" }),
 );
 export interface VpnGateway {
   AmazonSideAsn?: number;
@@ -23059,9 +22792,7 @@ export const CreateVpnGatewayResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("vpnGateway"), T.Ec2QueryName("VpnGateway"))
       .annotate({ identifier: "VpnGateway" }),
   }).pipe(ns),
-).annotate({
-  identifier: "CreateVpnGatewayResult",
-}) as any as S.Schema<CreateVpnGatewayResult>;
+).annotate({ identifier: "CreateVpnGatewayResult" }) as any as S.Schema<CreateVpnGatewayResult>;
 export interface DeleteApplicationStatusCheckRequest {
   ApplicationStatusCheckId?: string;
   ClientToken?: string;
@@ -23118,10 +22849,9 @@ export interface DeleteCarrierGatewayRequest {
   DryRun?: boolean;
 }
 export const DeleteCarrierGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CarrierGatewayId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ CarrierGatewayId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteCarrierGatewayRequest",
 }) as any as S.Schema<DeleteCarrierGatewayRequest>;
@@ -23142,10 +22872,9 @@ export interface DeleteClientVpnEndpointRequest {
   DryRun?: boolean;
 }
 export const DeleteClientVpnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientVpnEndpointId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ClientVpnEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteClientVpnEndpointRequest",
 }) as any as S.Schema<DeleteClientVpnEndpointRequest>;
@@ -23161,6 +22890,39 @@ export const DeleteClientVpnEndpointResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DeleteClientVpnEndpointResult",
 }) as any as S.Schema<DeleteClientVpnEndpointResult>;
+export interface DeleteClientVpnEndpointAuthorizationPolicyRequest {
+  ClientVpnEndpointId?: string;
+  DryRun?: boolean;
+}
+export const DeleteClientVpnEndpointAuthorizationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ClientVpnEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeleteClientVpnEndpointAuthorizationPolicyRequest",
+}) as any as S.Schema<DeleteClientVpnEndpointAuthorizationPolicyRequest>;
+export type ClientVpnAuthorizationPolicyStatus =
+  | "creating"
+  | "updating"
+  | "active"
+  | "failed"
+  | "deleting"
+  | (string & {});
+export const ClientVpnAuthorizationPolicyStatus = S.String;
+
+export interface DeleteClientVpnEndpointAuthorizationPolicyResult {
+  Status?: ClientVpnAuthorizationPolicyStatus;
+}
+export const DeleteClientVpnEndpointAuthorizationPolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: S.optional(ClientVpnAuthorizationPolicyStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "DeleteClientVpnEndpointAuthorizationPolicyResult",
+}) as any as S.Schema<DeleteClientVpnEndpointAuthorizationPolicyResult>;
 export interface DeleteClientVpnRouteRequest {
   ClientVpnEndpointId?: string;
   TargetVpcSubnetId?: string;
@@ -23200,9 +22962,7 @@ export const DeleteCoipCidrRequest = /*@__PURE__*/ S.suspend(() =>
     CoipPoolId: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteCoipCidrRequest",
-}) as any as S.Schema<DeleteCoipCidrRequest>;
+).annotate({ identifier: "DeleteCoipCidrRequest" }) as any as S.Schema<DeleteCoipCidrRequest>;
 export interface DeleteCoipCidrResult {
   CoipCidr?: CoipCidr;
 }
@@ -23212,21 +22972,16 @@ export const DeleteCoipCidrResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("coipCidr"), T.Ec2QueryName("CoipCidr"))
       .annotate({ identifier: "CoipCidr" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteCoipCidrResult",
-}) as any as S.Schema<DeleteCoipCidrResult>;
+).annotate({ identifier: "DeleteCoipCidrResult" }) as any as S.Schema<DeleteCoipCidrResult>;
 export interface DeleteCoipPoolRequest {
   CoipPoolId?: string;
   DryRun?: boolean;
 }
 export const DeleteCoipPoolRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CoipPoolId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteCoipPoolRequest",
-}) as any as S.Schema<DeleteCoipPoolRequest>;
+  S.Struct({ CoipPoolId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteCoipPoolRequest" }) as any as S.Schema<DeleteCoipPoolRequest>;
 export interface DeleteCoipPoolResult {
   CoipPool?: CoipPool;
 }
@@ -23236,9 +22991,7 @@ export const DeleteCoipPoolResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("coipPool"), T.Ec2QueryName("CoipPool"))
       .annotate({ identifier: "CoipPool" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteCoipPoolResult",
-}) as any as S.Schema<DeleteCoipPoolResult>;
+).annotate({ identifier: "DeleteCoipPoolResult" }) as any as S.Schema<DeleteCoipPoolResult>;
 export interface DeleteCustomerGatewayRequest {
   CustomerGatewayId?: string;
   DryRun?: boolean;
@@ -23267,9 +23020,7 @@ export const DeleteDhcpOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     DhcpOptionsId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteDhcpOptionsRequest",
-}) as any as S.Schema<DeleteDhcpOptionsRequest>;
+).annotate({ identifier: "DeleteDhcpOptionsRequest" }) as any as S.Schema<DeleteDhcpOptionsRequest>;
 export interface DeleteDhcpOptionsResponse {}
 export const DeleteDhcpOptionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
@@ -23311,9 +23062,7 @@ export const DeleteFleetsRequest = /*@__PURE__*/ S.suspend(() =>
     FleetIds: S.optional(FleetIdSet).pipe(T.XmlName("FleetId")),
     TerminateInstances: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteFleetsRequest",
-}) as any as S.Schema<DeleteFleetsRequest>;
+).annotate({ identifier: "DeleteFleetsRequest" }) as any as S.Schema<DeleteFleetsRequest>;
 export type FleetStateCode =
   | "submitted"
   | "active"
@@ -23342,14 +23091,10 @@ export const DeleteFleetSuccessItem = /*@__PURE__*/ S.suspend(() =>
     ),
     FleetId: S.optional(S.String).pipe(T.XmlName("fleetId"), T.Ec2QueryName("FleetId")),
   }),
-).annotate({
-  identifier: "DeleteFleetSuccessItem",
-}) as any as S.Schema<DeleteFleetSuccessItem>;
+).annotate({ identifier: "DeleteFleetSuccessItem" }) as any as S.Schema<DeleteFleetSuccessItem>;
 export type DeleteFleetSuccessSet = DeleteFleetSuccessItem[];
 export const DeleteFleetSuccessSet = /*@__PURE__*/ S.Array(
-  DeleteFleetSuccessItem.pipe(T.XmlName("item")).annotate({
-    identifier: "DeleteFleetSuccessItem",
-  }),
+  DeleteFleetSuccessItem.pipe(T.XmlName("item")).annotate({ identifier: "DeleteFleetSuccessItem" }),
 );
 export type DeleteFleetErrorCode =
   | "fleetIdDoesNotExist"
@@ -23368,9 +23113,7 @@ export const DeleteFleetError = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(DeleteFleetErrorCode).pipe(T.XmlName("code"), T.Ec2QueryName("Code")),
     Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
   }),
-).annotate({
-  identifier: "DeleteFleetError",
-}) as any as S.Schema<DeleteFleetError>;
+).annotate({ identifier: "DeleteFleetError" }) as any as S.Schema<DeleteFleetError>;
 export interface DeleteFleetErrorItem {
   Error?: DeleteFleetError;
   FleetId?: string;
@@ -23382,14 +23125,10 @@ export const DeleteFleetErrorItem = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "DeleteFleetError" }),
     FleetId: S.optional(S.String).pipe(T.XmlName("fleetId"), T.Ec2QueryName("FleetId")),
   }),
-).annotate({
-  identifier: "DeleteFleetErrorItem",
-}) as any as S.Schema<DeleteFleetErrorItem>;
+).annotate({ identifier: "DeleteFleetErrorItem" }) as any as S.Schema<DeleteFleetErrorItem>;
 export type DeleteFleetErrorSet = DeleteFleetErrorItem[];
 export const DeleteFleetErrorSet = /*@__PURE__*/ S.Array(
-  DeleteFleetErrorItem.pipe(T.XmlName("item")).annotate({
-    identifier: "DeleteFleetErrorItem",
-  }),
+  DeleteFleetErrorItem.pipe(T.XmlName("item")).annotate({ identifier: "DeleteFleetErrorItem" }),
 );
 export interface DeleteFleetsResult {
   SuccessfulFleetDeletions?: DeleteFleetSuccessItem[];
@@ -23406,9 +23145,7 @@ export const DeleteFleetsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("UnsuccessfulFleetDeletionSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteFleetsResult",
-}) as any as S.Schema<DeleteFleetsResult>;
+).annotate({ identifier: "DeleteFleetsResult" }) as any as S.Schema<DeleteFleetsResult>;
 export type VpcFlowLogId = string;
 export type FlowLogIdList = string[];
 export const FlowLogIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
@@ -23421,9 +23158,7 @@ export const DeleteFlowLogsRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     FlowLogIds: S.optional(FlowLogIdList).pipe(T.XmlName("FlowLogId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteFlowLogsRequest",
-}) as any as S.Schema<DeleteFlowLogsRequest>;
+).annotate({ identifier: "DeleteFlowLogsRequest" }) as any as S.Schema<DeleteFlowLogsRequest>;
 export interface DeleteFlowLogsResult {
   Unsuccessful?: UnsuccessfulItem[];
 }
@@ -23434,22 +23169,17 @@ export const DeleteFlowLogsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Unsuccessful"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteFlowLogsResult",
-}) as any as S.Schema<DeleteFlowLogsResult>;
+).annotate({ identifier: "DeleteFlowLogsResult" }) as any as S.Schema<DeleteFlowLogsResult>;
 export type FpgaImageId = string;
 export interface DeleteFpgaImageRequest {
   DryRun?: boolean;
   FpgaImageId?: string;
 }
 export const DeleteFpgaImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    FpgaImageId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteFpgaImageRequest",
-}) as any as S.Schema<DeleteFpgaImageRequest>;
+  S.Struct({ DryRun: S.optional(S.Boolean), FpgaImageId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteFpgaImageRequest" }) as any as S.Schema<DeleteFpgaImageRequest>;
 export interface DeleteFpgaImageResult {
   Return?: boolean;
 }
@@ -23457,18 +23187,15 @@ export const DeleteFpgaImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteFpgaImageResult",
-}) as any as S.Schema<DeleteFpgaImageResult>;
+).annotate({ identifier: "DeleteFpgaImageResult" }) as any as S.Schema<DeleteFpgaImageResult>;
 export interface DeleteImageUsageReportRequest {
   ReportId?: string;
   DryRun?: boolean;
 }
 export const DeleteImageUsageReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ReportId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteImageUsageReportRequest",
 }) as any as S.Schema<DeleteImageUsageReportRequest>;
@@ -23487,10 +23214,9 @@ export interface DeleteInstanceConnectEndpointRequest {
   InstanceConnectEndpointId?: string;
 }
 export const DeleteInstanceConnectEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    InstanceConnectEndpointId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), InstanceConnectEndpointId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteInstanceConnectEndpointRequest",
 }) as any as S.Schema<DeleteInstanceConnectEndpointRequest>;
@@ -23579,9 +23305,7 @@ export const DeleteIpamRequest = /*@__PURE__*/ S.suspend(() =>
     IpamId: S.optional(S.String),
     Cascade: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteIpamRequest",
-}) as any as S.Schema<DeleteIpamRequest>;
+).annotate({ identifier: "DeleteIpamRequest" }) as any as S.Schema<DeleteIpamRequest>;
 export interface DeleteIpamResult {
   Ipam?: Ipam;
 }
@@ -23591,9 +23315,7 @@ export const DeleteIpamResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipam"), T.Ec2QueryName("Ipam"))
       .annotate({ identifier: "Ipam" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteIpamResult",
-}) as any as S.Schema<DeleteIpamResult>;
+).annotate({ identifier: "DeleteIpamResult" }) as any as S.Schema<DeleteIpamResult>;
 export interface DeleteIpamExternalResourceVerificationTokenRequest {
   DryRun?: boolean;
   IpamExternalResourceVerificationTokenId?: string;
@@ -23653,13 +23375,10 @@ export interface DeleteIpamPolicyRequest {
   IpamPolicyId?: string;
 }
 export const DeleteIpamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    IpamPolicyId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteIpamPolicyRequest",
-}) as any as S.Schema<DeleteIpamPolicyRequest>;
+  S.Struct({ DryRun: S.optional(S.Boolean), IpamPolicyId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteIpamPolicyRequest" }) as any as S.Schema<DeleteIpamPolicyRequest>;
 export interface DeleteIpamPolicyResult {
   IpamPolicy?: IpamPolicy;
 }
@@ -23669,9 +23388,7 @@ export const DeleteIpamPolicyResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamPolicy"), T.Ec2QueryName("IpamPolicy"))
       .annotate({ identifier: "IpamPolicy" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteIpamPolicyResult",
-}) as any as S.Schema<DeleteIpamPolicyResult>;
+).annotate({ identifier: "DeleteIpamPolicyResult" }) as any as S.Schema<DeleteIpamPolicyResult>;
 export interface DeleteIpamPoolRequest {
   DryRun?: boolean;
   IpamPoolId?: string;
@@ -23683,9 +23400,7 @@ export const DeleteIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
     IpamPoolId: S.optional(S.String),
     Cascade: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteIpamPoolRequest",
-}) as any as S.Schema<DeleteIpamPoolRequest>;
+).annotate({ identifier: "DeleteIpamPoolRequest" }) as any as S.Schema<DeleteIpamPoolRequest>;
 export interface DeleteIpamPoolResult {
   IpamPool?: IpamPool;
 }
@@ -23695,18 +23410,15 @@ export const DeleteIpamPoolResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamPool"), T.Ec2QueryName("IpamPool"))
       .annotate({ identifier: "IpamPool" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteIpamPoolResult",
-}) as any as S.Schema<DeleteIpamPoolResult>;
+).annotate({ identifier: "DeleteIpamPoolResult" }) as any as S.Schema<DeleteIpamPoolResult>;
 export interface DeleteIpamPrefixListResolverRequest {
   DryRun?: boolean;
   IpamPrefixListResolverId?: string;
 }
 export const DeleteIpamPrefixListResolverRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    IpamPrefixListResolverId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), IpamPrefixListResolverId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteIpamPrefixListResolverRequest",
 }) as any as S.Schema<DeleteIpamPrefixListResolverRequest>;
@@ -23754,10 +23466,9 @@ export interface DeleteIpamResourceDiscoveryRequest {
   IpamResourceDiscoveryId?: string;
 }
 export const DeleteIpamResourceDiscoveryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    IpamResourceDiscoveryId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), IpamResourceDiscoveryId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteIpamResourceDiscoveryRequest",
 }) as any as S.Schema<DeleteIpamResourceDiscoveryRequest>;
@@ -23811,13 +23522,10 @@ export interface DeleteIpamScopeRequest {
   IpamScopeId?: string;
 }
 export const DeleteIpamScopeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    IpamScopeId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteIpamScopeRequest",
-}) as any as S.Schema<DeleteIpamScopeRequest>;
+  S.Struct({ DryRun: S.optional(S.Boolean), IpamScopeId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteIpamScopeRequest" }) as any as S.Schema<DeleteIpamScopeRequest>;
 export interface DeleteIpamScopeResult {
   IpamScope?: IpamScope;
 }
@@ -23827,9 +23535,7 @@ export const DeleteIpamScopeResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamScope"), T.Ec2QueryName("IpamScope"))
       .annotate({ identifier: "IpamScope" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteIpamScopeResult",
-}) as any as S.Schema<DeleteIpamScopeResult>;
+).annotate({ identifier: "DeleteIpamScopeResult" }) as any as S.Schema<DeleteIpamScopeResult>;
 export type KeyPairNameWithResolver = string;
 export type KeyPairId = string;
 export interface DeleteKeyPairRequest {
@@ -23843,9 +23549,7 @@ export const DeleteKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
     KeyPairId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteKeyPairRequest",
-}) as any as S.Schema<DeleteKeyPairRequest>;
+).annotate({ identifier: "DeleteKeyPairRequest" }) as any as S.Schema<DeleteKeyPairRequest>;
 export interface DeleteKeyPairResult {
   Return?: boolean;
   KeyPairId?: string;
@@ -23855,9 +23559,7 @@ export const DeleteKeyPairResult = /*@__PURE__*/ S.suspend(() =>
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
     KeyPairId: S.optional(S.String).pipe(T.XmlName("keyPairId"), T.Ec2QueryName("KeyPairId")),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteKeyPairResult",
-}) as any as S.Schema<DeleteKeyPairResult>;
+).annotate({ identifier: "DeleteKeyPairResult" }) as any as S.Schema<DeleteKeyPairResult>;
 export interface DeleteLaunchTemplateRequest {
   DryRun?: boolean;
   LaunchTemplateId?: string;
@@ -24041,10 +23743,9 @@ export interface DeleteLocalGatewayRouteTableRequest {
   DryRun?: boolean;
 }
 export const DeleteLocalGatewayRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    LocalGatewayRouteTableId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ LocalGatewayRouteTableId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteLocalGatewayRouteTableRequest",
 }) as any as S.Schema<DeleteLocalGatewayRouteTableRequest>;
@@ -24086,9 +23787,7 @@ export const DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult 
           T.XmlName("localGatewayRouteTableVirtualInterfaceGroupAssociation"),
           T.Ec2QueryName("LocalGatewayRouteTableVirtualInterfaceGroupAssociation"),
         )
-        .annotate({
-          identifier: "LocalGatewayRouteTableVirtualInterfaceGroupAssociation",
-        }),
+        .annotate({ identifier: "LocalGatewayRouteTableVirtualInterfaceGroupAssociation" }),
     }).pipe(ns),
   ).annotate({
     identifier: "DeleteLocalGatewayRouteTableVirtualInterfaceGroupAssociationResult",
@@ -24179,10 +23878,9 @@ export interface DeleteManagedPrefixListRequest {
   PrefixListId?: string;
 }
 export const DeleteManagedPrefixListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    PrefixListId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), PrefixListId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteManagedPrefixListRequest",
 }) as any as S.Schema<DeleteManagedPrefixListRequest>;
@@ -24207,9 +23905,7 @@ export const DeleteNatGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     NatGatewayId: S.optional(S.String).pipe(T.XmlName("NatGatewayId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteNatGatewayRequest",
-}) as any as S.Schema<DeleteNatGatewayRequest>;
+).annotate({ identifier: "DeleteNatGatewayRequest" }) as any as S.Schema<DeleteNatGatewayRequest>;
 export interface DeleteNatGatewayResult {
   NatGatewayId?: string;
 }
@@ -24220,9 +23916,7 @@ export const DeleteNatGatewayResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NatGatewayId"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteNatGatewayResult",
-}) as any as S.Schema<DeleteNatGatewayResult>;
+).annotate({ identifier: "DeleteNatGatewayResult" }) as any as S.Schema<DeleteNatGatewayResult>;
 export interface DeleteNetworkAclRequest {
   DryRun?: boolean;
   NetworkAclId?: string;
@@ -24235,15 +23929,11 @@ export const DeleteNetworkAclRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NetworkAclId"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteNetworkAclRequest",
-}) as any as S.Schema<DeleteNetworkAclRequest>;
+).annotate({ identifier: "DeleteNetworkAclRequest" }) as any as S.Schema<DeleteNetworkAclRequest>;
 export interface DeleteNetworkAclResponse {}
 export const DeleteNetworkAclResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteNetworkAclResponse",
-}) as any as S.Schema<DeleteNetworkAclResponse>;
+).annotate({ identifier: "DeleteNetworkAclResponse" }) as any as S.Schema<DeleteNetworkAclResponse>;
 export interface DeleteNetworkAclEntryRequest {
   DryRun?: boolean;
   NetworkAclId?: string;
@@ -24326,10 +24016,9 @@ export interface DeleteNetworkInsightsAnalysisRequest {
   NetworkInsightsAnalysisId?: string;
 }
 export const DeleteNetworkInsightsAnalysisRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    NetworkInsightsAnalysisId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), NetworkInsightsAnalysisId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteNetworkInsightsAnalysisRequest",
 }) as any as S.Schema<DeleteNetworkInsightsAnalysisRequest>;
@@ -24351,10 +24040,9 @@ export interface DeleteNetworkInsightsPathRequest {
   NetworkInsightsPathId?: string;
 }
 export const DeleteNetworkInsightsPathRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    NetworkInsightsPathId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), NetworkInsightsPathId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteNetworkInsightsPathRequest",
 }) as any as S.Schema<DeleteNetworkInsightsPathRequest>;
@@ -24587,9 +24275,7 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("DestinationIpv6CidrBlock"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteRouteRequest",
-}) as any as S.Schema<DeleteRouteRequest>;
+).annotate({ identifier: "DeleteRouteRequest" }) as any as S.Schema<DeleteRouteRequest>;
 export interface DeleteRouteResponse {}
 export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteRouteResponse",
@@ -24599,13 +24285,10 @@ export interface DeleteRouteServerRequest {
   DryRun?: boolean;
 }
 export const DeleteRouteServerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouteServerId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteRouteServerRequest",
-}) as any as S.Schema<DeleteRouteServerRequest>;
+  S.Struct({ RouteServerId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteRouteServerRequest" }) as any as S.Schema<DeleteRouteServerRequest>;
 export interface DeleteRouteServerResult {
   RouteServer?: RouteServer;
 }
@@ -24615,18 +24298,15 @@ export const DeleteRouteServerResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("routeServer"), T.Ec2QueryName("RouteServer"))
       .annotate({ identifier: "RouteServer" }),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteRouteServerResult",
-}) as any as S.Schema<DeleteRouteServerResult>;
+).annotate({ identifier: "DeleteRouteServerResult" }) as any as S.Schema<DeleteRouteServerResult>;
 export interface DeleteRouteServerEndpointRequest {
   RouteServerEndpointId?: string;
   DryRun?: boolean;
 }
 export const DeleteRouteServerEndpointRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouteServerEndpointId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ RouteServerEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteRouteServerEndpointRequest",
 }) as any as S.Schema<DeleteRouteServerEndpointRequest>;
@@ -24647,10 +24327,9 @@ export interface DeleteRouteServerPeerRequest {
   DryRun?: boolean;
 }
 export const DeleteRouteServerPeerRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouteServerPeerId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ RouteServerPeerId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteRouteServerPeerRequest",
 }) as any as S.Schema<DeleteRouteServerPeerRequest>;
@@ -24678,15 +24357,11 @@ export const DeleteRouteTableRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RouteTableId"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteRouteTableRequest",
-}) as any as S.Schema<DeleteRouteTableRequest>;
+).annotate({ identifier: "DeleteRouteTableRequest" }) as any as S.Schema<DeleteRouteTableRequest>;
 export interface DeleteRouteTableResponse {}
 export const DeleteRouteTableResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteRouteTableResponse",
-}) as any as S.Schema<DeleteRouteTableResponse>;
+).annotate({ identifier: "DeleteRouteTableResponse" }) as any as S.Schema<DeleteRouteTableResponse>;
 export interface DeleteSecondaryNetworkRequest {
   ClientToken?: string;
   DryRun?: boolean;
@@ -24778,14 +24453,10 @@ export const DeleteSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     SnapshotId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteSnapshotRequest",
-}) as any as S.Schema<DeleteSnapshotRequest>;
+).annotate({ identifier: "DeleteSnapshotRequest" }) as any as S.Schema<DeleteSnapshotRequest>;
 export interface DeleteSnapshotResponse {}
 export const DeleteSnapshotResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "DeleteSnapshotResponse",
-  },
+  { identifier: "DeleteSnapshotResponse" },
 ) as any as S.Schema<DeleteSnapshotResponse>;
 export interface DeleteSpotDatafeedSubscriptionRequest {
   DryRun?: boolean;
@@ -24812,9 +24483,7 @@ export const DeleteSubnetRequest = /*@__PURE__*/ S.suspend(() =>
     SubnetId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteSubnetRequest",
-}) as any as S.Schema<DeleteSubnetRequest>;
+).annotate({ identifier: "DeleteSubnetRequest" }) as any as S.Schema<DeleteSubnetRequest>;
 export interface DeleteSubnetResponse {}
 export const DeleteSubnetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteSubnetResponse",
@@ -24824,10 +24493,9 @@ export interface DeleteSubnetCidrReservationRequest {
   DryRun?: boolean;
 }
 export const DeleteSubnetCidrReservationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SubnetCidrReservationId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ SubnetCidrReservationId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteSubnetCidrReservationRequest",
 }) as any as S.Schema<DeleteSubnetCidrReservationRequest>;
@@ -24860,9 +24528,7 @@ export const DeleteTagsRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tag"), T.Ec2QueryName("Tag")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteTagsRequest",
-}) as any as S.Schema<DeleteTagsRequest>;
+).annotate({ identifier: "DeleteTagsRequest" }) as any as S.Schema<DeleteTagsRequest>;
 export interface DeleteTagsResponse {}
 export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteTagsResponse",
@@ -24872,10 +24538,9 @@ export interface DeleteTrafficMirrorFilterRequest {
   DryRun?: boolean;
 }
 export const DeleteTrafficMirrorFilterRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficMirrorFilterId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ TrafficMirrorFilterId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteTrafficMirrorFilterRequest",
 }) as any as S.Schema<DeleteTrafficMirrorFilterRequest>;
@@ -24898,10 +24563,9 @@ export interface DeleteTrafficMirrorFilterRuleRequest {
   DryRun?: boolean;
 }
 export const DeleteTrafficMirrorFilterRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficMirrorFilterRuleId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ TrafficMirrorFilterRuleId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteTrafficMirrorFilterRuleRequest",
 }) as any as S.Schema<DeleteTrafficMirrorFilterRuleRequest>;
@@ -24924,10 +24588,9 @@ export interface DeleteTrafficMirrorSessionRequest {
   DryRun?: boolean;
 }
 export const DeleteTrafficMirrorSessionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficMirrorSessionId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ TrafficMirrorSessionId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteTrafficMirrorSessionRequest",
 }) as any as S.Schema<DeleteTrafficMirrorSessionRequest>;
@@ -24949,10 +24612,9 @@ export interface DeleteTrafficMirrorTargetRequest {
   DryRun?: boolean;
 }
 export const DeleteTrafficMirrorTargetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrafficMirrorTargetId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ TrafficMirrorTargetId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteTrafficMirrorTargetRequest",
 }) as any as S.Schema<DeleteTrafficMirrorTargetRequest>;
@@ -24974,10 +24636,9 @@ export interface DeleteTransitGatewayRequest {
   DryRun?: boolean;
 }
 export const DeleteTransitGatewayRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TransitGatewayId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ TransitGatewayId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteTransitGatewayRequest",
 }) as any as S.Schema<DeleteTransitGatewayRequest>;
@@ -25475,9 +25136,7 @@ export const DeleteVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     VolumeId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteVolumeRequest",
-}) as any as S.Schema<DeleteVolumeRequest>;
+).annotate({ identifier: "DeleteVolumeRequest" }) as any as S.Schema<DeleteVolumeRequest>;
 export interface DeleteVolumeResponse {}
 export const DeleteVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteVolumeResponse",
@@ -25491,9 +25150,7 @@ export const DeleteVpcRequest = /*@__PURE__*/ S.suspend(() =>
     VpcId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteVpcRequest",
-}) as any as S.Schema<DeleteVpcRequest>;
+).annotate({ identifier: "DeleteVpcRequest" }) as any as S.Schema<DeleteVpcRequest>;
 export interface DeleteVpcResponse {}
 export const DeleteVpcResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteVpcResponse",
@@ -25503,10 +25160,9 @@ export interface DeleteVpcBlockPublicAccessExclusionRequest {
   ExclusionId?: string;
 }
 export const DeleteVpcBlockPublicAccessExclusionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    ExclusionId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), ExclusionId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteVpcBlockPublicAccessExclusionRequest",
 }) as any as S.Schema<DeleteVpcBlockPublicAccessExclusionRequest>;
@@ -25530,10 +25186,9 @@ export interface DeleteVpcEncryptionControlRequest {
   VpcEncryptionControlId?: string;
 }
 export const DeleteVpcEncryptionControlRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    VpcEncryptionControlId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), VpcEncryptionControlId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteVpcEncryptionControlRequest",
 }) as any as S.Schema<DeleteVpcEncryptionControlRequest>;
@@ -25603,9 +25258,7 @@ export const DeleteVpcEndpointsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Unsuccessful"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DeleteVpcEndpointsResult",
-}) as any as S.Schema<DeleteVpcEndpointsResult>;
+).annotate({ identifier: "DeleteVpcEndpointsResult" }) as any as S.Schema<DeleteVpcEndpointsResult>;
 export type VpcEndpointServiceIdList = string[];
 export const VpcEndpointServiceIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export interface DeleteVpcEndpointServiceConfigurationsRequest {
@@ -25663,10 +25316,9 @@ export interface DeleteVpnConcentratorRequest {
   DryRun?: boolean;
 }
 export const DeleteVpnConcentratorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VpnConcentratorId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ VpnConcentratorId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteVpnConcentratorRequest",
 }) as any as S.Schema<DeleteVpnConcentratorRequest>;
@@ -25725,15 +25377,11 @@ export const DeleteVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     VpnGatewayId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteVpnGatewayRequest",
-}) as any as S.Schema<DeleteVpnGatewayRequest>;
+).annotate({ identifier: "DeleteVpnGatewayRequest" }) as any as S.Schema<DeleteVpnGatewayRequest>;
 export interface DeleteVpnGatewayResponse {}
 export const DeleteVpnGatewayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteVpnGatewayResponse",
-}) as any as S.Schema<DeleteVpnGatewayResponse>;
+).annotate({ identifier: "DeleteVpnGatewayResponse" }) as any as S.Schema<DeleteVpnGatewayResponse>;
 export interface DeprovisionByoipCidrRequest {
   Cidr?: string;
   DryRun?: boolean;
@@ -25930,9 +25578,7 @@ export const DeregisterImageRequest = /*@__PURE__*/ S.suspend(() =>
     DeleteAssociatedSnapshots: S.optional(S.Boolean),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeregisterImageRequest",
-}) as any as S.Schema<DeregisterImageRequest>;
+).annotate({ identifier: "DeregisterImageRequest" }) as any as S.Schema<DeregisterImageRequest>;
 export type SnapshotReturnCodes =
   | "success"
   | "skipped"
@@ -25954,9 +25600,7 @@ export const DeleteSnapshotReturnCode = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ReturnCode"),
     ),
   }),
-).annotate({
-  identifier: "DeleteSnapshotReturnCode",
-}) as any as S.Schema<DeleteSnapshotReturnCode>;
+).annotate({ identifier: "DeleteSnapshotReturnCode" }) as any as S.Schema<DeleteSnapshotReturnCode>;
 export type DeleteSnapshotResultSet = DeleteSnapshotReturnCode[];
 export const DeleteSnapshotResultSet = /*@__PURE__*/ S.Array(
   DeleteSnapshotReturnCode.pipe(T.XmlName("item")).annotate({
@@ -25975,9 +25619,7 @@ export const DeregisterImageResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("DeleteSnapshotResultSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DeregisterImageResult",
-}) as any as S.Schema<DeregisterImageResult>;
+).annotate({ identifier: "DeregisterImageResult" }) as any as S.Schema<DeregisterImageResult>;
 export type InstanceTagKeySet = string[];
 export const InstanceTagKeySet = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export interface DeregisterInstanceTagAttributeRequest {
@@ -26087,9 +25729,7 @@ export const DeregisterTransitGatewayMulticastGroupMembersResult = /*@__PURE__*/
         T.XmlName("deregisteredMulticastGroupMembers"),
         T.Ec2QueryName("DeregisteredMulticastGroupMembers"),
       )
-      .annotate({
-        identifier: "TransitGatewayMulticastDeregisteredGroupMembers",
-      }),
+      .annotate({ identifier: "TransitGatewayMulticastDeregisteredGroupMembers" }),
   }).pipe(ns),
 ).annotate({
   identifier: "DeregisterTransitGatewayMulticastGroupMembersResult",
@@ -26143,9 +25783,7 @@ export const DeregisterTransitGatewayMulticastGroupSourcesResult = /*@__PURE__*/
         T.XmlName("deregisteredMulticastGroupSources"),
         T.Ec2QueryName("DeregisteredMulticastGroupSources"),
       )
-      .annotate({
-        identifier: "TransitGatewayMulticastDeregisteredGroupSources",
-      }),
+      .annotate({ identifier: "TransitGatewayMulticastDeregisteredGroupSources" }),
   }).pipe(ns),
 ).annotate({
   identifier: "DeregisterTransitGatewayMulticastGroupSourcesResult",
@@ -26182,14 +25820,10 @@ export const AccountAttributeValue = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AttributeValue"),
     ),
   }),
-).annotate({
-  identifier: "AccountAttributeValue",
-}) as any as S.Schema<AccountAttributeValue>;
+).annotate({ identifier: "AccountAttributeValue" }) as any as S.Schema<AccountAttributeValue>;
 export type AccountAttributeValueList = AccountAttributeValue[];
 export const AccountAttributeValueList = /*@__PURE__*/ S.Array(
-  AccountAttributeValue.pipe(T.XmlName("item")).annotate({
-    identifier: "AccountAttributeValue",
-  }),
+  AccountAttributeValue.pipe(T.XmlName("item")).annotate({ identifier: "AccountAttributeValue" }),
 );
 export interface AccountAttribute {
   AttributeName?: string;
@@ -26206,14 +25840,10 @@ export const AccountAttribute = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AttributeValueSet"),
     ),
   }),
-).annotate({
-  identifier: "AccountAttribute",
-}) as any as S.Schema<AccountAttribute>;
+).annotate({ identifier: "AccountAttribute" }) as any as S.Schema<AccountAttribute>;
 export type AccountAttributeList = AccountAttribute[];
 export const AccountAttributeList = /*@__PURE__*/ S.Array(
-  AccountAttribute.pipe(T.XmlName("item")).annotate({
-    identifier: "AccountAttribute",
-  }),
+  AccountAttribute.pipe(T.XmlName("item")).annotate({ identifier: "AccountAttribute" }),
 );
 export interface DescribeAccountAttributesResult {
   AccountAttributes?: AccountAttribute[];
@@ -26375,9 +26005,7 @@ export const DescribeAddressesRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
     AllocationIds: S.optional(AllocationIdList).pipe(T.XmlName("AllocationId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeAddressesRequest",
-}) as any as S.Schema<DescribeAddressesRequest>;
+).annotate({ identifier: "DescribeAddressesRequest" }) as any as S.Schema<DescribeAddressesRequest>;
 export type ServiceManaged = "alb" | "nlb" | "rnat" | "rds" | (string & {});
 export const ServiceManaged = S.String;
 
@@ -26463,9 +26091,7 @@ export const DescribeAddressesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AddressesSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeAddressesResult",
-}) as any as S.Schema<DescribeAddressesResult>;
+).annotate({ identifier: "DescribeAddressesResult" }) as any as S.Schema<DescribeAddressesResult>;
 export type AllocationIds = string[];
 export const AllocationIds = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type AddressAttributeName = "domain-name" | (string & {});
@@ -26502,9 +26128,7 @@ export const PtrUpdateStatus = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(S.String).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
     Reason: S.optional(S.String).pipe(T.XmlName("reason"), T.Ec2QueryName("Reason")),
   }),
-).annotate({
-  identifier: "PtrUpdateStatus",
-}) as any as S.Schema<PtrUpdateStatus>;
+).annotate({ identifier: "PtrUpdateStatus" }) as any as S.Schema<PtrUpdateStatus>;
 export interface AddressAttribute {
   PublicIp?: string;
   AllocationId?: string;
@@ -26523,14 +26147,10 @@ export const AddressAttribute = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ptrRecordUpdate"), T.Ec2QueryName("PtrRecordUpdate"))
       .annotate({ identifier: "PtrUpdateStatus" }),
   }),
-).annotate({
-  identifier: "AddressAttribute",
-}) as any as S.Schema<AddressAttribute>;
+).annotate({ identifier: "AddressAttribute" }) as any as S.Schema<AddressAttribute>;
 export type AddressSet = AddressAttribute[];
 export const AddressSet = /*@__PURE__*/ S.Array(
-  AddressAttribute.pipe(T.XmlName("item")).annotate({
-    identifier: "AddressAttribute",
-  }),
+  AddressAttribute.pipe(T.XmlName("item")).annotate({ identifier: "AddressAttribute" }),
 );
 export interface DescribeAddressesAttributeResult {
   Addresses?: AddressAttribute[];
@@ -26563,9 +26183,7 @@ export const DescribeAddressTransfersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeAddressTransfersRequest>;
 export type AddressTransferList = AddressTransfer[];
 export const AddressTransferList = /*@__PURE__*/ S.Array(
-  AddressTransfer.pipe(T.XmlName("item")).annotate({
-    identifier: "AddressTransfer",
-  }),
+  AddressTransfer.pipe(T.XmlName("item")).annotate({ identifier: "AddressTransfer" }),
 );
 export interface DescribeAddressTransfersResult {
   AddressTransfers?: AddressTransfer[];
@@ -26675,9 +26293,7 @@ export const ApplicationStatusReason = /*@__PURE__*/ S.suspend(() =>
     StatusCode: S.optional(S.Number).pipe(T.XmlName("statusCode"), T.Ec2QueryName("StatusCode")),
     Protocol: S.optional(S.String).pipe(T.XmlName("protocol"), T.Ec2QueryName("Protocol")),
   }),
-).annotate({
-  identifier: "ApplicationStatusReason",
-}) as any as S.Schema<ApplicationStatusReason>;
+).annotate({ identifier: "ApplicationStatusReason" }) as any as S.Schema<ApplicationStatusReason>;
 export interface ApplicationStatusDetail {
   ApplicationStatusCheckId?: string;
   CheckUpdateTime?: Date;
@@ -26717,9 +26333,7 @@ export const ApplicationStatusDetail = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("reason"), T.Ec2QueryName("Reason"))
       .annotate({ identifier: "ApplicationStatusReason" }),
   }),
-).annotate({
-  identifier: "ApplicationStatusDetail",
-}) as any as S.Schema<ApplicationStatusDetail>;
+).annotate({ identifier: "ApplicationStatusDetail" }) as any as S.Schema<ApplicationStatusDetail>;
 export type ApplicationStatusDetailSet = ApplicationStatusDetail[];
 export const ApplicationStatusDetailSet = /*@__PURE__*/ S.Array(
   ApplicationStatusDetail.pipe(T.XmlName("item")).annotate({
@@ -26753,9 +26367,7 @@ export const ApplicationStatus = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("DetailSet"),
     ),
   }),
-).annotate({
-  identifier: "ApplicationStatus",
-}) as any as S.Schema<ApplicationStatus>;
+).annotate({ identifier: "ApplicationStatus" }) as any as S.Schema<ApplicationStatus>;
 export interface InstanceApplicationStatus {
   InstanceId?: string;
   AvailabilityZone?: string;
@@ -26966,12 +26578,8 @@ export interface AvailabilityZoneMessage {
   Message?: string;
 }
 export const AvailabilityZoneMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")),
-  }),
-).annotate({
-  identifier: "AvailabilityZoneMessage",
-}) as any as S.Schema<AvailabilityZoneMessage>;
+  S.Struct({ Message: S.optional(S.String).pipe(T.XmlName("message"), T.Ec2QueryName("Message")) }),
+).annotate({ identifier: "AvailabilityZoneMessage" }) as any as S.Schema<AvailabilityZoneMessage>;
 export type AvailabilityZoneMessageList = AvailabilityZoneMessage[];
 export const AvailabilityZoneMessageList = /*@__PURE__*/ S.Array(
   AvailabilityZoneMessage.pipe(T.XmlName("item")).annotate({
@@ -26982,9 +26590,7 @@ export interface AvailabilityZoneGeography {
   Name?: string;
 }
 export const AvailabilityZoneGeography = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
-  }),
+  S.Struct({ Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")) }),
 ).annotate({
   identifier: "AvailabilityZoneGeography",
 }) as any as S.Schema<AvailabilityZoneGeography>;
@@ -26998,9 +26604,7 @@ export interface AvailabilityZoneSubGeography {
   Name?: string;
 }
 export const AvailabilityZoneSubGeography = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
-  }),
+  S.Struct({ Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")) }),
 ).annotate({
   identifier: "AvailabilityZoneSubGeography",
 }) as any as S.Schema<AvailabilityZoneSubGeography>;
@@ -27079,14 +26683,10 @@ export const AvailabilityZone = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ZoneState"),
     ),
   }),
-).annotate({
-  identifier: "AvailabilityZone",
-}) as any as S.Schema<AvailabilityZone>;
+).annotate({ identifier: "AvailabilityZone" }) as any as S.Schema<AvailabilityZone>;
 export type AvailabilityZoneList = AvailabilityZone[];
 export const AvailabilityZoneList = /*@__PURE__*/ S.Array(
-  AvailabilityZone.pipe(T.XmlName("item")).annotate({
-    identifier: "AvailabilityZone",
-  }),
+  AvailabilityZone.pipe(T.XmlName("item")).annotate({ identifier: "AvailabilityZone" }),
 );
 export interface DescribeAvailabilityZonesResult {
   AvailabilityZones?: AvailabilityZone[];
@@ -27233,9 +26833,7 @@ export const DescribeByoipCidrsResult = /*@__PURE__*/ S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeByoipCidrsResult",
-}) as any as S.Schema<DescribeByoipCidrsResult>;
+).annotate({ identifier: "DescribeByoipCidrsResult" }) as any as S.Schema<DescribeByoipCidrsResult>;
 export type DescribeFutureCapacityMaxResults = number;
 export interface DescribeCapacityBlockExtensionHistoryRequest {
   CapacityReservationIds?: string[];
@@ -27340,14 +26938,10 @@ export const CapacityBlockExtension = /*@__PURE__*/ S.suspend(() =>
     ),
     ZoneType: S.optional(S.String).pipe(T.XmlName("zoneType"), T.Ec2QueryName("ZoneType")),
   }),
-).annotate({
-  identifier: "CapacityBlockExtension",
-}) as any as S.Schema<CapacityBlockExtension>;
+).annotate({ identifier: "CapacityBlockExtension" }) as any as S.Schema<CapacityBlockExtension>;
 export type CapacityBlockExtensionSet = CapacityBlockExtension[];
 export const CapacityBlockExtensionSet = /*@__PURE__*/ S.Array(
-  CapacityBlockExtension.pipe(T.XmlName("item")).annotate({
-    identifier: "CapacityBlockExtension",
-  }),
+  CapacityBlockExtension.pipe(T.XmlName("item")).annotate({ identifier: "CapacityBlockExtension" }),
 );
 export interface DescribeCapacityBlockExtensionHistoryResult {
   CapacityBlockExtensions?: CapacityBlockExtension[];
@@ -27575,14 +27169,10 @@ export const CapacityBlockOffering = /*@__PURE__*/ S.suspend(() =>
     ),
     ZoneType: S.optional(S.String).pipe(T.XmlName("zoneType"), T.Ec2QueryName("ZoneType")),
   }),
-).annotate({
-  identifier: "CapacityBlockOffering",
-}) as any as S.Schema<CapacityBlockOffering>;
+).annotate({ identifier: "CapacityBlockOffering" }) as any as S.Schema<CapacityBlockOffering>;
 export type CapacityBlockOfferingSet = CapacityBlockOffering[];
 export const CapacityBlockOfferingSet = /*@__PURE__*/ S.Array(
-  CapacityBlockOffering.pipe(T.XmlName("item")).annotate({
-    identifier: "CapacityBlockOffering",
-  }),
+  CapacityBlockOffering.pipe(T.XmlName("item")).annotate({ identifier: "CapacityBlockOffering" }),
 );
 export interface DescribeCapacityBlockOfferingsResult {
   CapacityBlockOfferings?: CapacityBlockOffering[];
@@ -27684,9 +27274,7 @@ export const CapacityBlock = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CapacityBlock" }) as any as S.Schema<CapacityBlock>;
 export type CapacityBlockSet = CapacityBlock[];
 export const CapacityBlockSet = /*@__PURE__*/ S.Array(
-  CapacityBlock.pipe(T.XmlName("item")).annotate({
-    identifier: "CapacityBlock",
-  }),
+  CapacityBlock.pipe(T.XmlName("item")).annotate({ identifier: "CapacityBlock" }),
 );
 export interface DescribeCapacityBlocksResult {
   CapacityBlocks?: CapacityBlock[];
@@ -27798,14 +27386,10 @@ export const CapacityBlockStatus = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("CapacityReservationStatusSet"),
     ),
   }),
-).annotate({
-  identifier: "CapacityBlockStatus",
-}) as any as S.Schema<CapacityBlockStatus>;
+).annotate({ identifier: "CapacityBlockStatus" }) as any as S.Schema<CapacityBlockStatus>;
 export type CapacityBlockStatusSet = CapacityBlockStatus[];
 export const CapacityBlockStatusSet = /*@__PURE__*/ S.Array(
-  CapacityBlockStatus.pipe(T.XmlName("item")).annotate({
-    identifier: "CapacityBlockStatus",
-  }),
+  CapacityBlockStatus.pipe(T.XmlName("item")).annotate({ identifier: "CapacityBlockStatus" }),
 );
 export interface DescribeCapacityBlockStatusResult {
   CapacityBlockStatuses?: CapacityBlockStatus[];
@@ -27994,9 +27578,7 @@ export const CapacityReservationInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailabilityZoneId"),
     ),
   }),
-).annotate({
-  identifier: "CapacityReservationInfo",
-}) as any as S.Schema<CapacityReservationInfo>;
+).annotate({ identifier: "CapacityReservationInfo" }) as any as S.Schema<CapacityReservationInfo>;
 export interface CapacityReservationBillingRequest {
   CapacityReservationId?: string;
   RequestedBy?: string;
@@ -28106,6 +27688,55 @@ export const DescribeCapacityReservationCancellationQuotesResult = /*@__PURE__*/
 ).annotate({
   identifier: "DescribeCapacityReservationCancellationQuotesResult",
 }) as any as S.Schema<DescribeCapacityReservationCancellationQuotesResult>;
+export type CapacityReservationModificationQuoteIdSet = string[];
+export const CapacityReservationModificationQuoteIdSet = /*@__PURE__*/ S.Array(
+  S.String.pipe(T.XmlName("item")),
+);
+export type DescribeCapacityReservationDateChangeQuotesRequestMaxResults = number;
+export interface DescribeCapacityReservationDateChangeQuotesRequest {
+  CapacityReservationModificationQuoteIds?: string[];
+  MaxResults?: number;
+  NextToken?: string;
+  DryRun?: boolean;
+  Filters?: Filter[];
+}
+export const DescribeCapacityReservationDateChangeQuotesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CapacityReservationModificationQuoteIds: S.optional(
+      CapacityReservationModificationQuoteIdSet,
+    ).pipe(T.XmlName("CapacityReservationModificationQuoteId")),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+    DryRun: S.optional(S.Boolean),
+    Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeCapacityReservationDateChangeQuotesRequest",
+}) as any as S.Schema<DescribeCapacityReservationDateChangeQuotesRequest>;
+export type CapacityReservationModificationQuoteResponseSet =
+  CapacityReservationModificationQuote[];
+export const CapacityReservationModificationQuoteResponseSet = /*@__PURE__*/ S.Array(
+  CapacityReservationModificationQuote.pipe(T.XmlName("item")).annotate({
+    identifier: "CapacityReservationModificationQuote",
+  }),
+);
+export interface DescribeCapacityReservationDateChangeQuotesResult {
+  CapacityReservationModificationQuotes?: CapacityReservationModificationQuote[];
+  NextToken?: string;
+}
+export const DescribeCapacityReservationDateChangeQuotesResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CapacityReservationModificationQuotes: S.optional(
+      CapacityReservationModificationQuoteResponseSet,
+    ).pipe(
+      T.XmlName("capacityReservationModificationQuoteSet"),
+      T.Ec2QueryName("CapacityReservationModificationQuoteSet"),
+    ),
+    NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeCapacityReservationDateChangeQuotesResult",
+}) as any as S.Schema<DescribeCapacityReservationDateChangeQuotesResult>;
 export type DescribeCapacityReservationFleetsMaxResults = number;
 export interface DescribeCapacityReservationFleetsRequest {
   CapacityReservationFleetIds?: string[];
@@ -28189,9 +27820,7 @@ export const CapacityReservationFleet = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "CapacityReservationFleet",
-}) as any as S.Schema<CapacityReservationFleet>;
+).annotate({ identifier: "CapacityReservationFleet" }) as any as S.Schema<CapacityReservationFleet>;
 export type CapacityReservationFleetSet = CapacityReservationFleet[];
 export const CapacityReservationFleetSet = /*@__PURE__*/ S.Array(
   CapacityReservationFleet.pipe(T.XmlName("item")).annotate({
@@ -28236,9 +27865,7 @@ export const DescribeCapacityReservationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeCapacityReservationsRequest>;
 export type CapacityReservationSet = CapacityReservation[];
 export const CapacityReservationSet = /*@__PURE__*/ S.Array(
-  CapacityReservation.pipe(T.XmlName("item")).annotate({
-    identifier: "CapacityReservation",
-  }),
+  CapacityReservation.pipe(T.XmlName("item")).annotate({ identifier: "CapacityReservation" }),
 );
 export interface DescribeCapacityReservationsResult {
   NextToken?: string;
@@ -28364,9 +27991,7 @@ export const DescribeCarrierGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeCarrierGatewaysRequest>;
 export type CarrierGatewaySet = CarrierGateway[];
 export const CarrierGatewaySet = /*@__PURE__*/ S.Array(
-  CarrierGateway.pipe(T.XmlName("item")).annotate({
-    identifier: "CarrierGateway",
-  }),
+  CarrierGateway.pipe(T.XmlName("item")).annotate({ identifier: "CarrierGateway" }),
 );
 export interface DescribeCarrierGatewaysResult {
   CarrierGateways?: CarrierGateway[];
@@ -28417,14 +28042,10 @@ export const ClassicLinkInstance = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
     VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
   }),
-).annotate({
-  identifier: "ClassicLinkInstance",
-}) as any as S.Schema<ClassicLinkInstance>;
+).annotate({ identifier: "ClassicLinkInstance" }) as any as S.Schema<ClassicLinkInstance>;
 export type ClassicLinkInstanceList = ClassicLinkInstance[];
 export const ClassicLinkInstanceList = /*@__PURE__*/ S.Array(
-  ClassicLinkInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "ClassicLinkInstance",
-  }),
+  ClassicLinkInstance.pipe(T.XmlName("item")).annotate({ identifier: "ClassicLinkInstance" }),
 );
 export interface DescribeClassicLinkInstancesResult {
   Instances?: ClassicLinkInstance[];
@@ -28485,14 +28106,10 @@ export const AuthorizationRule = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("status"), T.Ec2QueryName("Status"))
       .annotate({ identifier: "ClientVpnAuthorizationRuleStatus" }),
   }),
-).annotate({
-  identifier: "AuthorizationRule",
-}) as any as S.Schema<AuthorizationRule>;
+).annotate({ identifier: "AuthorizationRule" }) as any as S.Schema<AuthorizationRule>;
 export type AuthorizationRuleSet = AuthorizationRule[];
 export const AuthorizationRuleSet = /*@__PURE__*/ S.Array(
-  AuthorizationRule.pipe(T.XmlName("item")).annotate({
-    identifier: "AuthorizationRule",
-  }),
+  AuthorizationRule.pipe(T.XmlName("item")).annotate({ identifier: "AuthorizationRule" }),
 );
 export interface DescribeClientVpnAuthorizationRulesResult {
   AuthorizationRules?: AuthorizationRule[];
@@ -28564,6 +28181,7 @@ export interface ClientVpnConnection {
   Status?: ClientVpnConnectionStatus;
   ConnectionEndTime?: string;
   PostureComplianceStatuses?: string[];
+  AuthorizationPolicyLastEvaluatedTime?: string;
 }
 export const ClientVpnConnection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -28611,15 +28229,15 @@ export const ClientVpnConnection = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("postureComplianceStatusSet"),
       T.Ec2QueryName("PostureComplianceStatusSet"),
     ),
+    AuthorizationPolicyLastEvaluatedTime: S.optional(S.String).pipe(
+      T.XmlName("authorizationPolicyLastEvaluatedTime"),
+      T.Ec2QueryName("AuthorizationPolicyLastEvaluatedTime"),
+    ),
   }),
-).annotate({
-  identifier: "ClientVpnConnection",
-}) as any as S.Schema<ClientVpnConnection>;
+).annotate({ identifier: "ClientVpnConnection" }) as any as S.Schema<ClientVpnConnection>;
 export type ClientVpnConnectionSet = ClientVpnConnection[];
 export const ClientVpnConnectionSet = /*@__PURE__*/ S.Array(
-  ClientVpnConnection.pipe(T.XmlName("item")).annotate({
-    identifier: "ClientVpnConnection",
-  }),
+  ClientVpnConnection.pipe(T.XmlName("item")).annotate({ identifier: "ClientVpnConnection" }),
 );
 export interface DescribeClientVpnConnectionsResult {
   Connections?: ClientVpnConnection[];
@@ -28677,9 +28295,7 @@ export const AssociatedTargetNetwork = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NetworkType"),
     ),
   }),
-).annotate({
-  identifier: "AssociatedTargetNetwork",
-}) as any as S.Schema<AssociatedTargetNetwork>;
+).annotate({ identifier: "AssociatedTargetNetwork" }) as any as S.Schema<AssociatedTargetNetwork>;
 export type AssociatedTargetNetworkSet = AssociatedTargetNetwork[];
 export const AssociatedTargetNetworkSet = /*@__PURE__*/ S.Array(
   AssociatedTargetNetwork.pipe(T.XmlName("item")).annotate({
@@ -28724,9 +28340,7 @@ export const FederatedAuthentication = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SelfServiceSamlProviderArn"),
     ),
   }),
-).annotate({
-  identifier: "FederatedAuthentication",
-}) as any as S.Schema<FederatedAuthentication>;
+).annotate({ identifier: "FederatedAuthentication" }) as any as S.Schema<FederatedAuthentication>;
 export interface ClientVpnAuthentication {
   Type?: ClientVpnAuthenticationType;
   ActiveDirectory?: DirectoryServiceAuthentication;
@@ -28746,9 +28360,7 @@ export const ClientVpnAuthentication = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("federatedAuthentication"), T.Ec2QueryName("FederatedAuthentication"))
       .annotate({ identifier: "FederatedAuthentication" }),
   }),
-).annotate({
-  identifier: "ClientVpnAuthentication",
-}) as any as S.Schema<ClientVpnAuthentication>;
+).annotate({ identifier: "ClientVpnAuthentication" }) as any as S.Schema<ClientVpnAuthentication>;
 export type ClientVpnAuthenticationList = ClientVpnAuthentication[];
 export const ClientVpnAuthenticationList = /*@__PURE__*/ S.Array(
   ClientVpnAuthentication.pipe(T.XmlName("item")).annotate({
@@ -28759,12 +28371,14 @@ export interface ConnectionLogResponseOptions {
   Enabled?: boolean;
   CloudwatchLogGroup?: string;
   CloudwatchLogStream?: string;
+  IncludeAuthorizationPolicyContext?: boolean;
 }
 export const ConnectionLogResponseOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean),
     CloudwatchLogGroup: S.optional(S.String),
     CloudwatchLogStream: S.optional(S.String),
+    IncludeAuthorizationPolicyContext: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "ConnectionLogResponseOptions",
@@ -28856,6 +28470,41 @@ export const TransitGatewayConfigurationDescribeEndpointStructure = /*@__PURE__*
 ).annotate({
   identifier: "TransitGatewayConfigurationDescribeEndpointStructure",
 }) as any as S.Schema<TransitGatewayConfigurationDescribeEndpointStructure>;
+export interface ClientVpnTrustProvider {
+  TrustProviderType?: ClientVpnDeviceTrustProviderType;
+  TenantId?: string;
+  PublicSigningKeyUrl?: string;
+}
+export const ClientVpnTrustProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TrustProviderType: S.optional(ClientVpnDeviceTrustProviderType).pipe(
+      T.XmlName("trustProviderType"),
+      T.Ec2QueryName("TrustProviderType"),
+    ),
+    TenantId: S.optional(S.String).pipe(T.XmlName("tenantId"), T.Ec2QueryName("TenantId")),
+    PublicSigningKeyUrl: S.optional(S.String).pipe(
+      T.XmlName("publicSigningKeyUrl"),
+      T.Ec2QueryName("PublicSigningKeyUrl"),
+    ),
+  }),
+).annotate({ identifier: "ClientVpnTrustProvider" }) as any as S.Schema<ClientVpnTrustProvider>;
+export type ClientVpnTrustProviderSet = ClientVpnTrustProvider[];
+export const ClientVpnTrustProviderSet = /*@__PURE__*/ S.Array(
+  ClientVpnTrustProvider.pipe(T.XmlName("item")).annotate({ identifier: "ClientVpnTrustProvider" }),
+);
+export interface DevicePostureResponseOptions {
+  TrustProviders?: ClientVpnTrustProvider[];
+}
+export const DevicePostureResponseOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TrustProviders: S.optional(ClientVpnTrustProviderSet).pipe(
+      T.XmlName("trustProviderSet"),
+      T.Ec2QueryName("TrustProviderSet"),
+    ),
+  }),
+).annotate({
+  identifier: "DevicePostureResponseOptions",
+}) as any as S.Schema<DevicePostureResponseOptions>;
 export interface ClientVpnEndpoint {
   ClientVpnEndpointId?: string;
   Description?: string;
@@ -28885,6 +28534,7 @@ export interface ClientVpnEndpoint {
   EndpointIpAddressType?: EndpointIpAddressType;
   TrafficIpAddressType?: TrafficIpAddressType;
   TransitGatewayConfiguration?: TransitGatewayConfigurationDescribeEndpointStructure;
+  DevicePostureOptions?: DevicePostureResponseOptions;
 }
 export const ClientVpnEndpoint = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -28981,18 +28631,15 @@ export const ClientVpnEndpoint = /*@__PURE__*/ S.suspend(() =>
     ),
     TransitGatewayConfiguration: S.optional(TransitGatewayConfigurationDescribeEndpointStructure)
       .pipe(T.XmlName("transitGatewayConfiguration"), T.Ec2QueryName("TransitGatewayConfiguration"))
-      .annotate({
-        identifier: "TransitGatewayConfigurationDescribeEndpointStructure",
-      }),
+      .annotate({ identifier: "TransitGatewayConfigurationDescribeEndpointStructure" }),
+    DevicePostureOptions: S.optional(DevicePostureResponseOptions)
+      .pipe(T.XmlName("devicePostureOptions"), T.Ec2QueryName("DevicePostureOptions"))
+      .annotate({ identifier: "DevicePostureResponseOptions" }),
   }),
-).annotate({
-  identifier: "ClientVpnEndpoint",
-}) as any as S.Schema<ClientVpnEndpoint>;
+).annotate({ identifier: "ClientVpnEndpoint" }) as any as S.Schema<ClientVpnEndpoint>;
 export type EndpointSet = ClientVpnEndpoint[];
 export const EndpointSet = /*@__PURE__*/ S.Array(
-  ClientVpnEndpoint.pipe(T.XmlName("item")).annotate({
-    identifier: "ClientVpnEndpoint",
-  }),
+  ClientVpnEndpoint.pipe(T.XmlName("item")).annotate({ identifier: "ClientVpnEndpoint" }),
 );
 export interface DescribeClientVpnEndpointsResult {
   ClientVpnEndpoints?: ClientVpnEndpoint[];
@@ -29066,9 +28713,7 @@ export const ClientVpnRoute = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ClientVpnRoute" }) as any as S.Schema<ClientVpnRoute>;
 export type ClientVpnRouteSet = ClientVpnRoute[];
 export const ClientVpnRouteSet = /*@__PURE__*/ S.Array(
-  ClientVpnRoute.pipe(T.XmlName("item")).annotate({
-    identifier: "ClientVpnRoute",
-  }),
+  ClientVpnRoute.pipe(T.XmlName("item")).annotate({ identifier: "ClientVpnRoute" }),
 );
 export interface DescribeClientVpnRoutesResult {
   Routes?: ClientVpnRoute[];
@@ -29147,9 +28792,7 @@ export const TargetNetwork = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TargetNetwork" }) as any as S.Schema<TargetNetwork>;
 export type TargetNetworkSet = TargetNetwork[];
 export const TargetNetworkSet = /*@__PURE__*/ S.Array(
-  TargetNetwork.pipe(T.XmlName("item")).annotate({
-    identifier: "TargetNetwork",
-  }),
+  TargetNetwork.pipe(T.XmlName("item")).annotate({ identifier: "TargetNetwork" }),
 );
 export interface DescribeClientVpnTargetNetworksResult {
   ClientVpnTargetNetworks?: TargetNetwork[];
@@ -29184,9 +28827,7 @@ export const DescribeCoipPoolsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCoipPoolsRequest",
-}) as any as S.Schema<DescribeCoipPoolsRequest>;
+).annotate({ identifier: "DescribeCoipPoolsRequest" }) as any as S.Schema<DescribeCoipPoolsRequest>;
 export type CoipPoolSet = CoipPool[];
 export const CoipPoolSet = /*@__PURE__*/ S.Array(
   CoipPool.pipe(T.XmlName("item")).annotate({ identifier: "CoipPool" }),
@@ -29203,9 +28844,7 @@ export const DescribeCoipPoolsResult = /*@__PURE__*/ S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeCoipPoolsResult",
-}) as any as S.Schema<DescribeCoipPoolsResult>;
+).annotate({ identifier: "DescribeCoipPoolsResult" }) as any as S.Schema<DescribeCoipPoolsResult>;
 export type ConversionIdStringList = string[];
 export const ConversionIdStringList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export interface DescribeConversionTasksRequest {
@@ -29240,9 +28879,7 @@ export const DiskImageDescription = /*@__PURE__*/ S.suspend(() =>
     ),
     Size: S.optional(S.Number).pipe(T.XmlName("size"), T.Ec2QueryName("Size")),
   }),
-).annotate({
-  identifier: "DiskImageDescription",
-}) as any as S.Schema<DiskImageDescription>;
+).annotate({ identifier: "DiskImageDescription" }) as any as S.Schema<DiskImageDescription>;
 export interface DiskImageVolumeDescription {
   Id?: string;
   Size?: number;
@@ -29350,9 +28987,7 @@ export const ImportVolumeTaskDetails = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("volume"), T.Ec2QueryName("Volume"))
       .annotate({ identifier: "DiskImageVolumeDescription" }),
   }),
-).annotate({
-  identifier: "ImportVolumeTaskDetails",
-}) as any as S.Schema<ImportVolumeTaskDetails>;
+).annotate({ identifier: "ImportVolumeTaskDetails" }) as any as S.Schema<ImportVolumeTaskDetails>;
 export type ConversionTaskState =
   | "active"
   | "cancelling"
@@ -29396,9 +29031,7 @@ export const ConversionTask = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ConversionTask" }) as any as S.Schema<ConversionTask>;
 export type DescribeConversionTaskList = ConversionTask[];
 export const DescribeConversionTaskList = /*@__PURE__*/ S.Array(
-  ConversionTask.pipe(T.XmlName("item")).annotate({
-    identifier: "ConversionTask",
-  }),
+  ConversionTask.pipe(T.XmlName("item")).annotate({ identifier: "ConversionTask" }),
 );
 export interface DescribeConversionTasksResult {
   ConversionTasks?: ConversionTask[];
@@ -29435,9 +29068,7 @@ export const DescribeCustomerGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeCustomerGatewaysRequest>;
 export type CustomerGatewayList = CustomerGateway[];
 export const CustomerGatewayList = /*@__PURE__*/ S.Array(
-  CustomerGateway.pipe(T.XmlName("item")).annotate({
-    identifier: "CustomerGateway",
-  }),
+  CustomerGateway.pipe(T.XmlName("item")).annotate({ identifier: "CustomerGateway" }),
 );
 export interface DescribeCustomerGatewaysResult {
   CustomerGateways?: CustomerGateway[];
@@ -29643,9 +29274,7 @@ export const ElasticGpuHealth = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(ElasticGpuStatus).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "ElasticGpuHealth",
-}) as any as S.Schema<ElasticGpuHealth>;
+).annotate({ identifier: "ElasticGpuHealth" }) as any as S.Schema<ElasticGpuHealth>;
 export type ElasticGpuState = "ATTACHED" | (string & {});
 export const ElasticGpuState = S.String;
 
@@ -29737,9 +29366,7 @@ export const ExportTaskS3Location = /*@__PURE__*/ S.suspend(() =>
     S3Bucket: S.optional(S.String).pipe(T.XmlName("s3Bucket"), T.Ec2QueryName("S3Bucket")),
     S3Prefix: S.optional(S.String).pipe(T.XmlName("s3Prefix"), T.Ec2QueryName("S3Prefix")),
   }),
-).annotate({
-  identifier: "ExportTaskS3Location",
-}) as any as S.Schema<ExportTaskS3Location>;
+).annotate({ identifier: "ExportTaskS3Location" }) as any as S.Schema<ExportTaskS3Location>;
 export interface ExportImageTask {
   Description?: string;
   ExportImageTaskId?: string;
@@ -29769,14 +29396,10 @@ export const ExportImageTask = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "ExportImageTask",
-}) as any as S.Schema<ExportImageTask>;
+).annotate({ identifier: "ExportImageTask" }) as any as S.Schema<ExportImageTask>;
 export type ExportImageTaskList = ExportImageTask[];
 export const ExportImageTaskList = /*@__PURE__*/ S.Array(
-  ExportImageTask.pipe(T.XmlName("item")).annotate({
-    identifier: "ExportImageTask",
-  }),
+  ExportImageTask.pipe(T.XmlName("item")).annotate({ identifier: "ExportImageTask" }),
 );
 export interface DescribeExportImageTasksResult {
   ExportImageTasks?: ExportImageTask[];
@@ -29920,9 +29543,7 @@ export const DescribeFastLaunchImagesSuccessItem = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "FastLaunchSnapshotConfigurationResponse" }),
     LaunchTemplate: S.optional(FastLaunchLaunchTemplateSpecificationResponse)
       .pipe(T.XmlName("launchTemplate"), T.Ec2QueryName("LaunchTemplate"))
-      .annotate({
-        identifier: "FastLaunchLaunchTemplateSpecificationResponse",
-      }),
+      .annotate({ identifier: "FastLaunchLaunchTemplateSpecificationResponse" }),
     MaxParallelLaunches: S.optional(S.Number).pipe(
       T.XmlName("maxParallelLaunches"),
       T.Ec2QueryName("MaxParallelLaunches"),
@@ -30108,9 +29729,7 @@ export const EventInformation = /*@__PURE__*/ S.suspend(() =>
     ),
     InstanceId: S.optional(S.String).pipe(T.XmlName("instanceId"), T.Ec2QueryName("InstanceId")),
   }),
-).annotate({
-  identifier: "EventInformation",
-}) as any as S.Schema<EventInformation>;
+).annotate({ identifier: "EventInformation" }) as any as S.Schema<EventInformation>;
 export interface HistoryRecordEntry {
   EventInformation?: EventInformation;
   EventType?: FleetEventType;
@@ -30127,14 +29746,10 @@ export const HistoryRecordEntry = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Timestamp"),
     ),
   }),
-).annotate({
-  identifier: "HistoryRecordEntry",
-}) as any as S.Schema<HistoryRecordEntry>;
+).annotate({ identifier: "HistoryRecordEntry" }) as any as S.Schema<HistoryRecordEntry>;
 export type HistoryRecordSet = HistoryRecordEntry[];
 export const HistoryRecordSet = /*@__PURE__*/ S.Array(
-  HistoryRecordEntry.pipe(T.XmlName("item")).annotate({
-    identifier: "HistoryRecordEntry",
-  }),
+  HistoryRecordEntry.pipe(T.XmlName("item")).annotate({ identifier: "HistoryRecordEntry" }),
 );
 export interface DescribeFleetHistoryResult {
   HistoryRecords?: HistoryRecordEntry[];
@@ -30209,9 +29824,7 @@ export const ActiveInstance = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ActiveInstance" }) as any as S.Schema<ActiveInstance>;
 export type ActiveInstanceSet = ActiveInstance[];
 export const ActiveInstanceSet = /*@__PURE__*/ S.Array(
-  ActiveInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "ActiveInstance",
-  }),
+  ActiveInstance.pipe(T.XmlName("item")).annotate({ identifier: "ActiveInstance" }),
 );
 export interface DescribeFleetInstancesResult {
   ActiveInstances?: ActiveInstance[];
@@ -30245,9 +29858,7 @@ export const DescribeFleetsRequest = /*@__PURE__*/ S.suspend(() =>
     FleetIds: S.optional(FleetIdSet).pipe(T.XmlName("FleetId")),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeFleetsRequest",
-}) as any as S.Schema<DescribeFleetsRequest>;
+).annotate({ identifier: "DescribeFleetsRequest" }) as any as S.Schema<DescribeFleetsRequest>;
 export type FleetActivityStatus =
   | "error"
   | "pending_fulfillment"
@@ -30440,9 +30051,7 @@ export const OnDemandOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("MaxTotalPrice"),
     ),
   }),
-).annotate({
-  identifier: "OnDemandOptions",
-}) as any as S.Schema<OnDemandOptions>;
+).annotate({ identifier: "OnDemandOptions" }) as any as S.Schema<OnDemandOptions>;
 export type ReservationTypeList = FleetReservationType[];
 export const ReservationTypeList = /*@__PURE__*/ S.Array(
   FleetReservationType.pipe(T.XmlName("item")),
@@ -30482,9 +30091,7 @@ export const ReservedCapacityOptions = /*@__PURE__*/ S.suspend(() =>
       )
       .annotate({ identifier: "ReservedCapacityFallbackOptions" }),
   }),
-).annotate({
-  identifier: "ReservedCapacityOptions",
-}) as any as S.Schema<ReservedCapacityOptions>;
+).annotate({ identifier: "ReservedCapacityOptions" }) as any as S.Schema<ReservedCapacityOptions>;
 export interface DescribeFleetError {
   LaunchTemplateAndOverrides?: LaunchTemplateAndOverridesResponse;
   Lifecycle?: InstanceLifecycle;
@@ -30506,14 +30113,10 @@ export const DescribeFleetError = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ErrorMessage"),
     ),
   }),
-).annotate({
-  identifier: "DescribeFleetError",
-}) as any as S.Schema<DescribeFleetError>;
+).annotate({ identifier: "DescribeFleetError" }) as any as S.Schema<DescribeFleetError>;
 export type DescribeFleetsErrorSet = DescribeFleetError[];
 export const DescribeFleetsErrorSet = /*@__PURE__*/ S.Array(
-  DescribeFleetError.pipe(T.XmlName("item")).annotate({
-    identifier: "DescribeFleetError",
-  }),
+  DescribeFleetError.pipe(T.XmlName("item")).annotate({ identifier: "DescribeFleetError" }),
 );
 export interface DescribeFleetsInstances {
   LaunchTemplateAndOverrides?: LaunchTemplateAndOverridesResponse;
@@ -30541,9 +30144,7 @@ export const DescribeFleetsInstances = /*@__PURE__*/ S.suspend(() =>
     ),
     Platform: S.optional(PlatformValues).pipe(T.XmlName("platform"), T.Ec2QueryName("Platform")),
   }),
-).annotate({
-  identifier: "DescribeFleetsInstances",
-}) as any as S.Schema<DescribeFleetsInstances>;
+).annotate({ identifier: "DescribeFleetsInstances" }) as any as S.Schema<DescribeFleetsInstances>;
 export type DescribeFleetsInstancesSet = DescribeFleetsInstances[];
 export const DescribeFleetsInstancesSet = /*@__PURE__*/ S.Array(
   DescribeFleetsInstances.pipe(T.XmlName("item")).annotate({
@@ -30660,9 +30261,7 @@ export const DescribeFleetsResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Fleets: S.optional(FleetSet).pipe(T.XmlName("fleetSet"), T.Ec2QueryName("FleetSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeFleetsResult",
-}) as any as S.Schema<DescribeFleetsResult>;
+).annotate({ identifier: "DescribeFleetsResult" }) as any as S.Schema<DescribeFleetsResult>;
 export interface DescribeFlowLogsRequest {
   DryRun?: boolean;
   Filter?: Filter[];
@@ -30678,9 +30277,7 @@ export const DescribeFlowLogsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeFlowLogsRequest",
-}) as any as S.Schema<DescribeFlowLogsRequest>;
+).annotate({ identifier: "DescribeFlowLogsRequest" }) as any as S.Schema<DescribeFlowLogsRequest>;
 export interface DestinationOptionsResponse {
   FileFormat?: DestinationFileFormat;
   HiveCompatiblePartitions?: boolean;
@@ -30816,9 +30413,7 @@ export const DescribeFlowLogsResult = /*@__PURE__*/ S.suspend(() =>
     FlowLogs: S.optional(FlowLogSet).pipe(T.XmlName("flowLogSet"), T.Ec2QueryName("FlowLogSet")),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeFlowLogsResult",
-}) as any as S.Schema<DescribeFlowLogsResult>;
+).annotate({ identifier: "DescribeFlowLogsResult" }) as any as S.Schema<DescribeFlowLogsResult>;
 export type FpgaImageAttributeName =
   | "description"
   | "name"
@@ -30856,9 +30451,7 @@ export const LoadPermission = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "LoadPermission" }) as any as S.Schema<LoadPermission>;
 export type LoadPermissionList = LoadPermission[];
 export const LoadPermissionList = /*@__PURE__*/ S.Array(
-  LoadPermission.pipe(T.XmlName("item")).annotate({
-    identifier: "LoadPermission",
-  }),
+  LoadPermission.pipe(T.XmlName("item")).annotate({ identifier: "LoadPermission" }),
 );
 export type ProductCodeValues = "devpay" | "marketplace" | (string & {});
 export const ProductCodeValues = S.String;
@@ -30901,9 +30494,7 @@ export const FpgaImageAttribute = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ProductCodes"),
     ),
   }),
-).annotate({
-  identifier: "FpgaImageAttribute",
-}) as any as S.Schema<FpgaImageAttribute>;
+).annotate({ identifier: "FpgaImageAttribute" }) as any as S.Schema<FpgaImageAttribute>;
 export interface DescribeFpgaImageAttributeResult {
   FpgaImageAttribute?: FpgaImageAttribute;
 }
@@ -31049,9 +30640,7 @@ export const DescribeFpgaImagesResult = /*@__PURE__*/ S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeFpgaImagesResult",
-}) as any as S.Schema<DescribeFpgaImagesResult>;
+).annotate({ identifier: "DescribeFpgaImagesResult" }) as any as S.Schema<DescribeFpgaImagesResult>;
 export type DescribeHostReservationsMaxResults = number;
 export interface DescribeHostReservationOfferingsRequest {
   Filter?: Filter[];
@@ -31220,14 +30809,10 @@ export const HostReservation = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "HostReservation",
-}) as any as S.Schema<HostReservation>;
+).annotate({ identifier: "HostReservation" }) as any as S.Schema<HostReservation>;
 export type HostReservationSet = HostReservation[];
 export const HostReservationSet = /*@__PURE__*/ S.Array(
-  HostReservation.pipe(T.XmlName("item")).annotate({
-    identifier: "HostReservation",
-  }),
+  HostReservation.pipe(T.XmlName("item")).annotate({ identifier: "HostReservation" }),
 );
 export interface DescribeHostReservationsResult {
   HostReservationSet?: HostReservation[];
@@ -31259,9 +30844,7 @@ export const DescribeHostsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.XmlName("maxResults"), T.Ec2QueryName("MaxResults")),
     Filter: S.optional(FilterList).pipe(T.XmlName("filter"), T.Ec2QueryName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeHostsRequest",
-}) as any as S.Schema<DescribeHostsRequest>;
+).annotate({ identifier: "DescribeHostsRequest" }) as any as S.Schema<DescribeHostsRequest>;
 export interface InstanceCapacity {
   AvailableCapacity?: number;
   InstanceType?: string;
@@ -31282,14 +30865,10 @@ export const InstanceCapacity = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TotalCapacity"),
     ),
   }),
-).annotate({
-  identifier: "InstanceCapacity",
-}) as any as S.Schema<InstanceCapacity>;
+).annotate({ identifier: "InstanceCapacity" }) as any as S.Schema<InstanceCapacity>;
 export type AvailableInstanceCapacityList = InstanceCapacity[];
 export const AvailableInstanceCapacityList = /*@__PURE__*/ S.Array(
-  InstanceCapacity.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceCapacity",
-  }),
+  InstanceCapacity.pipe(T.XmlName("item")).annotate({ identifier: "InstanceCapacity" }),
 );
 export interface AvailableCapacity {
   AvailableInstanceCapacity?: InstanceCapacity[];
@@ -31306,9 +30885,7 @@ export const AvailableCapacity = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailableVCpus"),
     ),
   }),
-).annotate({
-  identifier: "AvailableCapacity",
-}) as any as S.Schema<AvailableCapacity>;
+).annotate({ identifier: "AvailableCapacity" }) as any as S.Schema<AvailableCapacity>;
 export interface HostProperties {
   Cores?: number;
   InstanceType?: string;
@@ -31472,9 +31049,7 @@ export const DescribeHostsResult = /*@__PURE__*/ S.suspend(() =>
     Hosts: S.optional(HostList).pipe(T.XmlName("hostSet"), T.Ec2QueryName("HostSet")),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeHostsResult",
-}) as any as S.Schema<DescribeHostsResult>;
+).annotate({ identifier: "DescribeHostsResult" }) as any as S.Schema<DescribeHostsResult>;
 export type IamInstanceProfileAssociationId = string;
 export type AssociationIdList = string[];
 export const AssociationIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("AssociationId")));
@@ -31548,9 +31123,7 @@ export const DescribeIdFormatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Resource: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeIdFormatRequest",
-}) as any as S.Schema<DescribeIdFormatRequest>;
+).annotate({ identifier: "DescribeIdFormatRequest" }) as any as S.Schema<DescribeIdFormatRequest>;
 export interface DescribeIdFormatResult {
   Statuses?: IdFormat[];
 }
@@ -31558,9 +31131,7 @@ export const DescribeIdFormatResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Statuses: S.optional(IdFormatList).pipe(T.XmlName("statusSet"), T.Ec2QueryName("StatusSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeIdFormatResult",
-}) as any as S.Schema<DescribeIdFormatResult>;
+).annotate({ identifier: "DescribeIdFormatResult" }) as any as S.Schema<DescribeIdFormatResult>;
 export type ImageAttributeName =
   | "description"
   | "kernel"
@@ -31611,20 +31182,14 @@ export const LaunchPermission = /*@__PURE__*/ S.suspend(() =>
     UserId: S.optional(S.String).pipe(T.XmlName("userId"), T.Ec2QueryName("UserId")),
     Group: S.optional(PermissionGroup).pipe(T.XmlName("group"), T.Ec2QueryName("Group")),
   }),
-).annotate({
-  identifier: "LaunchPermission",
-}) as any as S.Schema<LaunchPermission>;
+).annotate({ identifier: "LaunchPermission" }) as any as S.Schema<LaunchPermission>;
 export type LaunchPermissionList = LaunchPermission[];
 export const LaunchPermissionList = /*@__PURE__*/ S.Array(
-  LaunchPermission.pipe(T.XmlName("item")).annotate({
-    identifier: "LaunchPermission",
-  }),
+  LaunchPermission.pipe(T.XmlName("item")).annotate({ identifier: "LaunchPermission" }),
 );
 export type BlockDeviceMappingList = BlockDeviceMapping[];
 export const BlockDeviceMappingList = /*@__PURE__*/ S.Array(
-  BlockDeviceMapping.pipe(T.XmlName("item")).annotate({
-    identifier: "BlockDeviceMapping",
-  }),
+  BlockDeviceMapping.pipe(T.XmlName("item")).annotate({ identifier: "BlockDeviceMapping" }),
 );
 export interface ImageAttribute {
   Description?: AttributeValue;
@@ -31715,9 +31280,7 @@ export const ResourceTypeOption = /*@__PURE__*/ S.suspend(() =>
     OptionName: S.optional(ImageReferenceOptionName),
     OptionValues: S.optional(ResourceTypeOptionValuesList).pipe(T.XmlName("OptionValue")),
   }),
-).annotate({
-  identifier: "ResourceTypeOption",
-}) as any as S.Schema<ResourceTypeOption>;
+).annotate({ identifier: "ResourceTypeOption" }) as any as S.Schema<ResourceTypeOption>;
 export type ResourceTypeOptionList = ResourceTypeOption[];
 export const ResourceTypeOptionList = /*@__PURE__*/ S.Array(ResourceTypeOption);
 export interface ResourceTypeRequest {
@@ -31729,9 +31292,7 @@ export const ResourceTypeRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceType: S.optional(ImageReferenceResourceType),
     ResourceTypeOptions: S.optional(ResourceTypeOptionList).pipe(T.XmlName("ResourceTypeOption")),
   }),
-).annotate({
-  identifier: "ResourceTypeRequest",
-}) as any as S.Schema<ResourceTypeRequest>;
+).annotate({ identifier: "ResourceTypeRequest" }) as any as S.Schema<ResourceTypeRequest>;
 export type ResourceTypeRequestList = ResourceTypeRequest[];
 export const ResourceTypeRequestList = /*@__PURE__*/ S.Array(ResourceTypeRequest);
 export type DescribeImageReferencesMaxResults = number;
@@ -31772,9 +31333,7 @@ export const ImageReference = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ImageReference" }) as any as S.Schema<ImageReference>;
 export type ImageReferenceList = ImageReference[];
 export const ImageReferenceList = /*@__PURE__*/ S.Array(
-  ImageReference.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageReference",
-  }),
+  ImageReference.pipe(T.XmlName("item")).annotate({ identifier: "ImageReference" }),
 );
 export interface DescribeImageReferencesResult {
   NextToken?: string;
@@ -31820,9 +31379,7 @@ export const DescribeImagesRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeImagesRequest",
-}) as any as S.Schema<DescribeImagesRequest>;
+).annotate({ identifier: "DescribeImagesRequest" }) as any as S.Schema<DescribeImagesRequest>;
 export type HypervisorType = "ovm" | "xen" | "nitro" | (string & {});
 export const HypervisorType = S.String;
 
@@ -31874,9 +31431,7 @@ export const ImageWatermark = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ImageWatermark" }) as any as S.Schema<ImageWatermark>;
 export type ImageWatermarkList = ImageWatermark[];
 export const ImageWatermarkList = /*@__PURE__*/ S.Array(
-  ImageWatermark.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageWatermark",
-  }),
+  ImageWatermark.pipe(T.XmlName("item")).annotate({ identifier: "ImageWatermark" }),
 );
 export interface InstanceTypeItem {
   InstanceType?: string;
@@ -31888,20 +31443,14 @@ export const InstanceTypeItem = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstanceType"),
     ),
   }),
-).annotate({
-  identifier: "InstanceTypeItem",
-}) as any as S.Schema<InstanceTypeItem>;
+).annotate({ identifier: "InstanceTypeItem" }) as any as S.Schema<InstanceTypeItem>;
 export type SupportedInstanceTypeSet = InstanceTypeItem[];
 export const SupportedInstanceTypeSet = /*@__PURE__*/ S.Array(
-  InstanceTypeItem.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceTypeItem",
-  }),
+  InstanceTypeItem.pipe(T.XmlName("item")).annotate({ identifier: "InstanceTypeItem" }),
 );
 export type UnsupportedInstanceTypeSet = InstanceTypeItem[];
 export const UnsupportedInstanceTypeSet = /*@__PURE__*/ S.Array(
-  InstanceTypeItem.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceTypeItem",
-  }),
+  InstanceTypeItem.pipe(T.XmlName("item")).annotate({ identifier: "InstanceTypeItem" }),
 );
 export interface InstanceTypeSpecification {
   SupportedInstanceTypes?: InstanceTypeItem[];
@@ -32126,9 +31675,7 @@ export const DescribeImagesResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Images: S.optional(ImageList).pipe(T.XmlName("imagesSet"), T.Ec2QueryName("ImagesSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeImagesResult",
-}) as any as S.Schema<DescribeImagesResult>;
+).annotate({ identifier: "DescribeImagesResult" }) as any as S.Schema<DescribeImagesResult>;
 export type DescribeImageUsageReportsImageIdStringList = string[];
 export const DescribeImageUsageReportsImageIdStringList = /*@__PURE__*/ S.Array(S.String);
 export type ImageUsageReportIdStringList = string[];
@@ -32177,14 +31724,10 @@ export const ImageUsageReportEntry = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ReportCreationTime"),
     ),
   }),
-).annotate({
-  identifier: "ImageUsageReportEntry",
-}) as any as S.Schema<ImageUsageReportEntry>;
+).annotate({ identifier: "ImageUsageReportEntry" }) as any as S.Schema<ImageUsageReportEntry>;
 export type ImageUsageReportEntryList = ImageUsageReportEntry[];
 export const ImageUsageReportEntryList = /*@__PURE__*/ S.Array(
-  ImageUsageReportEntry.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageUsageReportEntry",
-  }),
+  ImageUsageReportEntry.pipe(T.XmlName("item")).annotate({ identifier: "ImageUsageReportEntry" }),
 );
 export interface DescribeImageUsageReportEntriesResult {
   NextToken?: string;
@@ -32258,14 +31801,10 @@ export const ImageUsageResourceType = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ResourceTypeOptionSet"),
     ),
   }),
-).annotate({
-  identifier: "ImageUsageResourceType",
-}) as any as S.Schema<ImageUsageResourceType>;
+).annotate({ identifier: "ImageUsageResourceType" }) as any as S.Schema<ImageUsageResourceType>;
 export type ImageUsageResourceTypeList = ImageUsageResourceType[];
 export const ImageUsageResourceTypeList = /*@__PURE__*/ S.Array(
-  ImageUsageResourceType.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageUsageResourceType",
-  }),
+  ImageUsageResourceType.pipe(T.XmlName("item")).annotate({ identifier: "ImageUsageResourceType" }),
 );
 export type UserIdList = string[];
 export const UserIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
@@ -32306,14 +31845,10 @@ export const ImageUsageReport = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "ImageUsageReport",
-}) as any as S.Schema<ImageUsageReport>;
+).annotate({ identifier: "ImageUsageReport" }) as any as S.Schema<ImageUsageReport>;
 export type ImageUsageReportList = ImageUsageReport[];
 export const ImageUsageReportList = /*@__PURE__*/ S.Array(
-  ImageUsageReport.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageUsageReport",
-  }),
+  ImageUsageReport.pipe(T.XmlName("item")).annotate({ identifier: "ImageUsageReport" }),
 );
 export interface DescribeImageUsageReportsResult {
   NextToken?: string;
@@ -32361,9 +31896,7 @@ export const UserBucketDetails = /*@__PURE__*/ S.suspend(() =>
     S3Bucket: S.optional(S.String).pipe(T.XmlName("s3Bucket"), T.Ec2QueryName("S3Bucket")),
     S3Key: S.optional(S.String).pipe(T.XmlName("s3Key"), T.Ec2QueryName("S3Key")),
   }),
-).annotate({
-  identifier: "UserBucketDetails",
-}) as any as S.Schema<UserBucketDetails>;
+).annotate({ identifier: "UserBucketDetails" }) as any as S.Schema<UserBucketDetails>;
 export interface SnapshotDetail {
   Description?: string;
   DeviceName?: string;
@@ -32400,9 +31933,7 @@ export const SnapshotDetail = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SnapshotDetail" }) as any as S.Schema<SnapshotDetail>;
 export type SnapshotDetailList = SnapshotDetail[];
 export const SnapshotDetailList = /*@__PURE__*/ S.Array(
-  SnapshotDetail.pipe(T.XmlName("item")).annotate({
-    identifier: "SnapshotDetail",
-  }),
+  SnapshotDetail.pipe(T.XmlName("item")).annotate({ identifier: "SnapshotDetail" }),
 );
 export interface ImportImageLicenseConfigurationResponse {
   LicenseConfigurationArn?: string;
@@ -32480,14 +32011,10 @@ export const ImportImageTask = /*@__PURE__*/ S.suspend(() =>
     ),
     BootMode: S.optional(BootModeValues).pipe(T.XmlName("bootMode"), T.Ec2QueryName("BootMode")),
   }),
-).annotate({
-  identifier: "ImportImageTask",
-}) as any as S.Schema<ImportImageTask>;
+).annotate({ identifier: "ImportImageTask" }) as any as S.Schema<ImportImageTask>;
 export type ImportImageTaskList = ImportImageTask[];
 export const ImportImageTaskList = /*@__PURE__*/ S.Array(
-  ImportImageTask.pipe(T.XmlName("item")).annotate({
-    identifier: "ImportImageTask",
-  }),
+  ImportImageTask.pipe(T.XmlName("item")).annotate({ identifier: "ImportImageTask" }),
 );
 export interface DescribeImportImageTasksResult {
   ImportImageTasks?: ImportImageTask[];
@@ -32562,9 +32089,7 @@ export const SnapshotTaskDetail = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("userBucket"), T.Ec2QueryName("UserBucket"))
       .annotate({ identifier: "UserBucketDetails" }),
   }),
-).annotate({
-  identifier: "SnapshotTaskDetail",
-}) as any as S.Schema<SnapshotTaskDetail>;
+).annotate({ identifier: "SnapshotTaskDetail" }) as any as S.Schema<SnapshotTaskDetail>;
 export interface ImportSnapshotTask {
   Description?: string;
   ImportTaskId?: string;
@@ -32583,14 +32108,10 @@ export const ImportSnapshotTask = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "SnapshotTaskDetail" }),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "ImportSnapshotTask",
-}) as any as S.Schema<ImportSnapshotTask>;
+).annotate({ identifier: "ImportSnapshotTask" }) as any as S.Schema<ImportSnapshotTask>;
 export type ImportSnapshotTaskList = ImportSnapshotTask[];
 export const ImportSnapshotTaskList = /*@__PURE__*/ S.Array(
-  ImportSnapshotTask.pipe(T.XmlName("item")).annotate({
-    identifier: "ImportSnapshotTask",
-  }),
+  ImportSnapshotTask.pipe(T.XmlName("item")).annotate({ identifier: "ImportSnapshotTask" }),
 );
 export interface DescribeImportSnapshotTasksResult {
   ImportSnapshotTasks?: ImportSnapshotTask[];
@@ -32682,9 +32203,7 @@ export const EbsInstanceBlockDevice = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("EbsCardIndex"),
     ),
   }),
-).annotate({
-  identifier: "EbsInstanceBlockDevice",
-}) as any as S.Schema<EbsInstanceBlockDevice>;
+).annotate({ identifier: "EbsInstanceBlockDevice" }) as any as S.Schema<EbsInstanceBlockDevice>;
 export interface InstanceBlockDeviceMapping {
   DeviceName?: string;
   Ebs?: EbsInstanceBlockDevice;
@@ -32709,12 +32228,8 @@ export interface AttributeBooleanValue {
   Value?: boolean;
 }
 export const AttributeBooleanValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(S.Boolean).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
-).annotate({
-  identifier: "AttributeBooleanValue",
-}) as any as S.Schema<AttributeBooleanValue>;
+  S.Struct({ Value: S.optional(S.Boolean).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
+).annotate({ identifier: "AttributeBooleanValue" }) as any as S.Schema<AttributeBooleanValue>;
 export interface EnclaveOptions {
   Enabled?: boolean;
 }
@@ -32797,9 +32312,7 @@ export const InstanceAttribute = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "AttributeBooleanValue" }),
     Groups: S.optional(GroupIdentifierList).pipe(T.XmlName("groupSet"), T.Ec2QueryName("GroupSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "InstanceAttribute",
-}) as any as S.Schema<InstanceAttribute>;
+).annotate({ identifier: "InstanceAttribute" }) as any as S.Schema<InstanceAttribute>;
 export type InstanceConnectEndpointMaxResults = number;
 export interface DescribeInstanceConnectEndpointsRequest {
   DryRun?: boolean;
@@ -32943,9 +32456,7 @@ export const DescribeInstanceEventWindowsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeInstanceEventWindowsRequest>;
 export type InstanceEventWindowSet = InstanceEventWindow[];
 export const InstanceEventWindowSet = /*@__PURE__*/ S.Array(
-  InstanceEventWindow.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceEventWindow",
-  }),
+  InstanceEventWindow.pipe(T.XmlName("item")).annotate({ identifier: "InstanceEventWindow" }),
 );
 export interface DescribeInstanceEventWindowsResult {
   InstanceEventWindows?: InstanceEventWindow[];
@@ -33085,14 +32596,10 @@ export const InstanceImageMetadata = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
   }),
-).annotate({
-  identifier: "InstanceImageMetadata",
-}) as any as S.Schema<InstanceImageMetadata>;
+).annotate({ identifier: "InstanceImageMetadata" }) as any as S.Schema<InstanceImageMetadata>;
 export type InstanceImageMetadataList = InstanceImageMetadata[];
 export const InstanceImageMetadataList = /*@__PURE__*/ S.Array(
-  InstanceImageMetadata.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceImageMetadata",
-  }),
+  InstanceImageMetadata.pipe(T.XmlName("item")).annotate({ identifier: "InstanceImageMetadata" }),
 );
 export interface DescribeInstanceImageMetadataResult {
   InstanceImageMetadata?: InstanceImageMetadata[];
@@ -33126,9 +32633,7 @@ export const DescribeInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.XmlName("maxResults"), T.Ec2QueryName("MaxResults")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeInstancesRequest",
-}) as any as S.Schema<DescribeInstancesRequest>;
+).annotate({ identifier: "DescribeInstancesRequest" }) as any as S.Schema<DescribeInstancesRequest>;
 export type InstanceLifecycleType =
   | "spot"
   | "scheduled"
@@ -33162,14 +32667,10 @@ export const ElasticGpuAssociation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ElasticGpuAssociationTime"),
     ),
   }),
-).annotate({
-  identifier: "ElasticGpuAssociation",
-}) as any as S.Schema<ElasticGpuAssociation>;
+).annotate({ identifier: "ElasticGpuAssociation" }) as any as S.Schema<ElasticGpuAssociation>;
 export type ElasticGpuAssociationList = ElasticGpuAssociation[];
 export const ElasticGpuAssociationList = /*@__PURE__*/ S.Array(
-  ElasticGpuAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "ElasticGpuAssociation",
-  }),
+  ElasticGpuAssociation.pipe(T.XmlName("item")).annotate({ identifier: "ElasticGpuAssociation" }),
 );
 export interface ElasticInferenceAcceleratorAssociation {
   ElasticInferenceAcceleratorArn?: string;
@@ -33323,9 +32824,7 @@ export const InstancePrivateIpAddress = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PrivateIpAddress"),
     ),
   }),
-).annotate({
-  identifier: "InstancePrivateIpAddress",
-}) as any as S.Schema<InstancePrivateIpAddress>;
+).annotate({ identifier: "InstancePrivateIpAddress" }) as any as S.Schema<InstancePrivateIpAddress>;
 export type InstancePrivateIpAddressList = InstancePrivateIpAddress[];
 export const InstancePrivateIpAddressList = /*@__PURE__*/ S.Array(
   InstancePrivateIpAddress.pipe(T.XmlName("item")).annotate({
@@ -33339,14 +32838,10 @@ export const InstanceIpv4Prefix = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Ipv4Prefix: S.optional(S.String).pipe(T.XmlName("ipv4Prefix"), T.Ec2QueryName("Ipv4Prefix")),
   }),
-).annotate({
-  identifier: "InstanceIpv4Prefix",
-}) as any as S.Schema<InstanceIpv4Prefix>;
+).annotate({ identifier: "InstanceIpv4Prefix" }) as any as S.Schema<InstanceIpv4Prefix>;
 export type InstanceIpv4PrefixList = InstanceIpv4Prefix[];
 export const InstanceIpv4PrefixList = /*@__PURE__*/ S.Array(
-  InstanceIpv4Prefix.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceIpv4Prefix",
-  }),
+  InstanceIpv4Prefix.pipe(T.XmlName("item")).annotate({ identifier: "InstanceIpv4Prefix" }),
 );
 export interface InstanceIpv6Prefix {
   Ipv6Prefix?: string;
@@ -33355,14 +32850,10 @@ export const InstanceIpv6Prefix = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Ipv6Prefix: S.optional(S.String).pipe(T.XmlName("ipv6Prefix"), T.Ec2QueryName("Ipv6Prefix")),
   }),
-).annotate({
-  identifier: "InstanceIpv6Prefix",
-}) as any as S.Schema<InstanceIpv6Prefix>;
+).annotate({ identifier: "InstanceIpv6Prefix" }) as any as S.Schema<InstanceIpv6Prefix>;
 export type InstanceIpv6PrefixList = InstanceIpv6Prefix[];
 export const InstanceIpv6PrefixList = /*@__PURE__*/ S.Array(
-  InstanceIpv6Prefix.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceIpv6Prefix",
-  }),
+  InstanceIpv6Prefix.pipe(T.XmlName("item")).annotate({ identifier: "InstanceIpv6Prefix" }),
 );
 export interface ConnectionTrackingSpecificationResponse {
   TcpEstablishedTimeout?: number;
@@ -33467,9 +32958,7 @@ export const InstanceNetworkInterface = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
   }),
-).annotate({
-  identifier: "InstanceNetworkInterface",
-}) as any as S.Schema<InstanceNetworkInterface>;
+).annotate({ identifier: "InstanceNetworkInterface" }) as any as S.Schema<InstanceNetworkInterface>;
 export type InstanceNetworkInterfaceList = InstanceNetworkInterface[];
 export const InstanceNetworkInterfaceList = /*@__PURE__*/ S.Array(
   InstanceNetworkInterface.pipe(T.XmlName("item")).annotate({
@@ -33523,9 +33012,7 @@ export const HibernationOptions = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Configured: S.optional(S.Boolean).pipe(T.XmlName("configured"), T.Ec2QueryName("Configured")),
   }),
-).annotate({
-  identifier: "HibernationOptions",
-}) as any as S.Schema<HibernationOptions>;
+).annotate({ identifier: "HibernationOptions" }) as any as S.Schema<HibernationOptions>;
 export interface LicenseConfiguration {
   LicenseConfigurationArn?: string;
 }
@@ -33536,14 +33023,10 @@ export const LicenseConfiguration = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LicenseConfigurationArn"),
     ),
   }),
-).annotate({
-  identifier: "LicenseConfiguration",
-}) as any as S.Schema<LicenseConfiguration>;
+).annotate({ identifier: "LicenseConfiguration" }) as any as S.Schema<LicenseConfiguration>;
 export type LicenseList = LicenseConfiguration[];
 export const LicenseList = /*@__PURE__*/ S.Array(
-  LicenseConfiguration.pipe(T.XmlName("item")).annotate({
-    identifier: "LicenseConfiguration",
-  }),
+  LicenseConfiguration.pipe(T.XmlName("item")).annotate({ identifier: "LicenseConfiguration" }),
 );
 export type InstanceMetadataOptionsState = "pending" | "applied" | (string & {});
 export const InstanceMetadataOptionsState = S.String;
@@ -34071,9 +33554,7 @@ export const DescribeInstancesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ReservationSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeInstancesResult",
-}) as any as S.Schema<DescribeInstancesResult>;
+).annotate({ identifier: "DescribeInstancesResult" }) as any as S.Schema<DescribeInstancesResult>;
 export type DescribeInstanceSqlHaStatesRequestMaxResultsInteger = number;
 export interface DescribeInstanceSqlHaHistoryStatesRequest {
   InstanceIds?: string[];
@@ -34134,14 +33615,10 @@ export const RegisteredInstance = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "RegisteredInstance",
-}) as any as S.Schema<RegisteredInstance>;
+).annotate({ identifier: "RegisteredInstance" }) as any as S.Schema<RegisteredInstance>;
 export type RegisteredInstanceList = RegisteredInstance[];
 export const RegisteredInstanceList = /*@__PURE__*/ S.Array(
-  RegisteredInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "RegisteredInstance",
-  }),
+  RegisteredInstance.pipe(T.XmlName("item")).annotate({ identifier: "RegisteredInstance" }),
 );
 export interface DescribeInstanceSqlHaHistoryStatesResult {
   Instances?: RegisteredInstance[];
@@ -34255,14 +33732,10 @@ export const InstanceStatusEvent = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NotBeforeDeadline"),
     ),
   }),
-).annotate({
-  identifier: "InstanceStatusEvent",
-}) as any as S.Schema<InstanceStatusEvent>;
+).annotate({ identifier: "InstanceStatusEvent" }) as any as S.Schema<InstanceStatusEvent>;
 export type InstanceStatusEventList = InstanceStatusEvent[];
 export const InstanceStatusEventList = /*@__PURE__*/ S.Array(
-  InstanceStatusEvent.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceStatusEvent",
-  }),
+  InstanceStatusEvent.pipe(T.XmlName("item")).annotate({ identifier: "InstanceStatusEvent" }),
 );
 export type StatusName = "reachability" | (string & {});
 export const StatusName = S.String;
@@ -34284,14 +33757,10 @@ export const InstanceStatusDetails = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(StatusName).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
     Status: S.optional(StatusType).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "InstanceStatusDetails",
-}) as any as S.Schema<InstanceStatusDetails>;
+).annotate({ identifier: "InstanceStatusDetails" }) as any as S.Schema<InstanceStatusDetails>;
 export type InstanceStatusDetailsList = InstanceStatusDetails[];
 export const InstanceStatusDetailsList = /*@__PURE__*/ S.Array(
-  InstanceStatusDetails.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceStatusDetails",
-  }),
+  InstanceStatusDetails.pipe(T.XmlName("item")).annotate({ identifier: "InstanceStatusDetails" }),
 );
 export type SummaryStatus =
   | "ok"
@@ -34314,9 +33783,7 @@ export const InstanceStatusSummary = /*@__PURE__*/ S.suspend(() =>
     ),
     Status: S.optional(SummaryStatus).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "InstanceStatusSummary",
-}) as any as S.Schema<InstanceStatusSummary>;
+).annotate({ identifier: "InstanceStatusSummary" }) as any as S.Schema<InstanceStatusSummary>;
 export interface EbsStatusDetails {
   ImpairedSince?: Date;
   Name?: StatusName;
@@ -34331,14 +33798,10 @@ export const EbsStatusDetails = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(StatusName).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
     Status: S.optional(StatusType).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "EbsStatusDetails",
-}) as any as S.Schema<EbsStatusDetails>;
+).annotate({ identifier: "EbsStatusDetails" }) as any as S.Schema<EbsStatusDetails>;
 export type EbsStatusDetailsList = EbsStatusDetails[];
 export const EbsStatusDetailsList = /*@__PURE__*/ S.Array(
-  EbsStatusDetails.pipe(T.XmlName("item")).annotate({
-    identifier: "EbsStatusDetails",
-  }),
+  EbsStatusDetails.pipe(T.XmlName("item")).annotate({ identifier: "EbsStatusDetails" }),
 );
 export interface EbsStatusSummary {
   Details?: EbsStatusDetails[];
@@ -34349,9 +33812,7 @@ export const EbsStatusSummary = /*@__PURE__*/ S.suspend(() =>
     Details: S.optional(EbsStatusDetailsList).pipe(T.XmlName("details"), T.Ec2QueryName("Details")),
     Status: S.optional(SummaryStatus).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "EbsStatusSummary",
-}) as any as S.Schema<EbsStatusSummary>;
+).annotate({ identifier: "EbsStatusSummary" }) as any as S.Schema<EbsStatusSummary>;
 export interface ApplicationStatusSummary {
   Status?: SummaryStatus;
   ImpairedSince?: Date;
@@ -34364,9 +33825,7 @@ export const ApplicationStatusSummary = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ImpairedSince"),
     ),
   }),
-).annotate({
-  identifier: "ApplicationStatusSummary",
-}) as any as S.Schema<ApplicationStatusSummary>;
+).annotate({ identifier: "ApplicationStatusSummary" }) as any as S.Schema<ApplicationStatusSummary>;
 export interface InstanceStatus {
   AvailabilityZone?: string;
   AvailabilityZoneId?: string;
@@ -34418,9 +33877,7 @@ export const InstanceStatus = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "InstanceStatus" }) as any as S.Schema<InstanceStatus>;
 export type InstanceStatusList = InstanceStatus[];
 export const InstanceStatusList = /*@__PURE__*/ S.Array(
-  InstanceStatus.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceStatus",
-  }),
+  InstanceStatus.pipe(T.XmlName("item")).annotate({ identifier: "InstanceStatus" }),
 );
 export interface DescribeInstanceStatusResult {
   InstanceStatuses?: InstanceStatus[];
@@ -34495,14 +33952,10 @@ export const InstanceTopology = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("CapacityBlockId"),
     ),
   }),
-).annotate({
-  identifier: "InstanceTopology",
-}) as any as S.Schema<InstanceTopology>;
+).annotate({ identifier: "InstanceTopology" }) as any as S.Schema<InstanceTopology>;
 export type InstanceSet = InstanceTopology[];
 export const InstanceSet = /*@__PURE__*/ S.Array(
-  InstanceTopology.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceTopology",
-  }),
+  InstanceTopology.pipe(T.XmlName("item")).annotate({ identifier: "InstanceTopology" }),
 );
 export interface DescribeInstanceTopologyResult {
   Instances?: InstanceTopology[];
@@ -34564,14 +34017,10 @@ export const InstanceTypeOffering = /*@__PURE__*/ S.suspend(() =>
     ),
     Location: S.optional(S.String).pipe(T.XmlName("location"), T.Ec2QueryName("Location")),
   }),
-).annotate({
-  identifier: "InstanceTypeOffering",
-}) as any as S.Schema<InstanceTypeOffering>;
+).annotate({ identifier: "InstanceTypeOffering" }) as any as S.Schema<InstanceTypeOffering>;
 export type InstanceTypeOfferingsList = InstanceTypeOffering[];
 export const InstanceTypeOfferingsList = /*@__PURE__*/ S.Array(
-  InstanceTypeOffering.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceTypeOffering",
-  }),
+  InstanceTypeOffering.pipe(T.XmlName("item")).annotate({ identifier: "InstanceTypeOffering" }),
 );
 export interface DescribeInstanceTypeOfferingsResult {
   InstanceTypeOfferings?: InstanceTypeOffering[];
@@ -34778,9 +34227,7 @@ export const InstanceStorageInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("EncryptionSupport"),
     ),
   }),
-).annotate({
-  identifier: "InstanceStorageInfo",
-}) as any as S.Schema<InstanceStorageInfo>;
+).annotate({ identifier: "InstanceStorageInfo" }) as any as S.Schema<InstanceStorageInfo>;
 export type EbsOptimizedSupport = "unsupported" | "supported" | "default" | (string & {});
 export const EbsOptimizedSupport = S.String;
 
@@ -34825,9 +34272,7 @@ export const EbsOptimizedInfo = /*@__PURE__*/ S.suspend(() =>
     ),
     MaximumIops: S.optional(S.Number).pipe(T.XmlName("maximumIops"), T.Ec2QueryName("MaximumIops")),
   }),
-).annotate({
-  identifier: "EbsOptimizedInfo",
-}) as any as S.Schema<EbsOptimizedInfo>;
+).annotate({ identifier: "EbsOptimizedInfo" }) as any as S.Schema<EbsOptimizedInfo>;
 export type EbsNvmeSupport = "unsupported" | "supported" | "required" | (string & {});
 export const EbsNvmeSupport = S.String;
 
@@ -34935,6 +34380,18 @@ export type PeakBandwidthInGbps = number;
 export type DefaultEnaQueueCountPerInterface = number;
 export type MaximumEnaQueueCount = number;
 export type MaximumEnaQueueCountPerInterface = number;
+export type NetworkCardInterfaceType =
+  | "interface"
+  | "efa"
+  | "efa-only"
+  | "secondary"
+  | (string & {});
+export const NetworkCardInterfaceType = S.String;
+
+export type NetworkCardInterfaceTypeList = NetworkCardInterfaceType[];
+export const NetworkCardInterfaceTypeList = /*@__PURE__*/ S.Array(
+  NetworkCardInterfaceType.pipe(T.XmlName("item")),
+);
 export interface NetworkCardInfo {
   NetworkCardIndex?: number;
   NetworkPerformance?: string;
@@ -34945,6 +34402,7 @@ export interface NetworkCardInfo {
   DefaultEnaQueueCountPerInterface?: number;
   MaximumEnaQueueCount?: number;
   MaximumEnaQueueCountPerInterface?: number;
+  InterfaceTypes?: NetworkCardInterfaceType[];
 }
 export const NetworkCardInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -34984,15 +34442,15 @@ export const NetworkCardInfo = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("maximumEnaQueueCountPerInterface"),
       T.Ec2QueryName("MaximumEnaQueueCountPerInterface"),
     ),
+    InterfaceTypes: S.optional(NetworkCardInterfaceTypeList).pipe(
+      T.XmlName("interfaceTypeSet"),
+      T.Ec2QueryName("InterfaceTypeSet"),
+    ),
   }),
-).annotate({
-  identifier: "NetworkCardInfo",
-}) as any as S.Schema<NetworkCardInfo>;
+).annotate({ identifier: "NetworkCardInfo" }) as any as S.Schema<NetworkCardInfo>;
 export type NetworkCardInfoList = NetworkCardInfo[];
 export const NetworkCardInfoList = /*@__PURE__*/ S.Array(
-  NetworkCardInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "NetworkCardInfo",
-  }),
+  NetworkCardInfo.pipe(T.XmlName("item")).annotate({ identifier: "NetworkCardInfo" }),
 );
 export type MaxIpv4AddrPerInterface = number;
 export type MaxIpv6AddrPerInterface = number;
@@ -35169,9 +34627,7 @@ export const GpuDeviceMemoryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SizeInMiB: S.optional(S.Number).pipe(T.XmlName("sizeInMiB"), T.Ec2QueryName("SizeInMiB")),
   }),
-).annotate({
-  identifier: "GpuDeviceMemoryInfo",
-}) as any as S.Schema<GpuDeviceMemoryInfo>;
+).annotate({ identifier: "GpuDeviceMemoryInfo" }) as any as S.Schema<GpuDeviceMemoryInfo>;
 export interface GpuDeviceInfo {
   Name?: string;
   Manufacturer?: string;
@@ -35208,9 +34664,7 @@ export const GpuDeviceInfo = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GpuDeviceInfo" }) as any as S.Schema<GpuDeviceInfo>;
 export type GpuDeviceInfoList = GpuDeviceInfo[];
 export const GpuDeviceInfoList = /*@__PURE__*/ S.Array(
-  GpuDeviceInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "GpuDeviceInfo",
-  }),
+  GpuDeviceInfo.pipe(T.XmlName("item")).annotate({ identifier: "GpuDeviceInfo" }),
 );
 export type TotalGpuMemory = number;
 export interface GpuInfo {
@@ -35237,9 +34691,7 @@ export const FpgaDeviceMemoryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SizeInMiB: S.optional(S.Number).pipe(T.XmlName("sizeInMiB"), T.Ec2QueryName("SizeInMiB")),
   }),
-).annotate({
-  identifier: "FpgaDeviceMemoryInfo",
-}) as any as S.Schema<FpgaDeviceMemoryInfo>;
+).annotate({ identifier: "FpgaDeviceMemoryInfo" }) as any as S.Schema<FpgaDeviceMemoryInfo>;
 export interface FpgaDeviceInfo {
   Name?: string;
   Manufacturer?: string;
@@ -35261,9 +34713,7 @@ export const FpgaDeviceInfo = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "FpgaDeviceInfo" }) as any as S.Schema<FpgaDeviceInfo>;
 export type FpgaDeviceInfoList = FpgaDeviceInfo[];
 export const FpgaDeviceInfoList = /*@__PURE__*/ S.Array(
-  FpgaDeviceInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "FpgaDeviceInfo",
-  }),
+  FpgaDeviceInfo.pipe(T.XmlName("item")).annotate({ identifier: "FpgaDeviceInfo" }),
 );
 export type TotalFpgaMemory = number;
 export interface FpgaInfo {
@@ -35296,9 +34746,7 @@ export const PlacementGroupInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SupportedStrategies"),
     ),
   }),
-).annotate({
-  identifier: "PlacementGroupInfo",
-}) as any as S.Schema<PlacementGroupInfo>;
+).annotate({ identifier: "PlacementGroupInfo" }) as any as S.Schema<PlacementGroupInfo>;
 export type InferenceDeviceCount = number;
 export type InferenceDeviceName = string;
 export type InferenceDeviceManufacturerName = string;
@@ -35331,9 +34779,7 @@ export const InferenceDeviceInfo = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("memoryInfo"), T.Ec2QueryName("MemoryInfo"))
       .annotate({ identifier: "InferenceDeviceMemoryInfo" }),
   }),
-).annotate({
-  identifier: "InferenceDeviceInfo",
-}) as any as S.Schema<InferenceDeviceInfo>;
+).annotate({ identifier: "InferenceDeviceInfo" }) as any as S.Schema<InferenceDeviceInfo>;
 export type InferenceDeviceInfoList = InferenceDeviceInfo[];
 export const InferenceDeviceInfoList = /*@__PURE__*/ S.Array(InferenceDeviceInfo);
 export type TotalInferenceMemory = number;
@@ -35352,9 +34798,7 @@ export const InferenceAcceleratorInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TotalInferenceMemoryInMiB"),
     ),
   }),
-).annotate({
-  identifier: "InferenceAcceleratorInfo",
-}) as any as S.Schema<InferenceAcceleratorInfo>;
+).annotate({ identifier: "InferenceAcceleratorInfo" }) as any as S.Schema<InferenceAcceleratorInfo>;
 export type HibernationFlag = boolean;
 export type BurstablePerformanceFlag = boolean;
 export type DedicatedHostFlag = boolean;
@@ -35397,9 +34841,7 @@ export const MediaDeviceMemoryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SizeInMiB: S.optional(S.Number).pipe(T.XmlName("sizeInMiB"), T.Ec2QueryName("SizeInMiB")),
   }),
-).annotate({
-  identifier: "MediaDeviceMemoryInfo",
-}) as any as S.Schema<MediaDeviceMemoryInfo>;
+).annotate({ identifier: "MediaDeviceMemoryInfo" }) as any as S.Schema<MediaDeviceMemoryInfo>;
 export interface MediaDeviceInfo {
   Count?: number;
   Name?: string;
@@ -35418,14 +34860,10 @@ export const MediaDeviceInfo = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("memoryInfo"), T.Ec2QueryName("MemoryInfo"))
       .annotate({ identifier: "MediaDeviceMemoryInfo" }),
   }),
-).annotate({
-  identifier: "MediaDeviceInfo",
-}) as any as S.Schema<MediaDeviceInfo>;
+).annotate({ identifier: "MediaDeviceInfo" }) as any as S.Schema<MediaDeviceInfo>;
 export type MediaDeviceInfoList = MediaDeviceInfo[];
 export const MediaDeviceInfoList = /*@__PURE__*/ S.Array(
-  MediaDeviceInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "MediaDeviceInfo",
-  }),
+  MediaDeviceInfo.pipe(T.XmlName("item")).annotate({ identifier: "MediaDeviceInfo" }),
 );
 export type TotalMediaMemory = number;
 export interface MediaAcceleratorInfo {
@@ -35443,9 +34881,7 @@ export const MediaAcceleratorInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TotalMediaMemoryInMiB"),
     ),
   }),
-).annotate({
-  identifier: "MediaAcceleratorInfo",
-}) as any as S.Schema<MediaAcceleratorInfo>;
+).annotate({ identifier: "MediaAcceleratorInfo" }) as any as S.Schema<MediaAcceleratorInfo>;
 export type NeuronDeviceCount = number;
 export type NeuronDeviceName = string;
 export type NeuronDeviceCoreCount = number;
@@ -35459,9 +34895,7 @@ export const NeuronDeviceCoreInfo = /*@__PURE__*/ S.suspend(() =>
     Count: S.optional(S.Number).pipe(T.XmlName("count"), T.Ec2QueryName("Count")),
     Version: S.optional(S.Number).pipe(T.XmlName("version"), T.Ec2QueryName("Version")),
   }),
-).annotate({
-  identifier: "NeuronDeviceCoreInfo",
-}) as any as S.Schema<NeuronDeviceCoreInfo>;
+).annotate({ identifier: "NeuronDeviceCoreInfo" }) as any as S.Schema<NeuronDeviceCoreInfo>;
 export type NeuronDeviceMemorySize = number;
 export interface NeuronDeviceMemoryInfo {
   SizeInMiB?: number;
@@ -35470,9 +34904,7 @@ export const NeuronDeviceMemoryInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SizeInMiB: S.optional(S.Number).pipe(T.XmlName("sizeInMiB"), T.Ec2QueryName("SizeInMiB")),
   }),
-).annotate({
-  identifier: "NeuronDeviceMemoryInfo",
-}) as any as S.Schema<NeuronDeviceMemoryInfo>;
+).annotate({ identifier: "NeuronDeviceMemoryInfo" }) as any as S.Schema<NeuronDeviceMemoryInfo>;
 export interface NeuronDeviceInfo {
   Count?: number;
   Name?: string;
@@ -35490,14 +34922,10 @@ export const NeuronDeviceInfo = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("memoryInfo"), T.Ec2QueryName("MemoryInfo"))
       .annotate({ identifier: "NeuronDeviceMemoryInfo" }),
   }),
-).annotate({
-  identifier: "NeuronDeviceInfo",
-}) as any as S.Schema<NeuronDeviceInfo>;
+).annotate({ identifier: "NeuronDeviceInfo" }) as any as S.Schema<NeuronDeviceInfo>;
 export type NeuronDeviceInfoList = NeuronDeviceInfo[];
 export const NeuronDeviceInfoList = /*@__PURE__*/ S.Array(
-  NeuronDeviceInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "NeuronDeviceInfo",
-  }),
+  NeuronDeviceInfo.pipe(T.XmlName("item")).annotate({ identifier: "NeuronDeviceInfo" }),
 );
 export type TotalNeuronMemory = number;
 export interface NeuronInfo {
@@ -35669,14 +35097,10 @@ export const InstanceTypeInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SupportedInRegion"),
     ),
   }),
-).annotate({
-  identifier: "InstanceTypeInfo",
-}) as any as S.Schema<InstanceTypeInfo>;
+).annotate({ identifier: "InstanceTypeInfo" }) as any as S.Schema<InstanceTypeInfo>;
 export type InstanceTypeInfoList = InstanceTypeInfo[];
 export const InstanceTypeInfoList = /*@__PURE__*/ S.Array(
-  InstanceTypeInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceTypeInfo",
-  }),
+  InstanceTypeInfo.pipe(T.XmlName("item")).annotate({ identifier: "InstanceTypeInfo" }),
 );
 export interface DescribeInstanceTypesResult {
   InstanceTypes?: InstanceTypeInfo[];
@@ -35719,9 +35143,7 @@ export const DescribeInternetGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeInternetGatewaysRequest>;
 export type InternetGatewayList = InternetGateway[];
 export const InternetGatewayList = /*@__PURE__*/ S.Array(
-  InternetGateway.pipe(T.XmlName("item")).annotate({
-    identifier: "InternetGateway",
-  }),
+  InternetGateway.pipe(T.XmlName("item")).annotate({ identifier: "InternetGateway" }),
 );
 export interface DescribeInternetGatewaysResult {
   InternetGateways?: InternetGateway[];
@@ -35766,9 +35188,7 @@ export const DescribeIpamByoasnResult = /*@__PURE__*/ S.suspend(() =>
     Byoasns: S.optional(ByoasnSet).pipe(T.XmlName("byoasnSet"), T.Ec2QueryName("ByoasnSet")),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeIpamByoasnResult",
-}) as any as S.Schema<DescribeIpamByoasnResult>;
+).annotate({ identifier: "DescribeIpamByoasnResult" }) as any as S.Schema<DescribeIpamByoasnResult>;
 export type IpamMaxResults = number;
 export interface DescribeIpamExternalResourceVerificationTokensRequest {
   DryRun?: boolean;
@@ -35912,9 +35332,7 @@ export const DescribeIpamPoolAllocationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeIpamPoolAllocationsRequest>;
 export type IpamPoolAllocationSet = IpamPoolAllocation[];
 export const IpamPoolAllocationSet = /*@__PURE__*/ S.Array(
-  IpamPoolAllocation.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamPoolAllocation",
-  }),
+  IpamPoolAllocation.pipe(T.XmlName("item")).annotate({ identifier: "IpamPoolAllocation" }),
 );
 export interface DescribeIpamPoolAllocationsResult {
   IpamPoolAllocations?: IpamPoolAllocation[];
@@ -35946,9 +35364,7 @@ export const DescribeIpamPoolsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     IpamPoolIds: S.optional(ValueStringList).pipe(T.XmlName("IpamPoolId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeIpamPoolsRequest",
-}) as any as S.Schema<DescribeIpamPoolsRequest>;
+).annotate({ identifier: "DescribeIpamPoolsRequest" }) as any as S.Schema<DescribeIpamPoolsRequest>;
 export type IpamPoolSet = IpamPool[];
 export const IpamPoolSet = /*@__PURE__*/ S.Array(
   IpamPool.pipe(T.XmlName("item")).annotate({ identifier: "IpamPool" }),
@@ -35965,9 +35381,7 @@ export const DescribeIpamPoolsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("IpamPoolSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeIpamPoolsResult",
-}) as any as S.Schema<DescribeIpamPoolsResult>;
+).annotate({ identifier: "DescribeIpamPoolsResult" }) as any as S.Schema<DescribeIpamPoolsResult>;
 export interface DescribeIpamPrefixListResolversRequest {
   DryRun?: boolean;
   Filters?: Filter[];
@@ -35990,9 +35404,7 @@ export const DescribeIpamPrefixListResolversRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DescribeIpamPrefixListResolversRequest>;
 export type IpamPrefixListResolverSet = IpamPrefixListResolver[];
 export const IpamPrefixListResolverSet = /*@__PURE__*/ S.Array(
-  IpamPrefixListResolver.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamPrefixListResolver",
-  }),
+  IpamPrefixListResolver.pipe(T.XmlName("item")).annotate({ identifier: "IpamPrefixListResolver" }),
 );
 export interface DescribeIpamPrefixListResolversResult {
   NextToken?: string;
@@ -36074,9 +35486,7 @@ export const DescribeIpamResourceDiscoveriesRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DescribeIpamResourceDiscoveriesRequest>;
 export type IpamResourceDiscoverySet = IpamResourceDiscovery[];
 export const IpamResourceDiscoverySet = /*@__PURE__*/ S.Array(
-  IpamResourceDiscovery.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamResourceDiscovery",
-  }),
+  IpamResourceDiscovery.pipe(T.XmlName("item")).annotate({ identifier: "IpamResourceDiscovery" }),
 );
 export interface DescribeIpamResourceDiscoveriesResult {
   IpamResourceDiscoveries?: IpamResourceDiscovery[];
@@ -36149,9 +35559,7 @@ export const DescribeIpamsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     IpamIds: S.optional(ValueStringList).pipe(T.XmlName("IpamId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeIpamsRequest",
-}) as any as S.Schema<DescribeIpamsRequest>;
+).annotate({ identifier: "DescribeIpamsRequest" }) as any as S.Schema<DescribeIpamsRequest>;
 export type IpamSet = Ipam[];
 export const IpamSet = /*@__PURE__*/ S.Array(
   Ipam.pipe(T.XmlName("item")).annotate({ identifier: "Ipam" }),
@@ -36165,9 +35573,7 @@ export const DescribeIpamsResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Ipams: S.optional(IpamSet).pipe(T.XmlName("ipamSet"), T.Ec2QueryName("IpamSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeIpamsResult",
-}) as any as S.Schema<DescribeIpamsResult>;
+).annotate({ identifier: "DescribeIpamsResult" }) as any as S.Schema<DescribeIpamsResult>;
 export interface DescribeIpamScopesRequest {
   DryRun?: boolean;
   Filters?: Filter[];
@@ -36202,9 +35608,7 @@ export const DescribeIpamScopesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("IpamScopeSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeIpamScopesResult",
-}) as any as S.Schema<DescribeIpamScopesResult>;
+).annotate({ identifier: "DescribeIpamScopesResult" }) as any as S.Schema<DescribeIpamScopesResult>;
 export type Ipv6PoolIdList = string[];
 export const Ipv6PoolIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type Ipv6PoolMaxResults = number;
@@ -36223,9 +35627,7 @@ export const DescribeIpv6PoolsRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeIpv6PoolsRequest",
-}) as any as S.Schema<DescribeIpv6PoolsRequest>;
+).annotate({ identifier: "DescribeIpv6PoolsRequest" }) as any as S.Schema<DescribeIpv6PoolsRequest>;
 export interface PoolCidrBlock {
   Cidr?: string;
 }
@@ -36236,9 +35638,7 @@ export const PoolCidrBlock = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PoolCidrBlock" }) as any as S.Schema<PoolCidrBlock>;
 export type PoolCidrBlocksSet = PoolCidrBlock[];
 export const PoolCidrBlocksSet = /*@__PURE__*/ S.Array(
-  PoolCidrBlock.pipe(T.XmlName("item")).annotate({
-    identifier: "PoolCidrBlock",
-  }),
+  PoolCidrBlock.pipe(T.XmlName("item")).annotate({ identifier: "PoolCidrBlock" }),
 );
 export interface Ipv6Pool {
   PoolId?: string;
@@ -36273,9 +35673,7 @@ export const DescribeIpv6PoolsResult = /*@__PURE__*/ S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeIpv6PoolsResult",
-}) as any as S.Schema<DescribeIpv6PoolsResult>;
+).annotate({ identifier: "DescribeIpv6PoolsResult" }) as any as S.Schema<DescribeIpv6PoolsResult>;
 export type KeyNameStringList = string[];
 export const KeyNameStringList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("KeyName")));
 export type KeyPairIdStringList = string[];
@@ -36295,9 +35693,7 @@ export const DescribeKeyPairsRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeKeyPairsRequest",
-}) as any as S.Schema<DescribeKeyPairsRequest>;
+).annotate({ identifier: "DescribeKeyPairsRequest" }) as any as S.Schema<DescribeKeyPairsRequest>;
 export interface KeyPairInfo {
   KeyPairId?: string;
   KeyType?: KeyType;
@@ -36335,9 +35731,7 @@ export const DescribeKeyPairsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     KeyPairs: S.optional(KeyPairList).pipe(T.XmlName("keySet"), T.Ec2QueryName("KeySet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeKeyPairsResult",
-}) as any as S.Schema<DescribeKeyPairsResult>;
+).annotate({ identifier: "DescribeKeyPairsResult" }) as any as S.Schema<DescribeKeyPairsResult>;
 export type LaunchTemplateIdStringList = string[];
 export const LaunchTemplateIdStringList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type LaunchTemplateNameStringList = string[];
@@ -36369,9 +35763,7 @@ export const DescribeLaunchTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeLaunchTemplatesRequest>;
 export type LaunchTemplateSet = LaunchTemplate[];
 export const LaunchTemplateSet = /*@__PURE__*/ S.Array(
-  LaunchTemplate.pipe(T.XmlName("item")).annotate({
-    identifier: "LaunchTemplate",
-  }),
+  LaunchTemplate.pipe(T.XmlName("item")).annotate({ identifier: "LaunchTemplate" }),
 );
 export interface DescribeLaunchTemplatesResult {
   LaunchTemplates?: LaunchTemplate[];
@@ -36420,9 +35812,7 @@ export const DescribeLaunchTemplateVersionsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DescribeLaunchTemplateVersionsRequest>;
 export type LaunchTemplateVersionSet = LaunchTemplateVersion[];
 export const LaunchTemplateVersionSet = /*@__PURE__*/ S.Array(
-  LaunchTemplateVersion.pipe(T.XmlName("item")).annotate({
-    identifier: "LaunchTemplateVersion",
-  }),
+  LaunchTemplateVersion.pipe(T.XmlName("item")).annotate({ identifier: "LaunchTemplateVersion" }),
 );
 export interface DescribeLaunchTemplateVersionsResult {
   LaunchTemplateVersions?: LaunchTemplateVersion[];
@@ -36464,9 +35854,7 @@ export const DescribeLocalGatewayRouteTablesRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DescribeLocalGatewayRouteTablesRequest>;
 export type LocalGatewayRouteTableSet = LocalGatewayRouteTable[];
 export const LocalGatewayRouteTableSet = /*@__PURE__*/ S.Array(
-  LocalGatewayRouteTable.pipe(T.XmlName("item")).annotate({
-    identifier: "LocalGatewayRouteTable",
-  }),
+  LocalGatewayRouteTable.pipe(T.XmlName("item")).annotate({ identifier: "LocalGatewayRouteTable" }),
 );
 export interface DescribeLocalGatewayRouteTablesResult {
   LocalGatewayRouteTables?: LocalGatewayRouteTable[];
@@ -36794,14 +36182,10 @@ export const LockedSnapshotsInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LockExpiresOn"),
     ),
   }),
-).annotate({
-  identifier: "LockedSnapshotsInfo",
-}) as any as S.Schema<LockedSnapshotsInfo>;
+).annotate({ identifier: "LockedSnapshotsInfo" }) as any as S.Schema<LockedSnapshotsInfo>;
 export type LockedSnapshotsInfoList = LockedSnapshotsInfo[];
 export const LockedSnapshotsInfoList = /*@__PURE__*/ S.Array(
-  LockedSnapshotsInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "LockedSnapshotsInfo",
-  }),
+  LockedSnapshotsInfo.pipe(T.XmlName("item")).annotate({ identifier: "LockedSnapshotsInfo" }),
 );
 export interface DescribeLockedSnapshotsResult {
   Snapshots?: LockedSnapshotsInfo[];
@@ -36832,9 +36216,7 @@ export const DescribeMacHostsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeMacHostsRequest",
-}) as any as S.Schema<DescribeMacHostsRequest>;
+).annotate({ identifier: "DescribeMacHostsRequest" }) as any as S.Schema<DescribeMacHostsRequest>;
 export type MacOSVersionStringList = string[];
 export const MacOSVersionStringList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export interface MacHost {
@@ -36863,9 +36245,7 @@ export const DescribeMacHostsResult = /*@__PURE__*/ S.suspend(() =>
     MacHosts: S.optional(MacHostList).pipe(T.XmlName("macHostSet"), T.Ec2QueryName("MacHostSet")),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeMacHostsResult",
-}) as any as S.Schema<DescribeMacHostsResult>;
+).annotate({ identifier: "DescribeMacHostsResult" }) as any as S.Schema<DescribeMacHostsResult>;
 export type MacModificationTaskIdList = string[];
 export const MacModificationTaskIdList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type DescribeMacModificationTasksMaxResults = number;
@@ -36891,9 +36271,7 @@ export const DescribeMacModificationTasksRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeMacModificationTasksRequest>;
 export type MacModificationTaskList = MacModificationTask[];
 export const MacModificationTaskList = /*@__PURE__*/ S.Array(
-  MacModificationTask.pipe(T.XmlName("item")).annotate({
-    identifier: "MacModificationTask",
-  }),
+  MacModificationTask.pipe(T.XmlName("item")).annotate({ identifier: "MacModificationTask" }),
 );
 export interface DescribeMacModificationTasksResult {
   MacModificationTasks?: MacModificationTask[];
@@ -36931,9 +36309,7 @@ export const DescribeManagedPrefixListsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeManagedPrefixListsRequest>;
 export type ManagedPrefixListSet = ManagedPrefixList[];
 export const ManagedPrefixListSet = /*@__PURE__*/ S.Array(
-  ManagedPrefixList.pipe(T.XmlName("item")).annotate({
-    identifier: "ManagedPrefixList",
-  }),
+  ManagedPrefixList.pipe(T.XmlName("item")).annotate({ identifier: "ManagedPrefixList" }),
 );
 export interface DescribeManagedPrefixListsResult {
   NextToken?: string;
@@ -36981,14 +36357,10 @@ export const MovingAddressStatus = /*@__PURE__*/ S.suspend(() =>
     MoveStatus: S.optional(MoveStatus).pipe(T.XmlName("moveStatus"), T.Ec2QueryName("MoveStatus")),
     PublicIp: S.optional(S.String).pipe(T.XmlName("publicIp"), T.Ec2QueryName("PublicIp")),
   }),
-).annotate({
-  identifier: "MovingAddressStatus",
-}) as any as S.Schema<MovingAddressStatus>;
+).annotate({ identifier: "MovingAddressStatus" }) as any as S.Schema<MovingAddressStatus>;
 export type MovingAddressStatusSet = MovingAddressStatus[];
 export const MovingAddressStatusSet = /*@__PURE__*/ S.Array(
-  MovingAddressStatus.pipe(T.XmlName("item")).annotate({
-    identifier: "MovingAddressStatus",
-  }),
+  MovingAddressStatus.pipe(T.XmlName("item")).annotate({ identifier: "MovingAddressStatus" }),
 );
 export interface DescribeMovingAddressesResult {
   MovingAddressStatuses?: MovingAddressStatus[];
@@ -37296,9 +36668,7 @@ export const AnalysisAclRule = /*@__PURE__*/ S.suspend(() =>
     RuleAction: S.optional(S.String).pipe(T.XmlName("ruleAction"), T.Ec2QueryName("RuleAction")),
     RuleNumber: S.optional(S.Number).pipe(T.XmlName("ruleNumber"), T.Ec2QueryName("RuleNumber")),
   }),
-).annotate({
-  identifier: "AnalysisAclRule",
-}) as any as S.Schema<AnalysisAclRule>;
+).annotate({ identifier: "AnalysisAclRule" }) as any as S.Schema<AnalysisAclRule>;
 export interface AnalysisComponent {
   Id?: string;
   Arn?: string;
@@ -37310,9 +36680,7 @@ export const AnalysisComponent = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String).pipe(T.XmlName("arn"), T.Ec2QueryName("Arn")),
     Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
   }),
-).annotate({
-  identifier: "AnalysisComponent",
-}) as any as S.Schema<AnalysisComponent>;
+).annotate({ identifier: "AnalysisComponent" }) as any as S.Schema<AnalysisComponent>;
 export type IpAddressList = string[];
 export const IpAddressList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type PortRangeList = PortRange[];
@@ -37346,9 +36714,7 @@ export const AnalysisPacketHeader = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SourcePortRangeSet"),
     ),
   }),
-).annotate({
-  identifier: "AnalysisPacketHeader",
-}) as any as S.Schema<AnalysisPacketHeader>;
+).annotate({ identifier: "AnalysisPacketHeader" }) as any as S.Schema<AnalysisPacketHeader>;
 export interface AnalysisRouteTableRoute {
   DestinationCidr?: string;
   DestinationPrefixListId?: string;
@@ -37412,9 +36778,7 @@ export const AnalysisRouteTableRoute = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LocalGatewayId"),
     ),
   }),
-).annotate({
-  identifier: "AnalysisRouteTableRoute",
-}) as any as S.Schema<AnalysisRouteTableRoute>;
+).annotate({ identifier: "AnalysisRouteTableRoute" }) as any as S.Schema<AnalysisRouteTableRoute>;
 export interface AnalysisSecurityGroupRule {
   Cidr?: string;
   Direction?: string;
@@ -37474,14 +36838,10 @@ export const RuleGroupTypePair = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RuleGroupType"),
     ),
   }),
-).annotate({
-  identifier: "RuleGroupTypePair",
-}) as any as S.Schema<RuleGroupTypePair>;
+).annotate({ identifier: "RuleGroupTypePair" }) as any as S.Schema<RuleGroupTypePair>;
 export type RuleGroupTypePairList = RuleGroupTypePair[];
 export const RuleGroupTypePairList = /*@__PURE__*/ S.Array(
-  RuleGroupTypePair.pipe(T.XmlName("item")).annotate({
-    identifier: "RuleGroupTypePair",
-  }),
+  RuleGroupTypePair.pipe(T.XmlName("item")).annotate({ identifier: "RuleGroupTypePair" }),
 );
 export interface RuleGroupRuleOptionsPair {
   RuleGroupArn?: string;
@@ -37498,9 +36858,7 @@ export const RuleGroupRuleOptionsPair = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RuleOptionSet"),
     ),
   }),
-).annotate({
-  identifier: "RuleGroupRuleOptionsPair",
-}) as any as S.Schema<RuleGroupRuleOptionsPair>;
+).annotate({ identifier: "RuleGroupRuleOptionsPair" }) as any as S.Schema<RuleGroupRuleOptionsPair>;
 export type RuleGroupRuleOptionsPairList = RuleGroupRuleOptionsPair[];
 export const RuleGroupRuleOptionsPairList = /*@__PURE__*/ S.Array(
   RuleGroupRuleOptionsPair.pipe(T.XmlName("item")).annotate({
@@ -37509,9 +36867,7 @@ export const RuleGroupRuleOptionsPairList = /*@__PURE__*/ S.Array(
 );
 export type AnalysisComponentList = AnalysisComponent[];
 export const AnalysisComponentList = /*@__PURE__*/ S.Array(
-  AnalysisComponent.pipe(T.XmlName("item")).annotate({
-    identifier: "AnalysisComponent",
-  }),
+  AnalysisComponent.pipe(T.XmlName("item")).annotate({ identifier: "AnalysisComponent" }),
 );
 export interface AdditionalDetail {
   AdditionalDetailType?: string;
@@ -37553,14 +36909,10 @@ export const AdditionalDetail = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LoadBalancerSet"),
     ),
   }),
-).annotate({
-  identifier: "AdditionalDetail",
-}) as any as S.Schema<AdditionalDetail>;
+).annotate({ identifier: "AdditionalDetail" }) as any as S.Schema<AdditionalDetail>;
 export type AdditionalDetailList = AdditionalDetail[];
 export const AdditionalDetailList = /*@__PURE__*/ S.Array(
-  AdditionalDetail.pipe(T.XmlName("item")).annotate({
-    identifier: "AdditionalDetail",
-  }),
+  AdditionalDetail.pipe(T.XmlName("item")).annotate({ identifier: "AdditionalDetail" }),
 );
 export interface TransitGatewayRouteTableRoute {
   DestinationCidr?: string;
@@ -37682,9 +37034,7 @@ export const FirewallStatelessRule = /*@__PURE__*/ S.suspend(() =>
     RuleAction: S.optional(S.String).pipe(T.XmlName("ruleAction"), T.Ec2QueryName("RuleAction")),
     Priority: S.optional(S.Number).pipe(T.XmlName("priority"), T.Ec2QueryName("Priority")),
   }),
-).annotate({
-  identifier: "FirewallStatelessRule",
-}) as any as S.Schema<FirewallStatelessRule>;
+).annotate({ identifier: "FirewallStatelessRule" }) as any as S.Schema<FirewallStatelessRule>;
 export interface FirewallStatefulRule {
   RuleGroupArn?: string;
   Sources?: string[];
@@ -37718,9 +37068,7 @@ export const FirewallStatefulRule = /*@__PURE__*/ S.suspend(() =>
     RuleAction: S.optional(S.String).pipe(T.XmlName("ruleAction"), T.Ec2QueryName("RuleAction")),
     Direction: S.optional(S.String).pipe(T.XmlName("direction"), T.Ec2QueryName("Direction")),
   }),
-).annotate({
-  identifier: "FirewallStatefulRule",
-}) as any as S.Schema<FirewallStatefulRule>;
+).annotate({ identifier: "FirewallStatefulRule" }) as any as S.Schema<FirewallStatefulRule>;
 export interface Explanation {
   Acl?: AnalysisComponent;
   AclRule?: AnalysisAclRule;
@@ -38041,9 +37389,7 @@ export const PathComponent = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PathComponent" }) as any as S.Schema<PathComponent>;
 export type PathComponentList = PathComponent[];
 export const PathComponentList = /*@__PURE__*/ S.Array(
-  PathComponent.pipe(T.XmlName("item")).annotate({
-    identifier: "PathComponent",
-  }),
+  PathComponent.pipe(T.XmlName("item")).annotate({ identifier: "PathComponent" }),
 );
 export interface AlternatePathHint {
   ComponentId?: string;
@@ -38057,14 +37403,10 @@ export const AlternatePathHint = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ComponentArn"),
     ),
   }),
-).annotate({
-  identifier: "AlternatePathHint",
-}) as any as S.Schema<AlternatePathHint>;
+).annotate({ identifier: "AlternatePathHint" }) as any as S.Schema<AlternatePathHint>;
 export type AlternatePathHintList = AlternatePathHint[];
 export const AlternatePathHintList = /*@__PURE__*/ S.Array(
-  AlternatePathHint.pipe(T.XmlName("item")).annotate({
-    identifier: "AlternatePathHint",
-  }),
+  AlternatePathHint.pipe(T.XmlName("item")).annotate({ identifier: "AlternatePathHint" }),
 );
 export interface NetworkInsightsAnalysis {
   NetworkInsightsAnalysisId?: string;
@@ -38150,9 +37492,7 @@ export const NetworkInsightsAnalysis = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "NetworkInsightsAnalysis",
-}) as any as S.Schema<NetworkInsightsAnalysis>;
+).annotate({ identifier: "NetworkInsightsAnalysis" }) as any as S.Schema<NetworkInsightsAnalysis>;
 export type NetworkInsightsAnalysisList = NetworkInsightsAnalysis[];
 export const NetworkInsightsAnalysisList = /*@__PURE__*/ S.Array(
   NetworkInsightsAnalysis.pipe(T.XmlName("item")).annotate({
@@ -38198,9 +37538,7 @@ export const DescribeNetworkInsightsPathsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeNetworkInsightsPathsRequest>;
 export type NetworkInsightsPathList = NetworkInsightsPath[];
 export const NetworkInsightsPathList = /*@__PURE__*/ S.Array(
-  NetworkInsightsPath.pipe(T.XmlName("item")).annotate({
-    identifier: "NetworkInsightsPath",
-  }),
+  NetworkInsightsPath.pipe(T.XmlName("item")).annotate({ identifier: "NetworkInsightsPath" }),
 );
 export interface DescribeNetworkInsightsPathsResult {
   NetworkInsightsPaths?: NetworkInsightsPath[];
@@ -38345,9 +37683,7 @@ export const DescribeNetworkInterfacesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeNetworkInterfacesRequest>;
 export type NetworkInterfaceList = NetworkInterface[];
 export const NetworkInterfaceList = /*@__PURE__*/ S.Array(
-  NetworkInterface.pipe(T.XmlName("item")).annotate({
-    identifier: "NetworkInterface",
-  }),
+  NetworkInterface.pipe(T.XmlName("item")).annotate({ identifier: "NetworkInterface" }),
 );
 export interface DescribeNetworkInterfacesResult {
   NetworkInterfaces?: NetworkInterface[];
@@ -38465,9 +37801,7 @@ export const DescribePlacementGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribePlacementGroupsRequest>;
 export type PlacementGroupList = PlacementGroup[];
 export const PlacementGroupList = /*@__PURE__*/ S.Array(
-  PlacementGroup.pipe(T.XmlName("item")).annotate({
-    identifier: "PlacementGroup",
-  }),
+  PlacementGroup.pipe(T.XmlName("item")).annotate({ identifier: "PlacementGroup" }),
 );
 export interface DescribePlacementGroupsResult {
   PlacementGroups?: PlacementGroup[];
@@ -38569,14 +37903,10 @@ export const PrincipalIdFormat = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String).pipe(T.XmlName("arn"), T.Ec2QueryName("Arn")),
     Statuses: S.optional(IdFormatList).pipe(T.XmlName("statusSet"), T.Ec2QueryName("StatusSet")),
   }),
-).annotate({
-  identifier: "PrincipalIdFormat",
-}) as any as S.Schema<PrincipalIdFormat>;
+).annotate({ identifier: "PrincipalIdFormat" }) as any as S.Schema<PrincipalIdFormat>;
 export type PrincipalIdFormatList = PrincipalIdFormat[];
 export const PrincipalIdFormatList = /*@__PURE__*/ S.Array(
-  PrincipalIdFormat.pipe(T.XmlName("item")).annotate({
-    identifier: "PrincipalIdFormat",
-  }),
+  PrincipalIdFormat.pipe(T.XmlName("item")).annotate({ identifier: "PrincipalIdFormat" }),
 );
 export interface DescribePrincipalIdFormatResult {
   Principals?: PrincipalIdFormat[];
@@ -38634,14 +37964,10 @@ export const PublicIpv4PoolRange = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailableAddressCount"),
     ),
   }),
-).annotate({
-  identifier: "PublicIpv4PoolRange",
-}) as any as S.Schema<PublicIpv4PoolRange>;
+).annotate({ identifier: "PublicIpv4PoolRange" }) as any as S.Schema<PublicIpv4PoolRange>;
 export type PublicIpv4PoolRangeSet = PublicIpv4PoolRange[];
 export const PublicIpv4PoolRangeSet = /*@__PURE__*/ S.Array(
-  PublicIpv4PoolRange.pipe(T.XmlName("item")).annotate({
-    identifier: "PublicIpv4PoolRange",
-  }),
+  PublicIpv4PoolRange.pipe(T.XmlName("item")).annotate({ identifier: "PublicIpv4PoolRange" }),
 );
 export interface PublicIpv4Pool {
   PoolId?: string;
@@ -38677,9 +38003,7 @@ export const PublicIpv4Pool = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PublicIpv4Pool" }) as any as S.Schema<PublicIpv4Pool>;
 export type PublicIpv4PoolSet = PublicIpv4Pool[];
 export const PublicIpv4PoolSet = /*@__PURE__*/ S.Array(
-  PublicIpv4Pool.pipe(T.XmlName("item")).annotate({
-    identifier: "PublicIpv4Pool",
-  }),
+  PublicIpv4Pool.pipe(T.XmlName("item")).annotate({ identifier: "PublicIpv4Pool" }),
 );
 export interface DescribePublicIpv4PoolsResult {
   PublicIpv4Pools?: PublicIpv4Pool[];
@@ -38711,24 +38035,16 @@ export const DescribeRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeRegionsRequest",
-}) as any as S.Schema<DescribeRegionsRequest>;
+).annotate({ identifier: "DescribeRegionsRequest" }) as any as S.Schema<DescribeRegionsRequest>;
 export interface RegionGeography {
   Name?: string;
 }
 export const RegionGeography = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
-  }),
-).annotate({
-  identifier: "RegionGeography",
-}) as any as S.Schema<RegionGeography>;
+  S.Struct({ Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")) }),
+).annotate({ identifier: "RegionGeography" }) as any as S.Schema<RegionGeography>;
 export type RegionGeographyList = RegionGeography[];
 export const RegionGeographyList = /*@__PURE__*/ S.Array(
-  RegionGeography.pipe(T.XmlName("item")).annotate({
-    identifier: "RegionGeography",
-  }),
+  RegionGeography.pipe(T.XmlName("item")).annotate({ identifier: "RegionGeography" }),
 );
 export interface Region {
   OptInStatus?: string;
@@ -38761,9 +38077,7 @@ export const DescribeRegionsResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Regions: S.optional(RegionList).pipe(T.XmlName("regionInfo"), T.Ec2QueryName("RegionInfo")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeRegionsResult",
-}) as any as S.Schema<DescribeRegionsResult>;
+).annotate({ identifier: "DescribeRegionsResult" }) as any as S.Schema<DescribeRegionsResult>;
 export type ReplaceRootVolumeTaskIds = string[];
 export const ReplaceRootVolumeTaskIds = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("ReplaceRootVolumeTaskId")),
@@ -38791,9 +38105,7 @@ export const DescribeReplaceRootVolumeTasksRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DescribeReplaceRootVolumeTasksRequest>;
 export type ReplaceRootVolumeTasks = ReplaceRootVolumeTask[];
 export const ReplaceRootVolumeTasks = /*@__PURE__*/ S.Array(
-  ReplaceRootVolumeTask.pipe(T.XmlName("item")).annotate({
-    identifier: "ReplaceRootVolumeTask",
-  }),
+  ReplaceRootVolumeTask.pipe(T.XmlName("item")).annotate({ identifier: "ReplaceRootVolumeTask" }),
 );
 export interface DescribeReplaceRootVolumeTasksResult {
   ReplaceRootVolumeTasks?: ReplaceRootVolumeTask[];
@@ -38865,14 +38177,10 @@ export const RecurringCharge = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Frequency"),
     ),
   }),
-).annotate({
-  identifier: "RecurringCharge",
-}) as any as S.Schema<RecurringCharge>;
+).annotate({ identifier: "RecurringCharge" }) as any as S.Schema<RecurringCharge>;
 export type RecurringChargesList = RecurringCharge[];
 export const RecurringChargesList = /*@__PURE__*/ S.Array(
-  RecurringCharge.pipe(T.XmlName("item")).annotate({
-    identifier: "RecurringCharge",
-  }),
+  RecurringCharge.pipe(T.XmlName("item")).annotate({ identifier: "RecurringCharge" }),
 );
 export type Scope = "Availability Zone" | "Region" | (string & {});
 export const Scope = S.String;
@@ -38980,14 +38288,10 @@ export const ReservedInstances = /*@__PURE__*/ S.suspend(() =>
     ),
     State: S.optional(ReservedInstanceState).pipe(T.XmlName("state"), T.Ec2QueryName("State")),
   }),
-).annotate({
-  identifier: "ReservedInstances",
-}) as any as S.Schema<ReservedInstances>;
+).annotate({ identifier: "ReservedInstances" }) as any as S.Schema<ReservedInstances>;
 export type ReservedInstancesList = ReservedInstances[];
 export const ReservedInstancesList = /*@__PURE__*/ S.Array(
-  ReservedInstances.pipe(T.XmlName("item")).annotate({
-    identifier: "ReservedInstances",
-  }),
+  ReservedInstances.pipe(T.XmlName("item")).annotate({ identifier: "ReservedInstances" }),
 );
 export interface DescribeReservedInstancesResult {
   ReservedInstances?: ReservedInstances[];
@@ -39121,14 +38425,10 @@ export const ReservedInstancesId = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ReservedInstancesId"),
     ),
   }),
-).annotate({
-  identifier: "ReservedInstancesId",
-}) as any as S.Schema<ReservedInstancesId>;
+).annotate({ identifier: "ReservedInstancesId" }) as any as S.Schema<ReservedInstancesId>;
 export type ReservedIntancesIds = ReservedInstancesId[];
 export const ReservedIntancesIds = /*@__PURE__*/ S.Array(
-  ReservedInstancesId.pipe(T.XmlName("item")).annotate({
-    identifier: "ReservedInstancesId",
-  }),
+  ReservedInstancesId.pipe(T.XmlName("item")).annotate({ identifier: "ReservedInstancesId" }),
 );
 export interface ReservedInstancesModification {
   ClientToken?: string;
@@ -39260,9 +38560,7 @@ export const PricingDetail = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "PricingDetail" }) as any as S.Schema<PricingDetail>;
 export type PricingDetailsList = PricingDetail[];
 export const PricingDetailsList = /*@__PURE__*/ S.Array(
-  PricingDetail.pipe(T.XmlName("item")).annotate({
-    identifier: "PricingDetail",
-  }),
+  PricingDetail.pipe(T.XmlName("item")).annotate({ identifier: "PricingDetail" }),
 );
 export interface ReservedInstancesOffering {
   CurrencyCode?: CurrencyCodeValues;
@@ -39386,9 +38684,7 @@ export const DescribeRouteServerEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeRouteServerEndpointsRequest>;
 export type RouteServerEndpointsList = RouteServerEndpoint[];
 export const RouteServerEndpointsList = /*@__PURE__*/ S.Array(
-  RouteServerEndpoint.pipe(T.XmlName("item")).annotate({
-    identifier: "RouteServerEndpoint",
-  }),
+  RouteServerEndpoint.pipe(T.XmlName("item")).annotate({ identifier: "RouteServerEndpoint" }),
 );
 export interface DescribeRouteServerEndpointsResult {
   RouteServerEndpoints?: RouteServerEndpoint[];
@@ -39427,9 +38723,7 @@ export const DescribeRouteServerPeersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeRouteServerPeersRequest>;
 export type RouteServerPeersList = RouteServerPeer[];
 export const RouteServerPeersList = /*@__PURE__*/ S.Array(
-  RouteServerPeer.pipe(T.XmlName("item")).annotate({
-    identifier: "RouteServerPeer",
-  }),
+  RouteServerPeer.pipe(T.XmlName("item")).annotate({ identifier: "RouteServerPeer" }),
 );
 export interface DescribeRouteServerPeersResult {
   RouteServerPeers?: RouteServerPeer[];
@@ -39534,9 +38828,7 @@ export const SlotDateTimeRangeRequest = /*@__PURE__*/ S.suspend(() =>
     EarliestTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LatestTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "SlotDateTimeRangeRequest",
-}) as any as S.Schema<SlotDateTimeRangeRequest>;
+).annotate({ identifier: "SlotDateTimeRangeRequest" }) as any as S.Schema<SlotDateTimeRangeRequest>;
 export type DescribeScheduledInstanceAvailabilityMaxResults = number;
 export type OccurrenceDayRequestSet = number[];
 export const OccurrenceDayRequestSet = /*@__PURE__*/ S.Array(
@@ -39812,14 +39104,10 @@ export const ScheduledInstance = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TotalScheduledInstanceHours"),
     ),
   }),
-).annotate({
-  identifier: "ScheduledInstance",
-}) as any as S.Schema<ScheduledInstance>;
+).annotate({ identifier: "ScheduledInstance" }) as any as S.Schema<ScheduledInstance>;
 export type ScheduledInstanceSet = ScheduledInstance[];
 export const ScheduledInstanceSet = /*@__PURE__*/ S.Array(
-  ScheduledInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "ScheduledInstance",
-  }),
+  ScheduledInstance.pipe(T.XmlName("item")).annotate({ identifier: "ScheduledInstance" }),
 );
 export interface DescribeScheduledInstancesResult {
   NextToken?: string;
@@ -39987,14 +39275,10 @@ export const SecondaryInterface = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "SecondaryInterface",
-}) as any as S.Schema<SecondaryInterface>;
+).annotate({ identifier: "SecondaryInterface" }) as any as S.Schema<SecondaryInterface>;
 export type SecondaryInterfaceList = SecondaryInterface[];
 export const SecondaryInterfaceList = /*@__PURE__*/ S.Array(
-  SecondaryInterface.pipe(T.XmlName("item")).annotate({
-    identifier: "SecondaryInterface",
-  }),
+  SecondaryInterface.pipe(T.XmlName("item")).annotate({ identifier: "SecondaryInterface" }),
 );
 export interface DescribeSecondaryInterfacesResult {
   SecondaryInterfaces?: SecondaryInterface[];
@@ -40034,9 +39318,7 @@ export const DescribeSecondaryNetworksRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeSecondaryNetworksRequest>;
 export type SecondaryNetworkList = SecondaryNetwork[];
 export const SecondaryNetworkList = /*@__PURE__*/ S.Array(
-  SecondaryNetwork.pipe(T.XmlName("item")).annotate({
-    identifier: "SecondaryNetwork",
-  }),
+  SecondaryNetwork.pipe(T.XmlName("item")).annotate({ identifier: "SecondaryNetwork" }),
 );
 export interface DescribeSecondaryNetworksResult {
   SecondaryNetworks?: SecondaryNetwork[];
@@ -40076,9 +39358,7 @@ export const DescribeSecondarySubnetsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeSecondarySubnetsRequest>;
 export type SecondarySubnetList = SecondarySubnet[];
 export const SecondarySubnetList = /*@__PURE__*/ S.Array(
-  SecondarySubnet.pipe(T.XmlName("item")).annotate({
-    identifier: "SecondarySubnet",
-  }),
+  SecondarySubnet.pipe(T.XmlName("item")).annotate({ identifier: "SecondarySubnet" }),
 );
 export interface DescribeSecondarySubnetsResult {
   SecondarySubnets?: SecondarySubnet[];
@@ -40102,10 +39382,9 @@ export interface DescribeSecurityGroupReferencesRequest {
   GroupId?: string[];
 }
 export const DescribeSecurityGroupReferencesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    GroupId: S.optional(GroupIds),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), GroupId: S.optional(GroupIds) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeSecurityGroupReferencesRequest",
 }) as any as S.Schema<DescribeSecurityGroupReferencesRequest>;
@@ -40131,14 +39410,10 @@ export const SecurityGroupReference = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TransitGatewayId"),
     ),
   }),
-).annotate({
-  identifier: "SecurityGroupReference",
-}) as any as S.Schema<SecurityGroupReference>;
+).annotate({ identifier: "SecurityGroupReference" }) as any as S.Schema<SecurityGroupReference>;
 export type SecurityGroupReferences = SecurityGroupReference[];
 export const SecurityGroupReferences = /*@__PURE__*/ S.Array(
-  SecurityGroupReference.pipe(T.XmlName("item")).annotate({
-    identifier: "SecurityGroupReference",
-  }),
+  SecurityGroupReference.pipe(T.XmlName("item")).annotate({ identifier: "SecurityGroupReference" }),
 );
 export interface DescribeSecurityGroupReferencesResult {
   SecurityGroupReferenceSet?: SecurityGroupReference[];
@@ -40252,9 +39527,7 @@ export const SecurityGroup = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "SecurityGroup" }) as any as S.Schema<SecurityGroup>;
 export type SecurityGroupList = SecurityGroup[];
 export const SecurityGroupList = /*@__PURE__*/ S.Array(
-  SecurityGroup.pipe(T.XmlName("item")).annotate({
-    identifier: "SecurityGroup",
-  }),
+  SecurityGroup.pipe(T.XmlName("item")).annotate({ identifier: "SecurityGroup" }),
 );
 export interface DescribeSecurityGroupsResult {
   NextToken?: string;
@@ -40458,14 +39731,10 @@ export const CreateVolumePermission = /*@__PURE__*/ S.suspend(() =>
     UserId: S.optional(S.String).pipe(T.XmlName("userId"), T.Ec2QueryName("UserId")),
     Group: S.optional(PermissionGroup).pipe(T.XmlName("group"), T.Ec2QueryName("Group")),
   }),
-).annotate({
-  identifier: "CreateVolumePermission",
-}) as any as S.Schema<CreateVolumePermission>;
+).annotate({ identifier: "CreateVolumePermission" }) as any as S.Schema<CreateVolumePermission>;
 export type CreateVolumePermissionList = CreateVolumePermission[];
 export const CreateVolumePermissionList = /*@__PURE__*/ S.Array(
-  CreateVolumePermission.pipe(T.XmlName("item")).annotate({
-    identifier: "CreateVolumePermission",
-  }),
+  CreateVolumePermission.pipe(T.XmlName("item")).annotate({ identifier: "CreateVolumePermission" }),
 );
 export interface DescribeSnapshotAttributeResult {
   ProductCodes?: ProductCode[];
@@ -40508,9 +39777,7 @@ export const DescribeSnapshotsRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     Filters: S.optional(FilterList).pipe(T.XmlName("Filter")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeSnapshotsRequest",
-}) as any as S.Schema<DescribeSnapshotsRequest>;
+).annotate({ identifier: "DescribeSnapshotsRequest" }) as any as S.Schema<DescribeSnapshotsRequest>;
 export type SnapshotList = Snapshot[];
 export const SnapshotList = /*@__PURE__*/ S.Array(
   Snapshot.pipe(T.XmlName("item")).annotate({ identifier: "Snapshot" }),
@@ -40527,9 +39794,7 @@ export const DescribeSnapshotsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SnapshotSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeSnapshotsResult",
-}) as any as S.Schema<DescribeSnapshotsResult>;
+).annotate({ identifier: "DescribeSnapshotsResult" }) as any as S.Schema<DescribeSnapshotsResult>;
 export type DescribeSnapshotTierStatusMaxResults = number;
 export interface DescribeSnapshotTierStatusRequest {
   Filters?: Filter[];
@@ -40610,14 +39875,10 @@ export const SnapshotTierStatus = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RestoreExpiryTime"),
     ),
   }),
-).annotate({
-  identifier: "SnapshotTierStatus",
-}) as any as S.Schema<SnapshotTierStatus>;
+).annotate({ identifier: "SnapshotTierStatus" }) as any as S.Schema<SnapshotTierStatus>;
 export type SnapshotTierStatusSet = SnapshotTierStatus[];
 export const SnapshotTierStatusSet = /*@__PURE__*/ S.Array(
-  SnapshotTierStatus.pipe(T.XmlName("item")).annotate({
-    identifier: "SnapshotTierStatus",
-  }),
+  SnapshotTierStatus.pipe(T.XmlName("item")).annotate({ identifier: "SnapshotTierStatus" }),
 );
 export interface DescribeSnapshotTierStatusResult {
   SnapshotTierStatuses?: SnapshotTierStatus[];
@@ -40750,9 +40011,7 @@ export const HistoryRecord = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "HistoryRecord" }) as any as S.Schema<HistoryRecord>;
 export type HistoryRecords = HistoryRecord[];
 export const HistoryRecords = /*@__PURE__*/ S.Array(
-  HistoryRecord.pipe(T.XmlName("item")).annotate({
-    identifier: "HistoryRecord",
-  }),
+  HistoryRecord.pipe(T.XmlName("item")).annotate({ identifier: "HistoryRecord" }),
 );
 export interface DescribeSpotFleetRequestHistoryResponse {
   HistoryRecords?: HistoryRecord[];
@@ -40841,9 +40100,7 @@ export const SpotCapacityRebalance = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TerminationDelay"),
     ),
   }),
-).annotate({
-  identifier: "SpotCapacityRebalance",
-}) as any as S.Schema<SpotCapacityRebalance>;
+).annotate({ identifier: "SpotCapacityRebalance" }) as any as S.Schema<SpotCapacityRebalance>;
 export interface SpotMaintenanceStrategies {
   CapacityRebalance?: SpotCapacityRebalance;
 }
@@ -40866,9 +40123,7 @@ export const SpotFleetMonitoring = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Enabled: S.optional(S.Boolean).pipe(T.XmlName("enabled"), T.Ec2QueryName("Enabled")),
   }),
-).annotate({
-  identifier: "SpotFleetMonitoring",
-}) as any as S.Schema<SpotFleetMonitoring>;
+).annotate({ identifier: "SpotFleetMonitoring" }) as any as S.Schema<SpotFleetMonitoring>;
 export interface InstanceNetworkInterfaceSpecification {
   AssociatePublicIpAddress?: boolean;
   DeleteOnTermination?: boolean;
@@ -41113,9 +40368,7 @@ export const LaunchTemplateOverrides = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailabilityZoneId"),
     ),
   }),
-).annotate({
-  identifier: "LaunchTemplateOverrides",
-}) as any as S.Schema<LaunchTemplateOverrides>;
+).annotate({ identifier: "LaunchTemplateOverrides" }) as any as S.Schema<LaunchTemplateOverrides>;
 export type LaunchTemplateOverridesList = LaunchTemplateOverrides[];
 export const LaunchTemplateOverridesList = /*@__PURE__*/ S.Array(
   LaunchTemplateOverrides.pipe(T.XmlName("item")).annotate({
@@ -41136,30 +40389,20 @@ export const LaunchTemplateConfig = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Overrides"),
     ),
   }),
-).annotate({
-  identifier: "LaunchTemplateConfig",
-}) as any as S.Schema<LaunchTemplateConfig>;
+).annotate({ identifier: "LaunchTemplateConfig" }) as any as S.Schema<LaunchTemplateConfig>;
 export type LaunchTemplateConfigList = LaunchTemplateConfig[];
 export const LaunchTemplateConfigList = /*@__PURE__*/ S.Array(
-  LaunchTemplateConfig.pipe(T.XmlName("item")).annotate({
-    identifier: "LaunchTemplateConfig",
-  }),
+  LaunchTemplateConfig.pipe(T.XmlName("item")).annotate({ identifier: "LaunchTemplateConfig" }),
 );
 export interface ClassicLoadBalancer {
   Name?: string;
 }
 export const ClassicLoadBalancer = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
-  }),
-).annotate({
-  identifier: "ClassicLoadBalancer",
-}) as any as S.Schema<ClassicLoadBalancer>;
+  S.Struct({ Name: S.optional(S.String).pipe(T.XmlName("name"), T.Ec2QueryName("Name")) }),
+).annotate({ identifier: "ClassicLoadBalancer" }) as any as S.Schema<ClassicLoadBalancer>;
 export type ClassicLoadBalancers = ClassicLoadBalancer[];
 export const ClassicLoadBalancers = /*@__PURE__*/ S.Array(
-  ClassicLoadBalancer.pipe(T.XmlName("item")).annotate({
-    identifier: "ClassicLoadBalancer",
-  }),
+  ClassicLoadBalancer.pipe(T.XmlName("item")).annotate({ identifier: "ClassicLoadBalancer" }),
 );
 export interface ClassicLoadBalancersConfig {
   ClassicLoadBalancers?: ClassicLoadBalancer[];
@@ -41178,9 +40421,7 @@ export interface TargetGroup {
   Arn?: string;
 }
 export const TargetGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String).pipe(T.XmlName("arn"), T.Ec2QueryName("Arn")),
-  }),
+  S.Struct({ Arn: S.optional(S.String).pipe(T.XmlName("arn"), T.Ec2QueryName("Arn")) }),
 ).annotate({ identifier: "TargetGroup" }) as any as S.Schema<TargetGroup>;
 export type TargetGroups = TargetGroup[];
 export const TargetGroups = /*@__PURE__*/ S.Array(
@@ -41196,9 +40437,7 @@ export const TargetGroupsConfig = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TargetGroups"),
     ),
   }),
-).annotate({
-  identifier: "TargetGroupsConfig",
-}) as any as S.Schema<TargetGroupsConfig>;
+).annotate({ identifier: "TargetGroupsConfig" }) as any as S.Schema<TargetGroupsConfig>;
 export interface LoadBalancersConfig {
   ClassicLoadBalancersConfig?: ClassicLoadBalancersConfig;
   TargetGroupsConfig?: TargetGroupsConfig;
@@ -41212,9 +40451,7 @@ export const LoadBalancersConfig = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("targetGroupsConfig"), T.Ec2QueryName("TargetGroupsConfig"))
       .annotate({ identifier: "TargetGroupsConfig" }),
   }),
-).annotate({
-  identifier: "LoadBalancersConfig",
-}) as any as S.Schema<LoadBalancersConfig>;
+).annotate({ identifier: "LoadBalancersConfig" }) as any as S.Schema<LoadBalancersConfig>;
 export interface SpotFleetRequestConfigData {
   AllocationStrategy?: AllocationStrategy;
   OnDemandAllocationStrategy?: OnDemandAllocationStrategy;
@@ -41367,14 +40604,10 @@ export const SpotFleetRequestConfig = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "SpotFleetRequestConfig",
-}) as any as S.Schema<SpotFleetRequestConfig>;
+).annotate({ identifier: "SpotFleetRequestConfig" }) as any as S.Schema<SpotFleetRequestConfig>;
 export type SpotFleetRequestConfigSet = SpotFleetRequestConfig[];
 export const SpotFleetRequestConfigSet = /*@__PURE__*/ S.Array(
-  SpotFleetRequestConfig.pipe(T.XmlName("item")).annotate({
-    identifier: "SpotFleetRequestConfig",
-  }),
+  SpotFleetRequestConfig.pipe(T.XmlName("item")).annotate({ identifier: "SpotFleetRequestConfig" }),
 );
 export interface DescribeSpotFleetRequestsResponse {
   NextToken?: string;
@@ -41485,9 +40718,7 @@ export const LaunchSpecification = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("monitoring"), T.Ec2QueryName("Monitoring"))
       .annotate({ identifier: "RunInstancesMonitoringEnabled" }),
   }),
-).annotate({
-  identifier: "LaunchSpecification",
-}) as any as S.Schema<LaunchSpecification>;
+).annotate({ identifier: "LaunchSpecification" }) as any as S.Schema<LaunchSpecification>;
 export type SpotInstanceState =
   | "open"
   | "active"
@@ -41512,9 +40743,7 @@ export const SpotInstanceStatus = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("UpdateTime"),
     ),
   }),
-).annotate({
-  identifier: "SpotInstanceStatus",
-}) as any as S.Schema<SpotInstanceStatus>;
+).annotate({ identifier: "SpotInstanceStatus" }) as any as S.Schema<SpotInstanceStatus>;
 export interface SpotInstanceRequest {
   ActualBlockHourlyPrice?: string;
   AvailabilityZoneGroup?: string;
@@ -41599,14 +40828,10 @@ export const SpotInstanceRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstanceInterruptionBehavior"),
     ),
   }),
-).annotate({
-  identifier: "SpotInstanceRequest",
-}) as any as S.Schema<SpotInstanceRequest>;
+).annotate({ identifier: "SpotInstanceRequest" }) as any as S.Schema<SpotInstanceRequest>;
 export type SpotInstanceRequestList = SpotInstanceRequest[];
 export const SpotInstanceRequestList = /*@__PURE__*/ S.Array(
-  SpotInstanceRequest.pipe(T.XmlName("item")).annotate({
-    identifier: "SpotInstanceRequest",
-  }),
+  SpotInstanceRequest.pipe(T.XmlName("item")).annotate({ identifier: "SpotInstanceRequest" }),
 );
 export interface DescribeSpotInstanceRequestsResult {
   SpotInstanceRequests?: (SpotInstanceRequest & {
@@ -41744,9 +40969,7 @@ export type PrefixListIdSet = string[];
 export const PrefixListIdSet = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type UserIdGroupPairSet = UserIdGroupPair[];
 export const UserIdGroupPairSet = /*@__PURE__*/ S.Array(
-  UserIdGroupPair.pipe(T.XmlName("item")).annotate({
-    identifier: "UserIdGroupPair",
-  }),
+  UserIdGroupPair.pipe(T.XmlName("item")).annotate({ identifier: "UserIdGroupPair" }),
 );
 export interface StaleIpPermission {
   FromPort?: number;
@@ -41771,14 +40994,10 @@ export const StaleIpPermission = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Groups"),
     ),
   }),
-).annotate({
-  identifier: "StaleIpPermission",
-}) as any as S.Schema<StaleIpPermission>;
+).annotate({ identifier: "StaleIpPermission" }) as any as S.Schema<StaleIpPermission>;
 export type StaleIpPermissionSet = StaleIpPermission[];
 export const StaleIpPermissionSet = /*@__PURE__*/ S.Array(
-  StaleIpPermission.pipe(T.XmlName("item")).annotate({
-    identifier: "StaleIpPermission",
-  }),
+  StaleIpPermission.pipe(T.XmlName("item")).annotate({ identifier: "StaleIpPermission" }),
 );
 export interface StaleSecurityGroup {
   Description?: string;
@@ -41803,14 +41022,10 @@ export const StaleSecurityGroup = /*@__PURE__*/ S.suspend(() =>
     ),
     VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
   }),
-).annotate({
-  identifier: "StaleSecurityGroup",
-}) as any as S.Schema<StaleSecurityGroup>;
+).annotate({ identifier: "StaleSecurityGroup" }) as any as S.Schema<StaleSecurityGroup>;
 export type StaleSecurityGroupSet = StaleSecurityGroup[];
 export const StaleSecurityGroupSet = /*@__PURE__*/ S.Array(
-  StaleSecurityGroup.pipe(T.XmlName("item")).annotate({
-    identifier: "StaleSecurityGroup",
-  }),
+  StaleSecurityGroup.pipe(T.XmlName("item")).annotate({ identifier: "StaleSecurityGroup" }),
 );
 export interface DescribeStaleSecurityGroupsResult {
   NextToken?: string;
@@ -41879,14 +41094,10 @@ export const StoreImageTaskResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("StoreTaskFailureReason"),
     ),
   }),
-).annotate({
-  identifier: "StoreImageTaskResult",
-}) as any as S.Schema<StoreImageTaskResult>;
+).annotate({ identifier: "StoreImageTaskResult" }) as any as S.Schema<StoreImageTaskResult>;
 export type StoreImageTaskResultSet = StoreImageTaskResult[];
 export const StoreImageTaskResultSet = /*@__PURE__*/ S.Array(
-  StoreImageTaskResult.pipe(T.XmlName("item")).annotate({
-    identifier: "StoreImageTaskResult",
-  }),
+  StoreImageTaskResult.pipe(T.XmlName("item")).annotate({ identifier: "StoreImageTaskResult" }),
 );
 export interface DescribeStoreImageTasksResult {
   StoreImageTaskResults?: StoreImageTaskResult[];
@@ -41921,9 +41132,7 @@ export const DescribeSubnetsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeSubnetsRequest",
-}) as any as S.Schema<DescribeSubnetsRequest>;
+).annotate({ identifier: "DescribeSubnetsRequest" }) as any as S.Schema<DescribeSubnetsRequest>;
 export type SubnetList = Subnet[];
 export const SubnetList = /*@__PURE__*/ S.Array(
   Subnet.pipe(T.XmlName("item")).annotate({ identifier: "Subnet" }),
@@ -41937,9 +41146,7 @@ export const DescribeSubnetsResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Subnets: S.optional(SubnetList).pipe(T.XmlName("subnetSet"), T.Ec2QueryName("SubnetSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeSubnetsResult",
-}) as any as S.Schema<DescribeSubnetsResult>;
+).annotate({ identifier: "DescribeSubnetsResult" }) as any as S.Schema<DescribeSubnetsResult>;
 export interface DescribeTagsRequest {
   DryRun?: boolean;
   Filters?: Filter[];
@@ -41953,9 +41160,7 @@ export const DescribeTagsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.XmlName("maxResults"), T.Ec2QueryName("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTagsRequest",
-}) as any as S.Schema<DescribeTagsRequest>;
+).annotate({ identifier: "DescribeTagsRequest" }) as any as S.Schema<DescribeTagsRequest>;
 export interface TagDescription {
   Key?: string;
   ResourceId?: string;
@@ -41975,9 +41180,7 @@ export const TagDescription = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "TagDescription" }) as any as S.Schema<TagDescription>;
 export type TagDescriptionList = TagDescription[];
 export const TagDescriptionList = /*@__PURE__*/ S.Array(
-  TagDescription.pipe(T.XmlName("item")).annotate({
-    identifier: "TagDescription",
-  }),
+  TagDescription.pipe(T.XmlName("item")).annotate({ identifier: "TagDescription" }),
 );
 export interface DescribeTagsResult {
   NextToken?: string;
@@ -41988,9 +41191,7 @@ export const DescribeTagsResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Tags: S.optional(TagDescriptionList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeTagsResult",
-}) as any as S.Schema<DescribeTagsResult>;
+).annotate({ identifier: "DescribeTagsResult" }) as any as S.Schema<DescribeTagsResult>;
 export type TrafficMirrorFilterRuleIdList = string[];
 export const TrafficMirrorFilterRuleIdList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("item")),
@@ -42063,9 +41264,7 @@ export const DescribeTrafficMirrorFiltersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeTrafficMirrorFiltersRequest>;
 export type TrafficMirrorFilterSet = TrafficMirrorFilter[];
 export const TrafficMirrorFilterSet = /*@__PURE__*/ S.Array(
-  TrafficMirrorFilter.pipe(T.XmlName("item")).annotate({
-    identifier: "TrafficMirrorFilter",
-  }),
+  TrafficMirrorFilter.pipe(T.XmlName("item")).annotate({ identifier: "TrafficMirrorFilter" }),
 );
 export interface DescribeTrafficMirrorFiltersResult {
   TrafficMirrorFilters?: TrafficMirrorFilter[];
@@ -42106,9 +41305,7 @@ export const DescribeTrafficMirrorSessionsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<DescribeTrafficMirrorSessionsRequest>;
 export type TrafficMirrorSessionSet = TrafficMirrorSession[];
 export const TrafficMirrorSessionSet = /*@__PURE__*/ S.Array(
-  TrafficMirrorSession.pipe(T.XmlName("item")).annotate({
-    identifier: "TrafficMirrorSession",
-  }),
+  TrafficMirrorSession.pipe(T.XmlName("item")).annotate({ identifier: "TrafficMirrorSession" }),
 );
 export interface DescribeTrafficMirrorSessionsResult {
   TrafficMirrorSessions?: TrafficMirrorSession[];
@@ -42149,9 +41346,7 @@ export const DescribeTrafficMirrorTargetsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeTrafficMirrorTargetsRequest>;
 export type TrafficMirrorTargetSet = TrafficMirrorTarget[];
 export const TrafficMirrorTargetSet = /*@__PURE__*/ S.Array(
-  TrafficMirrorTarget.pipe(T.XmlName("item")).annotate({
-    identifier: "TrafficMirrorTarget",
-  }),
+  TrafficMirrorTarget.pipe(T.XmlName("item")).annotate({ identifier: "TrafficMirrorTarget" }),
 );
 export interface DescribeTrafficMirrorTargetsResult {
   TrafficMirrorTargets?: TrafficMirrorTarget[];
@@ -42258,9 +41453,7 @@ export const TransitGatewayAttachment = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "TransitGatewayAttachment",
-}) as any as S.Schema<TransitGatewayAttachment>;
+).annotate({ identifier: "TransitGatewayAttachment" }) as any as S.Schema<TransitGatewayAttachment>;
 export type TransitGatewayAttachmentList = TransitGatewayAttachment[];
 export const TransitGatewayAttachmentList = /*@__PURE__*/ S.Array(
   TransitGatewayAttachment.pipe(T.XmlName("item")).annotate({
@@ -42345,9 +41538,7 @@ export const DescribeTransitGatewayConnectsRequest = /*@__PURE__*/ S.suspend(() 
 }) as any as S.Schema<DescribeTransitGatewayConnectsRequest>;
 export type TransitGatewayConnectList = TransitGatewayConnect[];
 export const TransitGatewayConnectList = /*@__PURE__*/ S.Array(
-  TransitGatewayConnect.pipe(T.XmlName("item")).annotate({
-    identifier: "TransitGatewayConnect",
-  }),
+  TransitGatewayConnect.pipe(T.XmlName("item")).annotate({ identifier: "TransitGatewayConnect" }),
 );
 export interface DescribeTransitGatewayConnectsResult {
   TransitGatewayConnects?: TransitGatewayConnect[];
@@ -42644,9 +41835,7 @@ export const DescribeTransitGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeTransitGatewaysRequest>;
 export type TransitGatewayList = TransitGateway[];
 export const TransitGatewayList = /*@__PURE__*/ S.Array(
-  TransitGateway.pipe(T.XmlName("item")).annotate({
-    identifier: "TransitGateway",
-  }),
+  TransitGateway.pipe(T.XmlName("item")).annotate({ identifier: "TransitGateway" }),
 );
 export interface DescribeTransitGatewaysResult {
   TransitGateways?: TransitGateway[];
@@ -42775,9 +41964,7 @@ export const DescribeVerifiedAccessEndpointsRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DescribeVerifiedAccessEndpointsRequest>;
 export type VerifiedAccessEndpointList = VerifiedAccessEndpoint[];
 export const VerifiedAccessEndpointList = /*@__PURE__*/ S.Array(
-  VerifiedAccessEndpoint.pipe(T.XmlName("item")).annotate({
-    identifier: "VerifiedAccessEndpoint",
-  }),
+  VerifiedAccessEndpoint.pipe(T.XmlName("item")).annotate({ identifier: "VerifiedAccessEndpoint" }),
 );
 export interface DescribeVerifiedAccessEndpointsResult {
   VerifiedAccessEndpoints?: VerifiedAccessEndpoint[];
@@ -42821,9 +42008,7 @@ export const DescribeVerifiedAccessGroupsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeVerifiedAccessGroupsRequest>;
 export type VerifiedAccessGroupList = VerifiedAccessGroup[];
 export const VerifiedAccessGroupList = /*@__PURE__*/ S.Array(
-  VerifiedAccessGroup.pipe(T.XmlName("item")).annotate({
-    identifier: "VerifiedAccessGroup",
-  }),
+  VerifiedAccessGroup.pipe(T.XmlName("item")).annotate({ identifier: "VerifiedAccessGroup" }),
 );
 export interface DescribeVerifiedAccessGroupsResult {
   VerifiedAccessGroups?: VerifiedAccessGroup[];
@@ -42954,18 +42139,14 @@ export const VerifiedAccessLogs = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "VerifiedAccessLogCloudWatchLogsDestination" }),
     KinesisDataFirehose: S.optional(VerifiedAccessLogKinesisDataFirehoseDestination)
       .pipe(T.XmlName("kinesisDataFirehose"), T.Ec2QueryName("KinesisDataFirehose"))
-      .annotate({
-        identifier: "VerifiedAccessLogKinesisDataFirehoseDestination",
-      }),
+      .annotate({ identifier: "VerifiedAccessLogKinesisDataFirehoseDestination" }),
     LogVersion: S.optional(S.String).pipe(T.XmlName("logVersion"), T.Ec2QueryName("LogVersion")),
     IncludeTrustContext: S.optional(S.Boolean).pipe(
       T.XmlName("includeTrustContext"),
       T.Ec2QueryName("IncludeTrustContext"),
     ),
   }),
-).annotate({
-  identifier: "VerifiedAccessLogs",
-}) as any as S.Schema<VerifiedAccessLogs>;
+).annotate({ identifier: "VerifiedAccessLogs" }) as any as S.Schema<VerifiedAccessLogs>;
 export interface VerifiedAccessInstanceLoggingConfiguration {
   VerifiedAccessInstanceId?: string;
   AccessLogs?: VerifiedAccessLogs;
@@ -43029,9 +42210,7 @@ export const DescribeVerifiedAccessInstancesRequest = /*@__PURE__*/ S.suspend(()
 }) as any as S.Schema<DescribeVerifiedAccessInstancesRequest>;
 export type VerifiedAccessInstanceList = VerifiedAccessInstance[];
 export const VerifiedAccessInstanceList = /*@__PURE__*/ S.Array(
-  VerifiedAccessInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "VerifiedAccessInstance",
-  }),
+  VerifiedAccessInstance.pipe(T.XmlName("item")).annotate({ identifier: "VerifiedAccessInstance" }),
 );
 export interface DescribeVerifiedAccessInstancesResult {
   VerifiedAccessInstances?: VerifiedAccessInstance[];
@@ -43147,9 +42326,7 @@ export const DescribeVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.XmlName("maxResults"), T.Ec2QueryName("MaxResults")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeVolumesRequest",
-}) as any as S.Schema<DescribeVolumesRequest>;
+).annotate({ identifier: "DescribeVolumesRequest" }) as any as S.Schema<DescribeVolumesRequest>;
 export interface DescribeVolumesResult {
   NextToken?: string;
   Volumes?: Volume[];
@@ -43159,9 +42336,7 @@ export const DescribeVolumesResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Volumes: S.optional(VolumeList).pipe(T.XmlName("volumeSet"), T.Ec2QueryName("VolumeSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeVolumesResult",
-}) as any as S.Schema<DescribeVolumesResult>;
+).annotate({ identifier: "DescribeVolumesResult" }) as any as S.Schema<DescribeVolumesResult>;
 export interface DescribeVolumesModificationsRequest {
   DryRun?: boolean;
   VolumeIds?: string[];
@@ -43267,14 +42442,10 @@ export const VolumeModification = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
   }),
-).annotate({
-  identifier: "VolumeModification",
-}) as any as S.Schema<VolumeModification>;
+).annotate({ identifier: "VolumeModification" }) as any as S.Schema<VolumeModification>;
 export type VolumeModificationList = VolumeModification[];
 export const VolumeModificationList = /*@__PURE__*/ S.Array(
-  VolumeModification.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeModification",
-  }),
+  VolumeModification.pipe(T.XmlName("item")).annotate({ identifier: "VolumeModification" }),
 );
 export interface DescribeVolumesModificationsResult {
   NextToken?: string;
@@ -43324,14 +42495,10 @@ export const VolumeStatusAction = /*@__PURE__*/ S.suspend(() =>
     EventId: S.optional(S.String).pipe(T.XmlName("eventId"), T.Ec2QueryName("EventId")),
     EventType: S.optional(S.String).pipe(T.XmlName("eventType"), T.Ec2QueryName("EventType")),
   }),
-).annotate({
-  identifier: "VolumeStatusAction",
-}) as any as S.Schema<VolumeStatusAction>;
+).annotate({ identifier: "VolumeStatusAction" }) as any as S.Schema<VolumeStatusAction>;
 export type VolumeStatusActionsList = VolumeStatusAction[];
 export const VolumeStatusActionsList = /*@__PURE__*/ S.Array(
-  VolumeStatusAction.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeStatusAction",
-  }),
+  VolumeStatusAction.pipe(T.XmlName("item")).annotate({ identifier: "VolumeStatusAction" }),
 );
 export interface VolumeStatusEvent {
   Description?: string;
@@ -43356,14 +42523,10 @@ export const VolumeStatusEvent = /*@__PURE__*/ S.suspend(() =>
     ),
     InstanceId: S.optional(S.String).pipe(T.XmlName("instanceId"), T.Ec2QueryName("InstanceId")),
   }),
-).annotate({
-  identifier: "VolumeStatusEvent",
-}) as any as S.Schema<VolumeStatusEvent>;
+).annotate({ identifier: "VolumeStatusEvent" }) as any as S.Schema<VolumeStatusEvent>;
 export type VolumeStatusEventsList = VolumeStatusEvent[];
 export const VolumeStatusEventsList = /*@__PURE__*/ S.Array(
-  VolumeStatusEvent.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeStatusEvent",
-  }),
+  VolumeStatusEvent.pipe(T.XmlName("item")).annotate({ identifier: "VolumeStatusEvent" }),
 );
 export type VolumeStatusName =
   | "io-enabled"
@@ -43381,14 +42544,10 @@ export const VolumeStatusDetails = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(VolumeStatusName).pipe(T.XmlName("name"), T.Ec2QueryName("Name")),
     Status: S.optional(S.String).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "VolumeStatusDetails",
-}) as any as S.Schema<VolumeStatusDetails>;
+).annotate({ identifier: "VolumeStatusDetails" }) as any as S.Schema<VolumeStatusDetails>;
 export type VolumeStatusDetailsList = VolumeStatusDetails[];
 export const VolumeStatusDetailsList = /*@__PURE__*/ S.Array(
-  VolumeStatusDetails.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeStatusDetails",
-  }),
+  VolumeStatusDetails.pipe(T.XmlName("item")).annotate({ identifier: "VolumeStatusDetails" }),
 );
 export type VolumeStatusInfoStatus =
   | "ok"
@@ -43410,9 +42569,7 @@ export const VolumeStatusInfo = /*@__PURE__*/ S.suspend(() =>
     ),
     Status: S.optional(VolumeStatusInfoStatus).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }),
-).annotate({
-  identifier: "VolumeStatusInfo",
-}) as any as S.Schema<VolumeStatusInfo>;
+).annotate({ identifier: "VolumeStatusInfo" }) as any as S.Schema<VolumeStatusInfo>;
 export interface VolumeStatusAttachmentStatus {
   IoPerformance?: string;
   InstanceId?: string;
@@ -43503,14 +42660,10 @@ export const VolumeStatusItem = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("operator"), T.Ec2QueryName("Operator"))
       .annotate({ identifier: "OperatorResponse" }),
   }),
-).annotate({
-  identifier: "VolumeStatusItem",
-}) as any as S.Schema<VolumeStatusItem>;
+).annotate({ identifier: "VolumeStatusItem" }) as any as S.Schema<VolumeStatusItem>;
 export type VolumeStatusList = VolumeStatusItem[];
 export const VolumeStatusList = /*@__PURE__*/ S.Array(
-  VolumeStatusItem.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeStatusItem",
-  }),
+  VolumeStatusItem.pipe(T.XmlName("item")).annotate({ identifier: "VolumeStatusItem" }),
 );
 export interface DescribeVolumeStatusResult {
   NextToken?: string;
@@ -43725,9 +42878,7 @@ export const VpcClassicLink = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "VpcClassicLink" }) as any as S.Schema<VpcClassicLink>;
 export type VpcClassicLinkList = VpcClassicLink[];
 export const VpcClassicLinkList = /*@__PURE__*/ S.Array(
-  VpcClassicLink.pipe(T.XmlName("item")).annotate({
-    identifier: "VpcClassicLink",
-  }),
+  VpcClassicLink.pipe(T.XmlName("item")).annotate({ identifier: "VpcClassicLink" }),
 );
 export interface DescribeVpcClassicLinkResult {
   Vpcs?: VpcClassicLink[];
@@ -43767,14 +42918,10 @@ export const ClassicLinkDnsSupport = /*@__PURE__*/ S.suspend(() =>
     ),
     VpcId: S.optional(S.String).pipe(T.XmlName("vpcId"), T.Ec2QueryName("VpcId")),
   }),
-).annotate({
-  identifier: "ClassicLinkDnsSupport",
-}) as any as S.Schema<ClassicLinkDnsSupport>;
+).annotate({ identifier: "ClassicLinkDnsSupport" }) as any as S.Schema<ClassicLinkDnsSupport>;
 export type ClassicLinkDnsSupportList = ClassicLinkDnsSupport[];
 export const ClassicLinkDnsSupportList = /*@__PURE__*/ S.Array(
-  ClassicLinkDnsSupport.pipe(T.XmlName("item")).annotate({
-    identifier: "ClassicLinkDnsSupport",
-  }),
+  ClassicLinkDnsSupport.pipe(T.XmlName("item")).annotate({ identifier: "ClassicLinkDnsSupport" }),
 );
 export interface DescribeVpcClassicLinkDnsSupportResult {
   NextToken?: string;
@@ -43817,9 +42964,7 @@ export const DescribeVpcEncryptionControlsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<DescribeVpcEncryptionControlsRequest>;
 export type VpcEncryptionControlList = VpcEncryptionControl[];
 export const VpcEncryptionControlList = /*@__PURE__*/ S.Array(
-  VpcEncryptionControl.pipe(T.XmlName("item")).annotate({
-    identifier: "VpcEncryptionControl",
-  }),
+  VpcEncryptionControl.pipe(T.XmlName("item")).annotate({ identifier: "VpcEncryptionControl" }),
 );
 export interface DescribeVpcEncryptionControlsResult {
   VpcEncryptionControls?: VpcEncryptionControl[];
@@ -43909,14 +43054,10 @@ export const VpcEndpointAssociation = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }),
-).annotate({
-  identifier: "VpcEndpointAssociation",
-}) as any as S.Schema<VpcEndpointAssociation>;
+).annotate({ identifier: "VpcEndpointAssociation" }) as any as S.Schema<VpcEndpointAssociation>;
 export type VpcEndpointAssociationSet = VpcEndpointAssociation[];
 export const VpcEndpointAssociationSet = /*@__PURE__*/ S.Array(
-  VpcEndpointAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "VpcEndpointAssociation",
-  }),
+  VpcEndpointAssociation.pipe(T.XmlName("item")).annotate({ identifier: "VpcEndpointAssociation" }),
 );
 export interface DescribeVpcEndpointAssociationsResult {
   VpcEndpointAssociations?: VpcEndpointAssociation[];
@@ -43953,9 +43094,7 @@ export const DescribeVpcEndpointConnectionNotificationsRequest = /*@__PURE__*/ S
 }) as any as S.Schema<DescribeVpcEndpointConnectionNotificationsRequest>;
 export type ConnectionNotificationSet = ConnectionNotification[];
 export const ConnectionNotificationSet = /*@__PURE__*/ S.Array(
-  ConnectionNotification.pipe(T.XmlName("item")).annotate({
-    identifier: "ConnectionNotification",
-  }),
+  ConnectionNotification.pipe(T.XmlName("item")).annotate({ identifier: "ConnectionNotification" }),
 );
 export interface DescribeVpcEndpointConnectionNotificationsResult {
   ConnectionNotificationSet?: ConnectionNotification[];
@@ -44052,14 +43191,10 @@ export const VpcEndpointConnection = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PayerResponsibilitySet"),
     ),
   }),
-).annotate({
-  identifier: "VpcEndpointConnection",
-}) as any as S.Schema<VpcEndpointConnection>;
+).annotate({ identifier: "VpcEndpointConnection" }) as any as S.Schema<VpcEndpointConnection>;
 export type VpcEndpointConnectionSet = VpcEndpointConnection[];
 export const VpcEndpointConnectionSet = /*@__PURE__*/ S.Array(
-  VpcEndpointConnection.pipe(T.XmlName("item")).annotate({
-    identifier: "VpcEndpointConnection",
-  }),
+  VpcEndpointConnection.pipe(T.XmlName("item")).annotate({ identifier: "VpcEndpointConnection" }),
 );
 export interface DescribeVpcEndpointConnectionsResult {
   VpcEndpointConnections?: VpcEndpointConnection[];
@@ -44133,9 +43268,7 @@ export const DescribeVpcEndpointServiceConfigurationsRequest = /*@__PURE__*/ S.s
 }) as any as S.Schema<DescribeVpcEndpointServiceConfigurationsRequest>;
 export type ServiceConfigurationSet = ServiceConfiguration[];
 export const ServiceConfigurationSet = /*@__PURE__*/ S.Array(
-  ServiceConfiguration.pipe(T.XmlName("item")).annotate({
-    identifier: "ServiceConfiguration",
-  }),
+  ServiceConfiguration.pipe(T.XmlName("item")).annotate({ identifier: "ServiceConfiguration" }),
 );
 export interface DescribeVpcEndpointServiceConfigurationsResult {
   ServiceConfigurations?: ServiceConfiguration[];
@@ -44201,14 +43334,10 @@ export const AllowedPrincipal = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
     ServiceId: S.optional(S.String).pipe(T.XmlName("serviceId"), T.Ec2QueryName("ServiceId")),
   }),
-).annotate({
-  identifier: "AllowedPrincipal",
-}) as any as S.Schema<AllowedPrincipal>;
+).annotate({ identifier: "AllowedPrincipal" }) as any as S.Schema<AllowedPrincipal>;
 export type AllowedPrincipalSet = AllowedPrincipal[];
 export const AllowedPrincipalSet = /*@__PURE__*/ S.Array(
-  AllowedPrincipal.pipe(T.XmlName("item")).annotate({
-    identifier: "AllowedPrincipal",
-  }),
+  AllowedPrincipal.pipe(T.XmlName("item")).annotate({ identifier: "AllowedPrincipal" }),
 );
 export interface DescribeVpcEndpointServicePermissionsResult {
   AllowedPrincipals?: AllowedPrincipal[];
@@ -44255,14 +43384,10 @@ export const PrivateDnsDetails = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PrivateDnsName"),
     ),
   }),
-).annotate({
-  identifier: "PrivateDnsDetails",
-}) as any as S.Schema<PrivateDnsDetails>;
+).annotate({ identifier: "PrivateDnsDetails" }) as any as S.Schema<PrivateDnsDetails>;
 export type PrivateDnsDetailsSet = PrivateDnsDetails[];
 export const PrivateDnsDetailsSet = /*@__PURE__*/ S.Array(
-  PrivateDnsDetails.pipe(T.XmlName("item")).annotate({
-    identifier: "PrivateDnsDetails",
-  }),
+  PrivateDnsDetails.pipe(T.XmlName("item")).annotate({ identifier: "PrivateDnsDetails" }),
 );
 export interface ServiceDetail {
   ServiceName?: string;
@@ -44345,9 +43470,7 @@ export const ServiceDetail = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ServiceDetail" }) as any as S.Schema<ServiceDetail>;
 export type ServiceDetailSet = ServiceDetail[];
 export const ServiceDetailSet = /*@__PURE__*/ S.Array(
-  ServiceDetail.pipe(T.XmlName("item")).annotate({
-    identifier: "ServiceDetail",
-  }),
+  ServiceDetail.pipe(T.XmlName("item")).annotate({ identifier: "ServiceDetail" }),
 );
 export interface DescribeVpcEndpointServicesResult {
   ServiceNames?: string[];
@@ -44394,9 +43517,7 @@ export const DescribeVpcPeeringConnectionsRequest = /*@__PURE__*/ S.suspend(() =
 }) as any as S.Schema<DescribeVpcPeeringConnectionsRequest>;
 export type VpcPeeringConnectionList = VpcPeeringConnection[];
 export const VpcPeeringConnectionList = /*@__PURE__*/ S.Array(
-  VpcPeeringConnection.pipe(T.XmlName("item")).annotate({
-    identifier: "VpcPeeringConnection",
-  }),
+  VpcPeeringConnection.pipe(T.XmlName("item")).annotate({ identifier: "VpcPeeringConnection" }),
 );
 export interface DescribeVpcPeeringConnectionsResult {
   VpcPeeringConnections?: VpcPeeringConnection[];
@@ -44429,9 +43550,7 @@ export const DescribeVpcsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeVpcsRequest",
-}) as any as S.Schema<DescribeVpcsRequest>;
+).annotate({ identifier: "DescribeVpcsRequest" }) as any as S.Schema<DescribeVpcsRequest>;
 export type VpcList = Vpc[];
 export const VpcList = /*@__PURE__*/ S.Array(
   Vpc.pipe(T.XmlName("item")).annotate({ identifier: "Vpc" }),
@@ -44445,9 +43564,7 @@ export const DescribeVpcsResult = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
     Vpcs: S.optional(VpcList).pipe(T.XmlName("vpcSet"), T.Ec2QueryName("VpcSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeVpcsResult",
-}) as any as S.Schema<DescribeVpcsResult>;
+).annotate({ identifier: "DescribeVpcsResult" }) as any as S.Schema<DescribeVpcsResult>;
 export type VpnConcentratorIdStringList = string[];
 export const VpnConcentratorIdStringList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("VpnConcentratorId")),
@@ -44475,9 +43592,7 @@ export const DescribeVpnConcentratorsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeVpnConcentratorsRequest>;
 export type VpnConcentratorList = VpnConcentrator[];
 export const VpnConcentratorList = /*@__PURE__*/ S.Array(
-  VpnConcentrator.pipe(T.XmlName("item")).annotate({
-    identifier: "VpnConcentrator",
-  }),
+  VpnConcentrator.pipe(T.XmlName("item")).annotate({ identifier: "VpnConcentrator" }),
 );
 export interface DescribeVpnConcentratorsResult {
   VpnConcentrators?: VpnConcentrator[];
@@ -44514,9 +43629,7 @@ export const DescribeVpnConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeVpnConnectionsRequest>;
 export type VpnConnectionList = VpnConnection[];
 export const VpnConnectionList = /*@__PURE__*/ S.Array(
-  VpnConnection.pipe(T.XmlName("item")).annotate({
-    identifier: "VpnConnection",
-  }),
+  VpnConnection.pipe(T.XmlName("item")).annotate({ identifier: "VpnConnection" }),
 );
 export interface DescribeVpnConnectionsResult {
   VpnConnections?: VpnConnection[];
@@ -44710,9 +43823,7 @@ export const DetachVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     VolumeId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DetachVolumeRequest",
-}) as any as S.Schema<DetachVolumeRequest>;
+).annotate({ identifier: "DetachVolumeRequest" }) as any as S.Schema<DetachVolumeRequest>;
 export interface DetachVpnGatewayRequest {
   VpcId?: string;
   VpnGatewayId?: string;
@@ -44724,24 +43835,19 @@ export const DetachVpnGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     VpnGatewayId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DetachVpnGatewayRequest",
-}) as any as S.Schema<DetachVpnGatewayRequest>;
+).annotate({ identifier: "DetachVpnGatewayRequest" }) as any as S.Schema<DetachVpnGatewayRequest>;
 export interface DetachVpnGatewayResponse {}
 export const DetachVpnGatewayResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DetachVpnGatewayResponse",
-}) as any as S.Schema<DetachVpnGatewayResponse>;
+).annotate({ identifier: "DetachVpnGatewayResponse" }) as any as S.Schema<DetachVpnGatewayResponse>;
 export interface DisableAddressTransferRequest {
   AllocationId?: string;
   DryRun?: boolean;
 }
 export const DisableAddressTransferRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AllocationId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ AllocationId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisableAddressTransferRequest",
 }) as any as S.Schema<DisableAddressTransferRequest>;
@@ -44964,9 +44070,7 @@ export const DisableFastLaunchRequest = /*@__PURE__*/ S.suspend(() =>
     Force: S.optional(S.Boolean),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisableFastLaunchRequest",
-}) as any as S.Schema<DisableFastLaunchRequest>;
+).annotate({ identifier: "DisableFastLaunchRequest" }) as any as S.Schema<DisableFastLaunchRequest>;
 export interface DisableFastLaunchResult {
   ImageId?: string;
   ResourceType?: FastLaunchResourceType;
@@ -44990,9 +44094,7 @@ export const DisableFastLaunchResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "FastLaunchSnapshotConfigurationResponse" }),
     LaunchTemplate: S.optional(FastLaunchLaunchTemplateSpecificationResponse)
       .pipe(T.XmlName("launchTemplate"), T.Ec2QueryName("LaunchTemplate"))
-      .annotate({
-        identifier: "FastLaunchLaunchTemplateSpecificationResponse",
-      }),
+      .annotate({ identifier: "FastLaunchLaunchTemplateSpecificationResponse" }),
     MaxParallelLaunches: S.optional(S.Number).pipe(
       T.XmlName("maxParallelLaunches"),
       T.Ec2QueryName("MaxParallelLaunches"),
@@ -45008,9 +44110,7 @@ export const DisableFastLaunchResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("StateTransitionTime"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "DisableFastLaunchResult",
-}) as any as S.Schema<DisableFastLaunchResult>;
+).annotate({ identifier: "DisableFastLaunchResult" }) as any as S.Schema<DisableFastLaunchResult>;
 export type AvailabilityZoneStringList = string[];
 export const AvailabilityZoneStringList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("AvailabilityZone")),
@@ -45186,13 +44286,10 @@ export interface DisableImageRequest {
   DryRun?: boolean;
 }
 export const DisableImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisableImageRequest",
-}) as any as S.Schema<DisableImageRequest>;
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DisableImageRequest" }) as any as S.Schema<DisableImageRequest>;
 export interface DisableImageResult {
   Return?: boolean;
 }
@@ -45200,9 +44297,7 @@ export const DisableImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "DisableImageResult",
-}) as any as S.Schema<DisableImageResult>;
+).annotate({ identifier: "DisableImageResult" }) as any as S.Schema<DisableImageResult>;
 export interface DisableImageBlockPublicAccessRequest {
   DryRun?: boolean;
 }
@@ -45234,10 +44329,9 @@ export interface DisableImageDeprecationRequest {
   DryRun?: boolean;
 }
 export const DisableImageDeprecationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisableImageDeprecationRequest",
 }) as any as S.Schema<DisableImageDeprecationRequest>;
@@ -45256,10 +44350,9 @@ export interface DisableImageDeregistrationProtectionRequest {
   DryRun?: boolean;
 }
 export const DisableImageDeregistrationProtectionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisableImageDeregistrationProtectionRequest",
 }) as any as S.Schema<DisableImageDeregistrationProtectionRequest>;
@@ -45305,10 +44398,9 @@ export interface DisableIpamOrganizationAdminAccountRequest {
   DelegatedAdminAccountId?: string;
 }
 export const DisableIpamOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    DelegatedAdminAccountId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), DelegatedAdminAccountId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisableIpamOrganizationAdminAccountRequest",
 }) as any as S.Schema<DisableIpamOrganizationAdminAccountRequest>;
@@ -45333,9 +44425,7 @@ export const DisableIpamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     IpamPolicyId: S.optional(S.String),
     OrganizationTargetId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DisableIpamPolicyRequest",
-}) as any as S.Schema<DisableIpamPolicyRequest>;
+).annotate({ identifier: "DisableIpamPolicyRequest" }) as any as S.Schema<DisableIpamPolicyRequest>;
 export interface DisableIpamPolicyResult {
   Return?: boolean;
 }
@@ -45343,9 +44433,7 @@ export const DisableIpamPolicyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "DisableIpamPolicyResult",
-}) as any as S.Schema<DisableIpamPolicyResult>;
+).annotate({ identifier: "DisableIpamPolicyResult" }) as any as S.Schema<DisableIpamPolicyResult>;
 export interface DisableRouteServerPropagationRequest {
   RouteServerId?: string;
   RouteTableId?: string;
@@ -45383,9 +44471,7 @@ export const RouteServerPropagation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("State"),
     ),
   }),
-).annotate({
-  identifier: "RouteServerPropagation",
-}) as any as S.Schema<RouteServerPropagation>;
+).annotate({ identifier: "RouteServerPropagation" }) as any as S.Schema<RouteServerPropagation>;
 export interface DisableRouteServerPropagationResult {
   RouteServerPropagation?: RouteServerPropagation;
 }
@@ -46328,9 +45414,7 @@ export const EnableFastLaunchRequest = /*@__PURE__*/ S.suspend(() =>
     MaxParallelLaunches: S.optional(S.Number),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "EnableFastLaunchRequest",
-}) as any as S.Schema<EnableFastLaunchRequest>;
+).annotate({ identifier: "EnableFastLaunchRequest" }) as any as S.Schema<EnableFastLaunchRequest>;
 export interface EnableFastLaunchResult {
   ImageId?: string;
   ResourceType?: FastLaunchResourceType;
@@ -46354,9 +45438,7 @@ export const EnableFastLaunchResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "FastLaunchSnapshotConfigurationResponse" }),
     LaunchTemplate: S.optional(FastLaunchLaunchTemplateSpecificationResponse)
       .pipe(T.XmlName("launchTemplate"), T.Ec2QueryName("LaunchTemplate"))
-      .annotate({
-        identifier: "FastLaunchLaunchTemplateSpecificationResponse",
-      }),
+      .annotate({ identifier: "FastLaunchLaunchTemplateSpecificationResponse" }),
     MaxParallelLaunches: S.optional(S.Number).pipe(
       T.XmlName("maxParallelLaunches"),
       T.Ec2QueryName("MaxParallelLaunches"),
@@ -46372,9 +45454,7 @@ export const EnableFastLaunchResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("StateTransitionTime"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "EnableFastLaunchResult",
-}) as any as S.Schema<EnableFastLaunchResult>;
+).annotate({ identifier: "EnableFastLaunchResult" }) as any as S.Schema<EnableFastLaunchResult>;
 export interface EnableFastSnapshotRestoresRequest {
   AvailabilityZones?: string[];
   AvailabilityZoneIds?: string[];
@@ -46542,13 +45622,10 @@ export interface EnableImageRequest {
   DryRun?: boolean;
 }
 export const EnableImageRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "EnableImageRequest",
-}) as any as S.Schema<EnableImageRequest>;
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "EnableImageRequest" }) as any as S.Schema<EnableImageRequest>;
 export interface EnableImageResult {
   Return?: boolean;
 }
@@ -46556,9 +45633,7 @@ export const EnableImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "EnableImageResult",
-}) as any as S.Schema<EnableImageResult>;
+).annotate({ identifier: "EnableImageResult" }) as any as S.Schema<EnableImageResult>;
 export type ImageBlockPublicAccessEnabledState = "block-new-sharing" | (string & {});
 export const ImageBlockPublicAccessEnabledState = S.String;
 
@@ -46707,10 +45782,9 @@ export interface EnableIpamOrganizationAdminAccountRequest {
   DelegatedAdminAccountId?: string;
 }
 export const EnableIpamOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    DelegatedAdminAccountId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), DelegatedAdminAccountId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "EnableIpamOrganizationAdminAccountRequest",
 }) as any as S.Schema<EnableIpamOrganizationAdminAccountRequest>;
@@ -46735,9 +45809,7 @@ export const EnableIpamPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     IpamPolicyId: S.optional(S.String),
     OrganizationTargetId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "EnableIpamPolicyRequest",
-}) as any as S.Schema<EnableIpamPolicyRequest>;
+).annotate({ identifier: "EnableIpamPolicyRequest" }) as any as S.Schema<EnableIpamPolicyRequest>;
 export interface EnableIpamPolicyResult {
   IpamPolicyId?: string;
 }
@@ -46748,9 +45820,7 @@ export const EnableIpamPolicyResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("IpamPolicyId"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "EnableIpamPolicyResult",
-}) as any as S.Schema<EnableIpamPolicyResult>;
+).annotate({ identifier: "EnableIpamPolicyResult" }) as any as S.Schema<EnableIpamPolicyResult>;
 export interface EnableReachabilityAnalyzerOrganizationSharingRequest {
   DryRun?: boolean;
 }
@@ -46905,14 +45975,10 @@ export const EnableVolumeIORequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     VolumeId: S.optional(S.String).pipe(T.XmlName("volumeId"), T.Ec2QueryName("VolumeId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "EnableVolumeIORequest",
-}) as any as S.Schema<EnableVolumeIORequest>;
+).annotate({ identifier: "EnableVolumeIORequest" }) as any as S.Schema<EnableVolumeIORequest>;
 export interface EnableVolumeIOResponse {}
 export const EnableVolumeIOResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "EnableVolumeIOResponse",
-  },
+  { identifier: "EnableVolumeIOResponse" },
 ) as any as S.Schema<EnableVolumeIOResponse>;
 export interface EnableVpcClassicLinkRequest {
   DryRun?: boolean;
@@ -46961,10 +46027,9 @@ export interface ExportClientVpnClientCertificateRevocationListRequest {
   DryRun?: boolean;
 }
 export const ExportClientVpnClientCertificateRevocationListRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientVpnEndpointId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ClientVpnEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ExportClientVpnClientCertificateRevocationListRequest",
 }) as any as S.Schema<ExportClientVpnClientCertificateRevocationListRequest>;
@@ -47008,10 +46073,9 @@ export interface ExportClientVpnClientConfigurationRequest {
   DryRun?: boolean;
 }
 export const ExportClientVpnClientConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ClientVpnEndpointId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ClientVpnEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ExportClientVpnClientConfigurationRequest",
 }) as any as S.Schema<ExportClientVpnClientConfigurationRequest>;
@@ -47058,9 +46122,7 @@ export const ExportImageRequest = /*@__PURE__*/ S.suspend(() =>
     RoleName: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ExportImageRequest",
-}) as any as S.Schema<ExportImageRequest>;
+).annotate({ identifier: "ExportImageRequest" }) as any as S.Schema<ExportImageRequest>;
 export interface ExportImageResult {
   Description?: string;
   DiskImageFormat?: DiskImageFormat;
@@ -47097,9 +46159,7 @@ export const ExportImageResult = /*@__PURE__*/ S.suspend(() =>
     ),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "ExportImageResult",
-}) as any as S.Schema<ExportImageResult>;
+).annotate({ identifier: "ExportImageResult" }) as any as S.Schema<ExportImageResult>;
 export interface ExportTransitGatewayRoutesRequest {
   TransitGatewayRouteTableId?: string;
   Filters?: Filter[];
@@ -47131,10 +46191,9 @@ export interface ExportVerifiedAccessInstanceClientConfigurationRequest {
   DryRun?: boolean;
 }
 export const ExportVerifiedAccessInstanceClientConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VerifiedAccessInstanceId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ VerifiedAccessInstanceId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ExportVerifiedAccessInstanceClientConfigurationRequest",
 }) as any as S.Schema<ExportVerifiedAccessInstanceClientConfigurationRequest>;
@@ -47193,9 +46252,7 @@ export interface VerifiedAccessInstanceOpenVpnClientConfigurationRoute {
   Cidr?: string;
 }
 export const VerifiedAccessInstanceOpenVpnClientConfigurationRoute = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.XmlName("cidr"), T.Ec2QueryName("Cidr")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String).pipe(T.XmlName("cidr"), T.Ec2QueryName("Cidr")) }),
 ).annotate({
   identifier: "VerifiedAccessInstanceOpenVpnClientConfigurationRoute",
 }) as any as S.Schema<VerifiedAccessInstanceOpenVpnClientConfigurationRoute>;
@@ -47250,9 +46307,7 @@ export const ExportVerifiedAccessInstanceClientConfigurationResult = /*@__PURE__
     ),
     UserTrustProvider: S.optional(VerifiedAccessInstanceUserTrustProviderClientConfiguration)
       .pipe(T.XmlName("userTrustProvider"), T.Ec2QueryName("UserTrustProvider"))
-      .annotate({
-        identifier: "VerifiedAccessInstanceUserTrustProviderClientConfiguration",
-      }),
+      .annotate({ identifier: "VerifiedAccessInstanceUserTrustProviderClientConfiguration" }),
     OpenVpnConfigurations: S.optional(VerifiedAccessInstanceOpenVpnClientConfigurationList).pipe(
       T.XmlName("openVpnConfigurationSet"),
       T.Ec2QueryName("OpenVpnConfigurationSet"),
@@ -47325,9 +46380,7 @@ export const ActiveVpnTunnelStatus = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ProvisioningStatusReason"),
     ),
   }),
-).annotate({
-  identifier: "ActiveVpnTunnelStatus",
-}) as any as S.Schema<ActiveVpnTunnelStatus>;
+).annotate({ identifier: "ActiveVpnTunnelStatus" }) as any as S.Schema<ActiveVpnTunnelStatus>;
 export interface GetActiveVpnTunnelStatusResult {
   ActiveVpnTunnelStatus?: ActiveVpnTunnelStatus;
 }
@@ -47370,9 +46423,7 @@ export const DeprecationTimeCondition = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("MaximumDaysSinceDeprecated"),
     ),
   }),
-).annotate({
-  identifier: "DeprecationTimeCondition",
-}) as any as S.Schema<DeprecationTimeCondition>;
+).annotate({ identifier: "DeprecationTimeCondition" }) as any as S.Schema<DeprecationTimeCondition>;
 export type MaximumDaysSinceCreatedValue = number;
 export interface CreationDateCondition {
   MaximumDaysSinceCreated?: number;
@@ -47384,9 +46435,7 @@ export const CreationDateCondition = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("MaximumDaysSinceCreated"),
     ),
   }),
-).annotate({
-  identifier: "CreationDateCondition",
-}) as any as S.Schema<CreationDateCondition>;
+).annotate({ identifier: "CreationDateCondition" }) as any as S.Schema<CreationDateCondition>;
 export interface ImageWatermarkFilterResponse {
   WatermarkKey?: string;
   SourceImageRegion?: string;
@@ -47457,9 +46506,7 @@ export const ImageCriterion = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ImageCriterion" }) as any as S.Schema<ImageCriterion>;
 export type ImageCriterionList = ImageCriterion[];
 export const ImageCriterionList = /*@__PURE__*/ S.Array(
-  ImageCriterion.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageCriterion",
-  }),
+  ImageCriterion.pipe(T.XmlName("item")).annotate({ identifier: "ImageCriterion" }),
 );
 export interface GetAllowedImagesSettingsResult {
   State?: string;
@@ -47483,10 +46530,9 @@ export interface GetAssociatedEnclaveCertificateIamRolesRequest {
   DryRun?: boolean;
 }
 export const GetAssociatedEnclaveCertificateIamRolesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CertificateArn: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ CertificateArn: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetAssociatedEnclaveCertificateIamRolesRequest",
 }) as any as S.Schema<GetAssociatedEnclaveCertificateIamRolesRequest>;
@@ -47518,9 +46564,7 @@ export const AssociatedRole = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AssociatedRole" }) as any as S.Schema<AssociatedRole>;
 export type AssociatedRolesList = AssociatedRole[];
 export const AssociatedRolesList = /*@__PURE__*/ S.Array(
-  AssociatedRole.pipe(T.XmlName("item")).annotate({
-    identifier: "AssociatedRole",
-  }),
+  AssociatedRole.pipe(T.XmlName("item")).annotate({ identifier: "AssociatedRole" }),
 );
 export interface GetAssociatedEnclaveCertificateIamRolesResult {
   AssociatedRoles?: AssociatedRole[];
@@ -47563,14 +46607,10 @@ export const Ipv6CidrAssociation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AssociatedResource"),
     ),
   }),
-).annotate({
-  identifier: "Ipv6CidrAssociation",
-}) as any as S.Schema<Ipv6CidrAssociation>;
+).annotate({ identifier: "Ipv6CidrAssociation" }) as any as S.Schema<Ipv6CidrAssociation>;
 export type Ipv6CidrAssociationSet = Ipv6CidrAssociation[];
 export const Ipv6CidrAssociationSet = /*@__PURE__*/ S.Array(
-  Ipv6CidrAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "Ipv6CidrAssociation",
-  }),
+  Ipv6CidrAssociation.pipe(T.XmlName("item")).annotate({ identifier: "Ipv6CidrAssociation" }),
 );
 export interface GetAssociatedIpv6PoolCidrsResult {
   Ipv6CidrAssociations?: Ipv6CidrAssociation[];
@@ -47870,17 +46910,13 @@ export const DimensionCondition = /*@__PURE__*/ S.suspend(() =>
     Comparison: S.optional(Comparison),
     Values: S.optional(ConditionValueList).pipe(T.XmlName("Value")),
   }),
-).annotate({
-  identifier: "DimensionCondition",
-}) as any as S.Schema<DimensionCondition>;
+).annotate({ identifier: "DimensionCondition" }) as any as S.Schema<DimensionCondition>;
 export interface CapacityManagerCondition {
   DimensionCondition?: DimensionCondition;
 }
 export const CapacityManagerCondition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DimensionCondition: S.optional(DimensionCondition) }),
-).annotate({
-  identifier: "CapacityManagerCondition",
-}) as any as S.Schema<CapacityManagerCondition>;
+).annotate({ identifier: "CapacityManagerCondition" }) as any as S.Schema<CapacityManagerCondition>;
 export type CapacityManagerConditionSet = CapacityManagerCondition[];
 export const CapacityManagerConditionSet = /*@__PURE__*/ S.Array(
   CapacityManagerCondition.pipe(T.XmlName("item")).annotate({
@@ -48030,9 +47066,7 @@ export const CapacityManagerDimension = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TagSet"),
     ),
   }),
-).annotate({
-  identifier: "CapacityManagerDimension",
-}) as any as S.Schema<CapacityManagerDimension>;
+).annotate({ identifier: "CapacityManagerDimension" }) as any as S.Schema<CapacityManagerDimension>;
 export interface MetricValue {
   Metric?: Metric;
   Value?: number;
@@ -48066,14 +47100,10 @@ export const MetricDataResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("MetricValueSet"),
     ),
   }),
-).annotate({
-  identifier: "MetricDataResult",
-}) as any as S.Schema<MetricDataResult>;
+).annotate({ identifier: "MetricDataResult" }) as any as S.Schema<MetricDataResult>;
 export type MetricDataResultSet = MetricDataResult[];
 export const MetricDataResultSet = /*@__PURE__*/ S.Array(
-  MetricDataResult.pipe(T.XmlName("item")).annotate({
-    identifier: "MetricDataResult",
-  }),
+  MetricDataResult.pipe(T.XmlName("item")).annotate({ identifier: "MetricDataResult" }),
 );
 export interface GetCapacityManagerMetricDataResult {
   MetricDataResults?: MetricDataResult[];
@@ -48240,9 +47270,7 @@ export const InstanceUsage = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "InstanceUsage" }) as any as S.Schema<InstanceUsage>;
 export type InstanceUsageSet = InstanceUsage[];
 export const InstanceUsageSet = /*@__PURE__*/ S.Array(
-  InstanceUsage.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceUsage",
-  }),
+  InstanceUsage.pipe(T.XmlName("item")).annotate({ identifier: "InstanceUsage" }),
 );
 export interface GetCapacityReservationUsageResult {
   NextToken?: string;
@@ -48297,6 +47325,50 @@ export const GetCapacityReservationUsageResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetCapacityReservationUsageResult",
 }) as any as S.Schema<GetCapacityReservationUsageResult>;
+export interface GetClientVpnEndpointAuthorizationPolicyRequest {
+  ClientVpnEndpointId?: string;
+  DryRun?: boolean;
+}
+export const GetClientVpnEndpointAuthorizationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ClientVpnEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetClientVpnEndpointAuthorizationPolicyRequest",
+}) as any as S.Schema<GetClientVpnEndpointAuthorizationPolicyRequest>;
+export type ClientVpnAuthorizationPolicyShadowMode = "enabled" | "disabled" | (string & {});
+export const ClientVpnAuthorizationPolicyShadowMode = S.String;
+
+export interface GetClientVpnEndpointAuthorizationPolicyResult {
+  ClientVpnEndpointId?: string;
+  PolicyDocument?: string;
+  Description?: string;
+  ShadowMode?: ClientVpnAuthorizationPolicyShadowMode;
+  Status?: ClientVpnAuthorizationPolicyStatus;
+}
+export const GetClientVpnEndpointAuthorizationPolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientVpnEndpointId: S.optional(S.String).pipe(
+      T.XmlName("clientVpnEndpointId"),
+      T.Ec2QueryName("ClientVpnEndpointId"),
+    ),
+    PolicyDocument: S.optional(S.String).pipe(
+      T.XmlName("policyDocument"),
+      T.Ec2QueryName("PolicyDocument"),
+    ),
+    Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
+    ShadowMode: S.optional(ClientVpnAuthorizationPolicyShadowMode).pipe(
+      T.XmlName("shadowMode"),
+      T.Ec2QueryName("ShadowMode"),
+    ),
+    Status: S.optional(ClientVpnAuthorizationPolicyStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetClientVpnEndpointAuthorizationPolicyResult",
+}) as any as S.Schema<GetClientVpnEndpointAuthorizationPolicyResult>;
 export interface GetCoipPoolUsageRequest {
   PoolId?: string;
   Filters?: Filter[];
@@ -48312,9 +47384,7 @@ export const GetCoipPoolUsageRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetCoipPoolUsageRequest",
-}) as any as S.Schema<GetCoipPoolUsageRequest>;
+).annotate({ identifier: "GetCoipPoolUsageRequest" }) as any as S.Schema<GetCoipPoolUsageRequest>;
 export interface CoipAddressUsage {
   AllocationId?: string;
   AwsAccountId?: string;
@@ -48334,14 +47404,10 @@ export const CoipAddressUsage = /*@__PURE__*/ S.suspend(() =>
     AwsService: S.optional(S.String).pipe(T.XmlName("awsService"), T.Ec2QueryName("AwsService")),
     CoIp: S.optional(S.String).pipe(T.XmlName("coIp"), T.Ec2QueryName("CoIp")),
   }),
-).annotate({
-  identifier: "CoipAddressUsage",
-}) as any as S.Schema<CoipAddressUsage>;
+).annotate({ identifier: "CoipAddressUsage" }) as any as S.Schema<CoipAddressUsage>;
 export type CoipAddressUsageSet = CoipAddressUsage[];
 export const CoipAddressUsageSet = /*@__PURE__*/ S.Array(
-  CoipAddressUsage.pipe(T.XmlName("item")).annotate({
-    identifier: "CoipAddressUsage",
-  }),
+  CoipAddressUsage.pipe(T.XmlName("item")).annotate({ identifier: "CoipAddressUsage" }),
 );
 export interface GetCoipPoolUsageResult {
   CoipPoolId?: string;
@@ -48362,9 +47428,7 @@ export const GetCoipPoolUsageResult = /*@__PURE__*/ S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetCoipPoolUsageResult",
-}) as any as S.Schema<GetCoipPoolUsageResult>;
+).annotate({ identifier: "GetCoipPoolUsageResult" }) as any as S.Schema<GetCoipPoolUsageResult>;
 export interface GetConsoleOutputRequest {
   InstanceId?: string;
   Latest?: boolean;
@@ -48376,9 +47440,7 @@ export const GetConsoleOutputRequest = /*@__PURE__*/ S.suspend(() =>
     Latest: S.optional(S.Boolean),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetConsoleOutputRequest",
-}) as any as S.Schema<GetConsoleOutputRequest>;
+).annotate({ identifier: "GetConsoleOutputRequest" }) as any as S.Schema<GetConsoleOutputRequest>;
 export interface GetConsoleOutputResult {
   InstanceId?: string;
   Timestamp?: Date;
@@ -48393,9 +47455,7 @@ export const GetConsoleOutputResult = /*@__PURE__*/ S.suspend(() =>
     ),
     Output: S.optional(S.String).pipe(T.XmlName("output"), T.Ec2QueryName("Output")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetConsoleOutputResult",
-}) as any as S.Schema<GetConsoleOutputResult>;
+).annotate({ identifier: "GetConsoleOutputResult" }) as any as S.Schema<GetConsoleOutputResult>;
 export interface GetConsoleScreenshotRequest {
   DryRun?: boolean;
   InstanceId?: string;
@@ -48427,10 +47487,9 @@ export interface GetDeclarativePoliciesReportSummaryRequest {
   ReportId?: string;
 }
 export const GetDeclarativePoliciesReportSummaryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    ReportId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), ReportId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetDeclarativePoliciesReportSummaryRequest",
 }) as any as S.Schema<GetDeclarativePoliciesReportSummaryRequest>;
@@ -48451,14 +47510,10 @@ export const RegionalSummary = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NumberOfUnmatchedAccounts"),
     ),
   }),
-).annotate({
-  identifier: "RegionalSummary",
-}) as any as S.Schema<RegionalSummary>;
+).annotate({ identifier: "RegionalSummary" }) as any as S.Schema<RegionalSummary>;
 export type RegionalSummaryList = RegionalSummary[];
 export const RegionalSummaryList = /*@__PURE__*/ S.Array(
-  RegionalSummary.pipe(T.XmlName("item")).annotate({
-    identifier: "RegionalSummary",
-  }),
+  RegionalSummary.pipe(T.XmlName("item")).annotate({ identifier: "RegionalSummary" }),
 );
 export interface AttributeSummary {
   AttributeName?: string;
@@ -48490,14 +47545,10 @@ export const AttributeSummary = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RegionalSummarySet"),
     ),
   }),
-).annotate({
-  identifier: "AttributeSummary",
-}) as any as S.Schema<AttributeSummary>;
+).annotate({ identifier: "AttributeSummary" }) as any as S.Schema<AttributeSummary>;
 export type AttributeSummaryList = AttributeSummary[];
 export const AttributeSummaryList = /*@__PURE__*/ S.Array(
-  AttributeSummary.pipe(T.XmlName("item")).annotate({
-    identifier: "AttributeSummary",
-  }),
+  AttributeSummary.pipe(T.XmlName("item")).annotate({ identifier: "AttributeSummary" }),
 );
 export interface GetDeclarativePoliciesReportSummaryResult {
   ReportId?: string;
@@ -48540,7 +47591,7 @@ export const GetDeclarativePoliciesReportSummaryResult = /*@__PURE__*/ S.suspend
 ).annotate({
   identifier: "GetDeclarativePoliciesReportSummaryResult",
 }) as any as S.Schema<GetDeclarativePoliciesReportSummaryResult>;
-export type UnlimitedSupportedInstanceFamily = "t2" | "t3" | "t3a" | "t4g" | (string & {});
+export type UnlimitedSupportedInstanceFamily = "t2" | "t3" | "t3a" | "t4g" | "t8i" | (string & {});
 export const UnlimitedSupportedInstanceFamily = S.String;
 
 export interface GetDefaultCreditSpecificationRequest {
@@ -48682,14 +47733,10 @@ export const AthenaIntegration = /*@__PURE__*/ S.suspend(() =>
     PartitionStartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PartitionEndDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
-).annotate({
-  identifier: "AthenaIntegration",
-}) as any as S.Schema<AthenaIntegration>;
+).annotate({ identifier: "AthenaIntegration" }) as any as S.Schema<AthenaIntegration>;
 export type AthenaIntegrationsSet = AthenaIntegration[];
 export const AthenaIntegrationsSet = /*@__PURE__*/ S.Array(
-  AthenaIntegration.pipe(T.XmlName("item")).annotate({
-    identifier: "AthenaIntegration",
-  }),
+  AthenaIntegration.pipe(T.XmlName("item")).annotate({ identifier: "AthenaIntegration" }),
 );
 export interface IntegrateServices {
   AthenaIntegrations?: AthenaIntegration[];
@@ -48698,9 +47745,7 @@ export const IntegrateServices = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AthenaIntegrations: S.optional(AthenaIntegrationsSet).pipe(T.XmlName("AthenaIntegration")),
   }),
-).annotate({
-  identifier: "IntegrateServices",
-}) as any as S.Schema<IntegrateServices>;
+).annotate({ identifier: "IntegrateServices" }) as any as S.Schema<IntegrateServices>;
 export interface GetFlowLogsIntegrationTemplateRequest {
   DryRun?: boolean;
   FlowLogId?: string;
@@ -48755,9 +47800,7 @@ export const CapacityReservationGroup = /*@__PURE__*/ S.suspend(() =>
     GroupArn: S.optional(S.String).pipe(T.XmlName("groupArn"), T.Ec2QueryName("GroupArn")),
     OwnerId: S.optional(S.String).pipe(T.XmlName("ownerId"), T.Ec2QueryName("OwnerId")),
   }),
-).annotate({
-  identifier: "CapacityReservationGroup",
-}) as any as S.Schema<CapacityReservationGroup>;
+).annotate({ identifier: "CapacityReservationGroup" }) as any as S.Schema<CapacityReservationGroup>;
 export type CapacityReservationGroupSet = CapacityReservationGroup[];
 export const CapacityReservationGroupSet = /*@__PURE__*/ S.Array(
   CapacityReservationGroup.pipe(T.XmlName("item")).annotate({
@@ -48786,10 +47829,9 @@ export interface GetHostReservationPurchasePreviewRequest {
   OfferingId?: string;
 }
 export const GetHostReservationPurchasePreviewRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    HostIdSet: S.optional(RequestHostIdSet),
-    OfferingId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ HostIdSet: S.optional(RequestHostIdSet), OfferingId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetHostReservationPurchasePreviewRequest",
 }) as any as S.Schema<GetHostReservationPurchasePreviewRequest>;
@@ -48867,13 +47909,10 @@ export interface GetImageAncestryRequest {
   DryRun?: boolean;
 }
 export const GetImageAncestryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetImageAncestryRequest",
-}) as any as S.Schema<GetImageAncestryRequest>;
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetImageAncestryRequest" }) as any as S.Schema<GetImageAncestryRequest>;
 export interface ImageAncestryEntry {
   CreationDate?: Date;
   ImageId?: string;
@@ -48901,14 +47940,10 @@ export const ImageAncestryEntry = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SourceImageRegion"),
     ),
   }),
-).annotate({
-  identifier: "ImageAncestryEntry",
-}) as any as S.Schema<ImageAncestryEntry>;
+).annotate({ identifier: "ImageAncestryEntry" }) as any as S.Schema<ImageAncestryEntry>;
 export type ImageAncestryEntryList = ImageAncestryEntry[];
 export const ImageAncestryEntryList = /*@__PURE__*/ S.Array(
-  ImageAncestryEntry.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageAncestryEntry",
-  }),
+  ImageAncestryEntry.pipe(T.XmlName("item")).annotate({ identifier: "ImageAncestryEntry" }),
 );
 export interface GetImageAncestryResult {
   ImageAncestryEntries?: ImageAncestryEntry[];
@@ -48920,9 +47955,7 @@ export const GetImageAncestryResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ImageAncestryEntrySet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "GetImageAncestryResult",
-}) as any as S.Schema<GetImageAncestryResult>;
+).annotate({ identifier: "GetImageAncestryResult" }) as any as S.Schema<GetImageAncestryResult>;
 export interface GetImageBlockPublicAccessStateRequest {
   DryRun?: boolean;
 }
@@ -49239,9 +48272,7 @@ export const IpamAddressHistoryRecord = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SampledEndTime"),
     ),
   }),
-).annotate({
-  identifier: "IpamAddressHistoryRecord",
-}) as any as S.Schema<IpamAddressHistoryRecord>;
+).annotate({ identifier: "IpamAddressHistoryRecord" }) as any as S.Schema<IpamAddressHistoryRecord>;
 export type IpamAddressHistoryRecordSet = IpamAddressHistoryRecord[];
 export const IpamAddressHistoryRecordSet = /*@__PURE__*/ S.Array(
   IpamAddressHistoryRecord.pipe(T.XmlName("item")).annotate({
@@ -49331,14 +48362,10 @@ export const IpamDiscoveredAccount = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("OrganizationalUnitId"),
     ),
   }),
-).annotate({
-  identifier: "IpamDiscoveredAccount",
-}) as any as S.Schema<IpamDiscoveredAccount>;
+).annotate({ identifier: "IpamDiscoveredAccount" }) as any as S.Schema<IpamDiscoveredAccount>;
 export type IpamDiscoveredAccountSet = IpamDiscoveredAccount[];
 export const IpamDiscoveredAccountSet = /*@__PURE__*/ S.Array(
-  IpamDiscoveredAccount.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamDiscoveredAccount",
-  }),
+  IpamDiscoveredAccount.pipe(T.XmlName("item")).annotate({ identifier: "IpamDiscoveredAccount" }),
 );
 export interface GetIpamDiscoveredAccountsResult {
   IpamDiscoveredAccounts?: IpamDiscoveredAccount[];
@@ -49412,14 +48439,10 @@ export const IpamPublicAddressTag = /*@__PURE__*/ S.suspend(() =>
     Key: S.optional(S.String).pipe(T.XmlName("key"), T.Ec2QueryName("Key")),
     Value: S.optional(S.String).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
   }),
-).annotate({
-  identifier: "IpamPublicAddressTag",
-}) as any as S.Schema<IpamPublicAddressTag>;
+).annotate({ identifier: "IpamPublicAddressTag" }) as any as S.Schema<IpamPublicAddressTag>;
 export type IpamPublicAddressTagList = IpamPublicAddressTag[];
 export const IpamPublicAddressTagList = /*@__PURE__*/ S.Array(
-  IpamPublicAddressTag.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamPublicAddressTag",
-  }),
+  IpamPublicAddressTag.pipe(T.XmlName("item")).annotate({ identifier: "IpamPublicAddressTag" }),
 );
 export interface IpamPublicAddressTags {
   EipTags?: IpamPublicAddressTag[];
@@ -49431,9 +48454,7 @@ export const IpamPublicAddressTags = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("EipTagSet"),
     ),
   }),
-).annotate({
-  identifier: "IpamPublicAddressTags",
-}) as any as S.Schema<IpamPublicAddressTags>;
+).annotate({ identifier: "IpamPublicAddressTags" }) as any as S.Schema<IpamPublicAddressTags>;
 export interface IpamPublicAddressSecurityGroup {
   GroupName?: string;
   GroupId?: string;
@@ -49764,14 +48785,10 @@ export const IpamDiscoveredRoute = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SampleTime"),
     ),
   }),
-).annotate({
-  identifier: "IpamDiscoveredRoute",
-}) as any as S.Schema<IpamDiscoveredRoute>;
+).annotate({ identifier: "IpamDiscoveredRoute" }) as any as S.Schema<IpamDiscoveredRoute>;
 export type IpamDiscoveredRouteSet = IpamDiscoveredRoute[];
 export const IpamDiscoveredRouteSet = /*@__PURE__*/ S.Array(
-  IpamDiscoveredRoute.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamDiscoveredRoute",
-  }),
+  IpamDiscoveredRoute.pipe(T.XmlName("item")).annotate({ identifier: "IpamDiscoveredRoute" }),
 );
 export interface GetIpamDiscoveredRoutesResult {
   IpamDiscoveredRoutes?: IpamDiscoveredRoute[];
@@ -49931,9 +48948,7 @@ export const IpamPolicyAllocationRule = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SourceIpamPoolId"),
     ),
   }),
-).annotate({
-  identifier: "IpamPolicyAllocationRule",
-}) as any as S.Schema<IpamPolicyAllocationRule>;
+).annotate({ identifier: "IpamPolicyAllocationRule" }) as any as S.Schema<IpamPolicyAllocationRule>;
 export type IpamPolicyAllocationRuleList = IpamPolicyAllocationRule[];
 export const IpamPolicyAllocationRuleList = /*@__PURE__*/ S.Array(
   IpamPolicyAllocationRule.pipe(T.XmlName("item")).annotate({
@@ -49962,14 +48977,10 @@ export const IpamPolicyDocument = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AllocationRuleSet"),
     ),
   }),
-).annotate({
-  identifier: "IpamPolicyDocument",
-}) as any as S.Schema<IpamPolicyDocument>;
+).annotate({ identifier: "IpamPolicyDocument" }) as any as S.Schema<IpamPolicyDocument>;
 export type IpamPolicyDocumentSet = IpamPolicyDocument[];
 export const IpamPolicyDocumentSet = /*@__PURE__*/ S.Array(
-  IpamPolicyDocument.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamPolicyDocument",
-  }),
+  IpamPolicyDocument.pipe(T.XmlName("item")).annotate({ identifier: "IpamPolicyDocument" }),
 );
 export interface GetIpamPolicyAllocationRulesResult {
   IpamPolicyDocuments?: IpamPolicyDocument[];
@@ -50089,9 +49100,7 @@ export const GetIpamPoolCidrsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetIpamPoolCidrsRequest",
-}) as any as S.Schema<GetIpamPoolCidrsRequest>;
+).annotate({ identifier: "GetIpamPoolCidrsRequest" }) as any as S.Schema<GetIpamPoolCidrsRequest>;
 export type IpamPoolCidrSet = IpamPoolCidr[];
 export const IpamPoolCidrSet = /*@__PURE__*/ S.Array(
   IpamPoolCidr.pipe(T.XmlName("item")).annotate({ identifier: "IpamPoolCidr" }),
@@ -50108,9 +49117,7 @@ export const GetIpamPoolCidrsResult = /*@__PURE__*/ S.suspend(() =>
     ),
     NextToken: S.optional(S.String).pipe(T.XmlName("nextToken"), T.Ec2QueryName("NextToken")),
   }).pipe(ns),
-).annotate({
-  identifier: "GetIpamPoolCidrsResult",
-}) as any as S.Schema<GetIpamPoolCidrsResult>;
+).annotate({ identifier: "GetIpamPoolCidrsResult" }) as any as S.Schema<GetIpamPoolCidrsResult>;
 export interface GetIpamPrefixListResolverRulesRequest {
   DryRun?: boolean;
   IpamPrefixListResolverId?: string;
@@ -50238,9 +49245,7 @@ export interface IpamPrefixListResolverVersionEntry {
   Cidr?: string;
 }
 export const IpamPrefixListResolverVersionEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Cidr: S.optional(S.String).pipe(T.XmlName("cidr"), T.Ec2QueryName("Cidr")),
-  }),
+  S.Struct({ Cidr: S.optional(S.String).pipe(T.XmlName("cidr"), T.Ec2QueryName("Cidr")) }),
 ).annotate({
   identifier: "IpamPrefixListResolverVersionEntry",
 }) as any as S.Schema<IpamPrefixListResolverVersionEntry>;
@@ -50295,9 +49300,7 @@ export interface IpamPrefixListResolverVersion {
   Version?: number;
 }
 export const IpamPrefixListResolverVersion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Version: S.optional(S.Number).pipe(T.XmlName("version"), T.Ec2QueryName("Version")),
-  }),
+  S.Struct({ Version: S.optional(S.Number).pipe(T.XmlName("version"), T.Ec2QueryName("Version")) }),
 ).annotate({
   identifier: "IpamPrefixListResolverVersion",
 }) as any as S.Schema<IpamPrefixListResolverVersion>;
@@ -50420,14 +49423,10 @@ export const IpamResourceCidr = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AvailabilityZoneId"),
     ),
   }),
-).annotate({
-  identifier: "IpamResourceCidr",
-}) as any as S.Schema<IpamResourceCidr>;
+).annotate({ identifier: "IpamResourceCidr" }) as any as S.Schema<IpamResourceCidr>;
 export type IpamResourceCidrSet = IpamResourceCidr[];
 export const IpamResourceCidrSet = /*@__PURE__*/ S.Array(
-  IpamResourceCidr.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamResourceCidr",
-  }),
+  IpamResourceCidr.pipe(T.XmlName("item")).annotate({ identifier: "IpamResourceCidr" }),
 );
 export interface GetIpamResourceCidrsResult {
   NextToken?: string;
@@ -50562,14 +49561,10 @@ export const IpamRouteOverlap = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("DetectedAt"),
     ),
   }),
-).annotate({
-  identifier: "IpamRouteOverlap",
-}) as any as S.Schema<IpamRouteOverlap>;
+).annotate({ identifier: "IpamRouteOverlap" }) as any as S.Schema<IpamRouteOverlap>;
 export type IpamRouteOverlapSet = IpamRouteOverlap[];
 export const IpamRouteOverlapSet = /*@__PURE__*/ S.Array(
-  IpamRouteOverlap.pipe(T.XmlName("item")).annotate({
-    identifier: "IpamRouteOverlap",
-  }),
+  IpamRouteOverlap.pipe(T.XmlName("item")).annotate({ identifier: "IpamRouteOverlap" }),
 );
 export interface IpamRouteProtectionFinding {
   ResourceOwnerId?: string;
@@ -50797,10 +49792,9 @@ export interface GetLaunchTemplateDataRequest {
   InstanceId?: string;
 }
 export const GetLaunchTemplateDataRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    InstanceId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), InstanceId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetLaunchTemplateDataRequest",
 }) as any as S.Schema<GetLaunchTemplateDataRequest>;
@@ -50845,14 +49839,10 @@ export const PrefixListAssociation = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ResourceOwner"),
     ),
   }),
-).annotate({
-  identifier: "PrefixListAssociation",
-}) as any as S.Schema<PrefixListAssociation>;
+).annotate({ identifier: "PrefixListAssociation" }) as any as S.Schema<PrefixListAssociation>;
 export type PrefixListAssociationSet = PrefixListAssociation[];
 export const PrefixListAssociationSet = /*@__PURE__*/ S.Array(
-  PrefixListAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "PrefixListAssociation",
-  }),
+  PrefixListAssociation.pipe(T.XmlName("item")).annotate({ identifier: "PrefixListAssociation" }),
 );
 export interface GetManagedPrefixListAssociationsResult {
   PrefixListAssociations?: PrefixListAssociation[];
@@ -50896,14 +49886,10 @@ export const PrefixListEntry = /*@__PURE__*/ S.suspend(() =>
     Cidr: S.optional(S.String).pipe(T.XmlName("cidr"), T.Ec2QueryName("Cidr")),
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
   }),
-).annotate({
-  identifier: "PrefixListEntry",
-}) as any as S.Schema<PrefixListEntry>;
+).annotate({ identifier: "PrefixListEntry" }) as any as S.Schema<PrefixListEntry>;
 export type PrefixListEntrySet = PrefixListEntry[];
 export const PrefixListEntrySet = /*@__PURE__*/ S.Array(
-  PrefixListEntry.pipe(T.XmlName("item")).annotate({
-    identifier: "PrefixListEntry",
-  }),
+  PrefixListEntry.pipe(T.XmlName("item")).annotate({ identifier: "PrefixListEntry" }),
 );
 export interface GetManagedPrefixListEntriesResult {
   Entries?: PrefixListEntry[];
@@ -51064,9 +50050,7 @@ export const GetPasswordDataRequest = /*@__PURE__*/ S.suspend(() =>
     InstanceId: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetPasswordDataRequest",
-}) as any as S.Schema<GetPasswordDataRequest>;
+).annotate({ identifier: "GetPasswordDataRequest" }) as any as S.Schema<GetPasswordDataRequest>;
 export type PasswordData = string | redacted.Redacted<string>;
 export interface GetPasswordDataResult {
   InstanceId?: string;
@@ -51085,9 +50069,7 @@ export const GetPasswordDataResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PasswordData"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "GetPasswordDataResult",
-}) as any as S.Schema<GetPasswordDataResult>;
+).annotate({ identifier: "GetPasswordDataResult" }) as any as S.Schema<GetPasswordDataResult>;
 export interface GetReservedInstancesExchangeQuoteRequest {
   DryRun?: boolean;
   ReservedInstanceIds?: string[];
@@ -51121,9 +50103,7 @@ export const ReservationValue = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RemainingUpfrontValue"),
     ),
   }),
-).annotate({
-  identifier: "ReservationValue",
-}) as any as S.Schema<ReservationValue>;
+).annotate({ identifier: "ReservationValue" }) as any as S.Schema<ReservationValue>;
 export interface ReservedInstanceReservationValue {
   ReservationValue?: ReservationValue;
   ReservedInstanceId?: string;
@@ -51159,9 +50139,7 @@ export const TargetConfiguration = /*@__PURE__*/ S.suspend(() =>
     ),
     OfferingId: S.optional(S.String).pipe(T.XmlName("offeringId"), T.Ec2QueryName("OfferingId")),
   }),
-).annotate({
-  identifier: "TargetConfiguration",
-}) as any as S.Schema<TargetConfiguration>;
+).annotate({ identifier: "TargetConfiguration" }) as any as S.Schema<TargetConfiguration>;
 export interface TargetReservationValue {
   ReservationValue?: ReservationValue;
   TargetConfiguration?: TargetConfiguration;
@@ -51175,14 +50153,10 @@ export const TargetReservationValue = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("targetConfiguration"), T.Ec2QueryName("TargetConfiguration"))
       .annotate({ identifier: "TargetConfiguration" }),
   }),
-).annotate({
-  identifier: "TargetReservationValue",
-}) as any as S.Schema<TargetReservationValue>;
+).annotate({ identifier: "TargetReservationValue" }) as any as S.Schema<TargetReservationValue>;
 export type TargetReservationValueSet = TargetReservationValue[];
 export const TargetReservationValueSet = /*@__PURE__*/ S.Array(
-  TargetReservationValue.pipe(T.XmlName("item")).annotate({
-    identifier: "TargetReservationValue",
-  }),
+  TargetReservationValue.pipe(T.XmlName("item")).annotate({ identifier: "TargetReservationValue" }),
 );
 export interface GetReservedInstancesExchangeQuoteResult {
   CurrencyCode?: string;
@@ -51242,18 +50216,15 @@ export interface GetRouteServerAssociationsRequest {
   DryRun?: boolean;
 }
 export const GetRouteServerAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RouteServerId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ RouteServerId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetRouteServerAssociationsRequest",
 }) as any as S.Schema<GetRouteServerAssociationsRequest>;
 export type RouteServerAssociationsList = RouteServerAssociation[];
 export const RouteServerAssociationsList = /*@__PURE__*/ S.Array(
-  RouteServerAssociation.pipe(T.XmlName("item")).annotate({
-    identifier: "RouteServerAssociation",
-  }),
+  RouteServerAssociation.pipe(T.XmlName("item")).annotate({ identifier: "RouteServerAssociation" }),
 );
 export interface GetRouteServerAssociationsResult {
   RouteServerAssociations?: RouteServerAssociation[];
@@ -51284,9 +50255,7 @@ export const GetRouteServerPropagationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRouteServerPropagationsRequest>;
 export type RouteServerPropagationsList = RouteServerPropagation[];
 export const RouteServerPropagationsList = /*@__PURE__*/ S.Array(
-  RouteServerPropagation.pipe(T.XmlName("item")).annotate({
-    identifier: "RouteServerPropagation",
-  }),
+  RouteServerPropagation.pipe(T.XmlName("item")).annotate({ identifier: "RouteServerPropagation" }),
 );
 export interface GetRouteServerPropagationsResult {
   RouteServerPropagations?: RouteServerPropagation[];
@@ -51389,14 +50358,10 @@ export const RouteServerRoute = /*@__PURE__*/ S.suspend(() =>
     Med: S.optional(S.Number).pipe(T.XmlName("med"), T.Ec2QueryName("Med")),
     NextHopIp: S.optional(S.String).pipe(T.XmlName("nextHopIp"), T.Ec2QueryName("NextHopIp")),
   }),
-).annotate({
-  identifier: "RouteServerRoute",
-}) as any as S.Schema<RouteServerRoute>;
+).annotate({ identifier: "RouteServerRoute" }) as any as S.Schema<RouteServerRoute>;
 export type RouteServerRouteList = RouteServerRoute[];
 export const RouteServerRouteList = /*@__PURE__*/ S.Array(
-  RouteServerRoute.pipe(T.XmlName("item")).annotate({
-    identifier: "RouteServerRoute",
-  }),
+  RouteServerRoute.pipe(T.XmlName("item")).annotate({ identifier: "RouteServerRoute" }),
 );
 export interface GetRouteServerRoutingDatabaseResult {
   AreRoutesPersisted?: boolean;
@@ -51457,14 +50422,10 @@ export const SecurityGroupForVpc = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PrimaryVpcId"),
     ),
   }),
-).annotate({
-  identifier: "SecurityGroupForVpc",
-}) as any as S.Schema<SecurityGroupForVpc>;
+).annotate({ identifier: "SecurityGroupForVpc" }) as any as S.Schema<SecurityGroupForVpc>;
 export type SecurityGroupForVpcList = SecurityGroupForVpc[];
 export const SecurityGroupForVpcList = /*@__PURE__*/ S.Array(
-  SecurityGroupForVpc.pipe(T.XmlName("item")).annotate({
-    identifier: "SecurityGroupForVpc",
-  }),
+  SecurityGroupForVpc.pipe(T.XmlName("item")).annotate({ identifier: "SecurityGroupForVpc" }),
 );
 export interface GetSecurityGroupsForVpcResult {
   NextToken?: string;
@@ -51593,14 +50554,10 @@ export const SpotPlacementScore = /*@__PURE__*/ S.suspend(() =>
     ),
     Score: S.optional(S.Number).pipe(T.XmlName("score"), T.Ec2QueryName("Score")),
   }),
-).annotate({
-  identifier: "SpotPlacementScore",
-}) as any as S.Schema<SpotPlacementScore>;
+).annotate({ identifier: "SpotPlacementScore" }) as any as S.Schema<SpotPlacementScore>;
 export type SpotPlacementScores = SpotPlacementScore[];
 export const SpotPlacementScores = /*@__PURE__*/ S.Array(
-  SpotPlacementScore.pipe(T.XmlName("item")).annotate({
-    identifier: "SpotPlacementScore",
-  }),
+  SpotPlacementScore.pipe(T.XmlName("item")).annotate({ identifier: "SpotPlacementScore" }),
 );
 export interface GetSpotPlacementScoresResult {
   SpotPlacementScores?: SpotPlacementScore[];
@@ -51638,9 +50595,7 @@ export const GetSubnetCidrReservationsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSubnetCidrReservationsRequest>;
 export type SubnetCidrReservationList = SubnetCidrReservation[];
 export const SubnetCidrReservationList = /*@__PURE__*/ S.Array(
-  SubnetCidrReservation.pipe(T.XmlName("item")).annotate({
-    identifier: "SubnetCidrReservation",
-  }),
+  SubnetCidrReservation.pipe(T.XmlName("item")).annotate({ identifier: "SubnetCidrReservation" }),
 );
 export interface GetSubnetCidrReservationsResult {
   SubnetIpv4CidrReservations?: SubnetCidrReservation[];
@@ -52082,10 +51037,9 @@ export interface GetVerifiedAccessEndpointPolicyRequest {
   DryRun?: boolean;
 }
 export const GetVerifiedAccessEndpointPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VerifiedAccessEndpointId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ VerifiedAccessEndpointId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetVerifiedAccessEndpointPolicyRequest",
 }) as any as S.Schema<GetVerifiedAccessEndpointPolicyRequest>;
@@ -52173,10 +51127,9 @@ export interface GetVerifiedAccessGroupPolicyRequest {
   DryRun?: boolean;
 }
 export const GetVerifiedAccessGroupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VerifiedAccessGroupId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ VerifiedAccessGroupId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetVerifiedAccessGroupPolicyRequest",
 }) as any as S.Schema<GetVerifiedAccessGroupPolicyRequest>;
@@ -52318,9 +51271,7 @@ export const VpnConnectionDeviceType = /*@__PURE__*/ S.suspend(() =>
     Platform: S.optional(S.String).pipe(T.XmlName("platform"), T.Ec2QueryName("Platform")),
     Software: S.optional(S.String).pipe(T.XmlName("software"), T.Ec2QueryName("Software")),
   }),
-).annotate({
-  identifier: "VpnConnectionDeviceType",
-}) as any as S.Schema<VpnConnectionDeviceType>;
+).annotate({ identifier: "VpnConnectionDeviceType" }) as any as S.Schema<VpnConnectionDeviceType>;
 export type VpnConnectionDeviceTypeList = VpnConnectionDeviceType[];
 export const VpnConnectionDeviceTypeList = /*@__PURE__*/ S.Array(
   VpnConnectionDeviceType.pipe(T.XmlName("item")).annotate({
@@ -52375,9 +51326,7 @@ export const MaintenanceDetails = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LastMaintenanceApplied"),
     ),
   }),
-).annotate({
-  identifier: "MaintenanceDetails",
-}) as any as S.Schema<MaintenanceDetails>;
+).annotate({ identifier: "MaintenanceDetails" }) as any as S.Schema<MaintenanceDetails>;
 export interface GetVpnTunnelReplacementStatusResult {
   VpnConnectionId?: string;
   TransitGatewayId?: string;
@@ -52477,14 +51426,10 @@ export const ImageDiskContainer = /*@__PURE__*/ S.suspend(() =>
     Url: S.optional(SensitiveString),
     UserBucket: S.optional(UserBucket),
   }),
-).annotate({
-  identifier: "ImageDiskContainer",
-}) as any as S.Schema<ImageDiskContainer>;
+).annotate({ identifier: "ImageDiskContainer" }) as any as S.Schema<ImageDiskContainer>;
 export type ImageDiskContainerList = ImageDiskContainer[];
 export const ImageDiskContainerList = /*@__PURE__*/ S.Array(
-  ImageDiskContainer.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageDiskContainer",
-  }),
+  ImageDiskContainer.pipe(T.XmlName("item")).annotate({ identifier: "ImageDiskContainer" }),
 );
 export interface ImportImageLicenseConfigurationRequest {
   LicenseConfigurationArn?: string;
@@ -52537,9 +51482,7 @@ export const ImportImageRequest = /*@__PURE__*/ S.suspend(() =>
     UsageOperation: S.optional(S.String),
     BootMode: S.optional(BootModeValues),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportImageRequest",
-}) as any as S.Schema<ImportImageRequest>;
+).annotate({ identifier: "ImportImageRequest" }) as any as S.Schema<ImportImageRequest>;
 export interface ImportImageResult {
   Architecture?: string;
   Description?: string;
@@ -52595,16 +51538,12 @@ export const ImportImageResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("UsageOperation"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "ImportImageResult",
-}) as any as S.Schema<ImportImageResult>;
+).annotate({ identifier: "ImportImageResult" }) as any as S.Schema<ImportImageResult>;
 export interface UserData {
   Data?: string;
 }
 export const UserData = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Data: S.optional(S.String).pipe(T.XmlName("data"), T.Ec2QueryName("Data")),
-  }),
+  S.Struct({ Data: S.optional(S.String).pipe(T.XmlName("data"), T.Ec2QueryName("Data")) }),
 ).annotate({ identifier: "UserData" }) as any as S.Schema<UserData>;
 export interface ImportInstanceLaunchSpecification {
   Architecture?: ArchitectureValues;
@@ -52669,16 +51608,12 @@ export const DiskImageDetail = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("ImportManifestUrl"),
     ),
   }),
-).annotate({
-  identifier: "DiskImageDetail",
-}) as any as S.Schema<DiskImageDetail>;
+).annotate({ identifier: "DiskImageDetail" }) as any as S.Schema<DiskImageDetail>;
 export interface VolumeDetail {
   Size?: number;
 }
 export const VolumeDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Size: S.optional(S.Number).pipe(T.XmlName("size"), T.Ec2QueryName("Size")),
-  }),
+  S.Struct({ Size: S.optional(S.Number).pipe(T.XmlName("size"), T.Ec2QueryName("Size")) }),
 ).annotate({ identifier: "VolumeDetail" }) as any as S.Schema<VolumeDetail>;
 export interface DiskImage {
   Description?: string;
@@ -52711,9 +51646,7 @@ export const ImportInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     DiskImages: S.optional(DiskImageList).pipe(T.XmlName("diskImage"), T.Ec2QueryName("DiskImage")),
     Platform: S.optional(PlatformValues).pipe(T.XmlName("platform"), T.Ec2QueryName("Platform")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportInstanceRequest",
-}) as any as S.Schema<ImportInstanceRequest>;
+).annotate({ identifier: "ImportInstanceRequest" }) as any as S.Schema<ImportInstanceRequest>;
 export interface ImportInstanceResult {
   ConversionTask?: ConversionTask;
 }
@@ -52723,9 +51656,7 @@ export const ImportInstanceResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("conversionTask"), T.Ec2QueryName("ConversionTask"))
       .annotate({ identifier: "ConversionTask" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ImportInstanceResult",
-}) as any as S.Schema<ImportInstanceResult>;
+).annotate({ identifier: "ImportInstanceResult" }) as any as S.Schema<ImportInstanceResult>;
 export interface ImportKeyPairRequest {
   TagSpecifications?: TagSpecification[];
   DryRun?: boolean;
@@ -52742,9 +51673,7 @@ export const ImportKeyPairRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("PublicKeyMaterial"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportKeyPairRequest",
-}) as any as S.Schema<ImportKeyPairRequest>;
+).annotate({ identifier: "ImportKeyPairRequest" }) as any as S.Schema<ImportKeyPairRequest>;
 export interface ImportKeyPairResult {
   KeyFingerprint?: string;
   KeyName?: string;
@@ -52761,9 +51690,7 @@ export const ImportKeyPairResult = /*@__PURE__*/ S.suspend(() =>
     KeyPairId: S.optional(S.String).pipe(T.XmlName("keyPairId"), T.Ec2QueryName("KeyPairId")),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "ImportKeyPairResult",
-}) as any as S.Schema<ImportKeyPairResult>;
+).annotate({ identifier: "ImportKeyPairResult" }) as any as S.Schema<ImportKeyPairResult>;
 export interface SnapshotDiskContainer {
   Description?: string;
   Format?: string;
@@ -52777,9 +51704,7 @@ export const SnapshotDiskContainer = /*@__PURE__*/ S.suspend(() =>
     Url: S.optional(SensitiveString),
     UserBucket: S.optional(UserBucket),
   }),
-).annotate({
-  identifier: "SnapshotDiskContainer",
-}) as any as S.Schema<SnapshotDiskContainer>;
+).annotate({ identifier: "SnapshotDiskContainer" }) as any as S.Schema<SnapshotDiskContainer>;
 export interface ImportSnapshotRequest {
   ClientData?: ClientData;
   ClientToken?: string;
@@ -52803,9 +51728,7 @@ export const ImportSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     RoleName: S.optional(S.String),
     TagSpecifications: S.optional(TagSpecificationList).pipe(T.XmlName("TagSpecification")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportSnapshotRequest",
-}) as any as S.Schema<ImportSnapshotRequest>;
+).annotate({ identifier: "ImportSnapshotRequest" }) as any as S.Schema<ImportSnapshotRequest>;
 export interface ImportSnapshotResult {
   Description?: string;
   ImportTaskId?: string;
@@ -52824,9 +51747,7 @@ export const ImportSnapshotResult = /*@__PURE__*/ S.suspend(() =>
       .annotate({ identifier: "SnapshotTaskDetail" }),
     Tags: S.optional(TagList).pipe(T.XmlName("tagSet"), T.Ec2QueryName("TagSet")),
   }).pipe(ns),
-).annotate({
-  identifier: "ImportSnapshotResult",
-}) as any as S.Schema<ImportSnapshotResult>;
+).annotate({ identifier: "ImportSnapshotResult" }) as any as S.Schema<ImportSnapshotResult>;
 export interface ImportVolumeRequest {
   AvailabilityZoneId?: string;
   DryRun?: boolean;
@@ -52851,9 +51772,7 @@ export const ImportVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("volume"), T.Ec2QueryName("Volume"))
       .annotate({ identifier: "VolumeDetail" }),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ImportVolumeRequest",
-}) as any as S.Schema<ImportVolumeRequest>;
+).annotate({ identifier: "ImportVolumeRequest" }) as any as S.Schema<ImportVolumeRequest>;
 export interface ImportVolumeResult {
   ConversionTask?: ConversionTask;
 }
@@ -52863,9 +51782,7 @@ export const ImportVolumeResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("conversionTask"), T.Ec2QueryName("ConversionTask"))
       .annotate({ identifier: "ConversionTask" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ImportVolumeResult",
-}) as any as S.Schema<ImportVolumeResult>;
+).annotate({ identifier: "ImportVolumeResult" }) as any as S.Schema<ImportVolumeResult>;
 export type ListImagesInRecycleBinMaxResults = number;
 export interface ListImagesInRecycleBinRequest {
   ImageIds?: string[];
@@ -52904,14 +51821,10 @@ export const ImageRecycleBinInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RecycleBinExitTime"),
     ),
   }),
-).annotate({
-  identifier: "ImageRecycleBinInfo",
-}) as any as S.Schema<ImageRecycleBinInfo>;
+).annotate({ identifier: "ImageRecycleBinInfo" }) as any as S.Schema<ImageRecycleBinInfo>;
 export type ImageRecycleBinInfoList = ImageRecycleBinInfo[];
 export const ImageRecycleBinInfoList = /*@__PURE__*/ S.Array(
-  ImageRecycleBinInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "ImageRecycleBinInfo",
-  }),
+  ImageRecycleBinInfo.pipe(T.XmlName("item")).annotate({ identifier: "ImageRecycleBinInfo" }),
 );
 export interface ListImagesInRecycleBinResult {
   Images?: ImageRecycleBinInfo[];
@@ -52966,14 +51879,10 @@ export const SnapshotRecycleBinInfo = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
     VolumeId: S.optional(S.String).pipe(T.XmlName("volumeId"), T.Ec2QueryName("VolumeId")),
   }),
-).annotate({
-  identifier: "SnapshotRecycleBinInfo",
-}) as any as S.Schema<SnapshotRecycleBinInfo>;
+).annotate({ identifier: "SnapshotRecycleBinInfo" }) as any as S.Schema<SnapshotRecycleBinInfo>;
 export type SnapshotRecycleBinInfoList = SnapshotRecycleBinInfo[];
 export const SnapshotRecycleBinInfoList = /*@__PURE__*/ S.Array(
-  SnapshotRecycleBinInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "SnapshotRecycleBinInfo",
-  }),
+  SnapshotRecycleBinInfo.pipe(T.XmlName("item")).annotate({ identifier: "SnapshotRecycleBinInfo" }),
 );
 export interface ListSnapshotsInRecycleBinResult {
   Snapshots?: SnapshotRecycleBinInfo[];
@@ -53061,14 +51970,10 @@ export const VolumeRecycleBinInfo = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("RecycleBinExitTime"),
     ),
   }),
-).annotate({
-  identifier: "VolumeRecycleBinInfo",
-}) as any as S.Schema<VolumeRecycleBinInfo>;
+).annotate({ identifier: "VolumeRecycleBinInfo" }) as any as S.Schema<VolumeRecycleBinInfo>;
 export type VolumeRecycleBinInfoList = VolumeRecycleBinInfo[];
 export const VolumeRecycleBinInfoList = /*@__PURE__*/ S.Array(
-  VolumeRecycleBinInfo.pipe(T.XmlName("item")).annotate({
-    identifier: "VolumeRecycleBinInfo",
-  }),
+  VolumeRecycleBinInfo.pipe(T.XmlName("item")).annotate({ identifier: "VolumeRecycleBinInfo" }),
 );
 export interface ListVolumesInRecycleBinResult {
   Volumes?: VolumeRecycleBinInfo[];
@@ -53107,9 +52012,7 @@ export const LockSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
     LockDuration: S.optional(S.Number),
     ExpirationDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "LockSnapshotRequest",
-}) as any as S.Schema<LockSnapshotRequest>;
+).annotate({ identifier: "LockSnapshotRequest" }) as any as S.Schema<LockSnapshotRequest>;
 export interface LockSnapshotResult {
   SnapshotId?: string;
   LockState?: LockState;
@@ -53149,9 +52052,7 @@ export const LockSnapshotResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("LockDurationStartTime"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "LockSnapshotResult",
-}) as any as S.Schema<LockSnapshotResult>;
+).annotate({ identifier: "LockSnapshotResult" }) as any as S.Schema<LockSnapshotResult>;
 export interface ModifyAccountVpcEncryptionControlRequest {
   DryRun?: boolean;
   Mode?: AccountVpcEncryptionControlMode;
@@ -53308,6 +52209,9 @@ export interface ModifyCapacityReservationRequest {
   DryRun?: boolean;
   AdditionalInfo?: string;
   InstanceMatchCriteria?: InstanceMatchCriteria;
+  AcceptModificationTerms?: boolean;
+  StartDate?: Date;
+  QuoteId?: string;
 }
 export const ModifyCapacityReservationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -53319,16 +52223,28 @@ export const ModifyCapacityReservationRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     AdditionalInfo: S.optional(S.String),
     InstanceMatchCriteria: S.optional(InstanceMatchCriteria),
+    AcceptModificationTerms: S.optional(S.Boolean),
+    StartDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    QuoteId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyCapacityReservationRequest",
 }) as any as S.Schema<ModifyCapacityReservationRequest>;
 export interface ModifyCapacityReservationResult {
   Return?: boolean;
+  AdjustmentStatus?: CapacityReservationAdjustmentStatus;
+  AdjustmentDetails?: CapacityReservationAdjustmentDetails;
 }
 export const ModifyCapacityReservationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
+    AdjustmentStatus: S.optional(CapacityReservationAdjustmentStatus).pipe(
+      T.XmlName("adjustmentStatus"),
+      T.Ec2QueryName("AdjustmentStatus"),
+    ),
+    AdjustmentDetails: S.optional(CapacityReservationAdjustmentDetails)
+      .pipe(T.XmlName("adjustmentDetails"), T.Ec2QueryName("AdjustmentDetails"))
+      .annotate({ identifier: "CapacityReservationAdjustmentDetails" }),
   }).pipe(ns),
 ).annotate({
   identifier: "ModifyCapacityReservationResult",
@@ -53366,10 +52282,7 @@ export interface DnsServersOptionsModifyStructure {
   Enabled?: boolean;
 }
 export const DnsServersOptionsModifyStructure = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CustomDnsServers: S.optional(ValueStringList),
-    Enabled: S.optional(S.Boolean),
-  }),
+  S.Struct({ CustomDnsServers: S.optional(ValueStringList), Enabled: S.optional(S.Boolean) }),
 ).annotate({
   identifier: "DnsServersOptionsModifyStructure",
 }) as any as S.Schema<DnsServersOptionsModifyStructure>;
@@ -53391,6 +52304,7 @@ export interface ModifyClientVpnEndpointRequest {
   ClientRouteEnforcementOptions?: ClientRouteEnforcementOptions;
   DisconnectOnSessionTimeout?: boolean;
   TransitGatewayConfiguration?: TransitGatewayConfigurationInputStructure;
+  DevicePostureOptions?: DevicePostureOptions;
 }
 export const ModifyClientVpnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -53411,6 +52325,7 @@ export const ModifyClientVpnEndpointRequest = /*@__PURE__*/ S.suspend(() =>
     ClientRouteEnforcementOptions: S.optional(ClientRouteEnforcementOptions),
     DisconnectOnSessionTimeout: S.optional(S.Boolean),
     TransitGatewayConfiguration: S.optional(TransitGatewayConfigurationInputStructure),
+    DevicePostureOptions: S.optional(DevicePostureOptions),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyClientVpnEndpointRequest",
@@ -53425,6 +52340,39 @@ export const ModifyClientVpnEndpointResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ModifyClientVpnEndpointResult",
 }) as any as S.Schema<ModifyClientVpnEndpointResult>;
+export interface ModifyClientVpnEndpointAuthorizationPolicyRequest {
+  ClientVpnEndpointId?: string;
+  PolicyDocument?: string;
+  Description?: string;
+  ShadowMode?: ClientVpnAuthorizationPolicyShadowMode;
+  ClientToken?: string;
+  DryRun?: boolean;
+}
+export const ModifyClientVpnEndpointAuthorizationPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientVpnEndpointId: S.optional(S.String),
+    PolicyDocument: S.optional(S.String),
+    Description: S.optional(S.String),
+    ShadowMode: S.optional(ClientVpnAuthorizationPolicyShadowMode),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ModifyClientVpnEndpointAuthorizationPolicyRequest",
+}) as any as S.Schema<ModifyClientVpnEndpointAuthorizationPolicyRequest>;
+export interface ModifyClientVpnEndpointAuthorizationPolicyResult {
+  Status?: ClientVpnAuthorizationPolicyStatus;
+}
+export const ModifyClientVpnEndpointAuthorizationPolicyResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Status: S.optional(ClientVpnAuthorizationPolicyStatus).pipe(
+      T.XmlName("status"),
+      T.Ec2QueryName("Status"),
+    ),
+  }).pipe(ns),
+).annotate({
+  identifier: "ModifyClientVpnEndpointAuthorizationPolicyResult",
+}) as any as S.Schema<ModifyClientVpnEndpointAuthorizationPolicyResult>;
 export interface ModifyDefaultCreditSpecificationRequest {
   DryRun?: boolean;
   InstanceFamily?: UnlimitedSupportedInstanceFamily;
@@ -53459,10 +52407,9 @@ export interface ModifyEbsDefaultKmsKeyIdRequest {
   DryRun?: boolean;
 }
 export const ModifyEbsDefaultKmsKeyIdRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    KmsKeyId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ KmsKeyId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ModifyEbsDefaultKmsKeyIdRequest",
 }) as any as S.Schema<ModifyEbsDefaultKmsKeyIdRequest>;
@@ -53495,9 +52442,7 @@ export const ModifyFleetRequest = /*@__PURE__*/ S.suspend(() =>
     TargetCapacitySpecification: S.optional(TargetCapacitySpecificationRequest),
     Context: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyFleetRequest",
-}) as any as S.Schema<ModifyFleetRequest>;
+).annotate({ identifier: "ModifyFleetRequest" }) as any as S.Schema<ModifyFleetRequest>;
 export interface ModifyFleetResult {
   Return?: boolean;
 }
@@ -53505,9 +52450,7 @@ export const ModifyFleetResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyFleetResult",
-}) as any as S.Schema<ModifyFleetResult>;
+).annotate({ identifier: "ModifyFleetResult" }) as any as S.Schema<ModifyFleetResult>;
 export type OperationType = "add" | "remove" | (string & {});
 export const OperationType = S.String;
 
@@ -53522,18 +52465,11 @@ export interface LoadPermissionRequest {
   UserId?: string;
 }
 export const LoadPermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Group: S.optional(PermissionGroup),
-    UserId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LoadPermissionRequest",
-}) as any as S.Schema<LoadPermissionRequest>;
+  S.Struct({ Group: S.optional(PermissionGroup), UserId: S.optional(S.String) }),
+).annotate({ identifier: "LoadPermissionRequest" }) as any as S.Schema<LoadPermissionRequest>;
 export type LoadPermissionListRequest = LoadPermissionRequest[];
 export const LoadPermissionListRequest = /*@__PURE__*/ S.Array(
-  LoadPermissionRequest.pipe(T.XmlName("item")).annotate({
-    identifier: "LoadPermissionRequest",
-  }),
+  LoadPermissionRequest.pipe(T.XmlName("item")).annotate({ identifier: "LoadPermissionRequest" }),
 );
 export interface LoadPermissionModifications {
   Add?: LoadPermissionRequest[];
@@ -53607,14 +52543,10 @@ export const ModifyHostsRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AutoPlacement"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyHostsRequest",
-}) as any as S.Schema<ModifyHostsRequest>;
+).annotate({ identifier: "ModifyHostsRequest" }) as any as S.Schema<ModifyHostsRequest>;
 export type UnsuccessfulItemList = UnsuccessfulItem[];
 export const UnsuccessfulItemList = /*@__PURE__*/ S.Array(
-  UnsuccessfulItem.pipe(T.XmlName("item")).annotate({
-    identifier: "UnsuccessfulItem",
-  }),
+  UnsuccessfulItem.pipe(T.XmlName("item")).annotate({ identifier: "UnsuccessfulItem" }),
 );
 export interface ModifyHostsResult {
   Successful?: string[];
@@ -53631,9 +52563,7 @@ export const ModifyHostsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Unsuccessful"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyHostsResult",
-}) as any as S.Schema<ModifyHostsResult>;
+).annotate({ identifier: "ModifyHostsResult" }) as any as S.Schema<ModifyHostsResult>;
 export interface ModifyIdentityIdFormatRequest {
   Resource?: string;
   UseLongIds?: boolean;
@@ -53662,28 +52592,20 @@ export interface ModifyIdFormatRequest {
   UseLongIds?: boolean;
 }
 export const ModifyIdFormatRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Resource: S.optional(S.String),
-    UseLongIds: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyIdFormatRequest",
-}) as any as S.Schema<ModifyIdFormatRequest>;
+  S.Struct({ Resource: S.optional(S.String), UseLongIds: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ModifyIdFormatRequest" }) as any as S.Schema<ModifyIdFormatRequest>;
 export interface ModifyIdFormatResponse {}
 export const ModifyIdFormatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "ModifyIdFormatResponse",
-  },
+  { identifier: "ModifyIdFormatResponse" },
 ) as any as S.Schema<ModifyIdFormatResponse>;
 export interface LaunchPermissionModifications {
   Add?: LaunchPermission[];
   Remove?: LaunchPermission[];
 }
 export const LaunchPermissionModifications = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Add: S.optional(LaunchPermissionList),
-    Remove: S.optional(LaunchPermissionList),
-  }),
+  S.Struct({ Add: S.optional(LaunchPermissionList), Remove: S.optional(LaunchPermissionList) }),
 ).annotate({
   identifier: "LaunchPermissionModifications",
 }) as any as S.Schema<LaunchPermissionModifications>;
@@ -53742,9 +52664,7 @@ export interface EnclaveOptionsRequest {
 }
 export const EnclaveOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Enabled: S.optional(S.Boolean) }),
-).annotate({
-  identifier: "EnclaveOptionsRequest",
-}) as any as S.Schema<EnclaveOptionsRequest>;
+).annotate({ identifier: "EnclaveOptionsRequest" }) as any as S.Schema<EnclaveOptionsRequest>;
 export type ModifyInstanceAttributeValue = string | redacted.Redacted<string>;
 export interface EbsInstanceBlockDeviceSpecification {
   VolumeId?: string;
@@ -53785,16 +52705,12 @@ export const InstanceBlockDeviceMappingSpecificationList = /*@__PURE__*/ S.Array
     identifier: "InstanceBlockDeviceMappingSpecification",
   }),
 );
-export interface BlobAttributeValue {
-  Value?: Uint8Array;
+export interface SecureBlobAttributeValue {
+  Value?: Uint8Array | redacted.Redacted<Uint8Array>;
 }
-export const BlobAttributeValue = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Value: S.optional(T.Blob).pipe(T.XmlName("value"), T.Ec2QueryName("Value")),
-  }),
-).annotate({
-  identifier: "BlobAttributeValue",
-}) as any as S.Schema<BlobAttributeValue>;
+export const SecureBlobAttributeValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Value: S.optional(SensitiveBlob).pipe(T.XmlName("value"), T.Ec2QueryName("Value")) }),
+).annotate({ identifier: "SecureBlobAttributeValue" }) as any as S.Schema<SecureBlobAttributeValue>;
 export interface ModifyInstanceAttributeRequest {
   SourceDestCheck?: AttributeBooleanValue;
   EnclaveOptions?: EnclaveOptionsRequest;
@@ -53808,7 +52724,7 @@ export interface ModifyInstanceAttributeRequest {
   InstanceType?: AttributeValue;
   Kernel?: AttributeValue;
   Ramdisk?: AttributeValue;
-  UserData?: BlobAttributeValue;
+  UserData?: SecureBlobAttributeValue;
   InstanceInitiatedShutdownBehavior?: AttributeValue;
   Groups?: string[];
   EbsOptimized?: AttributeBooleanValue;
@@ -53843,9 +52759,9 @@ export const ModifyInstanceAttributeRequest = /*@__PURE__*/ S.suspend(() =>
     Ramdisk: S.optional(AttributeValue)
       .pipe(T.XmlName("ramdisk"), T.Ec2QueryName("Ramdisk"))
       .annotate({ identifier: "AttributeValue" }),
-    UserData: S.optional(BlobAttributeValue)
+    UserData: S.optional(SecureBlobAttributeValue)
       .pipe(T.XmlName("userData"), T.Ec2QueryName("UserData"))
-      .annotate({ identifier: "BlobAttributeValue" }),
+      .annotate({ identifier: "SecureBlobAttributeValue" }),
     InstanceInitiatedShutdownBehavior: S.optional(AttributeValue)
       .pipe(
         T.XmlName("instanceInitiatedShutdownBehavior"),
@@ -53983,10 +52899,7 @@ export interface InstanceCreditSpecificationRequest {
   CpuCredits?: string;
 }
 export const InstanceCreditSpecificationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceId: S.optional(S.String),
-    CpuCredits: S.optional(S.String),
-  }),
+  S.Struct({ InstanceId: S.optional(S.String), CpuCredits: S.optional(S.String) }),
 ).annotate({
   identifier: "InstanceCreditSpecificationRequest",
 }) as any as S.Schema<InstanceCreditSpecificationRequest>;
@@ -54060,9 +52973,7 @@ export const UnsuccessfulInstanceCreditSpecificationItem = /*@__PURE__*/ S.suspe
     InstanceId: S.optional(S.String).pipe(T.XmlName("instanceId"), T.Ec2QueryName("InstanceId")),
     Error: S.optional(UnsuccessfulInstanceCreditSpecificationItemError)
       .pipe(T.XmlName("error"), T.Ec2QueryName("Error"))
-      .annotate({
-        identifier: "UnsuccessfulInstanceCreditSpecificationItemError",
-      }),
+      .annotate({ identifier: "UnsuccessfulInstanceCreditSpecificationItemError" }),
   }),
 ).annotate({
   identifier: "UnsuccessfulInstanceCreditSpecificationItem",
@@ -54388,9 +53299,7 @@ export const ModifyIpamRequest = /*@__PURE__*/ S.suspend(() =>
     EnablePrivateGua: S.optional(S.Boolean),
     MeteredAccount: S.optional(IpamMeteredAccount),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyIpamRequest",
-}) as any as S.Schema<ModifyIpamRequest>;
+).annotate({ identifier: "ModifyIpamRequest" }) as any as S.Schema<ModifyIpamRequest>;
 export interface ModifyIpamResult {
   Ipam?: Ipam;
 }
@@ -54400,9 +53309,7 @@ export const ModifyIpamResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipam"), T.Ec2QueryName("Ipam"))
       .annotate({ identifier: "Ipam" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyIpamResult",
-}) as any as S.Schema<ModifyIpamResult>;
+).annotate({ identifier: "ModifyIpamResult" }) as any as S.Schema<ModifyIpamResult>;
 export interface IpamPolicyAllocationRuleRequest {
   SourceIpamPoolId?: string;
 }
@@ -54478,9 +53385,7 @@ export const ModifyIpamPoolRequest = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("RemoveAllocationResourceTag"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyIpamPoolRequest",
-}) as any as S.Schema<ModifyIpamPoolRequest>;
+).annotate({ identifier: "ModifyIpamPoolRequest" }) as any as S.Schema<ModifyIpamPoolRequest>;
 export interface ModifyIpamPoolResult {
   IpamPool?: IpamPool;
 }
@@ -54490,9 +53395,7 @@ export const ModifyIpamPoolResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamPool"), T.Ec2QueryName("IpamPool"))
       .annotate({ identifier: "IpamPool" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyIpamPoolResult",
-}) as any as S.Schema<ModifyIpamPoolResult>;
+).annotate({ identifier: "ModifyIpamPoolResult" }) as any as S.Schema<ModifyIpamPoolResult>;
 export interface ModifyIpamPoolAllocationRequest {
   DryRun?: boolean;
   IpamPoolAllocationId?: string;
@@ -54736,9 +53639,7 @@ export const ModifyIpamScopeRequest = /*@__PURE__*/ S.suspend(() =>
     ExternalAuthorityConfiguration: S.optional(ExternalAuthorityConfiguration),
     RemoveExternalAuthorityConfiguration: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyIpamScopeRequest",
-}) as any as S.Schema<ModifyIpamScopeRequest>;
+).annotate({ identifier: "ModifyIpamScopeRequest" }) as any as S.Schema<ModifyIpamScopeRequest>;
 export interface ModifyIpamScopeResult {
   IpamScope?: IpamScope;
 }
@@ -54748,9 +53649,7 @@ export const ModifyIpamScopeResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("ipamScope"), T.Ec2QueryName("IpamScope"))
       .annotate({ identifier: "IpamScope" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyIpamScopeResult",
-}) as any as S.Schema<ModifyIpamScopeResult>;
+).annotate({ identifier: "ModifyIpamScopeResult" }) as any as S.Schema<ModifyIpamScopeResult>;
 export interface ModifyLaunchTemplateRequest {
   DryRun?: boolean;
   ClientToken?: string;
@@ -54818,9 +53717,7 @@ export interface RemovePrefixListEntry {
 }
 export const RemovePrefixListEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cidr: S.optional(S.String) }),
-).annotate({
-  identifier: "RemovePrefixListEntry",
-}) as any as S.Schema<RemovePrefixListEntry>;
+).annotate({ identifier: "RemovePrefixListEntry" }) as any as S.Schema<RemovePrefixListEntry>;
 export type RemovePrefixListEntries = RemovePrefixListEntry[];
 export const RemovePrefixListEntries = /*@__PURE__*/ S.Array(RemovePrefixListEntry);
 export interface ModifyManagedPrefixListRequest {
@@ -55063,9 +53960,7 @@ export const ModifyRouteServerRequest = /*@__PURE__*/ S.suspend(() =>
     SnsNotificationsEnabled: S.optional(S.Boolean),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyRouteServerRequest",
-}) as any as S.Schema<ModifyRouteServerRequest>;
+).annotate({ identifier: "ModifyRouteServerRequest" }) as any as S.Schema<ModifyRouteServerRequest>;
 export interface ModifyRouteServerResult {
   RouteServer?: RouteServer;
 }
@@ -55075,9 +53970,7 @@ export const ModifyRouteServerResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("routeServer"), T.Ec2QueryName("RouteServer"))
       .annotate({ identifier: "RouteServer" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyRouteServerResult",
-}) as any as S.Schema<ModifyRouteServerResult>;
+).annotate({ identifier: "ModifyRouteServerResult" }) as any as S.Schema<ModifyRouteServerResult>;
 export interface SecurityGroupRuleRequest {
   IpProtocol?: string;
   FromPort?: number;
@@ -55099,9 +53992,7 @@ export const SecurityGroupRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ReferencedGroupId: S.optional(S.String),
     Description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SecurityGroupRuleRequest",
-}) as any as S.Schema<SecurityGroupRuleRequest>;
+).annotate({ identifier: "SecurityGroupRuleRequest" }) as any as S.Schema<SecurityGroupRuleRequest>;
 export interface SecurityGroupRuleUpdate {
   SecurityGroupRuleId?: string;
   SecurityGroupRule?: SecurityGroupRuleRequest;
@@ -55111,9 +54002,7 @@ export const SecurityGroupRuleUpdate = /*@__PURE__*/ S.suspend(() =>
     SecurityGroupRuleId: S.optional(S.String),
     SecurityGroupRule: S.optional(SecurityGroupRuleRequest),
   }),
-).annotate({
-  identifier: "SecurityGroupRuleUpdate",
-}) as any as S.Schema<SecurityGroupRuleUpdate>;
+).annotate({ identifier: "SecurityGroupRuleUpdate" }) as any as S.Schema<SecurityGroupRuleUpdate>;
 export type SecurityGroupRuleUpdateList = SecurityGroupRuleUpdate[];
 export const SecurityGroupRuleUpdateList = /*@__PURE__*/ S.Array(
   SecurityGroupRuleUpdate.pipe(T.XmlName("item")).annotate({
@@ -55215,9 +54104,7 @@ export const ModifySnapshotTierResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("TieringStartTime"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifySnapshotTierResult",
-}) as any as S.Schema<ModifySnapshotTierResult>;
+).annotate({ identifier: "ModifySnapshotTierResult" }) as any as S.Schema<ModifySnapshotTierResult>;
 export interface ModifySpotFleetRequestRequest {
   LaunchTemplateConfigs?: LaunchTemplateConfig[];
   OnDemandTargetCapacity?: number;
@@ -55914,10 +54801,7 @@ export interface VerifiedAccessLogCloudWatchLogsDestinationOptions {
   LogGroup?: string;
 }
 export const VerifiedAccessLogCloudWatchLogsDestinationOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    LogGroup: S.optional(S.String),
-  }),
+  S.Struct({ Enabled: S.optional(S.Boolean), LogGroup: S.optional(S.String) }),
 ).annotate({
   identifier: "VerifiedAccessLogCloudWatchLogsDestinationOptions",
 }) as any as S.Schema<VerifiedAccessLogCloudWatchLogsDestinationOptions>;
@@ -55926,10 +54810,7 @@ export interface VerifiedAccessLogKinesisDataFirehoseDestinationOptions {
   DeliveryStream?: string;
 }
 export const VerifiedAccessLogKinesisDataFirehoseDestinationOptions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Enabled: S.optional(S.Boolean),
-    DeliveryStream: S.optional(S.String),
-  }),
+  S.Struct({ Enabled: S.optional(S.Boolean), DeliveryStream: S.optional(S.String) }),
 ).annotate({
   identifier: "VerifiedAccessLogKinesisDataFirehoseDestinationOptions",
 }) as any as S.Schema<VerifiedAccessLogKinesisDataFirehoseDestinationOptions>;
@@ -55948,9 +54829,7 @@ export const VerifiedAccessLogOptions = /*@__PURE__*/ S.suspend(() =>
     LogVersion: S.optional(S.String),
     IncludeTrustContext: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "VerifiedAccessLogOptions",
-}) as any as S.Schema<VerifiedAccessLogOptions>;
+).annotate({ identifier: "VerifiedAccessLogOptions" }) as any as S.Schema<VerifiedAccessLogOptions>;
 export interface ModifyVerifiedAccessInstanceLoggingConfigurationRequest {
   VerifiedAccessInstanceId?: string;
   AccessLogs?: VerifiedAccessLogOptions;
@@ -56088,9 +54967,7 @@ export const ModifyVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     Throughput: S.optional(S.Number),
     MultiAttachEnabled: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyVolumeRequest",
-}) as any as S.Schema<ModifyVolumeRequest>;
+).annotate({ identifier: "ModifyVolumeRequest" }) as any as S.Schema<ModifyVolumeRequest>;
 export interface ModifyVolumeResult {
   VolumeModification?: VolumeModification;
 }
@@ -56100,9 +54977,7 @@ export const ModifyVolumeResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("volumeModification"), T.Ec2QueryName("VolumeModification"))
       .annotate({ identifier: "VolumeModification" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyVolumeResult",
-}) as any as S.Schema<ModifyVolumeResult>;
+).annotate({ identifier: "ModifyVolumeResult" }) as any as S.Schema<ModifyVolumeResult>;
 export interface ModifyVolumeAttributeRequest {
   AutoEnableIO?: AttributeBooleanValue;
   VolumeId?: string;
@@ -56281,9 +55156,7 @@ export const ModifyVpcEndpointRequest = /*@__PURE__*/ S.suspend(() =>
       T.XmlName("SubnetConfiguration"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyVpcEndpointRequest",
-}) as any as S.Schema<ModifyVpcEndpointRequest>;
+).annotate({ identifier: "ModifyVpcEndpointRequest" }) as any as S.Schema<ModifyVpcEndpointRequest>;
 export interface ModifyVpcEndpointResult {
   Return?: boolean;
 }
@@ -56291,9 +55164,7 @@ export const ModifyVpcEndpointResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyVpcEndpointResult",
-}) as any as S.Schema<ModifyVpcEndpointResult>;
+).annotate({ identifier: "ModifyVpcEndpointResult" }) as any as S.Schema<ModifyVpcEndpointResult>;
 export interface ModifyVpcEndpointConnectionNotificationRequest {
   DryRun?: boolean;
   ConnectionNotificationId?: string;
@@ -56474,9 +55345,7 @@ export const AddedPrincipal = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "AddedPrincipal" }) as any as S.Schema<AddedPrincipal>;
 export type AddedPrincipalSet = AddedPrincipal[];
 export const AddedPrincipalSet = /*@__PURE__*/ S.Array(
-  AddedPrincipal.pipe(T.XmlName("item")).annotate({
-    identifier: "AddedPrincipal",
-  }),
+  AddedPrincipal.pipe(T.XmlName("item")).annotate({ identifier: "AddedPrincipal" }),
 );
 export interface ModifyVpcEndpointServicePermissionsResult {
   AddedPrincipals?: AddedPrincipal[];
@@ -56543,9 +55412,7 @@ export const PeeringConnectionOptions = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("AllowEgressFromLocalVpcToRemoteClassicLink"),
     ),
   }),
-).annotate({
-  identifier: "PeeringConnectionOptions",
-}) as any as S.Schema<PeeringConnectionOptions>;
+).annotate({ identifier: "PeeringConnectionOptions" }) as any as S.Schema<PeeringConnectionOptions>;
 export interface ModifyVpcPeeringConnectionOptionsResult {
   AccepterPeeringConnectionOptions?: PeeringConnectionOptions;
   RequesterPeeringConnectionOptions?: PeeringConnectionOptions;
@@ -56582,9 +55449,7 @@ export const ModifyVpcTenancyRequest = /*@__PURE__*/ S.suspend(() =>
     InstanceTenancy: S.optional(VpcTenancy),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ModifyVpcTenancyRequest",
-}) as any as S.Schema<ModifyVpcTenancyRequest>;
+).annotate({ identifier: "ModifyVpcTenancyRequest" }) as any as S.Schema<ModifyVpcTenancyRequest>;
 export interface ModifyVpcTenancyResult {
   ReturnValue?: boolean;
 }
@@ -56592,9 +55457,7 @@ export const ModifyVpcTenancyResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ReturnValue: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "ModifyVpcTenancyResult",
-}) as any as S.Schema<ModifyVpcTenancyResult>;
+).annotate({ identifier: "ModifyVpcTenancyResult" }) as any as S.Schema<ModifyVpcTenancyResult>;
 export interface ModifyVpnConnectionRequest {
   VpnConnectionId?: string;
   TransitGatewayId?: string;
@@ -56786,9 +55649,7 @@ export const MonitorInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     InstanceIds: S.optional(InstanceIdStringList).pipe(T.XmlName("InstanceId")),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "MonitorInstancesRequest",
-}) as any as S.Schema<MonitorInstancesRequest>;
+).annotate({ identifier: "MonitorInstancesRequest" }) as any as S.Schema<MonitorInstancesRequest>;
 export interface InstanceMonitoring {
   InstanceId?: string;
   Monitoring?: Monitoring;
@@ -56800,14 +55661,10 @@ export const InstanceMonitoring = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("monitoring"), T.Ec2QueryName("Monitoring"))
       .annotate({ identifier: "Monitoring" }),
   }),
-).annotate({
-  identifier: "InstanceMonitoring",
-}) as any as S.Schema<InstanceMonitoring>;
+).annotate({ identifier: "InstanceMonitoring" }) as any as S.Schema<InstanceMonitoring>;
 export type InstanceMonitoringList = InstanceMonitoring[];
 export const InstanceMonitoringList = /*@__PURE__*/ S.Array(
-  InstanceMonitoring.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceMonitoring",
-  }),
+  InstanceMonitoring.pipe(T.XmlName("item")).annotate({ identifier: "InstanceMonitoring" }),
 );
 export interface MonitorInstancesResult {
   InstanceMonitorings?: InstanceMonitoring[];
@@ -56819,9 +55676,7 @@ export const MonitorInstancesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstancesSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "MonitorInstancesResult",
-}) as any as S.Schema<MonitorInstancesResult>;
+).annotate({ identifier: "MonitorInstancesResult" }) as any as S.Schema<MonitorInstancesResult>;
 export interface MoveAddressToVpcRequest {
   DryRun?: boolean;
   PublicIp?: string;
@@ -56831,9 +55686,7 @@ export const MoveAddressToVpcRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     PublicIp: S.optional(S.String).pipe(T.XmlName("publicIp"), T.Ec2QueryName("PublicIp")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "MoveAddressToVpcRequest",
-}) as any as S.Schema<MoveAddressToVpcRequest>;
+).annotate({ identifier: "MoveAddressToVpcRequest" }) as any as S.Schema<MoveAddressToVpcRequest>;
 export type Status = "MoveInProgress" | "InVpc" | "InClassic" | (string & {});
 export const Status = S.String;
 
@@ -56849,9 +55702,7 @@ export const MoveAddressToVpcResult = /*@__PURE__*/ S.suspend(() =>
     ),
     Status: S.optional(Status).pipe(T.XmlName("status"), T.Ec2QueryName("Status")),
   }).pipe(ns),
-).annotate({
-  identifier: "MoveAddressToVpcResult",
-}) as any as S.Schema<MoveAddressToVpcResult>;
+).annotate({ identifier: "MoveAddressToVpcResult" }) as any as S.Schema<MoveAddressToVpcResult>;
 export interface MoveByoipCidrToIpamRequest {
   DryRun?: boolean;
   Cidr?: string;
@@ -56928,9 +55779,7 @@ export interface CidrAuthorizationContext {
 }
 export const CidrAuthorizationContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.optional(S.String), Signature: S.optional(S.String) }),
-).annotate({
-  identifier: "CidrAuthorizationContext",
-}) as any as S.Schema<CidrAuthorizationContext>;
+).annotate({ identifier: "CidrAuthorizationContext" }) as any as S.Schema<CidrAuthorizationContext>;
 export interface ProvisionByoipCidrRequest {
   Cidr?: string;
   CidrAuthorizationContext?: CidrAuthorizationContext;
@@ -56964,18 +55813,14 @@ export const ProvisionByoipCidrResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("byoipCidr"), T.Ec2QueryName("ByoipCidr"))
       .annotate({ identifier: "ByoipCidr" }),
   }).pipe(ns),
-).annotate({
-  identifier: "ProvisionByoipCidrResult",
-}) as any as S.Schema<ProvisionByoipCidrResult>;
+).annotate({ identifier: "ProvisionByoipCidrResult" }) as any as S.Schema<ProvisionByoipCidrResult>;
 export interface AsnAuthorizationContext {
   Message?: string;
   Signature?: string;
 }
 export const AsnAuthorizationContext = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Message: S.optional(S.String), Signature: S.optional(S.String) }),
-).annotate({
-  identifier: "AsnAuthorizationContext",
-}) as any as S.Schema<AsnAuthorizationContext>;
+).annotate({ identifier: "AsnAuthorizationContext" }) as any as S.Schema<AsnAuthorizationContext>;
 export interface ProvisionIpamByoasnRequest {
   DryRun?: boolean;
   IpamId?: string;
@@ -57244,18 +56089,11 @@ export interface PurchaseRequest {
   PurchaseToken?: string;
 }
 export const PurchaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceCount: S.optional(S.Number),
-    PurchaseToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "PurchaseRequest",
-}) as any as S.Schema<PurchaseRequest>;
+  S.Struct({ InstanceCount: S.optional(S.Number), PurchaseToken: S.optional(S.String) }),
+).annotate({ identifier: "PurchaseRequest" }) as any as S.Schema<PurchaseRequest>;
 export type PurchaseRequestSet = PurchaseRequest[];
 export const PurchaseRequestSet = /*@__PURE__*/ S.Array(
-  PurchaseRequest.pipe(T.XmlName("PurchaseRequest")).annotate({
-    identifier: "PurchaseRequest",
-  }),
+  PurchaseRequest.pipe(T.XmlName("PurchaseRequest")).annotate({ identifier: "PurchaseRequest" }),
 );
 export interface PurchaseScheduledInstancesRequest {
   ClientToken?: string;
@@ -57273,9 +56111,7 @@ export const PurchaseScheduledInstancesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PurchaseScheduledInstancesRequest>;
 export type PurchasedScheduledInstanceSet = ScheduledInstance[];
 export const PurchasedScheduledInstanceSet = /*@__PURE__*/ S.Array(
-  ScheduledInstance.pipe(T.XmlName("item")).annotate({
-    identifier: "ScheduledInstance",
-  }),
+  ScheduledInstance.pipe(T.XmlName("item")).annotate({ identifier: "ScheduledInstance" }),
 );
 export interface PurchaseScheduledInstancesResult {
   ScheduledInstanceSet?: ScheduledInstance[];
@@ -57299,15 +56135,11 @@ export const RebootInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     InstanceIds: S.optional(InstanceIdStringList).pipe(T.XmlName("InstanceId")),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RebootInstancesRequest",
-}) as any as S.Schema<RebootInstancesRequest>;
+).annotate({ identifier: "RebootInstancesRequest" }) as any as S.Schema<RebootInstancesRequest>;
 export interface RebootInstancesResponse {}
 export const RebootInstancesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RebootInstancesResponse",
-}) as any as S.Schema<RebootInstancesResponse>;
+).annotate({ identifier: "RebootInstancesResponse" }) as any as S.Schema<RebootInstancesResponse>;
 export type BillingProductList = string[];
 export const BillingProductList = /*@__PURE__*/ S.Array(S.String.pipe(T.XmlName("item")));
 export type ImageUefiDataRequest = string | redacted.Redacted<string>;
@@ -57366,9 +56198,7 @@ export const RegisterImageRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     EnaSupport: S.optional(S.Boolean).pipe(T.XmlName("enaSupport"), T.Ec2QueryName("EnaSupport")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RegisterImageRequest",
-}) as any as S.Schema<RegisterImageRequest>;
+).annotate({ identifier: "RegisterImageRequest" }) as any as S.Schema<RegisterImageRequest>;
 export interface RegisterImageResult {
   ImageId?: string;
 }
@@ -57376,9 +56206,7 @@ export const RegisterImageResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ImageId: S.optional(S.String).pipe(T.XmlName("imageId"), T.Ec2QueryName("ImageId")),
   }).pipe(ns),
-).annotate({
-  identifier: "RegisterImageResult",
-}) as any as S.Schema<RegisterImageResult>;
+).annotate({ identifier: "RegisterImageResult" }) as any as S.Schema<RegisterImageResult>;
 export interface RegisterInstanceTagAttributeRequest {
   IncludeAllTagsOfInstance?: boolean;
   InstanceTagKeys?: string[];
@@ -57464,9 +56292,7 @@ export const RegisterTransitGatewayMulticastGroupMembersResult = /*@__PURE__*/ S
         T.XmlName("registeredMulticastGroupMembers"),
         T.Ec2QueryName("RegisteredMulticastGroupMembers"),
       )
-      .annotate({
-        identifier: "TransitGatewayMulticastRegisteredGroupMembers",
-      }),
+      .annotate({ identifier: "TransitGatewayMulticastRegisteredGroupMembers" }),
   }).pipe(ns),
 ).annotate({
   identifier: "RegisterTransitGatewayMulticastGroupMembersResult",
@@ -57520,9 +56346,7 @@ export const RegisterTransitGatewayMulticastGroupSourcesResult = /*@__PURE__*/ S
         T.XmlName("registeredMulticastGroupSources"),
         T.Ec2QueryName("RegisteredMulticastGroupSources"),
       )
-      .annotate({
-        identifier: "TransitGatewayMulticastRegisteredGroupSources",
-      }),
+      .annotate({ identifier: "TransitGatewayMulticastRegisteredGroupSources" }),
   }).pipe(ns),
 ).annotate({
   identifier: "RegisterTransitGatewayMulticastGroupSourcesResult",
@@ -57532,10 +56356,9 @@ export interface RejectCapacityReservationBillingOwnershipRequest {
   CapacityReservationId?: string;
 }
 export const RejectCapacityReservationBillingOwnershipRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    CapacityReservationId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), CapacityReservationId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "RejectCapacityReservationBillingOwnershipRequest",
 }) as any as S.Schema<RejectCapacityReservationBillingOwnershipRequest>;
@@ -57720,14 +56543,10 @@ export const ReleaseAddressRequest = /*@__PURE__*/ S.suspend(() =>
     NetworkBorderGroup: S.optional(S.String),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReleaseAddressRequest",
-}) as any as S.Schema<ReleaseAddressRequest>;
+).annotate({ identifier: "ReleaseAddressRequest" }) as any as S.Schema<ReleaseAddressRequest>;
 export interface ReleaseAddressResponse {}
 export const ReleaseAddressResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  {
-    identifier: "ReleaseAddressResponse",
-  },
+  { identifier: "ReleaseAddressResponse" },
 ) as any as S.Schema<ReleaseAddressResponse>;
 export interface ReleaseHostsRequest {
   HostIds?: string[];
@@ -57736,9 +56555,7 @@ export const ReleaseHostsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     HostIds: S.optional(RequestHostIdList).pipe(T.XmlName("hostId"), T.Ec2QueryName("HostId")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReleaseHostsRequest",
-}) as any as S.Schema<ReleaseHostsRequest>;
+).annotate({ identifier: "ReleaseHostsRequest" }) as any as S.Schema<ReleaseHostsRequest>;
 export interface ReleaseHostsResult {
   Successful?: string[];
   Unsuccessful?: UnsuccessfulItem[];
@@ -57754,9 +56571,7 @@ export const ReleaseHostsResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("Unsuccessful"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "ReleaseHostsResult",
-}) as any as S.Schema<ReleaseHostsResult>;
+).annotate({ identifier: "ReleaseHostsResult" }) as any as S.Schema<ReleaseHostsResult>;
 export interface ReleaseIpamPoolAllocationRequest {
   DryRun?: boolean;
   IpamPoolId?: string;
@@ -57878,9 +56693,7 @@ export const ImageCriterionRequest = /*@__PURE__*/ S.suspend(() =>
     CreationDateCondition: S.optional(CreationDateConditionRequest),
     ImageWatermarks: S.optional(ImageWatermarkFilterRequestList).pipe(T.XmlName("ImageWatermark")),
   }),
-).annotate({
-  identifier: "ImageCriterionRequest",
-}) as any as S.Schema<ImageCriterionRequest>;
+).annotate({ identifier: "ImageCriterionRequest" }) as any as S.Schema<ImageCriterionRequest>;
 export type ImageCriterionRequestList = ImageCriterionRequest[];
 export const ImageCriterionRequestList = /*@__PURE__*/ S.Array(
   ImageCriterionRequest.pipe(T.XmlName("ImageCriterion")).annotate({
@@ -58101,9 +56914,7 @@ export const ReplaceRouteRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("NatGatewayId"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReplaceRouteRequest",
-}) as any as S.Schema<ReplaceRouteRequest>;
+).annotate({ identifier: "ReplaceRouteRequest" }) as any as S.Schema<ReplaceRouteRequest>;
 export interface ReplaceRouteResponse {}
 export const ReplaceRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "ReplaceRouteResponse",
@@ -58188,9 +56999,7 @@ export const ReplaceVpnTunnelRequest = /*@__PURE__*/ S.suspend(() =>
     ApplyPendingMaintenance: S.optional(S.Boolean),
     DryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ReplaceVpnTunnelRequest",
-}) as any as S.Schema<ReplaceVpnTunnelRequest>;
+).annotate({ identifier: "ReplaceVpnTunnelRequest" }) as any as S.Schema<ReplaceVpnTunnelRequest>;
 export interface ReplaceVpnTunnelResult {
   Return?: boolean;
 }
@@ -58198,9 +57007,7 @@ export const ReplaceVpnTunnelResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Return: S.optional(S.Boolean).pipe(T.XmlName("return"), T.Ec2QueryName("Return")),
   }).pipe(ns),
-).annotate({
-  identifier: "ReplaceVpnTunnelResult",
-}) as any as S.Schema<ReplaceVpnTunnelResult>;
+).annotate({ identifier: "ReplaceVpnTunnelResult" }) as any as S.Schema<ReplaceVpnTunnelResult>;
 export type ReportStatusType = "ok" | "impaired" | (string & {});
 export const ReportStatusType = S.String;
 
@@ -58276,9 +57083,7 @@ export const RequestSpotFleetRequest = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("spotFleetRequestConfig"), T.Ec2QueryName("SpotFleetRequestConfig"))
       .annotate({ identifier: "SpotFleetRequestConfigData" }),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RequestSpotFleetRequest",
-}) as any as S.Schema<RequestSpotFleetRequest>;
+).annotate({ identifier: "RequestSpotFleetRequest" }) as any as S.Schema<RequestSpotFleetRequest>;
 export interface RequestSpotFleetResponse {
   SpotFleetRequestId?: string;
 }
@@ -58289,9 +57094,7 @@ export const RequestSpotFleetResponse = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("SpotFleetRequestId"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "RequestSpotFleetResponse",
-}) as any as S.Schema<RequestSpotFleetResponse>;
+).annotate({ identifier: "RequestSpotFleetResponse" }) as any as S.Schema<RequestSpotFleetResponse>;
 export type RequestSpotLaunchSpecificationSecurityGroupIdList = string[];
 export const RequestSpotLaunchSpecificationSecurityGroupIdList = /*@__PURE__*/ S.Array(
   S.String.pipe(T.XmlName("item")),
@@ -58624,10 +57427,9 @@ export interface RestoreImageFromRecycleBinRequest {
   DryRun?: boolean;
 }
 export const RestoreImageFromRecycleBinRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ImageId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ImageId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "RestoreImageFromRecycleBinRequest",
 }) as any as S.Schema<RestoreImageFromRecycleBinRequest>;
@@ -58674,10 +57476,9 @@ export interface RestoreSnapshotFromRecycleBinRequest {
   DryRun?: boolean;
 }
 export const RestoreSnapshotFromRecycleBinRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ SnapshotId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "RestoreSnapshotFromRecycleBinRequest",
 }) as any as S.Schema<RestoreSnapshotFromRecycleBinRequest>;
@@ -58761,10 +57562,9 @@ export interface RestoreVolumeFromRecycleBinRequest {
   DryRun?: boolean;
 }
 export const RestoreVolumeFromRecycleBinRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ VolumeId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "RestoreVolumeFromRecycleBinRequest",
 }) as any as S.Schema<RestoreVolumeFromRecycleBinRequest>;
@@ -58883,9 +57683,7 @@ export const RevokedSecurityGroupRule = /*@__PURE__*/ S.suspend(() =>
     ),
     Description: S.optional(S.String).pipe(T.XmlName("description"), T.Ec2QueryName("Description")),
   }),
-).annotate({
-  identifier: "RevokedSecurityGroupRule",
-}) as any as S.Schema<RevokedSecurityGroupRule>;
+).annotate({ identifier: "RevokedSecurityGroupRule" }) as any as S.Schema<RevokedSecurityGroupRule>;
 export type RevokedSecurityGroupRuleList = RevokedSecurityGroupRule[];
 export const RevokedSecurityGroupRuleList = /*@__PURE__*/ S.Array(
   RevokedSecurityGroupRule.pipe(T.XmlName("item")).annotate({
@@ -59016,18 +57814,13 @@ export const SpotMarketOptions = /*@__PURE__*/ S.suspend(() =>
     ValidUntil: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     InstanceInterruptionBehavior: S.optional(InstanceInterruptionBehavior),
   }),
-).annotate({
-  identifier: "SpotMarketOptions",
-}) as any as S.Schema<SpotMarketOptions>;
+).annotate({ identifier: "SpotMarketOptions" }) as any as S.Schema<SpotMarketOptions>;
 export interface InstanceMarketOptionsRequest {
   MarketType?: MarketType;
   SpotOptions?: SpotMarketOptions;
 }
 export const InstanceMarketOptionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MarketType: S.optional(MarketType),
-    SpotOptions: S.optional(SpotMarketOptions),
-  }),
+  S.Struct({ MarketType: S.optional(MarketType), SpotOptions: S.optional(SpotMarketOptions) }),
 ).annotate({
   identifier: "InstanceMarketOptionsRequest",
 }) as any as S.Schema<InstanceMarketOptionsRequest>;
@@ -59044,9 +57837,7 @@ export const CpuOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     AmdSevSnp: S.optional(AmdSevSnpSpecification),
     NestedVirtualization: S.optional(NestedVirtualizationSpecification),
   }),
-).annotate({
-  identifier: "CpuOptionsRequest",
-}) as any as S.Schema<CpuOptionsRequest>;
+).annotate({ identifier: "CpuOptionsRequest" }) as any as S.Schema<CpuOptionsRequest>;
 export interface HibernationOptionsRequest {
   Configured?: boolean;
 }
@@ -59288,9 +58079,7 @@ export const RunInstancesRequest = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("EbsOptimized"),
     ),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RunInstancesRequest",
-}) as any as S.Schema<RunInstancesRequest>;
+).annotate({ identifier: "RunInstancesRequest" }) as any as S.Schema<RunInstancesRequest>;
 export interface ScheduledInstancesEbs {
   DeleteOnTermination?: boolean;
   Encrypted?: boolean;
@@ -59308,9 +58097,7 @@ export const ScheduledInstancesEbs = /*@__PURE__*/ S.suspend(() =>
     VolumeSize: S.optional(S.Number),
     VolumeType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ScheduledInstancesEbs",
-}) as any as S.Schema<ScheduledInstancesEbs>;
+).annotate({ identifier: "ScheduledInstancesEbs" }) as any as S.Schema<ScheduledInstancesEbs>;
 export interface ScheduledInstancesBlockDeviceMapping {
   DeviceName?: string;
   Ebs?: ScheduledInstancesEbs;
@@ -59374,10 +58161,7 @@ export interface ScheduledInstancesPrivateIpAddressConfig {
   PrivateIpAddress?: string;
 }
 export const ScheduledInstancesPrivateIpAddressConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Primary: S.optional(S.Boolean),
-    PrivateIpAddress: S.optional(S.String),
-  }),
+  S.Struct({ Primary: S.optional(S.Boolean), PrivateIpAddress: S.optional(S.String) }),
 ).annotate({
   identifier: "ScheduledInstancesPrivateIpAddressConfig",
 }) as any as S.Schema<ScheduledInstancesPrivateIpAddressConfig>;
@@ -59432,10 +58216,7 @@ export interface ScheduledInstancesPlacement {
   GroupName?: string;
 }
 export const ScheduledInstancesPlacement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AvailabilityZone: S.optional(S.String),
-    GroupName: S.optional(S.String),
-  }),
+  S.Struct({ AvailabilityZone: S.optional(S.String), GroupName: S.optional(S.String) }),
 ).annotate({
   identifier: "ScheduledInstancesPlacement",
 }) as any as S.Schema<ScheduledInstancesPlacement>;
@@ -59534,9 +58315,7 @@ export const SearchLocalGatewayRoutesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SearchLocalGatewayRoutesRequest>;
 export type LocalGatewayRouteList = LocalGatewayRoute[];
 export const LocalGatewayRouteList = /*@__PURE__*/ S.Array(
-  LocalGatewayRoute.pipe(T.XmlName("item")).annotate({
-    identifier: "LocalGatewayRoute",
-  }),
+  LocalGatewayRoute.pipe(T.XmlName("item")).annotate({ identifier: "LocalGatewayRoute" }),
 );
 export interface SearchLocalGatewayRoutesResult {
   Routes?: LocalGatewayRoute[];
@@ -59672,9 +58451,7 @@ export const SearchTransitGatewayRoutesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SearchTransitGatewayRoutesRequest>;
 export type TransitGatewayRouteList = TransitGatewayRoute[];
 export const TransitGatewayRouteList = /*@__PURE__*/ S.Array(
-  TransitGatewayRoute.pipe(T.XmlName("item")).annotate({
-    identifier: "TransitGatewayRoute",
-  }),
+  TransitGatewayRoute.pipe(T.XmlName("item")).annotate({ identifier: "TransitGatewayRoute" }),
 );
 export interface SearchTransitGatewayRoutesResult {
   Routes?: TransitGatewayRoute[];
@@ -59701,10 +58478,9 @@ export interface SendDiagnosticInterruptRequest {
   DryRun?: boolean;
 }
 export const SendDiagnosticInterruptRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    InstanceId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ InstanceId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SendDiagnosticInterruptRequest",
 }) as any as S.Schema<SendDiagnosticInterruptRequest>;
@@ -59756,9 +58532,7 @@ export const StartInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartInstancesRequest",
-}) as any as S.Schema<StartInstancesRequest>;
+).annotate({ identifier: "StartInstancesRequest" }) as any as S.Schema<StartInstancesRequest>;
 export interface InstanceStateChange {
   InstanceId?: string;
   CurrentState?: InstanceState;
@@ -59774,14 +58548,10 @@ export const InstanceStateChange = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("previousState"), T.Ec2QueryName("PreviousState"))
       .annotate({ identifier: "InstanceState" }),
   }),
-).annotate({
-  identifier: "InstanceStateChange",
-}) as any as S.Schema<InstanceStateChange>;
+).annotate({ identifier: "InstanceStateChange" }) as any as S.Schema<InstanceStateChange>;
 export type InstanceStateChangeList = InstanceStateChange[];
 export const InstanceStateChangeList = /*@__PURE__*/ S.Array(
-  InstanceStateChange.pipe(T.XmlName("item")).annotate({
-    identifier: "InstanceStateChange",
-  }),
+  InstanceStateChange.pipe(T.XmlName("item")).annotate({ identifier: "InstanceStateChange" }),
 );
 export interface StartInstancesResult {
   StartingInstances?: InstanceStateChange[];
@@ -59793,9 +58563,7 @@ export const StartInstancesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstancesSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "StartInstancesResult",
-}) as any as S.Schema<StartInstancesResult>;
+).annotate({ identifier: "StartInstancesResult" }) as any as S.Schema<StartInstancesResult>;
 export interface StartNetworkInsightsAccessScopeAnalysisRequest {
   NetworkInsightsAccessScopeId?: string;
   DryRun?: boolean;
@@ -59866,10 +58634,9 @@ export interface StartVpcEndpointServicePrivateDnsVerificationRequest {
   ServiceId?: string;
 }
 export const StartVpcEndpointServicePrivateDnsVerificationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DryRun: S.optional(S.Boolean),
-    ServiceId: S.optional(S.String),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ DryRun: S.optional(S.Boolean), ServiceId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "StartVpcEndpointServicePrivateDnsVerificationRequest",
 }) as any as S.Schema<StartVpcEndpointServicePrivateDnsVerificationRequest>;
@@ -59898,9 +58665,7 @@ export const StopInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     DryRun: S.optional(S.Boolean).pipe(T.XmlName("dryRun"), T.Ec2QueryName("DryRun")),
     Force: S.optional(S.Boolean).pipe(T.XmlName("force"), T.Ec2QueryName("Force")),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StopInstancesRequest",
-}) as any as S.Schema<StopInstancesRequest>;
+).annotate({ identifier: "StopInstancesRequest" }) as any as S.Schema<StopInstancesRequest>;
 export interface StopInstancesResult {
   StoppingInstances?: InstanceStateChange[];
 }
@@ -59911,9 +58676,7 @@ export const StopInstancesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstancesSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "StopInstancesResult",
-}) as any as S.Schema<StopInstancesResult>;
+).annotate({ identifier: "StopInstancesResult" }) as any as S.Schema<StopInstancesResult>;
 export interface TerminateClientVpnConnectionsRequest {
   ClientVpnEndpointId?: string;
   ConnectionId?: string;
@@ -60003,9 +58766,7 @@ export const TerminateInstancesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstancesSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "TerminateInstancesResult",
-}) as any as S.Schema<TerminateInstancesResult>;
+).annotate({ identifier: "TerminateInstancesResult" }) as any as S.Schema<TerminateInstancesResult>;
 export interface UnassignIpv6AddressesRequest {
   Ipv6Prefixes?: string[];
   NetworkInterfaceId?: string;
@@ -60114,13 +58875,10 @@ export interface UnlockSnapshotRequest {
   DryRun?: boolean;
 }
 export const UnlockSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SnapshotId: S.optional(S.String),
-    DryRun: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UnlockSnapshotRequest",
-}) as any as S.Schema<UnlockSnapshotRequest>;
+  S.Struct({ SnapshotId: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "UnlockSnapshotRequest" }) as any as S.Schema<UnlockSnapshotRequest>;
 export interface UnlockSnapshotResult {
   SnapshotId?: string;
 }
@@ -60128,9 +58886,7 @@ export const UnlockSnapshotResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SnapshotId: S.optional(S.String).pipe(T.XmlName("snapshotId"), T.Ec2QueryName("SnapshotId")),
   }).pipe(ns),
-).annotate({
-  identifier: "UnlockSnapshotResult",
-}) as any as S.Schema<UnlockSnapshotResult>;
+).annotate({ identifier: "UnlockSnapshotResult" }) as any as S.Schema<UnlockSnapshotResult>;
 export interface UnmonitorInstancesRequest {
   InstanceIds?: string[];
   DryRun?: boolean;
@@ -60153,9 +58909,7 @@ export const UnmonitorInstancesResult = /*@__PURE__*/ S.suspend(() =>
       T.Ec2QueryName("InstancesSet"),
     ),
   }).pipe(ns),
-).annotate({
-  identifier: "UnmonitorInstancesResult",
-}) as any as S.Schema<UnmonitorInstancesResult>;
+).annotate({ identifier: "UnmonitorInstancesResult" }) as any as S.Schema<UnmonitorInstancesResult>;
 export interface UpdateCapacityManagerMonitoredTagKeysRequest {
   ActivateTagKeys?: string[];
   DeactivateTagKeys?: string[];
@@ -60221,12 +58975,14 @@ export interface UpdateInterruptibleCapacityReservationAllocationRequest {
   CapacityReservationId?: string;
   TargetInstanceCount?: number;
   DryRun?: boolean;
+  ZeroSizePreference?: ZeroSizePreference;
 }
 export const UpdateInterruptibleCapacityReservationAllocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CapacityReservationId: S.optional(S.String),
     TargetInstanceCount: S.optional(S.Number),
     DryRun: S.optional(S.Boolean),
+    ZeroSizePreference: S.optional(ZeroSizePreference),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateInterruptibleCapacityReservationAllocationRequest",
@@ -60274,10 +59030,7 @@ export interface SecurityGroupRuleDescription {
   Description?: string;
 }
 export const SecurityGroupRuleDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SecurityGroupRuleId: S.optional(S.String),
-    Description: S.optional(S.String),
-  }),
+  S.Struct({ SecurityGroupRuleId: S.optional(S.String), Description: S.optional(S.String) }),
 ).annotate({
   identifier: "SecurityGroupRuleDescription",
 }) as any as S.Schema<SecurityGroupRuleDescription>;
@@ -60347,6 +59100,28 @@ export const UpdateSecurityGroupRuleDescriptionsIngressResult = /*@__PURE__*/ S.
 ).annotate({
   identifier: "UpdateSecurityGroupRuleDescriptionsIngressResult",
 }) as any as S.Schema<UpdateSecurityGroupRuleDescriptionsIngressResult>;
+export interface ValidateSecurityGroupQuotasForInterfaceRequest {
+  SecurityGroupIds?: string[];
+  DryRun?: boolean;
+}
+export const ValidateSecurityGroupQuotasForInterfaceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SecurityGroupIds: S.optional(SecurityGroupIdList).pipe(T.XmlName("SecurityGroupId")),
+    DryRun: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ValidateSecurityGroupQuotasForInterfaceRequest",
+}) as any as S.Schema<ValidateSecurityGroupQuotasForInterfaceRequest>;
+export interface ValidateSecurityGroupQuotasForInterfaceResult {
+  Valid?: boolean;
+}
+export const ValidateSecurityGroupQuotasForInterfaceResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Valid: S.optional(S.Boolean).pipe(T.XmlName("valid"), T.Ec2QueryName("Valid")) }).pipe(
+    ns,
+  ),
+).annotate({
+  identifier: "ValidateSecurityGroupQuotasForInterfaceResult",
+}) as any as S.Schema<ValidateSecurityGroupQuotasForInterfaceResult>;
 export interface WithdrawByoipCidrRequest {
   Cidr?: string;
   DryRun?: boolean;
@@ -60355,9 +59130,7 @@ export const WithdrawByoipCidrRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Cidr: S.optional(S.String), DryRun: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "WithdrawByoipCidrRequest",
-}) as any as S.Schema<WithdrawByoipCidrRequest>;
+).annotate({ identifier: "WithdrawByoipCidrRequest" }) as any as S.Schema<WithdrawByoipCidrRequest>;
 export interface WithdrawByoipCidrResult {
   ByoipCidr?: ByoipCidr;
 }
@@ -60367,9 +59140,7 @@ export const WithdrawByoipCidrResult = /*@__PURE__*/ S.suspend(() =>
       .pipe(T.XmlName("byoipCidr"), T.Ec2QueryName("ByoipCidr"))
       .annotate({ identifier: "ByoipCidr" }),
   }).pipe(ns),
-).annotate({
-  identifier: "WithdrawByoipCidrResult",
-}) as any as S.Schema<WithdrawByoipCidrResult>;
+).annotate({ identifier: "WithdrawByoipCidrResult" }) as any as S.Schema<WithdrawByoipCidrResult>;
 export type AcceptAddressTransferError =
   | RequestLimitExceeded
   | InvalidAddressMalformed
@@ -62663,6 +61434,31 @@ export const createCapacityReservationCancellationQuote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservationCancellationQuote",
+}));
+
+export type CreateCapacityReservationDateChangeQuoteError = CommonErrors;
+/**
+ * Generates a quote for changing the start date of a future-dated Capacity Reservation
+ * that has not yet been delivered. The quote includes the new start date, the resulting
+ * commitment end date, and a quote ID. Pass the quote ID to
+ * `ModifyCapacityReservation` to apply the change.
+ *
+ * The cumulative pushout across all changes is limited to 30 days from the Capacity
+ * Reservation's original start date. Quotes are valid for 24 hours, and always expire at
+ * least one hour before the start date.
+ */
+export const createCapacityReservationDateChangeQuote: API.OperationMethod<
+  CreateCapacityReservationDateChangeQuoteRequest,
+  CreateCapacityReservationDateChangeQuoteResult,
+  CreateCapacityReservationDateChangeQuoteError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateCapacityReservationDateChangeQuoteRequest,
+  output: CreateCapacityReservationDateChangeQuoteResult,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateCapacityReservationDateChangeQuote",
 }));
 
 export type CreateCapacityReservationFleetError =
@@ -66134,6 +64930,24 @@ export const deleteClientVpnEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientVpnEndpoint",
+}));
+
+export type DeleteClientVpnEndpointAuthorizationPolicyError = CommonErrors;
+/**
+ * Deletes the authorization policy for a Client VPN endpoint.
+ */
+export const deleteClientVpnEndpointAuthorizationPolicy: API.OperationMethod<
+  DeleteClientVpnEndpointAuthorizationPolicyRequest,
+  DeleteClientVpnEndpointAuthorizationPolicyResult,
+  DeleteClientVpnEndpointAuthorizationPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteClientVpnEndpointAuthorizationPolicyRequest,
+  output: DeleteClientVpnEndpointAuthorizationPolicyResult,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteClientVpnEndpointAuthorizationPolicy",
 }));
 
 export type DeleteClientVpnRouteError =
@@ -69708,6 +68522,32 @@ export const describeCapacityReservationCancellationQuotes: API.OperationMethod<
   operationName: "DescribeCapacityReservationCancellationQuotes",
 }));
 
+export type DescribeCapacityReservationDateChangeQuotesError = CommonErrors;
+/**
+ * Describes one or more Capacity Reservation date change quotes that you generated by using
+ * the `CreateCapacityReservationDateChangeQuote` operation.
+ */
+export const describeCapacityReservationDateChangeQuotes: API.PaginatedOperationMethod<
+  DescribeCapacityReservationDateChangeQuotesRequest,
+  DescribeCapacityReservationDateChangeQuotesResult,
+  DescribeCapacityReservationDateChangeQuotesError,
+  Credentials | HttpClient.HttpClient,
+  CapacityReservationModificationQuote
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: DescribeCapacityReservationDateChangeQuotesRequest,
+  output: DescribeCapacityReservationDateChangeQuotesResult,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeCapacityReservationDateChangeQuotes",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "CapacityReservationModificationQuotes",
+    pageSize: "MaxResults",
+  } as const,
+})) as any;
+
 export type DescribeCapacityReservationFleetsError =
   | RequestLimitExceeded
   | InvalidCapacityReservationFleetIdMalformed
@@ -71081,8 +69921,8 @@ export type DescribeInstanceCreditSpecificationsError =
  *
  * If you specify one or more instance IDs, Amazon EC2 returns the credit option
  * (`standard` or `unlimited`) of those instances. If you specify
- * an instance ID that is not valid, such as an instance that is not a burstable
- * performance instance, an error is returned.
+ * an instance ID that is not a burstable performance instance, Amazon EC2 returns the
+ * `standard` credit option.
  *
  * Recently terminated instances might appear in the returned results. This interval is
  * usually less than one hour.
@@ -77670,6 +76510,24 @@ export const getCapacityReservationUsage: API.OperationMethod<
   operationName: "GetCapacityReservationUsage",
 }));
 
+export type GetClientVpnEndpointAuthorizationPolicyError = CommonErrors;
+/**
+ * Describes the authorization policy for a Client VPN endpoint.
+ */
+export const getClientVpnEndpointAuthorizationPolicy: API.OperationMethod<
+  GetClientVpnEndpointAuthorizationPolicyRequest,
+  GetClientVpnEndpointAuthorizationPolicyResult,
+  GetClientVpnEndpointAuthorizationPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetClientVpnEndpointAuthorizationPolicyRequest,
+  output: GetClientVpnEndpointAuthorizationPolicyResult,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetClientVpnEndpointAuthorizationPolicy",
+}));
+
 export type GetCoipPoolUsageError =
   | RequestLimitExceeded
   | InvalidPoolIDMalformed
@@ -79991,6 +78849,11 @@ export type ModifyCapacityReservationError =
  * - `expired`, `cancelled`, `unsupported`, or
  * `failed` state - You can't modify the Capacity Reservation in any
  * way.
+ *
+ * For a future-dated Capacity Reservation that has not yet been delivered, pushing out the
+ * start date requires a quote generated by
+ * `CreateCapacityReservationDateChangeQuote`. For more information, see Modify an active
+ * Capacity Reservation in the *Amazon EC2 User Guide*.
  */
 export const modifyCapacityReservation: API.OperationMethod<
   ModifyCapacityReservationRequest,
@@ -80062,6 +78925,24 @@ export const modifyClientVpnEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClientVpnEndpoint",
+}));
+
+export type ModifyClientVpnEndpointAuthorizationPolicyError = CommonErrors;
+/**
+ * Creates or updates the authorization policy for a Client VPN endpoint. A Client VPN endpoint can have one authorization policy. If a policy already exists for the endpoint, the values that you specify replace the corresponding values in the existing policy, and values that you do not specify remain unchanged.
+ */
+export const modifyClientVpnEndpointAuthorizationPolicy: API.OperationMethod<
+  ModifyClientVpnEndpointAuthorizationPolicyRequest,
+  ModifyClientVpnEndpointAuthorizationPolicyResult,
+  ModifyClientVpnEndpointAuthorizationPolicyError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ModifyClientVpnEndpointAuthorizationPolicyRequest,
+  output: ModifyClientVpnEndpointAuthorizationPolicyResult,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ModifyClientVpnEndpointAuthorizationPolicy",
 }));
 
 export type ModifyDefaultCreditSpecificationError =
@@ -84917,6 +83798,30 @@ export const updateSecurityGroupRuleDescriptionsIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityGroupRuleDescriptionsIngress",
+}));
+
+export type ValidateSecurityGroupQuotasForInterfaceError = CommonErrors;
+/**
+ * Validates whether the specified security groups can be associated with a single
+ * network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC)
+ * quotas. It checks inbound or outbound rules per security group and security groups
+ * per network interface. Only authorized Amazon Web Services services can call this operation.
+ *
+ * For more information about security group quotas, see Amazon
+ * VPC quotas in the *Amazon VPC User Guide*.
+ */
+export const validateSecurityGroupQuotasForInterface: API.OperationMethod<
+  ValidateSecurityGroupQuotasForInterfaceRequest,
+  ValidateSecurityGroupQuotasForInterfaceResult,
+  ValidateSecurityGroupQuotasForInterfaceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidateSecurityGroupQuotasForInterfaceRequest,
+  output: ValidateSecurityGroupQuotasForInterfaceResult,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ValidateSecurityGroupQuotasForInterface",
 }));
 
 export type WithdrawByoipCidrError = RequestLimitExceeded | UnauthorizedOperation | CommonErrors;

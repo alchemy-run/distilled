@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Keyspaces",
-  serviceShapeName: "KeyspacesService",
-});
+const svc = T.AwsApiService({ sdkId: "Keyspaces", serviceShapeName: "KeyspacesService" });
 const auth = T.AwsAuthSigv4({ name: "cassandra" });
 const ver = T.ServiceVersion("2022-02-10");
 const proto = T.AwsProtocolsAwsJson1_0();
@@ -94,25 +91,16 @@ export class InternalServerException
     "InternalServerException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InternalServerException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      resourceArn: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), resourceArn: S.optional(S.String) },
     T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -121,10 +109,7 @@ export class ServiceQuotaExceededException
     "ServiceQuotaExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ServiceQuotaExceededException",
-        httpResponseCode: 402,
-      }),
+      T.AwsQueryError({ code: "ServiceQuotaExceededException", httpResponseCode: 402 }),
       T.HttpError(402),
     ),
   ).pipe(C.withQuotaError) {}
@@ -155,13 +140,8 @@ export interface ReplicationSpecification {
   regionList?: string[];
 }
 export const ReplicationSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    replicationStrategy: S.String,
-    regionList: S.optional(RegionList),
-  }),
-).annotate({
-  identifier: "ReplicationSpecification",
-}) as any as S.Schema<ReplicationSpecification>;
+  S.Struct({ replicationStrategy: S.String, regionList: S.optional(RegionList) }),
+).annotate({ identifier: "ReplicationSpecification" }) as any as S.Schema<ReplicationSpecification>;
 export interface CreateKeyspaceRequest {
   keyspaceName: string;
   tags?: Tag[];
@@ -173,18 +153,14 @@ export const CreateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     replicationSpecification: S.optional(ReplicationSpecification),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateKeyspaceRequest",
-}) as any as S.Schema<CreateKeyspaceRequest>;
+).annotate({ identifier: "CreateKeyspaceRequest" }) as any as S.Schema<CreateKeyspaceRequest>;
 export type ARN = string;
 export interface CreateKeyspaceResponse {
   resourceArn: string;
 }
 export const CreateKeyspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }),
-).annotate({
-  identifier: "CreateKeyspaceResponse",
-}) as any as S.Schema<CreateKeyspaceResponse>;
+).annotate({ identifier: "CreateKeyspaceResponse" }) as any as S.Schema<CreateKeyspaceResponse>;
 export type TableName = string;
 export interface ColumnDefinition {
   name: string;
@@ -192,9 +168,7 @@ export interface ColumnDefinition {
 }
 export const ColumnDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, type: S.String }),
-).annotate({
-  identifier: "ColumnDefinition",
-}) as any as S.Schema<ColumnDefinition>;
+).annotate({ identifier: "ColumnDefinition" }) as any as S.Schema<ColumnDefinition>;
 export type ColumnDefinitionList = ColumnDefinition[];
 export const ColumnDefinitionList = /*@__PURE__*/ S.Array(ColumnDefinition);
 export interface PartitionKey {
@@ -236,9 +210,7 @@ export const SchemaDefinition = /*@__PURE__*/ S.suspend(() =>
     clusteringKeys: S.optional(ClusteringKeyList),
     staticColumns: S.optional(StaticColumnList),
   }),
-).annotate({
-  identifier: "SchemaDefinition",
-}) as any as S.Schema<SchemaDefinition>;
+).annotate({ identifier: "SchemaDefinition" }) as any as S.Schema<SchemaDefinition>;
 export interface Comment {
   message: string;
 }
@@ -258,9 +230,7 @@ export const CapacitySpecification = /*@__PURE__*/ S.suspend(() =>
     readCapacityUnits: S.optional(S.Number),
     writeCapacityUnits: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "CapacitySpecification",
-}) as any as S.Schema<CapacitySpecification>;
+).annotate({ identifier: "CapacitySpecification" }) as any as S.Schema<CapacitySpecification>;
 export type EncryptionType = string;
 export type KmsKeyARN = string;
 export interface EncryptionSpecification {
@@ -269,18 +239,14 @@ export interface EncryptionSpecification {
 }
 export const EncryptionSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.String, kmsKeyIdentifier: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionSpecification",
-}) as any as S.Schema<EncryptionSpecification>;
+).annotate({ identifier: "EncryptionSpecification" }) as any as S.Schema<EncryptionSpecification>;
 export type PointInTimeRecoveryStatus = string;
 export interface PointInTimeRecovery {
   status: string;
 }
 export const PointInTimeRecovery = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
-).annotate({
-  identifier: "PointInTimeRecovery",
-}) as any as S.Schema<PointInTimeRecovery>;
+).annotate({ identifier: "PointInTimeRecovery" }) as any as S.Schema<PointInTimeRecovery>;
 export type TimeToLiveStatus = string;
 export interface TimeToLive {
   status: string;
@@ -295,9 +261,7 @@ export interface ClientSideTimestamps {
 }
 export const ClientSideTimestamps = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String }),
-).annotate({
-  identifier: "ClientSideTimestamps",
-}) as any as S.Schema<ClientSideTimestamps>;
+).annotate({ identifier: "ClientSideTimestamps" }) as any as S.Schema<ClientSideTimestamps>;
 export type IntegerObject = number;
 export type DoubleObject = number;
 export interface TargetTrackingScalingPolicyConfiguration {
@@ -323,9 +287,7 @@ export const AutoScalingPolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     targetTrackingScalingPolicyConfiguration: S.optional(TargetTrackingScalingPolicyConfiguration),
   }),
-).annotate({
-  identifier: "AutoScalingPolicy",
-}) as any as S.Schema<AutoScalingPolicy>;
+).annotate({ identifier: "AutoScalingPolicy" }) as any as S.Schema<AutoScalingPolicy>;
 export interface AutoScalingSettings {
   autoScalingDisabled?: boolean;
   minimumUnits?: number;
@@ -339,9 +301,7 @@ export const AutoScalingSettings = /*@__PURE__*/ S.suspend(() =>
     maximumUnits: S.optional(S.Number),
     scalingPolicy: S.optional(AutoScalingPolicy),
   }),
-).annotate({
-  identifier: "AutoScalingSettings",
-}) as any as S.Schema<AutoScalingSettings>;
+).annotate({ identifier: "AutoScalingSettings" }) as any as S.Schema<AutoScalingSettings>;
 export interface AutoScalingSpecification {
   writeCapacityAutoScaling?: AutoScalingSettings;
   readCapacityAutoScaling?: AutoScalingSettings;
@@ -351,9 +311,7 @@ export const AutoScalingSpecification = /*@__PURE__*/ S.suspend(() =>
     writeCapacityAutoScaling: S.optional(AutoScalingSettings),
     readCapacityAutoScaling: S.optional(AutoScalingSettings),
   }),
-).annotate({
-  identifier: "AutoScalingSpecification",
-}) as any as S.Schema<AutoScalingSpecification>;
+).annotate({ identifier: "AutoScalingSpecification" }) as any as S.Schema<AutoScalingSpecification>;
 export interface ReplicaSpecification {
   region: string;
   readCapacityUnits?: number;
@@ -365,9 +323,7 @@ export const ReplicaSpecification = /*@__PURE__*/ S.suspend(() =>
     readCapacityUnits: S.optional(S.Number),
     readCapacityAutoScaling: S.optional(AutoScalingSettings),
   }),
-).annotate({
-  identifier: "ReplicaSpecification",
-}) as any as S.Schema<ReplicaSpecification>;
+).annotate({ identifier: "ReplicaSpecification" }) as any as S.Schema<ReplicaSpecification>;
 export type ReplicaSpecificationList = ReplicaSpecification[];
 export const ReplicaSpecificationList = /*@__PURE__*/ S.Array(ReplicaSpecification);
 export type CdcStatus = string;
@@ -386,18 +342,13 @@ export const CdcSpecification = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     propagateTags: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CdcSpecification",
-}) as any as S.Schema<CdcSpecification>;
+).annotate({ identifier: "CdcSpecification" }) as any as S.Schema<CdcSpecification>;
 export interface WarmThroughputSpecification {
   readUnitsPerSecond?: number;
   writeUnitsPerSecond?: number;
 }
 export const WarmThroughputSpecification = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    readUnitsPerSecond: S.optional(S.Number),
-    writeUnitsPerSecond: S.optional(S.Number),
-  }),
+  S.Struct({ readUnitsPerSecond: S.optional(S.Number), writeUnitsPerSecond: S.optional(S.Number) }),
 ).annotate({
   identifier: "WarmThroughputSpecification",
 }) as any as S.Schema<WarmThroughputSpecification>;
@@ -436,17 +387,13 @@ export const CreateTableRequest = /*@__PURE__*/ S.suspend(() =>
     cdcSpecification: S.optional(CdcSpecification),
     warmThroughputSpecification: S.optional(WarmThroughputSpecification),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTableRequest",
-}) as any as S.Schema<CreateTableRequest>;
+).annotate({ identifier: "CreateTableRequest" }) as any as S.Schema<CreateTableRequest>;
 export interface CreateTableResponse {
   resourceArn: string;
 }
 export const CreateTableResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }),
-).annotate({
-  identifier: "CreateTableResponse",
-}) as any as S.Schema<CreateTableResponse>;
+).annotate({ identifier: "CreateTableResponse" }) as any as S.Schema<CreateTableResponse>;
 export type TypeName = string;
 export interface FieldDefinition {
   name: string;
@@ -454,9 +401,7 @@ export interface FieldDefinition {
 }
 export const FieldDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, type: S.String }),
-).annotate({
-  identifier: "FieldDefinition",
-}) as any as S.Schema<FieldDefinition>;
+).annotate({ identifier: "FieldDefinition" }) as any as S.Schema<FieldDefinition>;
 export type FieldList = FieldDefinition[];
 export const FieldList = /*@__PURE__*/ S.Array(FieldDefinition);
 export interface CreateTypeRequest {
@@ -465,23 +410,17 @@ export interface CreateTypeRequest {
   fieldDefinitions: FieldDefinition[];
 }
 export const CreateTypeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyspaceName: S.String,
-    typeName: S.String,
-    fieldDefinitions: FieldList,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTypeRequest",
-}) as any as S.Schema<CreateTypeRequest>;
+  S.Struct({ keyspaceName: S.String, typeName: S.String, fieldDefinitions: FieldList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "CreateTypeRequest" }) as any as S.Schema<CreateTypeRequest>;
 export interface CreateTypeResponse {
   keyspaceArn: string;
   typeName: string;
 }
 export const CreateTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceArn: S.String, typeName: S.String }),
-).annotate({
-  identifier: "CreateTypeResponse",
-}) as any as S.Schema<CreateTypeResponse>;
+).annotate({ identifier: "CreateTypeResponse" }) as any as S.Schema<CreateTypeResponse>;
 export interface DeleteKeyspaceRequest {
   keyspaceName: string;
 }
@@ -489,9 +428,7 @@ export const DeleteKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteKeyspaceRequest",
-}) as any as S.Schema<DeleteKeyspaceRequest>;
+).annotate({ identifier: "DeleteKeyspaceRequest" }) as any as S.Schema<DeleteKeyspaceRequest>;
 export interface DeleteKeyspaceResponse {}
 export const DeleteKeyspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKeyspaceResponse",
@@ -504,9 +441,7 @@ export const DeleteTableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceName: S.String, tableName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTableRequest",
-}) as any as S.Schema<DeleteTableRequest>;
+).annotate({ identifier: "DeleteTableRequest" }) as any as S.Schema<DeleteTableRequest>;
 export interface DeleteTableResponse {}
 export const DeleteTableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTableResponse",
@@ -519,18 +454,14 @@ export const DeleteTypeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceName: S.String, typeName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTypeRequest",
-}) as any as S.Schema<DeleteTypeRequest>;
+).annotate({ identifier: "DeleteTypeRequest" }) as any as S.Schema<DeleteTypeRequest>;
 export interface DeleteTypeResponse {
   keyspaceArn: string;
   typeName: string;
 }
 export const DeleteTypeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceArn: S.String, typeName: S.String }),
-).annotate({
-  identifier: "DeleteTypeResponse",
-}) as any as S.Schema<DeleteTypeResponse>;
+).annotate({ identifier: "DeleteTypeResponse" }) as any as S.Schema<DeleteTypeResponse>;
 export interface GetKeyspaceRequest {
   keyspaceName: string;
 }
@@ -538,9 +469,7 @@ export const GetKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetKeyspaceRequest",
-}) as any as S.Schema<GetKeyspaceRequest>;
+).annotate({ identifier: "GetKeyspaceRequest" }) as any as S.Schema<GetKeyspaceRequest>;
 export type KeyspaceStatus = string;
 export type TablesReplicationProgress = string;
 export interface ReplicationGroupStatus {
@@ -554,9 +483,7 @@ export const ReplicationGroupStatus = /*@__PURE__*/ S.suspend(() =>
     keyspaceStatus: S.String,
     tablesReplicationProgress: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReplicationGroupStatus",
-}) as any as S.Schema<ReplicationGroupStatus>;
+).annotate({ identifier: "ReplicationGroupStatus" }) as any as S.Schema<ReplicationGroupStatus>;
 export type ReplicationGroupStatusList = ReplicationGroupStatus[];
 export const ReplicationGroupStatusList = /*@__PURE__*/ S.Array(ReplicationGroupStatus);
 export interface GetKeyspaceResponse {
@@ -574,9 +501,7 @@ export const GetKeyspaceResponse = /*@__PURE__*/ S.suspend(() =>
     replicationRegions: S.optional(RegionList),
     replicationGroupStatuses: S.optional(ReplicationGroupStatusList),
   }),
-).annotate({
-  identifier: "GetKeyspaceResponse",
-}) as any as S.Schema<GetKeyspaceResponse>;
+).annotate({ identifier: "GetKeyspaceResponse" }) as any as S.Schema<GetKeyspaceResponse>;
 export interface GetTableRequest {
   keyspaceName: string;
   tableName: string;
@@ -585,9 +510,7 @@ export const GetTableRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ keyspaceName: S.String, tableName: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTableRequest",
-}) as any as S.Schema<GetTableRequest>;
+).annotate({ identifier: "GetTableRequest" }) as any as S.Schema<GetTableRequest>;
 export type TableStatus = string;
 export interface CapacitySpecificationSummary {
   throughputMode: string;
@@ -624,11 +547,7 @@ export interface WarmThroughputSpecificationSummary {
   status: string;
 }
 export const WarmThroughputSpecificationSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    readUnitsPerSecond: S.Number,
-    writeUnitsPerSecond: S.Number,
-    status: S.String,
-  }),
+  S.Struct({ readUnitsPerSecond: S.Number, writeUnitsPerSecond: S.Number, status: S.String }),
 ).annotate({
   identifier: "WarmThroughputSpecificationSummary",
 }) as any as S.Schema<WarmThroughputSpecificationSummary>;
@@ -657,9 +576,7 @@ export interface CdcSpecificationSummary {
 }
 export const CdcSpecificationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ status: S.String, viewType: S.optional(S.String) }),
-).annotate({
-  identifier: "CdcSpecificationSummary",
-}) as any as S.Schema<CdcSpecificationSummary>;
+).annotate({ identifier: "CdcSpecificationSummary" }) as any as S.Schema<CdcSpecificationSummary>;
 export interface GetTableResponse {
   keyspaceName: string;
   tableName: string;
@@ -699,9 +616,7 @@ export const GetTableResponse = /*@__PURE__*/ S.suspend(() =>
     cdcSpecification: S.optional(CdcSpecificationSummary),
     warmThroughputSpecification: S.optional(WarmThroughputSpecificationSummary),
   }),
-).annotate({
-  identifier: "GetTableResponse",
-}) as any as S.Schema<GetTableResponse>;
+).annotate({ identifier: "GetTableResponse" }) as any as S.Schema<GetTableResponse>;
 export interface GetTableAutoScalingSettingsRequest {
   keyspaceName: string;
   tableName: string;
@@ -785,9 +700,7 @@ export const GetTypeResponse = /*@__PURE__*/ S.suspend(() =>
     maxNestingDepth: S.optional(S.Number),
     keyspaceArn: S.String,
   }),
-).annotate({
-  identifier: "GetTypeResponse",
-}) as any as S.Schema<GetTypeResponse>;
+).annotate({ identifier: "GetTypeResponse" }) as any as S.Schema<GetTypeResponse>;
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListKeyspacesRequest {
@@ -795,13 +708,10 @@ export interface ListKeyspacesRequest {
   maxResults?: number;
 }
 export const ListKeyspacesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListKeyspacesRequest",
-}) as any as S.Schema<ListKeyspacesRequest>;
+  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListKeyspacesRequest" }) as any as S.Schema<ListKeyspacesRequest>;
 export interface KeyspaceSummary {
   keyspaceName: string;
   resourceArn: string;
@@ -815,9 +725,7 @@ export const KeyspaceSummary = /*@__PURE__*/ S.suspend(() =>
     replicationStrategy: S.String,
     replicationRegions: S.optional(RegionList),
   }),
-).annotate({
-  identifier: "KeyspaceSummary",
-}) as any as S.Schema<KeyspaceSummary>;
+).annotate({ identifier: "KeyspaceSummary" }) as any as S.Schema<KeyspaceSummary>;
 export type KeyspaceSummaryList = KeyspaceSummary[];
 export const KeyspaceSummaryList = /*@__PURE__*/ S.Array(KeyspaceSummary);
 export interface ListKeyspacesResponse {
@@ -826,9 +734,7 @@ export interface ListKeyspacesResponse {
 }
 export const ListKeyspacesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), keyspaces: KeyspaceSummaryList }),
-).annotate({
-  identifier: "ListKeyspacesResponse",
-}) as any as S.Schema<ListKeyspacesResponse>;
+).annotate({ identifier: "ListKeyspacesResponse" }) as any as S.Schema<ListKeyspacesResponse>;
 export interface ListTablesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -840,20 +746,14 @@ export const ListTablesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     keyspaceName: S.String,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTablesRequest",
-}) as any as S.Schema<ListTablesRequest>;
+).annotate({ identifier: "ListTablesRequest" }) as any as S.Schema<ListTablesRequest>;
 export interface TableSummary {
   keyspaceName: string;
   tableName: string;
   resourceArn: string;
 }
 export const TableSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    keyspaceName: S.String,
-    tableName: S.String,
-    resourceArn: S.String,
-  }),
+  S.Struct({ keyspaceName: S.String, tableName: S.String, resourceArn: S.String }),
 ).annotate({ identifier: "TableSummary" }) as any as S.Schema<TableSummary>;
 export type TableSummaryList = TableSummary[];
 export const TableSummaryList = /*@__PURE__*/ S.Array(TableSummary);
@@ -862,13 +762,8 @@ export interface ListTablesResponse {
   tables?: TableSummary[];
 }
 export const ListTablesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    tables: S.optional(TableSummaryList),
-  }),
-).annotate({
-  identifier: "ListTablesResponse",
-}) as any as S.Schema<ListTablesResponse>;
+  S.Struct({ nextToken: S.optional(S.String), tables: S.optional(TableSummaryList) }),
+).annotate({ identifier: "ListTablesResponse" }) as any as S.Schema<ListTablesResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
   nextToken?: string;
@@ -903,18 +798,14 @@ export const ListTypesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     keyspaceName: S.String,
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTypesRequest",
-}) as any as S.Schema<ListTypesRequest>;
+).annotate({ identifier: "ListTypesRequest" }) as any as S.Schema<ListTypesRequest>;
 export interface ListTypesResponse {
   nextToken?: string;
   types: string[];
 }
 export const ListTypesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String), types: TypeNameList }),
-).annotate({
-  identifier: "ListTypesResponse",
-}) as any as S.Schema<ListTypesResponse>;
+).annotate({ identifier: "ListTypesResponse" }) as any as S.Schema<ListTypesResponse>;
 export interface RestoreTableRequest {
   sourceKeyspaceName: string;
   sourceTableName: string;
@@ -942,17 +833,13 @@ export const RestoreTableRequest = /*@__PURE__*/ S.suspend(() =>
     autoScalingSpecification: S.optional(AutoScalingSpecification),
     replicaSpecifications: S.optional(ReplicaSpecificationList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RestoreTableRequest",
-}) as any as S.Schema<RestoreTableRequest>;
+).annotate({ identifier: "RestoreTableRequest" }) as any as S.Schema<RestoreTableRequest>;
 export interface RestoreTableResponse {
   restoredTableARN: string;
 }
 export const RestoreTableResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ restoredTableARN: S.String }),
-).annotate({
-  identifier: "RestoreTableResponse",
-}) as any as S.Schema<RestoreTableResponse>;
+).annotate({ identifier: "RestoreTableResponse" }) as any as S.Schema<RestoreTableResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
@@ -961,9 +848,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -976,9 +861,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -994,17 +877,13 @@ export const UpdateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
     replicationSpecification: ReplicationSpecification,
     clientSideTimestamps: S.optional(ClientSideTimestamps),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateKeyspaceRequest",
-}) as any as S.Schema<UpdateKeyspaceRequest>;
+).annotate({ identifier: "UpdateKeyspaceRequest" }) as any as S.Schema<UpdateKeyspaceRequest>;
 export interface UpdateKeyspaceResponse {
   resourceArn: string;
 }
 export const UpdateKeyspaceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }),
-).annotate({
-  identifier: "UpdateKeyspaceResponse",
-}) as any as S.Schema<UpdateKeyspaceResponse>;
+).annotate({ identifier: "UpdateKeyspaceResponse" }) as any as S.Schema<UpdateKeyspaceResponse>;
 export interface UpdateTableRequest {
   keyspaceName: string;
   tableName: string;
@@ -1036,17 +915,13 @@ export const UpdateTableRequest = /*@__PURE__*/ S.suspend(() =>
     cdcSpecification: S.optional(CdcSpecification),
     warmThroughputSpecification: S.optional(WarmThroughputSpecification),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateTableRequest",
-}) as any as S.Schema<UpdateTableRequest>;
+).annotate({ identifier: "UpdateTableRequest" }) as any as S.Schema<UpdateTableRequest>;
 export interface UpdateTableResponse {
   resourceArn: string;
 }
 export const UpdateTableResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String }),
-).annotate({
-  identifier: "UpdateTableResponse",
-}) as any as S.Schema<UpdateTableResponse>;
+).annotate({ identifier: "UpdateTableResponse" }) as any as S.Schema<UpdateTableResponse>;
 export type CreateKeyspaceError =
   | AccessDeniedException
   | ConflictException

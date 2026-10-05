@@ -27,12 +27,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
@@ -71,11 +66,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -87,11 +78,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -172,11 +159,7 @@ export interface CreateEmailContactRequest {
   tags?: { [key: string]: string | undefined };
 }
 export const CreateEmailContactRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: SensitiveString,
-    emailAddress: S.String,
-    tags: S.optional(TagMap),
-  }).pipe(
+  S.Struct({ name: SensitiveString, emailAddress: S.String, tags: S.optional(TagMap) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2022-09-19/emailcontacts" }),
       svc,
@@ -218,9 +201,7 @@ export const GetEmailContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/emailcontacts/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetEmailContactRequest",
-}) as any as S.Schema<GetEmailContactRequest>;
+).annotate({ identifier: "GetEmailContactRequest" }) as any as S.Schema<GetEmailContactRequest>;
 export type SensitiveEmailContactAddress = string | redacted.Redacted<string>;
 export type EmailContactStatus = string;
 export type CreationTime = Date;
@@ -248,9 +229,7 @@ export interface GetEmailContactResponse {
 }
 export const GetEmailContactResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ emailContact: EmailContact }),
-).annotate({
-  identifier: "GetEmailContactResponse",
-}) as any as S.Schema<GetEmailContactResponse>;
+).annotate({ identifier: "GetEmailContactResponse" }) as any as S.Schema<GetEmailContactResponse>;
 export interface ListEmailContactsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -260,9 +239,7 @@ export const ListEmailContactsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/emailcontacts" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEmailContactsRequest",
-}) as any as S.Schema<ListEmailContactsRequest>;
+).annotate({ identifier: "ListEmailContactsRequest" }) as any as S.Schema<ListEmailContactsRequest>;
 export type EmailContacts = EmailContact[];
 export const EmailContacts = /*@__PURE__*/ S.Array(EmailContact);
 export interface ListEmailContactsResponse {
@@ -298,10 +275,7 @@ export interface SendActivationCodeRequest {
 export const SendActivationCodeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/2022-10-31/emailcontacts/{arn}/activate/send",
-      }),
+      T.Http({ method: "POST", uri: "/2022-10-31/emailcontacts/{arn}/activate/send" }),
       svc,
       auth,
       proto,
@@ -324,9 +298,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String.pipe(T.HttpLabel("arn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -342,9 +314,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     arn: S.String.pipe(T.HttpLabel("arn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags/{arn}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -363,9 +333,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ActivateEmailContactError =

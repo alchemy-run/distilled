@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Backup",
-  serviceShapeName: "CryoControllerUserManager",
-});
+const svc = T.AwsApiService({ sdkId: "Backup", serviceShapeName: "CryoControllerUserManager" });
 const auth = T.AwsAuthSigv4({ name: "backup" });
 const ver = T.ServiceVersion("2018-11-15");
 const proto = T.AwsProtocolsRestJson1();
@@ -176,10 +173,7 @@ export const AssociateBackupVaultMpaApprovalTeamInput = /*@__PURE__*/ S.suspend(
     RequesterComment: S.optional(SensitiveString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam",
-      }),
+      T.Http({ method: "PUT", uri: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam" }),
       svc,
       auth,
       proto,
@@ -216,9 +210,7 @@ export const CancelLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CancelLegalHoldInput",
-}) as any as S.Schema<CancelLegalHoldInput>;
+).annotate({ identifier: "CancelLegalHoldInput" }) as any as S.Schema<CancelLegalHoldInput>;
 export interface CancelLegalHoldOutput {}
 export const CancelLegalHoldOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelLegalHoldOutput",
@@ -312,10 +304,7 @@ export interface CopyAction {
   DestinationBackupVaultArn: string;
 }
 export const CopyAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Lifecycle: S.optional(Lifecycle),
-    DestinationBackupVaultArn: S.String,
-  }),
+  S.Struct({ Lifecycle: S.optional(Lifecycle), DestinationBackupVaultArn: S.String }),
 ).annotate({ identifier: "CopyAction" }) as any as S.Schema<CopyAction>;
 export type CopyActions = CopyAction[];
 export const CopyActions = /*@__PURE__*/ S.Array(CopyAction);
@@ -342,10 +331,7 @@ export interface ScanAction {
   ScanMode?: ScanMode;
 }
 export const ScanAction = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MalwareScanner: S.optional(MalwareScanner),
-    ScanMode: S.optional(ScanMode),
-  }),
+  S.Struct({ MalwareScanner: S.optional(MalwareScanner), ScanMode: S.optional(ScanMode) }),
 ).annotate({ identifier: "ScanAction" }) as any as S.Schema<ScanAction>;
 export type ScanActions = ScanAction[];
 export const ScanActions = /*@__PURE__*/ S.Array(ScanAction);
@@ -380,9 +366,7 @@ export const BackupRuleInput = /*@__PURE__*/ S.suspend(() =>
     IndexActions: S.optional(IndexActions),
     ScanActions: S.optional(ScanActions),
   }),
-).annotate({
-  identifier: "BackupRuleInput",
-}) as any as S.Schema<BackupRuleInput>;
+).annotate({ identifier: "BackupRuleInput" }) as any as S.Schema<BackupRuleInput>;
 export type BackupRulesInput = BackupRuleInput[];
 export const BackupRulesInput = /*@__PURE__*/ S.Array(BackupRuleInput);
 export type BackupOptionKey = string;
@@ -394,13 +378,8 @@ export interface AdvancedBackupSetting {
   BackupOptions?: { [key: string]: string | undefined };
 }
 export const AdvancedBackupSetting = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceType: S.optional(S.String),
-    BackupOptions: S.optional(BackupOptions),
-  }),
-).annotate({
-  identifier: "AdvancedBackupSetting",
-}) as any as S.Schema<AdvancedBackupSetting>;
+  S.Struct({ ResourceType: S.optional(S.String), BackupOptions: S.optional(BackupOptions) }),
+).annotate({ identifier: "AdvancedBackupSetting" }) as any as S.Schema<AdvancedBackupSetting>;
 export type AdvancedBackupSettings = AdvancedBackupSetting[];
 export const AdvancedBackupSettings = /*@__PURE__*/ S.Array(AdvancedBackupSetting);
 export type IAMRoleArn = string;
@@ -431,9 +410,7 @@ export const BackupPlanInput = /*@__PURE__*/ S.suspend(() =>
     AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
     ScanSettings: S.optional(ScanSettings),
   }),
-).annotate({
-  identifier: "BackupPlanInput",
-}) as any as S.Schema<BackupPlanInput>;
+).annotate({ identifier: "BackupPlanInput" }) as any as S.Schema<BackupPlanInput>;
 export interface CreateBackupPlanInput {
   BackupPlan: BackupPlanInput;
   BackupPlanTags?: { [key: string]: string | undefined };
@@ -445,9 +422,7 @@ export const CreateBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
     BackupPlanTags: S.optional(Tags),
     CreatorRequestId: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/backup/plans" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateBackupPlanInput",
-}) as any as S.Schema<CreateBackupPlanInput>;
+).annotate({ identifier: "CreateBackupPlanInput" }) as any as S.Schema<CreateBackupPlanInput>;
 export interface CreateBackupPlanOutput {
   BackupPlanId?: string;
   BackupPlanArn?: string;
@@ -463,9 +438,7 @@ export const CreateBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
     VersionId: S.optional(S.String),
     AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
   }),
-).annotate({
-  identifier: "CreateBackupPlanOutput",
-}) as any as S.Schema<CreateBackupPlanOutput>;
+).annotate({ identifier: "CreateBackupPlanOutput" }) as any as S.Schema<CreateBackupPlanOutput>;
 export type BackupSelectionName = string;
 export type ResourceArns = string[];
 export const ResourceArns = /*@__PURE__*/ S.Array(S.String);
@@ -480,11 +453,7 @@ export interface Condition {
   ConditionValue: string;
 }
 export const Condition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConditionType: ConditionType,
-    ConditionKey: S.String,
-    ConditionValue: S.String,
-  }),
+  S.Struct({ ConditionType: ConditionType, ConditionKey: S.String, ConditionValue: S.String }),
 ).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type ListOfTags = Condition[];
 export const ListOfTags = /*@__PURE__*/ S.Array(Condition);
@@ -493,13 +462,8 @@ export interface ConditionParameter {
   ConditionValue?: string;
 }
 export const ConditionParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConditionKey: S.optional(S.String),
-    ConditionValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConditionParameter",
-}) as any as S.Schema<ConditionParameter>;
+  S.Struct({ ConditionKey: S.optional(S.String), ConditionValue: S.optional(S.String) }),
+).annotate({ identifier: "ConditionParameter" }) as any as S.Schema<ConditionParameter>;
 export type ConditionParameters = ConditionParameter[];
 export const ConditionParameters = /*@__PURE__*/ S.Array(ConditionParameter);
 export interface Conditions {
@@ -533,9 +497,7 @@ export const BackupSelection = /*@__PURE__*/ S.suspend(() =>
     NotResources: S.optional(ResourceArns),
     Conditions: S.optional(Conditions),
   }),
-).annotate({
-  identifier: "BackupSelection",
-}) as any as S.Schema<BackupSelection>;
+).annotate({ identifier: "BackupSelection" }) as any as S.Schema<BackupSelection>;
 export interface CreateBackupSelectionInput {
   BackupPlanId: string;
   BackupSelection: BackupSelection;
@@ -595,9 +557,7 @@ export const CreateBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateBackupVaultInput",
-}) as any as S.Schema<CreateBackupVaultInput>;
+).annotate({ identifier: "CreateBackupVaultInput" }) as any as S.Schema<CreateBackupVaultInput>;
 export interface CreateBackupVaultOutput {
   BackupVaultName?: string;
   BackupVaultArn?: string;
@@ -609,9 +569,7 @@ export const CreateBackupVaultOutput = /*@__PURE__*/ S.suspend(() =>
     BackupVaultArn: S.optional(S.String),
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreateBackupVaultOutput",
-}) as any as S.Schema<CreateBackupVaultOutput>;
+).annotate({ identifier: "CreateBackupVaultOutput" }) as any as S.Schema<CreateBackupVaultOutput>;
 export type FrameworkName = string;
 export type FrameworkDescription = string;
 export type ControlName = string;
@@ -622,13 +580,8 @@ export interface ControlInputParameter {
   ParameterValue?: string;
 }
 export const ControlInputParameter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ParameterName: S.optional(S.String),
-    ParameterValue: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ControlInputParameter",
-}) as any as S.Schema<ControlInputParameter>;
+  S.Struct({ ParameterName: S.optional(S.String), ParameterValue: S.optional(S.String) }),
+).annotate({ identifier: "ControlInputParameter" }) as any as S.Schema<ControlInputParameter>;
 export type ControlInputParameters = ControlInputParameter[];
 export const ControlInputParameters = /*@__PURE__*/ S.Array(ControlInputParameter);
 export type ComplianceResourceIdList = string[];
@@ -660,9 +613,7 @@ export const FrameworkControl = /*@__PURE__*/ S.suspend(() =>
     ControlInputParameters: S.optional(ControlInputParameters),
     ControlScope: S.optional(ControlScope),
   }),
-).annotate({
-  identifier: "FrameworkControl",
-}) as any as S.Schema<FrameworkControl>;
+).annotate({ identifier: "FrameworkControl" }) as any as S.Schema<FrameworkControl>;
 export type FrameworkControls = FrameworkControl[];
 export const FrameworkControls = /*@__PURE__*/ S.Array(FrameworkControl);
 export interface CreateFrameworkInput {
@@ -682,21 +633,14 @@ export const CreateFrameworkInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/audit/frameworks" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateFrameworkInput",
-}) as any as S.Schema<CreateFrameworkInput>;
+).annotate({ identifier: "CreateFrameworkInput" }) as any as S.Schema<CreateFrameworkInput>;
 export interface CreateFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
 }
 export const CreateFrameworkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FrameworkName: S.optional(S.String),
-    FrameworkArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CreateFrameworkOutput",
-}) as any as S.Schema<CreateFrameworkOutput>;
+  S.Struct({ FrameworkName: S.optional(S.String), FrameworkArn: S.optional(S.String) }),
+).annotate({ identifier: "CreateFrameworkOutput" }) as any as S.Schema<CreateFrameworkOutput>;
 export type VaultNames = string[];
 export const VaultNames = /*@__PURE__*/ S.Array(S.String);
 export type ResourceIdentifiers = string[];
@@ -722,9 +666,7 @@ export const RecoveryPointSelection = /*@__PURE__*/ S.suspend(() =>
     ResourceIdentifiers: S.optional(ResourceIdentifiers),
     DateRange: S.optional(DateRange),
   }),
-).annotate({
-  identifier: "RecoveryPointSelection",
-}) as any as S.Schema<RecoveryPointSelection>;
+).annotate({ identifier: "RecoveryPointSelection" }) as any as S.Schema<RecoveryPointSelection>;
 export interface CreateLegalHoldInput {
   Title: string;
   Description: string;
@@ -740,9 +682,7 @@ export const CreateLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
     RecoveryPointSelection: S.optional(RecoveryPointSelection),
     Tags: S.optional(Tags),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/legal-holds" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLegalHoldInput",
-}) as any as S.Schema<CreateLegalHoldInput>;
+).annotate({ identifier: "CreateLegalHoldInput" }) as any as S.Schema<CreateLegalHoldInput>;
 export type LegalHoldStatus = "CREATING" | "ACTIVE" | "CANCELING" | "CANCELED" | (string & {});
 export const LegalHoldStatus = S.String;
 
@@ -765,9 +705,7 @@ export const CreateLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RecoveryPointSelection: S.optional(RecoveryPointSelection),
   }),
-).annotate({
-  identifier: "CreateLegalHoldOutput",
-}) as any as S.Schema<CreateLegalHoldOutput>;
+).annotate({ identifier: "CreateLegalHoldOutput" }) as any as S.Schema<CreateLegalHoldOutput>;
 export interface CreateLogicallyAirGappedBackupVaultInput {
   BackupVaultName: string;
   BackupVaultTags?: { [key: string]: string | undefined };
@@ -786,10 +724,7 @@ export const CreateLogicallyAirGappedBackupVaultInput = /*@__PURE__*/ S.suspend(
     EncryptionKeyArn: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/logically-air-gapped-backup-vaults/{BackupVaultName}",
-      }),
+      T.Http({ method: "PUT", uri: "/logically-air-gapped-backup-vaults/{BackupVaultName}" }),
       svc,
       auth,
       proto,
@@ -834,9 +769,7 @@ export const ReportDeliveryChannel = /*@__PURE__*/ S.suspend(() =>
     S3KeyPrefix: S.optional(S.String),
     Formats: S.optional(FormatList),
   }),
-).annotate({
-  identifier: "ReportDeliveryChannel",
-}) as any as S.Schema<ReportDeliveryChannel>;
+).annotate({ identifier: "ReportDeliveryChannel" }) as any as S.Schema<ReportDeliveryChannel>;
 export type StringList = string[];
 export const StringList = /*@__PURE__*/ S.Array(S.String);
 export interface ReportSetting {
@@ -876,9 +809,7 @@ export const CreateReportPlanInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/audit/report-plans" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateReportPlanInput",
-}) as any as S.Schema<CreateReportPlanInput>;
+).annotate({ identifier: "CreateReportPlanInput" }) as any as S.Schema<CreateReportPlanInput>;
 export interface CreateReportPlanOutput {
   ReportPlanName?: string;
   ReportPlanArn?: string;
@@ -890,9 +821,7 @@ export const CreateReportPlanOutput = /*@__PURE__*/ S.suspend(() =>
     ReportPlanArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreateReportPlanOutput",
-}) as any as S.Schema<CreateReportPlanOutput>;
+).annotate({ identifier: "CreateReportPlanOutput" }) as any as S.Schema<CreateReportPlanOutput>;
 export interface CreateRestoreAccessBackupVaultInput {
   SourceBackupVaultArn: string;
   BackupVaultName?: string;
@@ -1031,10 +960,7 @@ export interface ProtectedResourceConditions {
   StringNotEquals?: KeyValue[];
 }
 export const ProtectedResourceConditions = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    StringEquals: S.optional(KeyValueList),
-    StringNotEquals: S.optional(KeyValueList),
-  }),
+  S.Struct({ StringEquals: S.optional(KeyValueList), StringNotEquals: S.optional(KeyValueList) }),
 ).annotate({
   identifier: "ProtectedResourceConditions",
 }) as any as S.Schema<ProtectedResourceConditions>;
@@ -1072,10 +998,7 @@ export const CreateRestoreTestingSelectionInput = /*@__PURE__*/ S.suspend(() =>
     RestoreTestingSelection: RestoreTestingSelectionForCreate,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections",
-      }),
+      T.Http({ method: "PUT", uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections" }),
       svc,
       auth,
       proto,
@@ -1116,9 +1039,7 @@ export const ResourceSelection = /*@__PURE__*/ S.suspend(() =>
     TieringDownSettingsInDays: S.Number,
     ResourceType: S.String,
   }),
-).annotate({
-  identifier: "ResourceSelection",
-}) as any as S.Schema<ResourceSelection>;
+).annotate({ identifier: "ResourceSelection" }) as any as S.Schema<ResourceSelection>;
 export type ResourceSelections = ResourceSelection[];
 export const ResourceSelections = /*@__PURE__*/ S.Array(ResourceSelection);
 export interface TieringConfigurationInputForCreate {
@@ -1170,14 +1091,9 @@ export interface DeleteBackupAccessPointInput {
   AccessPointArn: string;
 }
 export const DeleteBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")),
-  }).pipe(
+  S.Struct({ AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-access-point/delete/{AccessPointArn}",
-      }),
+      T.Http({ method: "DELETE", uri: "/backup-access-point/delete/{AccessPointArn}" }),
       svc,
       auth,
       proto,
@@ -1190,9 +1106,7 @@ export const DeleteBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteBackupAccessPointInput>;
 export interface DeleteBackupAccessPointResponse {}
 export const DeleteBackupAccessPointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteBackupAccessPointResponse",
-  },
+  { identifier: "DeleteBackupAccessPointResponse" },
 ) as any as S.Schema<DeleteBackupAccessPointResponse>;
 export interface DeleteBackupPlanInput {
   BackupPlanId: string;
@@ -1208,9 +1122,7 @@ export const DeleteBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBackupPlanInput",
-}) as any as S.Schema<DeleteBackupPlanInput>;
+).annotate({ identifier: "DeleteBackupPlanInput" }) as any as S.Schema<DeleteBackupPlanInput>;
 export interface DeleteBackupPlanOutput {
   BackupPlanId?: string;
   BackupPlanArn?: string;
@@ -1224,9 +1136,7 @@ export const DeleteBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
     DeletionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     VersionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteBackupPlanOutput",
-}) as any as S.Schema<DeleteBackupPlanOutput>;
+).annotate({ identifier: "DeleteBackupPlanOutput" }) as any as S.Schema<DeleteBackupPlanOutput>;
 export interface DeleteBackupSelectionInput {
   BackupPlanId: string;
   SelectionId: string;
@@ -1237,10 +1147,7 @@ export const DeleteBackupSelectionInput = /*@__PURE__*/ S.suspend(() =>
     SelectionId: S.String.pipe(T.HttpLabel("SelectionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup/plans/{BackupPlanId}/selections/{SelectionId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/backup/plans/{BackupPlanId}/selections/{SelectionId}" }),
       svc,
       auth,
       proto,
@@ -1259,9 +1166,7 @@ export interface DeleteBackupVaultInput {
   BackupVaultName: string;
 }
 export const DeleteBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
+  S.Struct({ BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/backup-vaults/{BackupVaultName}" }),
       svc,
@@ -1271,9 +1176,7 @@ export const DeleteBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteBackupVaultInput",
-}) as any as S.Schema<DeleteBackupVaultInput>;
+).annotate({ identifier: "DeleteBackupVaultInput" }) as any as S.Schema<DeleteBackupVaultInput>;
 export interface DeleteBackupVaultResponse {}
 export const DeleteBackupVaultResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBackupVaultResponse",
@@ -1282,14 +1185,9 @@ export interface DeleteBackupVaultAccessPolicyInput {
   BackupVaultName: string;
 }
 export const DeleteBackupVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
+  S.Struct({ BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-vaults/{BackupVaultName}/access-policy",
-      }),
+      T.Http({ method: "DELETE", uri: "/backup-vaults/{BackupVaultName}/access-policy" }),
       svc,
       auth,
       proto,
@@ -1310,14 +1208,9 @@ export interface DeleteBackupVaultLockConfigurationInput {
   BackupVaultName: string;
 }
 export const DeleteBackupVaultLockConfigurationInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
+  S.Struct({ BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/backup-vaults/{BackupVaultName}/vault-lock",
-      }),
+      T.Http({ method: "DELETE", uri: "/backup-vaults/{BackupVaultName}/vault-lock" }),
       svc,
       auth,
       proto,
@@ -1338,9 +1231,7 @@ export interface DeleteBackupVaultNotificationsInput {
   BackupVaultName: string;
 }
 export const DeleteBackupVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
+  S.Struct({ BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) }).pipe(
     T.all(
       T.Http({
         method: "DELETE",
@@ -1376,9 +1267,7 @@ export const DeleteFrameworkInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFrameworkInput",
-}) as any as S.Schema<DeleteFrameworkInput>;
+).annotate({ identifier: "DeleteFrameworkInput" }) as any as S.Schema<DeleteFrameworkInput>;
 export interface DeleteFrameworkResponse {}
 export const DeleteFrameworkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFrameworkResponse",
@@ -1404,9 +1293,7 @@ export const DeleteRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteRecoveryPointInput",
-}) as any as S.Schema<DeleteRecoveryPointInput>;
+).annotate({ identifier: "DeleteRecoveryPointInput" }) as any as S.Schema<DeleteRecoveryPointInput>;
 export interface DeleteRecoveryPointResponse {}
 export const DeleteRecoveryPointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRecoveryPointResponse",
@@ -1415,9 +1302,7 @@ export interface DeleteReportPlanInput {
   ReportPlanName: string;
 }
 export const DeleteReportPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
-  }).pipe(
+  S.Struct({ ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/audit/report-plans/{ReportPlanName}" }),
       svc,
@@ -1427,9 +1312,7 @@ export const DeleteReportPlanInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteReportPlanInput",
-}) as any as S.Schema<DeleteReportPlanInput>;
+).annotate({ identifier: "DeleteReportPlanInput" }) as any as S.Schema<DeleteReportPlanInput>;
 export interface DeleteReportPlanResponse {}
 export const DeleteReportPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteReportPlanResponse",
@@ -1438,14 +1321,9 @@ export interface DeleteRestoreTestingPlanInput {
   RestoreTestingPlanName: string;
 }
 export const DeleteRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel("RestoreTestingPlanName")),
-  }).pipe(
+  S.Struct({ RestoreTestingPlanName: S.String.pipe(T.HttpLabel("RestoreTestingPlanName")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/restore-testing/plans/{RestoreTestingPlanName}" }),
       svc,
       auth,
       proto,
@@ -1500,10 +1378,7 @@ export const DeleteTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     TieringConfigurationName: S.String.pipe(T.HttpLabel("TieringConfigurationName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/tiering-configurations/{TieringConfigurationName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/tiering-configurations/{TieringConfigurationName}" }),
       svc,
       auth,
       proto,
@@ -1524,9 +1399,7 @@ export interface DescribeBackupAccessPointInput {
   AccessPointArn: string;
 }
 export const DescribeBackupAccessPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")),
-  }).pipe(
+  S.Struct({ AccessPointArn: S.String.pipe(T.HttpLabel("AccessPointArn")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/backup-access-point/{AccessPointArn}" }),
       svc,
@@ -1585,9 +1458,7 @@ export const DescribeBackupJobInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeBackupJobInput",
-}) as any as S.Schema<DescribeBackupJobInput>;
+).annotate({ identifier: "DescribeBackupJobInput" }) as any as S.Schema<DescribeBackupJobInput>;
 export type AccountId = string;
 export type BackupJobState =
   | "CREATED"
@@ -1623,9 +1494,7 @@ export const RecoveryPointCreator = /*@__PURE__*/ S.suspend(() =>
     BackupRuleCron: S.optional(S.String),
     BackupRuleTimezone: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecoveryPointCreator",
-}) as any as S.Schema<RecoveryPointCreator>;
+).annotate({ identifier: "RecoveryPointCreator" }) as any as S.Schema<RecoveryPointCreator>;
 export type BackupJobChildJobsInState = { [key in BackupJobState]?: number };
 export const BackupJobChildJobsInState = /*@__PURE__*/ S.Record(
   BackupJobState,
@@ -1700,9 +1569,7 @@ export const DescribeBackupJobOutput = /*@__PURE__*/ S.suspend(() =>
     InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MessageCategory: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeBackupJobOutput",
-}) as any as S.Schema<DescribeBackupJobOutput>;
+).annotate({ identifier: "DescribeBackupJobOutput" }) as any as S.Schema<DescribeBackupJobOutput>;
 export interface DescribeBackupVaultInput {
   BackupVaultName: string;
   BackupVaultAccountId?: string;
@@ -1721,9 +1588,7 @@ export const DescribeBackupVaultInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeBackupVaultInput",
-}) as any as S.Schema<DescribeBackupVaultInput>;
+).annotate({ identifier: "DescribeBackupVaultInput" }) as any as S.Schema<DescribeBackupVaultInput>;
 export type VaultType =
   | "BACKUP_VAULT"
   | "LOGICALLY_AIR_GAPPED_BACKUP_VAULT"
@@ -1805,9 +1670,7 @@ export const DescribeCopyJobInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CopyJobId: S.String.pipe(T.HttpLabel("CopyJobId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/copy-jobs/{CopyJobId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeCopyJobInput",
-}) as any as S.Schema<DescribeCopyJobInput>;
+).annotate({ identifier: "DescribeCopyJobInput" }) as any as S.Schema<DescribeCopyJobInput>;
 export type CopyJobState =
   | "CREATED"
   | "RUNNING"
@@ -1887,9 +1750,7 @@ export interface DescribeCopyJobOutput {
 }
 export const DescribeCopyJobOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CopyJob: S.optional(CopyJob) }),
-).annotate({
-  identifier: "DescribeCopyJobOutput",
-}) as any as S.Schema<DescribeCopyJobOutput>;
+).annotate({ identifier: "DescribeCopyJobOutput" }) as any as S.Schema<DescribeCopyJobOutput>;
 export interface DescribeFrameworkInput {
   FrameworkName: string;
 }
@@ -1904,9 +1765,7 @@ export const DescribeFrameworkInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeFrameworkInput",
-}) as any as S.Schema<DescribeFrameworkInput>;
+).annotate({ identifier: "DescribeFrameworkInput" }) as any as S.Schema<DescribeFrameworkInput>;
 export interface DescribeFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
@@ -1928,9 +1787,7 @@ export const DescribeFrameworkOutput = /*@__PURE__*/ S.suspend(() =>
     FrameworkStatus: S.optional(S.String),
     IdempotencyToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeFrameworkOutput",
-}) as any as S.Schema<DescribeFrameworkOutput>;
+).annotate({ identifier: "DescribeFrameworkOutput" }) as any as S.Schema<DescribeFrameworkOutput>;
 export interface DescribeGlobalSettingsInput {}
 export const DescribeGlobalSettingsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -2039,9 +1896,7 @@ export const CalculatedLifecycle = /*@__PURE__*/ S.suspend(() =>
     MoveToColdStorageAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeleteAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CalculatedLifecycle",
-}) as any as S.Schema<CalculatedLifecycle>;
+).annotate({ identifier: "CalculatedLifecycle" }) as any as S.Schema<CalculatedLifecycle>;
 export type StorageClass = "WARM" | "COLD" | "DELETED" | (string & {});
 export const StorageClass = S.String;
 
@@ -2152,16 +2007,12 @@ export const DescribeRegionSettingsInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeRegionSettingsInput",
 }) as any as S.Schema<DescribeRegionSettingsInput>;
 export type IsEnabled = boolean;
-export type ResourceTypeOptInPreference = {
-  [key: string]: boolean | undefined;
-};
+export type ResourceTypeOptInPreference = { [key: string]: boolean | undefined };
 export const ResourceTypeOptInPreference = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean.pipe(S.optional),
 );
-export type ResourceTypeManagementPreference = {
-  [key: string]: boolean | undefined;
-};
+export type ResourceTypeManagementPreference = { [key: string]: boolean | undefined };
 export const ResourceTypeManagementPreference = /*@__PURE__*/ S.Record(
   S.String,
   S.Boolean.pipe(S.optional),
@@ -2193,21 +2044,14 @@ export const DescribeReportJobInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeReportJobInput",
-}) as any as S.Schema<DescribeReportJobInput>;
+).annotate({ identifier: "DescribeReportJobInput" }) as any as S.Schema<DescribeReportJobInput>;
 export interface ReportDestination {
   S3BucketName?: string;
   S3Keys?: string[];
 }
 export const ReportDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    S3BucketName: S.optional(S.String),
-    S3Keys: S.optional(StringList),
-  }),
-).annotate({
-  identifier: "ReportDestination",
-}) as any as S.Schema<ReportDestination>;
+  S.Struct({ S3BucketName: S.optional(S.String), S3Keys: S.optional(StringList) }),
+).annotate({ identifier: "ReportDestination" }) as any as S.Schema<ReportDestination>;
 export interface ReportJob {
   ReportJobId?: string;
   ReportPlanArn?: string;
@@ -2235,16 +2079,12 @@ export interface DescribeReportJobOutput {
 }
 export const DescribeReportJobOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReportJob: S.optional(ReportJob) }),
-).annotate({
-  identifier: "DescribeReportJobOutput",
-}) as any as S.Schema<DescribeReportJobOutput>;
+).annotate({ identifier: "DescribeReportJobOutput" }) as any as S.Schema<DescribeReportJobOutput>;
 export interface DescribeReportPlanInput {
   ReportPlanName: string;
 }
 export const DescribeReportPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")),
-  }).pipe(
+  S.Struct({ ReportPlanName: S.String.pipe(T.HttpLabel("ReportPlanName")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/audit/report-plans/{ReportPlanName}" }),
       svc,
@@ -2254,9 +2094,7 @@ export const DescribeReportPlanInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeReportPlanInput",
-}) as any as S.Schema<DescribeReportPlanInput>;
+).annotate({ identifier: "DescribeReportPlanInput" }) as any as S.Schema<DescribeReportPlanInput>;
 export interface ReportPlan {
   ReportPlanArn?: string;
   ReportPlanName?: string;
@@ -2286,9 +2124,7 @@ export interface DescribeReportPlanOutput {
 }
 export const DescribeReportPlanOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReportPlan: S.optional(ReportPlan) }),
-).annotate({
-  identifier: "DescribeReportPlanOutput",
-}) as any as S.Schema<DescribeReportPlanOutput>;
+).annotate({ identifier: "DescribeReportPlanOutput" }) as any as S.Schema<DescribeReportPlanOutput>;
 export type RestoreJobId = string;
 export interface DescribeRestoreJobInput {
   RestoreJobId: string;
@@ -2304,9 +2140,7 @@ export const DescribeRestoreJobInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeRestoreJobInput",
-}) as any as S.Schema<DescribeRestoreJobInput>;
+).annotate({ identifier: "DescribeRestoreJobInput" }) as any as S.Schema<DescribeRestoreJobInput>;
 export type RestoreJobStatus =
   | "PENDING"
   | "RUNNING"
@@ -2321,9 +2155,7 @@ export interface RestoreJobCreator {
 }
 export const RestoreJobCreator = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RestoreTestingPlanArn: S.optional(S.String) }),
-).annotate({
-  identifier: "RestoreJobCreator",
-}) as any as S.Schema<RestoreJobCreator>;
+).annotate({ identifier: "RestoreJobCreator" }) as any as S.Schema<RestoreJobCreator>;
 export type RestoreValidationStatus =
   | "FAILED"
   | "SUCCESSFUL"
@@ -2386,9 +2218,7 @@ export const DescribeRestoreJobOutput = /*@__PURE__*/ S.suspend(() =>
     IsParent: S.optional(S.Boolean),
     ParentJobId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeRestoreJobOutput",
-}) as any as S.Schema<DescribeRestoreJobOutput>;
+).annotate({ identifier: "DescribeRestoreJobOutput" }) as any as S.Schema<DescribeRestoreJobOutput>;
 export interface DescribeScanJobInput {
   ScanJobId: string;
 }
@@ -2396,9 +2226,7 @@ export const DescribeScanJobInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ScanJobId: S.String.pipe(T.HttpLabel("ScanJobId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/scan/jobs/{ScanJobId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeScanJobInput",
-}) as any as S.Schema<DescribeScanJobInput>;
+).annotate({ identifier: "DescribeScanJobInput" }) as any as S.Schema<DescribeScanJobInput>;
 export interface ScanJobCreator {
   BackupPlanArn: string;
   BackupPlanId: string;
@@ -2484,9 +2312,7 @@ export const DescribeScanJobOutput = /*@__PURE__*/ S.suspend(() =>
     State: ScanState,
     StatusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DescribeScanJobOutput",
-}) as any as S.Schema<DescribeScanJobOutput>;
+).annotate({ identifier: "DescribeScanJobOutput" }) as any as S.Schema<DescribeScanJobOutput>;
 export interface DisassociateBackupVaultMpaApprovalTeamInput {
   BackupVaultName: string;
   RequesterComment?: string | redacted.Redacted<string>;
@@ -2497,10 +2323,7 @@ export const DisassociateBackupVaultMpaApprovalTeamInput = /*@__PURE__*/ S.suspe
     RequesterComment: S.optional(SensitiveString),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam?delete",
-      }),
+      T.Http({ method: "POST", uri: "/backup-vaults/{BackupVaultName}/mpaApprovalTeam?delete" }),
       svc,
       auth,
       proto,
@@ -2623,9 +2446,7 @@ export const GetBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBackupPlanInput",
-}) as any as S.Schema<GetBackupPlanInput>;
+).annotate({ identifier: "GetBackupPlanInput" }) as any as S.Schema<GetBackupPlanInput>;
 export interface BackupRule {
   RuleName: string;
   TargetBackupVaultName: string;
@@ -2724,9 +2545,7 @@ export const GetBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
     AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
     ScheduledRunsPreview: S.optional(ScheduledRunsPreview),
   }),
-).annotate({
-  identifier: "GetBackupPlanOutput",
-}) as any as S.Schema<GetBackupPlanOutput>;
+).annotate({ identifier: "GetBackupPlanOutput" }) as any as S.Schema<GetBackupPlanOutput>;
 export interface GetBackupPlanFromJSONInput {
   BackupPlanTemplateJson: string;
 }
@@ -2756,14 +2575,9 @@ export interface GetBackupPlanFromTemplateInput {
   BackupPlanTemplateId: string;
 }
 export const GetBackupPlanFromTemplateInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupPlanTemplateId: S.String.pipe(T.HttpLabel("BackupPlanTemplateId")),
-  }).pipe(
+  S.Struct({ BackupPlanTemplateId: S.String.pipe(T.HttpLabel("BackupPlanTemplateId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup/template/plans/{BackupPlanTemplateId}/toPlan",
-      }),
+      T.Http({ method: "GET", uri: "/backup/template/plans/{BackupPlanTemplateId}/toPlan" }),
       svc,
       auth,
       proto,
@@ -2792,10 +2606,7 @@ export const GetBackupSelectionInput = /*@__PURE__*/ S.suspend(() =>
     SelectionId: S.String.pipe(T.HttpLabel("SelectionId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup/plans/{BackupPlanId}/selections/{SelectionId}",
-      }),
+      T.Http({ method: "GET", uri: "/backup/plans/{BackupPlanId}/selections/{SelectionId}" }),
       svc,
       auth,
       proto,
@@ -2803,9 +2614,7 @@ export const GetBackupSelectionInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetBackupSelectionInput",
-}) as any as S.Schema<GetBackupSelectionInput>;
+).annotate({ identifier: "GetBackupSelectionInput" }) as any as S.Schema<GetBackupSelectionInput>;
 export interface GetBackupSelectionOutput {
   BackupSelection?: BackupSelection;
   SelectionId?: string;
@@ -2821,21 +2630,14 @@ export const GetBackupSelectionOutput = /*@__PURE__*/ S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatorRequestId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetBackupSelectionOutput",
-}) as any as S.Schema<GetBackupSelectionOutput>;
+).annotate({ identifier: "GetBackupSelectionOutput" }) as any as S.Schema<GetBackupSelectionOutput>;
 export interface GetBackupVaultAccessPolicyInput {
   BackupVaultName: string;
 }
 export const GetBackupVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
+  S.Struct({ BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/access-policy",
-      }),
+      T.Http({ method: "GET", uri: "/backup-vaults/{BackupVaultName}/access-policy" }),
       svc,
       auth,
       proto,
@@ -2865,14 +2667,9 @@ export interface GetBackupVaultNotificationsInput {
   BackupVaultName: string;
 }
 export const GetBackupVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")),
-  }).pipe(
+  S.Struct({ BackupVaultName: S.String.pipe(T.HttpLabel("BackupVaultName")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/notification-configuration",
-      }),
+      T.Http({ method: "GET", uri: "/backup-vaults/{BackupVaultName}/notification-configuration" }),
       svc,
       auth,
       proto,
@@ -2949,9 +2746,7 @@ export const GetLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetLegalHoldInput",
-}) as any as S.Schema<GetLegalHoldInput>;
+).annotate({ identifier: "GetLegalHoldInput" }) as any as S.Schema<GetLegalHoldInput>;
 export interface GetLegalHoldOutput {
   Title?: string;
   Status?: LegalHoldStatus;
@@ -2977,9 +2772,7 @@ export const GetLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
     RetainRecordUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     RecoveryPointSelection: S.optional(RecoveryPointSelection),
   }),
-).annotate({
-  identifier: "GetLegalHoldOutput",
-}) as any as S.Schema<GetLegalHoldOutput>;
+).annotate({ identifier: "GetLegalHoldOutput" }) as any as S.Schema<GetLegalHoldOutput>;
 export interface GetPITRMalwareScanResultsInput {
   RecoveryPointArn: string;
   BackupVaultName: string;
@@ -3141,10 +2934,7 @@ export interface GetRestoreJobMetadataOutput {
   Metadata?: { [key: string]: string | undefined };
 }
 export const GetRestoreJobMetadataOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobId: S.optional(S.String),
-    Metadata: S.optional(Metadata),
-  }),
+  S.Struct({ RestoreJobId: S.optional(S.String), Metadata: S.optional(Metadata) }),
 ).annotate({
   identifier: "GetRestoreJobMetadataOutput",
 }) as any as S.Schema<GetRestoreJobMetadataOutput>;
@@ -3183,14 +2973,9 @@ export interface GetRestoreTestingPlanInput {
   RestoreTestingPlanName: string;
 }
 export const GetRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreTestingPlanName: S.String.pipe(T.HttpLabel("RestoreTestingPlanName")),
-  }).pipe(
+  S.Struct({ RestoreTestingPlanName: S.String.pipe(T.HttpLabel("RestoreTestingPlanName")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}",
-      }),
+      T.Http({ method: "GET", uri: "/restore-testing/plans/{RestoreTestingPlanName}" }),
       svc,
       auth,
       proto,
@@ -3226,9 +3011,7 @@ export const RestoreTestingPlanForGet = /*@__PURE__*/ S.suspend(() =>
     ScheduleExpressionTimezone: S.optional(S.String),
     StartWindowHours: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "RestoreTestingPlanForGet",
-}) as any as S.Schema<RestoreTestingPlanForGet>;
+).annotate({ identifier: "RestoreTestingPlanForGet" }) as any as S.Schema<RestoreTestingPlanForGet>;
 export interface GetRestoreTestingPlanOutput {
   RestoreTestingPlan: RestoreTestingPlanForGet;
 }
@@ -3328,10 +3111,7 @@ export const GetTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     TieringConfigurationName: S.String.pipe(T.HttpLabel("TieringConfigurationName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/tiering-configurations/{TieringConfigurationName}",
-      }),
+      T.Http({ method: "GET", uri: "/tiering-configurations/{TieringConfigurationName}" }),
       svc,
       auth,
       proto,
@@ -3361,9 +3141,7 @@ export const TieringConfiguration = /*@__PURE__*/ S.suspend(() =>
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "TieringConfiguration",
-}) as any as S.Schema<TieringConfiguration>;
+).annotate({ identifier: "TieringConfiguration" }) as any as S.Schema<TieringConfiguration>;
 export interface GetTieringConfigurationOutput {
   TieringConfiguration?: TieringConfiguration;
 }
@@ -3414,9 +3192,7 @@ export const ListAccessPointsMember = /*@__PURE__*/ S.suspend(() =>
     Status: AccessPointStatus,
     StatusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListAccessPointsMember",
-}) as any as S.Schema<ListAccessPointsMember>;
+).annotate({ identifier: "ListAccessPointsMember" }) as any as S.Schema<ListAccessPointsMember>;
 export type BackupAccessPoints = ListAccessPointsMember[];
 export const BackupAccessPoints = /*@__PURE__*/ S.Array(ListAccessPointsMember);
 export interface ListBackupAccessPointsResponse {
@@ -3424,10 +3200,7 @@ export interface ListBackupAccessPointsResponse {
   NextToken?: string;
 }
 export const ListBackupAccessPointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupAccessPoints: BackupAccessPoints,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ BackupAccessPoints: BackupAccessPoints, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBackupAccessPointsResponse",
 }) as any as S.Schema<ListBackupAccessPointsResponse>;
@@ -3444,10 +3217,7 @@ export const ListBackupAccessPointsByRecoveryPointRequest = /*@__PURE__*/ S.susp
     RecoveryPointArn: S.String.pipe(T.HttpLabel("RecoveryPointArn")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/backup-access-point/recovery-point/{RecoveryPointArn}",
-      }),
+      T.Http({ method: "POST", uri: "/backup-access-point/recovery-point/{RecoveryPointArn}" }),
       svc,
       auth,
       proto,
@@ -3463,10 +3233,7 @@ export interface ListBackupAccessPointsByRecoveryPointResponse {
   NextToken?: string;
 }
 export const ListBackupAccessPointsByRecoveryPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupAccessPoints: BackupAccessPoints,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ BackupAccessPoints: BackupAccessPoints, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBackupAccessPointsByRecoveryPointResponse",
 }) as any as S.Schema<ListBackupAccessPointsByRecoveryPointResponse>;
@@ -3483,10 +3250,7 @@ export const ListBackupAccessPointsByResourceRequest = /*@__PURE__*/ S.suspend((
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/backup-access-point/resource/{ResourceArn}",
-      }),
+      T.Http({ method: "POST", uri: "/backup-access-point/resource/{ResourceArn}" }),
       svc,
       auth,
       proto,
@@ -3502,10 +3266,7 @@ export interface ListBackupAccessPointsByResourceResponse {
   NextToken?: string;
 }
 export const ListBackupAccessPointsByResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupAccessPoints: BackupAccessPoints,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ BackupAccessPoints: BackupAccessPoints, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListBackupAccessPointsByResourceResponse",
 }) as any as S.Schema<ListBackupAccessPointsByResourceResponse>;
@@ -3549,9 +3310,7 @@ export const ListBackupJobsInput = /*@__PURE__*/ S.suspend(() =>
     ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
     ByMessageCategory: S.optional(S.String).pipe(T.HttpQuery("messageCategory")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/backup-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListBackupJobsInput",
-}) as any as S.Schema<ListBackupJobsInput>;
+).annotate({ identifier: "ListBackupJobsInput" }) as any as S.Schema<ListBackupJobsInput>;
 export interface BackupJob {
   AccountId?: string;
   BackupJobId?: string;
@@ -3625,13 +3384,8 @@ export interface ListBackupJobsOutput {
   NextToken?: string;
 }
 export const ListBackupJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupJobs: S.optional(BackupJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBackupJobsOutput",
-}) as any as S.Schema<ListBackupJobsOutput>;
+  S.Struct({ BackupJobs: S.optional(BackupJobsList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListBackupJobsOutput" }) as any as S.Schema<ListBackupJobsOutput>;
 export type BackupJobStatus =
   | "CREATED"
   | "PENDING"
@@ -3704,9 +3458,7 @@ export const BackupJobSummary = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "BackupJobSummary",
-}) as any as S.Schema<BackupJobSummary>;
+).annotate({ identifier: "BackupJobSummary" }) as any as S.Schema<BackupJobSummary>;
 export type BackupJobSummaryList = BackupJobSummary[];
 export const BackupJobSummaryList = /*@__PURE__*/ S.Array(BackupJobSummary);
 export interface ListBackupJobSummariesOutput {
@@ -3734,9 +3486,7 @@ export const ListBackupPlansInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     IncludeDeleted: S.optional(S.Boolean).pipe(T.HttpQuery("includeDeleted")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/backup/plans" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListBackupPlansInput",
-}) as any as S.Schema<ListBackupPlansInput>;
+).annotate({ identifier: "ListBackupPlansInput" }) as any as S.Schema<ListBackupPlansInput>;
 export interface BackupPlansListMember {
   BackupPlanArn?: string;
   BackupPlanId?: string;
@@ -3760,9 +3510,7 @@ export const BackupPlansListMember = /*@__PURE__*/ S.suspend(() =>
     LastExecutionDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
   }),
-).annotate({
-  identifier: "BackupPlansListMember",
-}) as any as S.Schema<BackupPlansListMember>;
+).annotate({ identifier: "BackupPlansListMember" }) as any as S.Schema<BackupPlansListMember>;
 export type BackupPlansList = BackupPlansListMember[];
 export const BackupPlansList = /*@__PURE__*/ S.Array(BackupPlansListMember);
 export interface ListBackupPlansOutput {
@@ -3770,13 +3518,8 @@ export interface ListBackupPlansOutput {
   BackupPlansList?: BackupPlansListMember[];
 }
 export const ListBackupPlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    BackupPlansList: S.optional(BackupPlansList),
-  }),
-).annotate({
-  identifier: "ListBackupPlansOutput",
-}) as any as S.Schema<ListBackupPlansOutput>;
+  S.Struct({ NextToken: S.optional(S.String), BackupPlansList: S.optional(BackupPlansList) }),
+).annotate({ identifier: "ListBackupPlansOutput" }) as any as S.Schema<ListBackupPlansOutput>;
 export interface ListBackupPlanTemplatesInput {
   NextToken?: string;
   MaxResults?: number;
@@ -3924,9 +3667,7 @@ export const ListBackupVaultsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/backup-vaults" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListBackupVaultsInput",
-}) as any as S.Schema<ListBackupVaultsInput>;
+).annotate({ identifier: "ListBackupVaultsInput" }) as any as S.Schema<ListBackupVaultsInput>;
 export interface BackupVaultListMember {
   BackupVaultName?: string;
   BackupVaultArn?: string;
@@ -3958,9 +3699,7 @@ export const BackupVaultListMember = /*@__PURE__*/ S.suspend(() =>
     LockDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EncryptionKeyType: S.optional(EncryptionKeyType),
   }),
-).annotate({
-  identifier: "BackupVaultListMember",
-}) as any as S.Schema<BackupVaultListMember>;
+).annotate({ identifier: "BackupVaultListMember" }) as any as S.Schema<BackupVaultListMember>;
 export type BackupVaultList = BackupVaultListMember[];
 export const BackupVaultList = /*@__PURE__*/ S.Array(BackupVaultListMember);
 export interface ListBackupVaultsOutput {
@@ -3968,13 +3707,8 @@ export interface ListBackupVaultsOutput {
   NextToken?: string;
 }
 export const ListBackupVaultsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    BackupVaultList: S.optional(BackupVaultList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListBackupVaultsOutput",
-}) as any as S.Schema<ListBackupVaultsOutput>;
+  S.Struct({ BackupVaultList: S.optional(BackupVaultList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListBackupVaultsOutput" }) as any as S.Schema<ListBackupVaultsOutput>;
 export interface ListCopyJobsInput {
   NextToken?: string;
   MaxResults?: number;
@@ -4016,9 +3750,7 @@ export const ListCopyJobsInput = /*@__PURE__*/ S.suspend(() =>
     ByMessageCategory: S.optional(S.String).pipe(T.HttpQuery("messageCategory")),
     BySourceRecoveryPointArn: S.optional(S.String).pipe(T.HttpQuery("sourceRecoveryPointArn")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/copy-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListCopyJobsInput",
-}) as any as S.Schema<ListCopyJobsInput>;
+).annotate({ identifier: "ListCopyJobsInput" }) as any as S.Schema<ListCopyJobsInput>;
 export type CopyJobsList = CopyJob[];
 export const CopyJobsList = /*@__PURE__*/ S.Array(CopyJob);
 export interface ListCopyJobsOutput {
@@ -4026,13 +3758,8 @@ export interface ListCopyJobsOutput {
   NextToken?: string;
 }
 export const ListCopyJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CopyJobs: S.optional(CopyJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCopyJobsOutput",
-}) as any as S.Schema<ListCopyJobsOutput>;
+  S.Struct({ CopyJobs: S.optional(CopyJobsList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListCopyJobsOutput" }) as any as S.Schema<ListCopyJobsOutput>;
 export type CopyJobStatus =
   | "CREATED"
   | "RUNNING"
@@ -4127,9 +3854,7 @@ export const ListFrameworksInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/audit/frameworks" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFrameworksInput",
-}) as any as S.Schema<ListFrameworksInput>;
+).annotate({ identifier: "ListFrameworksInput" }) as any as S.Schema<ListFrameworksInput>;
 export interface Framework {
   FrameworkName?: string;
   FrameworkArn?: string;
@@ -4155,13 +3880,8 @@ export interface ListFrameworksOutput {
   NextToken?: string;
 }
 export const ListFrameworksOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Frameworks: S.optional(FrameworkList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFrameworksOutput",
-}) as any as S.Schema<ListFrameworksOutput>;
+  S.Struct({ Frameworks: S.optional(FrameworkList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListFrameworksOutput" }) as any as S.Schema<ListFrameworksOutput>;
 export interface ListIndexedRecoveryPointsInput {
   NextToken?: string;
   MaxResults?: number;
@@ -4213,9 +3933,7 @@ export const IndexedRecoveryPoint = /*@__PURE__*/ S.suspend(() =>
     IndexStatusMessage: S.optional(S.String),
     BackupVaultArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "IndexedRecoveryPoint",
-}) as any as S.Schema<IndexedRecoveryPoint>;
+).annotate({ identifier: "IndexedRecoveryPoint" }) as any as S.Schema<IndexedRecoveryPoint>;
 export type IndexedRecoveryPointList = IndexedRecoveryPoint[];
 export const IndexedRecoveryPointList = /*@__PURE__*/ S.Array(IndexedRecoveryPoint);
 export interface ListIndexedRecoveryPointsOutput {
@@ -4239,9 +3957,7 @@ export const ListLegalHoldsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/legal-holds" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListLegalHoldsInput",
-}) as any as S.Schema<ListLegalHoldsInput>;
+).annotate({ identifier: "ListLegalHoldsInput" }) as any as S.Schema<ListLegalHoldsInput>;
 export interface LegalHold {
   Title?: string;
   Status?: LegalHoldStatus;
@@ -4269,13 +3985,8 @@ export interface ListLegalHoldsOutput {
   LegalHolds?: LegalHold[];
 }
 export const ListLegalHoldsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    LegalHolds: S.optional(LegalHoldsList),
-  }),
-).annotate({
-  identifier: "ListLegalHoldsOutput",
-}) as any as S.Schema<ListLegalHoldsOutput>;
+  S.Struct({ NextToken: S.optional(S.String), LegalHolds: S.optional(LegalHoldsList) }),
+).annotate({ identifier: "ListLegalHoldsOutput" }) as any as S.Schema<ListLegalHoldsOutput>;
 export interface ListProtectedResourcesInput {
   NextToken?: string;
   MaxResults?: number;
@@ -4305,9 +4016,7 @@ export const ProtectedResource = /*@__PURE__*/ S.suspend(() =>
     LastBackupVaultArn: S.optional(S.String),
     LastRecoveryPointArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ProtectedResource",
-}) as any as S.Schema<ProtectedResource>;
+).annotate({ identifier: "ProtectedResource" }) as any as S.Schema<ProtectedResource>;
 export type ProtectedResourcesList = ProtectedResource[];
 export const ProtectedResourcesList = /*@__PURE__*/ S.Array(ProtectedResource);
 export interface ListProtectedResourcesOutput {
@@ -4315,10 +4024,7 @@ export interface ListProtectedResourcesOutput {
   NextToken?: string;
 }
 export const ListProtectedResourcesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(ProtectedResourcesList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Results: S.optional(ProtectedResourcesList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListProtectedResourcesOutput",
 }) as any as S.Schema<ListProtectedResourcesOutput>;
@@ -4336,10 +4042,7 @@ export const ListProtectedResourcesByBackupVaultInput = /*@__PURE__*/ S.suspend(
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/resources",
-      }),
+      T.Http({ method: "GET", uri: "/backup-vaults/{BackupVaultName}/resources" }),
       svc,
       auth,
       proto,
@@ -4355,10 +4058,7 @@ export interface ListProtectedResourcesByBackupVaultOutput {
   NextToken?: string;
 }
 export const ListProtectedResourcesByBackupVaultOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Results: S.optional(ProtectedResourcesList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ Results: S.optional(ProtectedResourcesList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListProtectedResourcesByBackupVaultOutput",
 }) as any as S.Schema<ListProtectedResourcesByBackupVaultOutput>;
@@ -4392,10 +4092,7 @@ export const ListRecoveryPointsByBackupVaultInput = /*@__PURE__*/ S.suspend(() =
     ByParentRecoveryPointArn: S.optional(S.String).pipe(T.HttpQuery("parentRecoveryPointArn")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/backup-vaults/{BackupVaultName}/recovery-points",
-      }),
+      T.Http({ method: "GET", uri: "/backup-vaults/{BackupVaultName}/recovery-points" }),
       svc,
       auth,
       proto,
@@ -4417,9 +4114,7 @@ export const AggregatedScanResult = /*@__PURE__*/ S.suspend(() =>
     Findings: S.optional(ScanFindings),
     LastComputed: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "AggregatedScanResult",
-}) as any as S.Schema<AggregatedScanResult>;
+).annotate({ identifier: "AggregatedScanResult" }) as any as S.Schema<AggregatedScanResult>;
 export interface RecoveryPointByBackupVault {
   RecoveryPointArn?: string;
   BackupVaultName?: string;
@@ -4510,10 +4205,7 @@ export const ListRecoveryPointsByLegalHoldInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/legal-holds/{LegalHoldId}/recovery-points",
-      }),
+      T.Http({ method: "GET", uri: "/legal-holds/{LegalHoldId}/recovery-points" }),
       svc,
       auth,
       proto,
@@ -4537,9 +4229,7 @@ export const RecoveryPointMember = /*@__PURE__*/ S.suspend(() =>
     ResourceType: S.optional(S.String),
     BackupVaultName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecoveryPointMember",
-}) as any as S.Schema<RecoveryPointMember>;
+).annotate({ identifier: "RecoveryPointMember" }) as any as S.Schema<RecoveryPointMember>;
 export type RecoveryPointsList = RecoveryPointMember[];
 export const RecoveryPointsList = /*@__PURE__*/ S.Array(RecoveryPointMember);
 export interface ListRecoveryPointsByLegalHoldOutput {
@@ -4547,10 +4237,7 @@ export interface ListRecoveryPointsByLegalHoldOutput {
   NextToken?: string;
 }
 export const ListRecoveryPointsByLegalHoldOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecoveryPoints: S.optional(RecoveryPointsList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RecoveryPoints: S.optional(RecoveryPointsList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRecoveryPointsByLegalHoldOutput",
 }) as any as S.Schema<ListRecoveryPointsByLegalHoldOutput>;
@@ -4568,10 +4255,7 @@ export const ListRecoveryPointsByResourceInput = /*@__PURE__*/ S.suspend(() =>
     ManagedByAWSBackupOnly: S.optional(S.Boolean).pipe(T.HttpQuery("managedByAWSBackupOnly")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/resources/{ResourceArn}/recovery-points",
-      }),
+      T.Http({ method: "GET", uri: "/resources/{ResourceArn}/recovery-points" }),
       svc,
       auth,
       proto,
@@ -4617,9 +4301,7 @@ export const RecoveryPointByResource = /*@__PURE__*/ S.suspend(() =>
     EncryptionKeyType: S.optional(EncryptionKeyType),
     AggregatedScanResult: S.optional(AggregatedScanResult),
   }),
-).annotate({
-  identifier: "RecoveryPointByResource",
-}) as any as S.Schema<RecoveryPointByResource>;
+).annotate({ identifier: "RecoveryPointByResource" }) as any as S.Schema<RecoveryPointByResource>;
 export type RecoveryPointByResourceList = RecoveryPointByResource[];
 export const RecoveryPointByResourceList = /*@__PURE__*/ S.Array(RecoveryPointByResource);
 export interface ListRecoveryPointsByResourceOutput {
@@ -4657,9 +4339,7 @@ export const ListReportJobsInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/audit/report-jobs" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListReportJobsInput",
-}) as any as S.Schema<ListReportJobsInput>;
+).annotate({ identifier: "ListReportJobsInput" }) as any as S.Schema<ListReportJobsInput>;
 export type ReportJobList = ReportJob[];
 export const ReportJobList = /*@__PURE__*/ S.Array(ReportJob);
 export interface ListReportJobsOutput {
@@ -4667,13 +4347,8 @@ export interface ListReportJobsOutput {
   NextToken?: string;
 }
 export const ListReportJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportJobs: S.optional(ReportJobList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReportJobsOutput",
-}) as any as S.Schema<ListReportJobsOutput>;
+  S.Struct({ ReportJobs: S.optional(ReportJobList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListReportJobsOutput" }) as any as S.Schema<ListReportJobsOutput>;
 export interface ListReportPlansInput {
   MaxResults?: number;
   NextToken?: string;
@@ -4685,9 +4360,7 @@ export const ListReportPlansInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/audit/report-plans" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListReportPlansInput",
-}) as any as S.Schema<ListReportPlansInput>;
+).annotate({ identifier: "ListReportPlansInput" }) as any as S.Schema<ListReportPlansInput>;
 export type ReportPlanList = ReportPlan[];
 export const ReportPlanList = /*@__PURE__*/ S.Array(ReportPlan);
 export interface ListReportPlansOutput {
@@ -4695,13 +4368,8 @@ export interface ListReportPlansOutput {
   NextToken?: string;
 }
 export const ListReportPlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportPlans: S.optional(ReportPlanList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListReportPlansOutput",
-}) as any as S.Schema<ListReportPlansOutput>;
+  S.Struct({ ReportPlans: S.optional(ReportPlanList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListReportPlansOutput" }) as any as S.Schema<ListReportPlansOutput>;
 export interface ListRestoreAccessBackupVaultsInput {
   BackupVaultName: string;
   NextToken?: string;
@@ -4746,9 +4414,7 @@ export const LatestRevokeRequest = /*@__PURE__*/ S.suspend(() =>
     InitiationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ExpiryDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "LatestRevokeRequest",
-}) as any as S.Schema<LatestRevokeRequest>;
+).annotate({ identifier: "LatestRevokeRequest" }) as any as S.Schema<LatestRevokeRequest>;
 export interface RestoreAccessBackupVaultListMember {
   RestoreAccessBackupVaultArn?: string;
   CreationDate?: Date;
@@ -4818,9 +4484,7 @@ export const ListRestoreJobsInput = /*@__PURE__*/ S.suspend(() =>
     ByRestoreTestingPlanArn: S.optional(S.String).pipe(T.HttpQuery("restoreTestingPlanArn")),
     ByParentJobId: S.optional(S.String).pipe(T.HttpQuery("parentJobId")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/restore-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRestoreJobsInput",
-}) as any as S.Schema<ListRestoreJobsInput>;
+).annotate({ identifier: "ListRestoreJobsInput" }) as any as S.Schema<ListRestoreJobsInput>;
 export interface RestoreJobsListMember {
   AccountId?: string;
   RestoreJobId?: string;
@@ -4872,9 +4536,7 @@ export const RestoreJobsListMember = /*@__PURE__*/ S.suspend(() =>
     DeletionStatus: S.optional(RestoreDeletionStatus),
     DeletionStatusMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RestoreJobsListMember",
-}) as any as S.Schema<RestoreJobsListMember>;
+).annotate({ identifier: "RestoreJobsListMember" }) as any as S.Schema<RestoreJobsListMember>;
 export type RestoreJobsList = RestoreJobsListMember[];
 export const RestoreJobsList = /*@__PURE__*/ S.Array(RestoreJobsListMember);
 export interface ListRestoreJobsOutput {
@@ -4882,13 +4544,8 @@ export interface ListRestoreJobsOutput {
   NextToken?: string;
 }
 export const ListRestoreJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobs: S.optional(RestoreJobsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRestoreJobsOutput",
-}) as any as S.Schema<ListRestoreJobsOutput>;
+  S.Struct({ RestoreJobs: S.optional(RestoreJobsList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListRestoreJobsOutput" }) as any as S.Schema<ListRestoreJobsOutput>;
 export interface ListRestoreJobsByProtectedResourceInput {
   ResourceArn: string;
   ByStatus?: RestoreJobStatus;
@@ -4927,10 +4584,7 @@ export interface ListRestoreJobsByProtectedResourceOutput {
   NextToken?: string;
 }
 export const ListRestoreJobsByProtectedResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RestoreJobs: S.optional(RestoreJobsList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RestoreJobs: S.optional(RestoreJobsList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRestoreJobsByProtectedResourceOutput",
 }) as any as S.Schema<ListRestoreJobsByProtectedResourceOutput>;
@@ -4994,9 +4648,7 @@ export const RestoreJobSummary = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "RestoreJobSummary",
-}) as any as S.Schema<RestoreJobSummary>;
+).annotate({ identifier: "RestoreJobSummary" }) as any as S.Schema<RestoreJobSummary>;
 export type RestoreJobSummaryList = RestoreJobSummary[];
 export const RestoreJobSummaryList = /*@__PURE__*/ S.Array(RestoreJobSummary);
 export interface ListRestoreJobSummariesOutput {
@@ -5059,10 +4711,7 @@ export interface ListRestoreTestingPlansOutput {
   RestoreTestingPlans: RestoreTestingPlanForList[];
 }
 export const ListRestoreTestingPlansOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RestoreTestingPlans: RestoreTestingPlans,
-  }),
+  S.Struct({ NextToken: S.optional(S.String), RestoreTestingPlans: RestoreTestingPlans }),
 ).annotate({
   identifier: "ListRestoreTestingPlansOutput",
 }) as any as S.Schema<ListRestoreTestingPlansOutput>;
@@ -5079,10 +4728,7 @@ export const ListRestoreTestingSelectionsInput = /*@__PURE__*/ S.suspend(() =>
     RestoreTestingPlanName: S.String.pipe(T.HttpLabel("RestoreTestingPlanName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections",
-      }),
+      T.Http({ method: "GET", uri: "/restore-testing/plans/{RestoreTestingPlanName}/selections" }),
       svc,
       auth,
       proto,
@@ -5120,10 +4766,7 @@ export interface ListRestoreTestingSelectionsOutput {
   RestoreTestingSelections: RestoreTestingSelectionForList[];
 }
 export const ListRestoreTestingSelectionsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    RestoreTestingSelections: RestoreTestingSelections,
-  }),
+  S.Struct({ NextToken: S.optional(S.String), RestoreTestingSelections: RestoreTestingSelections }),
 ).annotate({
   identifier: "ListRestoreTestingSelectionsOutput",
 }) as any as S.Schema<ListRestoreTestingSelectionsOutput>;
@@ -5161,9 +4804,7 @@ export const ListScanJobsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/scan/jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListScanJobsInput",
-}) as any as S.Schema<ListScanJobsInput>;
+).annotate({ identifier: "ListScanJobsInput" }) as any as S.Schema<ListScanJobsInput>;
 export interface ScanJob {
   AccountId: string;
   BackupVaultArn: string;
@@ -5222,9 +4863,7 @@ export interface ListScanJobsOutput {
 }
 export const ListScanJobsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String), ScanJobs: ScanJobs }),
-).annotate({
-  identifier: "ListScanJobsOutput",
-}) as any as S.Schema<ListScanJobsOutput>;
+).annotate({ identifier: "ListScanJobsOutput" }) as any as S.Schema<ListScanJobsOutput>;
 export type ScanJobStatus =
   | "CREATED"
   | "COMPLETED"
@@ -5387,10 +5026,7 @@ export const PutBackupVaultAccessPolicyInput = /*@__PURE__*/ S.suspend(() =>
     Policy: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/backup-vaults/{BackupVaultName}/access-policy",
-      }),
+      T.Http({ method: "PUT", uri: "/backup-vaults/{BackupVaultName}/access-policy" }),
       svc,
       auth,
       proto,
@@ -5421,10 +5057,7 @@ export const PutBackupVaultLockConfigurationInput = /*@__PURE__*/ S.suspend(() =
     ChangeableForDays: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/backup-vaults/{BackupVaultName}/vault-lock",
-      }),
+      T.Http({ method: "PUT", uri: "/backup-vaults/{BackupVaultName}/vault-lock" }),
       svc,
       auth,
       proto,
@@ -5453,10 +5086,7 @@ export const PutBackupVaultNotificationsInput = /*@__PURE__*/ S.suspend(() =>
     BackupVaultEvents: BackupVaultEvents,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/backup-vaults/{BackupVaultName}/notification-configuration",
-      }),
+      T.Http({ method: "PUT", uri: "/backup-vaults/{BackupVaultName}/notification-configuration" }),
       svc,
       auth,
       proto,
@@ -5485,10 +5115,7 @@ export const PutRestoreValidationResultInput = /*@__PURE__*/ S.suspend(() =>
     ValidationStatusMessage: S.optional(S.String),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-jobs/{RestoreJobId}/validations",
-      }),
+      T.Http({ method: "PUT", uri: "/restore-jobs/{RestoreJobId}/validations" }),
       svc,
       auth,
       proto,
@@ -5567,9 +5194,7 @@ export const StartBackupJobInput = /*@__PURE__*/ S.suspend(() =>
     BackupOptions: S.optional(BackupOptions),
     Index: S.optional(Index),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/backup-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartBackupJobInput",
-}) as any as S.Schema<StartBackupJobInput>;
+).annotate({ identifier: "StartBackupJobInput" }) as any as S.Schema<StartBackupJobInput>;
 export interface StartBackupJobOutput {
   BackupJobId?: string;
   RecoveryPointArn?: string;
@@ -5583,9 +5208,7 @@ export const StartBackupJobOutput = /*@__PURE__*/ S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IsParent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "StartBackupJobOutput",
-}) as any as S.Schema<StartBackupJobOutput>;
+).annotate({ identifier: "StartBackupJobOutput" }) as any as S.Schema<StartBackupJobOutput>;
 export interface StartCopyJobInput {
   RecoveryPointArn: string;
   SourceBackupVaultName: string;
@@ -5603,9 +5226,7 @@ export const StartCopyJobInput = /*@__PURE__*/ S.suspend(() =>
     IdempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Lifecycle: S.optional(Lifecycle),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/copy-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartCopyJobInput",
-}) as any as S.Schema<StartCopyJobInput>;
+).annotate({ identifier: "StartCopyJobInput" }) as any as S.Schema<StartCopyJobInput>;
 export interface StartCopyJobOutput {
   CopyJobId?: string;
   CreationDate?: Date;
@@ -5617,9 +5238,7 @@ export const StartCopyJobOutput = /*@__PURE__*/ S.suspend(() =>
     CreationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IsParent: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "StartCopyJobOutput",
-}) as any as S.Schema<StartCopyJobOutput>;
+).annotate({ identifier: "StartCopyJobOutput" }) as any as S.Schema<StartCopyJobOutput>;
 export interface StartReportJobInput {
   ReportPlanName: string;
   IdempotencyToken?: string;
@@ -5638,17 +5257,13 @@ export const StartReportJobInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartReportJobInput",
-}) as any as S.Schema<StartReportJobInput>;
+).annotate({ identifier: "StartReportJobInput" }) as any as S.Schema<StartReportJobInput>;
 export interface StartReportJobOutput {
   ReportJobId?: string;
 }
 export const StartReportJobOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReportJobId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartReportJobOutput",
-}) as any as S.Schema<StartReportJobOutput>;
+).annotate({ identifier: "StartReportJobOutput" }) as any as S.Schema<StartReportJobOutput>;
 export interface StartRestoreJobInput {
   RecoveryPointArn: string;
   Metadata: { [key: string]: string | undefined };
@@ -5666,17 +5281,13 @@ export const StartRestoreJobInput = /*@__PURE__*/ S.suspend(() =>
     ResourceType: S.optional(S.String),
     CopySourceTagsToRestoredResource: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/restore-jobs" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartRestoreJobInput",
-}) as any as S.Schema<StartRestoreJobInput>;
+).annotate({ identifier: "StartRestoreJobInput" }) as any as S.Schema<StartRestoreJobInput>;
 export interface StartRestoreJobOutput {
   RestoreJobId?: string;
 }
 export const StartRestoreJobOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RestoreJobId: S.optional(S.String) }),
-).annotate({
-  identifier: "StartRestoreJobOutput",
-}) as any as S.Schema<StartRestoreJobOutput>;
+).annotate({ identifier: "StartRestoreJobOutput" }) as any as S.Schema<StartRestoreJobOutput>;
 export interface StartScanJobInput {
   BackupVaultName: string;
   ContinuousScanEndTime?: Date;
@@ -5700,21 +5311,14 @@ export const StartScanJobInput = /*@__PURE__*/ S.suspend(() =>
     ScanMode: ScanMode,
     ScannerRoleArn: S.String,
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/scan/job" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartScanJobInput",
-}) as any as S.Schema<StartScanJobInput>;
+).annotate({ identifier: "StartScanJobInput" }) as any as S.Schema<StartScanJobInput>;
 export interface StartScanJobOutput {
   CreationDate: Date;
   ScanJobId: string;
 }
 export const StartScanJobOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ScanJobId: S.String,
-  }),
-).annotate({
-  identifier: "StartScanJobOutput",
-}) as any as S.Schema<StartScanJobOutput>;
+  S.Struct({ CreationDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")), ScanJobId: S.String }),
+).annotate({ identifier: "StartScanJobOutput" }) as any as S.Schema<StartScanJobOutput>;
 export interface StopBackupJobInput {
   BackupJobId: string;
 }
@@ -5729,9 +5333,7 @@ export const StopBackupJobInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopBackupJobInput",
-}) as any as S.Schema<StopBackupJobInput>;
+).annotate({ identifier: "StopBackupJobInput" }) as any as S.Schema<StopBackupJobInput>;
 export interface StopBackupJobResponse {}
 export const StopBackupJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopBackupJobResponse",
@@ -5741,15 +5343,10 @@ export interface TagResourceInput {
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: Tags,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -5761,15 +5358,10 @@ export interface UntagResourceInput {
   TagKeyList: string[];
 }
 export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagKeyList: TagKeyList,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), TagKeyList: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/untag/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -5792,9 +5384,7 @@ export const UpdateBackupPlanInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateBackupPlanInput",
-}) as any as S.Schema<UpdateBackupPlanInput>;
+).annotate({ identifier: "UpdateBackupPlanInput" }) as any as S.Schema<UpdateBackupPlanInput>;
 export interface UpdateBackupPlanOutput {
   BackupPlanId?: string;
   BackupPlanArn?: string;
@@ -5812,9 +5402,7 @@ export const UpdateBackupPlanOutput = /*@__PURE__*/ S.suspend(() =>
     AdvancedBackupSettings: S.optional(AdvancedBackupSettings),
     ScanSettings: S.optional(ScanSettings),
   }),
-).annotate({
-  identifier: "UpdateBackupPlanOutput",
-}) as any as S.Schema<UpdateBackupPlanOutput>;
+).annotate({ identifier: "UpdateBackupPlanOutput" }) as any as S.Schema<UpdateBackupPlanOutput>;
 export interface UpdateFrameworkInput {
   FrameworkName: string;
   FrameworkDescription?: string;
@@ -5837,9 +5425,7 @@ export const UpdateFrameworkInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFrameworkInput",
-}) as any as S.Schema<UpdateFrameworkInput>;
+).annotate({ identifier: "UpdateFrameworkInput" }) as any as S.Schema<UpdateFrameworkInput>;
 export interface UpdateFrameworkOutput {
   FrameworkName?: string;
   FrameworkArn?: string;
@@ -5851,9 +5437,7 @@ export const UpdateFrameworkOutput = /*@__PURE__*/ S.suspend(() =>
     FrameworkArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "UpdateFrameworkOutput",
-}) as any as S.Schema<UpdateFrameworkOutput>;
+).annotate({ identifier: "UpdateFrameworkOutput" }) as any as S.Schema<UpdateFrameworkOutput>;
 export interface UpdateGlobalSettingsInput {
   GlobalSettings?: { [key: string]: string | undefined };
 }
@@ -5994,9 +5578,7 @@ export const UpdateReportPlanInput = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateReportPlanInput",
-}) as any as S.Schema<UpdateReportPlanInput>;
+).annotate({ identifier: "UpdateReportPlanInput" }) as any as S.Schema<UpdateReportPlanInput>;
 export interface UpdateReportPlanOutput {
   ReportPlanName?: string;
   ReportPlanArn?: string;
@@ -6008,9 +5590,7 @@ export const UpdateReportPlanOutput = /*@__PURE__*/ S.suspend(() =>
     ReportPlanArn: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "UpdateReportPlanOutput",
-}) as any as S.Schema<UpdateReportPlanOutput>;
+).annotate({ identifier: "UpdateReportPlanOutput" }) as any as S.Schema<UpdateReportPlanOutput>;
 export interface RestoreTestingPlanForUpdate {
   RecoveryPointSelection?: RestoreTestingRecoveryPointSelection;
   ScheduleExpression?: string;
@@ -6037,10 +5617,7 @@ export const UpdateRestoreTestingPlanInput = /*@__PURE__*/ S.suspend(() =>
     RestoreTestingPlanName: S.String.pipe(T.HttpLabel("RestoreTestingPlanName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restore-testing/plans/{RestoreTestingPlanName}",
-      }),
+      T.Http({ method: "PUT", uri: "/restore-testing/plans/{RestoreTestingPlanName}" }),
       svc,
       auth,
       proto,
@@ -6134,10 +5711,7 @@ export interface TieringConfigurationInputForUpdate {
   BackupVaultName: string;
 }
 export const TieringConfigurationInputForUpdate = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceSelection: ResourceSelections,
-    BackupVaultName: S.String,
-  }),
+  S.Struct({ ResourceSelection: ResourceSelections, BackupVaultName: S.String }),
 ).annotate({
   identifier: "TieringConfigurationInputForUpdate",
 }) as any as S.Schema<TieringConfigurationInputForUpdate>;
@@ -6151,10 +5725,7 @@ export const UpdateTieringConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     TieringConfiguration: TieringConfigurationInputForUpdate,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/tiering-configurations/{TieringConfigurationName}",
-      }),
+      T.Http({ method: "PUT", uri: "/tiering-configurations/{TieringConfigurationName}" }),
       svc,
       auth,
       proto,

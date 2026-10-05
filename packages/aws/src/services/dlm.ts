@@ -72,10 +72,7 @@ const rules = T.EndpointResolver((p, _) => {
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Code: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), Code: S.optional(S.String) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidRequestException
@@ -85,14 +82,10 @@ export class InvalidRequestException
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       Code: S.optional(S.String),
       RequiredParameters: S.optional(
-        S.suspend(() => ParameterList).annotate({
-          identifier: "ParameterList",
-        }),
+        S.suspend(() => ParameterList).annotate({ identifier: "ParameterList" }),
       ),
       MutuallyExclusiveParameters: S.optional(
-        S.suspend(() => ParameterList).annotate({
-          identifier: "ParameterList",
-        }),
+        S.suspend(() => ParameterList).annotate({ identifier: "ParameterList" }),
       ),
     },
     T.HttpError(400),
@@ -256,9 +249,7 @@ export const FastRestoreRule = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZones: S.optional(AvailabilityZoneList),
     AvailabilityZoneIds: S.optional(AvailabilityZoneIdList),
   }),
-).annotate({
-  identifier: "FastRestoreRule",
-}) as any as S.Schema<FastRestoreRule>;
+).annotate({ identifier: "FastRestoreRule" }) as any as S.Schema<FastRestoreRule>;
 export type TargetRegion = string;
 export type Target = string;
 export type Encrypted = boolean;
@@ -307,9 +298,7 @@ export const CrossRegionCopyRule = /*@__PURE__*/ S.suspend(() =>
     RetainRule: S.optional(CrossRegionCopyRetainRule),
     DeprecateRule: S.optional(CrossRegionCopyDeprecateRule),
   }),
-).annotate({
-  identifier: "CrossRegionCopyRule",
-}) as any as S.Schema<CrossRegionCopyRule>;
+).annotate({ identifier: "CrossRegionCopyRule" }) as any as S.Schema<CrossRegionCopyRule>;
 export type CrossRegionCopyRules = CrossRegionCopyRule[];
 export const CrossRegionCopyRules = /*@__PURE__*/ S.Array(CrossRegionCopyRule);
 export type AwsAccountId = string;
@@ -352,17 +341,13 @@ export const RetentionArchiveTier = /*@__PURE__*/ S.suspend(() =>
     Interval: S.optional(S.Number),
     IntervalUnit: S.optional(RetentionIntervalUnitValues),
   }),
-).annotate({
-  identifier: "RetentionArchiveTier",
-}) as any as S.Schema<RetentionArchiveTier>;
+).annotate({ identifier: "RetentionArchiveTier" }) as any as S.Schema<RetentionArchiveTier>;
 export interface ArchiveRetainRule {
   RetentionArchiveTier?: RetentionArchiveTier;
 }
 export const ArchiveRetainRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RetentionArchiveTier: S.optional(RetentionArchiveTier) }),
-).annotate({
-  identifier: "ArchiveRetainRule",
-}) as any as S.Schema<ArchiveRetainRule>;
+).annotate({ identifier: "ArchiveRetainRule" }) as any as S.Schema<ArchiveRetainRule>;
 export interface ArchiveRule {
   RetainRule?: ArchiveRetainRule;
 }
@@ -435,18 +420,13 @@ export const EventParameters = /*@__PURE__*/ S.suspend(() =>
     SnapshotOwner: S.optional(SnapshotOwnerList),
     DescriptionRegex: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EventParameters",
-}) as any as S.Schema<EventParameters>;
+).annotate({ identifier: "EventParameters" }) as any as S.Schema<EventParameters>;
 export interface EventSource {
   Type?: EventSourceValues;
   Parameters?: EventParameters;
 }
 export const EventSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(EventSourceValues),
-    Parameters: S.optional(EventParameters),
-  }),
+  S.Struct({ Type: S.optional(EventSourceValues), Parameters: S.optional(EventParameters) }),
 ).annotate({ identifier: "EventSource" }) as any as S.Schema<EventSource>;
 export type ActionName = string;
 export interface EncryptionConfiguration {
@@ -455,9 +435,7 @@ export interface EncryptionConfiguration {
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Encrypted: S.optional(S.Boolean), CmkArn: S.optional(S.String) }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export interface CrossRegionCopyAction {
   Target?: string;
   EncryptionConfiguration?: EncryptionConfiguration;
@@ -469,9 +447,7 @@ export const CrossRegionCopyAction = /*@__PURE__*/ S.suspend(() =>
     EncryptionConfiguration: S.optional(EncryptionConfiguration),
     RetainRule: S.optional(CrossRegionCopyRetainRule),
   }),
-).annotate({
-  identifier: "CrossRegionCopyAction",
-}) as any as S.Schema<CrossRegionCopyAction>;
+).annotate({ identifier: "CrossRegionCopyAction" }) as any as S.Schema<CrossRegionCopyAction>;
 export type CrossRegionCopyActionList = CrossRegionCopyAction[];
 export const CrossRegionCopyActionList = /*@__PURE__*/ S.Array(CrossRegionCopyAction);
 export interface Action {
@@ -479,10 +455,7 @@ export interface Action {
   CrossRegionCopy?: CrossRegionCopyAction[];
 }
 export const Action = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    CrossRegionCopy: S.optional(CrossRegionCopyActionList),
-  }),
+  S.Struct({ Name: S.optional(S.String), CrossRegionCopy: S.optional(CrossRegionCopyActionList) }),
 ).annotate({ identifier: "Action" }) as any as S.Schema<Action>;
 export type ActionList = Action[];
 export const ActionList = /*@__PURE__*/ S.Array(Action);
@@ -496,9 +469,7 @@ export interface CrossRegionCopyTarget {
 }
 export const CrossRegionCopyTarget = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TargetRegion: S.optional(S.String) }),
-).annotate({
-  identifier: "CrossRegionCopyTarget",
-}) as any as S.Schema<CrossRegionCopyTarget>;
+).annotate({ identifier: "CrossRegionCopyTarget" }) as any as S.Schema<CrossRegionCopyTarget>;
 export type CrossRegionCopyTargetList = CrossRegionCopyTarget[];
 export const CrossRegionCopyTargetList = /*@__PURE__*/ S.Array(CrossRegionCopyTarget);
 export type ExtendDeletion = boolean;
@@ -671,9 +642,7 @@ export const LifecyclePolicySummary = /*@__PURE__*/ S.suspend(() =>
     PolicyType: S.optional(PolicyTypeValues),
     DefaultPolicy: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LifecyclePolicySummary",
-}) as any as S.Schema<LifecyclePolicySummary>;
+).annotate({ identifier: "LifecyclePolicySummary" }) as any as S.Schema<LifecyclePolicySummary>;
 export type LifecyclePolicySummaryList = LifecyclePolicySummary[];
 export const LifecyclePolicySummaryList = /*@__PURE__*/ S.Array(LifecyclePolicySummary);
 export interface GetLifecyclePoliciesResponse {
@@ -723,9 +692,7 @@ export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
     PolicyArn: S.optional(S.String),
     DefaultPolicy: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "LifecyclePolicy",
-}) as any as S.Schema<LifecyclePolicy>;
+).annotate({ identifier: "LifecyclePolicy" }) as any as S.Schema<LifecyclePolicy>;
 export interface GetLifecyclePolicyResponse {
   Policy?: LifecyclePolicy & {
     PolicyDetails: PolicyDetails & {
@@ -733,22 +700,14 @@ export interface GetLifecyclePolicyResponse {
       Schedules: (Schedule & {
         TagsToAdd: (Tag & { Key: string; Value: string })[];
         VariableTags: (Tag & { Key: string; Value: string })[];
-        CreateRule: CreateRule & {
-          Scripts: (Script & { ExecutionHandler: ExecutionHandler })[];
-        };
-        CrossRegionCopyRules: (CrossRegionCopyRule & {
-          Encrypted: Encrypted;
-        })[];
+        CreateRule: CreateRule & { Scripts: (Script & { ExecutionHandler: ExecutionHandler })[] };
+        CrossRegionCopyRules: (CrossRegionCopyRule & { Encrypted: Encrypted })[];
         ShareRules: (ShareRule & { TargetAccounts: ShareTargetAccountList })[];
         ArchiveRule: ArchiveRule & {
-          RetainRule: ArchiveRetainRule & {
-            RetentionArchiveTier: RetentionArchiveTier;
-          };
+          RetainRule: ArchiveRetainRule & { RetentionArchiveTier: RetentionArchiveTier };
         };
       })[];
-      Parameters: Parameters & {
-        ExcludeDataVolumeTags: (Tag & { Key: string; Value: string })[];
-      };
+      Parameters: Parameters & { ExcludeDataVolumeTags: (Tag & { Key: string; Value: string })[] };
       EventSource: EventSource & {
         Type: EventSourceValues;
         Parameters: EventParameters & {
@@ -761,14 +720,10 @@ export interface GetLifecyclePolicyResponse {
         Name: ActionName;
         CrossRegionCopy: (CrossRegionCopyAction & {
           Target: Target;
-          EncryptionConfiguration: EncryptionConfiguration & {
-            Encrypted: Encrypted;
-          };
+          EncryptionConfiguration: EncryptionConfiguration & { Encrypted: Encrypted };
         })[];
       })[];
-      Exclusions: Exclusions & {
-        ExcludeTags: (Tag & { Key: string; Value: string })[];
-      };
+      Exclusions: Exclusions & { ExcludeTags: (Tag & { Key: string; Value: string })[] };
     };
   };
 }
@@ -806,9 +761,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -826,9 +779,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

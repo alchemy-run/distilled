@@ -10,10 +10,7 @@ import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("https://sts.amazonaws.com/doc/2011-06-15/");
-const svc = T.AwsApiService({
-  sdkId: "STS",
-  serviceShapeName: "AWSSecurityTokenServiceV20110615",
-});
+const svc = T.AwsApiService({ sdkId: "STS", serviceShapeName: "AWSSecurityTokenServiceV20110615" });
 const auth = T.AwsAuthSigv4({ name: "sts" });
 const ver = T.ServiceVersion("2011-06-15");
 const proto = T.AwsProtocolsAwsQuery();
@@ -91,9 +88,7 @@ const rules = T.EndpointResolver((p, _) => {
       }
       return e(
         `https://sts.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        {
-          authSchemes: [{ name: "sigv4", signingName: "sts", signingRegion: `${Region}` }],
-        },
+        { authSchemes: [{ name: "sigv4", signingName: "sts", signingRegion: `${Region}` }] },
         {},
       );
     }
@@ -163,10 +158,7 @@ export class ExpiredTradeInTokenException
     "ExpiredTradeInTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ExpiredTradeInTokenException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "ExpiredTradeInTokenException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -190,10 +182,7 @@ export class InvalidAuthorizationMessageException
     "InvalidAuthorizationMessageException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InvalidAuthorizationMessageException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "InvalidAuthorizationMessageException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -211,10 +200,7 @@ export class JWTPayloadSizeExceededException
     "JWTPayloadSizeExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "JWTPayloadSizeExceededException",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "JWTPayloadSizeExceededException", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -223,10 +209,7 @@ export class MalformedPolicyDocumentException
     "MalformedPolicyDocumentException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "MalformedPolicyDocument",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "MalformedPolicyDocument", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -256,10 +239,7 @@ export class RegionDisabledException
     "RegionDisabledException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "RegionDisabledException",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "RegionDisabledException", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -268,10 +248,7 @@ export class SessionDurationEscalationException
     "SessionDurationEscalationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "SessionDurationEscalationException",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "SessionDurationEscalationException", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -282,9 +259,7 @@ export interface PolicyDescriptorType {
 }
 export const PolicyDescriptorType = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.optional(S.String) }),
-).annotate({
-  identifier: "PolicyDescriptorType",
-}) as any as S.Schema<PolicyDescriptorType>;
+).annotate({ identifier: "PolicyDescriptorType" }) as any as S.Schema<PolicyDescriptorType>;
 export type PolicyDescriptorListType = PolicyDescriptorType[];
 export const PolicyDescriptorListType = /*@__PURE__*/ S.Array(PolicyDescriptorType);
 export type UnrestrictedSessionPolicyDocumentType = string;
@@ -312,15 +287,11 @@ export interface ProvidedContext {
   ContextAssertion?: string;
 }
 export const ProvidedContext = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ProviderArn: S.optional(S.String),
-    ContextAssertion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ProvidedContext",
-}) as any as S.Schema<ProvidedContext>;
+  S.Struct({ ProviderArn: S.optional(S.String), ContextAssertion: S.optional(S.String) }),
+).annotate({ identifier: "ProvidedContext" }) as any as S.Schema<ProvidedContext>;
 export type ProvidedContextsListType = ProvidedContext[];
 export const ProvidedContextsListType = /*@__PURE__*/ S.Array(ProvidedContext);
+export type MinimumSessionTokenSizeType = number;
 export interface AssumeRoleRequest {
   RoleArn: string;
   RoleSessionName: string;
@@ -334,6 +305,7 @@ export interface AssumeRoleRequest {
   TokenCode?: string;
   SourceIdentity?: string;
   ProvidedContexts?: ProvidedContext[];
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRoleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -349,10 +321,9 @@ export const AssumeRoleRequest = /*@__PURE__*/ S.suspend(() =>
     TokenCode: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
     ProvidedContexts: S.optional(ProvidedContextsListType),
+    MinimumSessionTokenSize: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssumeRoleRequest",
-}) as any as S.Schema<AssumeRoleRequest>;
+).annotate({ identifier: "AssumeRoleRequest" }) as any as S.Schema<AssumeRoleRequest>;
 export type AccessKeyIdType = string;
 export type AccessKeySecretType = string | redacted.Redacted<string>;
 export type TokenType = string;
@@ -377,15 +348,17 @@ export interface AssumedRoleUser {
 }
 export const AssumedRoleUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AssumedRoleId: S.String, Arn: S.String }),
-).annotate({
-  identifier: "AssumedRoleUser",
-}) as any as S.Schema<AssumedRoleUser>;
+).annotate({ identifier: "AssumedRoleUser" }) as any as S.Schema<AssumedRoleUser>;
 export type NonNegativeIntegerType = number;
+export type SessionTokenUtilizationType = number;
+export type SessionTokenSizeType = number;
 export interface AssumeRoleResponse {
   Credentials?: Credentials;
   AssumedRoleUser?: AssumedRoleUser;
   PackedPolicySize?: number;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRoleResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -393,10 +366,10 @@ export const AssumeRoleResponse = /*@__PURE__*/ S.suspend(() =>
     AssumedRoleUser: S.optional(AssumedRoleUser),
     PackedPolicySize: S.optional(S.Number),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "AssumeRoleResponse",
-}) as any as S.Schema<AssumeRoleResponse>;
+).annotate({ identifier: "AssumeRoleResponse" }) as any as S.Schema<AssumeRoleResponse>;
 export type SAMLAssertionType = string | redacted.Redacted<string>;
 export type SessionPolicyDocumentType = string;
 export interface AssumeRoleWithSAMLRequest {
@@ -406,6 +379,7 @@ export interface AssumeRoleWithSAMLRequest {
   PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRoleWithSAMLRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -415,6 +389,7 @@ export const AssumeRoleWithSAMLRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyArns: S.optional(PolicyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
+    MinimumSessionTokenSize: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssumeRoleWithSAMLRequest",
@@ -434,6 +409,8 @@ export interface AssumeRoleWithSAMLResponse {
   Audience?: string;
   NameQualifier?: string;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRoleWithSAMLResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -446,6 +423,8 @@ export const AssumeRoleWithSAMLResponse = /*@__PURE__*/ S.suspend(() =>
     Audience: S.optional(S.String),
     NameQualifier: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
 ).annotate({
   identifier: "AssumeRoleWithSAMLResponse",
@@ -460,6 +439,7 @@ export interface AssumeRoleWithWebIdentityRequest {
   PolicyArns?: PolicyDescriptorType[];
   Policy?: string;
   DurationSeconds?: number;
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRoleWithWebIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -470,6 +450,7 @@ export const AssumeRoleWithWebIdentityRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyArns: S.optional(PolicyDescriptorListType),
     Policy: S.optional(S.String),
     DurationSeconds: S.optional(S.Number),
+    MinimumSessionTokenSize: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssumeRoleWithWebIdentityRequest",
@@ -483,6 +464,8 @@ export interface AssumeRoleWithWebIdentityResponse {
   Provider?: string;
   Audience?: string;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRoleWithWebIdentityResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -493,6 +476,8 @@ export const AssumeRoleWithWebIdentityResponse = /*@__PURE__*/ S.suspend(() =>
     Provider: S.optional(S.String),
     Audience: S.optional(S.String),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
 ).annotate({
   identifier: "AssumeRoleWithWebIdentityResponse",
@@ -503,28 +488,30 @@ export interface AssumeRootRequest {
   TargetPrincipal: string;
   TaskPolicyArn: PolicyDescriptorType;
   DurationSeconds?: number;
+  MinimumSessionTokenSize?: number;
 }
 export const AssumeRootRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TargetPrincipal: S.String,
     TaskPolicyArn: PolicyDescriptorType,
     DurationSeconds: S.optional(S.Number),
+    MinimumSessionTokenSize: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssumeRootRequest",
-}) as any as S.Schema<AssumeRootRequest>;
+).annotate({ identifier: "AssumeRootRequest" }) as any as S.Schema<AssumeRootRequest>;
 export interface AssumeRootResponse {
   Credentials?: Credentials;
   SourceIdentity?: string;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const AssumeRootResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Credentials: S.optional(Credentials),
     SourceIdentity: S.optional(S.String),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "AssumeRootResponse",
-}) as any as S.Schema<AssumeRootResponse>;
+).annotate({ identifier: "AssumeRootResponse" }) as any as S.Schema<AssumeRootResponse>;
 export type EncodedMessageType = string;
 export interface DecodeAuthorizationMessageRequest {
   EncodedMessage: string;
@@ -552,24 +539,18 @@ export const GetAccessKeyInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccessKeyId: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAccessKeyInfoRequest",
-}) as any as S.Schema<GetAccessKeyInfoRequest>;
+).annotate({ identifier: "GetAccessKeyInfoRequest" }) as any as S.Schema<GetAccessKeyInfoRequest>;
 export type AccountType = string;
 export interface GetAccessKeyInfoResponse {
   Account?: string;
 }
 export const GetAccessKeyInfoResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Account: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "GetAccessKeyInfoResponse",
-}) as any as S.Schema<GetAccessKeyInfoResponse>;
+).annotate({ identifier: "GetAccessKeyInfoResponse" }) as any as S.Schema<GetAccessKeyInfoResponse>;
 export interface GetCallerIdentityRequest {}
 export const GetCallerIdentityRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetCallerIdentityRequest",
-}) as any as S.Schema<GetCallerIdentityRequest>;
+).annotate({ identifier: "GetCallerIdentityRequest" }) as any as S.Schema<GetCallerIdentityRequest>;
 export type UserIdType = string;
 export interface GetCallerIdentityResponse {
   UserId?: string;
@@ -618,6 +599,7 @@ export interface GetFederationTokenRequest {
   PolicyArns?: PolicyDescriptorType[];
   DurationSeconds?: number;
   Tags?: Tag[];
+  MinimumSessionTokenSize?: number;
 }
 export const GetFederationTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -626,6 +608,7 @@ export const GetFederationTokenRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyArns: S.optional(PolicyDescriptorListType),
     DurationSeconds: S.optional(S.Number),
     Tags: S.optional(TagListType),
+    MinimumSessionTokenSize: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetFederationTokenRequest",
@@ -642,12 +625,16 @@ export interface GetFederationTokenResponse {
   Credentials?: Credentials;
   FederatedUser?: FederatedUser;
   PackedPolicySize?: number;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const GetFederationTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Credentials: S.optional(Credentials),
     FederatedUser: S.optional(FederatedUser),
     PackedPolicySize: S.optional(S.Number),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
   }).pipe(ns),
 ).annotate({
   identifier: "GetFederationTokenResponse",
@@ -656,24 +643,28 @@ export interface GetSessionTokenRequest {
   DurationSeconds?: number;
   SerialNumber?: string;
   TokenCode?: string;
+  MinimumSessionTokenSize?: number;
 }
 export const GetSessionTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DurationSeconds: S.optional(S.Number),
     SerialNumber: S.optional(S.String),
     TokenCode: S.optional(S.String),
+    MinimumSessionTokenSize: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetSessionTokenRequest",
-}) as any as S.Schema<GetSessionTokenRequest>;
+).annotate({ identifier: "GetSessionTokenRequest" }) as any as S.Schema<GetSessionTokenRequest>;
 export interface GetSessionTokenResponse {
   Credentials?: Credentials;
+  SessionTokenUtilization?: number;
+  SessionTokenSize?: number;
 }
 export const GetSessionTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Credentials: S.optional(Credentials) }).pipe(ns),
-).annotate({
-  identifier: "GetSessionTokenResponse",
-}) as any as S.Schema<GetSessionTokenResponse>;
+  S.Struct({
+    Credentials: S.optional(Credentials),
+    SessionTokenUtilization: S.optional(S.Number),
+    SessionTokenSize: S.optional(S.Number),
+  }).pipe(ns),
+).annotate({ identifier: "GetSessionTokenResponse" }) as any as S.Schema<GetSessionTokenResponse>;
 export type WebIdentityTokenAudienceStringType = string;
 export type WebIdentityTokenAudienceListType = string[];
 export const WebIdentityTokenAudienceListType = /*@__PURE__*/ S.Array(S.String);
@@ -1517,6 +1508,8 @@ export type GetWebIdentityTokenError =
  * Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Services identity.
  * The returned JWT can be used to authenticate with external services that support OIDC discovery.
  * The token is signed by Amazon Web Services STS and can be publicly verified using the verification keys published at the issuer's JWKS endpoint.
+ *
+ * The `GetWebIdentityToken` API is not available on the STS Global endpoint.
  */
 export const getWebIdentityToken: API.OperationMethod<
   GetWebIdentityTokenRequest,

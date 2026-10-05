@@ -79,6 +79,12 @@ export class AccessDeniedException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
+export class ConflictException
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
+    "ConflictException",
+    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    T.HttpError(409),
+  ).pipe(C.withConflictError) {}
 export class DuplicateResourceException
   extends /*@__PURE__*/ S.TaggedError<DuplicateResourceException>()(
     "DuplicateResourceException",
@@ -137,21 +143,14 @@ export interface ExternalUrlConfig {
   ApprovedOrigins?: string[];
 }
 export const ExternalUrlConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessUrl: S.String,
-    ApprovedOrigins: S.optional(ApplicationApprovedOrigins),
-  }),
-).annotate({
-  identifier: "ExternalUrlConfig",
-}) as any as S.Schema<ExternalUrlConfig>;
+  S.Struct({ AccessUrl: S.String, ApprovedOrigins: S.optional(ApplicationApprovedOrigins) }),
+).annotate({ identifier: "ExternalUrlConfig" }) as any as S.Schema<ExternalUrlConfig>;
 export interface ApplicationSourceConfig {
   ExternalUrlConfig?: ExternalUrlConfig;
 }
 export const ApplicationSourceConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ExternalUrlConfig: S.optional(ExternalUrlConfig) }),
-).annotate({
-  identifier: "ApplicationSourceConfig",
-}) as any as S.Schema<ApplicationSourceConfig>;
+).annotate({ identifier: "ApplicationSourceConfig" }) as any as S.Schema<ApplicationSourceConfig>;
 export type EventName = string;
 export interface Subscription {
   Event: string;
@@ -169,11 +168,7 @@ export interface Publication {
   Description?: string;
 }
 export const Publication = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Event: S.String,
-    Schema: S.String,
-    Description: S.optional(S.String),
-  }),
+  S.Struct({ Event: S.String, Schema: S.String, Description: S.optional(S.String) }),
 ).annotate({ identifier: "Publication" }) as any as S.Schema<Publication>;
 export type PublicationList = Publication[];
 export const PublicationList = /*@__PURE__*/ S.Array(Publication);
@@ -194,17 +189,13 @@ export interface ContactHandling {
 }
 export const ContactHandling = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Scope: S.optional(ContactHandlingScope) }),
-).annotate({
-  identifier: "ContactHandling",
-}) as any as S.Schema<ContactHandling>;
+).annotate({ identifier: "ContactHandling" }) as any as S.Schema<ContactHandling>;
 export interface ApplicationConfig {
   ContactHandling?: ContactHandling;
 }
 export const ApplicationConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ContactHandling: S.optional(ContactHandling) }),
-).annotate({
-  identifier: "ApplicationConfig",
-}) as any as S.Schema<ApplicationConfig>;
+).annotate({ identifier: "ApplicationConfig" }) as any as S.Schema<ApplicationConfig>;
 export type IframePermission = string;
 export type IframePermissionList = string[];
 export const IframePermissionList = /*@__PURE__*/ S.Array(S.String);
@@ -213,14 +204,22 @@ export interface IframeConfig {
   Sandbox?: string[];
 }
 export const IframeConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Allow: S.optional(IframePermissionList),
-    Sandbox: S.optional(IframePermissionList),
-  }),
+  S.Struct({ Allow: S.optional(IframePermissionList), Sandbox: S.optional(IframePermissionList) }),
 ).annotate({ identifier: "IframeConfig" }) as any as S.Schema<IframeConfig>;
-export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | (string & {});
+export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | "A2A_SERVER" | (string & {});
 export const ApplicationType = S.String;
 
+export type AuthType = "API_KEY" | (string & {});
+export const AuthType = S.String;
+
+export type Arn = string;
+export interface AuthConfig {
+  AuthType?: AuthType;
+  CredentialProviderIdentifier?: string;
+}
+export const AuthConfig = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AuthType: S.optional(AuthType), CredentialProviderIdentifier: S.optional(S.String) }),
+).annotate({ identifier: "AuthConfig" }) as any as S.Schema<AuthConfig>;
 export interface CreateApplicationRequest {
   Name: string;
   Namespace: string;
@@ -236,6 +235,7 @@ export interface CreateApplicationRequest {
   ApplicationConfig?: ApplicationConfig;
   IframeConfig?: IframeConfig;
   ApplicationType?: ApplicationType;
+  AuthConfig?: AuthConfig;
 }
 export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -253,11 +253,9 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
     ApplicationType: S.optional(ApplicationType),
+    AuthConfig: S.optional(AuthConfig),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateApplicationRequest",
-}) as any as S.Schema<CreateApplicationRequest>;
-export type Arn = string;
+).annotate({ identifier: "CreateApplicationRequest" }) as any as S.Schema<CreateApplicationRequest>;
 export type UUID = string;
 export interface CreateApplicationResponse {
   Arn?: string;
@@ -282,9 +280,7 @@ export const ScheduleConfiguration = /*@__PURE__*/ S.suspend(() =>
     Object: S.optional(S.String),
     ScheduleExpression: S.String,
   }),
-).annotate({
-  identifier: "ScheduleConfiguration",
-}) as any as S.Schema<ScheduleConfiguration>;
+).annotate({ identifier: "ScheduleConfiguration" }) as any as S.Schema<ScheduleConfiguration>;
 export type NonBlankLongString = string;
 export type FolderList = string[];
 export const FolderList = /*@__PURE__*/ S.Array(S.String);
@@ -299,9 +295,7 @@ export interface FileConfiguration {
 }
 export const FileConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Folders: FolderList, Filters: S.optional(FieldsMap) }),
-).annotate({
-  identifier: "FileConfiguration",
-}) as any as S.Schema<FileConfiguration>;
+).annotate({ identifier: "FileConfiguration" }) as any as S.Schema<FileConfiguration>;
 export type ObjectConfiguration = {
   [key: string]: { [key: string]: string[] | undefined } | undefined;
 };
@@ -315,9 +309,7 @@ export interface CreateDataIntegrationRequest {
   Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: {
-    [key: string]: { [key: string]: string[] | undefined } | undefined;
-  };
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
 }
 export const CreateDataIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -347,9 +339,7 @@ export interface CreateDataIntegrationResponse {
   Tags?: { [key: string]: string | undefined };
   ClientToken?: string;
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: {
-    [key: string]: { [key: string]: string[] | undefined } | undefined;
-  };
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
 }
 export const CreateDataIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -385,9 +375,7 @@ export interface OnDemandConfiguration {
 }
 export const OnDemandConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StartTime: S.String, EndTime: S.optional(S.String) }),
-).annotate({
-  identifier: "OnDemandConfiguration",
-}) as any as S.Schema<OnDemandConfiguration>;
+).annotate({ identifier: "OnDemandConfiguration" }) as any as S.Schema<OnDemandConfiguration>;
 export interface ExecutionConfiguration {
   ExecutionMode: ExecutionMode;
   OnDemandConfiguration?: OnDemandConfiguration;
@@ -399,15 +387,11 @@ export const ExecutionConfiguration = /*@__PURE__*/ S.suspend(() =>
     OnDemandConfiguration: S.optional(OnDemandConfiguration),
     ScheduleConfiguration: S.optional(ScheduleConfiguration),
   }),
-).annotate({
-  identifier: "ExecutionConfiguration",
-}) as any as S.Schema<ExecutionConfiguration>;
+).annotate({ identifier: "ExecutionConfiguration" }) as any as S.Schema<ExecutionConfiguration>;
 export interface CreateDataIntegrationAssociationRequest {
   DataIntegrationIdentifier: string;
   ClientId?: string;
-  ObjectConfiguration?: {
-    [key: string]: { [key: string]: string[] | undefined } | undefined;
-  };
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
   DestinationURI?: string;
   ClientAssociationMetadata?: { [key: string]: string | undefined };
   ClientToken?: string;
@@ -424,10 +408,7 @@ export const CreateDataIntegrationAssociationRequest = /*@__PURE__*/ S.suspend((
     ExecutionConfiguration: S.optional(ExecutionConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations",
-      }),
+      T.Http({ method: "POST", uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations" }),
       svc,
       auth,
       proto,
@@ -491,14 +472,16 @@ export const CreateEventIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
 export type ArnOrUUID = string;
 export interface DeleteApplicationRequest {
   Arn: string;
+  Force?: boolean;
 }
 export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
+  S.Struct({
+    Arn: S.String.pipe(T.HttpLabel("Arn")),
+    Force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/applications/{Arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteApplicationRequest",
-}) as any as S.Schema<DeleteApplicationRequest>;
+).annotate({ identifier: "DeleteApplicationRequest" }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
 export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
@@ -511,10 +494,7 @@ export const DeleteDataIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     DataIntegrationIdentifier: S.String.pipe(T.HttpLabel("DataIntegrationIdentifier")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/dataIntegrations/{DataIntegrationIdentifier}",
-      }),
+      T.Http({ method: "DELETE", uri: "/dataIntegrations/{DataIntegrationIdentifier}" }),
       svc,
       auth,
       proto,
@@ -557,9 +537,7 @@ export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/applications/{Arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetApplicationRequest",
-}) as any as S.Schema<GetApplicationRequest>;
+).annotate({ identifier: "GetApplicationRequest" }) as any as S.Schema<GetApplicationRequest>;
 export interface GetApplicationResponse {
   Arn?: string;
   Id?: string;
@@ -578,6 +556,7 @@ export interface GetApplicationResponse {
   ApplicationConfig?: ApplicationConfig;
   IframeConfig?: IframeConfig;
   ApplicationType?: ApplicationType;
+  AuthConfig?: AuthConfig;
 }
 export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -598,10 +577,9 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
     ApplicationType: S.optional(ApplicationType),
+    AuthConfig: S.optional(AuthConfig),
   }),
-).annotate({
-  identifier: "GetApplicationResponse",
-}) as any as S.Schema<GetApplicationResponse>;
+).annotate({ identifier: "GetApplicationResponse" }) as any as S.Schema<GetApplicationResponse>;
 export interface GetDataIntegrationRequest {
   Identifier: string;
 }
@@ -629,9 +607,7 @@ export interface GetDataIntegrationResponse {
   ScheduleConfiguration?: ScheduleConfiguration;
   Tags?: { [key: string]: string | undefined };
   FileConfiguration?: FileConfiguration;
-  ObjectConfiguration?: {
-    [key: string]: { [key: string]: string[] | undefined } | undefined;
-  };
+  ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
 }
 export const GetDataIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -700,10 +676,7 @@ export const ListApplicationAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/applications/{ApplicationId}/associations",
-      }),
+      T.Http({ method: "GET", uri: "/applications/{ApplicationId}/associations" }),
       svc,
       auth,
       proto,
@@ -753,9 +726,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     ApplicationType: S.optional(ApplicationType).pipe(T.HttpQuery("applicationType")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListApplicationsRequest",
-}) as any as S.Schema<ListApplicationsRequest>;
+).annotate({ identifier: "ListApplicationsRequest" }) as any as S.Schema<ListApplicationsRequest>;
 export interface ApplicationSummary {
   Arn?: string;
   Id?: string;
@@ -777,9 +748,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     IsService: S.optional(S.Boolean),
     ApplicationType: S.optional(ApplicationType),
   }),
-).annotate({
-  identifier: "ApplicationSummary",
-}) as any as S.Schema<ApplicationSummary>;
+).annotate({ identifier: "ApplicationSummary" }) as any as S.Schema<ApplicationSummary>;
 export type ApplicationsList = ApplicationSummary[];
 export const ApplicationsList = /*@__PURE__*/ S.Array(ApplicationSummary);
 export interface ListApplicationsResponse {
@@ -787,13 +756,8 @@ export interface ListApplicationsResponse {
   NextToken?: string;
 }
 export const ListApplicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Applications: S.optional(ApplicationsList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListApplicationsResponse",
-}) as any as S.Schema<ListApplicationsResponse>;
+  S.Struct({ Applications: S.optional(ApplicationsList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListApplicationsResponse" }) as any as S.Schema<ListApplicationsResponse>;
 export interface ListDataIntegrationAssociationsRequest {
   DataIntegrationIdentifier: string;
   NextToken?: string;
@@ -806,10 +770,7 @@ export const ListDataIntegrationAssociationsRequest = /*@__PURE__*/ S.suspend(()
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations",
-      }),
+      T.Http({ method: "GET", uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations" }),
       svc,
       auth,
       proto,
@@ -828,13 +789,8 @@ export interface LastExecutionStatus {
   StatusMessage?: string;
 }
 export const LastExecutionStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExecutionStatus: S.optional(ExecutionStatus),
-    StatusMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LastExecutionStatus",
-}) as any as S.Schema<LastExecutionStatus>;
+  S.Struct({ ExecutionStatus: S.optional(ExecutionStatus), StatusMessage: S.optional(S.String) }),
+).annotate({ identifier: "LastExecutionStatus" }) as any as S.Schema<LastExecutionStatus>;
 export interface DataIntegrationAssociationSummary {
   DataIntegrationAssociationArn?: string;
   DataIntegrationArn?: string;
@@ -894,9 +850,7 @@ export const DataIntegrationSummary = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     SourceURI: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DataIntegrationSummary",
-}) as any as S.Schema<DataIntegrationSummary>;
+).annotate({ identifier: "DataIntegrationSummary" }) as any as S.Schema<DataIntegrationSummary>;
 export type DataIntegrationsList = DataIntegrationSummary[];
 export const DataIntegrationsList = /*@__PURE__*/ S.Array(DataIntegrationSummary);
 export interface ListDataIntegrationsResponse {
@@ -904,10 +858,7 @@ export interface ListDataIntegrationsResponse {
   NextToken?: string;
 }
 export const ListDataIntegrationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DataIntegrations: S.optional(DataIntegrationsList),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ DataIntegrations: S.optional(DataIntegrationsList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDataIntegrationsResponse",
 }) as any as S.Schema<ListDataIntegrationsResponse>;
@@ -923,10 +874,7 @@ export const ListEventIntegrationAssociationsRequest = /*@__PURE__*/ S.suspend((
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/eventIntegrations/{EventIntegrationName}/associations",
-      }),
+      T.Http({ method: "GET", uri: "/eventIntegrations/{EventIntegrationName}/associations" }),
       svc,
       auth,
       proto,
@@ -1003,9 +951,7 @@ export const EventIntegration = /*@__PURE__*/ S.suspend(() =>
     EventBridgeBus: S.optional(S.String),
     Tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "EventIntegration",
-}) as any as S.Schema<EventIntegration>;
+).annotate({ identifier: "EventIntegration" }) as any as S.Schema<EventIntegration>;
 export type EventIntegrationsList = EventIntegration[];
 export const EventIntegrationsList = /*@__PURE__*/ S.Array(EventIntegration);
 export interface ListEventIntegrationsResponse {
@@ -1043,15 +989,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1069,9 +1010,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1089,6 +1028,7 @@ export interface UpdateApplicationRequest {
   ApplicationConfig?: ApplicationConfig;
   IframeConfig?: IframeConfig;
   ApplicationType?: ApplicationType;
+  AuthConfig?: AuthConfig;
 }
 export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1104,12 +1044,11 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
     ApplicationType: S.optional(ApplicationType),
+    AuthConfig: S.optional(AuthConfig),
   }).pipe(
     T.all(T.Http({ method: "PATCH", uri: "/applications/{Arn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateApplicationRequest",
-}) as any as S.Schema<UpdateApplicationRequest>;
+).annotate({ identifier: "UpdateApplicationRequest" }) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {}
 export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateApplicationResponse",
@@ -1180,10 +1119,7 @@ export interface UpdateEventIntegrationRequest {
   Description?: string;
 }
 export const UpdateEventIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.String.pipe(T.HttpLabel("Name")),
-    Description: S.optional(S.String),
-  }).pipe(
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")), Description: S.optional(S.String) }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/eventIntegrations/{Name}" }),
       svc,
@@ -1355,8 +1291,9 @@ export type DeleteApplicationError =
   | TooManyRequestsException
   | CommonErrors;
 /**
- * Deletes the Application. Only Applications that don't have any Application Associations
- * can be deleted.
+ * Deletes an application. If the application has associations, you must delete them first.
+ * Alternatively, use the `force` option to delete the application and remove its
+ * associations.
  */
 export const deleteApplication: API.OperationMethod<
   DeleteApplicationRequest,
@@ -1878,6 +1815,7 @@ export const untagResource: API.OperationMethod<
 
 export type UpdateApplicationError =
   | AccessDeniedException
+  | ConflictException
   | InternalServiceError
   | InvalidRequestException
   | ResourceNotFoundException
@@ -1898,6 +1836,7 @@ export const updateApplication: API.OperationMethod<
   output: UpdateApplicationResponse,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServiceError,
     InvalidRequestException,
     ResourceNotFoundException,

@@ -134,9 +134,7 @@ export const CreateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/template" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTemplateRequest",
-}) as any as S.Schema<CreateTemplateRequest>;
+).annotate({ identifier: "CreateTemplateRequest" }) as any as S.Schema<CreateTemplateRequest>;
 export type StringMapKey = string;
 export type StringMapValue = string;
 export type StringMap = { [key: string]: string | undefined };
@@ -152,9 +150,7 @@ export const CreateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     templateArn: S.optional(S.String),
     tags: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "CreateTemplateResponse",
-}) as any as S.Schema<CreateTemplateResponse>;
+).annotate({ identifier: "CreateTemplateResponse" }) as any as S.Schema<CreateTemplateResponse>;
 export type StepInputParametersKey = string;
 export type StringValue = string;
 export type StringListMember = string;
@@ -260,18 +256,14 @@ export interface PlatformScriptKey {
 }
 export const PlatformScriptKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ linux: S.optional(S.String), windows: S.optional(S.String) }),
-).annotate({
-  identifier: "PlatformScriptKey",
-}) as any as S.Schema<PlatformScriptKey>;
+).annotate({ identifier: "PlatformScriptKey" }) as any as S.Schema<PlatformScriptKey>;
 export interface PlatformCommand {
   linux?: string;
   windows?: string;
 }
 export const PlatformCommand = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ linux: S.optional(S.String), windows: S.optional(S.String) }),
-).annotate({
-  identifier: "PlatformCommand",
-}) as any as S.Schema<PlatformCommand>;
+).annotate({ identifier: "PlatformCommand" }) as any as S.Schema<PlatformCommand>;
 export type RunEnvironment = string;
 export type TargetType = string;
 export interface WorkflowStepAutomationConfiguration {
@@ -319,9 +311,7 @@ export const WorkflowStepOutput = /*@__PURE__*/ S.suspend(() =>
     required: S.optional(S.Boolean),
     value: S.optional(WorkflowStepOutputUnion),
   }),
-).annotate({
-  identifier: "WorkflowStepOutput",
-}) as any as S.Schema<WorkflowStepOutput>;
+).annotate({ identifier: "WorkflowStepOutput" }) as any as S.Schema<WorkflowStepOutput>;
 export type WorkflowStepOutputList = WorkflowStepOutput[];
 export const WorkflowStepOutputList = /*@__PURE__*/ S.Array(WorkflowStepOutput);
 export interface CreateWorkflowStepRequest {
@@ -431,9 +421,7 @@ export const DeleteTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/template/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTemplateRequest",
-}) as any as S.Schema<DeleteTemplateRequest>;
+).annotate({ identifier: "DeleteTemplateRequest" }) as any as S.Schema<DeleteTemplateRequest>;
 export interface DeleteTemplateResponse {}
 export const DeleteTemplateResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTemplateResponse",
@@ -461,11 +449,7 @@ export interface DeleteMigrationWorkflowResponse {
   status?: string;
 }
 export const DeleteMigrationWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.optional(S.String),
-    arn: S.optional(S.String),
-    status: S.optional(S.String),
-  }),
+  S.Struct({ id: S.optional(S.String), arn: S.optional(S.String), status: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteMigrationWorkflowResponse",
 }) as any as S.Schema<DeleteMigrationWorkflowResponse>;
@@ -513,9 +497,7 @@ export const DeleteWorkflowStepGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteWorkflowStepGroupRequest>;
 export interface DeleteWorkflowStepGroupResponse {}
 export const DeleteWorkflowStepGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteWorkflowStepGroupResponse",
-  },
+  { identifier: "DeleteWorkflowStepGroupResponse" },
 ) as any as S.Schema<DeleteWorkflowStepGroupResponse>;
 export interface GetMigrationWorkflowTemplateRequest {
   id: string;
@@ -595,9 +577,7 @@ export const GetTemplateStepRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/templatestep/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTemplateStepRequest",
-}) as any as S.Schema<GetTemplateStepRequest>;
+).annotate({ identifier: "GetTemplateStepRequest" }) as any as S.Schema<GetTemplateStepRequest>;
 export interface StepOutput {
   name?: string;
   dataType?: string;
@@ -657,9 +637,7 @@ export const GetTemplateStepResponse = /*@__PURE__*/ S.suspend(() =>
     outputs: S.optional(StepOutputList),
     stepAutomationConfiguration: S.optional(StepAutomationConfiguration),
   }),
-).annotate({
-  identifier: "GetTemplateStepResponse",
-}) as any as S.Schema<GetTemplateStepResponse>;
+).annotate({ identifier: "GetTemplateStepResponse" }) as any as S.Schema<GetTemplateStepResponse>;
 export interface GetTemplateStepGroupRequest {
   templateId: string;
   id: string;
@@ -781,9 +759,7 @@ export const GetWorkflowStepRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "GET", uri: "/workflowstep/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetWorkflowStepRequest",
-}) as any as S.Schema<GetWorkflowStepRequest>;
+).annotate({ identifier: "GetWorkflowStepRequest" }) as any as S.Schema<GetWorkflowStepRequest>;
 export type Owner = string;
 export type StepStatus = string;
 export interface GetWorkflowStepResponse {
@@ -833,9 +809,7 @@ export const GetWorkflowStepResponse = /*@__PURE__*/ S.suspend(() =>
     noOfSrvFailed: S.optional(S.Number),
     totalNoOfSrv: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetWorkflowStepResponse",
-}) as any as S.Schema<GetWorkflowStepResponse>;
+).annotate({ identifier: "GetWorkflowStepResponse" }) as any as S.Schema<GetWorkflowStepResponse>;
 export interface GetWorkflowStepGroupRequest {
   id: string;
   workflowId: string;
@@ -893,9 +867,7 @@ export const ListPluginsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/plugins" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListPluginsRequest",
-}) as any as S.Schema<ListPluginsRequest>;
+).annotate({ identifier: "ListPluginsRequest" }) as any as S.Schema<ListPluginsRequest>;
 export type PluginId = string;
 export type PluginHealth = string;
 export type IPAddress = string;
@@ -925,13 +897,8 @@ export interface ListPluginsResponse {
   plugins?: PluginSummary[];
 }
 export const ListPluginsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    plugins: S.optional(PluginSummaries),
-  }),
-).annotate({
-  identifier: "ListPluginsResponse",
-}) as any as S.Schema<ListPluginsResponse>;
+  S.Struct({ nextToken: S.optional(S.String), plugins: S.optional(PluginSummaries) }),
+).annotate({ identifier: "ListPluginsResponse" }) as any as S.Schema<ListPluginsResponse>;
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -988,9 +955,7 @@ export const TemplateSummary = /*@__PURE__*/ S.suspend(() =>
     arn: S.optional(S.String),
     description: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TemplateSummary",
-}) as any as S.Schema<TemplateSummary>;
+).annotate({ identifier: "TemplateSummary" }) as any as S.Schema<TemplateSummary>;
 export type TemplateSummaryList = TemplateSummary[];
 export const TemplateSummaryList = /*@__PURE__*/ S.Array(TemplateSummary);
 export interface ListMigrationWorkflowTemplatesResponse {
@@ -998,10 +963,7 @@ export interface ListMigrationWorkflowTemplatesResponse {
   templateSummary: TemplateSummary[];
 }
 export const ListMigrationWorkflowTemplatesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    templateSummary: TemplateSummaryList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), templateSummary: TemplateSummaryList }),
 ).annotate({
   identifier: "ListMigrationWorkflowTemplatesResponse",
 }) as any as S.Schema<ListMigrationWorkflowTemplatesResponse>;
@@ -1041,9 +1003,7 @@ export const TemplateStepGroupSummary = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(StringList),
     next: S.optional(StringList),
   }),
-).annotate({
-  identifier: "TemplateStepGroupSummary",
-}) as any as S.Schema<TemplateStepGroupSummary>;
+).annotate({ identifier: "TemplateStepGroupSummary" }) as any as S.Schema<TemplateStepGroupSummary>;
 export type TemplateStepGroupSummaryList = TemplateStepGroupSummary[];
 export const TemplateStepGroupSummaryList = /*@__PURE__*/ S.Array(TemplateStepGroupSummary);
 export interface ListTemplateStepGroupsResponse {
@@ -1071,9 +1031,7 @@ export const ListTemplateStepsRequest = /*@__PURE__*/ S.suspend(() =>
     templateId: S.String.pipe(T.HttpQuery("templateId")),
     stepGroupId: S.String.pipe(T.HttpQuery("stepGroupId")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/templatesteps" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTemplateStepsRequest",
-}) as any as S.Schema<ListTemplateStepsRequest>;
+).annotate({ identifier: "ListTemplateStepsRequest" }) as any as S.Schema<ListTemplateStepsRequest>;
 export interface TemplateStepSummary {
   id?: string;
   stepGroupId?: string;
@@ -1097,9 +1055,7 @@ export const TemplateStepSummary = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(StringList),
     next: S.optional(StringList),
   }),
-).annotate({
-  identifier: "TemplateStepSummary",
-}) as any as S.Schema<TemplateStepSummary>;
+).annotate({ identifier: "TemplateStepSummary" }) as any as S.Schema<TemplateStepSummary>;
 export type TemplateStepSummaryList = TemplateStepSummary[];
 export const TemplateStepSummaryList = /*@__PURE__*/ S.Array(TemplateStepSummary);
 export interface ListTemplateStepsResponse {
@@ -1164,9 +1120,7 @@ export const MigrationWorkflowSummary = /*@__PURE__*/ S.suspend(() =>
     completedSteps: S.optional(S.Number),
     totalSteps: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "MigrationWorkflowSummary",
-}) as any as S.Schema<MigrationWorkflowSummary>;
+).annotate({ identifier: "MigrationWorkflowSummary" }) as any as S.Schema<MigrationWorkflowSummary>;
 export type MigrationWorkflowSummaryList = MigrationWorkflowSummary[];
 export const MigrationWorkflowSummaryList = /*@__PURE__*/ S.Array(MigrationWorkflowSummary);
 export interface ListMigrationWorkflowsResponse {
@@ -1214,9 +1168,7 @@ export const WorkflowStepGroupSummary = /*@__PURE__*/ S.suspend(() =>
     previous: S.optional(StringList),
     next: S.optional(StringList),
   }),
-).annotate({
-  identifier: "WorkflowStepGroupSummary",
-}) as any as S.Schema<WorkflowStepGroupSummary>;
+).annotate({ identifier: "WorkflowStepGroupSummary" }) as any as S.Schema<WorkflowStepGroupSummary>;
 export type WorkflowStepGroupsSummaryList = WorkflowStepGroupSummary[];
 export const WorkflowStepGroupsSummaryList = /*@__PURE__*/ S.Array(WorkflowStepGroupSummary);
 export interface ListWorkflowStepGroupsResponse {
@@ -1256,9 +1208,7 @@ export const ListWorkflowStepsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListWorkflowStepsRequest",
-}) as any as S.Schema<ListWorkflowStepsRequest>;
+).annotate({ identifier: "ListWorkflowStepsRequest" }) as any as S.Schema<ListWorkflowStepsRequest>;
 export interface WorkflowStepSummary {
   stepId?: string;
   name?: string;
@@ -1290,9 +1240,7 @@ export const WorkflowStepSummary = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     scriptLocation: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WorkflowStepSummary",
-}) as any as S.Schema<WorkflowStepSummary>;
+).annotate({ identifier: "WorkflowStepSummary" }) as any as S.Schema<WorkflowStepSummary>;
 export type WorkflowStepsSummaryList = WorkflowStepSummary[];
 export const WorkflowStepsSummaryList = /*@__PURE__*/ S.Array(WorkflowStepSummary);
 export interface ListWorkflowStepsResponse {
@@ -1300,10 +1248,7 @@ export interface ListWorkflowStepsResponse {
   workflowStepsSummary: WorkflowStepSummary[];
 }
 export const ListWorkflowStepsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    workflowStepsSummary: WorkflowStepsSummaryList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), workflowStepsSummary: WorkflowStepsSummaryList }),
 ).annotate({
   identifier: "ListWorkflowStepsResponse",
 }) as any as S.Schema<ListWorkflowStepsResponse>;
@@ -1320,9 +1265,7 @@ export const RetryWorkflowStepRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/retryworkflowstep/{id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RetryWorkflowStepRequest",
-}) as any as S.Schema<RetryWorkflowStepRequest>;
+).annotate({ identifier: "RetryWorkflowStepRequest" }) as any as S.Schema<RetryWorkflowStepRequest>;
 export interface RetryWorkflowStepResponse {
   stepGroupId?: string;
   workflowId?: string;
@@ -1414,15 +1357,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1440,9 +1378,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1460,9 +1396,7 @@ export const UpdateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     templateDescription: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/template/{id}" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateTemplateRequest",
-}) as any as S.Schema<UpdateTemplateRequest>;
+).annotate({ identifier: "UpdateTemplateRequest" }) as any as S.Schema<UpdateTemplateRequest>;
 export interface UpdateTemplateResponse {
   templateId?: string;
   templateArn?: string;
@@ -1474,9 +1408,7 @@ export const UpdateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     templateArn: S.optional(S.String),
     tags: S.optional(StringMap),
   }),
-).annotate({
-  identifier: "UpdateTemplateResponse",
-}) as any as S.Schema<UpdateTemplateResponse>;
+).annotate({ identifier: "UpdateTemplateResponse" }) as any as S.Schema<UpdateTemplateResponse>;
 export interface UpdateMigrationWorkflowRequest {
   id: string;
   name?: string;

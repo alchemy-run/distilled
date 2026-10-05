@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "resiliencehub",
-  serviceShapeName: "AwsResilienceHub",
-});
+const svc = T.AwsApiService({ sdkId: "resiliencehub", serviceShapeName: "AwsResilienceHub" });
 const auth = T.AwsAuthSigv4({ name: "resiliencehub" });
 const ver = T.ServiceVersion("2020-04-30");
 const proto = T.AwsProtocolsRestJson1();
@@ -145,15 +142,9 @@ export interface AcceptResourceGroupingRecommendationsRequest {
   entries: AcceptGroupingRecommendationEntry[];
 }
 export const AcceptResourceGroupingRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    entries: AcceptGroupingRecommendationEntries,
-  }).pipe(
+  S.Struct({ appArn: S.String, entries: AcceptGroupingRecommendationEntries }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/accept-resource-grouping-recommendations",
-      }),
+      T.Http({ method: "POST", uri: "/accept-resource-grouping-recommendations" }),
       svc,
       auth,
       proto,
@@ -183,10 +174,7 @@ export interface AcceptResourceGroupingRecommendationsResponse {
   failedEntries: FailedGroupingRecommendationEntry[];
 }
 export const AcceptResourceGroupingRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    failedEntries: FailedGroupingRecommendationEntries,
-  }),
+  S.Struct({ appArn: S.String, failedEntries: FailedGroupingRecommendationEntries }),
 ).annotate({
   identifier: "AcceptResourceGroupingRecommendationsResponse",
 }) as any as S.Schema<AcceptResourceGroupingRecommendationsResponse>;
@@ -219,9 +207,7 @@ export const PhysicalResourceId = /*@__PURE__*/ S.suspend(() =>
     awsRegion: S.optional(S.String),
     awsAccountId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PhysicalResourceId",
-}) as any as S.Schema<PhysicalResourceId>;
+).annotate({ identifier: "PhysicalResourceId" }) as any as S.Schema<PhysicalResourceId>;
 export interface ResourceMapping {
   resourceName?: string;
   logicalStackName?: string;
@@ -243,9 +229,7 @@ export const ResourceMapping = /*@__PURE__*/ S.suspend(() =>
     terraformSourceName: S.optional(S.String),
     eksSourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceMapping",
-}) as any as S.Schema<ResourceMapping>;
+).annotate({ identifier: "ResourceMapping" }) as any as S.Schema<ResourceMapping>;
 export type ResourceMappingList = ResourceMapping[];
 export const ResourceMappingList = /*@__PURE__*/ S.Array(ResourceMapping);
 export interface AddDraftAppVersionResourceMappingsRequest {
@@ -255,10 +239,7 @@ export interface AddDraftAppVersionResourceMappingsRequest {
 export const AddDraftAppVersionResourceMappingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String, resourceMappings: ResourceMappingList }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/add-draft-app-version-resource-mappings",
-      }),
+      T.Http({ method: "POST", uri: "/add-draft-app-version-resource-mappings" }),
       svc,
       auth,
       proto,
@@ -276,11 +257,7 @@ export interface AddDraftAppVersionResourceMappingsResponse {
   resourceMappings: ResourceMapping[];
 }
 export const AddDraftAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    resourceMappings: ResourceMappingList,
-  }),
+  S.Struct({ appArn: S.String, appVersion: S.String, resourceMappings: ResourceMappingList }),
 ).annotate({
   identifier: "AddDraftAppVersionResourceMappingsResponse",
 }) as any as S.Schema<AddDraftAppVersionResourceMappingsResponse>;
@@ -337,10 +314,7 @@ export interface BatchUpdateRecommendationStatusRequest {
   requestEntries: UpdateRecommendationStatusRequestEntry[];
 }
 export const BatchUpdateRecommendationStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    requestEntries: UpdateRecommendationStatusRequestEntries,
-  }).pipe(
+  S.Struct({ appArn: S.String, requestEntries: UpdateRecommendationStatusRequestEntries }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/batch-update-recommendation-status" }),
       svc,
@@ -433,9 +407,7 @@ export const PermissionModel = /*@__PURE__*/ S.suspend(() =>
     invokerRoleName: S.optional(S.String),
     crossAccountRoleArns: S.optional(IamRoleArnList),
   }),
-).annotate({
-  identifier: "PermissionModel",
-}) as any as S.Schema<PermissionModel>;
+).annotate({ identifier: "PermissionModel" }) as any as S.Schema<PermissionModel>;
 export type EventType = "ScheduledAssessmentFailure" | "DriftDetected" | (string & {});
 export const EventType = S.String;
 
@@ -445,14 +417,8 @@ export interface EventSubscription {
   snsTopicArn?: string;
 }
 export const EventSubscription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    eventType: EventType,
-    snsTopicArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "EventSubscription",
-}) as any as S.Schema<EventSubscription>;
+  S.Struct({ name: S.String, eventType: EventType, snsTopicArn: S.optional(S.String) }),
+).annotate({ identifier: "EventSubscription" }) as any as S.Schema<EventSubscription>;
 export type EventSubscriptionList = EventSubscription[];
 export const EventSubscriptionList = /*@__PURE__*/ S.Array(EventSubscription);
 export interface CreateAppRequest {
@@ -478,9 +444,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     eventSubscriptions: S.optional(EventSubscriptionList),
     awsApplicationArn: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/create-app" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAppRequest",
-}) as any as S.Schema<CreateAppRequest>;
+).annotate({ identifier: "CreateAppRequest" }) as any as S.Schema<CreateAppRequest>;
 export type AppStatusType = "Active" | "Deleting" | (string & {});
 export const AppStatusType = S.String;
 
@@ -605,11 +569,7 @@ export interface CreateAppVersionAppComponentResponse {
   appComponent?: AppComponent;
 }
 export const CreateAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    appComponent: S.optional(AppComponent),
-  }),
+  S.Struct({ appArn: S.String, appVersion: S.String, appComponent: S.optional(AppComponent) }),
 ).annotate({
   identifier: "CreateAppVersionAppComponentResponse",
 }) as any as S.Schema<CreateAppVersionAppComponentResponse>;
@@ -628,9 +588,7 @@ export const LogicalResourceId = /*@__PURE__*/ S.suspend(() =>
     terraformSourceName: S.optional(S.String),
     eksSourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "LogicalResourceId",
-}) as any as S.Schema<LogicalResourceId>;
+).annotate({ identifier: "LogicalResourceId" }) as any as S.Schema<LogicalResourceId>;
 export type String2048 = string;
 export type AppComponentNameList = string[];
 export const AppComponentNameList = /*@__PURE__*/ S.Array(S.String);
@@ -699,9 +657,7 @@ export const PhysicalResource = /*@__PURE__*/ S.suspend(() =>
     sourceType: S.optional(ResourceSourceType),
     parentResourceName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PhysicalResource",
-}) as any as S.Schema<PhysicalResource>;
+).annotate({ identifier: "PhysicalResource" }) as any as S.Schema<PhysicalResource>;
 export interface CreateAppVersionResourceResponse {
   appArn: string;
   appVersion: string;
@@ -808,9 +764,7 @@ export const RecommendationTemplate = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
     needsReplacements: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RecommendationTemplate",
-}) as any as S.Schema<RecommendationTemplate>;
+).annotate({ identifier: "RecommendationTemplate" }) as any as S.Schema<RecommendationTemplate>;
 export interface CreateRecommendationTemplateResponse {
   recommendationTemplate?: RecommendationTemplate;
 }
@@ -909,9 +863,7 @@ export const ResiliencyPolicy = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
   }),
-).annotate({
-  identifier: "ResiliencyPolicy",
-}) as any as S.Schema<ResiliencyPolicy>;
+).annotate({ identifier: "ResiliencyPolicy" }) as any as S.Schema<ResiliencyPolicy>;
 export interface CreateResiliencyPolicyResponse {
   policy: ResiliencyPolicy;
 }
@@ -931,17 +883,13 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
     forceDelete: S.optional(S.Boolean),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/delete-app" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteAppRequest",
-}) as any as S.Schema<DeleteAppRequest>;
+).annotate({ identifier: "DeleteAppRequest" }) as any as S.Schema<DeleteAppRequest>;
 export interface DeleteAppResponse {
   appArn: string;
 }
 export const DeleteAppResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String }),
-).annotate({
-  identifier: "DeleteAppResponse",
-}) as any as S.Schema<DeleteAppResponse>;
+).annotate({ identifier: "DeleteAppResponse" }) as any as S.Schema<DeleteAppResponse>;
 export interface DeleteAppAssessmentRequest {
   assessmentArn: string;
   clientToken?: string;
@@ -974,9 +922,7 @@ export interface TerraformSource {
 }
 export const TerraformSource = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3StateFileUrl: S.String }),
-).annotate({
-  identifier: "TerraformSource",
-}) as any as S.Schema<TerraformSource>;
+).annotate({ identifier: "TerraformSource" }) as any as S.Schema<TerraformSource>;
 export type EksNamespace = string;
 export interface EksSourceClusterNamespace {
   eksClusterArn: string;
@@ -1037,10 +983,7 @@ export interface DeleteAppInputSourceResponse {
   appInputSource?: AppInputSource;
 }
 export const DeleteAppInputSourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.optional(S.String),
-    appInputSource: S.optional(AppInputSource),
-  }),
+  S.Struct({ appArn: S.optional(S.String), appInputSource: S.optional(AppInputSource) }),
 ).annotate({
   identifier: "DeleteAppInputSourceResponse",
 }) as any as S.Schema<DeleteAppInputSourceResponse>;
@@ -1073,11 +1016,7 @@ export interface DeleteAppVersionAppComponentResponse {
   appComponent?: AppComponent;
 }
 export const DeleteAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    appComponent: S.optional(AppComponent),
-  }),
+  S.Struct({ appArn: S.String, appVersion: S.String, appComponent: S.optional(AppComponent) }),
 ).annotate({
   identifier: "DeleteAppVersionAppComponentResponse",
 }) as any as S.Schema<DeleteAppVersionAppComponentResponse>;
@@ -1152,10 +1091,7 @@ export interface DeleteRecommendationTemplateResponse {
   status: RecommendationTemplateStatus;
 }
 export const DeleteRecommendationTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendationTemplateArn: S.String,
-    status: RecommendationTemplateStatus,
-  }),
+  S.Struct({ recommendationTemplateArn: S.String, status: RecommendationTemplateStatus }),
 ).annotate({
   identifier: "DeleteRecommendationTemplateResponse",
 }) as any as S.Schema<DeleteRecommendationTemplateResponse>;
@@ -1195,9 +1131,7 @@ export const DescribeAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/describe-app" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeAppRequest",
-}) as any as S.Schema<DescribeAppRequest>;
+).annotate({ identifier: "DescribeAppRequest" }) as any as S.Schema<DescribeAppRequest>;
 export interface DescribeAppResponse {
   app: App;
 }
@@ -1270,9 +1204,7 @@ export const ScoringComponentResiliencyScores = /*@__PURE__*/ S.Record(
 export interface ResiliencyScore {
   score: number;
   disruptionScore: { [key: string]: number | undefined };
-  componentScore?: {
-    [key: string]: ScoringComponentResiliencyScore | undefined;
-  };
+  componentScore?: { [key: string]: ScoringComponentResiliencyScore | undefined };
 }
 export const ResiliencyScore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1280,9 +1212,7 @@ export const ResiliencyScore = /*@__PURE__*/ S.suspend(() =>
     disruptionScore: DisruptionResiliencyScore,
     componentScore: S.optional(ScoringComponentResiliencyScores),
   }),
-).annotate({
-  identifier: "ResiliencyScore",
-}) as any as S.Schema<ResiliencyScore>;
+).annotate({ identifier: "ResiliencyScore" }) as any as S.Schema<ResiliencyScore>;
 export type ComplianceStatus =
   | "PolicyBreached"
   | "PolicyMet"
@@ -1316,12 +1246,8 @@ export const DisruptionCompliance = /*@__PURE__*/ S.suspend(() =>
     achievableRpoInSecs: S.optional(S.Number),
     message: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DisruptionCompliance",
-}) as any as S.Schema<DisruptionCompliance>;
-export type AssessmentCompliance = {
-  [key in DisruptionType]?: DisruptionCompliance;
-};
+).annotate({ identifier: "DisruptionCompliance" }) as any as S.Schema<DisruptionCompliance>;
+export type AssessmentCompliance = { [key in DisruptionType]?: DisruptionCompliance };
 export const AssessmentCompliance = /*@__PURE__*/ S.Record(
   DisruptionType,
   DisruptionCompliance.pipe(S.optional),
@@ -1345,13 +1271,8 @@ export interface ResourceErrorsDetails {
   hasMoreErrors?: boolean;
 }
 export const ResourceErrorsDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceErrors: S.optional(ResourceErrorList),
-    hasMoreErrors: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ResourceErrorsDetails",
-}) as any as S.Schema<ResourceErrorsDetails>;
+  S.Struct({ resourceErrors: S.optional(ResourceErrorList), hasMoreErrors: S.optional(S.Boolean) }),
+).annotate({ identifier: "ResourceErrorsDetails" }) as any as S.Schema<ResourceErrorsDetails>;
 export type DriftStatus = "NotChecked" | "NotDetected" | "Detected" | (string & {});
 export const DriftStatus = S.String;
 
@@ -1380,9 +1301,7 @@ export const AssessmentSummary = /*@__PURE__*/ S.suspend(() =>
     summary: S.optional(S.String),
     riskRecommendations: S.optional(AssessmentRiskRecommendationList),
   }),
-).annotate({
-  identifier: "AssessmentSummary",
-}) as any as S.Schema<AssessmentSummary>;
+).annotate({ identifier: "AssessmentSummary" }) as any as S.Schema<AssessmentSummary>;
 export interface AppAssessment {
   appArn?: string;
   appVersion?: string;
@@ -1485,11 +1404,7 @@ export interface DescribeAppVersionAppComponentResponse {
   appComponent?: AppComponent;
 }
 export const DescribeAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    appComponent: S.optional(AppComponent),
-  }),
+  S.Struct({ appArn: S.String, appVersion: S.String, appComponent: S.optional(AppComponent) }),
 ).annotate({
   identifier: "DescribeAppVersionAppComponentResponse",
 }) as any as S.Schema<DescribeAppVersionAppComponentResponse>;
@@ -1544,16 +1459,9 @@ export interface DescribeAppVersionResourcesResolutionStatusRequest {
   resolutionId?: string;
 }
 export const DescribeAppVersionResourcesResolutionStatusRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    resolutionId: S.optional(S.String),
-  }).pipe(
+  S.Struct({ appArn: S.String, appVersion: S.String, resolutionId: S.optional(S.String) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/describe-app-version-resources-resolution-status",
-      }),
+      T.Http({ method: "POST", uri: "/describe-app-version-resources-resolution-status" }),
       svc,
       auth,
       proto,
@@ -1615,11 +1523,7 @@ export interface DescribeAppVersionTemplateResponse {
   appTemplateBody: string;
 }
 export const DescribeAppVersionTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    appTemplateBody: S.String,
-  }),
+  S.Struct({ appArn: S.String, appVersion: S.String, appTemplateBody: S.String }),
 ).annotate({
   identifier: "DescribeAppVersionTemplateResponse",
 }) as any as S.Schema<DescribeAppVersionTemplateResponse>;
@@ -1629,10 +1533,7 @@ export interface DescribeDraftAppVersionResourcesImportStatusRequest {
 export const DescribeDraftAppVersionResourcesImportStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/describe-draft-app-version-resources-import-status",
-      }),
+      T.Http({ method: "POST", uri: "/describe-draft-app-version-resources-import-status" }),
       svc,
       auth,
       proto,
@@ -1752,10 +1653,7 @@ export interface DescribeResourceGroupingRecommendationTaskRequest {
 export const DescribeResourceGroupingRecommendationTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String, groupingId: S.optional(S.String) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/describe-resource-grouping-recommendation-task",
-      }),
+      T.Http({ method: "POST", uri: "/describe-resource-grouping-recommendation-task" }),
       svc,
       auth,
       proto,
@@ -1822,10 +1720,7 @@ export const ImportResourcesToDraftAppVersionRequest = /*@__PURE__*/ S.suspend((
     eksSources: S.optional(EksSourceList),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/import-resources-to-draft-app-version",
-      }),
+      T.Http({ method: "POST", uri: "/import-resources-to-draft-app-version" }),
       svc,
       auth,
       proto,
@@ -1890,10 +1785,7 @@ export interface Experiment {
   experimentTemplateId?: string;
 }
 export const Experiment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    experimentArn: S.optional(S.String),
-    experimentTemplateId: S.optional(S.String),
-  }),
+  S.Struct({ experimentArn: S.optional(S.String), experimentTemplateId: S.optional(S.String) }),
 ).annotate({ identifier: "Experiment" }) as any as S.Schema<Experiment>;
 export interface Alarm {
   alarmArn?: string;
@@ -1923,9 +1815,7 @@ export const RecommendationItem = /*@__PURE__*/ S.suspend(() =>
     latestDiscoveredExperiment: S.optional(Experiment),
     discoveredAlarm: S.optional(Alarm),
   }),
-).annotate({
-  identifier: "RecommendationItem",
-}) as any as S.Schema<RecommendationItem>;
+).annotate({ identifier: "RecommendationItem" }) as any as S.Schema<RecommendationItem>;
 export type RecommendationItemList = RecommendationItem[];
 export const RecommendationItemList = /*@__PURE__*/ S.Array(RecommendationItem);
 export type RecommendationStatus =
@@ -1961,9 +1851,7 @@ export const AlarmRecommendation = /*@__PURE__*/ S.suspend(() =>
     appComponentNames: S.optional(AppComponentNameList),
     recommendationStatus: S.optional(RecommendationStatus),
   }),
-).annotate({
-  identifier: "AlarmRecommendation",
-}) as any as S.Schema<AlarmRecommendation>;
+).annotate({ identifier: "AlarmRecommendation" }) as any as S.Schema<AlarmRecommendation>;
 export type AlarmRecommendationList = AlarmRecommendation[];
 export const AlarmRecommendationList = /*@__PURE__*/ S.Array(AlarmRecommendation);
 export interface ListAlarmRecommendationsResponse {
@@ -1971,10 +1859,7 @@ export interface ListAlarmRecommendationsResponse {
   nextToken?: string;
 }
 export const ListAlarmRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    alarmRecommendations: AlarmRecommendationList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ alarmRecommendations: AlarmRecommendationList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAlarmRecommendationsResponse",
 }) as any as S.Schema<ListAlarmRecommendationsResponse>;
@@ -1990,10 +1875,7 @@ export const ListAppAssessmentComplianceDriftsRequest = /*@__PURE__*/ S.suspend(
     maxResults: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/list-app-assessment-compliance-drifts",
-      }),
+      T.Http({ method: "POST", uri: "/list-app-assessment-compliance-drifts" }),
       svc,
       auth,
       proto,
@@ -2038,9 +1920,7 @@ export const ComplianceDrift = /*@__PURE__*/ S.suspend(() =>
     actualValue: S.optional(AssessmentCompliance),
     diffType: S.optional(DifferenceType),
   }),
-).annotate({
-  identifier: "ComplianceDrift",
-}) as any as S.Schema<ComplianceDrift>;
+).annotate({ identifier: "ComplianceDrift" }) as any as S.Schema<ComplianceDrift>;
 export type ComplianceDriftList = ComplianceDrift[];
 export const ComplianceDriftList = /*@__PURE__*/ S.Array(ComplianceDrift);
 export interface ListAppAssessmentComplianceDriftsResponse {
@@ -2048,10 +1928,7 @@ export interface ListAppAssessmentComplianceDriftsResponse {
   nextToken?: string;
 }
 export const ListAppAssessmentComplianceDriftsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    complianceDrifts: ComplianceDriftList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ complianceDrifts: ComplianceDriftList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAppAssessmentComplianceDriftsResponse",
 }) as any as S.Schema<ListAppAssessmentComplianceDriftsResponse>;
@@ -2087,9 +1964,7 @@ export const ResourceIdentifier = /*@__PURE__*/ S.suspend(() =>
     logicalResourceId: S.optional(LogicalResourceId),
     resourceType: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ResourceIdentifier",
-}) as any as S.Schema<ResourceIdentifier>;
+).annotate({ identifier: "ResourceIdentifier" }) as any as S.Schema<ResourceIdentifier>;
 export interface ResourceDrift {
   appArn?: string;
   appVersion?: string;
@@ -2113,10 +1988,7 @@ export interface ListAppAssessmentResourceDriftsResponse {
   nextToken?: string;
 }
 export const ListAppAssessmentResourceDriftsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceDrifts: ResourceDriftList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ resourceDrifts: ResourceDriftList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAppAssessmentResourceDriftsResponse",
 }) as any as S.Schema<ListAppAssessmentResourceDriftsResponse>;
@@ -2181,9 +2053,7 @@ export const AppAssessmentSummary = /*@__PURE__*/ S.suspend(() =>
     versionName: S.optional(S.String),
     driftStatus: S.optional(DriftStatus),
   }),
-).annotate({
-  identifier: "AppAssessmentSummary",
-}) as any as S.Schema<AppAssessmentSummary>;
+).annotate({ identifier: "AppAssessmentSummary" }) as any as S.Schema<AppAssessmentSummary>;
 export type AppAssessmentSummaryList = AppAssessmentSummary[];
 export const AppAssessmentSummaryList = /*@__PURE__*/ S.Array(AppAssessmentSummary);
 export interface ListAppAssessmentsResponse {
@@ -2191,10 +2061,7 @@ export interface ListAppAssessmentsResponse {
   assessmentSummaries: AppAssessmentSummary[];
 }
 export const ListAppAssessmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    assessmentSummaries: AppAssessmentSummaryList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), assessmentSummaries: AppAssessmentSummaryList }),
 ).annotate({
   identifier: "ListAppAssessmentsResponse",
 }) as any as S.Schema<ListAppAssessmentsResponse>;
@@ -2238,9 +2105,7 @@ export const AppComponentCompliance = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ComplianceStatus),
     resiliencyScore: S.optional(ResiliencyScore),
   }),
-).annotate({
-  identifier: "AppComponentCompliance",
-}) as any as S.Schema<AppComponentCompliance>;
+).annotate({ identifier: "AppComponentCompliance" }) as any as S.Schema<AppComponentCompliance>;
 export type ComponentCompliancesList = AppComponentCompliance[];
 export const ComponentCompliancesList = /*@__PURE__*/ S.Array(AppComponentCompliance);
 export interface ListAppComponentCompliancesResponse {
@@ -2248,10 +2113,7 @@ export interface ListAppComponentCompliancesResponse {
   nextToken?: string;
 }
 export const ListAppComponentCompliancesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    componentCompliances: ComponentCompliancesList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ componentCompliances: ComponentCompliancesList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAppComponentCompliancesResponse",
 }) as any as S.Schema<ListAppComponentCompliancesResponse>;
@@ -2336,9 +2198,7 @@ export interface ConfigRecommendation {
   cost?: Cost;
   appComponentName?: string;
   compliance?: { [key: string]: DisruptionCompliance | undefined };
-  recommendationCompliance?: {
-    [key: string]: RecommendationDisruptionCompliance | undefined;
-  };
+  recommendationCompliance?: { [key: string]: RecommendationDisruptionCompliance | undefined };
   optimizationType: ConfigRecommendationOptimizationType;
   name: string;
   description?: string;
@@ -2359,9 +2219,7 @@ export const ConfigRecommendation = /*@__PURE__*/ S.suspend(() =>
     haArchitecture: S.optional(HaArchitecture),
     referenceId: S.String,
   }),
-).annotate({
-  identifier: "ConfigRecommendation",
-}) as any as S.Schema<ConfigRecommendation>;
+).annotate({ identifier: "ConfigRecommendation" }) as any as S.Schema<ConfigRecommendation>;
 export type ConfigRecommendationList = ConfigRecommendation[];
 export const ConfigRecommendationList = /*@__PURE__*/ S.Array(ConfigRecommendation);
 export interface ComponentRecommendation {
@@ -2375,9 +2233,7 @@ export const ComponentRecommendation = /*@__PURE__*/ S.suspend(() =>
     recommendationStatus: RecommendationComplianceStatus,
     configRecommendations: ConfigRecommendationList,
   }),
-).annotate({
-  identifier: "ComponentRecommendation",
-}) as any as S.Schema<ComponentRecommendation>;
+).annotate({ identifier: "ComponentRecommendation" }) as any as S.Schema<ComponentRecommendation>;
 export type ComponentRecommendationList = ComponentRecommendation[];
 export const ComponentRecommendationList = /*@__PURE__*/ S.Array(ComponentRecommendation);
 export interface ListAppComponentRecommendationsResponse {
@@ -2417,10 +2273,7 @@ export interface ListAppInputSourcesResponse {
   nextToken?: string;
 }
 export const ListAppInputSourcesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appInputSources: AppInputSourceList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ appInputSources: AppInputSourceList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAppInputSourcesResponse",
 }) as any as S.Schema<ListAppInputSourcesResponse>;
@@ -2449,9 +2302,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
     awsApplicationArn: S.optional(S.String).pipe(T.HttpQuery("awsApplicationArn")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/list-apps" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAppsRequest",
-}) as any as S.Schema<ListAppsRequest>;
+).annotate({ identifier: "ListAppsRequest" }) as any as S.Schema<ListAppsRequest>;
 export interface AppSummary {
   appArn: string;
   name: string;
@@ -2492,9 +2343,7 @@ export interface ListAppsResponse {
 }
 export const ListAppsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appSummaries: AppSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAppsResponse",
-}) as any as S.Schema<ListAppsResponse>;
+).annotate({ identifier: "ListAppsResponse" }) as any as S.Schema<ListAppsResponse>;
 export interface ListAppVersionAppComponentsRequest {
   appArn: string;
   appVersion: string;
@@ -2566,10 +2415,7 @@ export interface ListAppVersionResourceMappingsResponse {
   nextToken?: string;
 }
 export const ListAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceMappings: ResourceMappingList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ resourceMappings: ResourceMappingList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListAppVersionResourceMappingsResponse",
 }) as any as S.Schema<ListAppVersionResourceMappingsResponse>;
@@ -2633,9 +2479,7 @@ export const ListAppVersionsRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/list-app-versions" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListAppVersionsRequest",
-}) as any as S.Schema<ListAppVersionsRequest>;
+).annotate({ identifier: "ListAppVersionsRequest" }) as any as S.Schema<ListAppVersionsRequest>;
 export interface AppVersionSummary {
   appVersion: string;
   identifier?: number;
@@ -2649,9 +2493,7 @@ export const AppVersionSummary = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     versionName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "AppVersionSummary",
-}) as any as S.Schema<AppVersionSummary>;
+).annotate({ identifier: "AppVersionSummary" }) as any as S.Schema<AppVersionSummary>;
 export type AppVersionList = AppVersionSummary[];
 export const AppVersionList = /*@__PURE__*/ S.Array(AppVersionSummary);
 export interface ListAppVersionsResponse {
@@ -2660,9 +2502,7 @@ export interface ListAppVersionsResponse {
 }
 export const ListAppVersionsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appVersions: AppVersionList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAppVersionsResponse",
-}) as any as S.Schema<ListAppVersionsResponse>;
+).annotate({ identifier: "ListAppVersionsResponse" }) as any as S.Schema<ListAppVersionsResponse>;
 export type FieldAggregationType = "Min" | "Max" | "Sum" | "Avg" | "Count" | (string & {});
 export const FieldAggregationType = S.String;
 
@@ -2691,11 +2531,7 @@ export interface Condition {
   value?: string;
 }
 export const Condition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    field: S.String,
-    operator: ConditionOperatorType,
-    value: S.optional(S.String),
-  }),
+  S.Struct({ field: S.String, operator: ConditionOperatorType, value: S.optional(S.String) }),
 ).annotate({ identifier: "Condition" }) as any as S.Schema<Condition>;
 export type ConditionList = Condition[];
 export const ConditionList = /*@__PURE__*/ S.Array(Condition);
@@ -2725,9 +2561,7 @@ export const ListMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     conditions: S.optional(ConditionList),
     sorts: S.optional(SortList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/list-metrics" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListMetricsRequest",
-}) as any as S.Schema<ListMetricsRequest>;
+).annotate({ identifier: "ListMetricsRequest" }) as any as S.Schema<ListMetricsRequest>;
 export type Row = string[];
 export const Row = /*@__PURE__*/ S.Array(S.String);
 export type RowList = string[][];
@@ -2738,9 +2572,7 @@ export interface ListMetricsResponse {
 }
 export const ListMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ rows: RowList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListMetricsResponse",
-}) as any as S.Schema<ListMetricsResponse>;
+).annotate({ identifier: "ListMetricsResponse" }) as any as S.Schema<ListMetricsResponse>;
 export type RecommendationTemplateStatusList = RecommendationTemplateStatus[];
 export const RecommendationTemplateStatusList = /*@__PURE__*/ S.Array(RecommendationTemplateStatus);
 export interface ListRecommendationTemplatesRequest {
@@ -2818,10 +2650,7 @@ export interface ListResiliencyPoliciesResponse {
   nextToken?: string;
 }
 export const ListResiliencyPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resiliencyPolicies: ResiliencyPolicies,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ resiliencyPolicies: ResiliencyPolicies, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListResiliencyPoliciesResponse",
 }) as any as S.Schema<ListResiliencyPoliciesResponse>;
@@ -2837,10 +2666,7 @@ export const ListResourceGroupingRecommendationsRequest = /*@__PURE__*/ S.suspen
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/list-resource-grouping-recommendations",
-      }),
+      T.Http({ method: "GET", uri: "/list-resource-grouping-recommendations" }),
       svc,
       auth,
       proto,
@@ -2857,14 +2683,8 @@ export interface GroupingAppComponent {
   appComponentName: string;
 }
 export const GroupingAppComponent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appComponentId: S.String,
-    appComponentType: S.String,
-    appComponentName: S.String,
-  }),
-).annotate({
-  identifier: "GroupingAppComponent",
-}) as any as S.Schema<GroupingAppComponent>;
+  S.Struct({ appComponentId: S.String, appComponentType: S.String, appComponentName: S.String }),
+).annotate({ identifier: "GroupingAppComponent" }) as any as S.Schema<GroupingAppComponent>;
 export type String255List = string[];
 export const String255List = /*@__PURE__*/ S.Array(S.String);
 export interface GroupingResource {
@@ -2882,9 +2702,7 @@ export const GroupingResource = /*@__PURE__*/ S.suspend(() =>
     logicalResourceId: LogicalResourceId,
     sourceAppComponentIds: String255List,
   }),
-).annotate({
-  identifier: "GroupingResource",
-}) as any as S.Schema<GroupingResource>;
+).annotate({ identifier: "GroupingResource" }) as any as S.Schema<GroupingResource>;
 export type GroupingResourceList = GroupingResource[];
 export const GroupingResourceList = /*@__PURE__*/ S.Array(GroupingResource);
 export type GroupingRecommendationStatusType =
@@ -2928,9 +2746,7 @@ export const GroupingRecommendation = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     rejectionReason: S.optional(GroupingRecommendationRejectionReason),
   }),
-).annotate({
-  identifier: "GroupingRecommendation",
-}) as any as S.Schema<GroupingRecommendation>;
+).annotate({ identifier: "GroupingRecommendation" }) as any as S.Schema<GroupingRecommendation>;
 export type GroupingRecommendationList = GroupingRecommendation[];
 export const GroupingRecommendationList = /*@__PURE__*/ S.Array(GroupingRecommendation);
 export interface ListResourceGroupingRecommendationsResponse {
@@ -2995,9 +2811,7 @@ export const SopRecommendation = /*@__PURE__*/ S.suspend(() =>
     prerequisite: S.optional(S.String),
     recommendationStatus: S.optional(RecommendationStatus),
   }),
-).annotate({
-  identifier: "SopRecommendation",
-}) as any as S.Schema<SopRecommendation>;
+).annotate({ identifier: "SopRecommendation" }) as any as S.Schema<SopRecommendation>;
 export type SopRecommendationList = SopRecommendation[];
 export const SopRecommendationList = /*@__PURE__*/ S.Array(SopRecommendation);
 export interface ListSopRecommendationsResponse {
@@ -3005,10 +2819,7 @@ export interface ListSopRecommendationsResponse {
   sopRecommendations: SopRecommendation[];
 }
 export const ListSopRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    sopRecommendations: SopRecommendationList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), sopRecommendations: SopRecommendationList }),
 ).annotate({
   identifier: "ListSopRecommendationsResponse",
 }) as any as S.Schema<ListSopRecommendationsResponse>;
@@ -3038,10 +2849,7 @@ export interface ListSuggestedResiliencyPoliciesResponse {
   nextToken?: string;
 }
 export const ListSuggestedResiliencyPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resiliencyPolicies: ResiliencyPolicies,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ resiliencyPolicies: ResiliencyPolicies, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListSuggestedResiliencyPoliciesResponse",
 }) as any as S.Schema<ListSuggestedResiliencyPoliciesResponse>;
@@ -3125,9 +2933,7 @@ export const TestRecommendation = /*@__PURE__*/ S.suspend(() =>
     dependsOnAlarms: S.optional(AlarmReferenceIdList),
     recommendationStatus: S.optional(RecommendationStatus),
   }),
-).annotate({
-  identifier: "TestRecommendation",
-}) as any as S.Schema<TestRecommendation>;
+).annotate({ identifier: "TestRecommendation" }) as any as S.Schema<TestRecommendation>;
 export type TestRecommendationList = TestRecommendation[];
 export const TestRecommendationList = /*@__PURE__*/ S.Array(TestRecommendation);
 export interface ListTestRecommendationsResponse {
@@ -3135,10 +2941,7 @@ export interface ListTestRecommendationsResponse {
   testRecommendations: TestRecommendation[];
 }
 export const ListTestRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    testRecommendations: TestRecommendationList,
-  }),
+  S.Struct({ nextToken: S.optional(S.String), testRecommendations: TestRecommendationList }),
 ).annotate({
   identifier: "ListTestRecommendationsResponse",
 }) as any as S.Schema<ListTestRecommendationsResponse>;
@@ -3158,10 +2961,7 @@ export const ListUnsupportedAppVersionResourcesRequest = /*@__PURE__*/ S.suspend
     maxResults: S.optional(S.Number),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/list-unsupported-app-version-resources",
-      }),
+      T.Http({ method: "POST", uri: "/list-unsupported-app-version-resources" }),
       svc,
       auth,
       proto,
@@ -3185,9 +2985,7 @@ export const UnsupportedResource = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.String,
     unsupportedResourceStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UnsupportedResource",
-}) as any as S.Schema<UnsupportedResource>;
+).annotate({ identifier: "UnsupportedResource" }) as any as S.Schema<UnsupportedResource>;
 export type UnsupportedResourceList = UnsupportedResource[];
 export const UnsupportedResourceList = /*@__PURE__*/ S.Array(UnsupportedResource);
 export interface ListUnsupportedAppVersionResourcesResponse {
@@ -3212,9 +3010,7 @@ export const PublishAppVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String, versionName: S.optional(S.String) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/publish-app-version" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PublishAppVersionRequest",
-}) as any as S.Schema<PublishAppVersionRequest>;
+).annotate({ identifier: "PublishAppVersionRequest" }) as any as S.Schema<PublishAppVersionRequest>;
 export interface PublishAppVersionResponse {
   appArn: string;
   appVersion?: string;
@@ -3279,15 +3075,9 @@ export interface RejectResourceGroupingRecommendationsRequest {
   entries: RejectGroupingRecommendationEntry[];
 }
 export const RejectResourceGroupingRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    entries: RejectGroupingRecommendationEntries,
-  }).pipe(
+  S.Struct({ appArn: S.String, entries: RejectGroupingRecommendationEntries }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/reject-resource-grouping-recommendations",
-      }),
+      T.Http({ method: "POST", uri: "/reject-resource-grouping-recommendations" }),
       svc,
       auth,
       proto,
@@ -3303,10 +3093,7 @@ export interface RejectResourceGroupingRecommendationsResponse {
   failedEntries: FailedGroupingRecommendationEntry[];
 }
 export const RejectResourceGroupingRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    failedEntries: FailedGroupingRecommendationEntries,
-  }),
+  S.Struct({ appArn: S.String, failedEntries: FailedGroupingRecommendationEntries }),
 ).annotate({
   identifier: "RejectResourceGroupingRecommendationsResponse",
 }) as any as S.Schema<RejectResourceGroupingRecommendationsResponse>;
@@ -3332,10 +3119,7 @@ export const RemoveDraftAppVersionResourceMappingsRequest = /*@__PURE__*/ S.susp
     eksSourceNames: S.optional(String255List),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/remove-draft-app-version-resource-mappings",
-      }),
+      T.Http({ method: "POST", uri: "/remove-draft-app-version-resource-mappings" }),
       svc,
       auth,
       proto,
@@ -3351,10 +3135,7 @@ export interface RemoveDraftAppVersionResourceMappingsResponse {
   appVersion?: string;
 }
 export const RemoveDraftAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.optional(S.String),
-    appVersion: S.optional(S.String),
-  }),
+  S.Struct({ appArn: S.optional(S.String), appVersion: S.optional(S.String) }),
 ).annotate({
   identifier: "RemoveDraftAppVersionResourceMappingsResponse",
 }) as any as S.Schema<RemoveDraftAppVersionResourceMappingsResponse>;
@@ -3449,10 +3230,7 @@ export interface StartResourceGroupingRecommendationTaskRequest {
 export const StartResourceGroupingRecommendationTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/start-resource-grouping-recommendation-task",
-      }),
+      T.Http({ method: "POST", uri: "/start-resource-grouping-recommendation-task" }),
       svc,
       auth,
       proto,
@@ -3484,15 +3262,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -3510,9 +3283,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -3536,9 +3307,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     permissionModel: S.optional(PermissionModel),
     eventSubscriptions: S.optional(EventSubscriptionList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/update-app" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateAppRequest",
-}) as any as S.Schema<UpdateAppRequest>;
+).annotate({ identifier: "UpdateAppRequest" }) as any as S.Schema<UpdateAppRequest>;
 export interface UpdateAppResponse {
   app: App;
 }
@@ -3550,15 +3319,10 @@ export interface UpdateAppVersionRequest {
   additionalInfo?: { [key: string]: string[] | undefined };
 }
 export const UpdateAppVersionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    additionalInfo: S.optional(AdditionalInfoMap),
-  }).pipe(
+  S.Struct({ appArn: S.String, additionalInfo: S.optional(AdditionalInfoMap) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/update-app-version" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateAppVersionRequest",
-}) as any as S.Schema<UpdateAppVersionRequest>;
+).annotate({ identifier: "UpdateAppVersionRequest" }) as any as S.Schema<UpdateAppVersionRequest>;
 export interface UpdateAppVersionResponse {
   appArn: string;
   appVersion: string;
@@ -3570,9 +3334,7 @@ export const UpdateAppVersionResponse = /*@__PURE__*/ S.suspend(() =>
     appVersion: S.String,
     additionalInfo: S.optional(AdditionalInfoMap),
   }),
-).annotate({
-  identifier: "UpdateAppVersionResponse",
-}) as any as S.Schema<UpdateAppVersionResponse>;
+).annotate({ identifier: "UpdateAppVersionResponse" }) as any as S.Schema<UpdateAppVersionResponse>;
 export interface UpdateAppVersionAppComponentRequest {
   appArn: string;
   id: string;
@@ -3606,11 +3368,7 @@ export interface UpdateAppVersionAppComponentResponse {
   appComponent?: AppComponent;
 }
 export const UpdateAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    appArn: S.String,
-    appVersion: S.String,
-    appComponent: S.optional(AppComponent),
-  }),
+  S.Struct({ appArn: S.String, appVersion: S.String, appComponent: S.optional(AppComponent) }),
 ).annotate({
   identifier: "UpdateAppVersionAppComponentResponse",
 }) as any as S.Schema<UpdateAppVersionAppComponentResponse>;

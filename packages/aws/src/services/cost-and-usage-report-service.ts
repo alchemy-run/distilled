@@ -82,10 +82,7 @@ export class ReportBucketNotVerified
   extends /*@__PURE__*/ S.TaggedError<ReportBucketNotVerified>()(
     "ReportBucketNotVerified",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.SyntheticError({
-      from: "ValidationException",
-      message: { matches: "[Bb]ucket" },
-    }),
+    T.SyntheticError({ from: "ValidationException", message: { matches: "[Bb]ucket" } }),
   ).pipe(C.withRetryableError) {}
 export class ReportLimitReachedException
   extends /*@__PURE__*/ S.TaggedError<ReportLimitReachedException>()(
@@ -126,10 +123,9 @@ export interface DescribeReportDefinitionsRequest {
   NextToken?: string;
 }
 export const DescribeReportDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeReportDefinitionsRequest",
 }) as any as S.Schema<DescribeReportDefinitionsRequest>;
@@ -204,10 +200,7 @@ export interface ReportStatus {
   lastStatus?: LastStatus;
 }
 export const ReportStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    lastDelivery: S.optional(S.String),
-    lastStatus: S.optional(LastStatus),
-  }),
+  S.Struct({ lastDelivery: S.optional(S.String), lastStatus: S.optional(LastStatus) }),
 ).annotate({ identifier: "ReportStatus" }) as any as S.Schema<ReportStatus>;
 export interface ReportDefinition {
   ReportName: string;
@@ -240,9 +233,7 @@ export const ReportDefinition = /*@__PURE__*/ S.suspend(() =>
     BillingViewArn: S.optional(S.String),
     ReportStatus: S.optional(ReportStatus),
   }),
-).annotate({
-  identifier: "ReportDefinition",
-}) as any as S.Schema<ReportDefinition>;
+).annotate({ identifier: "ReportDefinition" }) as any as S.Schema<ReportDefinition>;
 export type ReportDefinitionList = ReportDefinition[];
 export const ReportDefinitionList = /*@__PURE__*/ S.Array(ReportDefinition);
 export interface DescribeReportDefinitionsResponse {
@@ -306,10 +297,9 @@ export interface PutReportDefinitionRequest {
   Tags?: Tag[];
 }
 export const PutReportDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReportDefinition: ReportDefinition,
-    Tags: S.optional(TagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ ReportDefinition: ReportDefinition, Tags: S.optional(TagList) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "PutReportDefinitionRequest",
 }) as any as S.Schema<PutReportDefinitionRequest>;
@@ -325,9 +315,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReportName: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -342,9 +330,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ReportName: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

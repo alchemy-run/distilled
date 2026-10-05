@@ -141,21 +141,14 @@ export const ClipTimestampRange = /*@__PURE__*/ S.suspend(() =>
     StartTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
-).annotate({
-  identifier: "ClipTimestampRange",
-}) as any as S.Schema<ClipTimestampRange>;
+).annotate({ identifier: "ClipTimestampRange" }) as any as S.Schema<ClipTimestampRange>;
 export interface ClipFragmentSelector {
   FragmentSelectorType: ClipFragmentSelectorType;
   TimestampRange: ClipTimestampRange;
 }
 export const ClipFragmentSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FragmentSelectorType: ClipFragmentSelectorType,
-    TimestampRange: ClipTimestampRange,
-  }),
-).annotate({
-  identifier: "ClipFragmentSelector",
-}) as any as S.Schema<ClipFragmentSelector>;
+  S.Struct({ FragmentSelectorType: ClipFragmentSelectorType, TimestampRange: ClipTimestampRange }),
+).annotate({ identifier: "ClipFragmentSelector" }) as any as S.Schema<ClipFragmentSelector>;
 export interface GetClipInput {
   StreamName?: string;
   StreamARN?: string;
@@ -200,9 +193,7 @@ export const DASHTimestampRange = /*@__PURE__*/ S.suspend(() =>
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "DASHTimestampRange",
-}) as any as S.Schema<DASHTimestampRange>;
+).annotate({ identifier: "DASHTimestampRange" }) as any as S.Schema<DASHTimestampRange>;
 export interface DASHFragmentSelector {
   FragmentSelectorType?: DASHFragmentSelectorType;
   TimestampRange?: DASHTimestampRange;
@@ -212,9 +203,7 @@ export const DASHFragmentSelector = /*@__PURE__*/ S.suspend(() =>
     FragmentSelectorType: S.optional(DASHFragmentSelectorType),
     TimestampRange: S.optional(DASHTimestampRange),
   }),
-).annotate({
-  identifier: "DASHFragmentSelector",
-}) as any as S.Schema<DASHFragmentSelector>;
+).annotate({ identifier: "DASHFragmentSelector" }) as any as S.Schema<DASHFragmentSelector>;
 export type Expires = number;
 export type DASHMaxResults = number;
 export interface GetDASHStreamingSessionURLInput {
@@ -274,9 +263,7 @@ export const HLSTimestampRange = /*@__PURE__*/ S.suspend(() =>
     StartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "HLSTimestampRange",
-}) as any as S.Schema<HLSTimestampRange>;
+).annotate({ identifier: "HLSTimestampRange" }) as any as S.Schema<HLSTimestampRange>;
 export interface HLSFragmentSelector {
   FragmentSelectorType?: HLSFragmentSelectorType;
   TimestampRange?: HLSTimestampRange;
@@ -286,9 +273,7 @@ export const HLSFragmentSelector = /*@__PURE__*/ S.suspend(() =>
     FragmentSelectorType: S.optional(HLSFragmentSelectorType),
     TimestampRange: S.optional(HLSTimestampRange),
   }),
-).annotate({
-  identifier: "HLSFragmentSelector",
-}) as any as S.Schema<HLSFragmentSelector>;
+).annotate({ identifier: "HLSFragmentSelector" }) as any as S.Schema<HLSFragmentSelector>;
 export type ContainerFormat = "FRAGMENTED_MP4" | "MPEG_TS" | (string & {});
 export const ContainerFormat = S.String;
 
@@ -414,9 +399,7 @@ export interface GetImagesOutput {
 }
 export const GetImagesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Images: S.optional(Images), NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetImagesOutput",
-}) as any as S.Schema<GetImagesOutput>;
+).annotate({ identifier: "GetImagesOutput" }) as any as S.Schema<GetImagesOutput>;
 export type FragmentNumberString = string;
 export type FragmentNumberList = string[];
 export const FragmentNumberList = /*@__PURE__*/ S.Array(S.String);
@@ -474,13 +457,8 @@ export interface FragmentSelector {
   TimestampRange: TimestampRange;
 }
 export const FragmentSelector = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FragmentSelectorType: FragmentSelectorType,
-    TimestampRange: TimestampRange,
-  }),
-).annotate({
-  identifier: "FragmentSelector",
-}) as any as S.Schema<FragmentSelector>;
+  S.Struct({ FragmentSelectorType: FragmentSelectorType, TimestampRange: TimestampRange }),
+).annotate({ identifier: "FragmentSelector" }) as any as S.Schema<FragmentSelector>;
 export interface ListFragmentsInput {
   StreamName?: string;
   StreamARN?: string;
@@ -496,9 +474,7 @@ export const ListFragmentsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     FragmentSelector: S.optional(FragmentSelector),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/listFragments" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFragmentsInput",
-}) as any as S.Schema<ListFragmentsInput>;
+).annotate({ identifier: "ListFragmentsInput" }) as any as S.Schema<ListFragmentsInput>;
 export interface Fragment {
   FragmentNumber?: string;
   FragmentSizeInBytes?: number;
@@ -522,13 +498,8 @@ export interface ListFragmentsOutput {
   NextToken?: string;
 }
 export const ListFragmentsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Fragments: S.optional(FragmentList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListFragmentsOutput",
-}) as any as S.Schema<ListFragmentsOutput>;
+  S.Struct({ Fragments: S.optional(FragmentList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListFragmentsOutput" }) as any as S.Schema<ListFragmentsOutput>;
 export type ErrorMessage = string;
 export type GetClipError =
   | ClientLimitExceededException

@@ -209,23 +209,14 @@ export interface AttendeeCapabilities {
   Content: MediaCapabilities;
 }
 export const AttendeeCapabilities = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Audio: MediaCapabilities,
-    Video: MediaCapabilities,
-    Content: MediaCapabilities,
-  }),
-).annotate({
-  identifier: "AttendeeCapabilities",
-}) as any as S.Schema<AttendeeCapabilities>;
+  S.Struct({ Audio: MediaCapabilities, Video: MediaCapabilities, Content: MediaCapabilities }),
+).annotate({ identifier: "AttendeeCapabilities" }) as any as S.Schema<AttendeeCapabilities>;
 export interface CreateAttendeeRequestItem {
   ExternalUserId: string | redacted.Redacted<string>;
   Capabilities?: AttendeeCapabilities;
 }
 export const CreateAttendeeRequestItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ExternalUserId: SensitiveString,
-    Capabilities: S.optional(AttendeeCapabilities),
-  }),
+  S.Struct({ ExternalUserId: SensitiveString, Capabilities: S.optional(AttendeeCapabilities) }),
 ).annotate({
   identifier: "CreateAttendeeRequestItem",
 }) as any as S.Schema<CreateAttendeeRequestItem>;
@@ -241,10 +232,7 @@ export const BatchCreateAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
     Attendees: CreateAttendeeRequestItemList,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/meetings/{MeetingId}/attendees?operation=batch-create",
-      }),
+      T.Http({ method: "POST", uri: "/meetings/{MeetingId}/attendees?operation=batch-create" }),
       svc,
       auth,
       proto,
@@ -283,9 +271,7 @@ export const CreateAttendeeError_ = /*@__PURE__*/ S.suspend(() =>
     ErrorCode: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateAttendeeError",
-}) as any as S.Schema<CreateAttendeeError_>;
+).annotate({ identifier: "CreateAttendeeError" }) as any as S.Schema<CreateAttendeeError_>;
 export type BatchCreateAttendeeErrorList = CreateAttendeeError_[];
 export const BatchCreateAttendeeErrorList = /*@__PURE__*/ S.Array(CreateAttendeeError_);
 export interface BatchCreateAttendeeResponse {
@@ -360,17 +346,13 @@ export const CreateAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateAttendeeRequest",
-}) as any as S.Schema<CreateAttendeeRequest>;
+).annotate({ identifier: "CreateAttendeeRequest" }) as any as S.Schema<CreateAttendeeRequest>;
 export interface CreateAttendeeResponse {
   Attendee?: Attendee;
 }
 export const CreateAttendeeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Attendee: S.optional(Attendee) }),
-).annotate({
-  identifier: "CreateAttendeeResponse",
-}) as any as S.Schema<CreateAttendeeResponse>;
+).annotate({ identifier: "CreateAttendeeResponse" }) as any as S.Schema<CreateAttendeeResponse>;
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export type MediaRegion = string;
 export type ExternalMeetingId = string | redacted.Redacted<string>;
@@ -415,18 +397,14 @@ export interface ContentFeatures {
 }
 export const ContentFeatures = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MaxResolution: S.optional(ContentResolution) }),
-).annotate({
-  identifier: "ContentFeatures",
-}) as any as S.Schema<ContentFeatures>;
+).annotate({ identifier: "ContentFeatures" }) as any as S.Schema<ContentFeatures>;
 export type AttendeeMax = number;
 export interface AttendeeFeatures {
   MaxCount?: number;
 }
 export const AttendeeFeatures = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MaxCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "AttendeeFeatures",
-}) as any as S.Schema<AttendeeFeatures>;
+).annotate({ identifier: "AttendeeFeatures" }) as any as S.Schema<AttendeeFeatures>;
 export interface MeetingFeaturesConfiguration {
   Audio?: AudioFeatures;
   Video?: VideoFeatures;
@@ -486,9 +464,7 @@ export const CreateMeetingRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     MediaPlacementNetworkType: S.optional(MediaPlacementNetworkType),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/meetings" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateMeetingRequest",
-}) as any as S.Schema<CreateMeetingRequest>;
+).annotate({ identifier: "CreateMeetingRequest" }) as any as S.Schema<CreateMeetingRequest>;
 export interface MediaPlacement {
   AudioHostUrl?: string;
   AudioFallbackUrl?: string;
@@ -541,9 +517,7 @@ export interface CreateMeetingResponse {
 }
 export const CreateMeetingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Meeting: S.optional(Meeting) }),
-).annotate({
-  identifier: "CreateMeetingResponse",
-}) as any as S.Schema<CreateMeetingResponse>;
+).annotate({ identifier: "CreateMeetingResponse" }) as any as S.Schema<CreateMeetingResponse>;
 export type CreateMeetingWithAttendeesRequestItemList = CreateAttendeeRequestItem[];
 export const CreateMeetingWithAttendeesRequestItemList =
   /*@__PURE__*/ S.Array(CreateAttendeeRequestItem);
@@ -610,10 +584,7 @@ export const DeleteAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
     AttendeeId: S.String.pipe(T.HttpLabel("AttendeeId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/meetings/{MeetingId}/attendees/{AttendeeId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/meetings/{MeetingId}/attendees/{AttendeeId}" }),
       svc,
       auth,
       proto,
@@ -621,9 +592,7 @@ export const DeleteAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAttendeeRequest",
-}) as any as S.Schema<DeleteAttendeeRequest>;
+).annotate({ identifier: "DeleteAttendeeRequest" }) as any as S.Schema<DeleteAttendeeRequest>;
 export interface DeleteAttendeeResponse {}
 export const DeleteAttendeeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAttendeeResponse",
@@ -635,9 +604,7 @@ export const DeleteMeetingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/meetings/{MeetingId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteMeetingRequest",
-}) as any as S.Schema<DeleteMeetingRequest>;
+).annotate({ identifier: "DeleteMeetingRequest" }) as any as S.Schema<DeleteMeetingRequest>;
 export interface DeleteMeetingResponse {}
 export const DeleteMeetingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMeetingResponse",
@@ -652,10 +619,7 @@ export const GetAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
     AttendeeId: S.String.pipe(T.HttpLabel("AttendeeId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/meetings/{MeetingId}/attendees/{AttendeeId}",
-      }),
+      T.Http({ method: "GET", uri: "/meetings/{MeetingId}/attendees/{AttendeeId}" }),
       svc,
       auth,
       proto,
@@ -663,17 +627,13 @@ export const GetAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAttendeeRequest",
-}) as any as S.Schema<GetAttendeeRequest>;
+).annotate({ identifier: "GetAttendeeRequest" }) as any as S.Schema<GetAttendeeRequest>;
 export interface GetAttendeeResponse {
   Attendee?: Attendee;
 }
 export const GetAttendeeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Attendee: S.optional(Attendee) }),
-).annotate({
-  identifier: "GetAttendeeResponse",
-}) as any as S.Schema<GetAttendeeResponse>;
+).annotate({ identifier: "GetAttendeeResponse" }) as any as S.Schema<GetAttendeeResponse>;
 export interface GetMeetingRequest {
   MeetingId: string;
 }
@@ -681,17 +641,13 @@ export const GetMeetingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/meetings/{MeetingId}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetMeetingRequest",
-}) as any as S.Schema<GetMeetingRequest>;
+).annotate({ identifier: "GetMeetingRequest" }) as any as S.Schema<GetMeetingRequest>;
 export interface GetMeetingResponse {
   Meeting?: Meeting;
 }
 export const GetMeetingResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Meeting: S.optional(Meeting) }),
-).annotate({
-  identifier: "GetMeetingResponse",
-}) as any as S.Schema<GetMeetingResponse>;
+).annotate({ identifier: "GetMeetingResponse" }) as any as S.Schema<GetMeetingResponse>;
 export type ResultMax = number;
 export interface ListAttendeesRequest {
   MeetingId: string;
@@ -713,21 +669,14 @@ export const ListAttendeesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListAttendeesRequest",
-}) as any as S.Schema<ListAttendeesRequest>;
+).annotate({ identifier: "ListAttendeesRequest" }) as any as S.Schema<ListAttendeesRequest>;
 export interface ListAttendeesResponse {
   Attendees?: Attendee[];
   NextToken?: string;
 }
 export const ListAttendeesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attendees: S.optional(AttendeeList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListAttendeesResponse",
-}) as any as S.Schema<ListAttendeesResponse>;
+  S.Struct({ Attendees: S.optional(AttendeeList), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListAttendeesResponse" }) as any as S.Schema<ListAttendeesResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
@@ -834,9 +783,7 @@ export const EngineTranscribeSettings = /*@__PURE__*/ S.suspend(() =>
     VocabularyNames: S.optional(S.String),
     VocabularyFilterNames: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EngineTranscribeSettings",
-}) as any as S.Schema<EngineTranscribeSettings>;
+).annotate({ identifier: "EngineTranscribeSettings" }) as any as S.Schema<EngineTranscribeSettings>;
 export type TranscribeMedicalLanguageCode = "en-US" | (string & {});
 export const TranscribeMedicalLanguageCode = S.String;
 
@@ -909,10 +856,7 @@ export const StartMeetingTranscriptionRequest = /*@__PURE__*/ S.suspend(() =>
     TranscriptionConfiguration: TranscriptionConfiguration,
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/meetings/{MeetingId}/transcription?operation=start",
-      }),
+      T.Http({ method: "POST", uri: "/meetings/{MeetingId}/transcription?operation=start" }),
       svc,
       auth,
       proto,
@@ -935,10 +879,7 @@ export interface StopMeetingTranscriptionRequest {
 export const StopMeetingTranscriptionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/meetings/{MeetingId}/transcription?operation=stop",
-      }),
+      T.Http({ method: "POST", uri: "/meetings/{MeetingId}/transcription?operation=stop" }),
       svc,
       auth,
       proto,
@@ -970,9 +911,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -994,9 +933,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1013,10 +950,7 @@ export const UpdateAttendeeCapabilitiesRequest = /*@__PURE__*/ S.suspend(() =>
     Capabilities: AttendeeCapabilities,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities",
-      }),
+      T.Http({ method: "PUT", uri: "/meetings/{MeetingId}/attendees/{AttendeeId}/capabilities" }),
       svc,
       auth,
       proto,

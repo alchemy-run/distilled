@@ -9,10 +9,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "SSO OIDC",
-  serviceShapeName: "AWSSSOOIDCService",
-});
+const svc = T.AwsApiService({ sdkId: "SSO OIDC", serviceShapeName: "AWSSSOOIDCService" });
 const auth = T.AwsAuthSigv4({ name: "sso-oauth" });
 const ver = T.ServiceVersion("2019-06-10");
 const proto = T.AwsProtocolsRestJson1();
@@ -260,9 +257,7 @@ export const CreateTokenRequest = /*@__PURE__*/ S.suspend(() =>
     redirectUri: S.optional(S.String),
     codeVerifier: S.optional(SensitiveString),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/token" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTokenRequest",
-}) as any as S.Schema<CreateTokenRequest>;
+).annotate({ identifier: "CreateTokenRequest" }) as any as S.Schema<CreateTokenRequest>;
 export type AccessToken = string | redacted.Redacted<string>;
 export type TokenType = string;
 export type ExpirationInSeconds = number;
@@ -282,9 +277,7 @@ export const CreateTokenResponse = /*@__PURE__*/ S.suspend(() =>
     refreshToken: S.optional(SensitiveString),
     idToken: S.optional(SensitiveString),
   }),
-).annotate({
-  identifier: "CreateTokenResponse",
-}) as any as S.Schema<CreateTokenResponse>;
+).annotate({ identifier: "CreateTokenResponse" }) as any as S.Schema<CreateTokenResponse>;
 export type Assertion = string | redacted.Redacted<string>;
 export type SubjectToken = string | redacted.Redacted<string>;
 export type TokenTypeURI = string;
@@ -324,9 +317,7 @@ export interface AwsAdditionalDetails {
 }
 export const AwsAdditionalDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identityContext: S.optional(S.String) }),
-).annotate({
-  identifier: "AwsAdditionalDetails",
-}) as any as S.Schema<AwsAdditionalDetails>;
+).annotate({ identifier: "AwsAdditionalDetails" }) as any as S.Schema<AwsAdditionalDetails>;
 export interface CreateTokenWithIAMResponse {
   accessToken?: string | redacted.Redacted<string>;
   tokenType?: string;
@@ -377,9 +368,7 @@ export const RegisterClientRequest = /*@__PURE__*/ S.suspend(() =>
     issuerUrl: S.optional(S.String),
     entitledApplicationArn: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/client/register" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RegisterClientRequest",
-}) as any as S.Schema<RegisterClientRequest>;
+).annotate({ identifier: "RegisterClientRequest" }) as any as S.Schema<RegisterClientRequest>;
 export type LongTimeStampType = number;
 export interface RegisterClientResponse {
   clientId?: string;
@@ -398,20 +387,14 @@ export const RegisterClientResponse = /*@__PURE__*/ S.suspend(() =>
     authorizationEndpoint: S.optional(S.String),
     tokenEndpoint: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RegisterClientResponse",
-}) as any as S.Schema<RegisterClientResponse>;
+).annotate({ identifier: "RegisterClientResponse" }) as any as S.Schema<RegisterClientResponse>;
 export interface StartDeviceAuthorizationRequest {
   clientId: string;
   clientSecret: string | redacted.Redacted<string>;
   startUrl: string;
 }
 export const StartDeviceAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    clientId: S.String,
-    clientSecret: SensitiveString,
-    startUrl: S.String,
-  }).pipe(
+  S.Struct({ clientId: S.String, clientSecret: SensitiveString, startUrl: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/device_authorization" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({

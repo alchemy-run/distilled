@@ -86,11 +86,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -102,11 +98,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceQuotaExceededException
@@ -155,9 +147,7 @@ export const CreateDbBackupInput = /*@__PURE__*/ S.suspend(() =>
     retentionDays: S.optional(S.Number),
     tags: S.optional(RequestTagMap),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDbBackupInput",
-}) as any as S.Schema<CreateDbBackupInput>;
+).annotate({ identifier: "CreateDbBackupInput" }) as any as S.Schema<CreateDbBackupInput>;
 export type DbBackupId = string;
 export type Arn = string;
 export type DbBackupStatus =
@@ -206,9 +196,7 @@ export const ClusterConfiguration = /*@__PURE__*/ S.suspend(() =>
     queryOnlyInstances: S.optional(S.Number),
     dedicatedCompactor: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ClusterConfiguration",
-}) as any as S.Schema<ClusterConfiguration>;
+).annotate({ identifier: "ClusterConfiguration" }) as any as S.Schema<ClusterConfiguration>;
 export type DbParameterGroupId = string;
 export type DbInstanceType =
   | "db.influx.medium"
@@ -229,17 +217,13 @@ export interface S3Configuration {
 }
 export const S3Configuration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ bucketName: S.String, enabled: S.Boolean }),
-).annotate({
-  identifier: "S3Configuration",
-}) as any as S.Schema<S3Configuration>;
+).annotate({ identifier: "S3Configuration" }) as any as S.Schema<S3Configuration>;
 export interface LogDeliveryConfiguration {
   s3Configuration: S3Configuration;
 }
 export const LogDeliveryConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3Configuration: S3Configuration }),
-).annotate({
-  identifier: "LogDeliveryConfiguration",
-}) as any as S.Schema<LogDeliveryConfiguration>;
+).annotate({ identifier: "LogDeliveryConfiguration" }) as any as S.Schema<LogDeliveryConfiguration>;
 export type FailoverMode = "AUTOMATIC" | "NO_FAILOVER" | (string & {});
 export const FailoverMode = S.String;
 
@@ -268,9 +252,7 @@ export interface MaintenanceSchedule {
 }
 export const MaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ timezone: S.String, preferredMaintenanceWindow: S.String }),
-).annotate({
-  identifier: "MaintenanceSchedule",
-}) as any as S.Schema<MaintenanceSchedule>;
+).annotate({ identifier: "MaintenanceSchedule" }) as any as S.Schema<MaintenanceSchedule>;
 export interface CreateDbBackupOutput {
   id: string;
   name?: string;
@@ -326,9 +308,7 @@ export const CreateDbBackupOutput = /*@__PURE__*/ S.suspend(() =>
     influxAuthParametersSecretArn: S.optional(S.String),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
   }),
-).annotate({
-  identifier: "CreateDbBackupOutput",
-}) as any as S.Schema<CreateDbBackupOutput>;
+).annotate({ identifier: "CreateDbBackupOutput" }) as any as S.Schema<CreateDbBackupOutput>;
 export type DbClusterName = string;
 export type Username = string | redacted.Redacted<string>;
 export type Password = string | redacted.Redacted<string>;
@@ -364,9 +344,7 @@ export const DbBackupConfiguration = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     customSchedule: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbBackupConfiguration",
-}) as any as S.Schema<DbBackupConfiguration>;
+).annotate({ identifier: "DbBackupConfiguration" }) as any as S.Schema<DbBackupConfiguration>;
 export type DbBackupConfigurationInputList = DbBackupConfiguration[];
 export const DbBackupConfigurationInputList = /*@__PURE__*/ S.Array(DbBackupConfiguration);
 export interface CreateDbClusterInput {
@@ -416,9 +394,7 @@ export const CreateDbClusterInput = /*@__PURE__*/ S.suspend(() =>
     kmsKeyId: S.optional(S.String),
     tags: S.optional(RequestTagMap),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDbClusterInput",
-}) as any as S.Schema<CreateDbClusterInput>;
+).annotate({ identifier: "CreateDbClusterInput" }) as any as S.Schema<CreateDbClusterInput>;
 export type DbClusterId = string;
 export type ClusterStatus =
   | "CREATING"
@@ -442,13 +418,8 @@ export interface CreateDbClusterOutput {
   dbClusterStatus?: ClusterStatus;
 }
 export const CreateDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dbClusterId: S.optional(S.String),
-    dbClusterStatus: S.optional(ClusterStatus),
-  }),
-).annotate({
-  identifier: "CreateDbClusterOutput",
-}) as any as S.Schema<CreateDbClusterOutput>;
+  S.Struct({ dbClusterId: S.optional(S.String), dbClusterStatus: S.optional(ClusterStatus) }),
+).annotate({ identifier: "CreateDbClusterOutput" }) as any as S.Schema<CreateDbClusterOutput>;
 export type DbInstanceName = string;
 export type DeploymentType = "SINGLE_AZ" | "WITH_MULTIAZ_STANDBY" | (string & {});
 export const DeploymentType = S.String;
@@ -498,9 +469,7 @@ export const CreateDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
     kmsKeyId: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDbInstanceInput",
-}) as any as S.Schema<CreateDbInstanceInput>;
+).annotate({ identifier: "CreateDbInstanceInput" }) as any as S.Schema<CreateDbInstanceInput>;
 export type DbInstanceId = string;
 export type Status =
   | "CREATING"
@@ -612,9 +581,7 @@ export const CreateDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateDbInstanceOutput",
-}) as any as S.Schema<CreateDbInstanceOutput>;
+).annotate({ identifier: "CreateDbInstanceOutput" }) as any as S.Schema<CreateDbInstanceOutput>;
 export type DbParameterGroupName = string;
 export type LogLevel = "debug" | "info" | "error" | (string & {});
 export const LogLevel = S.String;
@@ -711,9 +678,7 @@ export const InfluxDBv2Parameters = /*@__PURE__*/ S.suspend(() =>
     storageWalMaxWriteDelay: S.optional(Duration),
     uiDisabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "InfluxDBv2Parameters",
-}) as any as S.Schema<InfluxDBv2Parameters>;
+).annotate({ identifier: "InfluxDBv2Parameters" }) as any as S.Schema<InfluxDBv2Parameters>;
 export type LogFormats = "full" | (string & {});
 export const LogFormats = S.String;
 
@@ -815,9 +780,7 @@ export const InfluxDBv3CoreParameters = /*@__PURE__*/ S.suspend(() =>
     pluginRepositoryUrl: S.optional(S.String),
     pluginRepositorySecretArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InfluxDBv3CoreParameters",
-}) as any as S.Schema<InfluxDBv3CoreParameters>;
+).annotate({ identifier: "InfluxDBv3CoreParameters" }) as any as S.Schema<InfluxDBv3CoreParameters>;
 export interface InfluxDBv3EnterpriseParameters {
   queryFileLimit?: number;
   queryLogSize?: number;
@@ -935,16 +898,8 @@ export const InfluxDBv3EnterpriseParameters = /*@__PURE__*/ S.suspend(() =>
   identifier: "InfluxDBv3EnterpriseParameters",
 }) as any as S.Schema<InfluxDBv3EnterpriseParameters>;
 export type Parameters =
-  | {
-      InfluxDBv2: InfluxDBv2Parameters;
-      InfluxDBv3Core?: never;
-      InfluxDBv3Enterprise?: never;
-    }
-  | {
-      InfluxDBv2?: never;
-      InfluxDBv3Core: InfluxDBv3CoreParameters;
-      InfluxDBv3Enterprise?: never;
-    }
+  | { InfluxDBv2: InfluxDBv2Parameters; InfluxDBv3Core?: never; InfluxDBv3Enterprise?: never }
+  | { InfluxDBv2?: never; InfluxDBv3Core: InfluxDBv3CoreParameters; InfluxDBv3Enterprise?: never }
   | {
       InfluxDBv2?: never;
       InfluxDBv3Core?: never;
@@ -996,9 +951,7 @@ export const DeleteDbBackupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteDbBackupInput",
-}) as any as S.Schema<DeleteDbBackupInput>;
+).annotate({ identifier: "DeleteDbBackupInput" }) as any as S.Schema<DeleteDbBackupInput>;
 export interface DeleteDbBackupOutput {
   id: string;
   name?: string;
@@ -1054,42 +1007,32 @@ export const DeleteDbBackupOutput = /*@__PURE__*/ S.suspend(() =>
     influxAuthParametersSecretArn: S.optional(S.String),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
   }),
-).annotate({
-  identifier: "DeleteDbBackupOutput",
-}) as any as S.Schema<DeleteDbBackupOutput>;
+).annotate({ identifier: "DeleteDbBackupOutput" }) as any as S.Schema<DeleteDbBackupOutput>;
 export interface DeleteDbClusterInput {
   dbClusterId: string;
   retainAutomatedBackups?: boolean;
 }
 export const DeleteDbClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dbClusterId: S.String,
-    retainAutomatedBackups: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteDbClusterInput",
-}) as any as S.Schema<DeleteDbClusterInput>;
+  S.Struct({ dbClusterId: S.String, retainAutomatedBackups: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteDbClusterInput" }) as any as S.Schema<DeleteDbClusterInput>;
 export interface DeleteDbClusterOutput {
   dbClusterStatus?: ClusterStatus;
 }
 export const DeleteDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dbClusterStatus: S.optional(ClusterStatus) }),
-).annotate({
-  identifier: "DeleteDbClusterOutput",
-}) as any as S.Schema<DeleteDbClusterOutput>;
+).annotate({ identifier: "DeleteDbClusterOutput" }) as any as S.Schema<DeleteDbClusterOutput>;
 export type DbInstanceIdentifier = string;
 export interface DeleteDbInstanceInput {
   identifier: string;
   retainAutomatedBackups?: boolean;
 }
 export const DeleteDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    retainAutomatedBackups: S.optional(S.Boolean),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteDbInstanceInput",
-}) as any as S.Schema<DeleteDbInstanceInput>;
+  S.Struct({ identifier: S.String, retainAutomatedBackups: S.optional(S.Boolean) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteDbInstanceInput" }) as any as S.Schema<DeleteDbInstanceInput>;
 export interface DeleteDbInstanceOutput {
   id: string;
   name: string;
@@ -1149,9 +1092,7 @@ export const DeleteDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DeleteDbInstanceOutput",
-}) as any as S.Schema<DeleteDbInstanceOutput>;
+).annotate({ identifier: "DeleteDbInstanceOutput" }) as any as S.Schema<DeleteDbInstanceOutput>;
 export interface GetDbBackupInput {
   identifier: string;
 }
@@ -1159,9 +1100,7 @@ export const GetDbBackupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDbBackupInput",
-}) as any as S.Schema<GetDbBackupInput>;
+).annotate({ identifier: "GetDbBackupInput" }) as any as S.Schema<GetDbBackupInput>;
 export interface GetDbBackupOutput {
   id: string;
   name?: string;
@@ -1217,9 +1156,7 @@ export const GetDbBackupOutput = /*@__PURE__*/ S.suspend(() =>
     influxAuthParametersSecretArn: S.optional(S.String),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
   }),
-).annotate({
-  identifier: "GetDbBackupOutput",
-}) as any as S.Schema<GetDbBackupOutput>;
+).annotate({ identifier: "GetDbBackupOutput" }) as any as S.Schema<GetDbBackupOutput>;
 export interface GetDbClusterInput {
   dbClusterId: string;
 }
@@ -1227,9 +1164,7 @@ export const GetDbClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dbClusterId: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDbClusterInput",
-}) as any as S.Schema<GetDbClusterInput>;
+).annotate({ identifier: "GetDbClusterInput" }) as any as S.Schema<GetDbClusterInput>;
 export interface GetDbClusterOutput {
   id: string;
   name: string;
@@ -1289,9 +1224,7 @@ export const GetDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDbClusterOutput",
-}) as any as S.Schema<GetDbClusterOutput>;
+).annotate({ identifier: "GetDbClusterOutput" }) as any as S.Schema<GetDbClusterOutput>;
 export interface GetDbInstanceInput {
   identifier: string;
 }
@@ -1299,9 +1232,7 @@ export const GetDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDbInstanceInput",
-}) as any as S.Schema<GetDbInstanceInput>;
+).annotate({ identifier: "GetDbInstanceInput" }) as any as S.Schema<GetDbInstanceInput>;
 export interface GetDbInstanceOutput {
   id: string;
   name: string;
@@ -1361,9 +1292,7 @@ export const GetDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetDbInstanceOutput",
-}) as any as S.Schema<GetDbInstanceOutput>;
+).annotate({ identifier: "GetDbInstanceOutput" }) as any as S.Schema<GetDbInstanceOutput>;
 export interface GetDbParameterGroupInput {
   identifier: string;
 }
@@ -1371,9 +1300,7 @@ export const GetDbParameterGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetDbParameterGroupInput",
-}) as any as S.Schema<GetDbParameterGroupInput>;
+).annotate({ identifier: "GetDbParameterGroupInput" }) as any as S.Schema<GetDbParameterGroupInput>;
 export interface GetDbParameterGroupOutput {
   id: string;
   name: string;
@@ -1405,9 +1332,7 @@ export const ListDbBackupsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDbBackupsInput",
-}) as any as S.Schema<ListDbBackupsInput>;
+).annotate({ identifier: "ListDbBackupsInput" }) as any as S.Schema<ListDbBackupsInput>;
 export interface DbBackupSummary {
   id: string;
   name?: string;
@@ -1435,9 +1360,7 @@ export const DbBackupSummary = /*@__PURE__*/ S.suspend(() =>
     deploymentType: S.optional(ResourceDeploymentType),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DbBackupSummary",
-}) as any as S.Schema<DbBackupSummary>;
+).annotate({ identifier: "DbBackupSummary" }) as any as S.Schema<DbBackupSummary>;
 export type DbBackupSummaryList = DbBackupSummary[];
 export const DbBackupSummaryList = /*@__PURE__*/ S.Array(DbBackupSummary);
 export interface ListDbBackupsOutput {
@@ -1446,21 +1369,16 @@ export interface ListDbBackupsOutput {
 }
 export const ListDbBackupsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ items: DbBackupSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDbBackupsOutput",
-}) as any as S.Schema<ListDbBackupsOutput>;
+).annotate({ identifier: "ListDbBackupsOutput" }) as any as S.Schema<ListDbBackupsOutput>;
 export interface ListDbClustersInput {
   nextToken?: string;
   maxResults?: number;
 }
 export const ListDbClustersInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDbClustersInput",
-}) as any as S.Schema<ListDbClustersInput>;
+  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListDbClustersInput" }) as any as S.Schema<ListDbClustersInput>;
 export interface DbClusterSummary {
   id: string;
   name: string;
@@ -1492,9 +1410,7 @@ export const DbClusterSummary = /*@__PURE__*/ S.suspend(() =>
     allocatedStorage: S.optional(S.Number),
     engineType: S.optional(EngineType),
   }),
-).annotate({
-  identifier: "DbClusterSummary",
-}) as any as S.Schema<DbClusterSummary>;
+).annotate({ identifier: "DbClusterSummary" }) as any as S.Schema<DbClusterSummary>;
 export type DbClusterSummaryList = DbClusterSummary[];
 export const DbClusterSummaryList = /*@__PURE__*/ S.Array(DbClusterSummary);
 export interface ListDbClustersOutput {
@@ -1503,21 +1419,16 @@ export interface ListDbClustersOutput {
 }
 export const ListDbClustersOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ items: DbClusterSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDbClustersOutput",
-}) as any as S.Schema<ListDbClustersOutput>;
+).annotate({ identifier: "ListDbClustersOutput" }) as any as S.Schema<ListDbClustersOutput>;
 export interface ListDbInstancesInput {
   nextToken?: string;
   maxResults?: number;
 }
 export const ListDbInstancesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDbInstancesInput",
-}) as any as S.Schema<ListDbInstancesInput>;
+  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "ListDbInstancesInput" }) as any as S.Schema<ListDbInstancesInput>;
 export interface DbInstanceSummary {
   id: string;
   name: string;
@@ -1545,9 +1456,7 @@ export const DbInstanceSummary = /*@__PURE__*/ S.suspend(() =>
     allocatedStorage: S.optional(S.Number),
     deploymentType: S.optional(DeploymentType),
   }),
-).annotate({
-  identifier: "DbInstanceSummary",
-}) as any as S.Schema<DbInstanceSummary>;
+).annotate({ identifier: "DbInstanceSummary" }) as any as S.Schema<DbInstanceSummary>;
 export type DbInstanceSummaryList = DbInstanceSummary[];
 export const DbInstanceSummaryList = /*@__PURE__*/ S.Array(DbInstanceSummary);
 export interface ListDbInstancesOutput {
@@ -1556,9 +1465,7 @@ export interface ListDbInstancesOutput {
 }
 export const ListDbInstancesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ items: DbInstanceSummaryList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListDbInstancesOutput",
-}) as any as S.Schema<ListDbInstancesOutput>;
+).annotate({ identifier: "ListDbInstancesOutput" }) as any as S.Schema<ListDbInstancesOutput>;
 export interface ListDbInstancesForClusterInput {
   dbClusterId: string;
   nextToken?: string;
@@ -1614,10 +1521,7 @@ export interface ListDbInstancesForClusterOutput {
   nextToken?: string;
 }
 export const ListDbInstancesForClusterOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: DbInstanceForClusterSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: DbInstanceForClusterSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDbInstancesForClusterOutput",
 }) as any as S.Schema<ListDbInstancesForClusterOutput>;
@@ -1626,10 +1530,9 @@ export interface ListDbParameterGroupsInput {
   maxResults?: number;
 }
 export const ListDbParameterGroupsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListDbParameterGroupsInput",
 }) as any as S.Schema<ListDbParameterGroupsInput>;
@@ -1640,15 +1543,8 @@ export interface DbParameterGroupSummary {
   description?: string;
 }
 export const DbParameterGroupSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    arn: S.String,
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DbParameterGroupSummary",
-}) as any as S.Schema<DbParameterGroupSummary>;
+  S.Struct({ id: S.String, name: S.String, arn: S.String, description: S.optional(S.String) }),
+).annotate({ identifier: "DbParameterGroupSummary" }) as any as S.Schema<DbParameterGroupSummary>;
 export type DbParameterGroupSummaryList = DbParameterGroupSummary[];
 export const DbParameterGroupSummaryList = /*@__PURE__*/ S.Array(DbParameterGroupSummary);
 export interface ListDbParameterGroupsOutput {
@@ -1656,10 +1552,7 @@ export interface ListDbParameterGroupsOutput {
   nextToken?: string;
 }
 export const ListDbParameterGroupsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    items: DbParameterGroupSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ items: DbParameterGroupSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListDbParameterGroupsOutput",
 }) as any as S.Schema<ListDbParameterGroupsOutput>;
@@ -1690,21 +1583,16 @@ export interface RebootDbClusterInput {
   instanceIds?: string[];
 }
 export const RebootDbClusterInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dbClusterId: S.String,
-    instanceIds: S.optional(DbInstanceIdList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RebootDbClusterInput",
-}) as any as S.Schema<RebootDbClusterInput>;
+  S.Struct({ dbClusterId: S.String, instanceIds: S.optional(DbInstanceIdList) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "RebootDbClusterInput" }) as any as S.Schema<RebootDbClusterInput>;
 export interface RebootDbClusterOutput {
   dbClusterStatus?: ClusterStatus;
 }
 export const RebootDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dbClusterStatus: S.optional(ClusterStatus) }),
-).annotate({
-  identifier: "RebootDbClusterOutput",
-}) as any as S.Schema<RebootDbClusterOutput>;
+).annotate({ identifier: "RebootDbClusterOutput" }) as any as S.Schema<RebootDbClusterOutput>;
 export interface RebootDbInstanceInput {
   identifier: string;
 }
@@ -1712,9 +1600,7 @@ export const RebootDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RebootDbInstanceInput",
-}) as any as S.Schema<RebootDbInstanceInput>;
+).annotate({ identifier: "RebootDbInstanceInput" }) as any as S.Schema<RebootDbInstanceInput>;
 export interface RebootDbInstanceOutput {
   id: string;
   name: string;
@@ -1774,9 +1660,7 @@ export const RebootDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RebootDbInstanceOutput",
-}) as any as S.Schema<RebootDbInstanceOutput>;
+).annotate({ identifier: "RebootDbInstanceOutput" }) as any as S.Schema<RebootDbInstanceOutput>;
 export type DbResourceName = string;
 export type RestoreMode = "NEW_RESOURCE" | "REPLACE_EXISTING" | (string & {});
 export const RestoreMode = S.String;
@@ -1816,9 +1700,7 @@ export const RestoreFromDbBackupInput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
     kmsKeyId: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RestoreFromDbBackupInput",
-}) as any as S.Schema<RestoreFromDbBackupInput>;
+).annotate({ identifier: "RestoreFromDbBackupInput" }) as any as S.Schema<RestoreFromDbBackupInput>;
 export type RestoreStatus = "RESTORING" | (string & {});
 export const RestoreStatus = S.String;
 
@@ -1851,9 +1733,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: RequestTagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1865,13 +1745,10 @@ export interface UntagResourceRequest {
   tagKeys: string[];
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tagKeys: TagKeys,
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tagKeys: TagKeys }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1897,17 +1774,13 @@ export const UpdateDbClusterInput = /*@__PURE__*/ S.suspend(() =>
     maintenanceSchedule: S.optional(MaintenanceSchedule),
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateDbClusterInput",
-}) as any as S.Schema<UpdateDbClusterInput>;
+).annotate({ identifier: "UpdateDbClusterInput" }) as any as S.Schema<UpdateDbClusterInput>;
 export interface UpdateDbClusterOutput {
   dbClusterStatus?: ClusterStatus;
 }
 export const UpdateDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ dbClusterStatus: S.optional(ClusterStatus) }),
-).annotate({
-  identifier: "UpdateDbClusterOutput",
-}) as any as S.Schema<UpdateDbClusterOutput>;
+).annotate({ identifier: "UpdateDbClusterOutput" }) as any as S.Schema<UpdateDbClusterOutput>;
 export interface UpdateDbInstanceInput {
   identifier: string;
   logDeliveryConfiguration?: LogDeliveryConfiguration;
@@ -1933,9 +1806,7 @@ export const UpdateDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
     maintenanceSchedule: S.optional(MaintenanceSchedule),
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateDbInstanceInput",
-}) as any as S.Schema<UpdateDbInstanceInput>;
+).annotate({ identifier: "UpdateDbInstanceInput" }) as any as S.Schema<UpdateDbInstanceInput>;
 export interface UpdateDbInstanceOutput {
   id: string;
   name: string;
@@ -1995,9 +1866,7 @@ export const UpdateDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateDbInstanceOutput",
-}) as any as S.Schema<UpdateDbInstanceOutput>;
+).annotate({ identifier: "UpdateDbInstanceOutput" }) as any as S.Schema<UpdateDbInstanceOutput>;
 export type ValidationExceptionReason = "FIELD_VALIDATION_FAILED" | "OTHER" | (string & {});
 export const ValidationExceptionReason = S.String;
 

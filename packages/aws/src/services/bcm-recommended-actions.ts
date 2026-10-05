@@ -25,12 +25,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
@@ -65,10 +60,7 @@ export class AccessDeniedException
     "AccessDeniedException",
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BCMRecommendedActionsAccessDenied",
-        httpResponseCode: 403,
-      }),
+      T.AwsQueryError({ code: "BCMRecommendedActionsAccessDenied", httpResponseCode: 403 }),
       T.HttpError(403),
     ),
   ).pipe(C.withAuthError) {}
@@ -77,10 +69,7 @@ export class InternalServerException
     "InternalServerException",
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BCMRecommendedActionsInternalServer",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "BCMRecommendedActionsInternalServer", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -89,10 +78,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "BCMRecommendedActionsThrottling",
-        httpResponseCode: 429,
-      }),
+      T.AwsQueryError({ code: "BCMRecommendedActionsThrottling", httpResponseCode: 429 }),
       T.HttpError(429),
     ),
   ).pipe(C.withThrottlingError) {}
@@ -111,10 +97,7 @@ export class ValidationException
       ),
     },
     T.all(
-      T.AwsQueryError({
-        code: "BCMRecommendedActionsValidation",
-        httpResponseCode: 400,
-      }),
+      T.AwsQueryError({ code: "BCMRecommendedActionsValidation", httpResponseCode: 400 }),
       T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -227,9 +210,7 @@ export const RecommendedAction = /*@__PURE__*/ S.suspend(() =>
     nextSteps: S.optional(NextSteps),
     lastUpdatedTimeStamp: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RecommendedAction",
-}) as any as S.Schema<RecommendedAction>;
+).annotate({ identifier: "RecommendedAction" }) as any as S.Schema<RecommendedAction>;
 export type RecommendedActions = RecommendedAction[];
 export const RecommendedActions = /*@__PURE__*/ S.Array(RecommendedAction);
 export interface ListRecommendedActionsResponse {
@@ -237,10 +218,7 @@ export interface ListRecommendedActionsResponse {
   nextToken?: string;
 }
 export const ListRecommendedActionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    recommendedActions: RecommendedActions,
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ recommendedActions: RecommendedActions, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRecommendedActionsResponse",
 }) as any as S.Schema<ListRecommendedActionsResponse>;
@@ -258,9 +236,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type ListRecommendedActionsError =

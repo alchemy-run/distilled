@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "Pinpoint SMS Voice",
-  serviceShapeName: "PinpointSMSVoice",
-});
+const svc = T.AwsApiService({ sdkId: "Pinpoint SMS Voice", serviceShapeName: "PinpointSMSVoice" });
 const auth = T.AwsAuthSigv4({ name: "sms-voice" });
 const ver = T.ServiceVersion("2018-09-05");
 const proto = T.AwsProtocolsRestJson1();
@@ -136,10 +133,7 @@ export interface CloudWatchLogsDestination {
   LogGroupArn?: string;
 }
 export const CloudWatchLogsDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    IamRoleArn: S.optional(S.String),
-    LogGroupArn: S.optional(S.String),
-  }),
+  S.Struct({ IamRoleArn: S.optional(S.String), LogGroupArn: S.optional(S.String) }),
 ).annotate({
   identifier: "CloudWatchLogsDestination",
 }) as any as S.Schema<CloudWatchLogsDestination>;
@@ -148,10 +142,7 @@ export interface KinesisFirehoseDestination {
   IamRoleArn?: string;
 }
 export const KinesisFirehoseDestination = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DeliveryStreamArn: S.optional(S.String),
-    IamRoleArn: S.optional(S.String),
-  }),
+  S.Struct({ DeliveryStreamArn: S.optional(S.String), IamRoleArn: S.optional(S.String) }),
 ).annotate({
   identifier: "KinesisFirehoseDestination",
 }) as any as S.Schema<KinesisFirehoseDestination>;
@@ -229,14 +220,9 @@ export interface DeleteConfigurationSetRequest {
   ConfigurationSetName: string;
 }
 export const DeleteConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-  }).pipe(
+  S.Struct({ ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}" }),
       svc,
       auth,
       proto,
@@ -285,9 +271,7 @@ export interface GetConfigurationSetEventDestinationsRequest {
   ConfigurationSetName: string;
 }
 export const GetConfigurationSetEventDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-  }).pipe(
+  S.Struct({ ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")) }).pipe(
     T.all(
       T.Http({
         method: "GET",
@@ -320,9 +304,7 @@ export const EventDestination = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     SnsDestination: S.optional(SnsDestination),
   }),
-).annotate({
-  identifier: "EventDestination",
-}) as any as S.Schema<EventDestination>;
+).annotate({ identifier: "EventDestination" }) as any as S.Schema<EventDestination>;
 export type EventDestinations = EventDestination[];
 export const EventDestinations = /*@__PURE__*/ S.Array(EventDestination);
 export interface GetConfigurationSetEventDestinationsResponse {
@@ -362,10 +344,7 @@ export interface ListConfigurationSetsResponse {
   NextToken?: string;
 }
 export const ListConfigurationSetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConfigurationSets: S.optional(ConfigurationSets),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ ConfigurationSets: S.optional(ConfigurationSets), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListConfigurationSetsResponse",
 }) as any as S.Schema<ListConfigurationSetsResponse>;
@@ -388,9 +367,7 @@ export const PlainTextMessageType = /*@__PURE__*/ S.suspend(() =>
     Text: S.optional(S.String),
     VoiceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PlainTextMessageType",
-}) as any as S.Schema<PlainTextMessageType>;
+).annotate({ identifier: "PlainTextMessageType" }) as any as S.Schema<PlainTextMessageType>;
 export interface SSMLMessageType {
   LanguageCode?: string;
   Text?: string;
@@ -402,9 +379,7 @@ export const SSMLMessageType = /*@__PURE__*/ S.suspend(() =>
     Text: S.optional(S.String),
     VoiceId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SSMLMessageType",
-}) as any as S.Schema<SSMLMessageType>;
+).annotate({ identifier: "SSMLMessageType" }) as any as S.Schema<SSMLMessageType>;
 export interface VoiceMessageContent {
   CallInstructionsMessage?: CallInstructionsMessageType;
   PlainTextMessage?: PlainTextMessageType;
@@ -416,9 +391,7 @@ export const VoiceMessageContent = /*@__PURE__*/ S.suspend(() =>
     PlainTextMessage: S.optional(PlainTextMessageType),
     SSMLMessage: S.optional(SSMLMessageType),
   }),
-).annotate({
-  identifier: "VoiceMessageContent",
-}) as any as S.Schema<VoiceMessageContent>;
+).annotate({ identifier: "VoiceMessageContent" }) as any as S.Schema<VoiceMessageContent>;
 export interface SendVoiceMessageRequest {
   CallerId?: string;
   ConfigurationSetName?: string;
@@ -443,17 +416,13 @@ export const SendVoiceMessageRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SendVoiceMessageRequest",
-}) as any as S.Schema<SendVoiceMessageRequest>;
+).annotate({ identifier: "SendVoiceMessageRequest" }) as any as S.Schema<SendVoiceMessageRequest>;
 export interface SendVoiceMessageResponse {
   MessageId?: string;
 }
 export const SendVoiceMessageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MessageId: S.optional(S.String) }),
-).annotate({
-  identifier: "SendVoiceMessageResponse",
-}) as any as S.Schema<SendVoiceMessageResponse>;
+).annotate({ identifier: "SendVoiceMessageResponse" }) as any as S.Schema<SendVoiceMessageResponse>;
 export interface UpdateConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestination?: EventDestinationDefinition;

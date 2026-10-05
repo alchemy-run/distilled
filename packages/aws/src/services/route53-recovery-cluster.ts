@@ -84,11 +84,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class EndpointTemporarilyUnavailableException
@@ -109,11 +105,7 @@ export class InternalServerException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.String.pipe(T.ErrorMessage()),
-      resourceId: S.String,
-      resourceType: S.String,
-    },
+    { message: S.String.pipe(T.ErrorMessage()), resourceId: S.String, resourceType: S.String },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceLimitExceededException
@@ -227,10 +219,7 @@ export interface ListRoutingControlsResponse {
   NextToken?: string;
 }
 export const ListRoutingControlsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControls: RoutingControls,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ RoutingControls: RoutingControls, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRoutingControlsResponse",
 }) as any as S.Schema<ListRoutingControlsResponse>;
@@ -261,10 +250,7 @@ export interface UpdateRoutingControlStateEntry {
   RoutingControlState: RoutingControlState;
 }
 export const UpdateRoutingControlStateEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-  }),
+  S.Struct({ RoutingControlArn: S.String, RoutingControlState: RoutingControlState }),
 ).annotate({
   identifier: "UpdateRoutingControlStateEntry",
 }) as any as S.Schema<UpdateRoutingControlStateEntry>;
@@ -305,9 +291,7 @@ export interface ValidationExceptionField {
 }
 export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, message: S.String }),
-).annotate({
-  identifier: "ValidationExceptionField",
-}) as any as S.Schema<ValidationExceptionField>;
+).annotate({ identifier: "ValidationExceptionField" }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type GetRoutingControlStateError =

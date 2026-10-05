@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "savingsplans",
-  serviceShapeName: "AWSSavingsPlan",
-});
+const svc = T.AwsApiService({ sdkId: "savingsplans", serviceShapeName: "AWSSavingsPlan" });
 const auth = T.AwsAuthSigv4({ name: "savingsplans" });
 const ver = T.ServiceVersion("2019-06-28");
 const proto = T.AwsProtocolsRestJson1();
@@ -25,13 +22,7 @@ const rules = T.EndpointResolver((p, _) => {
     message: m as string,
   });
   const _p0 = () => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingName: "savingsplans",
-        signingRegion: "us-east-1",
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingName: "savingsplans", signingRegion: "us-east-1" }],
   });
   if (!(Endpoint != null) && UseFIPS === false && UseDualStack === true) {
     {
@@ -113,10 +104,7 @@ export class InternalServerException
     "InternalServerException",
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "InternalServerException",
-        httpResponseCode: 500,
-      }),
+      T.AwsQueryError({ code: "InternalServerException", httpResponseCode: 500 }),
       T.HttpError(500),
     ),
   ).pipe(C.withServerError) {}
@@ -125,10 +113,7 @@ export class ResourceNotFoundException
     "ResourceNotFoundException",
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ResourceNotFoundException",
-        httpResponseCode: 404,
-      }),
+      T.AwsQueryError({ code: "ResourceNotFoundException", httpResponseCode: 404 }),
       T.HttpError(404),
     ),
   ).pipe(C.withBadRequestError) {}
@@ -137,10 +122,7 @@ export class ServiceQuotaExceededException
     "ServiceQuotaExceededException",
     { message: S.String.pipe(T.ErrorMessage()) },
     T.all(
-      T.AwsQueryError({
-        code: "ServiceQuotaExceededException",
-        httpResponseCode: 402,
-      }),
+      T.AwsQueryError({ code: "ServiceQuotaExceededException", httpResponseCode: 402 }),
       T.HttpError(402),
     ),
   ).pipe(C.withQuotaError) {}
@@ -179,9 +161,7 @@ export const CreateSavingsPlanRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/CreateSavingsPlan" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateSavingsPlanRequest",
-}) as any as S.Schema<CreateSavingsPlanRequest>;
+).annotate({ identifier: "CreateSavingsPlanRequest" }) as any as S.Schema<CreateSavingsPlanRequest>;
 export type SavingsPlanId = string;
 export interface CreateSavingsPlanResponse {
   savingsPlanId?: string;
@@ -210,9 +190,7 @@ export const DeleteQueuedSavingsPlanRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DeleteQueuedSavingsPlanRequest>;
 export interface DeleteQueuedSavingsPlanResponse {}
 export const DeleteQueuedSavingsPlanResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "DeleteQueuedSavingsPlanResponse",
-  },
+  { identifier: "DeleteQueuedSavingsPlanResponse" },
 ) as any as S.Schema<DeleteQueuedSavingsPlanResponse>;
 export type SavingsPlanRateFilterName =
   | "region"
@@ -233,13 +211,8 @@ export interface SavingsPlanRateFilter {
   values?: string[];
 }
 export const SavingsPlanRateFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SavingsPlanRateFilterName),
-    values: S.optional(ListOfStrings),
-  }),
-).annotate({
-  identifier: "SavingsPlanRateFilter",
-}) as any as S.Schema<SavingsPlanRateFilter>;
+  S.Struct({ name: S.optional(SavingsPlanRateFilterName), values: S.optional(ListOfStrings) }),
+).annotate({ identifier: "SavingsPlanRateFilter" }) as any as S.Schema<SavingsPlanRateFilter>;
 export type SavingsPlanRateFilterList = SavingsPlanRateFilter[];
 export const SavingsPlanRateFilterList = /*@__PURE__*/ S.Array(SavingsPlanRateFilter);
 export type PaginationToken = string;
@@ -347,13 +320,8 @@ export interface SavingsPlanRateProperty {
   value?: string;
 }
 export const SavingsPlanRateProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SavingsPlanRatePropertyKey),
-    value: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SavingsPlanRateProperty",
-}) as any as S.Schema<SavingsPlanRateProperty>;
+  S.Struct({ name: S.optional(SavingsPlanRatePropertyKey), value: S.optional(S.String) }),
+).annotate({ identifier: "SavingsPlanRateProperty" }) as any as S.Schema<SavingsPlanRateProperty>;
 export type SavingsPlanRatePropertyList = SavingsPlanRateProperty[];
 export const SavingsPlanRatePropertyList = /*@__PURE__*/ S.Array(SavingsPlanRateProperty);
 export interface SavingsPlanRate {
@@ -377,9 +345,7 @@ export const SavingsPlanRate = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     properties: S.optional(SavingsPlanRatePropertyList),
   }),
-).annotate({
-  identifier: "SavingsPlanRate",
-}) as any as S.Schema<SavingsPlanRate>;
+).annotate({ identifier: "SavingsPlanRate" }) as any as S.Schema<SavingsPlanRate>;
 export type SavingsPlanRateList = SavingsPlanRate[];
 export const SavingsPlanRateList = /*@__PURE__*/ S.Array(SavingsPlanRate);
 export interface DescribeSavingsPlanRatesResponse {
@@ -434,13 +400,8 @@ export interface SavingsPlanFilter {
   values?: string[];
 }
 export const SavingsPlanFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SavingsPlansFilterName),
-    values: S.optional(ListOfStrings),
-  }),
-).annotate({
-  identifier: "SavingsPlanFilter",
-}) as any as S.Schema<SavingsPlanFilter>;
+  S.Struct({ name: S.optional(SavingsPlansFilterName), values: S.optional(ListOfStrings) }),
+).annotate({ identifier: "SavingsPlanFilter" }) as any as S.Schema<SavingsPlanFilter>;
 export type SavingsPlanFilterList = SavingsPlanFilter[];
 export const SavingsPlanFilterList = /*@__PURE__*/ S.Array(SavingsPlanFilter);
 export interface DescribeSavingsPlansRequest {
@@ -531,10 +492,7 @@ export interface DescribeSavingsPlansResponse {
   nextToken?: string;
 }
 export const DescribeSavingsPlansResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    savingsPlans: S.optional(SavingsPlanList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ savingsPlans: S.optional(SavingsPlanList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeSavingsPlansResponse",
 }) as any as S.Schema<DescribeSavingsPlansResponse>;
@@ -674,9 +632,7 @@ export const SavingsPlanOfferingRate = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     properties: S.optional(SavingsPlanOfferingRatePropertyList),
   }),
-).annotate({
-  identifier: "SavingsPlanOfferingRate",
-}) as any as S.Schema<SavingsPlanOfferingRate>;
+).annotate({ identifier: "SavingsPlanOfferingRate" }) as any as S.Schema<SavingsPlanOfferingRate>;
 export type SavingsPlanOfferingRatesList = SavingsPlanOfferingRate[];
 export const SavingsPlanOfferingRatesList = /*@__PURE__*/ S.Array(SavingsPlanOfferingRate);
 export interface DescribeSavingsPlansOfferingRatesResponse {
@@ -776,10 +732,7 @@ export interface SavingsPlanOfferingProperty {
   value?: string;
 }
 export const SavingsPlanOfferingProperty = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.optional(SavingsPlanOfferingPropertyKey),
-    value: S.optional(S.String),
-  }),
+  S.Struct({ name: S.optional(SavingsPlanOfferingPropertyKey), value: S.optional(S.String) }),
 ).annotate({
   identifier: "SavingsPlanOfferingProperty",
 }) as any as S.Schema<SavingsPlanOfferingProperty>;
@@ -812,9 +765,7 @@ export const SavingsPlanOffering = /*@__PURE__*/ S.suspend(() =>
     operation: S.optional(S.String),
     properties: S.optional(SavingsPlanOfferingPropertyList),
   }),
-).annotate({
-  identifier: "SavingsPlanOffering",
-}) as any as S.Schema<SavingsPlanOffering>;
+).annotate({ identifier: "SavingsPlanOffering" }) as any as S.Schema<SavingsPlanOffering>;
 export type SavingsPlanOfferingsList = SavingsPlanOffering[];
 export const SavingsPlanOfferingsList = /*@__PURE__*/ S.Array(SavingsPlanOffering);
 export interface DescribeSavingsPlansOfferingsResponse {
@@ -858,9 +809,7 @@ export const ReturnSavingsPlanRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/ReturnSavingsPlan" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ReturnSavingsPlanRequest",
-}) as any as S.Schema<ReturnSavingsPlanRequest>;
+).annotate({ identifier: "ReturnSavingsPlanRequest" }) as any as S.Schema<ReturnSavingsPlanRequest>;
 export interface ReturnSavingsPlanResponse {
   savingsPlanId?: string;
 }
@@ -877,9 +826,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -894,9 +841,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

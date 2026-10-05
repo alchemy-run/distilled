@@ -173,10 +173,7 @@ export const CompleteAttachmentUploadRequest = /*@__PURE__*/ S.suspend(() =>
     ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/participant/complete-attachment-upload",
-      }),
+      T.Http({ method: "POST", uri: "/participant/complete-attachment-upload" }),
       svc,
       auth,
       proto,
@@ -225,23 +222,15 @@ export interface Websocket {
   ConnectionExpiry?: string;
 }
 export const Websocket = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Url: S.optional(S.String),
-    ConnectionExpiry: S.optional(S.String),
-  }),
+  S.Struct({ Url: S.optional(S.String), ConnectionExpiry: S.optional(S.String) }),
 ).annotate({ identifier: "Websocket" }) as any as S.Schema<Websocket>;
 export interface ConnectionCredentials {
   ConnectionToken?: string;
   Expiry?: string;
 }
 export const ConnectionCredentials = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ConnectionToken: S.optional(S.String),
-    Expiry: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ConnectionCredentials",
-}) as any as S.Schema<ConnectionCredentials>;
+  S.Struct({ ConnectionToken: S.optional(S.String), Expiry: S.optional(S.String) }),
+).annotate({ identifier: "ConnectionCredentials" }) as any as S.Schema<ConnectionCredentials>;
 export type AttendeeId = string;
 export type JoinToken = string | redacted.Redacted<string>;
 export interface Attendee {
@@ -249,10 +238,7 @@ export interface Attendee {
   JoinToken?: string | redacted.Redacted<string>;
 }
 export const Attendee = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttendeeId: S.optional(S.String),
-    JoinToken: S.optional(SensitiveString),
-  }),
+  S.Struct({ AttendeeId: S.optional(S.String), JoinToken: S.optional(SensitiveString) }),
 ).annotate({ identifier: "Attendee" }) as any as S.Schema<Attendee>;
 export type URI = string;
 export interface WebRTCMediaPlacement {
@@ -268,9 +254,7 @@ export const WebRTCMediaPlacement = /*@__PURE__*/ S.suspend(() =>
     SignalingUrl: S.optional(S.String),
     EventIngestionUrl: S.optional(S.String),
   }),
-).annotate({
-  identifier: "WebRTCMediaPlacement",
-}) as any as S.Schema<WebRTCMediaPlacement>;
+).annotate({ identifier: "WebRTCMediaPlacement" }) as any as S.Schema<WebRTCMediaPlacement>;
 export type MeetingFeatureStatus = "AVAILABLE" | "UNAVAILABLE" | (string & {});
 export const MeetingFeatureStatus = S.String;
 
@@ -306,13 +290,8 @@ export interface WebRTCConnection {
   Meeting?: WebRTCMeeting;
 }
 export const WebRTCConnection = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attendee: S.optional(Attendee),
-    Meeting: S.optional(WebRTCMeeting),
-  }),
-).annotate({
-  identifier: "WebRTCConnection",
-}) as any as S.Schema<WebRTCConnection>;
+  S.Struct({ Attendee: S.optional(Attendee), Meeting: S.optional(WebRTCMeeting) }),
+).annotate({ identifier: "WebRTCConnection" }) as any as S.Schema<WebRTCConnection>;
 export interface CreateParticipantConnectionResponse {
   Websocket?: Websocket;
   ConnectionCredentials?: ConnectionCredentials;
@@ -346,9 +325,7 @@ export const DescribeViewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeViewRequest",
-}) as any as S.Schema<DescribeViewRequest>;
+).annotate({ identifier: "DescribeViewRequest" }) as any as S.Schema<DescribeViewRequest>;
 export type ViewId = string;
 export type ARN = string;
 export type ViewName = string | redacted.Redacted<string>;
@@ -391,9 +368,7 @@ export interface DescribeViewResponse {
 }
 export const DescribeViewResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ View: S.optional(View) }),
-).annotate({
-  identifier: "DescribeViewResponse",
-}) as any as S.Schema<DescribeViewResponse>;
+).annotate({ identifier: "DescribeViewResponse" }) as any as S.Schema<DescribeViewResponse>;
 export type ClientToken = string;
 export interface DisconnectParticipantRequest {
   ClientToken?: string;
@@ -427,9 +402,7 @@ export const GetAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/participant/attachment" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetAttachmentRequest",
-}) as any as S.Schema<GetAttachmentRequest>;
+).annotate({ identifier: "GetAttachmentRequest" }) as any as S.Schema<GetAttachmentRequest>;
 export type PreSignedAttachmentUrl = string;
 export type AttachmentSizeInBytes = number;
 export interface GetAttachmentResponse {
@@ -443,9 +416,7 @@ export const GetAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
     UrlExpiry: S.optional(S.String),
     AttachmentSizeInBytes: S.Number,
   }),
-).annotate({
-  identifier: "GetAttachmentResponse",
-}) as any as S.Schema<GetAttachmentResponse>;
+).annotate({ identifier: "GetAttachmentResponse" }) as any as S.Schema<GetAttachmentResponse>;
 export type RedirectURI = string;
 export interface GetAuthenticationUrlRequest {
   SessionId: string;
@@ -524,9 +495,7 @@ export const GetTranscriptRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/participant/transcript" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetTranscriptRequest",
-}) as any as S.Schema<GetTranscriptRequest>;
+).annotate({ identifier: "GetTranscriptRequest" }) as any as S.Schema<GetTranscriptRequest>;
 export type ChatContent = string;
 export type ChatContentType = string;
 export type ChatItemType =
@@ -605,9 +574,7 @@ export const MessageMetadata = /*@__PURE__*/ S.suspend(() =>
     Receipts: S.optional(Receipts),
     MessageProcessingStatus: S.optional(MessageProcessingStatus),
   }),
-).annotate({
-  identifier: "MessageMetadata",
-}) as any as S.Schema<MessageMetadata>;
+).annotate({ identifier: "MessageMetadata" }) as any as S.Schema<MessageMetadata>;
 export interface Item {
   AbsoluteTime?: string;
   Content?: string;
@@ -651,9 +618,7 @@ export const GetTranscriptResponse = /*@__PURE__*/ S.suspend(() =>
     Transcript: S.optional(Transcript),
     NextToken: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetTranscriptResponse",
-}) as any as S.Schema<GetTranscriptResponse>;
+).annotate({ identifier: "GetTranscriptResponse" }) as any as S.Schema<GetTranscriptResponse>;
 export interface SendEventRequest {
   ContentType: string;
   Content?: string;
@@ -669,18 +634,14 @@ export const SendEventRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/participant/event" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SendEventRequest",
-}) as any as S.Schema<SendEventRequest>;
+).annotate({ identifier: "SendEventRequest" }) as any as S.Schema<SendEventRequest>;
 export interface SendEventResponse {
   Id?: string;
   AbsoluteTime?: string;
 }
 export const SendEventResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.optional(S.String), AbsoluteTime: S.optional(S.String) }),
-).annotate({
-  identifier: "SendEventResponse",
-}) as any as S.Schema<SendEventResponse>;
+).annotate({ identifier: "SendEventResponse" }) as any as S.Schema<SendEventResponse>;
 export interface SendMessageRequest {
   ContentType: string;
   Content: string;
@@ -696,9 +657,7 @@ export const SendMessageRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/participant/message" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SendMessageRequest",
-}) as any as S.Schema<SendMessageRequest>;
+).annotate({ identifier: "SendMessageRequest" }) as any as S.Schema<SendMessageRequest>;
 export interface MessageProcessingMetadata {
   MessageProcessingStatus?: MessageProcessingStatus;
 }
@@ -718,9 +677,7 @@ export const SendMessageResponse = /*@__PURE__*/ S.suspend(() =>
     AbsoluteTime: S.optional(S.String),
     MessageMetadata: S.optional(MessageProcessingMetadata),
   }),
-).annotate({
-  identifier: "SendMessageResponse",
-}) as any as S.Schema<SendMessageResponse>;
+).annotate({ identifier: "SendMessageResponse" }) as any as S.Schema<SendMessageResponse>;
 export interface StartAttachmentUploadRequest {
   ContentType: string;
   AttachmentSizeInBytes: number;
@@ -773,10 +730,7 @@ export interface StartAttachmentUploadResponse {
   UploadMetadata?: UploadMetadata;
 }
 export const StartAttachmentUploadResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AttachmentId: S.optional(S.String),
-    UploadMetadata: S.optional(UploadMetadata),
-  }),
+  S.Struct({ AttachmentId: S.optional(S.String), UploadMetadata: S.optional(UploadMetadata) }),
 ).annotate({
   identifier: "StartAttachmentUploadResponse",
 }) as any as S.Schema<StartAttachmentUploadResponse>;

@@ -108,15 +108,10 @@ export interface GetBuyerDashboardInput {
   embeddingDomains: string[];
 }
 export const GetBuyerDashboardInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dashboardIdentifier: S.String,
-    embeddingDomains: EmbeddingDomains,
-  }).pipe(
+  S.Struct({ dashboardIdentifier: S.String, embeddingDomains: EmbeddingDomains }).pipe(
     T.all(T.Http({ method: "POST", uri: "/getBuyerDashboard" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetBuyerDashboardInput",
-}) as any as S.Schema<GetBuyerDashboardInput>;
+).annotate({ identifier: "GetBuyerDashboardInput" }) as any as S.Schema<GetBuyerDashboardInput>;
 export interface GetBuyerDashboardOutput {
   embedUrl: string;
   dashboardIdentifier: string;
@@ -128,9 +123,7 @@ export const GetBuyerDashboardOutput = /*@__PURE__*/ S.suspend(() =>
     dashboardIdentifier: S.String,
     embeddingDomains: EmbeddingDomains,
   }),
-).annotate({
-  identifier: "GetBuyerDashboardOutput",
-}) as any as S.Schema<GetBuyerDashboardOutput>;
+).annotate({ identifier: "GetBuyerDashboardOutput" }) as any as S.Schema<GetBuyerDashboardOutput>;
 export type GetBuyerDashboardError =
   | AccessDeniedException
   | BadRequestException

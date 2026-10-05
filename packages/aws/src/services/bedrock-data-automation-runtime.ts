@@ -143,9 +143,7 @@ export interface OutputConfiguration {
 }
 export const OutputConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ s3Uri: S.String }),
-).annotate({
-  identifier: "OutputConfiguration",
-}) as any as S.Schema<OutputConfiguration>;
+).annotate({ identifier: "OutputConfiguration" }) as any as S.Schema<OutputConfiguration>;
 export interface GetDataAutomationStatusResponse {
   status?: AutomationJobStatus;
   errorType?: string;
@@ -174,9 +172,7 @@ export interface SyncInputConfiguration {
 }
 export const SyncInputConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ bytes: S.optional(T.Blob), s3Uri: S.optional(S.String) }),
-).annotate({
-  identifier: "SyncInputConfiguration",
-}) as any as S.Schema<SyncInputConfiguration>;
+).annotate({ identifier: "SyncInputConfiguration" }) as any as S.Schema<SyncInputConfiguration>;
 export type DataAutomationArn = string;
 export type DataAutomationStage = "LIVE" | "DEVELOPMENT" | (string & {});
 export const DataAutomationStage = S.String;
@@ -186,10 +182,7 @@ export interface DataAutomationConfiguration {
   stage?: DataAutomationStage;
 }
 export const DataAutomationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    dataAutomationProjectArn: S.String,
-    stage: S.optional(DataAutomationStage),
-  }),
+  S.Struct({ dataAutomationProjectArn: S.String, stage: S.optional(DataAutomationStage) }),
 ).annotate({
   identifier: "DataAutomationConfiguration",
 }) as any as S.Schema<DataAutomationConfiguration>;
@@ -223,13 +216,8 @@ export interface EncryptionConfiguration {
   kmsEncryptionContext?: { [key: string]: string | undefined };
 }
 export const EncryptionConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kmsKeyId: S.String,
-    kmsEncryptionContext: S.optional(EncryptionContextMap),
-  }),
-).annotate({
-  identifier: "EncryptionConfiguration",
-}) as any as S.Schema<EncryptionConfiguration>;
+  S.Struct({ kmsKeyId: S.String, kmsEncryptionContext: S.optional(EncryptionContextMap) }),
+).annotate({ identifier: "EncryptionConfiguration" }) as any as S.Schema<EncryptionConfiguration>;
 export interface InvokeDataAutomationRequest {
   inputConfiguration: SyncInputConfiguration;
   dataAutomationConfiguration?: DataAutomationConfiguration;
@@ -291,9 +279,7 @@ export interface TimestampSegment {
 }
 export const TimestampSegment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ startTimeMillis: S.Number, endTimeMillis: S.Number }),
-).annotate({
-  identifier: "TimestampSegment",
-}) as any as S.Schema<TimestampSegment>;
+).annotate({ identifier: "TimestampSegment" }) as any as S.Schema<TimestampSegment>;
 export type VideoSegmentConfiguration = { timestampSegment: TimestampSegment };
 export const VideoSegmentConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ timestampSegment: TimestampSegment }),
@@ -323,17 +309,13 @@ export const InputConfiguration = /*@__PURE__*/ S.suspend(() =>
     s3Uri: S.String,
     assetProcessingConfiguration: S.optional(AssetProcessingConfiguration),
   }),
-).annotate({
-  identifier: "InputConfiguration",
-}) as any as S.Schema<InputConfiguration>;
+).annotate({ identifier: "InputConfiguration" }) as any as S.Schema<InputConfiguration>;
 export interface EventBridgeConfiguration {
   eventBridgeEnabled: boolean;
 }
 export const EventBridgeConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ eventBridgeEnabled: S.Boolean }),
-).annotate({
-  identifier: "EventBridgeConfiguration",
-}) as any as S.Schema<EventBridgeConfiguration>;
+).annotate({ identifier: "EventBridgeConfiguration" }) as any as S.Schema<EventBridgeConfiguration>;
 export interface NotificationConfiguration {
   eventBridgeConfiguration: EventBridgeConfiguration;
 }
@@ -414,9 +396,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String, tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -431,9 +411,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceARN: S.String, tagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",

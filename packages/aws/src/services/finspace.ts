@@ -82,10 +82,7 @@ export class AccessDeniedException
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      reason: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), reason: S.optional(S.String) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
@@ -171,9 +168,7 @@ export const FederationParameters = /*@__PURE__*/ S.suspend(() =>
     federationProviderName: S.optional(S.String),
     attributeMap: S.optional(AttributeMap),
   }),
-).annotate({
-  identifier: "FederationParameters",
-}) as any as S.Schema<FederationParameters>;
+).annotate({ identifier: "FederationParameters" }) as any as S.Schema<FederationParameters>;
 export type EmailId = string | redacted.Redacted<string>;
 export type NameString = string;
 export interface SuperuserParameters {
@@ -182,14 +177,8 @@ export interface SuperuserParameters {
   lastName: string;
 }
 export const SuperuserParameters = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    emailAddress: SensitiveString,
-    firstName: S.String,
-    lastName: S.String,
-  }),
-).annotate({
-  identifier: "SuperuserParameters",
-}) as any as S.Schema<SuperuserParameters>;
+  S.Struct({ emailAddress: SensitiveString, firstName: S.String, lastName: S.String }),
+).annotate({ identifier: "SuperuserParameters" }) as any as S.Schema<SuperuserParameters>;
 export type DataBundleArn = string;
 export type DataBundleArns = string[];
 export const DataBundleArns = /*@__PURE__*/ S.Array(S.String);
@@ -214,9 +203,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     superuserParameters: S.optional(SuperuserParameters),
     dataBundles: S.optional(DataBundleArns),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/environment" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateEnvironmentRequest",
-}) as any as S.Schema<CreateEnvironmentRequest>;
+).annotate({ identifier: "CreateEnvironmentRequest" }) as any as S.Schema<CreateEnvironmentRequest>;
 export type IdType = string;
 export type EnvironmentArn = string;
 export interface CreateEnvironmentResponse {
@@ -246,11 +233,7 @@ export interface ChangeRequest {
   dbPath: string;
 }
 export const ChangeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    changeType: ChangeType,
-    s3Path: S.optional(S.String),
-    dbPath: S.String,
-  }),
+  S.Struct({ changeType: ChangeType, s3Path: S.optional(S.String), dbPath: S.String }),
 ).annotate({ identifier: "ChangeRequest" }) as any as S.Schema<ChangeRequest>;
 export type ChangeRequests = ChangeRequest[];
 export const ChangeRequests = /*@__PURE__*/ S.Array(ChangeRequest);
@@ -280,9 +263,7 @@ export const CreateKxChangesetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKxChangesetRequest",
-}) as any as S.Schema<CreateKxChangesetRequest>;
+).annotate({ identifier: "CreateKxChangesetRequest" }) as any as S.Schema<CreateKxChangesetRequest>;
 export type ChangesetId = string;
 export type ChangesetStatus = "PENDING" | "PROCESSING" | "FAILED" | "COMPLETED" | (string & {});
 export const ChangesetStatus = S.String;
@@ -305,10 +286,7 @@ export interface ErrorInfo {
   errorType?: ErrorDetails;
 }
 export const ErrorInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorMessage: S.optional(S.String),
-    errorType: S.optional(ErrorDetails),
-  }),
+  S.Struct({ errorMessage: S.optional(S.String), errorType: S.optional(ErrorDetails) }),
 ).annotate({ identifier: "ErrorInfo" }) as any as S.Schema<ErrorInfo>;
 export interface CreateKxChangesetResponse {
   changesetId?: string;
@@ -361,11 +339,7 @@ export interface KxDatabaseCacheConfiguration {
   dataviewName?: string;
 }
 export const KxDatabaseCacheConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cacheType: S.String,
-    dbPaths: DbPaths,
-    dataviewName: S.optional(S.String),
-  }),
+  S.Struct({ cacheType: S.String, dbPaths: DbPaths, dataviewName: S.optional(S.String) }),
 ).annotate({
   identifier: "KxDatabaseCacheConfiguration",
 }) as any as S.Schema<KxDatabaseCacheConfiguration>;
@@ -406,9 +380,7 @@ export const KxDataviewConfiguration = /*@__PURE__*/ S.suspend(() =>
     changesetId: S.optional(S.String),
     segmentConfigurations: S.optional(KxDataviewSegmentConfigurationList),
   }),
-).annotate({
-  identifier: "KxDataviewConfiguration",
-}) as any as S.Schema<KxDataviewConfiguration>;
+).annotate({ identifier: "KxDataviewConfiguration" }) as any as S.Schema<KxDataviewConfiguration>;
 export interface KxDatabaseConfiguration {
   databaseName: string;
   cacheConfigurations?: KxDatabaseCacheConfiguration[];
@@ -424,9 +396,7 @@ export const KxDatabaseConfiguration = /*@__PURE__*/ S.suspend(() =>
     dataviewName: S.optional(S.String),
     dataviewConfiguration: S.optional(KxDataviewConfiguration),
   }),
-).annotate({
-  identifier: "KxDatabaseConfiguration",
-}) as any as S.Schema<KxDatabaseConfiguration>;
+).annotate({ identifier: "KxDatabaseConfiguration" }) as any as S.Schema<KxDatabaseConfiguration>;
 export type KxDatabaseConfigurations = KxDatabaseConfiguration[];
 export const KxDatabaseConfigurations = /*@__PURE__*/ S.Array(KxDatabaseConfiguration);
 export type KxCacheStorageSize = number;
@@ -464,9 +434,7 @@ export const AutoScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
     scaleInCooldownSeconds: S.optional(S.Number),
     scaleOutCooldownSeconds: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "AutoScalingConfiguration",
-}) as any as S.Schema<AutoScalingConfiguration>;
+).annotate({ identifier: "AutoScalingConfiguration" }) as any as S.Schema<AutoScalingConfiguration>;
 export type KxClusterDescription = string;
 export type NodeType = string;
 export interface CapacityConfiguration {
@@ -475,9 +443,7 @@ export interface CapacityConfiguration {
 }
 export const CapacityConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nodeType: S.optional(S.String), nodeCount: S.optional(S.Number) }),
-).annotate({
-  identifier: "CapacityConfiguration",
-}) as any as S.Schema<CapacityConfiguration>;
+).annotate({ identifier: "CapacityConfiguration" }) as any as S.Schema<CapacityConfiguration>;
 export type ReleaseLabel = string;
 export type VpcIdString = string;
 export type SecurityGroupIdString = string;
@@ -502,9 +468,7 @@ export const VpcConfiguration = /*@__PURE__*/ S.suspend(() =>
     subnetIds: S.optional(SubnetIdList),
     ipAddressType: S.optional(IPAddressType),
   }),
-).annotate({
-  identifier: "VpcConfiguration",
-}) as any as S.Schema<VpcConfiguration>;
+).annotate({ identifier: "VpcConfiguration" }) as any as S.Schema<VpcConfiguration>;
 export type InitializationScriptFilePath = string;
 export type KxCommandLineArgumentKey = string;
 export type KxCommandLineArgumentValue = string;
@@ -514,9 +478,7 @@ export interface KxCommandLineArgument {
 }
 export const KxCommandLineArgument = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
-).annotate({
-  identifier: "KxCommandLineArgument",
-}) as any as S.Schema<KxCommandLineArgument>;
+).annotate({ identifier: "KxCommandLineArgument" }) as any as S.Schema<KxCommandLineArgument>;
 export type KxCommandLineArguments = KxCommandLineArgument[];
 export const KxCommandLineArguments = /*@__PURE__*/ S.Array(KxCommandLineArgument);
 export type S3Bucket = string;
@@ -533,9 +495,7 @@ export const CodeConfiguration = /*@__PURE__*/ S.suspend(() =>
     s3Key: S.optional(S.String),
     s3ObjectVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CodeConfiguration",
-}) as any as S.Schema<CodeConfiguration>;
+).annotate({ identifier: "CodeConfiguration" }) as any as S.Schema<CodeConfiguration>;
 export type ExecutionRoleArn = string;
 export type KxSavedownStorageType = "SDS01" | (string & {});
 export const KxSavedownStorageType = S.String;
@@ -629,10 +589,7 @@ export const CreateKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
     scalingGroupConfiguration: S.optional(KxScalingGroupConfiguration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/kx/environments/{environmentId}/clusters",
-      }),
+      T.Http({ method: "POST", uri: "/kx/environments/{environmentId}/clusters" }),
       svc,
       auth,
       proto,
@@ -640,9 +597,7 @@ export const CreateKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKxClusterRequest",
-}) as any as S.Schema<CreateKxClusterRequest>;
+).annotate({ identifier: "CreateKxClusterRequest" }) as any as S.Schema<CreateKxClusterRequest>;
 export type KxClusterStatus =
   | "PENDING"
   | "CREATING"
@@ -664,10 +619,7 @@ export interface Volume {
   volumeType?: VolumeType;
 }
 export const Volume = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    volumeName: S.optional(S.String),
-    volumeType: S.optional(VolumeType),
-  }),
+  S.Struct({ volumeName: S.optional(S.String), volumeType: S.optional(VolumeType) }),
 ).annotate({ identifier: "Volume" }) as any as S.Schema<Volume>;
 export type Volumes = Volume[];
 export const Volumes = /*@__PURE__*/ S.Array(Volume);
@@ -724,9 +676,7 @@ export const CreateKxClusterResponse = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scalingGroupConfiguration: S.optional(KxScalingGroupConfiguration),
   }),
-).annotate({
-  identifier: "CreateKxClusterResponse",
-}) as any as S.Schema<CreateKxClusterResponse>;
+).annotate({ identifier: "CreateKxClusterResponse" }) as any as S.Schema<CreateKxClusterResponse>;
 export interface CreateKxDatabaseRequest {
   environmentId: string;
   databaseName: string;
@@ -743,10 +693,7 @@ export const CreateKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/kx/environments/{environmentId}/databases",
-      }),
+      T.Http({ method: "POST", uri: "/kx/environments/{environmentId}/databases" }),
       svc,
       auth,
       proto,
@@ -754,9 +701,7 @@ export const CreateKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKxDatabaseRequest",
-}) as any as S.Schema<CreateKxDatabaseRequest>;
+).annotate({ identifier: "CreateKxDatabaseRequest" }) as any as S.Schema<CreateKxDatabaseRequest>;
 export type DatabaseArn = string;
 export interface CreateKxDatabaseResponse {
   databaseName?: string;
@@ -775,9 +720,7 @@ export const CreateKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreateKxDatabaseResponse",
-}) as any as S.Schema<CreateKxDatabaseResponse>;
+).annotate({ identifier: "CreateKxDatabaseResponse" }) as any as S.Schema<CreateKxDatabaseResponse>;
 export interface CreateKxDataviewRequest {
   environmentId: string;
   databaseName: string;
@@ -819,9 +762,7 @@ export const CreateKxDataviewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKxDataviewRequest",
-}) as any as S.Schema<CreateKxDataviewRequest>;
+).annotate({ identifier: "CreateKxDataviewRequest" }) as any as S.Schema<CreateKxDataviewRequest>;
 export type KxDataviewStatus =
   | "CREATING"
   | "ACTIVE"
@@ -862,9 +803,7 @@ export const CreateKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(KxDataviewStatus),
   }),
-).annotate({
-  identifier: "CreateKxDataviewResponse",
-}) as any as S.Schema<CreateKxDataviewResponse>;
+).annotate({ identifier: "CreateKxDataviewResponse" }) as any as S.Schema<CreateKxDataviewResponse>;
 export type KxEnvironmentName = string;
 export type KmsKeyARN = string;
 export interface CreateKxEnvironmentRequest {
@@ -943,10 +882,7 @@ export const CreateKxScalingGroupRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/kx/environments/{environmentId}/scalingGroups",
-      }),
+      T.Http({ method: "POST", uri: "/kx/environments/{environmentId}/scalingGroups" }),
       svc,
       auth,
       proto,
@@ -1015,9 +951,7 @@ export const CreateKxUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKxUserRequest",
-}) as any as S.Schema<CreateKxUserRequest>;
+).annotate({ identifier: "CreateKxUserRequest" }) as any as S.Schema<CreateKxUserRequest>;
 export type KxUserArn = string;
 export interface CreateKxUserResponse {
   userName?: string;
@@ -1032,9 +966,7 @@ export const CreateKxUserResponse = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     iamRole: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CreateKxUserResponse",
-}) as any as S.Schema<CreateKxUserResponse>;
+).annotate({ identifier: "CreateKxUserResponse" }) as any as S.Schema<CreateKxUserResponse>;
 export type KxVolumeType = "NAS_1" | (string & {});
 export const KxVolumeType = S.String;
 
@@ -1048,9 +980,7 @@ export interface KxNAS1Configuration {
 }
 export const KxNAS1Configuration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(KxNAS1Type), size: S.optional(S.Number) }),
-).annotate({
-  identifier: "KxNAS1Configuration",
-}) as any as S.Schema<KxNAS1Configuration>;
+).annotate({ identifier: "KxNAS1Configuration" }) as any as S.Schema<KxNAS1Configuration>;
 export type AvailabilityZoneIds = string[];
 export const AvailabilityZoneIds = /*@__PURE__*/ S.Array(S.String);
 export interface CreateKxVolumeRequest {
@@ -1077,10 +1007,7 @@ export const CreateKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagMap),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/kx/environments/{environmentId}/kxvolumes",
-      }),
+      T.Http({ method: "POST", uri: "/kx/environments/{environmentId}/kxvolumes" }),
       svc,
       auth,
       proto,
@@ -1088,9 +1015,7 @@ export const CreateKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateKxVolumeRequest",
-}) as any as S.Schema<CreateKxVolumeRequest>;
+).annotate({ identifier: "CreateKxVolumeRequest" }) as any as S.Schema<CreateKxVolumeRequest>;
 export type KxVolumeArn = string;
 export type KxVolumeStatus =
   | "CREATING"
@@ -1133,9 +1058,7 @@ export const CreateKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "CreateKxVolumeResponse",
-}) as any as S.Schema<CreateKxVolumeResponse>;
+).annotate({ identifier: "CreateKxVolumeResponse" }) as any as S.Schema<CreateKxVolumeResponse>;
 export interface DeleteEnvironmentRequest {
   environmentId: string;
 }
@@ -1150,9 +1073,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteEnvironmentRequest",
-}) as any as S.Schema<DeleteEnvironmentRequest>;
+).annotate({ identifier: "DeleteEnvironmentRequest" }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {}
 export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentResponse",
@@ -1169,10 +1090,7 @@ export const DeleteKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/kx/environments/{environmentId}/clusters/{clusterName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/kx/environments/{environmentId}/clusters/{clusterName}" }),
       svc,
       auth,
       proto,
@@ -1180,9 +1098,7 @@ export const DeleteKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKxClusterRequest",
-}) as any as S.Schema<DeleteKxClusterRequest>;
+).annotate({ identifier: "DeleteKxClusterRequest" }) as any as S.Schema<DeleteKxClusterRequest>;
 export interface DeleteKxClusterResponse {}
 export const DeleteKxClusterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxClusterResponse",
@@ -1241,9 +1157,7 @@ export const DeleteKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKxDatabaseRequest",
-}) as any as S.Schema<DeleteKxDatabaseRequest>;
+).annotate({ identifier: "DeleteKxDatabaseRequest" }) as any as S.Schema<DeleteKxDatabaseRequest>;
 export interface DeleteKxDatabaseResponse {}
 export const DeleteKxDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxDatabaseResponse",
@@ -1273,9 +1187,7 @@ export const DeleteKxDataviewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKxDataviewRequest",
-}) as any as S.Schema<DeleteKxDataviewRequest>;
+).annotate({ identifier: "DeleteKxDataviewRequest" }) as any as S.Schema<DeleteKxDataviewRequest>;
 export interface DeleteKxDataviewResponse {}
 export const DeleteKxDataviewResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxDataviewResponse",
@@ -1347,10 +1259,7 @@ export const DeleteKxUserRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/kx/environments/{environmentId}/users/{userName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/kx/environments/{environmentId}/users/{userName}" }),
       svc,
       auth,
       proto,
@@ -1358,9 +1267,7 @@ export const DeleteKxUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKxUserRequest",
-}) as any as S.Schema<DeleteKxUserRequest>;
+).annotate({ identifier: "DeleteKxUserRequest" }) as any as S.Schema<DeleteKxUserRequest>;
 export interface DeleteKxUserResponse {}
 export const DeleteKxUserResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxUserResponse",
@@ -1377,10 +1284,7 @@ export const DeleteKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/kx/environments/{environmentId}/kxvolumes/{volumeName}",
-      }),
+      T.Http({ method: "DELETE", uri: "/kx/environments/{environmentId}/kxvolumes/{volumeName}" }),
       svc,
       auth,
       proto,
@@ -1388,9 +1292,7 @@ export const DeleteKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteKxVolumeRequest",
-}) as any as S.Schema<DeleteKxVolumeRequest>;
+).annotate({ identifier: "DeleteKxVolumeRequest" }) as any as S.Schema<DeleteKxVolumeRequest>;
 export interface DeleteKxVolumeResponse {}
 export const DeleteKxVolumeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKxVolumeResponse",
@@ -1409,9 +1311,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetEnvironmentRequest",
-}) as any as S.Schema<GetEnvironmentRequest>;
+).annotate({ identifier: "GetEnvironmentRequest" }) as any as S.Schema<GetEnvironmentRequest>;
 export type SmsDomainUrl = string;
 export interface Environment {
   name?: string;
@@ -1448,9 +1348,7 @@ export interface GetEnvironmentResponse {
 }
 export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ environment: S.optional(Environment) }),
-).annotate({
-  identifier: "GetEnvironmentResponse",
-}) as any as S.Schema<GetEnvironmentResponse>;
+).annotate({ identifier: "GetEnvironmentResponse" }) as any as S.Schema<GetEnvironmentResponse>;
 export interface GetKxChangesetRequest {
   environmentId: string;
   databaseName: string;
@@ -1474,9 +1372,7 @@ export const GetKxChangesetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxChangesetRequest",
-}) as any as S.Schema<GetKxChangesetRequest>;
+).annotate({ identifier: "GetKxChangesetRequest" }) as any as S.Schema<GetKxChangesetRequest>;
 export interface GetKxChangesetResponse {
   changesetId?: string;
   databaseName?: string;
@@ -1500,9 +1396,7 @@ export const GetKxChangesetResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ChangesetStatus),
     errorInfo: S.optional(ErrorInfo),
   }),
-).annotate({
-  identifier: "GetKxChangesetResponse",
-}) as any as S.Schema<GetKxChangesetResponse>;
+).annotate({ identifier: "GetKxChangesetResponse" }) as any as S.Schema<GetKxChangesetResponse>;
 export interface GetKxClusterRequest {
   environmentId: string;
   clusterName: string;
@@ -1513,10 +1407,7 @@ export const GetKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
     clusterName: S.String.pipe(T.HttpLabel("clusterName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/clusters/{clusterName}",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/clusters/{clusterName}" }),
       svc,
       auth,
       proto,
@@ -1524,9 +1415,7 @@ export const GetKxClusterRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxClusterRequest",
-}) as any as S.Schema<GetKxClusterRequest>;
+).annotate({ identifier: "GetKxClusterRequest" }) as any as S.Schema<GetKxClusterRequest>;
 export interface GetKxClusterResponse {
   status?: KxClusterStatus;
   statusReason?: string;
@@ -1578,9 +1467,7 @@ export const GetKxClusterResponse = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scalingGroupConfiguration: S.optional(KxScalingGroupConfiguration),
   }),
-).annotate({
-  identifier: "GetKxClusterResponse",
-}) as any as S.Schema<GetKxClusterResponse>;
+).annotate({ identifier: "GetKxClusterResponse" }) as any as S.Schema<GetKxClusterResponse>;
 export interface GetKxConnectionStringRequest {
   userArn: string;
   environmentId: string;
@@ -1593,10 +1480,7 @@ export const GetKxConnectionStringRequest = /*@__PURE__*/ S.suspend(() =>
     clusterName: S.String.pipe(T.HttpQuery("clusterName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/connectionString",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/connectionString" }),
       svc,
       auth,
       proto,
@@ -1626,10 +1510,7 @@ export const GetKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     databaseName: S.String.pipe(T.HttpLabel("databaseName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/databases/{databaseName}",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/databases/{databaseName}" }),
       svc,
       auth,
       proto,
@@ -1637,9 +1518,7 @@ export const GetKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxDatabaseRequest",
-}) as any as S.Schema<GetKxDatabaseRequest>;
+).annotate({ identifier: "GetKxDatabaseRequest" }) as any as S.Schema<GetKxDatabaseRequest>;
 export type NumBytes = number;
 export type NumChangesets = number;
 export type NumFiles = number;
@@ -1668,9 +1547,7 @@ export const GetKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     numChangesets: S.optional(S.Number),
     numFiles: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "GetKxDatabaseResponse",
-}) as any as S.Schema<GetKxDatabaseResponse>;
+).annotate({ identifier: "GetKxDatabaseResponse" }) as any as S.Schema<GetKxDatabaseResponse>;
 export interface GetKxDataviewRequest {
   environmentId: string;
   databaseName: string;
@@ -1694,9 +1571,7 @@ export const GetKxDataviewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxDataviewRequest",
-}) as any as S.Schema<GetKxDataviewRequest>;
+).annotate({ identifier: "GetKxDataviewRequest" }) as any as S.Schema<GetKxDataviewRequest>;
 export type AttachedClusterList = string[];
 export const AttachedClusterList = /*@__PURE__*/ S.Array(S.String);
 export interface KxDataviewActiveVersion {
@@ -1714,9 +1589,7 @@ export const KxDataviewActiveVersion = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     versionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KxDataviewActiveVersion",
-}) as any as S.Schema<KxDataviewActiveVersion>;
+).annotate({ identifier: "KxDataviewActiveVersion" }) as any as S.Schema<KxDataviewActiveVersion>;
 export type KxDataviewActiveVersionList = KxDataviewActiveVersion[];
 export const KxDataviewActiveVersionList = /*@__PURE__*/ S.Array(KxDataviewActiveVersion);
 export type KxDataviewStatusReason = string;
@@ -1755,9 +1628,7 @@ export const GetKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(KxDataviewStatus),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetKxDataviewResponse",
-}) as any as S.Schema<GetKxDataviewResponse>;
+).annotate({ identifier: "GetKxDataviewResponse" }) as any as S.Schema<GetKxDataviewResponse>;
 export interface GetKxEnvironmentRequest {
   environmentId: string;
 }
@@ -1772,9 +1643,7 @@ export const GetKxEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxEnvironmentRequest",
-}) as any as S.Schema<GetKxEnvironmentRequest>;
+).annotate({ identifier: "GetKxEnvironmentRequest" }) as any as S.Schema<GetKxEnvironmentRequest>;
 export type TgwStatus =
   | "NONE"
   | "UPDATE_REQUESTED"
@@ -1835,9 +1704,7 @@ export const NetworkACLEntry = /*@__PURE__*/ S.suspend(() =>
     icmpTypeCode: S.optional(IcmpTypeCode),
     cidrBlock: S.String,
   }),
-).annotate({
-  identifier: "NetworkACLEntry",
-}) as any as S.Schema<NetworkACLEntry>;
+).annotate({ identifier: "NetworkACLEntry" }) as any as S.Schema<NetworkACLEntry>;
 export type NetworkACLConfiguration = NetworkACLEntry[];
 export const NetworkACLConfiguration = /*@__PURE__*/ S.Array(NetworkACLEntry);
 export interface TransitGatewayConfiguration {
@@ -1862,9 +1729,7 @@ export interface CustomDNSServer {
 }
 export const CustomDNSServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ customDNSServerName: S.String, customDNSServerIP: S.String }),
-).annotate({
-  identifier: "CustomDNSServer",
-}) as any as S.Schema<CustomDNSServer>;
+).annotate({ identifier: "CustomDNSServer" }) as any as S.Schema<CustomDNSServer>;
 export type CustomDNSConfiguration = CustomDNSServer[];
 export const CustomDNSConfiguration = /*@__PURE__*/ S.Array(CustomDNSServer);
 export type StringValueLength1to255 = string;
@@ -1907,9 +1772,7 @@ export const GetKxEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     availabilityZoneIds: S.optional(AvailabilityZoneIds),
     certificateAuthorityArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetKxEnvironmentResponse",
-}) as any as S.Schema<GetKxEnvironmentResponse>;
+).annotate({ identifier: "GetKxEnvironmentResponse" }) as any as S.Schema<GetKxEnvironmentResponse>;
 export interface GetKxScalingGroupRequest {
   environmentId: string;
   scalingGroupName: string;
@@ -1931,9 +1794,7 @@ export const GetKxScalingGroupRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxScalingGroupRequest",
-}) as any as S.Schema<GetKxScalingGroupRequest>;
+).annotate({ identifier: "GetKxScalingGroupRequest" }) as any as S.Schema<GetKxScalingGroupRequest>;
 export type Arn = string;
 export type KxClusterNameList = string[];
 export const KxClusterNameList = /*@__PURE__*/ S.Array(S.String);
@@ -1973,10 +1834,7 @@ export const GetKxUserRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/users/{userName}",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/users/{userName}" }),
       svc,
       auth,
       proto,
@@ -1984,9 +1842,7 @@ export const GetKxUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxUserRequest",
-}) as any as S.Schema<GetKxUserRequest>;
+).annotate({ identifier: "GetKxUserRequest" }) as any as S.Schema<GetKxUserRequest>;
 export interface GetKxUserResponse {
   userName?: string;
   userArn?: string;
@@ -2000,9 +1856,7 @@ export const GetKxUserResponse = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     iamRole: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetKxUserResponse",
-}) as any as S.Schema<GetKxUserResponse>;
+).annotate({ identifier: "GetKxUserResponse" }) as any as S.Schema<GetKxUserResponse>;
 export interface GetKxVolumeRequest {
   environmentId: string;
   volumeName: string;
@@ -2013,10 +1867,7 @@ export const GetKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     volumeName: S.String.pipe(T.HttpLabel("volumeName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/kxvolumes/{volumeName}",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/kxvolumes/{volumeName}" }),
       svc,
       auth,
       proto,
@@ -2024,9 +1875,7 @@ export const GetKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetKxVolumeRequest",
-}) as any as S.Schema<GetKxVolumeRequest>;
+).annotate({ identifier: "GetKxVolumeRequest" }) as any as S.Schema<GetKxVolumeRequest>;
 export interface KxAttachedCluster {
   clusterName?: string;
   clusterType?: KxClusterType;
@@ -2038,9 +1887,7 @@ export const KxAttachedCluster = /*@__PURE__*/ S.suspend(() =>
     clusterType: S.optional(KxClusterType),
     clusterStatus: S.optional(KxClusterStatus),
   }),
-).annotate({
-  identifier: "KxAttachedCluster",
-}) as any as S.Schema<KxAttachedCluster>;
+).annotate({ identifier: "KxAttachedCluster" }) as any as S.Schema<KxAttachedCluster>;
 export type KxAttachedClusters = KxAttachedCluster[];
 export const KxAttachedClusters = /*@__PURE__*/ S.Array(KxAttachedCluster);
 export interface GetKxVolumeResponse {
@@ -2074,9 +1921,7 @@ export const GetKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     attachedClusters: S.optional(KxAttachedClusters),
   }),
-).annotate({
-  identifier: "GetKxVolumeResponse",
-}) as any as S.Schema<GetKxVolumeResponse>;
+).annotate({ identifier: "GetKxVolumeResponse" }) as any as S.Schema<GetKxVolumeResponse>;
 export type PaginationToken = string;
 export type ResultLimit = number;
 export interface ListEnvironmentsRequest {
@@ -2088,9 +1933,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/environment" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListEnvironmentsRequest",
-}) as any as S.Schema<ListEnvironmentsRequest>;
+).annotate({ identifier: "ListEnvironmentsRequest" }) as any as S.Schema<ListEnvironmentsRequest>;
 export type EnvironmentList = Environment[];
 export const EnvironmentList = /*@__PURE__*/ S.Array(Environment);
 export interface ListEnvironmentsResponse {
@@ -2098,13 +1941,8 @@ export interface ListEnvironmentsResponse {
   nextToken?: string;
 }
 export const ListEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environments: S.optional(EnvironmentList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEnvironmentsResponse",
-}) as any as S.Schema<ListEnvironmentsResponse>;
+  S.Struct({ environments: S.optional(EnvironmentList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListEnvironmentsResponse" }) as any as S.Schema<ListEnvironmentsResponse>;
 export type MaxResults = number;
 export interface ListKxChangesetsRequest {
   environmentId: string;
@@ -2131,9 +1969,7 @@ export const ListKxChangesetsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKxChangesetsRequest",
-}) as any as S.Schema<ListKxChangesetsRequest>;
+).annotate({ identifier: "ListKxChangesetsRequest" }) as any as S.Schema<ListKxChangesetsRequest>;
 export interface KxChangesetListEntry {
   changesetId?: string;
   createdTimestamp?: Date;
@@ -2149,9 +1985,7 @@ export const KxChangesetListEntry = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     status: S.optional(ChangesetStatus),
   }),
-).annotate({
-  identifier: "KxChangesetListEntry",
-}) as any as S.Schema<KxChangesetListEntry>;
+).annotate({ identifier: "KxChangesetListEntry" }) as any as S.Schema<KxChangesetListEntry>;
 export type KxChangesets = KxChangesetListEntry[];
 export const KxChangesets = /*@__PURE__*/ S.Array(KxChangesetListEntry);
 export interface ListKxChangesetsResponse {
@@ -2159,13 +1993,8 @@ export interface ListKxChangesetsResponse {
   nextToken?: string;
 }
 export const ListKxChangesetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kxChangesets: S.optional(KxChangesets),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListKxChangesetsResponse",
-}) as any as S.Schema<ListKxChangesetsResponse>;
+  S.Struct({ kxChangesets: S.optional(KxChangesets), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListKxChangesetsResponse" }) as any as S.Schema<ListKxChangesetsResponse>;
 export interface ListKxClusterNodesRequest {
   environmentId: string;
   clusterName: string;
@@ -2218,10 +2047,7 @@ export interface ListKxClusterNodesResponse {
   nextToken?: string;
 }
 export const ListKxClusterNodesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    nodes: S.optional(KxNodeSummaries),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ nodes: S.optional(KxNodeSummaries), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListKxClusterNodesResponse",
 }) as any as S.Schema<ListKxClusterNodesResponse>;
@@ -2239,10 +2065,7 @@ export const ListKxClustersRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/clusters",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/clusters" }),
       svc,
       auth,
       proto,
@@ -2250,9 +2073,7 @@ export const ListKxClustersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKxClustersRequest",
-}) as any as S.Schema<ListKxClustersRequest>;
+).annotate({ identifier: "ListKxClustersRequest" }) as any as S.Schema<ListKxClustersRequest>;
 export interface KxCluster {
   status?: KxClusterStatus;
   statusReason?: string;
@@ -2292,13 +2113,8 @@ export interface ListKxClustersResponse {
   nextToken?: string;
 }
 export const ListKxClustersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kxClusterSummaries: S.optional(KxClusters),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListKxClustersResponse",
-}) as any as S.Schema<ListKxClustersResponse>;
+  S.Struct({ kxClusterSummaries: S.optional(KxClusters), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListKxClustersResponse" }) as any as S.Schema<ListKxClustersResponse>;
 export interface ListKxDatabasesRequest {
   environmentId: string;
   nextToken?: string;
@@ -2311,10 +2127,7 @@ export const ListKxDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/databases",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/databases" }),
       svc,
       auth,
       proto,
@@ -2322,9 +2135,7 @@ export const ListKxDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKxDatabasesRequest",
-}) as any as S.Schema<ListKxDatabasesRequest>;
+).annotate({ identifier: "ListKxDatabasesRequest" }) as any as S.Schema<ListKxDatabasesRequest>;
 export interface KxDatabaseListEntry {
   databaseName?: string;
   createdTimestamp?: Date;
@@ -2336,9 +2147,7 @@ export const KxDatabaseListEntry = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "KxDatabaseListEntry",
-}) as any as S.Schema<KxDatabaseListEntry>;
+).annotate({ identifier: "KxDatabaseListEntry" }) as any as S.Schema<KxDatabaseListEntry>;
 export type KxDatabases = KxDatabaseListEntry[];
 export const KxDatabases = /*@__PURE__*/ S.Array(KxDatabaseListEntry);
 export interface ListKxDatabasesResponse {
@@ -2346,13 +2155,8 @@ export interface ListKxDatabasesResponse {
   nextToken?: string;
 }
 export const ListKxDatabasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kxDatabases: S.optional(KxDatabases),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListKxDatabasesResponse",
-}) as any as S.Schema<ListKxDatabasesResponse>;
+  S.Struct({ kxDatabases: S.optional(KxDatabases), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListKxDatabasesResponse" }) as any as S.Schema<ListKxDatabasesResponse>;
 export interface ListKxDataviewsRequest {
   environmentId: string;
   databaseName: string;
@@ -2378,9 +2182,7 @@ export const ListKxDataviewsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKxDataviewsRequest",
-}) as any as S.Schema<ListKxDataviewsRequest>;
+).annotate({ identifier: "ListKxDataviewsRequest" }) as any as S.Schema<ListKxDataviewsRequest>;
 export interface KxDataviewListEntry {
   environmentId?: string;
   databaseName?: string;
@@ -2416,9 +2218,7 @@ export const KxDataviewListEntry = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     statusReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "KxDataviewListEntry",
-}) as any as S.Schema<KxDataviewListEntry>;
+).annotate({ identifier: "KxDataviewListEntry" }) as any as S.Schema<KxDataviewListEntry>;
 export type KxDataviews = KxDataviewListEntry[];
 export const KxDataviews = /*@__PURE__*/ S.Array(KxDataviewListEntry);
 export interface ListKxDataviewsResponse {
@@ -2426,13 +2226,8 @@ export interface ListKxDataviewsResponse {
   nextToken?: string;
 }
 export const ListKxDataviewsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kxDataviews: S.optional(KxDataviews),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListKxDataviewsResponse",
-}) as any as S.Schema<ListKxDataviewsResponse>;
+  S.Struct({ kxDataviews: S.optional(KxDataviews), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListKxDataviewsResponse" }) as any as S.Schema<ListKxDataviewsResponse>;
 export type BoxedInteger = number;
 export interface ListKxEnvironmentsRequest {
   nextToken?: string;
@@ -2493,10 +2288,7 @@ export interface ListKxEnvironmentsResponse {
   nextToken?: string;
 }
 export const ListKxEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    environments: S.optional(KxEnvironmentList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ environments: S.optional(KxEnvironmentList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListKxEnvironmentsResponse",
 }) as any as S.Schema<ListKxEnvironmentsResponse>;
@@ -2512,10 +2304,7 @@ export const ListKxScalingGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/scalingGroups",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/scalingGroups" }),
       svc,
       auth,
       proto,
@@ -2555,10 +2344,7 @@ export interface ListKxScalingGroupsResponse {
   nextToken?: string;
 }
 export const ListKxScalingGroupsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    scalingGroups: S.optional(KxScalingGroupList),
-    nextToken: S.optional(S.String),
-  }),
+  S.Struct({ scalingGroups: S.optional(KxScalingGroupList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListKxScalingGroupsResponse",
 }) as any as S.Schema<ListKxScalingGroupsResponse>;
@@ -2582,9 +2368,7 @@ export const ListKxUsersRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKxUsersRequest",
-}) as any as S.Schema<ListKxUsersRequest>;
+).annotate({ identifier: "ListKxUsersRequest" }) as any as S.Schema<ListKxUsersRequest>;
 export interface KxUser {
   userArn?: string;
   userName?: string;
@@ -2609,9 +2393,7 @@ export interface ListKxUsersResponse {
 }
 export const ListKxUsersResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ users: S.optional(KxUserList), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListKxUsersResponse",
-}) as any as S.Schema<ListKxUsersResponse>;
+).annotate({ identifier: "ListKxUsersResponse" }) as any as S.Schema<ListKxUsersResponse>;
 export interface ListKxVolumesRequest {
   environmentId: string;
   maxResults?: number;
@@ -2626,10 +2408,7 @@ export const ListKxVolumesRequest = /*@__PURE__*/ S.suspend(() =>
     volumeType: S.optional(KxVolumeType).pipe(T.HttpQuery("volumeType")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/kx/environments/{environmentId}/kxvolumes",
-      }),
+      T.Http({ method: "GET", uri: "/kx/environments/{environmentId}/kxvolumes" }),
       svc,
       auth,
       proto,
@@ -2637,9 +2416,7 @@ export const ListKxVolumesRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListKxVolumesRequest",
-}) as any as S.Schema<ListKxVolumesRequest>;
+).annotate({ identifier: "ListKxVolumesRequest" }) as any as S.Schema<ListKxVolumesRequest>;
 export interface KxVolume {
   volumeName?: string;
   volumeType?: KxVolumeType;
@@ -2671,13 +2448,8 @@ export interface ListKxVolumesResponse {
   nextToken?: string;
 }
 export const ListKxVolumesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    kxVolumeSummaries: S.optional(KxVolumes),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListKxVolumesResponse",
-}) as any as S.Schema<ListKxVolumesResponse>;
+  S.Struct({ kxVolumeSummaries: S.optional(KxVolumes), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListKxVolumesResponse" }) as any as S.Schema<ListKxVolumesResponse>;
 export type FinSpaceTaggableArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -2702,15 +2474,10 @@ export interface TagResourceRequest {
   tags: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-    tags: TagMap,
-  }).pipe(
+  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")), tags: TagMap }).pipe(
     T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -2728,9 +2495,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -2759,9 +2524,7 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateEnvironmentRequest",
-}) as any as S.Schema<UpdateEnvironmentRequest>;
+).annotate({ identifier: "UpdateEnvironmentRequest" }) as any as S.Schema<UpdateEnvironmentRequest>;
 export interface UpdateEnvironmentResponse {
   environment?: Environment;
 }
@@ -2882,10 +2645,7 @@ export const UpdateKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.String.pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/kx/environments/{environmentId}/databases/{databaseName}",
-      }),
+      T.Http({ method: "PUT", uri: "/kx/environments/{environmentId}/databases/{databaseName}" }),
       svc,
       auth,
       proto,
@@ -2893,9 +2653,7 @@ export const UpdateKxDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateKxDatabaseRequest",
-}) as any as S.Schema<UpdateKxDatabaseRequest>;
+).annotate({ identifier: "UpdateKxDatabaseRequest" }) as any as S.Schema<UpdateKxDatabaseRequest>;
 export interface UpdateKxDatabaseResponse {
   databaseName?: string;
   environmentId?: string;
@@ -2909,9 +2667,7 @@ export const UpdateKxDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "UpdateKxDatabaseResponse",
-}) as any as S.Schema<UpdateKxDatabaseResponse>;
+).annotate({ identifier: "UpdateKxDatabaseResponse" }) as any as S.Schema<UpdateKxDatabaseResponse>;
 export interface UpdateKxDataviewRequest {
   environmentId: string;
   databaseName: string;
@@ -2943,9 +2699,7 @@ export const UpdateKxDataviewRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateKxDataviewRequest",
-}) as any as S.Schema<UpdateKxDataviewRequest>;
+).annotate({ identifier: "UpdateKxDataviewRequest" }) as any as S.Schema<UpdateKxDataviewRequest>;
 export interface UpdateKxDataviewResponse {
   environmentId?: string;
   databaseName?: string;
@@ -2979,9 +2733,7 @@ export const UpdateKxDataviewResponse = /*@__PURE__*/ S.suspend(() =>
     createdTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
-).annotate({
-  identifier: "UpdateKxDataviewResponse",
-}) as any as S.Schema<UpdateKxDataviewResponse>;
+).annotate({ identifier: "UpdateKxDataviewResponse" }) as any as S.Schema<UpdateKxDataviewResponse>;
 export interface UpdateKxEnvironmentRequest {
   environmentId: string;
   name?: string;
@@ -3061,10 +2813,7 @@ export const UpdateKxEnvironmentNetworkRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/kx/environments/{environmentId}/network",
-      }),
+      T.Http({ method: "PUT", uri: "/kx/environments/{environmentId}/network" }),
       svc,
       auth,
       proto,
@@ -3129,10 +2878,7 @@ export const UpdateKxUserRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/kx/environments/{environmentId}/users/{userName}",
-      }),
+      T.Http({ method: "PUT", uri: "/kx/environments/{environmentId}/users/{userName}" }),
       svc,
       auth,
       proto,
@@ -3140,9 +2886,7 @@ export const UpdateKxUserRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateKxUserRequest",
-}) as any as S.Schema<UpdateKxUserRequest>;
+).annotate({ identifier: "UpdateKxUserRequest" }) as any as S.Schema<UpdateKxUserRequest>;
 export interface UpdateKxUserResponse {
   userName?: string;
   userArn?: string;
@@ -3156,9 +2900,7 @@ export const UpdateKxUserResponse = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     iamRole: S.optional(S.String),
   }),
-).annotate({
-  identifier: "UpdateKxUserResponse",
-}) as any as S.Schema<UpdateKxUserResponse>;
+).annotate({ identifier: "UpdateKxUserResponse" }) as any as S.Schema<UpdateKxUserResponse>;
 export interface UpdateKxVolumeRequest {
   environmentId: string;
   volumeName: string;
@@ -3175,10 +2917,7 @@ export const UpdateKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
     nas1Configuration: S.optional(KxNAS1Configuration),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/kx/environments/{environmentId}/kxvolumes/{volumeName}",
-      }),
+      T.Http({ method: "PATCH", uri: "/kx/environments/{environmentId}/kxvolumes/{volumeName}" }),
       svc,
       auth,
       proto,
@@ -3186,9 +2925,7 @@ export const UpdateKxVolumeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateKxVolumeRequest",
-}) as any as S.Schema<UpdateKxVolumeRequest>;
+).annotate({ identifier: "UpdateKxVolumeRequest" }) as any as S.Schema<UpdateKxVolumeRequest>;
 export interface UpdateKxVolumeResponse {
   environmentId?: string;
   volumeName?: string;
@@ -3220,9 +2957,7 @@ export const UpdateKxVolumeResponse = /*@__PURE__*/ S.suspend(() =>
     lastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     attachedClusters: S.optional(KxAttachedClusters),
   }),
-).annotate({
-  identifier: "UpdateKxVolumeResponse",
-}) as any as S.Schema<UpdateKxVolumeResponse>;
+).annotate({ identifier: "UpdateKxVolumeResponse" }) as any as S.Schema<UpdateKxVolumeResponse>;
 export type ErrorMessage2 = string;
 export type CreateEnvironmentError =
   | AccessDeniedException

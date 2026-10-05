@@ -175,13 +175,8 @@ export interface GuardrailTextBlock {
   qualifiers?: GuardrailContentQualifier[];
 }
 export const GuardrailTextBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.String,
-    qualifiers: S.optional(GuardrailContentQualifierList),
-  }),
-).annotate({
-  identifier: "GuardrailTextBlock",
-}) as any as S.Schema<GuardrailTextBlock>;
+  S.Struct({ text: S.String, qualifiers: S.optional(GuardrailContentQualifierList) }),
+).annotate({ identifier: "GuardrailTextBlock" }) as any as S.Schema<GuardrailTextBlock>;
 export type GuardrailImageFormat = "png" | "jpeg" | (string & {});
 export const GuardrailImageFormat = S.String;
 
@@ -193,9 +188,7 @@ export interface GuardrailImageBlock {
 }
 export const GuardrailImageBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ format: GuardrailImageFormat, source: GuardrailImageSource }),
-).annotate({
-  identifier: "GuardrailImageBlock",
-}) as any as S.Schema<GuardrailImageBlock>;
+).annotate({ identifier: "GuardrailImageBlock" }) as any as S.Schema<GuardrailImageBlock>;
 export type GuardrailContentBlock =
   | { text: GuardrailTextBlock; image?: never }
   | { text?: never; image: GuardrailImageBlock };
@@ -235,9 +228,7 @@ export const ApplyGuardrailRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ApplyGuardrailRequest",
-}) as any as S.Schema<ApplyGuardrailRequest>;
+).annotate({ identifier: "ApplyGuardrailRequest" }) as any as S.Schema<ApplyGuardrailRequest>;
 export type GuardrailTopicPolicyUnitsProcessed = number;
 export type GuardrailContentPolicyUnitsProcessed = number;
 export type GuardrailWordPolicyUnitsProcessed = number;
@@ -280,9 +271,7 @@ export interface GuardrailOutputContent {
 }
 export const GuardrailOutputContent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ text: S.optional(S.String) }),
-).annotate({
-  identifier: "GuardrailOutputContent",
-}) as any as S.Schema<GuardrailOutputContent>;
+).annotate({ identifier: "GuardrailOutputContent" }) as any as S.Schema<GuardrailOutputContent>;
 export type GuardrailOutputContentList = GuardrailOutputContent[];
 export const GuardrailOutputContentList = /*@__PURE__*/ S.Array(GuardrailOutputContent);
 export type GuardrailTopicType = "DENY" | (string & {});
@@ -349,9 +338,7 @@ export const GuardrailContentFilter = /*@__PURE__*/ S.suspend(() =>
     action: GuardrailContentPolicyAction,
     detected: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailContentFilter",
-}) as any as S.Schema<GuardrailContentFilter>;
+).annotate({ identifier: "GuardrailContentFilter" }) as any as S.Schema<GuardrailContentFilter>;
 export type GuardrailContentFilterList = GuardrailContentFilter[];
 export const GuardrailContentFilterList = /*@__PURE__*/ S.Array(GuardrailContentFilter);
 export interface GuardrailContentPolicyAssessment {
@@ -371,14 +358,8 @@ export interface GuardrailCustomWord {
   detected?: boolean;
 }
 export const GuardrailCustomWord = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    match: S.String,
-    action: GuardrailWordPolicyAction,
-    detected: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GuardrailCustomWord",
-}) as any as S.Schema<GuardrailCustomWord>;
+  S.Struct({ match: S.String, action: GuardrailWordPolicyAction, detected: S.optional(S.Boolean) }),
+).annotate({ identifier: "GuardrailCustomWord" }) as any as S.Schema<GuardrailCustomWord>;
 export type GuardrailCustomWordList = GuardrailCustomWord[];
 export const GuardrailCustomWordList = /*@__PURE__*/ S.Array(GuardrailCustomWord);
 export type GuardrailManagedWordType = "PROFANITY" | (string & {});
@@ -397,9 +378,7 @@ export const GuardrailManagedWord = /*@__PURE__*/ S.suspend(() =>
     action: GuardrailWordPolicyAction,
     detected: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailManagedWord",
-}) as any as S.Schema<GuardrailManagedWord>;
+).annotate({ identifier: "GuardrailManagedWord" }) as any as S.Schema<GuardrailManagedWord>;
 export type GuardrailManagedWordList = GuardrailManagedWord[];
 export const GuardrailManagedWordList = /*@__PURE__*/ S.Array(GuardrailManagedWord);
 export interface GuardrailWordPolicyAssessment {
@@ -407,10 +386,7 @@ export interface GuardrailWordPolicyAssessment {
   managedWordLists: GuardrailManagedWord[];
 }
 export const GuardrailWordPolicyAssessment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    customWords: GuardrailCustomWordList,
-    managedWordLists: GuardrailManagedWordList,
-  }),
+  S.Struct({ customWords: GuardrailCustomWordList, managedWordLists: GuardrailManagedWordList }),
 ).annotate({
   identifier: "GuardrailWordPolicyAssessment",
 }) as any as S.Schema<GuardrailWordPolicyAssessment>;
@@ -469,9 +445,7 @@ export const GuardrailPiiEntityFilter = /*@__PURE__*/ S.suspend(() =>
     action: GuardrailSensitiveInformationPolicyAction,
     detected: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailPiiEntityFilter",
-}) as any as S.Schema<GuardrailPiiEntityFilter>;
+).annotate({ identifier: "GuardrailPiiEntityFilter" }) as any as S.Schema<GuardrailPiiEntityFilter>;
 export type GuardrailPiiEntityFilterList = GuardrailPiiEntityFilter[];
 export const GuardrailPiiEntityFilterList = /*@__PURE__*/ S.Array(GuardrailPiiEntityFilter);
 export interface GuardrailRegexFilter {
@@ -489,9 +463,7 @@ export const GuardrailRegexFilter = /*@__PURE__*/ S.suspend(() =>
     action: GuardrailSensitiveInformationPolicyAction,
     detected: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "GuardrailRegexFilter",
-}) as any as S.Schema<GuardrailRegexFilter>;
+).annotate({ identifier: "GuardrailRegexFilter" }) as any as S.Schema<GuardrailRegexFilter>;
 export type GuardrailRegexFilterList = GuardrailRegexFilter[];
 export const GuardrailRegexFilterList = /*@__PURE__*/ S.Array(GuardrailRegexFilter);
 export interface GuardrailSensitiveInformationPolicyAssessment {
@@ -499,10 +471,7 @@ export interface GuardrailSensitiveInformationPolicyAssessment {
   regexes: GuardrailRegexFilter[];
 }
 export const GuardrailSensitiveInformationPolicyAssessment = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    piiEntities: GuardrailPiiEntityFilterList,
-    regexes: GuardrailRegexFilterList,
-  }),
+  S.Struct({ piiEntities: GuardrailPiiEntityFilterList, regexes: GuardrailRegexFilterList }),
 ).annotate({
   identifier: "GuardrailSensitiveInformationPolicyAssessment",
 }) as any as S.Schema<GuardrailSensitiveInformationPolicyAssessment>;
@@ -551,10 +520,7 @@ export interface GuardrailAutomatedReasoningStatement {
   naturalLanguage?: string | redacted.Redacted<string>;
 }
 export const GuardrailAutomatedReasoningStatement = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    logic: S.optional(SensitiveString),
-    naturalLanguage: S.optional(SensitiveString),
-  }),
+  S.Struct({ logic: S.optional(SensitiveString), naturalLanguage: S.optional(SensitiveString) }),
 ).annotate({
   identifier: "GuardrailAutomatedReasoningStatement",
 }) as any as S.Schema<GuardrailAutomatedReasoningStatement>;
@@ -598,9 +564,7 @@ export interface GuardrailAutomatedReasoningScenario {
   statements?: GuardrailAutomatedReasoningStatement[];
 }
 export const GuardrailAutomatedReasoningScenario = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    statements: S.optional(GuardrailAutomatedReasoningStatementList),
-  }),
+  S.Struct({ statements: S.optional(GuardrailAutomatedReasoningStatementList) }),
 ).annotate({
   identifier: "GuardrailAutomatedReasoningScenario",
 }) as any as S.Schema<GuardrailAutomatedReasoningScenario>;
@@ -611,10 +575,7 @@ export interface GuardrailAutomatedReasoningRule {
   policyVersionArn?: string;
 }
 export const GuardrailAutomatedReasoningRule = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    identifier: S.optional(S.String),
-    policyVersionArn: S.optional(S.String),
-  }),
+  S.Struct({ identifier: S.optional(S.String), policyVersionArn: S.optional(S.String) }),
 ).annotate({
   identifier: "GuardrailAutomatedReasoningRule",
 }) as any as S.Schema<GuardrailAutomatedReasoningRule>;
@@ -710,9 +671,7 @@ export interface GuardrailAutomatedReasoningTranslationOption {
   translations?: GuardrailAutomatedReasoningTranslation[];
 }
 export const GuardrailAutomatedReasoningTranslationOption = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    translations: S.optional(GuardrailAutomatedReasoningTranslationList),
-  }),
+  S.Struct({ translations: S.optional(GuardrailAutomatedReasoningTranslationList) }),
 ).annotate({
   identifier: "GuardrailAutomatedReasoningTranslationOption",
 }) as any as S.Schema<GuardrailAutomatedReasoningTranslationOption>;
@@ -819,13 +778,9 @@ export const GuardrailAutomatedReasoningFinding = /*@__PURE__*/ S.Union([
   S.Struct({ invalid: GuardrailAutomatedReasoningInvalidFinding }),
   S.Struct({ satisfiable: GuardrailAutomatedReasoningSatisfiableFinding }),
   S.Struct({ impossible: GuardrailAutomatedReasoningImpossibleFinding }),
-  S.Struct({
-    translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding,
-  }),
+  S.Struct({ translationAmbiguous: GuardrailAutomatedReasoningTranslationAmbiguousFinding }),
   S.Struct({ tooComplex: GuardrailAutomatedReasoningTooComplexFinding }),
-  S.Struct({
-    noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding,
-  }),
+  S.Struct({ noTranslations: GuardrailAutomatedReasoningNoTranslationsFinding }),
 ]);
 export type GuardrailAutomatedReasoningFindingList = GuardrailAutomatedReasoningFinding[];
 export const GuardrailAutomatedReasoningFindingList = /*@__PURE__*/ S.Array(
@@ -859,9 +814,7 @@ export interface GuardrailImageCoverage {
 }
 export const GuardrailImageCoverage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ guarded: S.optional(S.Number), total: S.optional(S.Number) }),
-).annotate({
-  identifier: "GuardrailImageCoverage",
-}) as any as S.Schema<GuardrailImageCoverage>;
+).annotate({ identifier: "GuardrailImageCoverage" }) as any as S.Schema<GuardrailImageCoverage>;
 export interface GuardrailCoverage {
   textCharacters?: GuardrailTextCharactersCoverage;
   images?: GuardrailImageCoverage;
@@ -871,9 +824,7 @@ export const GuardrailCoverage = /*@__PURE__*/ S.suspend(() =>
     textCharacters: S.optional(GuardrailTextCharactersCoverage),
     images: S.optional(GuardrailImageCoverage),
   }),
-).annotate({
-  identifier: "GuardrailCoverage",
-}) as any as S.Schema<GuardrailCoverage>;
+).annotate({ identifier: "GuardrailCoverage" }) as any as S.Schema<GuardrailCoverage>;
 export interface GuardrailInvocationMetrics {
   guardrailProcessingLatency?: number;
   usage?: GuardrailUsage;
@@ -917,9 +868,7 @@ export const AppliedGuardrailDetails = /*@__PURE__*/ S.suspend(() =>
     guardrailOrigin: S.optional(GuardrailOriginList),
     guardrailOwnership: S.optional(GuardrailOwnership),
   }),
-).annotate({
-  identifier: "AppliedGuardrailDetails",
-}) as any as S.Schema<AppliedGuardrailDetails>;
+).annotate({ identifier: "AppliedGuardrailDetails" }) as any as S.Schema<AppliedGuardrailDetails>;
 export interface GuardrailAssessment {
   topicPolicy?: GuardrailTopicPolicyAssessment;
   contentPolicy?: GuardrailContentPolicyAssessment;
@@ -941,9 +890,7 @@ export const GuardrailAssessment = /*@__PURE__*/ S.suspend(() =>
     invocationMetrics: S.optional(GuardrailInvocationMetrics),
     appliedGuardrailDetails: S.optional(AppliedGuardrailDetails),
   }),
-).annotate({
-  identifier: "GuardrailAssessment",
-}) as any as S.Schema<GuardrailAssessment>;
+).annotate({ identifier: "GuardrailAssessment" }) as any as S.Schema<GuardrailAssessment>;
 export type GuardrailAssessmentList = GuardrailAssessment[];
 export const GuardrailAssessmentList = /*@__PURE__*/ S.Array(GuardrailAssessment);
 export interface ApplyGuardrailResponse {
@@ -963,9 +910,7 @@ export const ApplyGuardrailResponse = /*@__PURE__*/ S.suspend(() =>
     assessments: GuardrailAssessmentList,
     guardrailCoverage: S.optional(GuardrailCoverage),
   }),
-).annotate({
-  identifier: "ApplyGuardrailResponse",
-}) as any as S.Schema<ApplyGuardrailResponse>;
+).annotate({ identifier: "ApplyGuardrailResponse" }) as any as S.Schema<ApplyGuardrailResponse>;
 export type ConversationalModelId = string;
 export type ConversationRole = "user" | "assistant" | "system" | (string & {});
 export const ConversationRole = S.String;
@@ -1001,11 +946,7 @@ export interface ImageBlock {
   error?: ErrorBlock;
 }
 export const ImageBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    format: ImageFormat,
-    source: ImageSource,
-    error: S.optional(ErrorBlock),
-  }),
+  S.Struct({ format: ImageFormat, source: ImageSource, error: S.optional(ErrorBlock) }),
 ).annotate({ identifier: "ImageBlock" }) as any as S.Schema<ImageBlock>;
 export type DocumentFormat =
   | "pdf"
@@ -1028,12 +969,7 @@ export type DocumentSource =
   | { bytes: Uint8Array; s3Location?: never; text?: never; content?: never }
   | { bytes?: never; s3Location: S3Location; text?: never; content?: never }
   | { bytes?: never; s3Location?: never; text: string; content?: never }
-  | {
-      bytes?: never;
-      s3Location?: never;
-      text?: never;
-      content: DocumentContentBlock[];
-    };
+  | { bytes?: never; s3Location?: never; text?: never; content: DocumentContentBlock[] };
 export const DocumentSource = /*@__PURE__*/ S.Union([
   S.Struct({ bytes: T.Blob }),
   S.Struct({ s3Location: S3Location }),
@@ -1045,9 +981,7 @@ export interface CitationsConfig {
 }
 export const CitationsConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ enabled: S.Boolean }),
-).annotate({
-  identifier: "CitationsConfig",
-}) as any as S.Schema<CitationsConfig>;
+).annotate({ identifier: "CitationsConfig" }) as any as S.Schema<CitationsConfig>;
 export interface DocumentBlock {
   format?: DocumentFormat;
   name: string;
@@ -1123,11 +1057,7 @@ export interface AudioBlock {
   error?: ErrorBlock;
 }
 export const AudioBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    format: AudioFormat,
-    source: AudioSource,
-    error: S.optional(ErrorBlock),
-  }),
+  S.Struct({ format: AudioFormat, source: AudioSource, error: S.optional(ErrorBlock) }),
 ).annotate({ identifier: "AudioBlock" }) as any as S.Schema<AudioBlock>;
 export type ToolUseId = string;
 export type ToolName = string;
@@ -1141,21 +1071,14 @@ export interface ToolUseBlock {
   type?: ToolUseType;
 }
 export const ToolUseBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    toolUseId: S.String,
-    name: S.String,
-    input: S.Any,
-    type: S.optional(ToolUseType),
-  }),
+  S.Struct({ toolUseId: S.String, name: S.String, input: S.Any, type: S.optional(ToolUseType) }),
 ).annotate({ identifier: "ToolUseBlock" }) as any as S.Schema<ToolUseBlock>;
 export interface SearchResultContentBlock {
   text: string;
 }
 export const SearchResultContentBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ text: S.String }),
-).annotate({
-  identifier: "SearchResultContentBlock",
-}) as any as S.Schema<SearchResultContentBlock>;
+).annotate({ identifier: "SearchResultContentBlock" }) as any as S.Schema<SearchResultContentBlock>;
 export type SearchResultContentBlocks = SearchResultContentBlock[];
 export const SearchResultContentBlocks = /*@__PURE__*/ S.Array(SearchResultContentBlock);
 export interface SearchResultBlock {
@@ -1171,9 +1094,7 @@ export const SearchResultBlock = /*@__PURE__*/ S.suspend(() =>
     content: SearchResultContentBlocks,
     citations: S.optional(CitationsConfig),
   }),
-).annotate({
-  identifier: "SearchResultBlock",
-}) as any as S.Schema<SearchResultBlock>;
+).annotate({ identifier: "SearchResultBlock" }) as any as S.Schema<SearchResultBlock>;
 export type ToolResultContentBlock =
   | {
       json: any;
@@ -1249,9 +1170,7 @@ export const ToolResultBlock = /*@__PURE__*/ S.suspend(() =>
     status: S.optional(ToolResultStatus),
     type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ToolResultBlock",
-}) as any as S.Schema<ToolResultBlock>;
+).annotate({ identifier: "ToolResultBlock" }) as any as S.Schema<ToolResultBlock>;
 export type GuardrailConverseContentQualifier =
   | "grounding_source"
   | "query"
@@ -1268,10 +1187,7 @@ export interface GuardrailConverseTextBlock {
   qualifiers?: GuardrailConverseContentQualifier[];
 }
 export const GuardrailConverseTextBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    text: S.String,
-    qualifiers: S.optional(GuardrailConverseContentQualifierList),
-  }),
+  S.Struct({ text: S.String, qualifiers: S.optional(GuardrailConverseContentQualifierList) }),
 ).annotate({
   identifier: "GuardrailConverseTextBlock",
 }) as any as S.Schema<GuardrailConverseTextBlock>;
@@ -1285,10 +1201,7 @@ export interface GuardrailConverseImageBlock {
   source: GuardrailConverseImageSource;
 }
 export const GuardrailConverseImageBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    format: GuardrailConverseImageFormat,
-    source: GuardrailConverseImageSource,
-  }),
+  S.Struct({ format: GuardrailConverseImageFormat, source: GuardrailConverseImageSource }),
 ).annotate({
   identifier: "GuardrailConverseImageBlock",
 }) as any as S.Schema<GuardrailConverseImageBlock>;
@@ -1311,18 +1224,14 @@ export interface CachePointBlock {
 }
 export const CachePointBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ type: CachePointType, ttl: S.optional(CacheTTL) }),
-).annotate({
-  identifier: "CachePointBlock",
-}) as any as S.Schema<CachePointBlock>;
+).annotate({ identifier: "CachePointBlock" }) as any as S.Schema<CachePointBlock>;
 export interface ReasoningTextBlock {
   text: string;
   signature?: string;
 }
 export const ReasoningTextBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ text: S.String, signature: S.optional(S.String) }),
-).annotate({
-  identifier: "ReasoningTextBlock",
-}) as any as S.Schema<ReasoningTextBlock>;
+).annotate({ identifier: "ReasoningTextBlock" }) as any as S.Schema<ReasoningTextBlock>;
 export type ReasoningContentBlock =
   | { reasoningText: ReasoningTextBlock; redactedContent?: never }
   | { reasoningText?: never; redactedContent: Uint8Array };
@@ -1356,9 +1265,7 @@ export const DocumentCharLocation = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.Number),
     end: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DocumentCharLocation",
-}) as any as S.Schema<DocumentCharLocation>;
+).annotate({ identifier: "DocumentCharLocation" }) as any as S.Schema<DocumentCharLocation>;
 export interface DocumentPageLocation {
   documentIndex?: number;
   start?: number;
@@ -1370,9 +1277,7 @@ export const DocumentPageLocation = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.Number),
     end: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DocumentPageLocation",
-}) as any as S.Schema<DocumentPageLocation>;
+).annotate({ identifier: "DocumentPageLocation" }) as any as S.Schema<DocumentPageLocation>;
 export interface DocumentChunkLocation {
   documentIndex?: number;
   start?: number;
@@ -1384,9 +1289,7 @@ export const DocumentChunkLocation = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.Number),
     end: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "DocumentChunkLocation",
-}) as any as S.Schema<DocumentChunkLocation>;
+).annotate({ identifier: "DocumentChunkLocation" }) as any as S.Schema<DocumentChunkLocation>;
 export interface SearchResultLocation {
   searchResultIndex?: number;
   start?: number;
@@ -1398,9 +1301,7 @@ export const SearchResultLocation = /*@__PURE__*/ S.suspend(() =>
     start: S.optional(S.Number),
     end: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SearchResultLocation",
-}) as any as S.Schema<SearchResultLocation>;
+).annotate({ identifier: "SearchResultLocation" }) as any as S.Schema<SearchResultLocation>;
 export type CitationLocation =
   | {
       web: WebLocation;
@@ -1465,13 +1366,8 @@ export interface CitationsContentBlock {
   citations?: Citation[];
 }
 export const CitationsContentBlock = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    content: S.optional(CitationGeneratedContentList),
-    citations: S.optional(Citations),
-  }),
-).annotate({
-  identifier: "CitationsContentBlock",
-}) as any as S.Schema<CitationsContentBlock>;
+  S.Struct({ content: S.optional(CitationGeneratedContentList), citations: S.optional(Citations) }),
+).annotate({ identifier: "CitationsContentBlock" }) as any as S.Schema<CitationsContentBlock>;
 export interface ToolReference {
   type?: string;
   name?: string;
@@ -1489,17 +1385,13 @@ export interface ToolAdditionBlock {
 }
 export const ToolAdditionBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tool: ToolReference }),
-).annotate({
-  identifier: "ToolAdditionBlock",
-}) as any as S.Schema<ToolAdditionBlock>;
+).annotate({ identifier: "ToolAdditionBlock" }) as any as S.Schema<ToolAdditionBlock>;
 export interface ToolRemovalBlock {
   tool: ToolReference;
 }
 export const ToolRemovalBlock = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tool: ToolReference }),
-).annotate({
-  identifier: "ToolRemovalBlock",
-}) as any as S.Schema<ToolRemovalBlock>;
+).annotate({ identifier: "ToolRemovalBlock" }) as any as S.Schema<ToolRemovalBlock>;
 export type ContentBlock =
   | {
       text: string;
@@ -1755,11 +1647,7 @@ export const Messages = /*@__PURE__*/ S.Array(Message);
 export type NonEmptyString = string;
 export type SystemContentBlock =
   | { text: string; guardContent?: never; cachePoint?: never }
-  | {
-      text?: never;
-      guardContent: GuardrailConverseContentBlock;
-      cachePoint?: never;
-    }
+  | { text?: never; guardContent: GuardrailConverseContentBlock; cachePoint?: never }
   | { text?: never; guardContent?: never; cachePoint: CachePointBlock };
 export const SystemContentBlock = /*@__PURE__*/ S.Union([
   S.Struct({ text: S.String }),
@@ -1783,9 +1671,7 @@ export const InferenceConfiguration = /*@__PURE__*/ S.suspend(() =>
     topP: S.optional(S.Number),
     stopSequences: S.optional(NonEmptyStringList),
   }),
-).annotate({
-  identifier: "InferenceConfiguration",
-}) as any as S.Schema<InferenceConfiguration>;
+).annotate({ identifier: "InferenceConfiguration" }) as any as S.Schema<InferenceConfiguration>;
 export type ToolInputSchema = { json: any };
 export const ToolInputSchema = /*@__PURE__*/ S.Union([S.Struct({ json: S.Any })]);
 export interface ToolSpecification {
@@ -1801,9 +1687,7 @@ export const ToolSpecification = /*@__PURE__*/ S.suspend(() =>
     inputSchema: ToolInputSchema,
     strict: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ToolSpecification",
-}) as any as S.Schema<ToolSpecification>;
+).annotate({ identifier: "ToolSpecification" }) as any as S.Schema<ToolSpecification>;
 export interface SystemTool {
   name: string;
 }
@@ -1834,9 +1718,7 @@ export interface SpecificToolChoice {
 }
 export const SpecificToolChoice = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String }),
-).annotate({
-  identifier: "SpecificToolChoice",
-}) as any as S.Schema<SpecificToolChoice>;
+).annotate({ identifier: "SpecificToolChoice" }) as any as S.Schema<SpecificToolChoice>;
 export type ToolChoice =
   | { auto: AutoToolChoice; any?: never; tool?: never }
   | { auto?: never; any: AnyToolChoice; tool?: never }
@@ -1852,9 +1734,7 @@ export interface ToolConfiguration {
 }
 export const ToolConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tools: Tools, toolChoice: S.optional(ToolChoice) }),
-).annotate({
-  identifier: "ToolConfiguration",
-}) as any as S.Schema<ToolConfiguration>;
+).annotate({ identifier: "ToolConfiguration" }) as any as S.Schema<ToolConfiguration>;
 export type GuardrailTrace = "enabled" | "disabled" | "enabled_full" | (string & {});
 export const GuardrailTrace = S.String;
 
@@ -1869,14 +1749,10 @@ export const GuardrailConfiguration = /*@__PURE__*/ S.suspend(() =>
     guardrailVersion: S.optional(S.String),
     trace: S.optional(GuardrailTrace),
   }),
-).annotate({
-  identifier: "GuardrailConfiguration",
-}) as any as S.Schema<GuardrailConfiguration>;
+).annotate({ identifier: "GuardrailConfiguration" }) as any as S.Schema<GuardrailConfiguration>;
 export type PromptVariableValues = { text: string };
 export const PromptVariableValues = /*@__PURE__*/ S.Union([S.Struct({ text: S.String })]);
-export type PromptVariableMap = {
-  [key: string]: PromptVariableValues | undefined;
-};
+export type PromptVariableMap = { [key: string]: PromptVariableValues | undefined };
 export const PromptVariableMap = /*@__PURE__*/ S.Record(
   S.String,
   PromptVariableValues.pipe(S.optional),
@@ -1893,9 +1769,7 @@ export interface PerformanceConfiguration {
 }
 export const PerformanceConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ latency: S.optional(PerformanceConfigLatency) }),
-).annotate({
-  identifier: "PerformanceConfiguration",
-}) as any as S.Schema<PerformanceConfiguration>;
+).annotate({ identifier: "PerformanceConfiguration" }) as any as S.Schema<PerformanceConfiguration>;
 export type ServiceTierType = "priority" | "default" | "flex" | "reserved" | (string & {});
 export const ServiceTierType = S.String;
 
@@ -1914,14 +1788,8 @@ export interface JsonSchemaDefinition {
   description?: string;
 }
 export const JsonSchemaDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    schema: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "JsonSchemaDefinition",
-}) as any as S.Schema<JsonSchemaDefinition>;
+  S.Struct({ schema: S.String, name: S.optional(S.String), description: S.optional(S.String) }),
+).annotate({ identifier: "JsonSchemaDefinition" }) as any as S.Schema<JsonSchemaDefinition>;
 export type OutputFormatStructure = { jsonSchema: JsonSchemaDefinition };
 export const OutputFormatStructure = /*@__PURE__*/ S.Union([
   S.Struct({ jsonSchema: JsonSchemaDefinition }),
@@ -1938,10 +1806,7 @@ export interface OutputConfig {
   effort?: string;
 }
 export const OutputConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    textFormat: S.optional(OutputFormat),
-    effort: S.optional(S.String),
-  }),
+  S.Struct({ textFormat: S.optional(OutputFormat), effort: S.optional(S.String) }),
 ).annotate({ identifier: "OutputConfig" }) as any as S.Schema<OutputConfig>;
 export interface ConverseRequest {
   modelId: string;
@@ -1983,9 +1848,7 @@ export const ConverseRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ConverseRequest",
-}) as any as S.Schema<ConverseRequest>;
+).annotate({ identifier: "ConverseRequest" }) as any as S.Schema<ConverseRequest>;
 export type ConverseOutput = { message: Message };
 export const ConverseOutput = /*@__PURE__*/ S.Union([S.Struct({ message: Message })]);
 export type StopReason =
@@ -2033,21 +1896,15 @@ export interface ConverseMetrics {
 }
 export const ConverseMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ latencyMs: S.Number }),
-).annotate({
-  identifier: "ConverseMetrics",
-}) as any as S.Schema<ConverseMetrics>;
+).annotate({ identifier: "ConverseMetrics" }) as any as S.Schema<ConverseMetrics>;
 export type ModelOutputs = string[];
 export const ModelOutputs = /*@__PURE__*/ S.Array(S.String);
-export type GuardrailAssessmentMap = {
-  [key: string]: GuardrailAssessment | undefined;
-};
+export type GuardrailAssessmentMap = { [key: string]: GuardrailAssessment | undefined };
 export const GuardrailAssessmentMap = /*@__PURE__*/ S.Record(
   S.String,
   GuardrailAssessment.pipe(S.optional),
 );
-export type GuardrailAssessmentListMap = {
-  [key: string]: GuardrailAssessment[] | undefined;
-};
+export type GuardrailAssessmentListMap = { [key: string]: GuardrailAssessment[] | undefined };
 export const GuardrailAssessmentListMap = /*@__PURE__*/ S.Record(
   S.String,
   GuardrailAssessmentList.pipe(S.optional),
@@ -2065,18 +1922,14 @@ export const GuardrailTraceAssessment = /*@__PURE__*/ S.suspend(() =>
     outputAssessments: S.optional(GuardrailAssessmentListMap),
     actionReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GuardrailTraceAssessment",
-}) as any as S.Schema<GuardrailTraceAssessment>;
+).annotate({ identifier: "GuardrailTraceAssessment" }) as any as S.Schema<GuardrailTraceAssessment>;
 export type InvokedModelId = string;
 export interface PromptRouterTrace {
   invokedModelId?: string;
 }
 export const PromptRouterTrace = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ invokedModelId: S.optional(S.String) }),
-).annotate({
-  identifier: "PromptRouterTrace",
-}) as any as S.Schema<PromptRouterTrace>;
+).annotate({ identifier: "PromptRouterTrace" }) as any as S.Schema<PromptRouterTrace>;
 export interface ConverseTrace {
   guardrail?: GuardrailTraceAssessment;
   promptRouter?: PromptRouterTrace;
@@ -2108,9 +1961,7 @@ export const ConverseResponse = /*@__PURE__*/ S.suspend(() =>
     performanceConfig: S.optional(PerformanceConfiguration),
     serviceTier: S.optional(ServiceTier),
   }),
-).annotate({
-  identifier: "ConverseResponse",
-}) as any as S.Schema<ConverseResponse>;
+).annotate({ identifier: "ConverseResponse" }) as any as S.Schema<ConverseResponse>;
 export type GuardrailStreamProcessingMode = "sync" | "async" | (string & {});
 export const GuardrailStreamProcessingMode = S.String;
 
@@ -2170,31 +2021,21 @@ export const ConverseStreamRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ConverseStreamRequest",
-}) as any as S.Schema<ConverseStreamRequest>;
+).annotate({ identifier: "ConverseStreamRequest" }) as any as S.Schema<ConverseStreamRequest>;
 export interface MessageStartEvent {
   role: ConversationRole;
 }
 export const MessageStartEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ role: ConversationRole }),
-).annotate({
-  identifier: "MessageStartEvent",
-}) as any as S.Schema<MessageStartEvent>;
+).annotate({ identifier: "MessageStartEvent" }) as any as S.Schema<MessageStartEvent>;
 export interface ToolUseBlockStart {
   toolUseId: string;
   name: string;
   type?: ToolUseType;
 }
 export const ToolUseBlockStart = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    toolUseId: S.String,
-    name: S.String,
-    type: S.optional(ToolUseType),
-  }),
-).annotate({
-  identifier: "ToolUseBlockStart",
-}) as any as S.Schema<ToolUseBlockStart>;
+  S.Struct({ toolUseId: S.String, name: S.String, type: S.optional(ToolUseType) }),
+).annotate({ identifier: "ToolUseBlockStart" }) as any as S.Schema<ToolUseBlockStart>;
 export interface ToolResultBlockStart {
   toolUseId: string;
   type?: string;
@@ -2206,17 +2047,13 @@ export const ToolResultBlockStart = /*@__PURE__*/ S.suspend(() =>
     type: S.optional(S.String),
     status: S.optional(ToolResultStatus),
   }),
-).annotate({
-  identifier: "ToolResultBlockStart",
-}) as any as S.Schema<ToolResultBlockStart>;
+).annotate({ identifier: "ToolResultBlockStart" }) as any as S.Schema<ToolResultBlockStart>;
 export interface ImageBlockStart {
   format: ImageFormat;
 }
 export const ImageBlockStart = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ format: ImageFormat }),
-).annotate({
-  identifier: "ImageBlockStart",
-}) as any as S.Schema<ImageBlockStart>;
+).annotate({ identifier: "ImageBlockStart" }) as any as S.Schema<ImageBlockStart>;
 export type ContentBlockStart =
   | { toolUse: ToolUseBlockStart; toolResult?: never; image?: never }
   | { toolUse?: never; toolResult: ToolResultBlockStart; image?: never }
@@ -2233,17 +2070,13 @@ export interface ContentBlockStartEvent {
 }
 export const ContentBlockStartEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ start: ContentBlockStart, contentBlockIndex: S.Number }),
-).annotate({
-  identifier: "ContentBlockStartEvent",
-}) as any as S.Schema<ContentBlockStartEvent>;
+).annotate({ identifier: "ContentBlockStartEvent" }) as any as S.Schema<ContentBlockStartEvent>;
 export interface ToolUseBlockDelta {
   input: string;
 }
 export const ToolUseBlockDelta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ input: S.String }),
-).annotate({
-  identifier: "ToolUseBlockDelta",
-}) as any as S.Schema<ToolUseBlockDelta>;
+).annotate({ identifier: "ToolUseBlockDelta" }) as any as S.Schema<ToolUseBlockDelta>;
 export type ToolResultBlockDelta = { text: string; json?: never } | { text?: never; json: any };
 export const ToolResultBlockDelta = /*@__PURE__*/ S.Union([
   S.Struct({ text: S.String }),
@@ -2290,9 +2123,7 @@ export interface ImageBlockDelta {
 }
 export const ImageBlockDelta = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ source: S.optional(ImageSource), error: S.optional(ErrorBlock) }),
-).annotate({
-  identifier: "ImageBlockDelta",
-}) as any as S.Schema<ImageBlockDelta>;
+).annotate({ identifier: "ImageBlockDelta" }) as any as S.Schema<ImageBlockDelta>;
 export type ContentBlockDelta =
   | {
       text: string;
@@ -2356,37 +2187,26 @@ export interface ContentBlockDeltaEvent {
 }
 export const ContentBlockDeltaEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ delta: ContentBlockDelta, contentBlockIndex: S.Number }),
-).annotate({
-  identifier: "ContentBlockDeltaEvent",
-}) as any as S.Schema<ContentBlockDeltaEvent>;
+).annotate({ identifier: "ContentBlockDeltaEvent" }) as any as S.Schema<ContentBlockDeltaEvent>;
 export interface ContentBlockStopEvent {
   contentBlockIndex: number;
 }
 export const ContentBlockStopEvent = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ contentBlockIndex: S.Number }),
-).annotate({
-  identifier: "ContentBlockStopEvent",
-}) as any as S.Schema<ContentBlockStopEvent>;
+).annotate({ identifier: "ContentBlockStopEvent" }) as any as S.Schema<ContentBlockStopEvent>;
 export interface MessageStopEvent {
   stopReason: StopReason;
   additionalModelResponseFields?: any;
 }
 export const MessageStopEvent = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    stopReason: StopReason,
-    additionalModelResponseFields: S.optional(S.Any),
-  }),
-).annotate({
-  identifier: "MessageStopEvent",
-}) as any as S.Schema<MessageStopEvent>;
+  S.Struct({ stopReason: StopReason, additionalModelResponseFields: S.optional(S.Any) }),
+).annotate({ identifier: "MessageStopEvent" }) as any as S.Schema<MessageStopEvent>;
 export interface ConverseStreamMetrics {
   latencyMs: number;
 }
 export const ConverseStreamMetrics = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ latencyMs: S.Number }),
-).annotate({
-  identifier: "ConverseStreamMetrics",
-}) as any as S.Schema<ConverseStreamMetrics>;
+).annotate({ identifier: "ConverseStreamMetrics" }) as any as S.Schema<ConverseStreamMetrics>;
 export interface ConverseStreamTrace {
   guardrail?: GuardrailTraceAssessment;
   promptRouter?: PromptRouterTrace;
@@ -2396,9 +2216,7 @@ export const ConverseStreamTrace = /*@__PURE__*/ S.suspend(() =>
     guardrail: S.optional(GuardrailTraceAssessment),
     promptRouter: S.optional(PromptRouterTrace),
   }),
-).annotate({
-  identifier: "ConverseStreamTrace",
-}) as any as S.Schema<ConverseStreamTrace>;
+).annotate({ identifier: "ConverseStreamTrace" }) as any as S.Schema<ConverseStreamTrace>;
 export interface ConverseStreamMetadataEvent {
   usage: TokenUsage;
   metrics: ConverseStreamMetrics;
@@ -2603,9 +2421,7 @@ export interface ConverseStreamResponse {
 }
 export const ConverseStreamResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ stream: S.optional(ConverseStreamOutput).pipe(T.HttpPayload()) }),
-).annotate({
-  identifier: "ConverseStreamResponse",
-}) as any as S.Schema<ConverseStreamResponse>;
+).annotate({ identifier: "ConverseStreamResponse" }) as any as S.Schema<ConverseStreamResponse>;
 export type FoundationModelVersionIdentifier = string;
 export type Body = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface InvokeModelTokensRequest {
@@ -2613,9 +2429,7 @@ export interface InvokeModelTokensRequest {
 }
 export const InvokeModelTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ body: SensitiveBlob }),
-).annotate({
-  identifier: "InvokeModelTokensRequest",
-}) as any as S.Schema<InvokeModelTokensRequest>;
+).annotate({ identifier: "InvokeModelTokensRequest" }) as any as S.Schema<InvokeModelTokensRequest>;
 export interface ConverseTokensRequest {
   messages?: Message[];
   system?: SystemContentBlock[];
@@ -2629,9 +2443,7 @@ export const ConverseTokensRequest = /*@__PURE__*/ S.suspend(() =>
     toolConfig: S.optional(ToolConfiguration),
     additionalModelRequestFields: S.optional(S.Any),
   }),
-).annotate({
-  identifier: "ConverseTokensRequest",
-}) as any as S.Schema<ConverseTokensRequest>;
+).annotate({ identifier: "ConverseTokensRequest" }) as any as S.Schema<ConverseTokensRequest>;
 export type CountTokensInput =
   | { invokeModel: InvokeModelTokensRequest; converse?: never }
   | { invokeModel?: never; converse: ConverseTokensRequest };
@@ -2644,10 +2456,7 @@ export interface CountTokensRequest {
   input: CountTokensInput;
 }
 export const CountTokensRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    modelId: S.String.pipe(T.HttpLabel("modelId")),
-    input: CountTokensInput,
-  }).pipe(
+  S.Struct({ modelId: S.String.pipe(T.HttpLabel("modelId")), input: CountTokensInput }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/model/{modelId}/count-tokens" }),
       svc,
@@ -2657,17 +2466,13 @@ export const CountTokensRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CountTokensRequest",
-}) as any as S.Schema<CountTokensRequest>;
+).annotate({ identifier: "CountTokensRequest" }) as any as S.Schema<CountTokensRequest>;
 export interface CountTokensResponse {
   inputTokens: number;
 }
 export const CountTokensResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ inputTokens: S.Number }),
-).annotate({
-  identifier: "CountTokensResponse",
-}) as any as S.Schema<CountTokensResponse>;
+).annotate({ identifier: "CountTokensResponse" }) as any as S.Schema<CountTokensResponse>;
 export type InvocationArn = string;
 export interface GetAsyncInvokeRequest {
   invocationArn: string;
@@ -2683,9 +2488,7 @@ export const GetAsyncInvokeRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "GetAsyncInvokeRequest",
-}) as any as S.Schema<GetAsyncInvokeRequest>;
+).annotate({ identifier: "GetAsyncInvokeRequest" }) as any as S.Schema<GetAsyncInvokeRequest>;
 export type AsyncInvokeArn = string;
 export type AsyncInvokeIdempotencyToken = string;
 export type AsyncInvokeStatus = "InProgress" | "Completed" | "Failed" | (string & {});
@@ -2699,17 +2502,11 @@ export interface AsyncInvokeS3OutputDataConfig {
   bucketOwner?: string;
 }
 export const AsyncInvokeS3OutputDataConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    s3Uri: S.String,
-    kmsKeyId: S.optional(S.String),
-    bucketOwner: S.optional(S.String),
-  }),
+  S.Struct({ s3Uri: S.String, kmsKeyId: S.optional(S.String), bucketOwner: S.optional(S.String) }),
 ).annotate({
   identifier: "AsyncInvokeS3OutputDataConfig",
 }) as any as S.Schema<AsyncInvokeS3OutputDataConfig>;
-export type AsyncInvokeOutputDataConfig = {
-  s3OutputDataConfig: AsyncInvokeS3OutputDataConfig;
-};
+export type AsyncInvokeOutputDataConfig = { s3OutputDataConfig: AsyncInvokeS3OutputDataConfig };
 export const AsyncInvokeOutputDataConfig = /*@__PURE__*/ S.Union([
   S.Struct({ s3OutputDataConfig: AsyncInvokeS3OutputDataConfig }),
 ]);
@@ -2736,16 +2533,12 @@ export const GetAsyncInvokeResponse = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     outputDataConfig: AsyncInvokeOutputDataConfig,
   }),
-).annotate({
-  identifier: "GetAsyncInvokeResponse",
-}) as any as S.Schema<GetAsyncInvokeResponse>;
+).annotate({ identifier: "GetAsyncInvokeResponse" }) as any as S.Schema<GetAsyncInvokeResponse>;
 export type GuardrailChecksRole = "user" | "assistant" | "system" | (string & {});
 export const GuardrailChecksRole = S.String;
 
 export type GuardrailChecksTextContent = string | redacted.Redacted<string>;
-export type GuardrailChecksContentBlock = {
-  text: string | redacted.Redacted<string>;
-};
+export type GuardrailChecksContentBlock = { text: string | redacted.Redacted<string> };
 export const GuardrailChecksContentBlock = /*@__PURE__*/ S.Union([
   S.Struct({ text: SensitiveString }),
 ]);
@@ -2756,13 +2549,8 @@ export interface GuardrailChecksMessage {
   content: GuardrailChecksContentBlock[];
 }
 export const GuardrailChecksMessage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    role: GuardrailChecksRole,
-    content: GuardrailChecksContentBlockList,
-  }),
-).annotate({
-  identifier: "GuardrailChecksMessage",
-}) as any as S.Schema<GuardrailChecksMessage>;
+  S.Struct({ role: GuardrailChecksRole, content: GuardrailChecksContentBlockList }),
+).annotate({ identifier: "GuardrailChecksMessage" }) as any as S.Schema<GuardrailChecksMessage>;
 export type GuardrailChecksMessageList = GuardrailChecksMessage[];
 export const GuardrailChecksMessageList = /*@__PURE__*/ S.Array(GuardrailChecksMessage);
 export type GuardrailChecksContentFilterCategory =
@@ -2890,18 +2678,13 @@ export const GuardrailChecksConfig = /*@__PURE__*/ S.suspend(() =>
     promptAttack: S.optional(GuardrailChecksPromptAttackConfig),
     sensitiveInformation: S.optional(GuardrailChecksSensitiveInformationConfig),
   }),
-).annotate({
-  identifier: "GuardrailChecksConfig",
-}) as any as S.Schema<GuardrailChecksConfig>;
+).annotate({ identifier: "GuardrailChecksConfig" }) as any as S.Schema<GuardrailChecksConfig>;
 export interface InvokeGuardrailChecksRequest {
   messages: GuardrailChecksMessage[];
   checks: GuardrailChecksConfig;
 }
 export const InvokeGuardrailChecksRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    messages: GuardrailChecksMessageList,
-    checks: GuardrailChecksConfig,
-  }).pipe(
+  S.Struct({ messages: GuardrailChecksMessageList, checks: GuardrailChecksConfig }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/guardrail-checks/invoke" }),
       svc,
@@ -2919,10 +2702,7 @@ export interface GuardrailChecksContentFilterResultEntry {
   severityScore: number;
 }
 export const GuardrailChecksContentFilterResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: GuardrailChecksContentFilterCategory,
-    severityScore: S.Number,
-  }),
+  S.Struct({ category: GuardrailChecksContentFilterCategory, severityScore: S.Number }),
 ).annotate({
   identifier: "GuardrailChecksContentFilterResultEntry",
 }) as any as S.Schema<GuardrailChecksContentFilterResultEntry>;
@@ -2943,10 +2723,7 @@ export interface GuardrailChecksPromptAttackResultEntry {
   severityScore: number;
 }
 export const GuardrailChecksPromptAttackResultEntry = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    category: GuardrailChecksPromptAttackCategory,
-    severityScore: S.Number,
-  }),
+  S.Struct({ category: GuardrailChecksPromptAttackCategory, severityScore: S.Number }),
 ).annotate({
   identifier: "GuardrailChecksPromptAttackResultEntry",
 }) as any as S.Schema<GuardrailChecksPromptAttackResultEntry>;
@@ -3010,9 +2787,7 @@ export const GuardrailChecksResults = /*@__PURE__*/ S.suspend(() =>
     promptAttack: S.optional(GuardrailChecksPromptAttackResult),
     sensitiveInformation: S.optional(GuardrailChecksSensitiveInformationResult),
   }),
-).annotate({
-  identifier: "GuardrailChecksResults",
-}) as any as S.Schema<GuardrailChecksResults>;
+).annotate({ identifier: "GuardrailChecksResults" }) as any as S.Schema<GuardrailChecksResults>;
 export interface GuardrailChecksContentFilterUsage {
   textUnits: number;
 }
@@ -3056,10 +2831,7 @@ export interface InvokeGuardrailChecksResponse {
   usage: GuardrailChecksUsageResults;
 }
 export const InvokeGuardrailChecksResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    results: GuardrailChecksResults,
-    usage: GuardrailChecksUsageResults,
-  }),
+  S.Struct({ results: GuardrailChecksResults, usage: GuardrailChecksUsageResults }),
 ).annotate({
   identifier: "InvokeGuardrailChecksResponse",
 }) as any as S.Schema<InvokeGuardrailChecksResponse>;
@@ -3102,9 +2874,7 @@ export const InvokeModelRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/model/{modelId}/invoke" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "InvokeModelRequest",
-}) as any as S.Schema<InvokeModelRequest>;
+).annotate({ identifier: "InvokeModelRequest" }) as any as S.Schema<InvokeModelRequest>;
 export interface InvokeModelResponse {
   body: T.StreamingOutputBody;
   contentType: string;
@@ -3120,9 +2890,7 @@ export const InvokeModelResponse = /*@__PURE__*/ S.suspend(() =>
     ),
     serviceTier: S.optional(ServiceTierType).pipe(T.HttpHeader("X-Amzn-Bedrock-Service-Tier")),
   }),
-).annotate({
-  identifier: "InvokeModelResponse",
-}) as any as S.Schema<InvokeModelResponse>;
+).annotate({ identifier: "InvokeModelResponse" }) as any as S.Schema<InvokeModelResponse>;
 export type PartBody = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface BidirectionalInputPayloadPart {
   bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
@@ -3132,9 +2900,7 @@ export const BidirectionalInputPayloadPart = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BidirectionalInputPayloadPart",
 }) as any as S.Schema<BidirectionalInputPayloadPart>;
-export type InvokeModelWithBidirectionalStreamInput = {
-  chunk: BidirectionalInputPayloadPart;
-};
+export type InvokeModelWithBidirectionalStreamInput = { chunk: BidirectionalInputPayloadPart };
 export const InvokeModelWithBidirectionalStreamInput = /*@__PURE__*/ T.InputEventStream(
   S.Union([S.Struct({ chunk: BidirectionalInputPayloadPart })]),
 ) as any as S.Schema<stream.Stream<InvokeModelWithBidirectionalStreamInput, Error, never>>;
@@ -3148,10 +2914,7 @@ export const InvokeModelWithBidirectionalStreamRequest = /*@__PURE__*/ S.suspend
     body: InvokeModelWithBidirectionalStreamInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model/{modelId}/invoke-with-bidirectional-stream",
-      }),
+      T.Http({ method: "POST", uri: "/model/{modelId}/invoke-with-bidirectional-stream" }),
       svc,
       auth,
       proto,
@@ -3273,9 +3036,7 @@ export interface InvokeModelWithBidirectionalStreamResponse {
   body: stream.Stream<InvokeModelWithBidirectionalStreamOutput, Error, never>;
 }
 export const InvokeModelWithBidirectionalStreamResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    body: InvokeModelWithBidirectionalStreamOutput.pipe(T.HttpPayload()),
-  }),
+  S.Struct({ body: InvokeModelWithBidirectionalStreamOutput.pipe(T.HttpPayload()) }),
 ).annotate({
   identifier: "InvokeModelWithBidirectionalStreamResponse",
 }) as any as S.Schema<InvokeModelWithBidirectionalStreamResponse>;
@@ -3311,10 +3072,7 @@ export const InvokeModelWithResponseStreamRequest = /*@__PURE__*/ S.suspend(() =
     ),
   }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/model/{modelId}/invoke-with-response-stream",
-      }),
+      T.Http({ method: "POST", uri: "/model/{modelId}/invoke-with-response-stream" }),
       svc,
       auth,
       proto,
@@ -3479,9 +3237,7 @@ export const ListAsyncInvokesRequest = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(SortAsyncInvocationBy).pipe(T.HttpQuery("sortBy")),
     sortOrder: S.optional(SortOrder).pipe(T.HttpQuery("sortOrder")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/async-invoke" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAsyncInvokesRequest",
-}) as any as S.Schema<ListAsyncInvokesRequest>;
+).annotate({ identifier: "ListAsyncInvokesRequest" }) as any as S.Schema<ListAsyncInvokesRequest>;
 export interface AsyncInvokeSummary {
   invocationArn: string;
   modelArn: string;
@@ -3505,9 +3261,7 @@ export const AsyncInvokeSummary = /*@__PURE__*/ S.suspend(() =>
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     outputDataConfig: AsyncInvokeOutputDataConfig,
   }),
-).annotate({
-  identifier: "AsyncInvokeSummary",
-}) as any as S.Schema<AsyncInvokeSummary>;
+).annotate({ identifier: "AsyncInvokeSummary" }) as any as S.Schema<AsyncInvokeSummary>;
 export type AsyncInvokeSummaries = AsyncInvokeSummary[];
 export const AsyncInvokeSummaries = /*@__PURE__*/ S.Array(AsyncInvokeSummary);
 export interface ListAsyncInvokesResponse {
@@ -3519,9 +3273,7 @@ export const ListAsyncInvokesResponse = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     asyncInvokeSummaries: S.optional(AsyncInvokeSummaries),
   }),
-).annotate({
-  identifier: "ListAsyncInvokesResponse",
-}) as any as S.Schema<ListAsyncInvokesResponse>;
+).annotate({ identifier: "ListAsyncInvokesResponse" }) as any as S.Schema<ListAsyncInvokesResponse>;
 export type AsyncInvokeIdentifier = string;
 export type ModelInputPayload = unknown;
 export type TagKey = string;
@@ -3550,17 +3302,13 @@ export const StartAsyncInvokeRequest = /*@__PURE__*/ S.suspend(() =>
     outputDataConfig: AsyncInvokeOutputDataConfig,
     tags: S.optional(TagList),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/async-invoke" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartAsyncInvokeRequest",
-}) as any as S.Schema<StartAsyncInvokeRequest>;
+).annotate({ identifier: "StartAsyncInvokeRequest" }) as any as S.Schema<StartAsyncInvokeRequest>;
 export interface StartAsyncInvokeResponse {
   invocationArn: string;
 }
 export const StartAsyncInvokeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ invocationArn: S.String }),
-).annotate({
-  identifier: "StartAsyncInvokeResponse",
-}) as any as S.Schema<StartAsyncInvokeResponse>;
+).annotate({ identifier: "StartAsyncInvokeResponse" }) as any as S.Schema<StartAsyncInvokeResponse>;
 export type ApplyGuardrailError =
   | AccessDeniedException
   | InternalServerException

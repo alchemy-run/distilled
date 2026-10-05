@@ -24,16 +24,9 @@ const rules = T.EndpointResolver((p, _) => {
     type: "error" as const,
     message: m as string,
   });
-  const _p0 = () => ({
-    authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }],
-  });
+  const _p0 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "eusc-de-east-1" }] });
   const _p1 = (_0: unknown) => ({
-    authSchemes: [
-      {
-        name: "sigv4",
-        signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}`,
-      },
-    ],
+    authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
@@ -66,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
         ) {
           return e(
             "https://ce.cn-northwest-1.api.amazonwebservices.com.cn",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }],
-            },
+            { authSchemes: [{ name: "sigv4", signingRegion: "cn-northwest-1" }] },
             {},
           );
         }
@@ -79,9 +70,7 @@ const rules = T.EndpointResolver((p, _) => {
         ) {
           return e(
             "https://ce.us-iso-east-1.c2s.ic.gov",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "us-iso-east-1" }],
-            },
+            { authSchemes: [{ name: "sigv4", signingRegion: "us-iso-east-1" }] },
             {},
           );
         }
@@ -92,9 +81,7 @@ const rules = T.EndpointResolver((p, _) => {
         ) {
           return e(
             "https://ce.us-isob-east-1.sc2s.sgov.gov",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "us-isob-east-1" }],
-            },
+            { authSchemes: [{ name: "sigv4", signingRegion: "us-isob-east-1" }] },
             {},
           );
         }
@@ -105,9 +92,7 @@ const rules = T.EndpointResolver((p, _) => {
         ) {
           return e(
             "https://ce.eu-isoe-west-1.cloud.adc-e.uk",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "eu-isoe-west-1" }],
-            },
+            { authSchemes: [{ name: "sigv4", signingRegion: "eu-isoe-west-1" }] },
             {},
           );
         }
@@ -118,9 +103,7 @@ const rules = T.EndpointResolver((p, _) => {
         ) {
           return e(
             "https://ce.us-isof-south-1.csp.hci.ic.gov",
-            {
-              authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }],
-            },
+            { authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }] },
             {},
           );
         }
@@ -205,9 +188,7 @@ export class AnomalySubscriptionAlreadyExists
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.SyntheticError({
       from: "ValidationException",
-      message: {
-        includes: "same subscription name as an existing subscription",
-      },
+      message: { includes: "same subscription name as an existing subscription" },
     }),
   ).pipe(C.withAlreadyExistsError, C.withConflictError) {}
 export class BackfillLimitExceededException
@@ -250,10 +231,7 @@ export class RequestChangedException
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ResourceName: S.optional(S.String) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class RightsizingRecommendationNotEnabled
@@ -274,10 +252,7 @@ export class ServiceQuotaExceededException
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ResourceName: S.optional(S.String),
-    },
+    { message: S.optional(S.String).pipe(T.ErrorMessage()), ResourceName: S.optional(S.String) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class UnknownMonitorException
@@ -311,9 +286,7 @@ export const MonitorDimension = S.String;
 
 export type Expressions = Expression[];
 export const Expressions = /*@__PURE__*/ S.Array(
-  S.suspend((): S.Schema<Expression> => Expression).annotate({
-    identifier: "Expression",
-  }),
+  S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
 ) as any as S.Schema<Expressions>;
 export type Dimension =
   | "AZ"
@@ -382,9 +355,7 @@ export const DimensionValues = /*@__PURE__*/ S.suspend(() =>
     Values: S.optional(Values),
     MatchOptions: S.optional(MatchOptions),
   }),
-).annotate({
-  identifier: "DimensionValues",
-}) as any as S.Schema<DimensionValues>;
+).annotate({ identifier: "DimensionValues" }) as any as S.Schema<DimensionValues>;
 export type TagKey = string;
 export interface TagValues {
   Key?: string;
@@ -410,9 +381,7 @@ export const CostCategoryValues = /*@__PURE__*/ S.suspend(() =>
     Values: S.optional(Values),
     MatchOptions: S.optional(MatchOptions),
   }),
-).annotate({
-  identifier: "CostCategoryValues",
-}) as any as S.Schema<CostCategoryValues>;
+).annotate({ identifier: "CostCategoryValues" }) as any as S.Schema<CostCategoryValues>;
 export interface Expression {
   Or?: Expression[];
   And?: Expression[];
@@ -426,9 +395,7 @@ export const Expression = /*@__PURE__*/ S.suspend(() =>
     Or: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
     And: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
     Not: S.optional(
-      S.suspend((): S.Schema<Expression> => Expression).annotate({
-        identifier: "Expression",
-      }),
+      S.suspend((): S.Schema<Expression> => Expression).annotate({ identifier: "Expression" }),
     ),
     Dimensions: S.optional(DimensionValues),
     Tags: S.optional(TagValues),
@@ -476,10 +443,9 @@ export interface CreateAnomalyMonitorRequest {
   ResourceTags?: ResourceTag[];
 }
 export const CreateAnomalyMonitorRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnomalyMonitor: AnomalyMonitor,
-    ResourceTags: S.optional(ResourceTagList),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ AnomalyMonitor: AnomalyMonitor, ResourceTags: S.optional(ResourceTagList) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CreateAnomalyMonitorRequest",
 }) as any as S.Schema<CreateAnomalyMonitorRequest>;
@@ -540,9 +506,7 @@ export const AnomalySubscription = /*@__PURE__*/ S.suspend(() =>
     SubscriptionName: S.String,
     ThresholdExpression: S.optional(Expression),
   }),
-).annotate({
-  identifier: "AnomalySubscription",
-}) as any as S.Schema<AnomalySubscription>;
+).annotate({ identifier: "AnomalySubscription" }) as any as S.Schema<AnomalySubscription>;
 export interface CreateAnomalySubscriptionRequest {
   AnomalySubscription: AnomalySubscription;
   ResourceTags?: ResourceTag[];
@@ -599,9 +563,7 @@ export const CostCategoryRule = /*@__PURE__*/ S.suspend(() =>
     InheritedValue: S.optional(CostCategoryInheritedValueDimension),
     Type: S.optional(CostCategoryRuleType),
   }),
-).annotate({
-  identifier: "CostCategoryRule",
-}) as any as S.Schema<CostCategoryRule>;
+).annotate({ identifier: "CostCategoryRule" }) as any as S.Schema<CostCategoryRule>;
 export type CostCategoryRulesList = CostCategoryRule[];
 export const CostCategoryRulesList = /*@__PURE__*/ S.Array(CostCategoryRule);
 export type CostCategorySplitChargeRuleTargetsList = string[];
@@ -675,10 +637,7 @@ export interface CreateCostCategoryDefinitionResponse {
   EffectiveStart?: string;
 }
 export const CreateCostCategoryDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CostCategoryArn: S.optional(S.String),
-    EffectiveStart: S.optional(S.String),
-  }),
+  S.Struct({ CostCategoryArn: S.optional(S.String), EffectiveStart: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateCostCategoryDefinitionResponse",
 }) as any as S.Schema<CreateCostCategoryDefinitionResponse>;
@@ -727,10 +686,7 @@ export interface DeleteCostCategoryDefinitionResponse {
   EffectiveEnd?: string;
 }
 export const DeleteCostCategoryDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CostCategoryArn: S.optional(S.String),
-    EffectiveEnd: S.optional(S.String),
-  }),
+  S.Struct({ CostCategoryArn: S.optional(S.String), EffectiveEnd: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteCostCategoryDefinitionResponse",
 }) as any as S.Schema<DeleteCostCategoryDefinitionResponse>;
@@ -739,10 +695,9 @@ export interface DescribeCostCategoryDefinitionRequest {
   EffectiveOn?: string;
 }
 export const DescribeCostCategoryDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CostCategoryArn: S.String,
-    EffectiveOn: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ CostCategoryArn: S.String, EffectiveOn: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeCostCategoryDefinitionRequest",
 }) as any as S.Schema<DescribeCostCategoryDefinitionRequest>;
@@ -804,9 +759,7 @@ export interface AnomalyDateInterval {
 }
 export const AnomalyDateInterval = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StartDate: S.String, EndDate: S.optional(S.String) }),
-).annotate({
-  identifier: "AnomalyDateInterval",
-}) as any as S.Schema<AnomalyDateInterval>;
+).annotate({ identifier: "AnomalyDateInterval" }) as any as S.Schema<AnomalyDateInterval>;
 export type AnomalyFeedbackType = "YES" | "NO" | "PLANNED_ACTIVITY" | (string & {});
 export const AnomalyFeedbackType = S.String;
 
@@ -831,9 +784,7 @@ export const TotalImpactFilter = /*@__PURE__*/ S.suspend(() =>
     StartValue: S.Number,
     EndValue: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "TotalImpactFilter",
-}) as any as S.Schema<TotalImpactFilter>;
+).annotate({ identifier: "TotalImpactFilter" }) as any as S.Schema<TotalImpactFilter>;
 export type NextPageToken = string;
 export type PageSize = number;
 export interface GetAnomaliesRequest {
@@ -853,17 +804,13 @@ export const GetAnomaliesRequest = /*@__PURE__*/ S.suspend(() =>
     NextPageToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetAnomaliesRequest",
-}) as any as S.Schema<GetAnomaliesRequest>;
+).annotate({ identifier: "GetAnomaliesRequest" }) as any as S.Schema<GetAnomaliesRequest>;
 export interface RootCauseImpact {
   Contribution: number;
 }
 export const RootCauseImpact = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Contribution: S.Number }),
-).annotate({
-  identifier: "RootCauseImpact",
-}) as any as S.Schema<RootCauseImpact>;
+).annotate({ identifier: "RootCauseImpact" }) as any as S.Schema<RootCauseImpact>;
 export interface RootCause {
   Service?: string;
   Region?: string;
@@ -939,9 +886,7 @@ export interface GetAnomaliesResponse {
 }
 export const GetAnomaliesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Anomalies: Anomalies, NextPageToken: S.optional(S.String) }),
-).annotate({
-  identifier: "GetAnomaliesResponse",
-}) as any as S.Schema<GetAnomaliesResponse>;
+).annotate({ identifier: "GetAnomaliesResponse" }) as any as S.Schema<GetAnomaliesResponse>;
 export interface GetAnomalyMonitorsRequest {
   MonitorArnList?: string[];
   NextPageToken?: string;
@@ -963,10 +908,7 @@ export interface GetAnomalyMonitorsResponse {
   NextPageToken?: string;
 }
 export const GetAnomalyMonitorsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnomalyMonitors: AnomalyMonitors,
-    NextPageToken: S.optional(S.String),
-  }),
+  S.Struct({ AnomalyMonitors: AnomalyMonitors, NextPageToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetAnomalyMonitorsResponse",
 }) as any as S.Schema<GetAnomalyMonitorsResponse>;
@@ -993,10 +935,7 @@ export interface GetAnomalySubscriptionsResponse {
   NextPageToken?: string;
 }
 export const GetAnomalySubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AnomalySubscriptions: AnomalySubscriptions,
-    NextPageToken: S.optional(S.String),
-  }),
+  S.Struct({ AnomalySubscriptions: AnomalySubscriptions, NextPageToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetAnomalySubscriptionsResponse",
 }) as any as S.Schema<GetAnomalySubscriptionsResponse>;
@@ -1023,9 +962,7 @@ export const GetApproximateUsageRecordsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetApproximateUsageRecordsRequest",
 }) as any as S.Schema<GetApproximateUsageRecordsRequest>;
 export type NonNegativeLong = number;
-export type ApproximateUsageRecordsPerService = {
-  [key: string]: number | undefined;
-};
+export type ApproximateUsageRecordsPerService = { [key: string]: number | undefined };
 export const ApproximateUsageRecordsPerService = /*@__PURE__*/ S.Record(
   S.String,
   S.Number.pipe(S.optional),
@@ -1153,9 +1090,7 @@ export const AnalysisDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SavingsPlansPurchaseAnalysisDetails: S.optional(SavingsPlansPurchaseAnalysisDetails),
   }),
-).annotate({
-  identifier: "AnalysisDetails",
-}) as any as S.Schema<AnalysisDetails>;
+).annotate({ identifier: "AnalysisDetails" }) as any as S.Schema<AnalysisDetails>;
 export type AccountScope = "PAYER" | "LINKED" | (string & {});
 export const AccountScope = S.String;
 
@@ -1285,13 +1220,8 @@ export interface GroupDefinition {
   Key?: string;
 }
 export const GroupDefinition = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Type: S.optional(GroupDefinitionType),
-    Key: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GroupDefinition",
-}) as any as S.Schema<GroupDefinition>;
+  S.Struct({ Type: S.optional(GroupDefinitionType), Key: S.optional(S.String) }),
+).annotate({ identifier: "GroupDefinition" }) as any as S.Schema<GroupDefinition>;
 export type GroupDefinitions = GroupDefinition[];
 export const GroupDefinitions = /*@__PURE__*/ S.Array(GroupDefinition);
 export type BillingViewArn = string;
@@ -1314,9 +1244,7 @@ export const GetCostAndUsageRequest = /*@__PURE__*/ S.suspend(() =>
     BillingViewArn: S.optional(S.String),
     NextPageToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetCostAndUsageRequest",
-}) as any as S.Schema<GetCostAndUsageRequest>;
+).annotate({ identifier: "GetCostAndUsageRequest" }) as any as S.Schema<GetCostAndUsageRequest>;
 export type MetricAmount = string;
 export type MetricUnit = string;
 export interface MetricValue {
@@ -1387,9 +1315,7 @@ export const GetCostAndUsageResponse = /*@__PURE__*/ S.suspend(() =>
     ResultsByTime: S.optional(ResultsByTime),
     DimensionValueAttributes: S.optional(DimensionValuesWithAttributesList),
   }),
-).annotate({
-  identifier: "GetCostAndUsageResponse",
-}) as any as S.Schema<GetCostAndUsageResponse>;
+).annotate({ identifier: "GetCostAndUsageResponse" }) as any as S.Schema<GetCostAndUsageResponse>;
 export type CostAndUsageComparisonsMaxResults = number;
 export interface GetCostAndUsageComparisonsRequest {
   BillingViewArn?: string;
@@ -1428,12 +1354,8 @@ export const ComparisonMetricValue = /*@__PURE__*/ S.suspend(() =>
     Difference: S.optional(S.String),
     Unit: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ComparisonMetricValue",
-}) as any as S.Schema<ComparisonMetricValue>;
-export type ComparisonMetrics = {
-  [key: string]: ComparisonMetricValue | undefined;
-};
+).annotate({ identifier: "ComparisonMetricValue" }) as any as S.Schema<ComparisonMetricValue>;
+export type ComparisonMetrics = { [key: string]: ComparisonMetricValue | undefined };
 export const ComparisonMetrics = /*@__PURE__*/ S.Record(
   S.String,
   ComparisonMetricValue.pipe(S.optional),
@@ -1447,9 +1369,7 @@ export const CostAndUsageComparison = /*@__PURE__*/ S.suspend(() =>
     CostAndUsageSelector: S.optional(Expression),
     Metrics: S.optional(ComparisonMetrics),
   }),
-).annotate({
-  identifier: "CostAndUsageComparison",
-}) as any as S.Schema<CostAndUsageComparison>;
+).annotate({ identifier: "CostAndUsageComparison" }) as any as S.Schema<CostAndUsageComparison>;
 export type CostAndUsageComparisons = CostAndUsageComparison[];
 export const CostAndUsageComparisons = /*@__PURE__*/ S.Array(CostAndUsageComparison);
 export interface GetCostAndUsageComparisonsResponse {
@@ -1540,9 +1460,7 @@ export const GetCostCategoriesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextPageToken: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetCostCategoriesRequest",
-}) as any as S.Schema<GetCostCategoriesRequest>;
+).annotate({ identifier: "GetCostCategoriesRequest" }) as any as S.Schema<GetCostCategoriesRequest>;
 export type CostCategoryNamesList = string[];
 export const CostCategoryNamesList = /*@__PURE__*/ S.Array(S.String);
 export type CostCategoryValuesList = string[];
@@ -1615,9 +1533,7 @@ export const CostComparisonDriver = /*@__PURE__*/ S.suspend(() =>
     Metrics: S.optional(ComparisonMetrics),
     CostDrivers: S.optional(CostDrivers),
   }),
-).annotate({
-  identifier: "CostComparisonDriver",
-}) as any as S.Schema<CostComparisonDriver>;
+).annotate({ identifier: "CostComparisonDriver" }) as any as S.Schema<CostComparisonDriver>;
 export type CostComparisonDrivers = CostComparisonDriver[];
 export const CostComparisonDrivers = /*@__PURE__*/ S.Array(CostComparisonDriver);
 export interface GetCostComparisonDriversResponse {
@@ -1661,9 +1577,7 @@ export const GetCostForecastRequest = /*@__PURE__*/ S.suspend(() =>
     BillingViewArn: S.optional(S.String),
     PredictionIntervalLevel: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetCostForecastRequest",
-}) as any as S.Schema<GetCostForecastRequest>;
+).annotate({ identifier: "GetCostForecastRequest" }) as any as S.Schema<GetCostForecastRequest>;
 export interface ForecastResult {
   TimePeriod?: DateInterval;
   MeanValue?: string;
@@ -1689,9 +1603,7 @@ export const GetCostForecastResponse = /*@__PURE__*/ S.suspend(() =>
     Total: S.optional(MetricValue),
     ForecastResultsByTime: S.optional(ForecastResultsByTime),
   }),
-).annotate({
-  identifier: "GetCostForecastResponse",
-}) as any as S.Schema<GetCostForecastResponse>;
+).annotate({ identifier: "GetCostForecastResponse" }) as any as S.Schema<GetCostForecastResponse>;
 export type Context = "COST_AND_USAGE" | "RESERVATIONS" | "SAVINGS_PLANS" | (string & {});
 export const Context = S.String;
 
@@ -1796,9 +1708,7 @@ export const CoverageNormalizedUnits = /*@__PURE__*/ S.suspend(() =>
     TotalRunningNormalizedUnits: S.optional(S.String),
     CoverageNormalizedUnitsPercentage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CoverageNormalizedUnits",
-}) as any as S.Schema<CoverageNormalizedUnits>;
+).annotate({ identifier: "CoverageNormalizedUnits" }) as any as S.Schema<CoverageNormalizedUnits>;
 export type OnDemandCost = string;
 export interface CoverageCost {
   OnDemandCost?: string;
@@ -1823,13 +1733,8 @@ export interface ReservationCoverageGroup {
   Coverage?: Coverage;
 }
 export const ReservationCoverageGroup = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Attributes: S.optional(Attributes),
-    Coverage: S.optional(Coverage),
-  }),
-).annotate({
-  identifier: "ReservationCoverageGroup",
-}) as any as S.Schema<ReservationCoverageGroup>;
+  S.Struct({ Attributes: S.optional(Attributes), Coverage: S.optional(Coverage) }),
+).annotate({ identifier: "ReservationCoverageGroup" }) as any as S.Schema<ReservationCoverageGroup>;
 export type ReservationCoverageGroups = ReservationCoverageGroup[];
 export const ReservationCoverageGroups = /*@__PURE__*/ S.Array(ReservationCoverageGroup);
 export interface CoverageByTime {
@@ -1871,17 +1776,13 @@ export interface EC2Specification {
 }
 export const EC2Specification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OfferingClass: S.optional(OfferingClass) }),
-).annotate({
-  identifier: "EC2Specification",
-}) as any as S.Schema<EC2Specification>;
+).annotate({ identifier: "EC2Specification" }) as any as S.Schema<EC2Specification>;
 export interface ServiceSpecification {
   EC2Specification?: EC2Specification;
 }
 export const ServiceSpecification = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EC2Specification: S.optional(EC2Specification) }),
-).annotate({
-  identifier: "ServiceSpecification",
-}) as any as S.Schema<ServiceSpecification>;
+).annotate({ identifier: "ServiceSpecification" }) as any as S.Schema<ServiceSpecification>;
 export type RecommendationsPageSize = number;
 export interface GetReservationPurchaseRecommendationRequest {
   AccountId?: string;
@@ -1946,9 +1847,7 @@ export const EC2InstanceDetails = /*@__PURE__*/ S.suspend(() =>
     CurrentGeneration: S.optional(S.Boolean),
     SizeFlexEligible: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "EC2InstanceDetails",
-}) as any as S.Schema<EC2InstanceDetails>;
+).annotate({ identifier: "EC2InstanceDetails" }) as any as S.Schema<EC2InstanceDetails>;
 export interface RDSInstanceDetails {
   Family?: string;
   InstanceType?: string;
@@ -1974,9 +1873,7 @@ export const RDSInstanceDetails = /*@__PURE__*/ S.suspend(() =>
     SizeFlexEligible: S.optional(S.Boolean),
     DeploymentModel: S.optional(S.String),
   }),
-).annotate({
-  identifier: "RDSInstanceDetails",
-}) as any as S.Schema<RDSInstanceDetails>;
+).annotate({ identifier: "RDSInstanceDetails" }) as any as S.Schema<RDSInstanceDetails>;
 export interface RedshiftInstanceDetails {
   Family?: string;
   NodeType?: string;
@@ -1992,9 +1889,7 @@ export const RedshiftInstanceDetails = /*@__PURE__*/ S.suspend(() =>
     CurrentGeneration: S.optional(S.Boolean),
     SizeFlexEligible: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RedshiftInstanceDetails",
-}) as any as S.Schema<RedshiftInstanceDetails>;
+).annotate({ identifier: "RedshiftInstanceDetails" }) as any as S.Schema<RedshiftInstanceDetails>;
 export interface ElastiCacheInstanceDetails {
   Family?: string;
   NodeType?: string;
@@ -2030,9 +1925,7 @@ export const ESInstanceDetails = /*@__PURE__*/ S.suspend(() =>
     CurrentGeneration: S.optional(S.Boolean),
     SizeFlexEligible: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ESInstanceDetails",
-}) as any as S.Schema<ESInstanceDetails>;
+).annotate({ identifier: "ESInstanceDetails" }) as any as S.Schema<ESInstanceDetails>;
 export interface MemoryDBInstanceDetails {
   Family?: string;
   NodeType?: string;
@@ -2048,9 +1941,7 @@ export const MemoryDBInstanceDetails = /*@__PURE__*/ S.suspend(() =>
     CurrentGeneration: S.optional(S.Boolean),
     SizeFlexEligible: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "MemoryDBInstanceDetails",
-}) as any as S.Schema<MemoryDBInstanceDetails>;
+).annotate({ identifier: "MemoryDBInstanceDetails" }) as any as S.Schema<MemoryDBInstanceDetails>;
 export interface InstanceDetails {
   EC2InstanceDetails?: EC2InstanceDetails;
   RDSInstanceDetails?: RDSInstanceDetails;
@@ -2068,29 +1959,20 @@ export const InstanceDetails = /*@__PURE__*/ S.suspend(() =>
     ESInstanceDetails: S.optional(ESInstanceDetails),
     MemoryDBInstanceDetails: S.optional(MemoryDBInstanceDetails),
   }),
-).annotate({
-  identifier: "InstanceDetails",
-}) as any as S.Schema<InstanceDetails>;
+).annotate({ identifier: "InstanceDetails" }) as any as S.Schema<InstanceDetails>;
 export interface DynamoDBCapacityDetails {
   CapacityUnits?: string;
   Region?: string;
 }
 export const DynamoDBCapacityDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CapacityUnits: S.optional(S.String),
-    Region: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DynamoDBCapacityDetails",
-}) as any as S.Schema<DynamoDBCapacityDetails>;
+  S.Struct({ CapacityUnits: S.optional(S.String), Region: S.optional(S.String) }),
+).annotate({ identifier: "DynamoDBCapacityDetails" }) as any as S.Schema<DynamoDBCapacityDetails>;
 export interface ReservedCapacityDetails {
   DynamoDBCapacityDetails?: DynamoDBCapacityDetails;
 }
 export const ReservedCapacityDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DynamoDBCapacityDetails: S.optional(DynamoDBCapacityDetails) }),
-).annotate({
-  identifier: "ReservedCapacityDetails",
-}) as any as S.Schema<ReservedCapacityDetails>;
+).annotate({ identifier: "ReservedCapacityDetails" }) as any as S.Schema<ReservedCapacityDetails>;
 export interface ReservationPurchaseRecommendationDetail {
   AccountId?: string;
   InstanceDetails?: InstanceDetails;
@@ -2285,9 +2167,7 @@ export const ReservationAggregates = /*@__PURE__*/ S.suspend(() =>
     RealizedSavings: S.optional(S.String),
     UnrealizedSavings: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ReservationAggregates",
-}) as any as S.Schema<ReservationAggregates>;
+).annotate({ identifier: "ReservationAggregates" }) as any as S.Schema<ReservationAggregates>;
 export interface ReservationUtilizationGroup {
   Key?: string;
   Value?: string;
@@ -2317,9 +2197,7 @@ export const UtilizationByTime = /*@__PURE__*/ S.suspend(() =>
     Groups: S.optional(ReservationUtilizationGroups),
     Total: S.optional(ReservationAggregates),
   }),
-).annotate({
-  identifier: "UtilizationByTime",
-}) as any as S.Schema<UtilizationByTime>;
+).annotate({ identifier: "UtilizationByTime" }) as any as S.Schema<UtilizationByTime>;
 export type UtilizationsByTime = UtilizationByTime[];
 export const UtilizationsByTime = /*@__PURE__*/ S.Array(UtilizationByTime);
 export interface GetReservationUtilizationResponse {
@@ -2344,10 +2222,7 @@ export interface RightsizingRecommendationConfiguration {
   BenefitsConsidered: boolean;
 }
 export const RightsizingRecommendationConfiguration = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RecommendationTarget: RecommendationTarget,
-    BenefitsConsidered: S.Boolean,
-  }),
+  S.Struct({ RecommendationTarget: RecommendationTarget, BenefitsConsidered: S.Boolean }),
 ).annotate({
   identifier: "RightsizingRecommendationConfiguration",
 }) as any as S.Schema<RightsizingRecommendationConfiguration>;
@@ -2426,17 +2301,13 @@ export const EC2ResourceDetails = /*@__PURE__*/ S.suspend(() =>
     Storage: S.optional(S.String),
     Vcpu: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EC2ResourceDetails",
-}) as any as S.Schema<EC2ResourceDetails>;
+).annotate({ identifier: "EC2ResourceDetails" }) as any as S.Schema<EC2ResourceDetails>;
 export interface ResourceDetails {
   EC2ResourceDetails?: EC2ResourceDetails;
 }
 export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EC2ResourceDetails: S.optional(EC2ResourceDetails) }),
-).annotate({
-  identifier: "ResourceDetails",
-}) as any as S.Schema<ResourceDetails>;
+).annotate({ identifier: "ResourceDetails" }) as any as S.Schema<ResourceDetails>;
 export interface EBSResourceUtilization {
   EbsReadOpsPerSecond?: string;
   EbsWriteOpsPerSecond?: string;
@@ -2450,9 +2321,7 @@ export const EBSResourceUtilization = /*@__PURE__*/ S.suspend(() =>
     EbsReadBytesPerSecond: S.optional(S.String),
     EbsWriteBytesPerSecond: S.optional(S.String),
   }),
-).annotate({
-  identifier: "EBSResourceUtilization",
-}) as any as S.Schema<EBSResourceUtilization>;
+).annotate({ identifier: "EBSResourceUtilization" }) as any as S.Schema<EBSResourceUtilization>;
 export interface DiskResourceUtilization {
   DiskReadOpsPerSecond?: string;
   DiskWriteOpsPerSecond?: string;
@@ -2466,9 +2335,7 @@ export const DiskResourceUtilization = /*@__PURE__*/ S.suspend(() =>
     DiskReadBytesPerSecond: S.optional(S.String),
     DiskWriteBytesPerSecond: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DiskResourceUtilization",
-}) as any as S.Schema<DiskResourceUtilization>;
+).annotate({ identifier: "DiskResourceUtilization" }) as any as S.Schema<DiskResourceUtilization>;
 export interface NetworkResourceUtilization {
   NetworkInBytesPerSecond?: string;
   NetworkOutBytesPerSecond?: string;
@@ -2502,17 +2369,13 @@ export const EC2ResourceUtilization = /*@__PURE__*/ S.suspend(() =>
     DiskResourceUtilization: S.optional(DiskResourceUtilization),
     NetworkResourceUtilization: S.optional(NetworkResourceUtilization),
   }),
-).annotate({
-  identifier: "EC2ResourceUtilization",
-}) as any as S.Schema<EC2ResourceUtilization>;
+).annotate({ identifier: "EC2ResourceUtilization" }) as any as S.Schema<EC2ResourceUtilization>;
 export interface ResourceUtilization {
   EC2ResourceUtilization?: EC2ResourceUtilization;
 }
 export const ResourceUtilization = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EC2ResourceUtilization: S.optional(EC2ResourceUtilization) }),
-).annotate({
-  identifier: "ResourceUtilization",
-}) as any as S.Schema<ResourceUtilization>;
+).annotate({ identifier: "ResourceUtilization" }) as any as S.Schema<ResourceUtilization>;
 export interface CurrentInstance {
   ResourceId?: string;
   InstanceName?: string;
@@ -2540,9 +2403,7 @@ export const CurrentInstance = /*@__PURE__*/ S.suspend(() =>
     MonthlyCost: S.optional(S.String),
     CurrencyCode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CurrentInstance",
-}) as any as S.Schema<CurrentInstance>;
+).annotate({ identifier: "CurrentInstance" }) as any as S.Schema<CurrentInstance>;
 export type RightsizingType = "TERMINATE" | "MODIFY" | (string & {});
 export const RightsizingType = S.String;
 
@@ -2592,10 +2453,7 @@ export interface TerminateRecommendationDetail {
   CurrencyCode?: string;
 }
 export const TerminateRecommendationDetail = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EstimatedMonthlySavings: S.optional(S.String),
-    CurrencyCode: S.optional(S.String),
-  }),
+  S.Struct({ EstimatedMonthlySavings: S.optional(S.String), CurrencyCode: S.optional(S.String) }),
 ).annotate({
   identifier: "TerminateRecommendationDetail",
 }) as any as S.Schema<TerminateRecommendationDetail>;
@@ -2735,9 +2593,7 @@ export const RecommendationDetailData = /*@__PURE__*/ S.suspend(() =>
     EstimatedAverageCoverage: S.optional(S.String),
     MetricsOverLookbackPeriod: S.optional(MetricsOverLookbackPeriod),
   }),
-).annotate({
-  identifier: "RecommendationDetailData",
-}) as any as S.Schema<RecommendationDetailData>;
+).annotate({ identifier: "RecommendationDetailData" }) as any as S.Schema<RecommendationDetailData>;
 export interface GetSavingsPlanPurchaseRecommendationDetailsResponse {
   RecommendationDetailId?: string;
   RecommendationDetailData?: RecommendationDetailData;
@@ -2787,9 +2643,7 @@ export const SavingsPlansCoverageData = /*@__PURE__*/ S.suspend(() =>
     TotalCost: S.optional(S.String),
     CoveragePercentage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SavingsPlansCoverageData",
-}) as any as S.Schema<SavingsPlansCoverageData>;
+).annotate({ identifier: "SavingsPlansCoverageData" }) as any as S.Schema<SavingsPlansCoverageData>;
 export interface SavingsPlansCoverage {
   Attributes?: { [key: string]: string | undefined };
   Coverage?: SavingsPlansCoverageData;
@@ -2801,9 +2655,7 @@ export const SavingsPlansCoverage = /*@__PURE__*/ S.suspend(() =>
     Coverage: S.optional(SavingsPlansCoverageData),
     TimePeriod: S.optional(DateInterval),
   }),
-).annotate({
-  identifier: "SavingsPlansCoverage",
-}) as any as S.Schema<SavingsPlansCoverage>;
+).annotate({ identifier: "SavingsPlansCoverage" }) as any as S.Schema<SavingsPlansCoverage>;
 export type SavingsPlansCoverages = SavingsPlansCoverage[];
 export const SavingsPlansCoverages = /*@__PURE__*/ S.Array(SavingsPlansCoverage);
 export interface GetSavingsPlansCoverageResponse {
@@ -2811,10 +2663,7 @@ export interface GetSavingsPlansCoverageResponse {
   NextToken?: string;
 }
 export const GetSavingsPlansCoverageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    SavingsPlansCoverages: SavingsPlansCoverages,
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ SavingsPlansCoverages: SavingsPlansCoverages, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "GetSavingsPlansCoverageResponse",
 }) as any as S.Schema<GetSavingsPlansCoverageResponse>;
@@ -2867,9 +2716,7 @@ export const SavingsPlansDetails = /*@__PURE__*/ S.suspend(() =>
     InstanceFamily: S.optional(S.String),
     OfferingId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SavingsPlansDetails",
-}) as any as S.Schema<SavingsPlansDetails>;
+).annotate({ identifier: "SavingsPlansDetails" }) as any as S.Schema<SavingsPlansDetails>;
 export interface SavingsPlansPurchaseRecommendationDetail {
   SavingsPlansDetails?: SavingsPlansDetails;
   AccountId?: string;
@@ -3016,21 +2863,14 @@ export const SavingsPlansUtilization = /*@__PURE__*/ S.suspend(() =>
     UnusedCommitment: S.optional(S.String),
     UtilizationPercentage: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SavingsPlansUtilization",
-}) as any as S.Schema<SavingsPlansUtilization>;
+).annotate({ identifier: "SavingsPlansUtilization" }) as any as S.Schema<SavingsPlansUtilization>;
 export interface SavingsPlansSavings {
   NetSavings?: string;
   OnDemandCostEquivalent?: string;
 }
 export const SavingsPlansSavings = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NetSavings: S.optional(S.String),
-    OnDemandCostEquivalent: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "SavingsPlansSavings",
-}) as any as S.Schema<SavingsPlansSavings>;
+  S.Struct({ NetSavings: S.optional(S.String), OnDemandCostEquivalent: S.optional(S.String) }),
+).annotate({ identifier: "SavingsPlansSavings" }) as any as S.Schema<SavingsPlansSavings>;
 export interface SavingsPlansAmortizedCommitment {
   AmortizedRecurringCommitment?: string;
   AmortizedUpfrontCommitment?: string;
@@ -3194,9 +3034,7 @@ export const GetTagsResponse = /*@__PURE__*/ S.suspend(() =>
     ReturnSize: S.Number,
     TotalSize: S.Number,
   }),
-).annotate({
-  identifier: "GetTagsResponse",
-}) as any as S.Schema<GetTagsResponse>;
+).annotate({ identifier: "GetTagsResponse" }) as any as S.Schema<GetTagsResponse>;
 export interface GetUsageForecastRequest {
   TimePeriod: DateInterval;
   Metric: Metric;
@@ -3214,9 +3052,7 @@ export const GetUsageForecastRequest = /*@__PURE__*/ S.suspend(() =>
     BillingViewArn: S.optional(S.String),
     PredictionIntervalLevel: S.optional(S.Number),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetUsageForecastRequest",
-}) as any as S.Schema<GetUsageForecastRequest>;
+).annotate({ identifier: "GetUsageForecastRequest" }) as any as S.Schema<GetUsageForecastRequest>;
 export interface GetUsageForecastResponse {
   Total?: MetricValue;
   ForecastResultsByTime?: ForecastResult[];
@@ -3226,9 +3062,7 @@ export const GetUsageForecastResponse = /*@__PURE__*/ S.suspend(() =>
     Total: S.optional(MetricValue),
     ForecastResultsByTime: S.optional(ForecastResultsByTime),
   }),
-).annotate({
-  identifier: "GetUsageForecastResponse",
-}) as any as S.Schema<GetUsageForecastResponse>;
+).annotate({ identifier: "GetUsageForecastResponse" }) as any as S.Schema<GetUsageForecastResponse>;
 export type AnalysesPageSize = number;
 export type AnalysisIds = string[];
 export const AnalysisIds = /*@__PURE__*/ S.Array(S.String);
@@ -3267,9 +3101,7 @@ export const AnalysisSummary = /*@__PURE__*/ S.suspend(() =>
     AnalysisId: S.optional(S.String),
     CommitmentPurchaseAnalysisConfiguration: S.optional(CommitmentPurchaseAnalysisConfiguration),
   }),
-).annotate({
-  identifier: "AnalysisSummary",
-}) as any as S.Schema<AnalysisSummary>;
+).annotate({ identifier: "AnalysisSummary" }) as any as S.Schema<AnalysisSummary>;
 export type AnalysisSummaryList = AnalysisSummary[];
 export const AnalysisSummaryList = /*@__PURE__*/ S.Array(AnalysisSummary);
 export interface ListCommitmentPurchaseAnalysesResponse {
@@ -3290,10 +3122,9 @@ export interface ListCostAllocationTagBackfillHistoryRequest {
   MaxResults?: number;
 }
 export const ListCostAllocationTagBackfillHistoryRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListCostAllocationTagBackfillHistoryRequest",
 }) as any as S.Schema<ListCostAllocationTagBackfillHistoryRequest>;
@@ -3375,9 +3206,7 @@ export const CostAllocationTag = /*@__PURE__*/ S.suspend(() =>
     LastUpdatedDate: S.optional(S.String),
     LastUsedDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CostAllocationTag",
-}) as any as S.Schema<CostAllocationTag>;
+).annotate({ identifier: "CostAllocationTag" }) as any as S.Schema<CostAllocationTag>;
 export type CostAllocationTagList = CostAllocationTag[];
 export const CostAllocationTagList = /*@__PURE__*/ S.Array(CostAllocationTag);
 export interface ListCostAllocationTagsResponse {
@@ -3437,9 +3266,7 @@ export const CostCategoryReference = /*@__PURE__*/ S.suspend(() =>
     DefaultValue: S.optional(S.String),
     SupportedResourceTypes: S.optional(ResourceTypes),
   }),
-).annotate({
-  identifier: "CostCategoryReference",
-}) as any as S.Schema<CostCategoryReference>;
+).annotate({ identifier: "CostCategoryReference" }) as any as S.Schema<CostCategoryReference>;
 export type CostCategoryReferencesList = CostCategoryReference[];
 export const CostCategoryReferencesList = /*@__PURE__*/ S.Array(CostCategoryReference);
 export interface ListCostCategoryDefinitionsResponse {
@@ -3536,9 +3363,7 @@ export const GenerationSummary = /*@__PURE__*/ S.suspend(() =>
     GenerationCompletionTime: S.optional(S.String),
     EstimatedCompletionTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GenerationSummary",
-}) as any as S.Schema<GenerationSummary>;
+).annotate({ identifier: "GenerationSummary" }) as any as S.Schema<GenerationSummary>;
 export type GenerationSummaryList = GenerationSummary[];
 export const GenerationSummaryList = /*@__PURE__*/ S.Array(GenerationSummary);
 export interface ListSavingsPlansPurchaseRecommendationGenerationResponse {
@@ -3663,9 +3488,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTags: ResourceTagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -3680,9 +3503,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourceTagKeys: ResourceTagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -3809,10 +3630,7 @@ export interface UpdateCostCategoryDefinitionResponse {
   EffectiveStart?: string;
 }
 export const UpdateCostCategoryDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CostCategoryArn: S.optional(S.String),
-    EffectiveStart: S.optional(S.String),
-  }),
+  S.Struct({ CostCategoryArn: S.optional(S.String), EffectiveStart: S.optional(S.String) }),
 ).annotate({
   identifier: "UpdateCostCategoryDefinitionResponse",
 }) as any as S.Schema<UpdateCostCategoryDefinitionResponse>;

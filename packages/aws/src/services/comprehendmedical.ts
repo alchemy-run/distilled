@@ -153,18 +153,14 @@ export interface InputDataConfig {
 }
 export const InputDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Bucket: S.String, S3Key: S.optional(S.String) }),
-).annotate({
-  identifier: "InputDataConfig",
-}) as any as S.Schema<InputDataConfig>;
+).annotate({ identifier: "InputDataConfig" }) as any as S.Schema<InputDataConfig>;
 export interface OutputDataConfig {
   S3Bucket: string;
   S3Key?: string;
 }
 export const OutputDataConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ S3Bucket: S.String, S3Key: S.optional(S.String) }),
-).annotate({
-  identifier: "OutputDataConfig",
-}) as any as S.Schema<OutputDataConfig>;
+).annotate({ identifier: "OutputDataConfig" }) as any as S.Schema<OutputDataConfig>;
 export type LanguageCode = "en" | (string & {});
 export const LanguageCode = S.String;
 
@@ -306,9 +302,7 @@ export const DetectEntitiesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DetectEntitiesRequest",
-}) as any as S.Schema<DetectEntitiesRequest>;
+).annotate({ identifier: "DetectEntitiesRequest" }) as any as S.Schema<DetectEntitiesRequest>;
 export type EntityType =
   | "MEDICATION"
   | "MEDICAL_CONDITION"
@@ -477,9 +471,7 @@ export interface UnmappedAttribute {
 }
 export const UnmappedAttribute = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Type: S.optional(EntityType), Attribute: S.optional(Attribute) }),
-).annotate({
-  identifier: "UnmappedAttribute",
-}) as any as S.Schema<UnmappedAttribute>;
+).annotate({ identifier: "UnmappedAttribute" }) as any as S.Schema<UnmappedAttribute>;
 export type UnmappedAttributeList = UnmappedAttribute[];
 export const UnmappedAttributeList = /*@__PURE__*/ S.Array(UnmappedAttribute);
 export interface DetectEntitiesResponse {
@@ -495,9 +487,7 @@ export const DetectEntitiesResponse = /*@__PURE__*/ S.suspend(() =>
     PaginationToken: S.optional(S.String),
     ModelVersion: S.String,
   }),
-).annotate({
-  identifier: "DetectEntitiesResponse",
-}) as any as S.Schema<DetectEntitiesResponse>;
+).annotate({ identifier: "DetectEntitiesResponse" }) as any as S.Schema<DetectEntitiesResponse>;
 export interface DetectEntitiesV2Request {
   Text: string;
 }
@@ -505,9 +495,7 @@ export const DetectEntitiesV2Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DetectEntitiesV2Request",
-}) as any as S.Schema<DetectEntitiesV2Request>;
+).annotate({ identifier: "DetectEntitiesV2Request" }) as any as S.Schema<DetectEntitiesV2Request>;
 export interface DetectEntitiesV2Response {
   Entities: Entity[];
   UnmappedAttributes?: UnmappedAttribute[];
@@ -521,9 +509,7 @@ export const DetectEntitiesV2Response = /*@__PURE__*/ S.suspend(() =>
     PaginationToken: S.optional(S.String),
     ModelVersion: S.String,
   }),
-).annotate({
-  identifier: "DetectEntitiesV2Response",
-}) as any as S.Schema<DetectEntitiesV2Response>;
+).annotate({ identifier: "DetectEntitiesV2Response" }) as any as S.Schema<DetectEntitiesV2Response>;
 export interface DetectPHIRequest {
   Text: string;
 }
@@ -531,23 +517,15 @@ export const DetectPHIRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DetectPHIRequest",
-}) as any as S.Schema<DetectPHIRequest>;
+).annotate({ identifier: "DetectPHIRequest" }) as any as S.Schema<DetectPHIRequest>;
 export interface DetectPHIResponse {
   Entities: Entity[];
   PaginationToken?: string;
   ModelVersion: string;
 }
 export const DetectPHIResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Entities: EntityList,
-    PaginationToken: S.optional(S.String),
-    ModelVersion: S.String,
-  }),
-).annotate({
-  identifier: "DetectPHIResponse",
-}) as any as S.Schema<DetectPHIResponse>;
+  S.Struct({ Entities: EntityList, PaginationToken: S.optional(S.String), ModelVersion: S.String }),
+).annotate({ identifier: "DetectPHIResponse" }) as any as S.Schema<DetectPHIResponse>;
 export type OntologyLinkingBoundedLengthString = string;
 export interface InferICD10CMRequest {
   Text: string;
@@ -556,9 +534,7 @@ export const InferICD10CMRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "InferICD10CMRequest",
-}) as any as S.Schema<InferICD10CMRequest>;
+).annotate({ identifier: "InferICD10CMRequest" }) as any as S.Schema<InferICD10CMRequest>;
 export type ICD10CMEntityCategory = "MEDICAL_CONDITION" | (string & {});
 export const ICD10CMEntityCategory = S.String;
 
@@ -624,9 +600,7 @@ export const ICD10CMAttribute = /*@__PURE__*/ S.suspend(() =>
     Category: S.optional(ICD10CMEntityType),
     RelationshipType: S.optional(ICD10CMRelationshipType),
   }),
-).annotate({
-  identifier: "ICD10CMAttribute",
-}) as any as S.Schema<ICD10CMAttribute>;
+).annotate({ identifier: "ICD10CMAttribute" }) as any as S.Schema<ICD10CMAttribute>;
 export type ICD10CMAttributeList = ICD10CMAttribute[];
 export const ICD10CMAttributeList = /*@__PURE__*/ S.Array(ICD10CMAttribute);
 export interface ICD10CMConcept {
@@ -682,9 +656,7 @@ export const InferICD10CMResponse = /*@__PURE__*/ S.suspend(() =>
     PaginationToken: S.optional(S.String),
     ModelVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InferICD10CMResponse",
-}) as any as S.Schema<InferICD10CMResponse>;
+).annotate({ identifier: "InferICD10CMResponse" }) as any as S.Schema<InferICD10CMResponse>;
 export interface InferRxNormRequest {
   Text: string;
 }
@@ -692,9 +664,7 @@ export const InferRxNormRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "InferRxNormRequest",
-}) as any as S.Schema<InferRxNormRequest>;
+).annotate({ identifier: "InferRxNormRequest" }) as any as S.Schema<InferRxNormRequest>;
 export type RxNormEntityCategory = "MEDICATION" | (string & {});
 export const RxNormEntityCategory = S.String;
 
@@ -745,9 +715,7 @@ export const RxNormAttribute = /*@__PURE__*/ S.suspend(() =>
     Text: S.optional(S.String),
     Traits: S.optional(RxNormTraitList),
   }),
-).annotate({
-  identifier: "RxNormAttribute",
-}) as any as S.Schema<RxNormAttribute>;
+).annotate({ identifier: "RxNormAttribute" }) as any as S.Schema<RxNormAttribute>;
 export type RxNormAttributeList = RxNormAttribute[];
 export const RxNormAttributeList = /*@__PURE__*/ S.Array(RxNormAttribute);
 export interface RxNormConcept {
@@ -803,9 +771,7 @@ export const InferRxNormResponse = /*@__PURE__*/ S.suspend(() =>
     PaginationToken: S.optional(S.String),
     ModelVersion: S.optional(S.String),
   }),
-).annotate({
-  identifier: "InferRxNormResponse",
-}) as any as S.Schema<InferRxNormResponse>;
+).annotate({ identifier: "InferRxNormResponse" }) as any as S.Schema<InferRxNormResponse>;
 export interface InferSNOMEDCTRequest {
   Text: string;
 }
@@ -813,9 +779,7 @@ export const InferSNOMEDCTRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Text: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "InferSNOMEDCTRequest",
-}) as any as S.Schema<InferSNOMEDCTRequest>;
+).annotate({ identifier: "InferSNOMEDCTRequest" }) as any as S.Schema<InferSNOMEDCTRequest>;
 export type SNOMEDCTEntityCategory =
   | "MEDICAL_CONDITION"
   | "ANATOMY"
@@ -870,10 +834,7 @@ export interface SNOMEDCTTrait {
   Score?: number;
 }
 export const SNOMEDCTTrait = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Name: S.optional(SNOMEDCTTraitName),
-    Score: S.optional(S.Number),
-  }),
+  S.Struct({ Name: S.optional(SNOMEDCTTraitName), Score: S.optional(S.Number) }),
 ).annotate({ identifier: "SNOMEDCTTrait" }) as any as S.Schema<SNOMEDCTTrait>;
 export type SNOMEDCTTraitList = SNOMEDCTTrait[];
 export const SNOMEDCTTraitList = /*@__PURE__*/ S.Array(SNOMEDCTTrait);
@@ -888,9 +849,7 @@ export const SNOMEDCTConcept = /*@__PURE__*/ S.suspend(() =>
     Code: S.optional(S.String),
     Score: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "SNOMEDCTConcept",
-}) as any as S.Schema<SNOMEDCTConcept>;
+).annotate({ identifier: "SNOMEDCTConcept" }) as any as S.Schema<SNOMEDCTConcept>;
 export type SNOMEDCTConceptList = SNOMEDCTConcept[];
 export const SNOMEDCTConceptList = /*@__PURE__*/ S.Array(SNOMEDCTConcept);
 export interface SNOMEDCTAttribute {
@@ -920,9 +879,7 @@ export const SNOMEDCTAttribute = /*@__PURE__*/ S.suspend(() =>
     Traits: S.optional(SNOMEDCTTraitList),
     SNOMEDCTConcepts: S.optional(SNOMEDCTConceptList),
   }),
-).annotate({
-  identifier: "SNOMEDCTAttribute",
-}) as any as S.Schema<SNOMEDCTAttribute>;
+).annotate({ identifier: "SNOMEDCTAttribute" }) as any as S.Schema<SNOMEDCTAttribute>;
 export type SNOMEDCTAttributeList = SNOMEDCTAttribute[];
 export const SNOMEDCTAttributeList = /*@__PURE__*/ S.Array(SNOMEDCTAttribute);
 export interface SNOMEDCTEntity {
@@ -964,9 +921,7 @@ export const SNOMEDCTDetails = /*@__PURE__*/ S.suspend(() =>
     Language: S.optional(S.String),
     VersionDate: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SNOMEDCTDetails",
-}) as any as S.Schema<SNOMEDCTDetails>;
+).annotate({ identifier: "SNOMEDCTDetails" }) as any as S.Schema<SNOMEDCTDetails>;
 export interface Characters {
   OriginalTextCharacters?: number;
 }
@@ -988,9 +943,7 @@ export const InferSNOMEDCTResponse = /*@__PURE__*/ S.suspend(() =>
     SNOMEDCTDetails: S.optional(SNOMEDCTDetails),
     Characters: S.optional(Characters),
   }),
-).annotate({
-  identifier: "InferSNOMEDCTResponse",
-}) as any as S.Schema<InferSNOMEDCTResponse>;
+).annotate({ identifier: "InferSNOMEDCTResponse" }) as any as S.Schema<InferSNOMEDCTResponse>;
 export interface ComprehendMedicalAsyncJobFilter {
   JobName?: string;
   JobStatus?: JobStatus;

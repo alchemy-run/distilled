@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "MediaPackage Vod",
-  serviceShapeName: "MediaPackageVod",
-});
+const svc = T.AwsApiService({ sdkId: "MediaPackage Vod", serviceShapeName: "MediaPackageVod" });
 const auth = T.AwsAuthSigv4({ name: "mediapackage-vod" });
 const ver = T.ServiceVersion("2018-11-07");
 const proto = T.AwsProtocolsRestJson1();
@@ -116,18 +113,13 @@ export const EgressAccessLogs = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ LogGroupName: S.optional(S.String) }).pipe(
     S.encodeKeys({ LogGroupName: "logGroupName" }),
   ),
-).annotate({
-  identifier: "EgressAccessLogs",
-}) as any as S.Schema<EgressAccessLogs>;
+).annotate({ identifier: "EgressAccessLogs" }) as any as S.Schema<EgressAccessLogs>;
 export interface ConfigureLogsRequest {
   EgressAccessLogs?: EgressAccessLogs;
   Id: string;
 }
 export const ConfigureLogsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    EgressAccessLogs: S.optional(EgressAccessLogs),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-  })
+  S.Struct({ EgressAccessLogs: S.optional(EgressAccessLogs), Id: S.String.pipe(T.HttpLabel("Id")) })
     .pipe(S.encodeKeys({ EgressAccessLogs: "egressAccessLogs" }))
     .pipe(
       T.all(
@@ -139,9 +131,7 @@ export const ConfigureLogsRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "ConfigureLogsRequest",
-}) as any as S.Schema<ConfigureLogsRequest>;
+).annotate({ identifier: "ConfigureLogsRequest" }) as any as S.Schema<ConfigureLogsRequest>;
 export interface Authorization {
   CdnIdentifierSecret?: string;
   SecretsRoleArn?: string;
@@ -151,20 +141,14 @@ export const Authorization = /*@__PURE__*/ S.suspend(() =>
     CdnIdentifierSecret: S.optional(S.String),
     SecretsRoleArn: S.optional(S.String),
   }).pipe(
-    S.encodeKeys({
-      CdnIdentifierSecret: "cdnIdentifierSecret",
-      SecretsRoleArn: "secretsRoleArn",
-    }),
+    S.encodeKeys({ CdnIdentifierSecret: "cdnIdentifierSecret", SecretsRoleArn: "secretsRoleArn" }),
   ),
 ).annotate({ identifier: "Authorization" }) as any as S.Schema<Authorization>;
 export type Tags = { [key: string]: string | undefined };
 export const Tags = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ConfigureLogsResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   CreatedAt?: string;
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
@@ -191,9 +175,7 @@ export const ConfigureLogsResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "ConfigureLogsResponse",
-}) as any as S.Schema<ConfigureLogsResponse>;
+).annotate({ identifier: "ConfigureLogsResponse" }) as any as S.Schema<ConfigureLogsResponse>;
 export interface CreateAssetRequest {
   Id?: string;
   PackagingGroupId?: string;
@@ -222,9 +204,7 @@ export const CreateAssetRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(T.all(T.Http({ method: "POST", uri: "/assets" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateAssetRequest",
-}) as any as S.Schema<CreateAssetRequest>;
+).annotate({ identifier: "CreateAssetRequest" }) as any as S.Schema<CreateAssetRequest>;
 export interface EgressEndpoint {
   PackagingConfigurationId?: string;
   Status?: string;
@@ -280,9 +260,7 @@ export const CreateAssetResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "CreateAssetResponse",
-}) as any as S.Schema<CreateAssetResponse>;
+).annotate({ identifier: "CreateAssetResponse" }) as any as S.Schema<CreateAssetResponse>;
 export type PresetSpeke20Audio =
   | "PRESET-AUDIO-1"
   | "PRESET-AUDIO-2"
@@ -345,9 +323,7 @@ export const SpekeKeyProvider = /*@__PURE__*/ S.suspend(() =>
       Url: "url",
     }),
   ),
-).annotate({
-  identifier: "SpekeKeyProvider",
-}) as any as S.Schema<SpekeKeyProvider>;
+).annotate({ identifier: "SpekeKeyProvider" }) as any as S.Schema<SpekeKeyProvider>;
 export interface CmafEncryption {
   ConstantInitializationVector?: string;
   SpekeKeyProvider?: SpekeKeyProvider;
@@ -390,9 +366,7 @@ export const StreamSelection = /*@__PURE__*/ S.suspend(() =>
       StreamOrder: "streamOrder",
     }),
   ),
-).annotate({
-  identifier: "StreamSelection",
-}) as any as S.Schema<StreamSelection>;
+).annotate({ identifier: "StreamSelection" }) as any as S.Schema<StreamSelection>;
 export interface HlsManifest {
   AdMarkers?: AdMarkers;
   IncludeIframeOnlyStream?: boolean;
@@ -592,12 +566,7 @@ export const MssManifest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ManifestName: S.optional(S.String),
     StreamSelection: S.optional(StreamSelection),
-  }).pipe(
-    S.encodeKeys({
-      ManifestName: "manifestName",
-      StreamSelection: "streamSelection",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ ManifestName: "manifestName", StreamSelection: "streamSelection" })),
 ).annotate({ identifier: "MssManifest" }) as any as S.Schema<MssManifest>;
 export type __listOfMssManifest = MssManifest[];
 export const __listOfMssManifest = /*@__PURE__*/ S.Array(MssManifest);
@@ -781,10 +750,7 @@ export const CreatePackagingGroupRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreatePackagingGroupRequest>;
 export interface CreatePackagingGroupResponse {
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   CreatedAt?: string;
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
@@ -821,9 +787,7 @@ export const DeleteAssetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/assets/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteAssetRequest",
-}) as any as S.Schema<DeleteAssetRequest>;
+).annotate({ identifier: "DeleteAssetRequest" }) as any as S.Schema<DeleteAssetRequest>;
 export interface DeleteAssetResponse {}
 export const DeleteAssetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssetResponse",
@@ -879,9 +843,7 @@ export const DescribeAssetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/assets/{Id}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeAssetRequest",
-}) as any as S.Schema<DescribeAssetRequest>;
+).annotate({ identifier: "DescribeAssetRequest" }) as any as S.Schema<DescribeAssetRequest>;
 export interface DescribeAssetResponse {
   Arn?: string;
   CreatedAt?: string;
@@ -917,9 +879,7 @@ export const DescribeAssetResponse = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "DescribeAssetResponse",
-}) as any as S.Schema<DescribeAssetResponse>;
+).annotate({ identifier: "DescribeAssetResponse" }) as any as S.Schema<DescribeAssetResponse>;
 export interface DescribePackagingConfigurationRequest {
   Id: string;
 }
@@ -1040,10 +1000,7 @@ export const DescribePackagingGroupRequest = /*@__PURE__*/ S.suspend(() =>
 export interface DescribePackagingGroupResponse {
   ApproximateAssetCount?: number;
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   CreatedAt?: string;
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;
@@ -1087,9 +1044,7 @@ export const ListAssetsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     PackagingGroupId: S.optional(S.String).pipe(T.HttpQuery("packagingGroupId")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/assets" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListAssetsRequest",
-}) as any as S.Schema<ListAssetsRequest>;
+).annotate({ identifier: "ListAssetsRequest" }) as any as S.Schema<ListAssetsRequest>;
 export interface AssetShallow {
   Arn?: string;
   CreatedAt?: string;
@@ -1130,13 +1085,10 @@ export interface ListAssetsResponse {
   NextToken?: string;
 }
 export const ListAssetsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Assets: S.optional(__listOfAssetShallow),
-    NextToken: S.optional(S.String),
-  }).pipe(S.encodeKeys({ Assets: "assets", NextToken: "nextToken" })),
-).annotate({
-  identifier: "ListAssetsResponse",
-}) as any as S.Schema<ListAssetsResponse>;
+  S.Struct({ Assets: S.optional(__listOfAssetShallow), NextToken: S.optional(S.String) }).pipe(
+    S.encodeKeys({ Assets: "assets", NextToken: "nextToken" }),
+  ),
+).annotate({ identifier: "ListAssetsResponse" }) as any as S.Schema<ListAssetsResponse>;
 export interface ListPackagingConfigurationsRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -1195,9 +1147,7 @@ export const PackagingConfiguration = /*@__PURE__*/ S.suspend(() =>
       Tags: "tags",
     }),
   ),
-).annotate({
-  identifier: "PackagingConfiguration",
-}) as any as S.Schema<PackagingConfiguration>;
+).annotate({ identifier: "PackagingConfiguration" }) as any as S.Schema<PackagingConfiguration>;
 export type __listOfPackagingConfiguration = PackagingConfiguration[];
 export const __listOfPackagingConfiguration = /*@__PURE__*/ S.Array(PackagingConfiguration);
 export interface ListPackagingConfigurationsResponse {
@@ -1266,10 +1216,7 @@ export const ListPackagingConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     PackagingConfigurations: S.optional(__listOfPackagingConfiguration),
   }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      PackagingConfigurations: "packagingConfigurations",
-    }),
+    S.encodeKeys({ NextToken: "nextToken", PackagingConfigurations: "packagingConfigurations" }),
   ),
 ).annotate({
   identifier: "ListPackagingConfigurationsResponse",
@@ -1324,22 +1271,14 @@ export const __listOfPackagingGroup = /*@__PURE__*/ S.Array(PackagingGroup);
 export interface ListPackagingGroupsResponse {
   NextToken?: string;
   PackagingGroups?: (PackagingGroup & {
-    Authorization: Authorization & {
-      CdnIdentifierSecret: string;
-      SecretsRoleArn: string;
-    };
+    Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   })[];
 }
 export const ListPackagingGroupsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     PackagingGroups: S.optional(__listOfPackagingGroup),
-  }).pipe(
-    S.encodeKeys({
-      NextToken: "nextToken",
-      PackagingGroups: "packagingGroups",
-    }),
-  ),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", PackagingGroups: "packagingGroups" })),
 ).annotate({
   identifier: "ListPackagingGroupsResponse",
 }) as any as S.Schema<ListPackagingGroupsResponse>;
@@ -1376,9 +1315,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1394,9 +1331,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1406,10 +1341,7 @@ export interface UpdatePackagingGroupRequest {
   Id: string;
 }
 export const UpdatePackagingGroupRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Authorization: S.optional(Authorization),
-    Id: S.String.pipe(T.HttpLabel("Id")),
-  })
+  S.Struct({ Authorization: S.optional(Authorization), Id: S.String.pipe(T.HttpLabel("Id")) })
     .pipe(S.encodeKeys({ Authorization: "authorization" }))
     .pipe(
       T.all(T.Http({ method: "PUT", uri: "/packaging_groups/{Id}" }), svc, auth, proto, ver, rules),
@@ -1420,10 +1352,7 @@ export const UpdatePackagingGroupRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpdatePackagingGroupResponse {
   ApproximateAssetCount?: number;
   Arn?: string;
-  Authorization?: Authorization & {
-    CdnIdentifierSecret: string;
-    SecretsRoleArn: string;
-  };
+  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
   CreatedAt?: string;
   DomainName?: string;
   EgressAccessLogs?: EgressAccessLogs;

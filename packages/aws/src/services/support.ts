@@ -8,10 +8,7 @@ import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://support.amazonaws.com/doc/2013-04-15/");
-const svc = T.AwsApiService({
-  sdkId: "Support",
-  serviceShapeName: "AWSSupport_20130415",
-});
+const svc = T.AwsApiService({ sdkId: "Support", serviceShapeName: "AWSSupport_20130415" });
 const auth = T.AwsAuthSigv4({ name: "support" });
 const ver = T.ServiceVersion("2013-04-15");
 const proto = T.AwsProtocolsAwsJson1_1();
@@ -49,13 +46,7 @@ const rules = T.EndpointResolver((p, _) => {
           return e(
             "https://support.us-east-1.amazonaws.com",
             {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "support",
-                  signingRegion: "us-east-1",
-                },
-              ],
+              authSchemes: [{ name: "sigv4", signingName: "support", signingRegion: "us-east-1" }],
             },
             {},
           );
@@ -68,13 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
           return e(
             "https://support.cn-north-1.amazonaws.com.cn",
             {
-              authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "support",
-                  signingRegion: "cn-north-1",
-                },
-              ],
+              authSchemes: [{ name: "sigv4", signingName: "support", signingRegion: "cn-north-1" }],
             },
             {},
           );
@@ -102,11 +87,7 @@ const rules = T.EndpointResolver((p, _) => {
             "https://support.us-iso-east-1.c2s.ic.gov",
             {
               authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "support",
-                  signingRegion: "us-iso-east-1",
-                },
+                { name: "sigv4", signingName: "support", signingRegion: "us-iso-east-1" },
               ],
             },
             {},
@@ -121,11 +102,7 @@ const rules = T.EndpointResolver((p, _) => {
             "https://support.us-isob-east-1.sc2s.sgov.gov",
             {
               authSchemes: [
-                {
-                  name: "sigv4",
-                  signingName: "support",
-                  signingRegion: "us-isob-east-1",
-                },
+                { name: "sigv4", signingName: "support", signingRegion: "us-isob-east-1" },
               ],
             },
             {},
@@ -199,6 +176,10 @@ export class DescribeAttachmentLimitExceeded
     "DescribeAttachmentLimitExceeded",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withThrottlingError) {}
+export class DryRunOperationException
+  extends /*@__PURE__*/ S.TaggedError<DryRunOperationException>()("DryRunOperationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()("InternalServerError", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
@@ -206,9 +187,18 @@ export class InternalServerError
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
+    {
+      message: S.optional(S.String).pipe(T.ErrorMessage()),
+      throttlingReasons: S.optional(
+        S.suspend(() => ThrottlingReasonList).annotate({ identifier: "ThrottlingReasonList" }),
+      ),
+    },
     T.all(T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
+export class UploadIdNotFound
+  extends /*@__PURE__*/ S.TaggedError<UploadIdNotFound>()("UploadIdNotFound", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type AttachmentSetId = string;
 export type FileName = string;
 export type Data = Uint8Array;
@@ -221,14 +211,17 @@ export const Attachment = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Attachment" }) as any as S.Schema<Attachment>;
 export type Attachments = Attachment[];
 export const Attachments = /*@__PURE__*/ S.Array(Attachment);
+export type NullableBooleanType = boolean;
 export interface AddAttachmentsToSetRequest {
   attachmentSetId?: string;
   attachments: Attachment[];
+  dryRun?: boolean;
 }
 export const AddAttachmentsToSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     attachmentSetId: S.optional(S.String),
     attachments: Attachments,
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddAttachmentsToSetRequest",
@@ -239,10 +232,7 @@ export interface AddAttachmentsToSetResponse {
   expiryTime?: string;
 }
 export const AddAttachmentsToSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attachmentSetId: S.optional(S.String),
-    expiryTime: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ attachmentSetId: S.optional(S.String), expiryTime: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "AddAttachmentsToSetResponse",
 }) as any as S.Schema<AddAttachmentsToSetResponse>;
@@ -251,11 +241,16 @@ export type CommunicationBody = string;
 export type CcEmailAddress = string;
 export type CcEmailAddressList = string[];
 export const CcEmailAddressList = /*@__PURE__*/ S.Array(S.String);
+export type UploadId = string;
+export type UploadIds = string[];
+export const UploadIds = /*@__PURE__*/ S.Array(S.String);
 export interface AddCommunicationToCaseRequest {
   caseId?: string;
   communicationBody: string;
   ccEmailAddresses?: string[];
   attachmentSetId?: string;
+  uploadIds?: string[];
+  dryRun?: boolean;
 }
 export const AddCommunicationToCaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -263,6 +258,8 @@ export const AddCommunicationToCaseRequest = /*@__PURE__*/ S.suspend(() =>
     communicationBody: S.String,
     ccEmailAddresses: S.optional(CcEmailAddressList),
     attachmentSetId: S.optional(S.String),
+    uploadIds: S.optional(UploadIds),
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddCommunicationToCaseRequest",
@@ -276,6 +273,42 @@ export const AddCommunicationToCaseResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AddCommunicationToCaseResponse",
 }) as any as S.Schema<AddCommunicationToCaseResponse>;
+export type FieldIntegerValue = number;
+export type ETag = string;
+export interface CompletedUpload {
+  partIndex: number;
+  eTag: string;
+}
+export const CompletedUpload = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ partIndex: S.Number, eTag: S.String }),
+).annotate({ identifier: "CompletedUpload" }) as any as S.Schema<CompletedUpload>;
+export type CompletedUploadList = CompletedUpload[];
+export const CompletedUploadList = /*@__PURE__*/ S.Array(CompletedUpload);
+export interface CompleteAttachmentUploadRequest {
+  uploadId: string;
+  completedUploads: CompletedUpload[];
+  dryRun?: boolean;
+}
+export const CompleteAttachmentUploadRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uploadId: S.String,
+    completedUploads: CompletedUploadList,
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "CompleteAttachmentUploadRequest",
+}) as any as S.Schema<CompleteAttachmentUploadRequest>;
+export type UploadStatus = "attachment-ready" | "attachment-not-ready" | "failed" | (string & {});
+export const UploadStatus = S.String;
+
+export interface CompleteAttachmentUploadResponse {
+  uploadStatus: UploadStatus;
+}
+export const CompleteAttachmentUploadResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ uploadStatus: UploadStatus }).pipe(ns),
+).annotate({
+  identifier: "CompleteAttachmentUploadResponse",
+}) as any as S.Schema<CompleteAttachmentUploadResponse>;
 export type Subject = string;
 export type ServiceCode2 = string;
 export type SeverityCode = string;
@@ -292,6 +325,8 @@ export interface CreateCaseRequest {
   language?: string;
   issueType?: string;
   attachmentSetId?: string;
+  uploadIds?: string[];
+  dryRun?: boolean;
 }
 export const CreateCaseRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -304,24 +339,23 @@ export const CreateCaseRequest = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.String),
     issueType: S.optional(S.String),
     attachmentSetId: S.optional(S.String),
+    uploadIds: S.optional(UploadIds),
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateCaseRequest",
-}) as any as S.Schema<CreateCaseRequest>;
+).annotate({ identifier: "CreateCaseRequest" }) as any as S.Schema<CreateCaseRequest>;
 export interface CreateCaseResponse {
   caseId?: string;
 }
 export const CreateCaseResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ caseId: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateCaseResponse",
-}) as any as S.Schema<CreateCaseResponse>;
+).annotate({ identifier: "CreateCaseResponse" }) as any as S.Schema<CreateCaseResponse>;
 export type AttachmentId = string;
 export interface DescribeAttachmentRequest {
   attachmentId: string;
+  dryRun?: boolean;
 }
 export const DescribeAttachmentRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ attachmentId: S.String }).pipe(
+  S.Struct({ attachmentId: S.String, dryRun: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -335,6 +369,38 @@ export const DescribeAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeAttachmentResponse",
 }) as any as S.Schema<DescribeAttachmentResponse>;
+export interface DescribeAttachmentUploadStatusRequest {
+  uploadId: string;
+  dryRun?: boolean;
+}
+export const DescribeAttachmentUploadStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ uploadId: S.String, dryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DescribeAttachmentUploadStatusRequest",
+}) as any as S.Schema<DescribeAttachmentUploadStatusRequest>;
+export interface UploadProgress {
+  totalParts?: number;
+  completedPartsCount?: number;
+}
+export const UploadProgress = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ totalParts: S.optional(S.Number), completedPartsCount: S.optional(S.Number) }),
+).annotate({ identifier: "UploadProgress" }) as any as S.Schema<UploadProgress>;
+export interface DescribeAttachmentUploadStatusResponse {
+  uploadStatus: UploadStatus;
+  fileName: string;
+  uploadProgress?: UploadProgress;
+}
+export const DescribeAttachmentUploadStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uploadStatus: UploadStatus,
+    fileName: S.String,
+    uploadProgress: S.optional(UploadProgress),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeAttachmentUploadStatusResponse",
+}) as any as S.Schema<DescribeAttachmentUploadStatusResponse>;
 export type CaseIdList = string[];
 export const CaseIdList = /*@__PURE__*/ S.Array(S.String);
 export type DisplayId = string;
@@ -354,6 +420,7 @@ export interface DescribeCasesRequest {
   maxResults?: number;
   language?: string;
   includeCommunications?: boolean;
+  dryRun?: boolean;
 }
 export const DescribeCasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -366,10 +433,9 @@ export const DescribeCasesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     language: S.optional(S.String),
     includeCommunications: S.optional(S.Boolean),
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeCasesRequest",
-}) as any as S.Schema<DescribeCasesRequest>;
+).annotate({ identifier: "DescribeCasesRequest" }) as any as S.Schema<DescribeCasesRequest>;
 export type Status = string;
 export type ServiceCode = string;
 export type SubmittedBy = string;
@@ -380,13 +446,8 @@ export interface AttachmentDetails {
   fileName?: string;
 }
 export const AttachmentDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    attachmentId: S.optional(S.String),
-    fileName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AttachmentDetails",
-}) as any as S.Schema<AttachmentDetails>;
+  S.Struct({ attachmentId: S.optional(S.String), fileName: S.optional(S.String) }),
+).annotate({ identifier: "AttachmentDetails" }) as any as S.Schema<AttachmentDetails>;
 export type AttachmentSet = AttachmentDetails[];
 export const AttachmentSet = /*@__PURE__*/ S.Array(AttachmentDetails);
 export interface Communication {
@@ -394,6 +455,7 @@ export interface Communication {
   body?: string;
   submittedBy?: string;
   timeCreated?: string;
+  attachments?: AttachmentDetails[];
   attachmentSet?: AttachmentDetails[];
 }
 export const Communication = /*@__PURE__*/ S.suspend(() =>
@@ -402,6 +464,7 @@ export const Communication = /*@__PURE__*/ S.suspend(() =>
     body: S.optional(S.String),
     submittedBy: S.optional(S.String),
     timeCreated: S.optional(S.String),
+    attachments: S.optional(AttachmentSet),
     attachmentSet: S.optional(AttachmentSet),
   }),
 ).annotate({ identifier: "Communication" }) as any as S.Schema<Communication>;
@@ -412,13 +475,8 @@ export interface RecentCaseCommunications {
   nextToken?: string;
 }
 export const RecentCaseCommunications = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    communications: S.optional(CommunicationList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecentCaseCommunications",
-}) as any as S.Schema<RecentCaseCommunications>;
+  S.Struct({ communications: S.optional(CommunicationList), nextToken: S.optional(S.String) }),
+).annotate({ identifier: "RecentCaseCommunications" }) as any as S.Schema<RecentCaseCommunications>;
 export interface CaseDetails {
   caseId?: string;
   displayId?: string;
@@ -456,19 +514,15 @@ export interface DescribeCasesResponse {
   nextToken?: string;
 }
 export const DescribeCasesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    cases: S.optional(CaseList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "DescribeCasesResponse",
-}) as any as S.Schema<DescribeCasesResponse>;
+  S.Struct({ cases: S.optional(CaseList), nextToken: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "DescribeCasesResponse" }) as any as S.Schema<DescribeCasesResponse>;
 export interface DescribeCommunicationsRequest {
   caseId: string;
   beforeTime?: string;
   afterTime?: string;
   nextToken?: string;
   maxResults?: number;
+  dryRun?: boolean;
 }
 export const DescribeCommunicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -477,6 +531,7 @@ export const DescribeCommunicationsRequest = /*@__PURE__*/ S.suspend(() =>
     afterTime: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCommunicationsRequest",
@@ -486,10 +541,9 @@ export interface DescribeCommunicationsResponse {
   nextToken?: string;
 }
 export const DescribeCommunicationsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    communications: S.optional(CommunicationList),
-    nextToken: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ communications: S.optional(CommunicationList), nextToken: S.optional(S.String) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "DescribeCommunicationsResponse",
 }) as any as S.Schema<DescribeCommunicationsResponse>;
@@ -498,6 +552,7 @@ export interface DescribeCreateCaseOptionsRequest {
   serviceCode: string;
   language: string;
   categoryCode: string;
+  dryRun?: boolean;
 }
 export const DescribeCreateCaseOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -505,6 +560,7 @@ export const DescribeCreateCaseOptionsRequest = /*@__PURE__*/ S.suspend(() =>
     serviceCode: S.String,
     language: S.String,
     categoryCode: S.String,
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCreateCaseOptionsRequest",
@@ -528,10 +584,7 @@ export interface DateInterval {
   endDateTime?: string;
 }
 export const DateInterval = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    startDateTime: S.optional(S.String),
-    endDateTime: S.optional(S.String),
-  }),
+  S.Struct({ startDateTime: S.optional(S.String), endDateTime: S.optional(S.String) }),
 ).annotate({ identifier: "DateInterval" }) as any as S.Schema<DateInterval>;
 export type DatesWithoutSupportList = DateInterval[];
 export const DatesWithoutSupportList = /*@__PURE__*/ S.Array(DateInterval);
@@ -546,9 +599,7 @@ export const CommunicationTypeOptions = /*@__PURE__*/ S.suspend(() =>
     supportedHours: S.optional(SupportedHoursList),
     datesWithoutSupport: S.optional(DatesWithoutSupportList),
   }),
-).annotate({
-  identifier: "CommunicationTypeOptions",
-}) as any as S.Schema<CommunicationTypeOptions>;
+).annotate({ identifier: "CommunicationTypeOptions" }) as any as S.Schema<CommunicationTypeOptions>;
 export type CommunicationTypeOptionsList = CommunicationTypeOptions[];
 export const CommunicationTypeOptionsList = /*@__PURE__*/ S.Array(CommunicationTypeOptions);
 export interface DescribeCreateCaseOptionsResponse {
@@ -568,15 +619,15 @@ export const ServiceCodeList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeServicesRequest {
   serviceCodeList?: string[];
   language?: string;
+  dryRun?: boolean;
 }
 export const DescribeServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     serviceCodeList: S.optional(ServiceCodeList),
     language: S.optional(S.String),
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeServicesRequest",
-}) as any as S.Schema<DescribeServicesRequest>;
+).annotate({ identifier: "DescribeServicesRequest" }) as any as S.Schema<DescribeServicesRequest>;
 export type ServiceName = string;
 export type CategoryName = string;
 export interface Category {
@@ -607,14 +658,13 @@ export interface DescribeServicesResponse {
 }
 export const DescribeServicesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ services: S.optional(ServiceList) }).pipe(ns),
-).annotate({
-  identifier: "DescribeServicesResponse",
-}) as any as S.Schema<DescribeServicesResponse>;
+).annotate({ identifier: "DescribeServicesResponse" }) as any as S.Schema<DescribeServicesResponse>;
 export interface DescribeSeverityLevelsRequest {
   language?: string;
+  dryRun?: boolean;
 }
 export const DescribeSeverityLevelsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ language: S.optional(S.String) }).pipe(
+  S.Struct({ language: S.optional(S.String), dryRun: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -646,12 +696,14 @@ export interface DescribeSupportedLanguagesRequest {
   issueType: string;
   serviceCode: string;
   categoryCode: string;
+  dryRun?: boolean;
 }
 export const DescribeSupportedLanguagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     issueType: S.String,
     serviceCode: S.String,
     categoryCode: S.String,
+    dryRun: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeSupportedLanguagesRequest",
@@ -669,9 +721,7 @@ export const SupportedLanguage = /*@__PURE__*/ S.suspend(() =>
     language: S.optional(S.String),
     display: S.optional(S.String),
   }),
-).annotate({
-  identifier: "SupportedLanguage",
-}) as any as S.Schema<SupportedLanguage>;
+).annotate({ identifier: "SupportedLanguage" }) as any as S.Schema<SupportedLanguage>;
 export type SupportedLanguagesList = SupportedLanguage[];
 export const SupportedLanguagesList = /*@__PURE__*/ S.Array(SupportedLanguage);
 export interface DescribeSupportedLanguagesResponse {
@@ -700,11 +750,7 @@ export interface TrustedAdvisorCheckRefreshStatus {
   millisUntilNextRefreshable: number;
 }
 export const TrustedAdvisorCheckRefreshStatus = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    checkId: S.String,
-    status: S.String,
-    millisUntilNextRefreshable: S.Number,
-  }),
+  S.Struct({ checkId: S.String, status: S.String, millisUntilNextRefreshable: S.Number }),
 ).annotate({
   identifier: "TrustedAdvisorCheckRefreshStatus",
 }) as any as S.Schema<TrustedAdvisorCheckRefreshStatus>;
@@ -752,10 +798,7 @@ export interface TrustedAdvisorCostOptimizingSummary {
   estimatedPercentMonthlySavings: number;
 }
 export const TrustedAdvisorCostOptimizingSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    estimatedMonthlySavings: S.Number,
-    estimatedPercentMonthlySavings: S.Number,
-  }),
+  S.Struct({ estimatedMonthlySavings: S.Number, estimatedPercentMonthlySavings: S.Number }),
 ).annotate({
   identifier: "TrustedAdvisorCostOptimizingSummary",
 }) as any as S.Schema<TrustedAdvisorCostOptimizingSummary>;
@@ -763,9 +806,7 @@ export interface TrustedAdvisorCategorySpecificSummary {
   costOptimizing?: TrustedAdvisorCostOptimizingSummary;
 }
 export const TrustedAdvisorCategorySpecificSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary),
-  }),
+  S.Struct({ costOptimizing: S.optional(TrustedAdvisorCostOptimizingSummary) }),
 ).annotate({
   identifier: "TrustedAdvisorCategorySpecificSummary",
 }) as any as S.Schema<TrustedAdvisorCategorySpecificSummary>;
@@ -895,6 +936,91 @@ export const DescribeTrustedAdvisorCheckSummariesResponse = /*@__PURE__*/ S.susp
 ).annotate({
   identifier: "DescribeTrustedAdvisorCheckSummariesResponse",
 }) as any as S.Schema<DescribeTrustedAdvisorCheckSummariesResponse>;
+export interface GetAttachmentDownloadLinkRequest {
+  attachmentId: string;
+  dryRun?: boolean;
+}
+export const GetAttachmentDownloadLinkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ attachmentId: S.String, dryRun: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetAttachmentDownloadLinkRequest",
+}) as any as S.Schema<GetAttachmentDownloadLinkRequest>;
+export type HttpsUrl = string;
+export interface DownloadUrl {
+  url: string;
+  expiryDate: string;
+}
+export const DownloadUrl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ url: S.String, expiryDate: S.String }),
+).annotate({ identifier: "DownloadUrl" }) as any as S.Schema<DownloadUrl>;
+export interface GetAttachmentDownloadLinkResponse {
+  fileName: string;
+  downloadUrl: DownloadUrl;
+}
+export const GetAttachmentDownloadLinkResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ fileName: S.String, downloadUrl: DownloadUrl }).pipe(ns),
+).annotate({
+  identifier: "GetAttachmentDownloadLinkResponse",
+}) as any as S.Schema<GetAttachmentDownloadLinkResponse>;
+export type FileSize = number;
+export type StartIndex = number;
+export type EndIndex = number;
+export interface UploadRange {
+  startIndex: number;
+  endIndex?: number;
+}
+export const UploadRange = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ startIndex: S.Number, endIndex: S.optional(S.Number) }),
+).annotate({ identifier: "UploadRange" }) as any as S.Schema<UploadRange>;
+export interface GetAttachmentUploadLinksRequest {
+  fileName: string;
+  fileSizeBytes?: number;
+  uploadId?: string;
+  uploadRange?: UploadRange;
+  dryRun?: boolean;
+}
+export const GetAttachmentUploadLinksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fileName: S.String,
+    fileSizeBytes: S.optional(S.Number),
+    uploadId: S.optional(S.String),
+    uploadRange: S.optional(UploadRange),
+    dryRun: S.optional(S.Boolean),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAttachmentUploadLinksRequest",
+}) as any as S.Schema<GetAttachmentUploadLinksRequest>;
+export type PartSizeBytes = number;
+export interface UploadUrl {
+  url: string;
+  partIndex: number;
+  expiryDate: string;
+}
+export const UploadUrl = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ url: S.String, partIndex: S.Number, expiryDate: S.String }),
+).annotate({ identifier: "UploadUrl" }) as any as S.Schema<UploadUrl>;
+export type UploadUrlList = UploadUrl[];
+export const UploadUrlList = /*@__PURE__*/ S.Array(UploadUrl);
+export interface GetAttachmentUploadLinksResponse {
+  uploadId: string;
+  partSizeBytes: number;
+  totalParts: number;
+  nextIndex?: number;
+  uploadUrls: UploadUrl[];
+}
+export const GetAttachmentUploadLinksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    uploadId: S.String,
+    partSizeBytes: S.Number,
+    totalParts: S.Number,
+    nextIndex: S.optional(S.Number),
+    uploadUrls: UploadUrlList,
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAttachmentUploadLinksResponse",
+}) as any as S.Schema<GetAttachmentUploadLinksResponse>;
 export interface RefreshTrustedAdvisorCheckRequest {
   checkId: string;
 }
@@ -915,34 +1041,42 @@ export const RefreshTrustedAdvisorCheckResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<RefreshTrustedAdvisorCheckResponse>;
 export interface ResolveCaseRequest {
   caseId?: string;
+  dryRun?: boolean;
 }
 export const ResolveCaseRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ caseId: S.optional(S.String) }).pipe(
+  S.Struct({ caseId: S.optional(S.String), dryRun: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ResolveCaseRequest",
-}) as any as S.Schema<ResolveCaseRequest>;
+).annotate({ identifier: "ResolveCaseRequest" }) as any as S.Schema<ResolveCaseRequest>;
 export type CaseStatus = string;
 export interface ResolveCaseResponse {
   initialCaseStatus?: string;
   finalCaseStatus?: string;
 }
 export const ResolveCaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    initialCaseStatus: S.optional(S.String),
-    finalCaseStatus: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ResolveCaseResponse",
-}) as any as S.Schema<ResolveCaseResponse>;
+  S.Struct({ initialCaseStatus: S.optional(S.String), finalCaseStatus: S.optional(S.String) }).pipe(
+    ns,
+  ),
+).annotate({ identifier: "ResolveCaseResponse" }) as any as S.Schema<ResolveCaseResponse>;
 export type ErrorMessage = string;
 export type AvailabilityErrorMessage = string;
+export type CoralAvailabilityThrottlingReason = string;
+export type CoralAvailabilityThrottledResource = string;
+export interface ThrottlingReason {
+  reason?: string;
+  resource?: string;
+}
+export const ThrottlingReason = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ reason: S.optional(S.String), resource: S.optional(S.String) }),
+).annotate({ identifier: "ThrottlingReason" }) as any as S.Schema<ThrottlingReason>;
+export type ThrottlingReasonList = ThrottlingReason[];
+export const ThrottlingReasonList = /*@__PURE__*/ S.Array(ThrottlingReason);
 export type AddAttachmentsToSetError =
   | AttachmentLimitExceeded
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
   | AttachmentSetSizeLimitExceeded
+  | DryRunOperationException
   | InternalServerError
   | CommonErrors;
 /**
@@ -952,11 +1086,11 @@ export type AddAttachmentsToSetError =
  * case communication. The set is available for 1 hour after it's created. The
  * `expiryTime` returned in the response is when the set expires.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -973,6 +1107,7 @@ export const addAttachmentsToSet: API.OperationMethod<
     AttachmentSetExpired,
     AttachmentSetIdNotFound,
     AttachmentSetSizeLimitExceeded,
+    DryRunOperationException,
     InternalServerError,
   ],
   protocol: AwsProtocol,
@@ -984,20 +1119,33 @@ export type AddCommunicationToCaseError =
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
   | CaseIdNotFound
+  | DryRunOperationException
   | InternalServerError
   | CommonErrors;
 /**
- * Adds additional customer communication to an Amazon Web Services Support case. Use the `caseId`
- * parameter to identify the case to which to add communication. You can list a set of
- * email addresses to copy on the communication by using the `ccEmailAddresses`
+ * Adds additional customer communication to a Amazon Web Services Support case. Use the `caseId`
+ * parameter to identify the case to which to add communication. To list a set of
+ * email addresses to copy on the communication, use the `ccEmailAddresses`
  * parameter. The `communicationBody` value contains the text of the
  * communication.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * To attach files larger than 5 MB to the communication, use the `uploadIds` parameter.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * Amazon Web Services Support automatically redacts sensitive information from support cases to protect your data. The following information is replaced with `[REDACTED_BY_Amazon Web Services]` and is not stored:
+ *
+ * - Amazon Web Services secret keys - The complete key is replaced. Example: `[REDACTED_BY_Amazon Web Services]`
+ *
+ * - Private keys - The complete key is replaced. Example: `[REDACTED_BY_Amazon Web Services]`
+ *
+ * - Credit card numbers - The number is redacted, but the last 4 digits remain. Example: `[REDACTED_BY_Amazon Web Services]-7016`
+ *
+ * This sensitive information is never required by Amazon Web Services Support.
+ *
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1009,16 +1157,51 @@ export const addCommunicationToCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddCommunicationToCaseRequest,
   output: AddCommunicationToCaseResponse,
-  errors: [AttachmentSetExpired, AttachmentSetIdNotFound, CaseIdNotFound, InternalServerError],
+  errors: [
+    AttachmentSetExpired,
+    AttachmentSetIdNotFound,
+    CaseIdNotFound,
+    DryRunOperationException,
+    InternalServerError,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCommunicationToCase",
+}));
+
+export type CompleteAttachmentUploadError =
+  | DryRunOperationException
+  | InternalServerError
+  | UploadIdNotFound
+  | CommonErrors;
+/**
+ * Completes an attachment upload that was started with GetAttachmentUploadLinks. After you upload a part of the file to its
+ * presigned Amazon S3 URL, call `CompleteAttachmentUpload` with the
+ * `partIndex` and `eTag` of that part. You can include one part per
+ * call, or multiple parts in a single call. After `CompleteAttachmentUpload` has
+ * been called for every part of the file, the service processes the upload asynchronously. The
+ * `attachment-ready` status might not be reflected immediately. Use DescribeAttachmentUploadStatus to poll for the `uploadStatus` to
+ * become `attachment-ready` before passing the `uploadId` to CreateCase or AddCommunicationToCase.
+ */
+export const completeAttachmentUpload: API.OperationMethod<
+  CompleteAttachmentUploadRequest,
+  CompleteAttachmentUploadResponse,
+  CompleteAttachmentUploadError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: CompleteAttachmentUploadRequest,
+  output: CompleteAttachmentUploadResponse,
+  errors: [DryRunOperationException, InternalServerError, UploadIdNotFound],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CompleteAttachmentUpload",
 }));
 
 export type CreateCaseError =
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
   | CaseCreationLimitExceeded
+  | DryRunOperationException
   | InternalServerError
   | CommonErrors;
 /**
@@ -1033,7 +1216,17 @@ export type CreateCaseError =
  *
  * - Use the Service Quotas RequestServiceQuotaIncrease operation.
  *
- * A successful `CreateCase` request returns an Amazon Web Services Support case number. You can use
+ * Amazon Web Services Support automatically redacts sensitive information from support cases to protect your data. The following information is replaced with `[REDACTED_BY_Amazon Web Services]` and is not stored:
+ *
+ * - Amazon Web Services secret keys - The complete key is replaced. Example: `[REDACTED_BY_Amazon Web Services]`
+ *
+ * - Private keys - The complete key is replaced. Example: `[REDACTED_BY_Amazon Web Services]`
+ *
+ * - Credit card numbers - The number is redacted, but the last 4 digits remain. Example: `[REDACTED_BY_Amazon Web Services]-7016`
+ *
+ * This sensitive information is never required by Amazon Web Services Support.
+ *
+ * A successful `CreateCase` request returns a Amazon Web Services Support case number. You can use
  * the DescribeCases operation and specify the case number to get
  * existing Amazon Web Services Support cases. After you create a case, use the AddCommunicationToCase operation to add additional communication or
  * attachments to an existing case.
@@ -1041,11 +1234,11 @@ export type CreateCaseError =
  * The `caseId` is separate from the `displayId` that appears in
  * the Amazon Web Services Support Center. Use the DescribeCases operation to get the `displayId`.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1061,6 +1254,7 @@ export const createCase: API.OperationMethod<
     AttachmentSetExpired,
     AttachmentSetIdNotFound,
     CaseCreationLimitExceeded,
+    DryRunOperationException,
     InternalServerError,
   ],
   protocol: AwsProtocol,
@@ -1071,6 +1265,7 @@ export const createCase: API.OperationMethod<
 export type DescribeAttachmentError =
   | AttachmentIdNotFound
   | DescribeAttachmentLimitExceeded
+  | DryRunOperationException
   | InternalServerError
   | CommonErrors;
 /**
@@ -1080,13 +1275,22 @@ export type DescribeAttachmentError =
  * Attachment IDs are returned in the AttachmentDetails objects that are
  * returned by the DescribeCommunications operation.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
+ *
+ * `DescribeAttachment` can't return attachments larger than 5 MB. If the
+ * specified `attachmentId` refers to an attachment larger than 5 MB, the
+ * request fails with `InvalidParameterValueException`.
+ *
+ * To download an attachment of any size, including attachments larger than 5 MB, use
+ * GetAttachmentDownloadLink.
+ * `GetAttachmentDownloadLink` returns an Amazon S3 presigned URL that you can
+ * use to download the attachment directly.
  */
 export const describeAttachment: API.OperationMethod<
   DescribeAttachmentRequest,
@@ -1096,13 +1300,60 @@ export const describeAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeAttachmentRequest,
   output: DescribeAttachmentResponse,
-  errors: [AttachmentIdNotFound, DescribeAttachmentLimitExceeded, InternalServerError],
+  errors: [
+    AttachmentIdNotFound,
+    DescribeAttachmentLimitExceeded,
+    DryRunOperationException,
+    InternalServerError,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachment",
 }));
 
-export type DescribeCasesError = CaseIdNotFound | InternalServerError | CommonErrors;
+export type DescribeAttachmentUploadStatusError =
+  | DryRunOperationException
+  | InternalServerError
+  | UploadIdNotFound
+  | CommonErrors;
+/**
+ * Returns the current status, file name, and progress of a multipart attachment upload that
+ * was started with GetAttachmentUploadLinks. Use this operation to track
+ * where an upload is in the workflow. While parts are still being uploaded and reported through
+ * CompleteAttachmentUpload, the `uploadStatus` is
+ * `attachment-not-ready` and `uploadProgress` reports the total number
+ * of parts and how many have been completed so far. After every part has been reported and the
+ * service finishes processing the upload asynchronously, the `uploadStatus` becomes
+ * `attachment-ready` and the `uploadId` can be attached to a case
+ * through CreateCase or AddCommunicationToCase.
+ *
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const describeAttachmentUploadStatus: API.OperationMethod<
+  DescribeAttachmentUploadStatusRequest,
+  DescribeAttachmentUploadStatusResponse,
+  DescribeAttachmentUploadStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: DescribeAttachmentUploadStatusRequest,
+  output: DescribeAttachmentUploadStatusResponse,
+  errors: [DryRunOperationException, InternalServerError, UploadIdNotFound],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeAttachmentUploadStatus",
+}));
+
+export type DescribeCasesError =
+  | CaseIdNotFound
+  | DryRunOperationException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns a list of cases that you specify by passing one or more case IDs. You can use
  * the `afterTime` and `beforeTime` parameters to filter the cases by
@@ -1117,16 +1368,29 @@ export type DescribeCasesError = CaseIdNotFound | InternalServerError | CommonEr
  * - One or more `nextToken` values, which specify where to paginate the
  * returned records represented by the `CaseDetails` objects.
  *
- * Case data is available for 12 months after creation. If a case was created more than
- * 12 months ago, a request might return an error.
+ * Case data is available for 24 months after creation. If a case was created more than
+ * 24 months ago, a request might return an error.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
+ *
+ * Each Communication returned by this operation includes
+ * attachment information in two fields:
+ *
+ * - `attachmentSet`: returns only attachments that are 5 MB or
+ * smaller. Attachments larger than 5 MB are not included in this field.
+ *
+ * - `attachments`: returns all attachments regardless of size.
+ *
+ * Amazon Web Services recommends that you use the `attachments` field and download each
+ * attachment with GetAttachmentDownloadLink, which supports
+ * attachments of any size. The `attachmentSet` field and DescribeAttachment return only attachments that are 5 MB or
+ * smaller.
  */
 export const describeCases: API.PaginatedOperationMethod<
   DescribeCasesRequest,
@@ -1137,7 +1401,7 @@ export const describeCases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeCasesRequest,
   output: DescribeCasesResponse,
-  errors: [CaseIdNotFound, InternalServerError],
+  errors: [CaseIdNotFound, DryRunOperationException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCases",
@@ -1149,28 +1413,45 @@ export const describeCases: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeCommunicationsError = CaseIdNotFound | InternalServerError | CommonErrors;
+export type DescribeCommunicationsError =
+  | CaseIdNotFound
+  | DryRunOperationException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns communications and attachments for one or more support cases. Use the
  * `afterTime` and `beforeTime` parameters to filter by date. You
  * can use the `caseId` parameter to restrict the results to a specific
  * case.
  *
- * Case data is available for 12 months after creation. If a case was created more than
- * 12 months ago, a request for data might cause an error.
+ * Case data is available for 24 months after creation. If a case was created more than
+ * 24 months ago, a request for data might cause an error.
  *
  * You can use the `maxResults` and `nextToken` parameters to
  * control the pagination of the results. Set `maxResults` to the number of
  * cases that you want to display on each page, and use `nextToken` to specify
  * the resumption of pagination.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
+ *
+ * Each Communication returned by this operation includes
+ * attachment information in two fields:
+ *
+ * - `attachmentSet`: returns only attachments that are 5 MB or
+ * smaller. Attachments larger than 5 MB are not included in this field.
+ *
+ * - `attachments`: returns all attachments regardless of size.
+ *
+ * Amazon Web Services recommends that you use the `attachments` field and download each
+ * attachment with GetAttachmentDownloadLink, which supports
+ * attachments of any size. The `attachmentSet` field and DescribeAttachment return only attachments that are 5 MB or
+ * smaller.
  */
 export const describeCommunications: API.PaginatedOperationMethod<
   DescribeCommunicationsRequest,
@@ -1181,7 +1462,7 @@ export const describeCommunications: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeCommunicationsRequest,
   output: DescribeCommunicationsResponse,
-  errors: [CaseIdNotFound, InternalServerError],
+  errors: [CaseIdNotFound, DryRunOperationException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCommunications",
@@ -1194,6 +1475,7 @@ export const describeCommunications: API.PaginatedOperationMethod<
 })) as any;
 
 export type DescribeCreateCaseOptionsError =
+  | DryRunOperationException
   | InternalServerError
   | ThrottlingException
   | CommonErrors;
@@ -1203,11 +1485,11 @@ export type DescribeCreateCaseOptionsError =
  * `categoryCode`,
  * `issueType` and `serviceCode` used to retrieve the CreateCaseOptions.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1219,13 +1501,13 @@ export const describeCreateCaseOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeCreateCaseOptionsRequest,
   output: DescribeCreateCaseOptionsResponse,
-  errors: [InternalServerError, ThrottlingException],
+  errors: [DryRunOperationException, InternalServerError, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCreateCaseOptions",
 }));
 
-export type DescribeServicesError = InternalServerError | CommonErrors;
+export type DescribeServicesError = DryRunOperationException | InternalServerError | CommonErrors;
 /**
  * Returns the current list of Amazon Web Services services and a list of service categories for each
  * service. You then use service names and categories in your CreateCase
@@ -1238,11 +1520,11 @@ export type DescribeServicesError = InternalServerError | CommonErrors;
  * that the `DescribeServices` operation returns, so that you have the most
  * recent set of service and category codes.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1254,23 +1536,26 @@ export const describeServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeServicesRequest,
   output: DescribeServicesResponse,
-  errors: [InternalServerError],
+  errors: [DryRunOperationException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServices",
 }));
 
-export type DescribeSeverityLevelsError = InternalServerError | CommonErrors;
+export type DescribeSeverityLevelsError =
+  | DryRunOperationException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Returns the list of severity levels that you can assign to a support case. The
  * severity level for a case is also a field in the CaseDetails data type
  * that you include for a CreateCase request.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1282,13 +1567,14 @@ export const describeSeverityLevels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeSeverityLevelsRequest,
   output: DescribeSeverityLevelsResponse,
-  errors: [InternalServerError],
+  errors: [DryRunOperationException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSeverityLevels",
 }));
 
 export type DescribeSupportedLanguagesError =
+  | DryRunOperationException
   | InternalServerError
   | ThrottlingException
   | CommonErrors;
@@ -1297,11 +1583,11 @@ export type DescribeSupportedLanguagesError =
  * `issueType` and `serviceCode`. The returned supported languages will
  * include a ISO 639-1 code for the `language`, and the language display name.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1313,7 +1599,7 @@ export const describeSupportedLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeSupportedLanguagesRequest,
   output: DescribeSupportedLanguagesResponse,
-  errors: [InternalServerError, ThrottlingException],
+  errors: [DryRunOperationException, InternalServerError, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSupportedLanguages",
@@ -1332,11 +1618,11 @@ export type DescribeTrustedAdvisorCheckRefreshStatusesError =
  * call this operation for these checks, you might see an
  * `InvalidParameterValue` error.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  *
@@ -1389,11 +1675,11 @@ export type DescribeTrustedAdvisorCheckResultError =
  * - **checkId** - The unique identifier for the
  * check.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  *
@@ -1427,10 +1713,10 @@ export type DescribeTrustedAdvisorChecksError =
  * The response contains a TrustedAdvisorCheckDescription object for
  * each check. You must set the Amazon Web Services Region to us-east-1.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
+ * - You must have a Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support API.
  *
  * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the `SubscriptionRequiredException` error
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the `SubscriptionRequiredException` error
  * message appears. For information about changing your support plan, see
  * Amazon Web Services Support.
  *
@@ -1468,11 +1754,11 @@ export type DescribeTrustedAdvisorCheckSummariesError =
  * The response contains an array of TrustedAdvisorCheckSummary
  * objects.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  *
@@ -1480,6 +1766,10 @@ export type DescribeTrustedAdvisorCheckSummariesError =
  * the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland)
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
+ *
+ * **Understanding the Trusted Advisor Resources processed value**
+ *
+ * The **Resources processed** value, `resourcesProcessed`, usually shows both flagged resources (those with warnings or errors) and resources in good standing (ok status resources). However, some checks report flagged resources only. To understand what a specific check reports, review the detailed check information in the Trusted Advisor check reference. If you see a **Green** criterion listed in the **Alert criteria**, then the check reports all resources. If there's no **Green** criterion listed in the **Alert criteria**, then the check reports only flagged resources. For example, the Amazon EC2 Reserved Instance optimization check (cX3c2R1chu) doesn't list a **Green** criterion in the **Alert criteria**. So, this check only reports flagged resources.
  */
 export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
   DescribeTrustedAdvisorCheckSummariesRequest,
@@ -1495,6 +1785,84 @@ export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
   operationName: "DescribeTrustedAdvisorCheckSummaries",
 }));
 
+export type GetAttachmentDownloadLinkError =
+  | AttachmentIdNotFound
+  | DryRunOperationException
+  | InternalServerError
+  | CommonErrors;
+/**
+ * Returns a presigned download URL for an attachment that is associated with a case
+ * communication. The download link works for an attachment of any size, including attachments
+ * added through `AddAttachmentsToSet` and attachments uploaded through GetAttachmentUploadLinks. The download URL is time-limited and expires at the
+ * date and time indicated in the `downloadUrl` response field. Download the
+ * attachment from the URL before it expires.
+ *
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const getAttachmentDownloadLink: API.OperationMethod<
+  GetAttachmentDownloadLinkRequest,
+  GetAttachmentDownloadLinkResponse,
+  GetAttachmentDownloadLinkError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAttachmentDownloadLinkRequest,
+  output: GetAttachmentDownloadLinkResponse,
+  errors: [AttachmentIdNotFound, DryRunOperationException, InternalServerError],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAttachmentDownloadLink",
+}));
+
+export type GetAttachmentUploadLinksError =
+  | DryRunOperationException
+  | InternalServerError
+  | UploadIdNotFound
+  | CommonErrors;
+/**
+ * Returns one or more presigned upload URLs for uploading a large file attachment to a
+ * support case by using a multipart upload workflow. The maximum file size that you can upload
+ * with this workflow is 150 MB, and parts can be up to 100 MB each. Initiate a new upload by
+ * providing `fileName` and `fileSizeBytes`; the response returns a unique
+ * `uploadId`, the part size, the total number of parts, and a list of presigned
+ * upload URLs for the requested range of parts. A maximum of 10 upload URLs are returned per
+ * call. To retrieve more upload URLs for an upload
+ * that's already in progress, call `GetAttachmentUploadLinks` again with the existing
+ * `uploadId` and a new `uploadRange`.
+ *
+ * Upload each part to its presigned URL by using HTTP `PUT` and capture the ETag
+ * from the response. After you upload all parts, call CompleteAttachmentUpload
+ * with the `uploadId` and the list of part indexes and ETags to finalize the upload.
+ * You can then attach the upload to a case by passing the `uploadId` in the
+ * `uploadIds` parameter of CreateCase or AddCommunicationToCase. To monitor progress before completion, call DescribeAttachmentUploadStatus.
+ *
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
+ *
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
+ * `SubscriptionRequiredException` error message appears. For
+ * information about changing your support plan, see Amazon Web Services Support.
+ */
+export const getAttachmentUploadLinks: API.OperationMethod<
+  GetAttachmentUploadLinksRequest,
+  GetAttachmentUploadLinksResponse,
+  GetAttachmentUploadLinksError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetAttachmentUploadLinksRequest,
+  output: GetAttachmentUploadLinksResponse,
+  errors: [DryRunOperationException, InternalServerError, UploadIdNotFound],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetAttachmentUploadLinks",
+}));
+
 export type RefreshTrustedAdvisorCheckError = InternalServerError | CommonErrors;
 /**
  * Refreshes the Trusted Advisor check that you specify using the check ID. You can get the
@@ -1508,11 +1876,11 @@ export type RefreshTrustedAdvisorCheckError = InternalServerError | CommonErrors
  * The response contains a TrustedAdvisorCheckRefreshStatus
  * object.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  *
@@ -1535,16 +1903,20 @@ export const refreshTrustedAdvisorCheck: API.OperationMethod<
   operationName: "RefreshTrustedAdvisorCheck",
 }));
 
-export type ResolveCaseError = CaseIdNotFound | InternalServerError | CommonErrors;
+export type ResolveCaseError =
+  | CaseIdNotFound
+  | DryRunOperationException
+  | InternalServerError
+  | CommonErrors;
 /**
  * Resolves a support case. This operation takes a `caseId` and returns the
  * initial and final state of the case.
  *
- * - You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support
- * API.
+ * - You must have an Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan to use the Amazon Web Services Support
+ * API. If you're in an Amazon Web Services Region that doesn't offer one of these Amazon Web Services Support plans, or if you haven't transitioned to one of these plans, you can use the Amazon Web Services Support API with a Business, Enterprise On-Ramp, or Enterprise Support plan.
  *
- * - If you call the Amazon Web Services Support API from an account that doesn't have a
- * Business, Enterprise On-Ramp, or Enterprise Support plan, the
+ * - If you call the Amazon Web Services Support API from an account that doesn't have an
+ * Amazon Web Services Business Support+, Amazon Web Services Enterprise Support, or Amazon Web Services Unified Operations plan, the
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
@@ -1556,7 +1928,7 @@ export const resolveCase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResolveCaseRequest,
   output: ResolveCaseResponse,
-  errors: [CaseIdNotFound, InternalServerError],
+  errors: [CaseIdNotFound, DryRunOperationException, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveCase",

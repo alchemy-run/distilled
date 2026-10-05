@@ -82,9 +82,7 @@ export class InternalServerError
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       error: S.optional(
-        S.suspend(() => StorageGatewayError).annotate({
-          identifier: "StorageGatewayError",
-        }),
+        S.suspend(() => StorageGatewayError).annotate({ identifier: "StorageGatewayError" }),
       ),
     },
     T.HttpError(500),
@@ -95,9 +93,7 @@ export class InvalidGatewayRequestException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       error: S.optional(
-        S.suspend(() => StorageGatewayError).annotate({
-          identifier: "StorageGatewayError",
-        }),
+        S.suspend(() => StorageGatewayError).annotate({ identifier: "StorageGatewayError" }),
       ),
     },
     T.HttpError(400),
@@ -108,9 +104,7 @@ export class ServiceUnavailableError
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       error: S.optional(
-        S.suspend(() => StorageGatewayError).annotate({
-          identifier: "StorageGatewayError",
-        }),
+        S.suspend(() => StorageGatewayError).annotate({ identifier: "StorageGatewayError" }),
       ),
     },
     T.HttpError(503),
@@ -154,18 +148,14 @@ export const ActivateGatewayInput = /*@__PURE__*/ S.suspend(() =>
     MediumChangerType: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ActivateGatewayInput",
-}) as any as S.Schema<ActivateGatewayInput>;
+).annotate({ identifier: "ActivateGatewayInput" }) as any as S.Schema<ActivateGatewayInput>;
 export type GatewayARN = string;
 export interface ActivateGatewayOutput {
   GatewayARN?: string;
 }
 export const ActivateGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ActivateGatewayOutput",
-}) as any as S.Schema<ActivateGatewayOutput>;
+).annotate({ identifier: "ActivateGatewayOutput" }) as any as S.Schema<ActivateGatewayOutput>;
 export type DiskId = string;
 export type DiskIds = string[];
 export const DiskIds = /*@__PURE__*/ S.Array(S.String);
@@ -193,17 +183,13 @@ export const AddTagsToResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "AddTagsToResourceInput",
-}) as any as S.Schema<AddTagsToResourceInput>;
+).annotate({ identifier: "AddTagsToResourceInput" }) as any as S.Schema<AddTagsToResourceInput>;
 export interface AddTagsToResourceOutput {
   ResourceARN?: string;
 }
 export const AddTagsToResourceOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AddTagsToResourceOutput",
-}) as any as S.Schema<AddTagsToResourceOutput>;
+).annotate({ identifier: "AddTagsToResourceOutput" }) as any as S.Schema<AddTagsToResourceOutput>;
 export interface AddUploadBufferInput {
   GatewayARN: string;
   DiskIds: string[];
@@ -212,17 +198,13 @@ export const AddUploadBufferInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "AddUploadBufferInput",
-}) as any as S.Schema<AddUploadBufferInput>;
+).annotate({ identifier: "AddUploadBufferInput" }) as any as S.Schema<AddUploadBufferInput>;
 export interface AddUploadBufferOutput {
   GatewayARN?: string;
 }
 export const AddUploadBufferOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AddUploadBufferOutput",
-}) as any as S.Schema<AddUploadBufferOutput>;
+).annotate({ identifier: "AddUploadBufferOutput" }) as any as S.Schema<AddUploadBufferOutput>;
 export interface AddWorkingStorageInput {
   GatewayARN: string;
   DiskIds: string[];
@@ -231,17 +213,13 @@ export const AddWorkingStorageInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String, DiskIds: DiskIds }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "AddWorkingStorageInput",
-}) as any as S.Schema<AddWorkingStorageInput>;
+).annotate({ identifier: "AddWorkingStorageInput" }) as any as S.Schema<AddWorkingStorageInput>;
 export interface AddWorkingStorageOutput {
   GatewayARN?: string;
 }
 export const AddWorkingStorageOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AddWorkingStorageOutput",
-}) as any as S.Schema<AddWorkingStorageOutput>;
+).annotate({ identifier: "AddWorkingStorageOutput" }) as any as S.Schema<AddWorkingStorageOutput>;
 export type TapeARN = string;
 export type PoolId = string;
 export interface AssignTapePoolInput {
@@ -255,17 +233,13 @@ export const AssignTapePoolInput = /*@__PURE__*/ S.suspend(() =>
     PoolId: S.String,
     BypassGovernanceRetention: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssignTapePoolInput",
-}) as any as S.Schema<AssignTapePoolInput>;
+).annotate({ identifier: "AssignTapePoolInput" }) as any as S.Schema<AssignTapePoolInput>;
 export interface AssignTapePoolOutput {
   TapeARN?: string;
 }
 export const AssignTapePoolOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "AssignTapePoolOutput",
-}) as any as S.Schema<AssignTapePoolOutput>;
+).annotate({ identifier: "AssignTapePoolOutput" }) as any as S.Schema<AssignTapePoolOutput>;
 export type DomainUserName = string;
 export type DomainUserPassword = string | redacted.Redacted<string>;
 export type ClientToken = string;
@@ -277,9 +251,7 @@ export interface CacheAttributes {
 }
 export const CacheAttributes = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheStaleTimeoutInSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "CacheAttributes",
-}) as any as S.Schema<CacheAttributes>;
+).annotate({ identifier: "CacheAttributes" }) as any as S.Schema<CacheAttributes>;
 export type IPV4Address = string;
 export type IpAddressList = string[];
 export const IpAddressList = /*@__PURE__*/ S.Array(S.String);
@@ -314,9 +286,7 @@ export const AssociateFileSystemInput = /*@__PURE__*/ S.suspend(() =>
     CacheAttributes: S.optional(CacheAttributes),
     EndpointNetworkConfiguration: S.optional(EndpointNetworkConfiguration),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AssociateFileSystemInput",
-}) as any as S.Schema<AssociateFileSystemInput>;
+).annotate({ identifier: "AssociateFileSystemInput" }) as any as S.Schema<AssociateFileSystemInput>;
 export type FileSystemAssociationARN = string;
 export interface AssociateFileSystemOutput {
   FileSystemAssociationARN?: string;
@@ -344,22 +314,15 @@ export const AttachVolumeInput = /*@__PURE__*/ S.suspend(() =>
     NetworkInterfaceId: S.String,
     DiskId: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "AttachVolumeInput",
-}) as any as S.Schema<AttachVolumeInput>;
+).annotate({ identifier: "AttachVolumeInput" }) as any as S.Schema<AttachVolumeInput>;
 export type TargetARN = string;
 export interface AttachVolumeOutput {
   VolumeARN?: string;
   TargetARN?: string;
 }
 export const AttachVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    TargetARN: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "AttachVolumeOutput",
-}) as any as S.Schema<AttachVolumeOutput>;
+  S.Struct({ VolumeARN: S.optional(S.String), TargetARN: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "AttachVolumeOutput" }) as any as S.Schema<AttachVolumeOutput>;
 export interface CancelArchivalInput {
   GatewayARN: string;
   TapeARN: string;
@@ -368,17 +331,13 @@ export const CancelArchivalInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String, TapeARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelArchivalInput",
-}) as any as S.Schema<CancelArchivalInput>;
+).annotate({ identifier: "CancelArchivalInput" }) as any as S.Schema<CancelArchivalInput>;
 export interface CancelArchivalOutput {
   TapeARN?: string;
 }
 export const CancelArchivalOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CancelArchivalOutput",
-}) as any as S.Schema<CancelArchivalOutput>;
+).annotate({ identifier: "CancelArchivalOutput" }) as any as S.Schema<CancelArchivalOutput>;
 export type CacheReportARN = string;
 export interface CancelCacheReportInput {
   CacheReportARN: string;
@@ -387,17 +346,13 @@ export const CancelCacheReportInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheReportARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelCacheReportInput",
-}) as any as S.Schema<CancelCacheReportInput>;
+).annotate({ identifier: "CancelCacheReportInput" }) as any as S.Schema<CancelCacheReportInput>;
 export interface CancelCacheReportOutput {
   CacheReportARN?: string;
 }
 export const CancelCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CancelCacheReportOutput",
-}) as any as S.Schema<CancelCacheReportOutput>;
+).annotate({ identifier: "CancelCacheReportOutput" }) as any as S.Schema<CancelCacheReportOutput>;
 export interface CancelRetrievalInput {
   GatewayARN: string;
   TapeARN: string;
@@ -406,17 +361,13 @@ export const CancelRetrievalInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String, TapeARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CancelRetrievalInput",
-}) as any as S.Schema<CancelRetrievalInput>;
+).annotate({ identifier: "CancelRetrievalInput" }) as any as S.Schema<CancelRetrievalInput>;
 export interface CancelRetrievalOutput {
   TapeARN?: string;
 }
 export const CancelRetrievalOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CancelRetrievalOutput",
-}) as any as S.Schema<CancelRetrievalOutput>;
+).annotate({ identifier: "CancelRetrievalOutput" }) as any as S.Schema<CancelRetrievalOutput>;
 export type SnapshotId = string;
 export type KMSKey = string;
 export interface CreateCachediSCSIVolumeInput {
@@ -452,10 +403,7 @@ export interface CreateCachediSCSIVolumeOutput {
   TargetARN?: string;
 }
 export const CreateCachediSCSIVolumeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    TargetARN: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ VolumeARN: S.optional(S.String), TargetARN: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "CreateCachediSCSIVolumeOutput",
 }) as any as S.Schema<CreateCachediSCSIVolumeOutput>;
@@ -474,9 +422,7 @@ export const NFSFileShareDefaults = /*@__PURE__*/ S.suspend(() =>
     GroupId: S.optional(S.Number),
     OwnerId: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "NFSFileShareDefaults",
-}) as any as S.Schema<NFSFileShareDefaults>;
+).annotate({ identifier: "NFSFileShareDefaults" }) as any as S.Schema<NFSFileShareDefaults>;
 export type EncryptionType = "SseS3" | "SseKms" | "DsseKms" | (string & {});
 export const EncryptionType = S.String;
 
@@ -550,18 +496,14 @@ export const CreateNFSFileShareInput = /*@__PURE__*/ S.suspend(() =>
     BucketRegion: S.optional(S.String),
     AuditDestinationARN: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateNFSFileShareInput",
-}) as any as S.Schema<CreateNFSFileShareInput>;
+).annotate({ identifier: "CreateNFSFileShareInput" }) as any as S.Schema<CreateNFSFileShareInput>;
 export type FileShareARN = string;
 export interface CreateNFSFileShareOutput {
   FileShareARN?: string;
 }
 export const CreateNFSFileShareOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateNFSFileShareOutput",
-}) as any as S.Schema<CreateNFSFileShareOutput>;
+).annotate({ identifier: "CreateNFSFileShareOutput" }) as any as S.Schema<CreateNFSFileShareOutput>;
 export type UserListUser = string;
 export type UserList = string[];
 export const UserList = /*@__PURE__*/ S.Array(S.String);
@@ -628,17 +570,13 @@ export const CreateSMBFileShareInput = /*@__PURE__*/ S.suspend(() =>
     BucketRegion: S.optional(S.String),
     OplocksEnabled: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSMBFileShareInput",
-}) as any as S.Schema<CreateSMBFileShareInput>;
+).annotate({ identifier: "CreateSMBFileShareInput" }) as any as S.Schema<CreateSMBFileShareInput>;
 export interface CreateSMBFileShareOutput {
   FileShareARN?: string;
 }
 export const CreateSMBFileShareOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateSMBFileShareOutput",
-}) as any as S.Schema<CreateSMBFileShareOutput>;
+).annotate({ identifier: "CreateSMBFileShareOutput" }) as any as S.Schema<CreateSMBFileShareOutput>;
 export type SnapshotDescription = string;
 export interface CreateSnapshotInput {
   VolumeARN: string;
@@ -646,37 +584,26 @@ export interface CreateSnapshotInput {
   Tags?: Tag[];
 }
 export const CreateSnapshotInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.String,
-    SnapshotDescription: S.String,
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateSnapshotInput",
-}) as any as S.Schema<CreateSnapshotInput>;
+  S.Struct({ VolumeARN: S.String, SnapshotDescription: S.String, Tags: S.optional(Tags) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "CreateSnapshotInput" }) as any as S.Schema<CreateSnapshotInput>;
 export interface CreateSnapshotOutput {
   VolumeARN?: string;
   SnapshotId?: string;
 }
 export const CreateSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.optional(S.String),
-    SnapshotId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "CreateSnapshotOutput",
-}) as any as S.Schema<CreateSnapshotOutput>;
+  S.Struct({ VolumeARN: S.optional(S.String), SnapshotId: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "CreateSnapshotOutput" }) as any as S.Schema<CreateSnapshotOutput>;
 export interface CreateSnapshotFromVolumeRecoveryPointInput {
   VolumeARN: string;
   SnapshotDescription: string;
   Tags?: Tag[];
 }
 export const CreateSnapshotFromVolumeRecoveryPointInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    VolumeARN: S.String,
-    SnapshotDescription: S.String,
-    Tags: S.optional(Tags),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ VolumeARN: S.String, SnapshotDescription: S.String, Tags: S.optional(Tags) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "CreateSnapshotFromVolumeRecoveryPointInput",
 }) as any as S.Schema<CreateSnapshotFromVolumeRecoveryPointInput>;
@@ -757,18 +684,14 @@ export const CreateTapePoolInput = /*@__PURE__*/ S.suspend(() =>
     RetentionLockTimeInDays: S.optional(S.Number),
     Tags: S.optional(Tags),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTapePoolInput",
-}) as any as S.Schema<CreateTapePoolInput>;
+).annotate({ identifier: "CreateTapePoolInput" }) as any as S.Schema<CreateTapePoolInput>;
 export type PoolARN = string;
 export interface CreateTapePoolOutput {
   PoolARN?: string;
 }
 export const CreateTapePoolOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PoolARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "CreateTapePoolOutput",
-}) as any as S.Schema<CreateTapePoolOutput>;
+).annotate({ identifier: "CreateTapePoolOutput" }) as any as S.Schema<CreateTapePoolOutput>;
 export type TapeSize = number;
 export type NumTapesToCreate = number;
 export type TapeBarcodePrefix = string;
@@ -797,9 +720,7 @@ export const CreateTapesInput = /*@__PURE__*/ S.suspend(() =>
     Worm: S.optional(S.Boolean),
     Tags: S.optional(Tags),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateTapesInput",
-}) as any as S.Schema<CreateTapesInput>;
+).annotate({ identifier: "CreateTapesInput" }) as any as S.Schema<CreateTapesInput>;
 export type TapeARNs = string[];
 export const TapeARNs = /*@__PURE__*/ S.Array(S.String);
 export interface CreateTapesOutput {
@@ -807,9 +728,7 @@ export interface CreateTapesOutput {
 }
 export const CreateTapesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARNs: S.optional(TapeARNs) }).pipe(ns),
-).annotate({
-  identifier: "CreateTapesOutput",
-}) as any as S.Schema<CreateTapesOutput>;
+).annotate({ identifier: "CreateTapesOutput" }) as any as S.Schema<CreateTapesOutput>;
 export type TapeBarcode = string;
 export interface CreateTapeWithBarcodeInput {
   GatewayARN: string;
@@ -888,17 +807,13 @@ export const DeleteCacheReportInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheReportARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteCacheReportInput",
-}) as any as S.Schema<DeleteCacheReportInput>;
+).annotate({ identifier: "DeleteCacheReportInput" }) as any as S.Schema<DeleteCacheReportInput>;
 export interface DeleteCacheReportOutput {
   CacheReportARN?: string;
 }
 export const DeleteCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteCacheReportOutput",
-}) as any as S.Schema<DeleteCacheReportOutput>;
+).annotate({ identifier: "DeleteCacheReportOutput" }) as any as S.Schema<DeleteCacheReportOutput>;
 export type IqnName = string;
 export interface DeleteChapCredentialsInput {
   TargetARN: string;
@@ -916,10 +831,7 @@ export interface DeleteChapCredentialsOutput {
   InitiatorName?: string;
 }
 export const DeleteChapCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetARN: S.optional(S.String),
-    InitiatorName: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ TargetARN: S.optional(S.String), InitiatorName: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DeleteChapCredentialsOutput",
 }) as any as S.Schema<DeleteChapCredentialsOutput>;
@@ -931,17 +843,13 @@ export const DeleteFileShareInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.String, ForceDelete: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteFileShareInput",
-}) as any as S.Schema<DeleteFileShareInput>;
+).annotate({ identifier: "DeleteFileShareInput" }) as any as S.Schema<DeleteFileShareInput>;
 export interface DeleteFileShareOutput {
   FileShareARN?: string;
 }
 export const DeleteFileShareOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteFileShareOutput",
-}) as any as S.Schema<DeleteFileShareOutput>;
+).annotate({ identifier: "DeleteFileShareOutput" }) as any as S.Schema<DeleteFileShareOutput>;
 export interface DeleteGatewayInput {
   GatewayARN: string;
 }
@@ -949,17 +857,13 @@ export const DeleteGatewayInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteGatewayInput",
-}) as any as S.Schema<DeleteGatewayInput>;
+).annotate({ identifier: "DeleteGatewayInput" }) as any as S.Schema<DeleteGatewayInput>;
 export interface DeleteGatewayOutput {
   GatewayARN?: string;
 }
 export const DeleteGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteGatewayOutput",
-}) as any as S.Schema<DeleteGatewayOutput>;
+).annotate({ identifier: "DeleteGatewayOutput" }) as any as S.Schema<DeleteGatewayOutput>;
 export interface DeleteSnapshotScheduleInput {
   VolumeARN: string;
 }
@@ -989,37 +893,28 @@ export const DeleteTapeInput = /*@__PURE__*/ S.suspend(() =>
     TapeARN: S.String,
     BypassGovernanceRetention: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteTapeInput",
-}) as any as S.Schema<DeleteTapeInput>;
+).annotate({ identifier: "DeleteTapeInput" }) as any as S.Schema<DeleteTapeInput>;
 export interface DeleteTapeOutput {
   TapeARN?: string;
 }
 export const DeleteTapeOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteTapeOutput",
-}) as any as S.Schema<DeleteTapeOutput>;
+).annotate({ identifier: "DeleteTapeOutput" }) as any as S.Schema<DeleteTapeOutput>;
 export interface DeleteTapeArchiveInput {
   TapeARN: string;
   BypassGovernanceRetention?: boolean;
 }
 export const DeleteTapeArchiveInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeARN: S.String,
-    BypassGovernanceRetention: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DeleteTapeArchiveInput",
-}) as any as S.Schema<DeleteTapeArchiveInput>;
+  S.Struct({ TapeARN: S.String, BypassGovernanceRetention: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "DeleteTapeArchiveInput" }) as any as S.Schema<DeleteTapeArchiveInput>;
 export interface DeleteTapeArchiveOutput {
   TapeARN?: string;
 }
 export const DeleteTapeArchiveOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteTapeArchiveOutput",
-}) as any as S.Schema<DeleteTapeArchiveOutput>;
+).annotate({ identifier: "DeleteTapeArchiveOutput" }) as any as S.Schema<DeleteTapeArchiveOutput>;
 export interface DeleteTapePoolInput {
   PoolARN: string;
 }
@@ -1027,17 +922,13 @@ export const DeleteTapePoolInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PoolARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteTapePoolInput",
-}) as any as S.Schema<DeleteTapePoolInput>;
+).annotate({ identifier: "DeleteTapePoolInput" }) as any as S.Schema<DeleteTapePoolInput>;
 export interface DeleteTapePoolOutput {
   PoolARN?: string;
 }
 export const DeleteTapePoolOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PoolARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteTapePoolOutput",
-}) as any as S.Schema<DeleteTapePoolOutput>;
+).annotate({ identifier: "DeleteTapePoolOutput" }) as any as S.Schema<DeleteTapePoolOutput>;
 export interface DeleteVolumeInput {
   VolumeARN: string;
 }
@@ -1045,17 +936,13 @@ export const DeleteVolumeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VolumeARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteVolumeInput",
-}) as any as S.Schema<DeleteVolumeInput>;
+).annotate({ identifier: "DeleteVolumeInput" }) as any as S.Schema<DeleteVolumeInput>;
 export interface DeleteVolumeOutput {
   VolumeARN?: string;
 }
 export const DeleteVolumeOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DeleteVolumeOutput",
-}) as any as S.Schema<DeleteVolumeOutput>;
+).annotate({ identifier: "DeleteVolumeOutput" }) as any as S.Schema<DeleteVolumeOutput>;
 export interface DescribeAvailabilityMonitorTestInput {
   GatewayARN: string;
 }
@@ -1167,9 +1054,7 @@ export const DescribeCacheInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeCacheInput",
-}) as any as S.Schema<DescribeCacheInput>;
+).annotate({ identifier: "DescribeCacheInput" }) as any as S.Schema<DescribeCacheInput>;
 export interface DescribeCacheOutput {
   GatewayARN?: string;
   DiskIds?: string[];
@@ -1189,9 +1074,7 @@ export const DescribeCacheOutput = /*@__PURE__*/ S.suspend(() =>
     CacheHitPercentage: S.optional(S.Number),
     CacheMissPercentage: S.optional(S.Number),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeCacheOutput",
-}) as any as S.Schema<DescribeCacheOutput>;
+).annotate({ identifier: "DescribeCacheOutput" }) as any as S.Schema<DescribeCacheOutput>;
 export type VolumeARNs = string[];
 export const VolumeARNs = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeCachediSCSIVolumesInput {
@@ -1225,9 +1108,7 @@ export const VolumeiSCSIAttributes = /*@__PURE__*/ S.suspend(() =>
     LunNumber: S.optional(S.Number),
     ChapEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "VolumeiSCSIAttributes",
-}) as any as S.Schema<VolumeiSCSIAttributes>;
+).annotate({ identifier: "VolumeiSCSIAttributes" }) as any as S.Schema<VolumeiSCSIAttributes>;
 export type CreatedDate = Date;
 export type VolumeUsedInBytes = number;
 export interface CachediSCSIVolume {
@@ -1261,9 +1142,7 @@ export const CachediSCSIVolume = /*@__PURE__*/ S.suspend(() =>
     KMSKey: S.optional(S.String),
     TargetName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CachediSCSIVolume",
-}) as any as S.Schema<CachediSCSIVolume>;
+).annotate({ identifier: "CachediSCSIVolume" }) as any as S.Schema<CachediSCSIVolume>;
 export type CachediSCSIVolumes = CachediSCSIVolume[];
 export const CachediSCSIVolumes = /*@__PURE__*/ S.Array(CachediSCSIVolume);
 export interface DescribeCachediSCSIVolumesOutput {
@@ -1281,9 +1160,7 @@ export const DescribeCacheReportInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheReportARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeCacheReportInput",
-}) as any as S.Schema<DescribeCacheReportInput>;
+).annotate({ identifier: "DescribeCacheReportInput" }) as any as S.Schema<DescribeCacheReportInput>;
 export type CacheReportStatus =
   | "IN_PROGRESS"
   | "COMPLETED"
@@ -1306,9 +1183,7 @@ export interface CacheReportFilter {
 }
 export const CacheReportFilter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: CacheReportFilterName, Values: CacheReportFilterValues }),
-).annotate({
-  identifier: "CacheReportFilter",
-}) as any as S.Schema<CacheReportFilter>;
+).annotate({ identifier: "CacheReportFilter" }) as any as S.Schema<CacheReportFilter>;
 export type CacheReportFilterList = CacheReportFilter[];
 export const CacheReportFilterList = /*@__PURE__*/ S.Array(CacheReportFilter);
 export type CacheReportName = string;
@@ -1341,9 +1216,7 @@ export const CacheReportInfo = /*@__PURE__*/ S.suspend(() =>
     ReportName: S.optional(S.String),
     Tags: S.optional(Tags),
   }),
-).annotate({
-  identifier: "CacheReportInfo",
-}) as any as S.Schema<CacheReportInfo>;
+).annotate({ identifier: "CacheReportInfo" }) as any as S.Schema<CacheReportInfo>;
 export interface DescribeCacheReportOutput {
   CacheReportInfo?: CacheReportInfo;
 }
@@ -1445,9 +1318,7 @@ export interface DescribeFileSystemAssociationsOutput {
   FileSystemAssociationInfoList?: FileSystemAssociationInfo[];
 }
 export const DescribeFileSystemAssociationsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemAssociationInfoList: S.optional(FileSystemAssociationInfoList),
-  }).pipe(ns),
+  S.Struct({ FileSystemAssociationInfoList: S.optional(FileSystemAssociationInfoList) }).pipe(ns),
 ).annotate({
   identifier: "DescribeFileSystemAssociationsOutput",
 }) as any as S.Schema<DescribeFileSystemAssociationsOutput>;
@@ -1474,9 +1345,7 @@ export const NetworkInterface = /*@__PURE__*/ S.suspend(() =>
     MacAddress: S.optional(S.String),
     Ipv6Address: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NetworkInterface",
-}) as any as S.Schema<NetworkInterface>;
+).annotate({ identifier: "NetworkInterface" }) as any as S.Schema<NetworkInterface>;
 export type GatewayNetworkInterfaces = NetworkInterface[];
 export const GatewayNetworkInterfaces = /*@__PURE__*/ S.Array(NetworkInterface);
 export type NextUpdateAvailabilityDate = string;
@@ -1670,9 +1539,7 @@ export const NFSFileShareInfo = /*@__PURE__*/ S.suspend(() =>
     BucketRegion: S.optional(S.String),
     AuditDestinationARN: S.optional(S.String),
   }),
-).annotate({
-  identifier: "NFSFileShareInfo",
-}) as any as S.Schema<NFSFileShareInfo>;
+).annotate({ identifier: "NFSFileShareInfo" }) as any as S.Schema<NFSFileShareInfo>;
 export type NFSFileShareInfoList = NFSFileShareInfo[];
 export const NFSFileShareInfoList = /*@__PURE__*/ S.Array(NFSFileShareInfo);
 export interface DescribeNFSFileSharesOutput {
@@ -1758,9 +1625,7 @@ export const SMBFileShareInfo = /*@__PURE__*/ S.suspend(() =>
     BucketRegion: S.optional(S.String),
     OplocksEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "SMBFileShareInfo",
-}) as any as S.Schema<SMBFileShareInfo>;
+).annotate({ identifier: "SMBFileShareInfo" }) as any as S.Schema<SMBFileShareInfo>;
 export type SMBFileShareInfoList = SMBFileShareInfo[];
 export const SMBFileShareInfoList = /*@__PURE__*/ S.Array(SMBFileShareInfo);
 export interface DescribeSMBFileSharesOutput {
@@ -1778,9 +1643,7 @@ export const DescribeSMBSettingsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DescribeSMBSettingsInput",
-}) as any as S.Schema<DescribeSMBSettingsInput>;
+).annotate({ identifier: "DescribeSMBSettingsInput" }) as any as S.Schema<DescribeSMBSettingsInput>;
 export type DomainName = string;
 export type ActiveDirectoryStatus =
   | "ACCESS_DENIED"
@@ -1907,9 +1770,7 @@ export const StorediSCSIVolume = /*@__PURE__*/ S.suspend(() =>
     KMSKey: S.optional(S.String),
     TargetName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "StorediSCSIVolume",
-}) as any as S.Schema<StorediSCSIVolume>;
+).annotate({ identifier: "StorediSCSIVolume" }) as any as S.Schema<StorediSCSIVolume>;
 export type StorediSCSIVolumes = StorediSCSIVolume[];
 export const StorediSCSIVolumes = /*@__PURE__*/ S.Array(StorediSCSIVolume);
 export interface DescribeStorediSCSIVolumesOutput {
@@ -1976,10 +1837,7 @@ export interface DescribeTapeArchivesOutput {
   Marker?: string;
 }
 export const DescribeTapeArchivesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeArchives: S.optional(TapeArchives),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ TapeArchives: S.optional(TapeArchives), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "DescribeTapeArchivesOutput",
 }) as any as S.Schema<DescribeTapeArchivesOutput>;
@@ -2011,9 +1869,7 @@ export const TapeRecoveryPointInfo = /*@__PURE__*/ S.suspend(() =>
     TapeSizeInBytes: S.optional(S.Number),
     TapeStatus: S.optional(S.String),
   }),
-).annotate({
-  identifier: "TapeRecoveryPointInfo",
-}) as any as S.Schema<TapeRecoveryPointInfo>;
+).annotate({ identifier: "TapeRecoveryPointInfo" }) as any as S.Schema<TapeRecoveryPointInfo>;
 export type TapeRecoveryPointInfos = TapeRecoveryPointInfo[];
 export const TapeRecoveryPointInfos = /*@__PURE__*/ S.Array(TapeRecoveryPointInfo);
 export interface DescribeTapeRecoveryPointsOutput {
@@ -2043,9 +1899,7 @@ export const DescribeTapesInput = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeTapesInput",
-}) as any as S.Schema<DescribeTapesInput>;
+).annotate({ identifier: "DescribeTapesInput" }) as any as S.Schema<DescribeTapesInput>;
 export type TapeStatus = string;
 export type VTLDeviceARN = string;
 export interface Tape {
@@ -2088,9 +1942,7 @@ export interface DescribeTapesOutput {
 }
 export const DescribeTapesOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tapes: S.optional(Tapes), Marker: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DescribeTapesOutput",
-}) as any as S.Schema<DescribeTapesOutput>;
+).annotate({ identifier: "DescribeTapesOutput" }) as any as S.Schema<DescribeTapesOutput>;
 export interface DescribeUploadBufferInput {
   GatewayARN: string;
 }
@@ -2132,9 +1984,7 @@ export const DescribeVTLDevicesInput = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "DescribeVTLDevicesInput",
-}) as any as S.Schema<DescribeVTLDevicesInput>;
+).annotate({ identifier: "DescribeVTLDevicesInput" }) as any as S.Schema<DescribeVTLDevicesInput>;
 export type VTLDeviceType = string;
 export type VTLDeviceVendor = string;
 export type VTLDeviceProductIdentifier = string;
@@ -2151,9 +2001,7 @@ export const DeviceiSCSIAttributes = /*@__PURE__*/ S.suspend(() =>
     NetworkInterfacePort: S.optional(S.Number),
     ChapEnabled: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "DeviceiSCSIAttributes",
-}) as any as S.Schema<DeviceiSCSIAttributes>;
+).annotate({ identifier: "DeviceiSCSIAttributes" }) as any as S.Schema<DeviceiSCSIAttributes>;
 export interface VTLDevice {
   VTLDeviceARN?: string;
   VTLDeviceType?: string;
@@ -2183,9 +2031,7 @@ export const DescribeVTLDevicesOutput = /*@__PURE__*/ S.suspend(() =>
     VTLDevices: S.optional(VTLDevices),
     Marker: S.optional(S.String),
   }).pipe(ns),
-).annotate({
-  identifier: "DescribeVTLDevicesOutput",
-}) as any as S.Schema<DescribeVTLDevicesOutput>;
+).annotate({ identifier: "DescribeVTLDevicesOutput" }) as any as S.Schema<DescribeVTLDevicesOutput>;
 export interface DescribeWorkingStorageInput {
   GatewayARN: string;
 }
@@ -2220,17 +2066,13 @@ export const DetachVolumeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VolumeARN: S.String, ForceDetach: S.optional(S.Boolean) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DetachVolumeInput",
-}) as any as S.Schema<DetachVolumeInput>;
+).annotate({ identifier: "DetachVolumeInput" }) as any as S.Schema<DetachVolumeInput>;
 export interface DetachVolumeOutput {
   VolumeARN?: string;
 }
 export const DetachVolumeOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VolumeARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DetachVolumeOutput",
-}) as any as S.Schema<DetachVolumeOutput>;
+).annotate({ identifier: "DetachVolumeOutput" }) as any as S.Schema<DetachVolumeOutput>;
 export interface DisableGatewayInput {
   GatewayARN: string;
 }
@@ -2238,26 +2080,21 @@ export const DisableGatewayInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DisableGatewayInput",
-}) as any as S.Schema<DisableGatewayInput>;
+).annotate({ identifier: "DisableGatewayInput" }) as any as S.Schema<DisableGatewayInput>;
 export interface DisableGatewayOutput {
   GatewayARN?: string;
 }
 export const DisableGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "DisableGatewayOutput",
-}) as any as S.Schema<DisableGatewayOutput>;
+).annotate({ identifier: "DisableGatewayOutput" }) as any as S.Schema<DisableGatewayOutput>;
 export interface DisassociateFileSystemInput {
   FileSystemAssociationARN: string;
   ForceDelete?: boolean;
 }
 export const DisassociateFileSystemInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemAssociationARN: S.String,
-    ForceDelete: S.optional(S.Boolean),
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ FileSystemAssociationARN: S.String, ForceDelete: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DisassociateFileSystemInput",
 }) as any as S.Schema<DisassociateFileSystemInput>;
@@ -2312,9 +2149,7 @@ export const JoinDomainInput = /*@__PURE__*/ S.suspend(() =>
     UserName: S.String,
     Password: SensitiveString,
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "JoinDomainInput",
-}) as any as S.Schema<JoinDomainInput>;
+).annotate({ identifier: "JoinDomainInput" }) as any as S.Schema<JoinDomainInput>;
 export interface JoinDomainOutput {
   GatewayARN?: string;
   ActiveDirectoryStatus?: ActiveDirectoryStatus;
@@ -2324,9 +2159,7 @@ export const JoinDomainOutput = /*@__PURE__*/ S.suspend(() =>
     GatewayARN: S.optional(S.String),
     ActiveDirectoryStatus: S.optional(ActiveDirectoryStatus),
   }).pipe(ns),
-).annotate({
-  identifier: "JoinDomainOutput",
-}) as any as S.Schema<JoinDomainOutput>;
+).annotate({ identifier: "JoinDomainOutput" }) as any as S.Schema<JoinDomainOutput>;
 export interface ListAutomaticTapeCreationPoliciesInput {
   GatewayARN?: string;
 }
@@ -2378,9 +2211,9 @@ export interface ListAutomaticTapeCreationPoliciesOutput {
   AutomaticTapeCreationPolicyInfos?: AutomaticTapeCreationPolicyInfo[];
 }
 export const ListAutomaticTapeCreationPoliciesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutomaticTapeCreationPolicyInfos: S.optional(AutomaticTapeCreationPolicyInfos),
-  }).pipe(ns),
+  S.Struct({ AutomaticTapeCreationPolicyInfos: S.optional(AutomaticTapeCreationPolicyInfos) }).pipe(
+    ns,
+  ),
 ).annotate({
   identifier: "ListAutomaticTapeCreationPoliciesOutput",
 }) as any as S.Schema<ListAutomaticTapeCreationPoliciesOutput>;
@@ -2391,9 +2224,7 @@ export const ListCacheReportsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Marker: S.optional(S.String) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListCacheReportsInput",
-}) as any as S.Schema<ListCacheReportsInput>;
+).annotate({ identifier: "ListCacheReportsInput" }) as any as S.Schema<ListCacheReportsInput>;
 export type CacheReportList = CacheReportInfo[];
 export const CacheReportList = /*@__PURE__*/ S.Array(CacheReportInfo);
 export interface ListCacheReportsOutput {
@@ -2401,13 +2232,8 @@ export interface ListCacheReportsOutput {
   Marker?: string;
 }
 export const ListCacheReportsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    CacheReportList: S.optional(CacheReportList),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListCacheReportsOutput",
-}) as any as S.Schema<ListCacheReportsOutput>;
+  S.Struct({ CacheReportList: S.optional(CacheReportList), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListCacheReportsOutput" }) as any as S.Schema<ListCacheReportsOutput>;
 export interface ListFileSharesInput {
   GatewayARN?: string;
   Limit?: number;
@@ -2419,9 +2245,7 @@ export const ListFileSharesInput = /*@__PURE__*/ S.suspend(() =>
     Limit: S.optional(S.Number),
     Marker: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListFileSharesInput",
-}) as any as S.Schema<ListFileSharesInput>;
+).annotate({ identifier: "ListFileSharesInput" }) as any as S.Schema<ListFileSharesInput>;
 export type FileShareType = "NFS" | "SMB" | (string & {});
 export const FileShareType = S.String;
 
@@ -2454,9 +2278,7 @@ export const ListFileSharesOutput = /*@__PURE__*/ S.suspend(() =>
     NextMarker: S.optional(S.String),
     FileShareInfoList: S.optional(FileShareInfoList),
   }).pipe(ns),
-).annotate({
-  identifier: "ListFileSharesOutput",
-}) as any as S.Schema<ListFileSharesOutput>;
+).annotate({ identifier: "ListFileSharesOutput" }) as any as S.Schema<ListFileSharesOutput>;
 export interface ListFileSystemAssociationsInput {
   GatewayARN?: string;
   Limit?: number;
@@ -2512,9 +2334,7 @@ export const ListGatewaysInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Marker: S.optional(S.String), Limit: S.optional(S.Number) }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListGatewaysInput",
-}) as any as S.Schema<ListGatewaysInput>;
+).annotate({ identifier: "ListGatewaysInput" }) as any as S.Schema<ListGatewaysInput>;
 export type GatewayOperationalState = string;
 export interface GatewayInfo {
   GatewayId?: string;
@@ -2551,13 +2371,8 @@ export interface ListGatewaysOutput {
   Marker?: string;
 }
 export const ListGatewaysOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Gateways: S.optional(Gateways),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListGatewaysOutput",
-}) as any as S.Schema<ListGatewaysOutput>;
+  S.Struct({ Gateways: S.optional(Gateways), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListGatewaysOutput" }) as any as S.Schema<ListGatewaysOutput>;
 export interface ListLocalDisksInput {
   GatewayARN: string;
 }
@@ -2565,9 +2380,7 @@ export const ListLocalDisksInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListLocalDisksInput",
-}) as any as S.Schema<ListLocalDisksInput>;
+).annotate({ identifier: "ListLocalDisksInput" }) as any as S.Schema<ListLocalDisksInput>;
 export type DiskAllocationType = string;
 export type DiskAttribute = string;
 export type DiskAttributeList = string[];
@@ -2602,9 +2415,7 @@ export interface ListLocalDisksOutput {
 }
 export const ListLocalDisksOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String), Disks: S.optional(Disks) }).pipe(ns),
-).annotate({
-  identifier: "ListLocalDisksOutput",
-}) as any as S.Schema<ListLocalDisksOutput>;
+).annotate({ identifier: "ListLocalDisksOutput" }) as any as S.Schema<ListLocalDisksOutput>;
 export interface ListTagsForResourceInput {
   ResourceARN: string;
   Marker?: string;
@@ -2616,9 +2427,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   ResourceARN?: string;
   Marker?: string;
@@ -2646,9 +2455,7 @@ export const ListTapePoolsInput = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListTapePoolsInput",
-}) as any as S.Schema<ListTapePoolsInput>;
+).annotate({ identifier: "ListTapePoolsInput" }) as any as S.Schema<ListTapePoolsInput>;
 export type PoolStatus = "ACTIVE" | "DELETED" | (string & {});
 export const PoolStatus = S.String;
 
@@ -2677,13 +2484,8 @@ export interface ListTapePoolsOutput {
   Marker?: string;
 }
 export const ListTapePoolsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    PoolInfos: S.optional(PoolInfos),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTapePoolsOutput",
-}) as any as S.Schema<ListTapePoolsOutput>;
+  S.Struct({ PoolInfos: S.optional(PoolInfos), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListTapePoolsOutput" }) as any as S.Schema<ListTapePoolsOutput>;
 export interface ListTapesInput {
   TapeARNs?: string[];
   Marker?: string;
@@ -2725,13 +2527,8 @@ export interface ListTapesOutput {
   Marker?: string;
 }
 export const ListTapesOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TapeInfos: S.optional(TapeInfos),
-    Marker: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListTapesOutput",
-}) as any as S.Schema<ListTapesOutput>;
+  S.Struct({ TapeInfos: S.optional(TapeInfos), Marker: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "ListTapesOutput" }) as any as S.Schema<ListTapesOutput>;
 export interface ListVolumeInitiatorsInput {
   VolumeARN: string;
 }
@@ -2776,9 +2573,7 @@ export const VolumeRecoveryPointInfo = /*@__PURE__*/ S.suspend(() =>
     VolumeUsageInBytes: S.optional(S.Number),
     VolumeRecoveryPointTime: S.optional(S.String),
   }),
-).annotate({
-  identifier: "VolumeRecoveryPointInfo",
-}) as any as S.Schema<VolumeRecoveryPointInfo>;
+).annotate({ identifier: "VolumeRecoveryPointInfo" }) as any as S.Schema<VolumeRecoveryPointInfo>;
 export type VolumeRecoveryPointInfos = VolumeRecoveryPointInfo[];
 export const VolumeRecoveryPointInfos = /*@__PURE__*/ S.Array(VolumeRecoveryPointInfo);
 export interface ListVolumeRecoveryPointsOutput {
@@ -2804,9 +2599,7 @@ export const ListVolumesInput = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     Limit: S.optional(S.Number),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListVolumesInput",
-}) as any as S.Schema<ListVolumesInput>;
+).annotate({ identifier: "ListVolumesInput" }) as any as S.Schema<ListVolumesInput>;
 export interface VolumeInfo {
   VolumeARN?: string;
   VolumeId?: string;
@@ -2840,9 +2633,7 @@ export const ListVolumesOutput = /*@__PURE__*/ S.suspend(() =>
     Marker: S.optional(S.String),
     VolumeInfos: S.optional(VolumeInfos),
   }).pipe(ns),
-).annotate({
-  identifier: "ListVolumesOutput",
-}) as any as S.Schema<ListVolumesOutput>;
+).annotate({ identifier: "ListVolumesOutput" }) as any as S.Schema<ListVolumesOutput>;
 export interface NotifyWhenUploadedInput {
   FileShareARN: string;
 }
@@ -2850,22 +2641,15 @@ export const NotifyWhenUploadedInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "NotifyWhenUploadedInput",
-}) as any as S.Schema<NotifyWhenUploadedInput>;
+).annotate({ identifier: "NotifyWhenUploadedInput" }) as any as S.Schema<NotifyWhenUploadedInput>;
 export type NotificationId = string;
 export interface NotifyWhenUploadedOutput {
   FileShareARN?: string;
   NotificationId?: string;
 }
 export const NotifyWhenUploadedOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.optional(S.String),
-    NotificationId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "NotifyWhenUploadedOutput",
-}) as any as S.Schema<NotifyWhenUploadedOutput>;
+  S.Struct({ FileShareARN: S.optional(S.String), NotificationId: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "NotifyWhenUploadedOutput" }) as any as S.Schema<NotifyWhenUploadedOutput>;
 export type Folder = string;
 export type FolderList = string[];
 export const FolderList = /*@__PURE__*/ S.Array(S.String);
@@ -2880,21 +2664,14 @@ export const RefreshCacheInput = /*@__PURE__*/ S.suspend(() =>
     FolderList: S.optional(FolderList),
     Recursive: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "RefreshCacheInput",
-}) as any as S.Schema<RefreshCacheInput>;
+).annotate({ identifier: "RefreshCacheInput" }) as any as S.Schema<RefreshCacheInput>;
 export interface RefreshCacheOutput {
   FileShareARN?: string;
   NotificationId?: string;
 }
 export const RefreshCacheOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileShareARN: S.optional(S.String),
-    NotificationId: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "RefreshCacheOutput",
-}) as any as S.Schema<RefreshCacheOutput>;
+  S.Struct({ FileShareARN: S.optional(S.String), NotificationId: S.optional(S.String) }).pipe(ns),
+).annotate({ identifier: "RefreshCacheOutput" }) as any as S.Schema<RefreshCacheOutput>;
 export type TagKeys = string[];
 export const TagKeys = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveTagsFromResourceInput {
@@ -2923,17 +2700,13 @@ export const ResetCacheInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ResetCacheInput",
-}) as any as S.Schema<ResetCacheInput>;
+).annotate({ identifier: "ResetCacheInput" }) as any as S.Schema<ResetCacheInput>;
 export interface ResetCacheOutput {
   GatewayARN?: string;
 }
 export const ResetCacheOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ResetCacheOutput",
-}) as any as S.Schema<ResetCacheOutput>;
+).annotate({ identifier: "ResetCacheOutput" }) as any as S.Schema<ResetCacheOutput>;
 export interface RetrieveTapeArchiveInput {
   TapeARN: string;
   GatewayARN: string;
@@ -2942,9 +2715,7 @@ export const RetrieveTapeArchiveInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TapeARN: S.String, GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "RetrieveTapeArchiveInput",
-}) as any as S.Schema<RetrieveTapeArchiveInput>;
+).annotate({ identifier: "RetrieveTapeArchiveInput" }) as any as S.Schema<RetrieveTapeArchiveInput>;
 export interface RetrieveTapeArchiveOutput {
   TapeARN?: string;
 }
@@ -2978,10 +2749,9 @@ export interface SetLocalConsolePasswordInput {
   LocalConsolePassword: string | redacted.Redacted<string>;
 }
 export const SetLocalConsolePasswordInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    LocalConsolePassword: SensitiveString,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ GatewayARN: S.String, LocalConsolePassword: SensitiveString }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SetLocalConsolePasswordInput",
 }) as any as S.Schema<SetLocalConsolePasswordInput>;
@@ -3002,9 +2772,7 @@ export const SetSMBGuestPasswordInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String, Password: SensitiveString }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "SetSMBGuestPasswordInput",
-}) as any as S.Schema<SetSMBGuestPasswordInput>;
+).annotate({ identifier: "SetSMBGuestPasswordInput" }) as any as S.Schema<SetSMBGuestPasswordInput>;
 export interface SetSMBGuestPasswordOutput {
   GatewayARN?: string;
 }
@@ -3020,17 +2788,13 @@ export const ShutdownGatewayInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ShutdownGatewayInput",
-}) as any as S.Schema<ShutdownGatewayInput>;
+).annotate({ identifier: "ShutdownGatewayInput" }) as any as S.Schema<ShutdownGatewayInput>;
 export interface ShutdownGatewayOutput {
   GatewayARN?: string;
 }
 export const ShutdownGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "ShutdownGatewayOutput",
-}) as any as S.Schema<ShutdownGatewayOutput>;
+).annotate({ identifier: "ShutdownGatewayOutput" }) as any as S.Schema<ShutdownGatewayOutput>;
 export interface StartAvailabilityMonitorTestInput {
   GatewayARN: string;
 }
@@ -3072,17 +2836,13 @@ export const StartCacheReportInput = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.String,
     Tags: S.optional(Tags),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "StartCacheReportInput",
-}) as any as S.Schema<StartCacheReportInput>;
+).annotate({ identifier: "StartCacheReportInput" }) as any as S.Schema<StartCacheReportInput>;
 export interface StartCacheReportOutput {
   CacheReportARN?: string;
 }
 export const StartCacheReportOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CacheReportARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartCacheReportOutput",
-}) as any as S.Schema<StartCacheReportOutput>;
+).annotate({ identifier: "StartCacheReportOutput" }) as any as S.Schema<StartCacheReportOutput>;
 export interface StartGatewayInput {
   GatewayARN: string;
 }
@@ -3090,26 +2850,21 @@ export const StartGatewayInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "StartGatewayInput",
-}) as any as S.Schema<StartGatewayInput>;
+).annotate({ identifier: "StartGatewayInput" }) as any as S.Schema<StartGatewayInput>;
 export interface StartGatewayOutput {
   GatewayARN?: string;
 }
 export const StartGatewayOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GatewayARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "StartGatewayOutput",
-}) as any as S.Schema<StartGatewayOutput>;
+).annotate({ identifier: "StartGatewayOutput" }) as any as S.Schema<StartGatewayOutput>;
 export interface UpdateAutomaticTapeCreationPolicyInput {
   AutomaticTapeCreationRules: AutomaticTapeCreationRule[];
   GatewayARN: string;
 }
 export const UpdateAutomaticTapeCreationPolicyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AutomaticTapeCreationRules: AutomaticTapeCreationRules,
-    GatewayARN: S.String,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ AutomaticTapeCreationRules: AutomaticTapeCreationRules, GatewayARN: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "UpdateAutomaticTapeCreationPolicyInput",
 }) as any as S.Schema<UpdateAutomaticTapeCreationPolicyInput>;
@@ -3148,10 +2903,9 @@ export interface UpdateBandwidthRateLimitScheduleInput {
   BandwidthRateLimitIntervals: BandwidthRateLimitInterval[];
 }
 export const UpdateBandwidthRateLimitScheduleInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    BandwidthRateLimitIntervals: BandwidthRateLimitIntervals,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ GatewayARN: S.String, BandwidthRateLimitIntervals: BandwidthRateLimitIntervals }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "UpdateBandwidthRateLimitScheduleInput",
 }) as any as S.Schema<UpdateBandwidthRateLimitScheduleInput>;
@@ -3184,10 +2938,7 @@ export interface UpdateChapCredentialsOutput {
   InitiatorName?: string;
 }
 export const UpdateChapCredentialsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TargetARN: S.optional(S.String),
-    InitiatorName: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ TargetARN: S.optional(S.String), InitiatorName: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "UpdateChapCredentialsOutput",
 }) as any as S.Schema<UpdateChapCredentialsOutput>;
@@ -3240,10 +2991,7 @@ export interface UpdateGatewayInformationOutput {
   GatewayName?: string;
 }
 export const UpdateGatewayInformationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.optional(S.String),
-    GatewayName: S.optional(S.String),
-  }).pipe(ns),
+  S.Struct({ GatewayARN: S.optional(S.String), GatewayName: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "UpdateGatewayInformationOutput",
 }) as any as S.Schema<UpdateGatewayInformationOutput>;
@@ -3330,17 +3078,13 @@ export const UpdateNFSFileShareInput = /*@__PURE__*/ S.suspend(() =>
     NotificationPolicy: S.optional(S.String),
     AuditDestinationARN: S.optional(S.String),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateNFSFileShareInput",
-}) as any as S.Schema<UpdateNFSFileShareInput>;
+).annotate({ identifier: "UpdateNFSFileShareInput" }) as any as S.Schema<UpdateNFSFileShareInput>;
 export interface UpdateNFSFileShareOutput {
   FileShareARN?: string;
 }
 export const UpdateNFSFileShareOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateNFSFileShareOutput",
-}) as any as S.Schema<UpdateNFSFileShareOutput>;
+).annotate({ identifier: "UpdateNFSFileShareOutput" }) as any as S.Schema<UpdateNFSFileShareOutput>;
 export interface UpdateSMBFileShareInput {
   FileShareARN: string;
   EncryptionType?: EncryptionType;
@@ -3386,17 +3130,13 @@ export const UpdateSMBFileShareInput = /*@__PURE__*/ S.suspend(() =>
     NotificationPolicy: S.optional(S.String),
     OplocksEnabled: S.optional(S.Boolean),
   }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateSMBFileShareInput",
-}) as any as S.Schema<UpdateSMBFileShareInput>;
+).annotate({ identifier: "UpdateSMBFileShareInput" }) as any as S.Schema<UpdateSMBFileShareInput>;
 export interface UpdateSMBFileShareOutput {
   FileShareARN?: string;
 }
 export const UpdateSMBFileShareOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileShareARN: S.optional(S.String) }).pipe(ns),
-).annotate({
-  identifier: "UpdateSMBFileShareOutput",
-}) as any as S.Schema<UpdateSMBFileShareOutput>;
+).annotate({ identifier: "UpdateSMBFileShareOutput" }) as any as S.Schema<UpdateSMBFileShareOutput>;
 export interface UpdateSMBFileShareVisibilityInput {
   GatewayARN: string;
   FileSharesVisible: boolean;
@@ -3440,10 +3180,9 @@ export interface UpdateSMBSecurityStrategyInput {
   SMBSecurityStrategy: SMBSecurityStrategy;
 }
 export const UpdateSMBSecurityStrategyInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    GatewayARN: S.String,
-    SMBSecurityStrategy: SMBSecurityStrategy,
-  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+  S.Struct({ GatewayARN: S.String, SMBSecurityStrategy: SMBSecurityStrategy }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "UpdateSMBSecurityStrategyInput",
 }) as any as S.Schema<UpdateSMBSecurityStrategyInput>;
@@ -3490,9 +3229,7 @@ export const UpdateVTLDeviceTypeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VTLDeviceARN: S.String, DeviceType: S.String }).pipe(
     T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UpdateVTLDeviceTypeInput",
-}) as any as S.Schema<UpdateVTLDeviceTypeInput>;
+).annotate({ identifier: "UpdateVTLDeviceTypeInput" }) as any as S.Schema<UpdateVTLDeviceTypeInput>;
 export interface UpdateVTLDeviceTypeOutput {
   VTLDeviceARN?: string;
 }
@@ -3574,13 +3311,8 @@ export interface StorageGatewayError {
   errorDetails?: { [key: string]: string | undefined };
 }
 export const StorageGatewayError = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    errorCode: S.optional(ErrorCode),
-    errorDetails: S.optional(ErrorDetails),
-  }),
-).annotate({
-  identifier: "StorageGatewayError",
-}) as any as S.Schema<StorageGatewayError>;
+  S.Struct({ errorCode: S.optional(ErrorCode), errorDetails: S.optional(ErrorDetails) }),
+).annotate({ identifier: "StorageGatewayError" }) as any as S.Schema<StorageGatewayError>;
 export type ActivateGatewayError =
   | InternalServerError
   | InvalidGatewayRequestException
@@ -5172,11 +4904,7 @@ export const listCacheReports: API.PaginatedOperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCacheReports",
-  pagination: {
-    inputToken: "Marker",
-    outputToken: "Marker",
-    items: "CacheReportList",
-  } as const,
+  pagination: { inputToken: "Marker", outputToken: "Marker", items: "CacheReportList" } as const,
 })) as any;
 
 export type ListFileSharesError =

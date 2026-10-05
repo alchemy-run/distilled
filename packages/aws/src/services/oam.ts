@@ -161,18 +161,14 @@ export interface LogGroupConfiguration {
 }
 export const LogGroupConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Filter: S.String }),
-).annotate({
-  identifier: "LogGroupConfiguration",
-}) as any as S.Schema<LogGroupConfiguration>;
+).annotate({ identifier: "LogGroupConfiguration" }) as any as S.Schema<LogGroupConfiguration>;
 export type MetricsFilter = string;
 export interface MetricConfiguration {
   Filter: string;
 }
 export const MetricConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Filter: S.String }),
-).annotate({
-  identifier: "MetricConfiguration",
-}) as any as S.Schema<MetricConfiguration>;
+).annotate({ identifier: "MetricConfiguration" }) as any as S.Schema<MetricConfiguration>;
 export interface LinkConfiguration {
   LogGroupConfiguration?: LogGroupConfiguration;
   MetricConfiguration?: MetricConfiguration;
@@ -182,9 +178,7 @@ export const LinkConfiguration = /*@__PURE__*/ S.suspend(() =>
     LogGroupConfiguration: S.optional(LogGroupConfiguration),
     MetricConfiguration: S.optional(MetricConfiguration),
   }),
-).annotate({
-  identifier: "LinkConfiguration",
-}) as any as S.Schema<LinkConfiguration>;
+).annotate({ identifier: "LinkConfiguration" }) as any as S.Schema<LinkConfiguration>;
 export interface CreateLinkInput {
   LabelTemplate: string;
   ResourceTypes: ResourceType[];
@@ -200,9 +194,7 @@ export const CreateLinkInput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMapInput),
     LinkConfiguration: S.optional(LinkConfiguration),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/CreateLink" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateLinkInput",
-}) as any as S.Schema<CreateLinkInput>;
+).annotate({ identifier: "CreateLinkInput" }) as any as S.Schema<CreateLinkInput>;
 export type ResourceTypesOutput = string[];
 export const ResourceTypesOutput = /*@__PURE__*/ S.Array(S.String);
 export type TagMapOutput = { [key: string]: string | undefined };
@@ -228,9 +220,7 @@ export const CreateLinkOutput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMapOutput),
     LinkConfiguration: S.optional(LinkConfiguration),
   }),
-).annotate({
-  identifier: "CreateLinkOutput",
-}) as any as S.Schema<CreateLinkOutput>;
+).annotate({ identifier: "CreateLinkOutput" }) as any as S.Schema<CreateLinkOutput>;
 export type SinkName = string;
 export interface CreateSinkInput {
   Name: string;
@@ -240,9 +230,7 @@ export const CreateSinkInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Tags: S.optional(TagMapInput) }).pipe(
     T.all(T.Http({ method: "POST", uri: "/CreateSink" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "CreateSinkInput",
-}) as any as S.Schema<CreateSinkInput>;
+).annotate({ identifier: "CreateSinkInput" }) as any as S.Schema<CreateSinkInput>;
 export interface CreateSinkOutput {
   Arn?: string;
   Id?: string;
@@ -256,9 +244,7 @@ export const CreateSinkOutput = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     Tags: S.optional(TagMapOutput),
   }),
-).annotate({
-  identifier: "CreateSinkOutput",
-}) as any as S.Schema<CreateSinkOutput>;
+).annotate({ identifier: "CreateSinkOutput" }) as any as S.Schema<CreateSinkOutput>;
 export interface DeleteLinkInput {
   Identifier: string;
 }
@@ -266,9 +252,7 @@ export const DeleteLinkInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/DeleteLink" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteLinkInput",
-}) as any as S.Schema<DeleteLinkInput>;
+).annotate({ identifier: "DeleteLinkInput" }) as any as S.Schema<DeleteLinkInput>;
 export interface DeleteLinkOutput {}
 export const DeleteLinkOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLinkOutput",
@@ -280,9 +264,7 @@ export const DeleteSinkInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/DeleteSink" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "DeleteSinkInput",
-}) as any as S.Schema<DeleteSinkInput>;
+).annotate({ identifier: "DeleteSinkInput" }) as any as S.Schema<DeleteSinkInput>;
 export interface DeleteSinkOutput {}
 export const DeleteSinkOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSinkOutput",
@@ -349,9 +331,7 @@ export const GetSinkPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SinkIdentifier: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/GetSinkPolicy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "GetSinkPolicyInput",
-}) as any as S.Schema<GetSinkPolicyInput>;
+).annotate({ identifier: "GetSinkPolicyInput" }) as any as S.Schema<GetSinkPolicyInput>;
 export interface GetSinkPolicyOutput {
   SinkArn?: string;
   SinkId?: string;
@@ -363,9 +343,7 @@ export const GetSinkPolicyOutput = /*@__PURE__*/ S.suspend(() =>
     SinkId: S.optional(S.String),
     Policy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetSinkPolicyOutput",
-}) as any as S.Schema<GetSinkPolicyOutput>;
+).annotate({ identifier: "GetSinkPolicyOutput" }) as any as S.Schema<GetSinkPolicyOutput>;
 export type ListAttachedLinksMaxResults = number;
 export type NextToken = string;
 export interface ListAttachedLinksInput {
@@ -381,9 +359,7 @@ export const ListAttachedLinksInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/ListAttachedLinks" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListAttachedLinksInput",
-}) as any as S.Schema<ListAttachedLinksInput>;
+).annotate({ identifier: "ListAttachedLinksInput" }) as any as S.Schema<ListAttachedLinksInput>;
 export interface ListAttachedLinksItem {
   Label?: string;
   LinkArn?: string;
@@ -395,9 +371,7 @@ export const ListAttachedLinksItem = /*@__PURE__*/ S.suspend(() =>
     LinkArn: S.optional(S.String),
     ResourceTypes: S.optional(ResourceTypesOutput),
   }),
-).annotate({
-  identifier: "ListAttachedLinksItem",
-}) as any as S.Schema<ListAttachedLinksItem>;
+).annotate({ identifier: "ListAttachedLinksItem" }) as any as S.Schema<ListAttachedLinksItem>;
 export type ListAttachedLinksItems = ListAttachedLinksItem[];
 export const ListAttachedLinksItems = /*@__PURE__*/ S.Array(ListAttachedLinksItem);
 export interface ListAttachedLinksOutput {
@@ -406,19 +380,16 @@ export interface ListAttachedLinksOutput {
 }
 export const ListAttachedLinksOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Items: ListAttachedLinksItems, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListAttachedLinksOutput",
-}) as any as S.Schema<ListAttachedLinksOutput>;
+).annotate({ identifier: "ListAttachedLinksOutput" }) as any as S.Schema<ListAttachedLinksOutput>;
 export type ListLinksMaxResults = number;
 export interface ListLinksInput {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListLinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/ListLinks" }), svc, auth, proto, ver, rules)),
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/ListLinks" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({ identifier: "ListLinksInput" }) as any as S.Schema<ListLinksInput>;
 export interface ListLinksItem {
   Arn?: string;
@@ -444,19 +415,16 @@ export interface ListLinksOutput {
 }
 export const ListLinksOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Items: ListLinksItems, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListLinksOutput",
-}) as any as S.Schema<ListLinksOutput>;
+).annotate({ identifier: "ListLinksOutput" }) as any as S.Schema<ListLinksOutput>;
 export type ListSinksMaxResults = number;
 export interface ListSinksInput {
   MaxResults?: number;
   NextToken?: string;
 }
 export const ListSinksInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(T.all(T.Http({ method: "POST", uri: "/ListSinks" }), svc, auth, proto, ver, rules)),
+  S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/ListSinks" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({ identifier: "ListSinksInput" }) as any as S.Schema<ListSinksInput>;
 export interface ListSinksItem {
   Arn?: string;
@@ -464,11 +432,7 @@ export interface ListSinksItem {
   Name?: string;
 }
 export const ListSinksItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Arn: S.optional(S.String),
-    Id: S.optional(S.String),
-    Name: S.optional(S.String),
-  }),
+  S.Struct({ Arn: S.optional(S.String), Id: S.optional(S.String), Name: S.optional(S.String) }),
 ).annotate({ identifier: "ListSinksItem" }) as any as S.Schema<ListSinksItem>;
 export type ListSinksItems = ListSinksItem[];
 export const ListSinksItems = /*@__PURE__*/ S.Array(ListSinksItem);
@@ -478,9 +442,7 @@ export interface ListSinksOutput {
 }
 export const ListSinksOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Items: ListSinksItems, NextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListSinksOutput",
-}) as any as S.Schema<ListSinksOutput>;
+).annotate({ identifier: "ListSinksOutput" }) as any as S.Schema<ListSinksOutput>;
 export type Arn = string;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
@@ -489,9 +451,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
     T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "ListTagsForResourceInput",
-}) as any as S.Schema<ListTagsForResourceInput>;
+).annotate({ identifier: "ListTagsForResourceInput" }) as any as S.Schema<ListTagsForResourceInput>;
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
@@ -509,9 +469,7 @@ export const PutSinkPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SinkIdentifier: S.String, Policy: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/PutSinkPolicy" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "PutSinkPolicyInput",
-}) as any as S.Schema<PutSinkPolicyInput>;
+).annotate({ identifier: "PutSinkPolicyInput" }) as any as S.Schema<PutSinkPolicyInput>;
 export interface PutSinkPolicyOutput {
   SinkArn?: string;
   SinkId?: string;
@@ -523,23 +481,16 @@ export const PutSinkPolicyOutput = /*@__PURE__*/ S.suspend(() =>
     SinkId: S.optional(S.String),
     Policy: S.optional(S.String),
   }),
-).annotate({
-  identifier: "PutSinkPolicyOutput",
-}) as any as S.Schema<PutSinkPolicyOutput>;
+).annotate({ identifier: "PutSinkPolicyOutput" }) as any as S.Schema<PutSinkPolicyOutput>;
 export interface TagResourceInput {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: TagMapInput,
-  }).pipe(
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: TagMapInput }).pipe(
     T.all(T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "TagResourceInput",
-}) as any as S.Schema<TagResourceInput>;
+).annotate({ identifier: "TagResourceInput" }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
 export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
@@ -557,9 +508,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceInput",
-}) as any as S.Schema<UntagResourceInput>;
+).annotate({ identifier: "UntagResourceInput" }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
 export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
@@ -577,9 +526,7 @@ export const UpdateLinkInput = /*@__PURE__*/ S.suspend(() =>
     LinkConfiguration: S.optional(LinkConfiguration),
     IncludeTags: S.optional(S.Boolean),
   }).pipe(T.all(T.Http({ method: "POST", uri: "/UpdateLink" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "UpdateLinkInput",
-}) as any as S.Schema<UpdateLinkInput>;
+).annotate({ identifier: "UpdateLinkInput" }) as any as S.Schema<UpdateLinkInput>;
 export interface UpdateLinkOutput {
   Arn?: string;
   Id?: string;
@@ -601,9 +548,7 @@ export const UpdateLinkOutput = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagMapOutput),
     LinkConfiguration: S.optional(LinkConfiguration),
   }),
-).annotate({
-  identifier: "UpdateLinkOutput",
-}) as any as S.Schema<UpdateLinkOutput>;
+).annotate({ identifier: "UpdateLinkOutput" }) as any as S.Schema<UpdateLinkOutput>;
 export type CreateLinkError =
   | ConflictException
   | InternalServiceFault

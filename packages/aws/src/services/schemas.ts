@@ -71,91 +71,61 @@ const rules = T.EndpointResolver((p, _) => {
 export class BadRequestException
   extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
     "BadRequestException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class ForbiddenException
   extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
     "ForbiddenException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class GoneException
   extends /*@__PURE__*/ S.TaggedError<GoneException>()(
     "GoneException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(410),
   ).pipe(C.withBadRequestError) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class NotFoundException
   extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
     "NotFoundException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class PreconditionFailedException
   extends /*@__PURE__*/ S.TaggedError<PreconditionFailedException>()(
     "PreconditionFailedException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(412),
   ) {}
 export class ServiceUnavailableException
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
     "ServiceUnavailableException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class TooManyRequestsException
   extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
     "TooManyRequestsException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class UnauthorizedException
   extends /*@__PURE__*/ S.TaggedError<UnauthorizedException>()(
     "UnauthorizedException",
-    {
-      Code: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { Code: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export type __stringMin0Max256 = string;
@@ -177,9 +147,7 @@ export const CreateDiscovererRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(T.all(T.Http({ method: "POST", uri: "/v1/discoverers" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "CreateDiscovererRequest",
-}) as any as S.Schema<CreateDiscovererRequest>;
+).annotate({ identifier: "CreateDiscovererRequest" }) as any as S.Schema<CreateDiscovererRequest>;
 export type DiscovererState = "STARTED" | "STOPPED" | (string & {});
 export const DiscovererState = S.String;
 
@@ -202,9 +170,7 @@ export const CreateDiscovererResponse = /*@__PURE__*/ S.suspend(() =>
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateDiscovererResponse",
-}) as any as S.Schema<CreateDiscovererResponse>;
+).annotate({ identifier: "CreateDiscovererResponse" }) as any as S.Schema<CreateDiscovererResponse>;
 export interface CreateRegistryRequest {
   Description?: string;
   RegistryName: string;
@@ -227,9 +193,7 @@ export const CreateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateRegistryRequest",
-}) as any as S.Schema<CreateRegistryRequest>;
+).annotate({ identifier: "CreateRegistryRequest" }) as any as S.Schema<CreateRegistryRequest>;
 export interface CreateRegistryResponse {
   Description?: string;
   RegistryArn?: string;
@@ -243,9 +207,7 @@ export const CreateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     RegistryName: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateRegistryResponse",
-}) as any as S.Schema<CreateRegistryResponse>;
+).annotate({ identifier: "CreateRegistryResponse" }) as any as S.Schema<CreateRegistryResponse>;
 export type __stringMin1Max100000 = string;
 export type Type = "OpenApi3" | "JSONSchemaDraft4" | (string & {});
 export const Type = S.String;
@@ -281,9 +243,7 @@ export const CreateSchemaRequest = /*@__PURE__*/ S.suspend(() =>
         rules,
       ),
     ),
-).annotate({
-  identifier: "CreateSchemaRequest",
-}) as any as S.Schema<CreateSchemaRequest>;
+).annotate({ identifier: "CreateSchemaRequest" }) as any as S.Schema<CreateSchemaRequest>;
 export type __timestampIso8601 = Date;
 export interface CreateSchemaResponse {
   Description?: string;
@@ -306,9 +266,7 @@ export const CreateSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(S.String),
     VersionCreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "CreateSchemaResponse",
-}) as any as S.Schema<CreateSchemaResponse>;
+).annotate({ identifier: "CreateSchemaResponse" }) as any as S.Schema<CreateSchemaResponse>;
 export interface DeleteDiscovererRequest {
   DiscovererId: string;
 }
@@ -323,9 +281,7 @@ export const DeleteDiscovererRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteDiscovererRequest",
-}) as any as S.Schema<DeleteDiscovererRequest>;
+).annotate({ identifier: "DeleteDiscovererRequest" }) as any as S.Schema<DeleteDiscovererRequest>;
 export interface DeleteDiscovererResponse {}
 export const DeleteDiscovererResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDiscovererResponse",
@@ -344,9 +300,7 @@ export const DeleteRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteRegistryRequest",
-}) as any as S.Schema<DeleteRegistryRequest>;
+).annotate({ identifier: "DeleteRegistryRequest" }) as any as S.Schema<DeleteRegistryRequest>;
 export interface DeleteRegistryResponse {}
 export const DeleteRegistryResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRegistryResponse",
@@ -355,9 +309,9 @@ export interface DeleteResourcePolicyRequest {
   RegistryName?: string;
 }
 export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegistryName: S.optional(S.String).pipe(T.HttpQuery("registryName")),
-  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/v1/policy" }), svc, auth, proto, ver, rules)),
+  S.Struct({ RegistryName: S.optional(S.String).pipe(T.HttpQuery("registryName")) }).pipe(
+    T.all(T.Http({ method: "DELETE", uri: "/v1/policy" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteResourcePolicyRequest",
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
@@ -386,9 +340,7 @@ export const DeleteSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteSchemaRequest",
-}) as any as S.Schema<DeleteSchemaRequest>;
+).annotate({ identifier: "DeleteSchemaRequest" }) as any as S.Schema<DeleteSchemaRequest>;
 export interface DeleteSchemaResponse {}
 export const DeleteSchemaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSchemaResponse",
@@ -527,9 +479,7 @@ export const DescribeRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeRegistryRequest",
-}) as any as S.Schema<DescribeRegistryRequest>;
+).annotate({ identifier: "DescribeRegistryRequest" }) as any as S.Schema<DescribeRegistryRequest>;
 export interface DescribeRegistryResponse {
   Description?: string;
   RegistryArn?: string;
@@ -543,9 +493,7 @@ export const DescribeRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     RegistryName: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "DescribeRegistryResponse",
-}) as any as S.Schema<DescribeRegistryResponse>;
+).annotate({ identifier: "DescribeRegistryResponse" }) as any as S.Schema<DescribeRegistryResponse>;
 export interface DescribeSchemaRequest {
   RegistryName: string;
   SchemaName: string;
@@ -569,9 +517,7 @@ export const DescribeSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeSchemaRequest",
-}) as any as S.Schema<DescribeSchemaRequest>;
+).annotate({ identifier: "DescribeSchemaRequest" }) as any as S.Schema<DescribeSchemaRequest>;
 export interface DescribeSchemaResponse {
   Content?: string;
   Description?: string;
@@ -595,9 +541,7 @@ export const DescribeSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(S.String),
     VersionCreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "DescribeSchemaResponse",
-}) as any as S.Schema<DescribeSchemaResponse>;
+).annotate({ identifier: "DescribeSchemaResponse" }) as any as S.Schema<DescribeSchemaResponse>;
 export interface ExportSchemaRequest {
   RegistryName: string;
   SchemaName: string;
@@ -623,9 +567,7 @@ export const ExportSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ExportSchemaRequest",
-}) as any as S.Schema<ExportSchemaRequest>;
+).annotate({ identifier: "ExportSchemaRequest" }) as any as S.Schema<ExportSchemaRequest>;
 export interface ExportSchemaResponse {
   Content?: string;
   SchemaArn?: string;
@@ -641,9 +583,7 @@ export const ExportSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     SchemaVersion: S.optional(S.String),
     Type: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExportSchemaResponse",
-}) as any as S.Schema<ExportSchemaResponse>;
+).annotate({ identifier: "ExportSchemaResponse" }) as any as S.Schema<ExportSchemaResponse>;
 export interface GetCodeBindingSourceRequest {
   Language: string;
   RegistryName: string;
@@ -707,12 +647,10 @@ export interface GetResourcePolicyRequest {
   RegistryName?: string;
 }
 export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    RegistryName: S.optional(S.String).pipe(T.HttpQuery("registryName")),
-  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/policy" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "GetResourcePolicyRequest",
-}) as any as S.Schema<GetResourcePolicyRequest>;
+  S.Struct({ RegistryName: S.optional(S.String).pipe(T.HttpQuery("registryName")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/v1/policy" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({ identifier: "GetResourcePolicyRequest" }) as any as S.Schema<GetResourcePolicyRequest>;
 export type SynthesizedJson__string = string;
 export interface GetResourcePolicyResponse {
   Policy?: string;
@@ -736,9 +674,7 @@ export const ListDiscoverersRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     SourceArnPrefix: S.optional(S.String).pipe(T.HttpQuery("sourceArnPrefix")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/discoverers" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListDiscoverersRequest",
-}) as any as S.Schema<ListDiscoverersRequest>;
+).annotate({ identifier: "ListDiscoverersRequest" }) as any as S.Schema<ListDiscoverersRequest>;
 export interface DiscovererSummary {
   DiscovererArn?: string;
   DiscovererId?: string;
@@ -756,9 +692,7 @@ export const DiscovererSummary = /*@__PURE__*/ S.suspend(() =>
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "DiscovererSummary",
-}) as any as S.Schema<DiscovererSummary>;
+).annotate({ identifier: "DiscovererSummary" }) as any as S.Schema<DiscovererSummary>;
 export type __listOfDiscovererSummary = DiscovererSummary[];
 export const __listOfDiscovererSummary = /*@__PURE__*/ S.Array(DiscovererSummary);
 export interface ListDiscoverersResponse {
@@ -766,13 +700,8 @@ export interface ListDiscoverersResponse {
   NextToken?: string;
 }
 export const ListDiscoverersResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Discoverers: S.optional(__listOfDiscovererSummary),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListDiscoverersResponse",
-}) as any as S.Schema<ListDiscoverersResponse>;
+  S.Struct({ Discoverers: S.optional(__listOfDiscovererSummary), NextToken: S.optional(S.String) }),
+).annotate({ identifier: "ListDiscoverersResponse" }) as any as S.Schema<ListDiscoverersResponse>;
 export interface ListRegistriesRequest {
   Limit?: number;
   NextToken?: string;
@@ -786,9 +715,7 @@ export const ListRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
     RegistryNamePrefix: S.optional(S.String).pipe(T.HttpQuery("registryNamePrefix")),
     Scope: S.optional(S.String).pipe(T.HttpQuery("scope")),
   }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/registries" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "ListRegistriesRequest",
-}) as any as S.Schema<ListRegistriesRequest>;
+).annotate({ identifier: "ListRegistriesRequest" }) as any as S.Schema<ListRegistriesRequest>;
 export interface RegistrySummary {
   RegistryArn?: string;
   RegistryName?: string;
@@ -800,9 +727,7 @@ export const RegistrySummary = /*@__PURE__*/ S.suspend(() =>
     RegistryName: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "RegistrySummary",
-}) as any as S.Schema<RegistrySummary>;
+).annotate({ identifier: "RegistrySummary" }) as any as S.Schema<RegistrySummary>;
 export type __listOfRegistrySummary = RegistrySummary[];
 export const __listOfRegistrySummary = /*@__PURE__*/ S.Array(RegistrySummary);
 export interface ListRegistriesResponse {
@@ -810,13 +735,8 @@ export interface ListRegistriesResponse {
   Registries?: RegistrySummary[];
 }
 export const ListRegistriesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Registries: S.optional(__listOfRegistrySummary),
-  }),
-).annotate({
-  identifier: "ListRegistriesResponse",
-}) as any as S.Schema<ListRegistriesResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Registries: S.optional(__listOfRegistrySummary) }),
+).annotate({ identifier: "ListRegistriesResponse" }) as any as S.Schema<ListRegistriesResponse>;
 export interface ListSchemasRequest {
   Limit?: number;
   NextToken?: string;
@@ -831,10 +751,7 @@ export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
     SchemaNamePrefix: S.optional(S.String).pipe(T.HttpQuery("schemaNamePrefix")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/registries/name/{RegistryName}/schemas",
-      }),
+      T.Http({ method: "GET", uri: "/v1/registries/name/{RegistryName}/schemas" }),
       svc,
       auth,
       proto,
@@ -842,9 +759,7 @@ export const ListSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "ListSchemasRequest",
-}) as any as S.Schema<ListSchemasRequest>;
+).annotate({ identifier: "ListSchemasRequest" }) as any as S.Schema<ListSchemasRequest>;
 export interface SchemaSummary {
   LastModified?: Date;
   SchemaArn?: string;
@@ -868,13 +783,8 @@ export interface ListSchemasResponse {
   Schemas?: SchemaSummary[];
 }
 export const ListSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Schemas: S.optional(__listOfSchemaSummary),
-  }),
-).annotate({
-  identifier: "ListSchemasResponse",
-}) as any as S.Schema<ListSchemasResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Schemas: S.optional(__listOfSchemaSummary) }),
+).annotate({ identifier: "ListSchemasResponse" }) as any as S.Schema<ListSchemasResponse>;
 export interface ListSchemaVersionsRequest {
   Limit?: number;
   NextToken?: string;
@@ -916,9 +826,7 @@ export const SchemaVersionSummary = /*@__PURE__*/ S.suspend(() =>
     SchemaVersion: S.optional(S.String),
     Type: S.optional(Type),
   }),
-).annotate({
-  identifier: "SchemaVersionSummary",
-}) as any as S.Schema<SchemaVersionSummary>;
+).annotate({ identifier: "SchemaVersionSummary" }) as any as S.Schema<SchemaVersionSummary>;
 export type __listOfSchemaVersionSummary = SchemaVersionSummary[];
 export const __listOfSchemaVersionSummary = /*@__PURE__*/ S.Array(SchemaVersionSummary);
 export interface ListSchemaVersionsResponse {
@@ -976,9 +884,7 @@ export const PutCodeBindingRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutCodeBindingRequest",
-}) as any as S.Schema<PutCodeBindingRequest>;
+).annotate({ identifier: "PutCodeBindingRequest" }) as any as S.Schema<PutCodeBindingRequest>;
 export interface PutCodeBindingResponse {
   CreationDate?: Date;
   LastModified?: Date;
@@ -992,9 +898,7 @@ export const PutCodeBindingResponse = /*@__PURE__*/ S.suspend(() =>
     SchemaVersion: S.optional(S.String),
     Status: S.optional(CodeGenerationStatus),
   }),
-).annotate({
-  identifier: "PutCodeBindingResponse",
-}) as any as S.Schema<PutCodeBindingResponse>;
+).annotate({ identifier: "PutCodeBindingResponse" }) as any as S.Schema<PutCodeBindingResponse>;
 export interface PutResourcePolicyRequest {
   Policy?: string;
   RegistryName?: string;
@@ -1006,9 +910,7 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     RegistryName: S.optional(S.String).pipe(T.HttpQuery("registryName")),
     RevisionId: S.optional(S.String),
   }).pipe(T.all(T.Http({ method: "PUT", uri: "/v1/policy" }), svc, auth, proto, ver, rules)),
-).annotate({
-  identifier: "PutResourcePolicyRequest",
-}) as any as S.Schema<PutResourcePolicyRequest>;
+).annotate({ identifier: "PutResourcePolicyRequest" }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {
   Policy?: string;
   RevisionId?: string;
@@ -1032,10 +934,7 @@ export const SearchSchemasRequest = /*@__PURE__*/ S.suspend(() =>
     RegistryName: S.String.pipe(T.HttpLabel("RegistryName")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/v1/registries/name/{RegistryName}/schemas/search",
-      }),
+      T.Http({ method: "GET", uri: "/v1/registries/name/{RegistryName}/schemas/search" }),
       svc,
       auth,
       proto,
@@ -1043,9 +942,7 @@ export const SearchSchemasRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "SearchSchemasRequest",
-}) as any as S.Schema<SearchSchemasRequest>;
+).annotate({ identifier: "SearchSchemasRequest" }) as any as S.Schema<SearchSchemasRequest>;
 export interface SearchSchemaVersionSummary {
   CreatedDate?: Date;
   SchemaVersion?: string;
@@ -1075,9 +972,7 @@ export const SearchSchemaSummary = /*@__PURE__*/ S.suspend(() =>
     SchemaName: S.optional(S.String),
     SchemaVersions: S.optional(__listOfSearchSchemaVersionSummary),
   }),
-).annotate({
-  identifier: "SearchSchemaSummary",
-}) as any as S.Schema<SearchSchemaSummary>;
+).annotate({ identifier: "SearchSchemaSummary" }) as any as S.Schema<SearchSchemaSummary>;
 export type __listOfSearchSchemaSummary = SearchSchemaSummary[];
 export const __listOfSearchSchemaSummary = /*@__PURE__*/ S.Array(SearchSchemaSummary);
 export interface SearchSchemasResponse {
@@ -1085,23 +980,15 @@ export interface SearchSchemasResponse {
   Schemas?: SearchSchemaSummary[];
 }
 export const SearchSchemasResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    Schemas: S.optional(__listOfSearchSchemaSummary),
-  }),
-).annotate({
-  identifier: "SearchSchemasResponse",
-}) as any as S.Schema<SearchSchemasResponse>;
+  S.Struct({ NextToken: S.optional(S.String), Schemas: S.optional(__listOfSearchSchemaSummary) }),
+).annotate({ identifier: "SearchSchemasResponse" }) as any as S.Schema<SearchSchemasResponse>;
 export interface StartDiscovererRequest {
   DiscovererId: string;
 }
 export const StartDiscovererRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DiscovererId: S.String.pipe(T.HttpLabel("DiscovererId")) }).pipe(
     T.all(
-      T.Http({
-        method: "POST",
-        uri: "/v1/discoverers/id/{DiscovererId}/start",
-      }),
+      T.Http({ method: "POST", uri: "/v1/discoverers/id/{DiscovererId}/start" }),
       svc,
       auth,
       proto,
@@ -1109,21 +996,14 @@ export const StartDiscovererRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StartDiscovererRequest",
-}) as any as S.Schema<StartDiscovererRequest>;
+).annotate({ identifier: "StartDiscovererRequest" }) as any as S.Schema<StartDiscovererRequest>;
 export interface StartDiscovererResponse {
   DiscovererId?: string;
   State?: DiscovererState;
 }
 export const StartDiscovererResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DiscovererId: S.optional(S.String),
-    State: S.optional(DiscovererState),
-  }),
-).annotate({
-  identifier: "StartDiscovererResponse",
-}) as any as S.Schema<StartDiscovererResponse>;
+  S.Struct({ DiscovererId: S.optional(S.String), State: S.optional(DiscovererState) }),
+).annotate({ identifier: "StartDiscovererResponse" }) as any as S.Schema<StartDiscovererResponse>;
 export interface StopDiscovererRequest {
   DiscovererId: string;
 }
@@ -1138,37 +1018,25 @@ export const StopDiscovererRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "StopDiscovererRequest",
-}) as any as S.Schema<StopDiscovererRequest>;
+).annotate({ identifier: "StopDiscovererRequest" }) as any as S.Schema<StopDiscovererRequest>;
 export interface StopDiscovererResponse {
   DiscovererId?: string;
   State?: DiscovererState;
 }
 export const StopDiscovererResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    DiscovererId: S.optional(S.String),
-    State: S.optional(DiscovererState),
-  }),
-).annotate({
-  identifier: "StopDiscovererResponse",
-}) as any as S.Schema<StopDiscovererResponse>;
+  S.Struct({ DiscovererId: S.optional(S.String), State: S.optional(DiscovererState) }),
+).annotate({ identifier: "StopDiscovererResponse" }) as any as S.Schema<StopDiscovererResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags?: { [key: string]: string | undefined };
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    Tags: S.optional(Tags),
-  })
+  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")), Tags: S.optional(Tags) })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
       T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1186,9 +1054,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   }).pipe(
     T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1213,9 +1079,7 @@ export const UpdateDiscovererRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateDiscovererRequest",
-}) as any as S.Schema<UpdateDiscovererRequest>;
+).annotate({ identifier: "UpdateDiscovererRequest" }) as any as S.Schema<UpdateDiscovererRequest>;
 export interface UpdateDiscovererResponse {
   Description?: string;
   DiscovererArn?: string;
@@ -1235,9 +1099,7 @@ export const UpdateDiscovererResponse = /*@__PURE__*/ S.suspend(() =>
     CrossAccount: S.optional(S.Boolean),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateDiscovererResponse",
-}) as any as S.Schema<UpdateDiscovererResponse>;
+).annotate({ identifier: "UpdateDiscovererResponse" }) as any as S.Schema<UpdateDiscovererResponse>;
 export interface UpdateRegistryRequest {
   Description?: string;
   RegistryName: string;
@@ -1256,9 +1118,7 @@ export const UpdateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateRegistryRequest",
-}) as any as S.Schema<UpdateRegistryRequest>;
+).annotate({ identifier: "UpdateRegistryRequest" }) as any as S.Schema<UpdateRegistryRequest>;
 export interface UpdateRegistryResponse {
   Description?: string;
   RegistryArn?: string;
@@ -1272,9 +1132,7 @@ export const UpdateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
     RegistryName: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateRegistryResponse",
-}) as any as S.Schema<UpdateRegistryResponse>;
+).annotate({ identifier: "UpdateRegistryResponse" }) as any as S.Schema<UpdateRegistryResponse>;
 export type __stringMin0Max36 = string;
 export interface UpdateSchemaRequest {
   ClientTokenId?: string;
@@ -1305,9 +1163,7 @@ export const UpdateSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateSchemaRequest",
-}) as any as S.Schema<UpdateSchemaRequest>;
+).annotate({ identifier: "UpdateSchemaRequest" }) as any as S.Schema<UpdateSchemaRequest>;
 export interface UpdateSchemaResponse {
   Description?: string;
   LastModified?: Date;
@@ -1329,9 +1185,7 @@ export const UpdateSchemaResponse = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(S.String),
     VersionCreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(S.encodeKeys({ Tags: "tags" })),
-).annotate({
-  identifier: "UpdateSchemaResponse",
-}) as any as S.Schema<UpdateSchemaResponse>;
+).annotate({ identifier: "UpdateSchemaResponse" }) as any as S.Schema<UpdateSchemaResponse>;
 export type CreateDiscovererError =
   | BadRequestException
   | ConflictException

@@ -7,10 +7,7 @@ import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-const svc = T.AwsApiService({
-  sdkId: "EFS",
-  serviceShapeName: "MagnolioAPIService_v20150201",
-});
+const svc = T.AwsApiService({ sdkId: "EFS", serviceShapeName: "MagnolioAPIService_v20150201" });
 const auth = T.AwsAuthSigv4({ name: "elasticfilesystem" });
 const ver = T.ServiceVersion("2015-02-01");
 const proto = T.AwsProtocolsRestJson1();
@@ -134,55 +131,37 @@ export class AccessPointAlreadyExists
 export class AccessPointLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<AccessPointLimitExceeded>()(
     "AccessPointLimitExceeded",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError, C.withThrottlingError) {}
 export class AccessPointNotFound
   extends /*@__PURE__*/ S.TaggedError<AccessPointNotFound>()(
     "AccessPointNotFound",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class AvailabilityZonesMismatch
   extends /*@__PURE__*/ S.TaggedError<AvailabilityZonesMismatch>()(
     "AvailabilityZonesMismatch",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class BadRequest
   extends /*@__PURE__*/ S.TaggedError<BadRequest>()(
     "BadRequest",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class DependencyTimeout
   extends /*@__PURE__*/ S.TaggedError<DependencyTimeout>()(
     "DependencyTimeout",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(504),
   ).pipe(C.withTimeoutError) {}
 export class FileSystemAlreadyExists
@@ -198,217 +177,145 @@ export class FileSystemAlreadyExists
 export class FileSystemInUse
   extends /*@__PURE__*/ S.TaggedError<FileSystemInUse>()(
     "FileSystemInUse",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError, C.withDependencyViolationError) {}
 export class FileSystemLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<FileSystemLimitExceeded>()(
     "FileSystemLimitExceeded",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(403),
   ).pipe(C.withAuthError, C.withThrottlingError) {}
 export class FileSystemNotFound
   extends /*@__PURE__*/ S.TaggedError<FileSystemNotFound>()(
     "FileSystemNotFound",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class IncorrectFileSystemLifeCycleState
   extends /*@__PURE__*/ S.TaggedError<IncorrectFileSystemLifeCycleState>()(
     "IncorrectFileSystemLifeCycleState",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class IncorrectMountTargetState
   extends /*@__PURE__*/ S.TaggedError<IncorrectMountTargetState>()(
     "IncorrectMountTargetState",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class InsufficientThroughputCapacity
   extends /*@__PURE__*/ S.TaggedError<InsufficientThroughputCapacity>()(
     "InsufficientThroughputCapacity",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class InternalServerError
   extends /*@__PURE__*/ S.TaggedError<InternalServerError>()(
     "InternalServerError",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(500),
   ).pipe(C.withServerError) {}
 export class InvalidPolicyException
   extends /*@__PURE__*/ S.TaggedError<InvalidPolicyException>()(
     "InvalidPolicyException",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class IpAddressInUse
   extends /*@__PURE__*/ S.TaggedError<IpAddressInUse>()(
     "IpAddressInUse",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError, C.withDependencyViolationError) {}
 export class MountTargetConflict
   extends /*@__PURE__*/ S.TaggedError<MountTargetConflict>()(
     "MountTargetConflict",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class MountTargetNotFound
   extends /*@__PURE__*/ S.TaggedError<MountTargetNotFound>()(
     "MountTargetNotFound",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class NetworkInterfaceLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<NetworkInterfaceLimitExceeded>()(
     "NetworkInterfaceLimitExceeded",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError, C.withThrottlingError) {}
 export class NoFreeAddressesInSubnet
   extends /*@__PURE__*/ S.TaggedError<NoFreeAddressesInSubnet>()(
     "NoFreeAddressesInSubnet",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError) {}
 export class PolicyNotFound
   extends /*@__PURE__*/ S.TaggedError<PolicyNotFound>()(
     "PolicyNotFound",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ReplicationAlreadyExists
   extends /*@__PURE__*/ S.TaggedError<ReplicationAlreadyExists>()(
     "ReplicationAlreadyExists",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(409),
   ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
 export class ReplicationNotFound
   extends /*@__PURE__*/ S.TaggedError<ReplicationNotFound>()(
     "ReplicationNotFound",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class SecurityGroupLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<SecurityGroupLimitExceeded>()(
     "SecurityGroupLimitExceeded",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError, C.withThrottlingError) {}
 export class SecurityGroupNotFound
   extends /*@__PURE__*/ S.TaggedError<SecurityGroupNotFound>()(
     "SecurityGroupNotFound",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class SubnetNotFound
   extends /*@__PURE__*/ S.TaggedError<SubnetNotFound>()(
     "SubnetNotFound",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
-    {
-      ErrorCode: S.optional(S.String),
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.optional(S.String), message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class ThroughputLimitExceeded
   extends /*@__PURE__*/ S.TaggedError<ThroughputLimitExceeded>()(
     "ThroughputLimitExceeded",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError, C.withThrottlingError) {}
 export class TooManyRequests
   extends /*@__PURE__*/ S.TaggedError<TooManyRequests>()(
     "TooManyRequests",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class UnsupportedAvailabilityZone
   extends /*@__PURE__*/ S.TaggedError<UnsupportedAvailabilityZone>()(
     "UnsupportedAvailabilityZone",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
-    {
-      ErrorCode: S.String,
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-    },
+    { ErrorCode: S.String, message: S.optional(S.String).pipe(T.ErrorMessage()) },
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export type ClientToken = string;
@@ -434,11 +341,7 @@ export interface PosixUser {
   SecondaryGids?: number[];
 }
 export const PosixUser = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Uid: S.Number,
-    Gid: S.Number,
-    SecondaryGids: S.optional(SecondaryGids),
-  }),
+  S.Struct({ Uid: S.Number, Gid: S.Number, SecondaryGids: S.optional(SecondaryGids) }),
 ).annotate({ identifier: "PosixUser" }) as any as S.Schema<PosixUser>;
 export type Path = string;
 export type OwnerUid = number;
@@ -457,10 +360,7 @@ export interface RootDirectory {
   CreationInfo?: CreationInfo;
 }
 export const RootDirectory = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Path: S.optional(S.String),
-    CreationInfo: S.optional(CreationInfo),
-  }),
+  S.Struct({ Path: S.optional(S.String), CreationInfo: S.optional(CreationInfo) }),
 ).annotate({ identifier: "RootDirectory" }) as any as S.Schema<RootDirectory>;
 export interface CreateAccessPointRequest {
   ClientToken: string;
@@ -486,9 +386,7 @@ export const CreateAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateAccessPointRequest",
-}) as any as S.Schema<CreateAccessPointRequest>;
+).annotate({ identifier: "CreateAccessPointRequest" }) as any as S.Schema<CreateAccessPointRequest>;
 export type Name = string;
 export type AccessPointId = string;
 export type AccessPointArn = string;
@@ -528,9 +426,7 @@ export const AccessPointDescription = /*@__PURE__*/ S.suspend(() =>
     OwnerId: S.optional(S.String),
     LifeCycleState: S.optional(LifeCycleState),
   }),
-).annotate({
-  identifier: "AccessPointDescription",
-}) as any as S.Schema<AccessPointDescription>;
+).annotate({ identifier: "AccessPointDescription" }) as any as S.Schema<AccessPointDescription>;
 export type CreationToken = string;
 export type PerformanceMode = "generalPurpose" | "maxIO" | (string & {});
 export const PerformanceMode = S.String;
@@ -575,9 +471,7 @@ export const CreateFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateFileSystemRequest",
-}) as any as S.Schema<CreateFileSystemRequest>;
+).annotate({ identifier: "CreateFileSystemRequest" }) as any as S.Schema<CreateFileSystemRequest>;
 export type FileSystemArn = string;
 export type MountTargetCount = number;
 export type FileSystemSizeValue = number;
@@ -606,9 +500,7 @@ export interface FileSystemProtectionDescription {
   ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
 }
 export const FileSystemProtectionDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ReplicationOverwriteProtection: S.optional(ReplicationOverwriteProtection),
-  }),
+  S.Struct({ ReplicationOverwriteProtection: S.optional(ReplicationOverwriteProtection) }),
 ).annotate({
   identifier: "FileSystemProtectionDescription",
 }) as any as S.Schema<FileSystemProtectionDescription>;
@@ -653,9 +545,7 @@ export const FileSystemDescription = /*@__PURE__*/ S.suspend(() =>
     Tags: Tags,
     FileSystemProtection: S.optional(FileSystemProtectionDescription),
   }),
-).annotate({
-  identifier: "FileSystemDescription",
-}) as any as S.Schema<FileSystemDescription>;
+).annotate({ identifier: "FileSystemDescription" }) as any as S.Schema<FileSystemDescription>;
 export type SubnetId = string;
 export type IpAddress = string;
 export type Ipv6Address = string;
@@ -691,9 +581,7 @@ export const CreateMountTargetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateMountTargetRequest",
-}) as any as S.Schema<CreateMountTargetRequest>;
+).annotate({ identifier: "CreateMountTargetRequest" }) as any as S.Schema<CreateMountTargetRequest>;
 export type MountTargetId = string;
 export type NetworkInterfaceId = string;
 export type VpcId = string;
@@ -724,9 +612,7 @@ export const MountTargetDescription = /*@__PURE__*/ S.suspend(() =>
     AvailabilityZoneName: S.optional(S.String),
     VpcId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "MountTargetDescription",
-}) as any as S.Schema<MountTargetDescription>;
+).annotate({ identifier: "MountTargetDescription" }) as any as S.Schema<MountTargetDescription>;
 export type RegionName = string;
 export type RoleArn = string;
 export interface DestinationToCreate {
@@ -744,9 +630,7 @@ export const DestinationToCreate = /*@__PURE__*/ S.suspend(() =>
     FileSystemId: S.optional(S.String),
     RoleArn: S.optional(S.String),
   }),
-).annotate({
-  identifier: "DestinationToCreate",
-}) as any as S.Schema<DestinationToCreate>;
+).annotate({ identifier: "DestinationToCreate" }) as any as S.Schema<DestinationToCreate>;
 export type DestinationsToCreate = DestinationToCreate[];
 export const DestinationsToCreate = /*@__PURE__*/ S.Array(DestinationToCreate);
 export interface CreateReplicationConfigurationRequest {
@@ -833,10 +717,7 @@ export interface CreateTagsRequest {
   Tags: Tag[];
 }
 export const CreateTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
-    Tags: Tags,
-  }).pipe(
+  S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")), Tags: Tags }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2015-02-01/create-tags/{FileSystemId}" }),
       svc,
@@ -846,9 +727,7 @@ export const CreateTagsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "CreateTagsRequest",
-}) as any as S.Schema<CreateTagsRequest>;
+).annotate({ identifier: "CreateTagsRequest" }) as any as S.Schema<CreateTagsRequest>;
 export interface CreateTagsResponse {}
 export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateTagsResponse",
@@ -859,10 +738,7 @@ export interface DeleteAccessPointRequest {
 export const DeleteAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ AccessPointId: S.String.pipe(T.HttpLabel("AccessPointId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2015-02-01/access-points/{AccessPointId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2015-02-01/access-points/{AccessPointId}" }),
       svc,
       auth,
       proto,
@@ -870,9 +746,7 @@ export const DeleteAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteAccessPointRequest",
-}) as any as S.Schema<DeleteAccessPointRequest>;
+).annotate({ identifier: "DeleteAccessPointRequest" }) as any as S.Schema<DeleteAccessPointRequest>;
 export interface DeleteAccessPointResponse {}
 export const DeleteAccessPointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAccessPointResponse",
@@ -883,10 +757,7 @@ export interface DeleteFileSystemRequest {
 export const DeleteFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2015-02-01/file-systems/{FileSystemId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2015-02-01/file-systems/{FileSystemId}" }),
       svc,
       auth,
       proto,
@@ -894,9 +765,7 @@ export const DeleteFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteFileSystemRequest",
-}) as any as S.Schema<DeleteFileSystemRequest>;
+).annotate({ identifier: "DeleteFileSystemRequest" }) as any as S.Schema<DeleteFileSystemRequest>;
 export interface DeleteFileSystemResponse {}
 export const DeleteFileSystemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFileSystemResponse",
@@ -907,10 +776,7 @@ export interface DeleteFileSystemPolicyRequest {
 export const DeleteFileSystemPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2015-02-01/file-systems/{FileSystemId}/policy",
-      }),
+      T.Http({ method: "DELETE", uri: "/2015-02-01/file-systems/{FileSystemId}/policy" }),
       svc,
       auth,
       proto,
@@ -931,10 +797,7 @@ export interface DeleteMountTargetRequest {
 export const DeleteMountTargetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")) }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2015-02-01/mount-targets/{MountTargetId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2015-02-01/mount-targets/{MountTargetId}" }),
       svc,
       auth,
       proto,
@@ -942,9 +805,7 @@ export const DeleteMountTargetRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteMountTargetRequest",
-}) as any as S.Schema<DeleteMountTargetRequest>;
+).annotate({ identifier: "DeleteMountTargetRequest" }) as any as S.Schema<DeleteMountTargetRequest>;
 export interface DeleteMountTargetResponse {}
 export const DeleteMountTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMountTargetResponse",
@@ -989,10 +850,7 @@ export interface DeleteTagsRequest {
   TagKeys: string[];
 }
 export const DeleteTagsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")),
-    TagKeys: TagKeys,
-  }).pipe(
+  S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")), TagKeys: TagKeys }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2015-02-01/delete-tags/{FileSystemId}" }),
       svc,
@@ -1002,9 +860,7 @@ export const DeleteTagsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DeleteTagsRequest",
-}) as any as S.Schema<DeleteTagsRequest>;
+).annotate({ identifier: "DeleteTagsRequest" }) as any as S.Schema<DeleteTagsRequest>;
 export interface DeleteTagsResponse {}
 export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTagsResponse",
@@ -1043,10 +899,7 @@ export interface DescribeAccessPointsResponse {
   NextToken?: string;
 }
 export const DescribeAccessPointsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    AccessPoints: S.optional(AccessPointDescriptions),
-    NextToken: S.optional(S.String),
-  }),
+  S.Struct({ AccessPoints: S.optional(AccessPointDescriptions), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeAccessPointsResponse",
 }) as any as S.Schema<DescribeAccessPointsResponse>;
@@ -1055,10 +908,7 @@ export interface DescribeAccountPreferencesRequest {
   MaxResults?: number;
 }
 export const DescribeAccountPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
+  S.Struct({ NextToken: S.optional(S.String), MaxResults: S.optional(S.Number) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/2015-02-01/account-preferences" }),
       svc,
@@ -1084,13 +934,8 @@ export interface ResourceIdPreference {
   Resources?: Resource[];
 }
 export const ResourceIdPreference = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceIdType: S.optional(ResourceIdType),
-    Resources: S.optional(Resources),
-  }),
-).annotate({
-  identifier: "ResourceIdPreference",
-}) as any as S.Schema<ResourceIdPreference>;
+  S.Struct({ ResourceIdType: S.optional(ResourceIdType), Resources: S.optional(Resources) }),
+).annotate({ identifier: "ResourceIdPreference" }) as any as S.Schema<ResourceIdPreference>;
 export interface DescribeAccountPreferencesResponse {
   ResourceIdPreference?: ResourceIdPreference;
   NextToken?: string;
@@ -1109,10 +954,7 @@ export interface DescribeBackupPolicyRequest {
 export const DescribeBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2015-02-01/file-systems/{FileSystemId}/backup-policy",
-      }),
+      T.Http({ method: "GET", uri: "/2015-02-01/file-systems/{FileSystemId}/backup-policy" }),
       svc,
       auth,
       proto,
@@ -1137,19 +979,14 @@ export interface BackupPolicyDescription {
 }
 export const BackupPolicyDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ BackupPolicy: S.optional(BackupPolicy) }),
-).annotate({
-  identifier: "BackupPolicyDescription",
-}) as any as S.Schema<BackupPolicyDescription>;
+).annotate({ identifier: "BackupPolicyDescription" }) as any as S.Schema<BackupPolicyDescription>;
 export interface DescribeFileSystemPolicyRequest {
   FileSystemId: string;
 }
 export const DescribeFileSystemPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2015-02-01/file-systems/{FileSystemId}/policy",
-      }),
+      T.Http({ method: "GET", uri: "/2015-02-01/file-systems/{FileSystemId}/policy" }),
       svc,
       auth,
       proto,
@@ -1166,10 +1003,7 @@ export interface FileSystemPolicyDescription {
   Policy?: string;
 }
 export const FileSystemPolicyDescription = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    FileSystemId: S.optional(S.String),
-    Policy: S.optional(S.String),
-  }),
+  S.Struct({ FileSystemId: S.optional(S.String), Policy: S.optional(S.String) }),
 ).annotate({
   identifier: "FileSystemPolicyDescription",
 }) as any as S.Schema<FileSystemPolicyDescription>;
@@ -1269,9 +1103,7 @@ export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
     TransitionToPrimaryStorageClass: S.optional(TransitionToPrimaryStorageClassRules),
     TransitionToArchive: S.optional(TransitionToArchiveRules),
   }),
-).annotate({
-  identifier: "LifecyclePolicy",
-}) as any as S.Schema<LifecyclePolicy>;
+).annotate({ identifier: "LifecyclePolicy" }) as any as S.Schema<LifecyclePolicy>;
 export type LifecyclePolicies = LifecyclePolicy[];
 export const LifecyclePolicies = /*@__PURE__*/ S.Array(LifecyclePolicy);
 export interface LifecycleConfigurationDescription {
@@ -1329,14 +1161,9 @@ export interface DescribeMountTargetSecurityGroupsRequest {
   MountTargetId: string;
 }
 export const DescribeMountTargetSecurityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")),
-  }).pipe(
+  S.Struct({ MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")) }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups",
-      }),
+      T.Http({ method: "GET", uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups" }),
       svc,
       auth,
       proto,
@@ -1367,10 +1194,7 @@ export const DescribeReplicationConfigurationsRequest = /*@__PURE__*/ S.suspend(
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "GET",
-        uri: "/2015-02-01/file-systems/replication-configurations",
-      }),
+      T.Http({ method: "GET", uri: "/2015-02-01/file-systems/replication-configurations" }),
       svc,
       auth,
       proto,
@@ -1417,23 +1241,15 @@ export const DescribeTagsRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "DescribeTagsRequest",
-}) as any as S.Schema<DescribeTagsRequest>;
+).annotate({ identifier: "DescribeTagsRequest" }) as any as S.Schema<DescribeTagsRequest>;
 export interface DescribeTagsResponse {
   Marker?: string;
   Tags: Tag[];
   NextMarker?: string;
 }
 export const DescribeTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    Marker: S.optional(S.String),
-    Tags: Tags,
-    NextMarker: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeTagsResponse",
-}) as any as S.Schema<DescribeTagsResponse>;
+  S.Struct({ Marker: S.optional(S.String), Tags: Tags, NextMarker: S.optional(S.String) }),
+).annotate({ identifier: "DescribeTagsResponse" }) as any as S.Schema<DescribeTagsResponse>;
 export type ResourceId = string;
 export interface ListTagsForResourceRequest {
   ResourceId: string;
@@ -1477,10 +1293,7 @@ export const ModifyMountTargetSecurityGroupsRequest = /*@__PURE__*/ S.suspend(()
     SecurityGroups: S.optional(SecurityGroups),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups",
-      }),
+      T.Http({ method: "PUT", uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups" }),
       svc,
       auth,
       proto,
@@ -1532,10 +1345,7 @@ export const PutBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     BackupPolicy: BackupPolicy,
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2015-02-01/file-systems/{FileSystemId}/backup-policy",
-      }),
+      T.Http({ method: "PUT", uri: "/2015-02-01/file-systems/{FileSystemId}/backup-policy" }),
       svc,
       auth,
       proto,
@@ -1543,9 +1353,7 @@ export const PutBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "PutBackupPolicyRequest",
-}) as any as S.Schema<PutBackupPolicyRequest>;
+).annotate({ identifier: "PutBackupPolicyRequest" }) as any as S.Schema<PutBackupPolicyRequest>;
 export type BypassPolicyLockoutSafetyCheck = boolean;
 export interface PutFileSystemPolicyRequest {
   FileSystemId: string;
@@ -1559,10 +1367,7 @@ export const PutFileSystemPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     BypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2015-02-01/file-systems/{FileSystemId}/policy",
-      }),
+      T.Http({ method: "PUT", uri: "/2015-02-01/file-systems/{FileSystemId}/policy" }),
       svc,
       auth,
       proto,
@@ -1602,10 +1407,7 @@ export interface TagResourceRequest {
   Tags: Tag[];
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    ResourceId: S.String.pipe(T.HttpLabel("ResourceId")),
-    Tags: Tags,
-  }).pipe(
+  S.Struct({ ResourceId: S.String.pipe(T.HttpLabel("ResourceId")), Tags: Tags }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/2015-02-01/resource-tags/{ResourceId}" }),
       svc,
@@ -1615,9 +1417,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "TagResourceRequest",
-}) as any as S.Schema<TagResourceRequest>;
+).annotate({ identifier: "TagResourceRequest" }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
 export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
@@ -1632,10 +1432,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
     T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/2015-02-01/resource-tags/{ResourceId}",
-      }),
+      T.Http({ method: "DELETE", uri: "/2015-02-01/resource-tags/{ResourceId}" }),
       svc,
       auth,
       proto,
@@ -1643,9 +1440,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UntagResourceRequest",
-}) as any as S.Schema<UntagResourceRequest>;
+).annotate({ identifier: "UntagResourceRequest" }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
 export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
@@ -1670,9 +1465,7 @@ export const UpdateFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
       rules,
     ),
   ),
-).annotate({
-  identifier: "UpdateFileSystemRequest",
-}) as any as S.Schema<UpdateFileSystemRequest>;
+).annotate({ identifier: "UpdateFileSystemRequest" }) as any as S.Schema<UpdateFileSystemRequest>;
 export interface UpdateFileSystemProtectionRequest {
   FileSystemId: string;
   ReplicationOverwriteProtection?: ReplicationOverwriteProtection;
@@ -1683,10 +1476,7 @@ export const UpdateFileSystemProtectionRequest = /*@__PURE__*/ S.suspend(() =>
     ReplicationOverwriteProtection: S.optional(ReplicationOverwriteProtection),
   }).pipe(
     T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/2015-02-01/file-systems/{FileSystemId}/protection",
-      }),
+      T.Http({ method: "PUT", uri: "/2015-02-01/file-systems/{FileSystemId}/protection" }),
       svc,
       auth,
       proto,
