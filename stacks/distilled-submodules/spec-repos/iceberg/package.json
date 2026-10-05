@@ -1,0 +1,22 @@
+{
+  "name": "iceberg-spec",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch-specs": "node fetch-specs.ts",
+    "tsc": "tsgo --noEmit",
+    "lint": "oxlint .",
+    "fmt": "oxfmt --write .",
+    "fmt:check": "oxfmt --check .",
+    "check": "pnpm run tsc && pnpm run lint && pnpm run fmt:check"
+  },
+  "dependencies": {
+    "@typescript/native-preview": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "oxfmt": "0.21.0",
+    "oxlint": "1.36.0"
+  },
+  "packageManager": "pnpm@12.9.1"
+}
