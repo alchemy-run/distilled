@@ -665,6 +665,16 @@ export class NetworkFeatureNotSupported extends Schema.TaggedError<NetworkFeatur
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned when deleting the `defaultConnection` Azure creates implicitly
+ * with a hub network virtual appliance ("The default NVA connection created
+ * implicitly cannot be deleted"); it goes away with the appliance.
+ */
+export class NvaDefaultConnectionUndeletable extends Schema.TaggedError<NvaDefaultConnectionUndeletable>()(
+  "NvaDefaultConnectionUndeletable",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned when an API Management service (e.g. a soft-deleted service
  * under `locations/{location}/deletedservices`) does not exist.
  * Azure error code: `ServiceNotFound`
@@ -683,6 +693,29 @@ export class ApiManagementServiceTransitioning extends Schema.TaggedError<ApiMan
   "ApiManagementServiceTransitioning",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.ApiManagement email template writes on
+ * Pay-As-You-Go and MSDN subscriptions: "Operation disallowed by throttling
+ * policy 'PerSubEmailTemplateWrites' for QuotaId ...". Not a transient
+ * throttle: these subscription offers cannot customize notification
+ * templates at all.
+ */
+export class ApiManagementEmailTemplateWritesNotAllowed extends Schema.TaggedError<ApiManagementEmailTemplateWritesNotAllowed>()(
+  "ApiManagementEmailTemplateWritesNotAllowed",
+  AzureErrorFields,
+).pipe(Category.withAuthError) {}
+
+/**
+ * Returned by Microsoft.ApiManagement for child routes the service does not
+ * serve (e.g. `apis/{id}/wikis`, `products/{id}/wikis`): HTTP 404
+ * `ResourceNotFound` "The request did not have proper uri path format".
+ * Not a missing entity: the endpoint is unavailable.
+ */
+export class ApiManagementRouteNotSupported extends Schema.TaggedError<ApiManagementRouteNotSupported>()(
+  "ApiManagementRouteNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.SecurityInsights alert rule action operations
@@ -771,6 +804,29 @@ export class GuestConfigurationAgentServiceFailed extends Schema.TaggedError<Gue
  */
 export class EventHubApplicationGroupNotSupported extends Schema.TaggedError<EventHubApplicationGroupNotSupported>()(
   "EventHubApplicationGroupNotSupported",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.EventHub when a dedicated cluster is deleted less
+ * than 4 hours after it was created. HTTP 400 `BadRequest` "Cluster 'x'
+ * cannot be deleted until at least 4 hours after its created time"
+ * (matched by message). Retry once the 4-hour minimum has elapsed.
+ */
+export class EventHubClusterDeleteTooSoon extends Schema.TaggedError<EventHubClusterDeleteTooSoon>()(
+  "EventHubClusterDeleteTooSoon",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.NetworkFunction when an Azure Traffic Collector is
+ * written or deleted while a previous operation on it is still running.
+ * HTTP 400 `BadRequest` "AzureTrafficCollector x cannot be updated/deleted
+ * because another operation or internal maintenance is in progress"
+ * (matched by message). Transient; retry.
+ */
+export class TrafficCollectorOperationInProgress extends Schema.TaggedError<TrafficCollectorOperationInProgress>()(
+  "TrafficCollectorOperationInProgress",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
@@ -1023,6 +1079,17 @@ export class SignalRSkuFeatureNotSupported extends Schema.TaggedError<SignalRSku
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.SqlVirtualMachine when a SQL virtual machine is
+ * deleted while the RP is still uninstalling the SQL IaaS extension from a
+ * previous delete: HTTP 409 "Underlying virtual machine ... does not exist
+ * or does not have SQL IaaS extension installed" (matched by message).
+ */
+export class SqlVirtualMachineExtensionMissing extends Schema.TaggedError<SqlVirtualMachineExtensionMissing>()(
+  "SqlVirtualMachineExtensionMissing",
+  AzureErrorFields,
+).pipe(Category.withConflictError) {}
+
+/**
  * Returned by Microsoft.SignalRService when a shared private link resource
  * is written to a replica before the primary's link of the same name has
  * replicated to it. Azure returns HTTP 409 `Conflict` "Cannot create a new
@@ -1032,6 +1099,18 @@ export class SignalRReplicaLinkNotReplicated extends Schema.TaggedError<SignalRR
   "SignalRReplicaLinkNotReplicated",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.StorageCache when an AML file system's blob
+ * integration (HSM) container cannot be reached yet, typically while the
+ * HPC Cache resource provider's fresh role assignments propagate: HTTP 400
+ * `InvalidParameter` "Storage Container ... is not found or is
+ * inaccessible." (matched by code + message). Transient; retry.
+ */
+export class AmlFilesystemContainerInaccessible extends Schema.TaggedError<AmlFilesystemContainerInaccessible>()(
+  "AmlFilesystemContainerInaccessible",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
 
 /**
  * Returned by Microsoft.SignalRService (SignalR and Web PubSub) when a
@@ -1213,6 +1292,25 @@ export class PowerBITenantNotSignedUp extends Schema.TaggedError<PowerBITenantNo
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Microsoft.Fabric rejects a capacity whose administrators are not (yet)
+ * visible Entra users or service principals — e.g. a managed identity
+ * created moments ago that has not replicated (matched by message).
+ */
+export class FabricCapacityPrincipalNotFound extends Schema.TaggedError<FabricCapacityPrincipalNotFound>()(
+  "FabricCapacityPrincipalNotFound",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Microsoft.Fabric rejects a capacity whose capacity units would exceed the
+ * subscription's regional Fabric CU quota (matched by message).
+ */
+export class FabricCapacityQuotaExceeded extends Schema.TaggedError<FabricCapacityQuotaExceeded>()(
+  "FabricCapacityQuotaExceeded",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * ARM rejected a resource provider's response because the payload did not
  * match the provider's own API spec (e.g. Microsoft.VideoIndexer answers a
  * PUT on an existing private endpoint connection with a malformed `id`).
@@ -1314,7 +1412,6 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   StorageAccountOperationInProgress: StorageAccountOperationInProgress,
   OperationInProgress: DeviceUpdateOperationInProgress,
   InstanceIsNotInTerminalState: DeviceUpdateInstanceNotTerminal,
-  GatewayConfigConnectionNotFound: ResourceNotFound,
   ElasticJobAgentIsBusy: ElasticJobAgentIsBusy,
   AnotherOperationInProgress: NetworkOperationInProgress,
   RetryableError: NetworkOperationInProgress,
@@ -1329,6 +1426,8 @@ export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
   FailedCustomerCacheNodesExist: ConnectedCacheCustomerCacheNodesExist,
   ResourceRestriction: NetAppCreationRestricted,
   ServiceNotFound: ApiManagementServiceNotFound,
+  // Microsoft.ApiManagement gateways/configConnections GET of a missing connection.
+  GatewayConfigConnectionNotFound: ResourceNotFound,
   ApplicationGroupInvalidSku: EventHubApplicationGroupNotSupported,
   RequestConflict: CognitiveServicesRequestConflict,
   RSVaultUpdateErrorConflictingOperationInProgress: RecoveryServicesVaultOperationInProgress,
@@ -1560,6 +1659,18 @@ export class RedHatOpenShiftVmSkuRestricted extends Schema.TaggedError<RedHatOpe
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.RedHatOpenShift when the cluster's control-plane,
+ * worker and bootstrap VMs (44 vCPUs minimum) exceed the subscription's
+ * regional cores quota. HTTP 400 "Resource quota of cores exceeded.
+ * Maximum allowed: N, Current in use: M, Additional requested: K." without
+ * an error code (matched by message).
+ */
+export class RedHatOpenShiftCoresQuotaExceeded extends Schema.TaggedError<RedHatOpenShiftCoresQuotaExceeded>()(
+  "RedHatOpenShiftCoresQuotaExceeded",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.Storage when a storage task assignment is written
  * while its previous asynchronous PUT is still running (GET may already
  * report `Succeeded`). HTTP 409 `InvalidResourceOperation` with "Another
@@ -1601,7 +1712,8 @@ export class CustomLocationClusterExtensionNotFound extends Schema.TaggedError<C
  * resource is still running (GET may already report `Succeeded`). Azure
  * returns HTTP 409 `InvalidResourceOperation` with "Another 'PUT'
  * operation ... is active/in-progress" or "... is being provisioned with
- * state" (matched by message); retry until it settles.
+ * state" (matched by message); retry until it settles. Microsoft.Mission
+ * (Virtual Enclaves) hubs return the same error.
  */
 export class HybridNetworkOperationInProgress extends Schema.TaggedError<HybridNetworkOperationInProgress>()(
   "HybridNetworkOperationInProgress",
@@ -1811,6 +1923,30 @@ export class FrontDoorProfileQuotaExceeded extends Schema.TaggedError<FrontDoorP
 ).pipe(Category.withBadRequestError) {}
 
 /**
+ * Returned by Microsoft.Cdn when a Front Door route is written before its
+ * origin group has finished provisioning an enabled origin: HTTP 400 code
+ * `BadRequest` "Please make sure that the originGroup is created
+ * successfully and at least one enabled origin is created under the origin
+ * group." (matched by message). Transient while a sibling origin deploys.
+ */
+export class AfdOriginGroupNotReady extends Schema.TaggedError<AfdOriginGroupNotReady>()(
+  "AfdOriginGroupNotReady",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Cdn when the last origin of a Front Door origin
+ * group is deleted or disabled while a route or rule still references the
+ * group: HTTP 400 code `BadRequest` "Cannot disable or delete the last origin
+ * when the origin group is still associated with a route or a rule."
+ * (matched by message). Transient while the route is being deleted.
+ */
+export class AfdLastOriginInUse extends Schema.TaggedError<AfdLastOriginInUse>()(
+  "AfdLastOriginInUse",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
  * Returned by Microsoft.CodeSigning (Artifact Signing) account PUTs on a
  * free-trial, free, or sponsored subscription: HTTP 400 "Artifact Signing is
  * not available for free, trial or sponsored subscriptions" (matched by
@@ -1854,6 +1990,18 @@ export class ConfluentEmailAlreadyExists extends Schema.TaggedError<ConfluentEma
  */
 export class ConfluentUserTokenRequired extends Schema.TaggedError<ConfluentUserTokenRequired>()(
   "ConfluentUserTokenRequired",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
+
+/**
+ * Returned by Microsoft.Datadog when Datadog rejects creating the
+ * organization behind a new monitor, e.g. when the caller is a service
+ * principal (the Marketplace SaaS purchase needs a user token): HTTP 400
+ * `ResourceCreationFailed` "ResourceCreationFailed: Bad Request" (matched by
+ * code + message).
+ */
+export class DatadogMonitorCreationFailed extends Schema.TaggedError<DatadogMonitorCreationFailed>()(
+  "DatadogMonitorCreationFailed",
   AzureErrorFields,
 ).pipe(Category.withBadRequestError) {}
 
@@ -1946,8 +2094,9 @@ export class AttestationComplianceDataNotFound extends Schema.TaggedError<Attest
 
 /**
  * Returned by Microsoft.KeyVault while a managed HSM pool is still applying
- * a previous change (e.g. a private endpoint connection approval), for
- * connection changes and soft delete alike; retry once it finishes. Matched by message: the ARM code is the bare `409`.
+ * a previous change (e.g. a tag update or a private endpoint connection
+ * approval), for updates, connection changes, and soft delete alike; retry
+ * once it finishes. Matched by message: the ARM code is the bare `409`.
  */
 export class ManagedHsmPoolUpdating extends Schema.TaggedError<ManagedHsmPoolUpdating>()(
   "ManagedHsmPoolUpdating",
@@ -1963,6 +2112,16 @@ export class ManagedHsmAlreadyBeingDeleted extends Schema.TaggedError<ManagedHsm
   "ManagedHsmAlreadyBeingDeleted",
   AzureErrorFields,
 ).pipe(Category.withConflictError) {}
+
+/**
+ * Returned by Microsoft.KeyVault for managed HSM key operations through
+ * ARM until an HSM administrator enables the data-plane setting
+ * `AllowKeyManagementOperationsThroughARM`. Matched by message.
+ */
+export class ManagedHsmArmKeyManagementDisabled extends Schema.TaggedError<ManagedHsmArmKeyManagementDisabled>()(
+  "ManagedHsmArmKeyManagementDisabled",
+  AzureErrorFields,
+).pipe(Category.withBadRequestError) {}
 
 /**
  * Errors whose ARM `code` is too generic to type on its own (e.g.
@@ -1987,8 +2146,17 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   },
   {
     code: "409",
+    includes: "The version of update object should be",
+    error: ManagedHsmPoolUpdating,
+  },
+  {
+    code: "409",
     includes: "requested to be deleted is already being deleted",
     error: ManagedHsmAlreadyBeingDeleted,
+  },
+  {
+    includes: "enable the setting 'AllowKeyManagementOperationsThroughARM'",
+    error: ManagedHsmArmKeyManagementDisabled,
   },
   {
     includes: "Sequence contains no matching element",
@@ -2009,6 +2177,14 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: PowerBITenantNotSignedUp,
   },
   {
+    includes: "All provided principals must be existing, user or service principals",
+    error: FabricCapacityPrincipalNotFound,
+  },
+  {
+    includes: "must not exceed the regional quota for the subscription",
+    error: FabricCapacityQuotaExceeded,
+  },
+  {
     code: "InvalidRequest",
     includes: "ServiceGroup name not found",
     error: ServiceGroupNameNotFound,
@@ -2021,6 +2197,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     code: "Conflict",
     includes: "Cannot create a new shared private link resource for replicas",
     error: SignalRReplicaLinkNotReplicated,
+  },
+  {
+    code: "InvalidParameter",
+    includes: "is not found or is inaccessible",
+    error: AmlFilesystemContainerInaccessible,
   },
   {
     includes: "Referenced custom certificate",
@@ -2076,9 +2257,18 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     includes: "App Service Plan Create operation is throttled",
     error: AppServicePlanCreateThrottled,
   },
-  // Microsoft.ApiManagement (HTTP 502): "Operation disallowed by throttling
-  // policy 'PerSubEmailTemplateWrites' for QuotaId ..." — a per-subscription
-  // write throttle; retry after a delay.
+  {
+    code: "ResourceNotFound",
+    includes: "did not have proper uri path format",
+    error: ApiManagementRouteNotSupported,
+  },
+  // Microsoft.ApiManagement (HTTP 502): email template writes are disabled
+  // for Pay-As-You-Go/MSDN offers; not a transient throttle.
+  {
+    includes: "throttling policy 'PerSubEmailTemplateWrites'",
+    error: ApiManagementEmailTemplateWritesNotAllowed,
+  },
+  // Generic ARM throttling policies: retry after a delay.
   {
     includes: "Operation disallowed by throttling policy",
     error: RequestRateLimitExceeded,
@@ -2113,6 +2303,17 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     includes: "in Updating state from previous operation",
     error: NetworkOperationInProgress,
   },
+  // Microsoft.Network NVA children (inbound security rules) while the NVA
+  // is still applying an earlier request: "Previous request in-progress.
+  // Try again later."
+  {
+    includes: "Previous request in-progress",
+    error: NetworkOperationInProgress,
+  },
+  {
+    includes: "default NVA connection created implicitly cannot be deleted",
+    error: NvaDefaultConnectionUndeletable,
+  },
   // Microsoft.Network: "Cannot create more than 3 public IP addresses for
   // this subscription in this region." (also returned for IPv4 prefixes).
   {
@@ -2122,6 +2323,14 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "Application Group available only for Dedicated and Premium",
     error: EventHubApplicationGroupNotSupported,
+  },
+  {
+    includes: "cannot be deleted until at least 4 hours after its created time",
+    error: EventHubClusterDeleteTooSoon,
+  },
+  {
+    includes: "because another operation or internal maintenance is in progress",
+    error: TrafficCollectorOperationInProgress,
   },
   {
     includes: "given the Azure Virtual Desktop service permissions",
@@ -2303,6 +2512,14 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: FrontDoorProfileQuotaExceeded,
   },
   {
+    includes: "at least one enabled origin is created under the origin group",
+    error: AfdOriginGroupNotReady,
+  },
+  {
+    includes: "Cannot disable or delete the last origin when the origin group",
+    error: AfdLastOriginInUse,
+  },
+  {
     includes: "Artifact Signing is not available for free, trial or sponsored",
     error: CodeSigningSubscriptionNotSupported,
   },
@@ -2317,6 +2534,11 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
   {
     includes: "Both UPN and Email claims are missing in the ARM signed token",
     error: ConfluentUserTokenRequired,
+  },
+  {
+    code: "ResourceCreationFailed",
+    includes: "ResourceCreationFailed: Bad Request",
+    error: DatadogMonitorCreationFailed,
   },
   {
     includes: "is not supported in this group",
@@ -2389,6 +2611,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     error: RedHatOpenShiftVmSkuRestricted,
   },
   {
+    includes: "Resource quota of cores exceeded",
+    error: RedHatOpenShiftCoresQuotaExceeded,
+  },
+  {
     includes: "Azure Cache for Redis is retiring",
     error: RedisCacheRetiring,
   },
@@ -2459,6 +2685,10 @@ export const AZURE_ERROR_MESSAGE_MATCHERS: ReadonlyArray<{
     includes: "Could not validate Microsoft Entra ID role",
     error: MongoClusterPrincipalNotFound,
   },
+  {
+    includes: "does not have SQL IaaS extension installed",
+    error: SqlVirtualMachineExtensionMissing,
+  },
 ];
 
 export const matchAzureErrorMessage = (arm: {
@@ -2496,6 +2726,8 @@ export class AzureParseError extends Schema.TaggedError<AzureParseError>()("Azur
 export type AzureApiError =
   | AttestationComplianceDataNotFound
   | PowerBITenantNotSignedUp
+  | FabricCapacityPrincipalNotFound
+  | FabricCapacityQuotaExceeded
   | AutomanageSubscriptionNotSupported
   | LighthouseManagedByTenantNotAllowed
   | LighthouseManagedByTenantInvalid
@@ -2560,8 +2792,11 @@ export type AzureApiError =
   | NetAppVolumeGroupNotReadable
   | SubscriptionFeatureNotRegistered
   | NetworkFeatureNotSupported
+  | NvaDefaultConnectionUndeletable
   | ApiManagementServiceNotFound
   | ApiManagementServiceTransitioning
+  | ApiManagementEmailTemplateWritesNotAllowed
+  | ApiManagementRouteNotSupported
   | AppServicePlanCreateThrottled
   | HostNameVerificationFailed
   | WebAppSlotsNotSupported
@@ -2569,6 +2804,8 @@ export type AzureApiError =
   | WebMethodNotImplemented
   | ServerFarmCreateNotAllowed
   | EventHubApplicationGroupNotSupported
+  | EventHubClusterDeleteTooSoon
+  | TrafficCollectorOperationInProgress
   | SentinelAnomaliesNotSupported
   | GuestConfigurationMachineInfoUnavailable
   | GuestConfigurationMachineLookupFailed
@@ -2610,11 +2847,14 @@ export type AzureApiError =
   | AgentSpaceNotAllowed
   | FrontDoorFreeTrialForbidden
   | FrontDoorProfileQuotaExceeded
+  | AfdOriginGroupNotReady
+  | AfdLastOriginInUse
   | CodeSigningSubscriptionNotSupported
   | SenderUsernameLastRemaining
   | MarketplacePurchaseNotEligible
   | ConfluentEmailAlreadyExists
   | ConfluentUserTokenRequired
+  | DatadogMonitorCreationFailed
   | DatadogMonitorCreationValidateFailed
   | MigrateAssessmentTypeNotSupported
   | MigrateVcenterNotFound
@@ -2630,10 +2870,13 @@ export type AzureApiError =
   | HDInsightCoresQuotaExceeded
   | ContainerAppsEnvironmentQuotaExceeded
   | RedHatOpenShiftVmSkuRestricted
+  | RedHatOpenShiftCoresQuotaExceeded
   | SqlOperationInProgress
   | DatabricksApplianceBusy
   | SignalRSkuFeatureNotSupported
+  | SqlVirtualMachineExtensionMissing
   | SignalRReplicaLinkNotReplicated
+  | AmlFilesystemContainerInaccessible
   | SignalRCustomCertificateNotFound
   | HybridNetworkOperationInProgress
   | ConnectedClusterOperationInProgress
@@ -2659,4 +2902,5 @@ export type AzureApiError =
   | ServiceFabricPrimaryNodeTypeRequired
   | ManagedHsmPoolUpdating
   | ManagedHsmAlreadyBeingDeleted
+  | ManagedHsmArmKeyManagementDisabled
   | HttpResponsePayloadAPISpecValidationFailed;
