@@ -47,10 +47,7 @@
       "queueName": "queue_name",
       "resultInfo": "result_info",
       "retryDelay": "retry_delay",
-      "scriptName": [
-        "script_name",
-        "script"
-      ],
+      "scriptName": ["script_name", "script"],
       "startedAt": "started_at",
       "timestampMs": "timestamp_ms",
       "totalCount": "total_count",
