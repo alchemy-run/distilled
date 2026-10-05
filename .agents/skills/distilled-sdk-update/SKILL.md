@@ -1,6 +1,6 @@
 ---
 name: distilled-sdk-update
-description: Move an existing distilled SDK to its mirror's latest spec, regenerate it, audit packages/<pkg>/patches/ with `pnpm patches:audit` and delete or slim the patches the new spec has absorbed, then open the PR. Use for "update <pkg> to the latest spec", "regenerate <pkg>", "audit / remove unused patches", "does the spec still need this patch", or when a provider says they fixed their spec. When also asked to "look at / go through the open PRs" for that provider, it reconciles them against the new spec (Step 6). Building a new SDK is the distilled-sdk skill.
+description: Move an existing distilled SDK to its mirror's latest spec, regenerate it, audit packages/<pkg>/patches/ with `pnpm patches:audit` and delete or slim the patches the new spec has absorbed, then open the PR. Use for "update <pkg> to the latest spec", "regenerate <pkg>", "audit / remove unused patches", "which patches does the new spec no longer need", or when a provider says they fixed their spec. Adding, changing, merging or rebasing a single patch, including "do we still need this patch PR?", is distilled-sdk-patch, which reads the generated diff and runs no audit. When also asked to "look at / go through the open PRs" for that provider, it reconciles them against the new spec (Step 6). Building a new SDK is the distilled-sdk skill.
 ---
 
 # Updating a distilled SDK to its latest spec
@@ -53,8 +53,13 @@ pnpm patches:audit <pkg> --ops    # also one per op inside every needed file
 pnpm patches:audit <pkg> --only <substring>
 ```
 
-Always name the package: an audit of a convert-stage package re-runs
-`convert` once per patch file, so it is never run across the repo.
+Run the audit only after the mirror has moved (step 1): it answers which
+patches the new spec has absorbed, and nothing else. Always name the
+package. For a convert-stage package it rebuilds the whole model once per
+patch file, so `cloudflare` (about 2,850 files) takes hours; a scoped
+`--only` run still rebuilds the full model twice per file. To check what one
+patch you just wrote or edited does, read the generated diff instead
+(`distilled-sdk-patch`, step 5).
 
 The audit (`@distilled.cloud/core/codegen/patch-audit`) builds the model
 once with every patch, then once per patch with that patch left out
@@ -178,10 +183,13 @@ TypeScript):
 | None of it is in the spec | update and merge as is |
 | The spec has it, but the converter generates it wrong | fix the converter in its own PR, merge it, then close |
 
-A PR's patch file is the quickest test: copy it into a scratch checkout and
-run `pnpm --filter @distilled.cloud/<pkg> run convert`. A stale target means
-the spec moved underneath it; `pnpm patches:audit <pkg> --only <file> --ops`
-then says whether each op still changes anything.
+Usually reading the regenerated model answers it: search
+`.generated-specs/` for the operations, members or shapes the PR adds. When
+it does not, merge `main` into the PR's branch and run `pnpm generate
+<pkg>`: a stale target means the spec moved underneath the patch, and the
+generated diff against `main` shows what the patch still adds. Reach for
+`pnpm patches:audit <pkg> --only <file> --ops` only when that diff cannot
+tell you which ops are dead.
 
 **Update a branch in place.** Maintainers can push to forks when
 `maintainerCanModify` is true; for a fork, fetch `refs/pull/<n>/head`,
@@ -202,9 +210,10 @@ git push https://github.com/<owner>/<repo>.git pr-<n>:<headRefName>
   are real; read both sides. Two PRs adding the same shape merge into
   duplicate ops or duplicate JSON keys without a textual conflict, so check
   the patch parses with no repeated keys.
-- Old PRs predate repo changes their tests now fail on (`bun:test` →
-  `vitest`, `Redacted` credentials). Fix those in a separate commit on
-  their branch.
+- Delete a test the PR added that only checks the patch's generated shape;
+  patches carry no per-package tests (`distilled-sdk-patch`, step 4).
+  Other tests that predate repo changes (`bun:test` → `vitest`, `Redacted`
+  credentials) get fixed in a separate commit on their branch.
 - When a PR was trimmed, say so in a comment on it: what was dropped and why.
 
 **Merge in dependency order.** PRs that regenerate the same service conflict
