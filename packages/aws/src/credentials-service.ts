@@ -4,7 +4,6 @@
  * into a cached `Credentials` layer. Each provider under
  * `credential-providers/` builds its layer from this module.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -15,6 +14,21 @@ import * as Redacted from "effect/Redacted";
 import type { CredentialSource } from "./credential-providers/credential-source.ts";
 import { fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
+
+/**
+ * AWS credentials as a credential source returns them — the same shape as
+ * `AwsCredentialIdentity` in `@smithy/types`, so identities from the AWS SDK
+ * are accepted as they are.
+ */
+export interface AwsCredentialIdentity {
+  readonly accessKeyId: string;
+  readonly secretAccessKey: string;
+  readonly sessionToken?: string;
+  readonly credentialScope?: string;
+  readonly accountId?: string;
+  /** When the credentials stop being accepted. */
+  readonly expiration?: Date;
+}
 
 export interface AwsCredentials {
   readonly accessKeyId: string;

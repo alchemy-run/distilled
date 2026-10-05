@@ -1,6 +1,10 @@
 import { createHash, createPrivateKey, createPublicKey, randomUUID, sign } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import * as Effect from "effect/Effect";
+import * as HttpClient from "effect/http/HttpClient";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Redacted from "effect/Redacted";
 /**
  * Credentials cached by `aws login`. The CLI writes a token document under
  * `~/.aws/login/cache`, named after the profile's `login_session`, that
@@ -12,11 +16,7 @@ import { dirname, join } from "node:path";
  * document. Node only — the cache is a file and the proof needs
  * `node:crypto`.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as HttpClient from "effect/http/HttpClient";
-import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as Redacted from "effect/Redacted";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import {
   createLazyProvider,
   Credentials,

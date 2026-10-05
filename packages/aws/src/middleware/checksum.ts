@@ -1,7 +1,7 @@
-import type { Checksum } from "@smithy/types";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type { Request as ProtocolRequest } from "../client/request.ts";
+import type { Checksum } from "../hash/checksum.ts";
 import { getCrc32ChecksumAlgorithmFunction } from "../hash/crc32.ts";
 import { getMd5ChecksumAlgorithmFunction } from "../hash/md5.ts";
 import { toUint8Array } from "../hash/utf8.ts";

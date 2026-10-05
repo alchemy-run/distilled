@@ -5,7 +5,7 @@
  */
 
 import * as zlib from "node:zlib";
-import type { Checksum } from "@smithy/types";
+import type { Checksum } from "./checksum.ts";
 
 const checksumBytes = (checksum: number): Uint8Array =>
   Uint8Array.of(

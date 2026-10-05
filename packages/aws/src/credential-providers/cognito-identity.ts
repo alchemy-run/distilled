@@ -1,3 +1,5 @@
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 /**
  * The Amazon Cognito Identity calls the two Cognito providers share.
  *
@@ -7,9 +9,7 @@
  * only its region is used. The generated `cognito-identity` service is
  * imported on first use.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 import { Credentials, fromAwsCredentialIdentity } from "../credentials-service.ts";
 import * as Region from "../region.ts";
 import {

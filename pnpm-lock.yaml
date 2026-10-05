@@ -170,9 +170,6 @@ catalogs:
     '@oxc-project/types':
       specifier: ^0.146.0
       version: 0.146.0
-    '@smithy/types':
-      specifier: ^4.17.2
-      version: 4.17.2
     '@types/node':
       specifier: 26.2.0
       version: 26.2.0
@@ -384,9 +381,6 @@ importers:
       '@distilled.cloud/core':
         specifier: workspace:*
         version: link:../core
-      '@smithy/types':
-        specifier: 'catalog:'
-        version: 4.17.2
       effect:
         specifier: 'catalog:'
         version: 4.0.0

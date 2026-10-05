@@ -17,7 +17,6 @@ allowBuilds:
 catalog:
   "@effect/platform-node": "^4.0.0"
   "@oxc-project/types": "^0.146.0"
-  "@smithy/types": "^4.17.2"
   "@types/node": "26.2.0"
   alchemy: "2.0.0-beta.80"
   changelogithub: "^13.16.1"

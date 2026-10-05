@@ -1,13 +1,13 @@
+import * as Data from "effect/Data";
+import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 /**
  * What every provider in this directory produces — an
  * `Effect<AwsCredentialIdentity, CredentialSourceError>` that needs nothing
  * from the environment it runs in — and how several of them are combined
  * into a chain.
  */
-import type { AwsCredentialIdentity } from "@smithy/types";
-import * as Data from "effect/Data";
-import * as Effect from "effect/Effect";
-import * as Redacted from "effect/Redacted";
+import type { AwsCredentialIdentity } from "../credentials-service.ts";
 
 /**
  * A single credential source could not produce credentials.

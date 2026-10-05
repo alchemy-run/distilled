@@ -361,8 +361,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@distilled.cloud/core": "workspace:*",
-    "@smithy/types": "catalog:"
+    "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:"
