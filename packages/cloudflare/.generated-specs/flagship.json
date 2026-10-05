@@ -28,6 +28,86 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.flagship#CreateAppRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.flagship#CreateAppResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated_by": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email of the actor who last modified the app, or `unknown` when unavailable.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.flagship#CreateApp": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.flagship#CreateAppRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.flagship#CreateAppResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/flagship/apps",
+          "code": 200
+        },
+        "smithy.api#documentation": "Creates an app. The returned `id` is used in all subsequent flag, changelog, and evaluation requests."
+      }
+    },
     "com.cloudflare.flagship#AppsListResultItem": {
       "type": "structure",
       "members": {
@@ -12447,86 +12527,6 @@
             }
           }
         ]
-      }
-    },
-    "com.cloudflare.flagship#CreateApp": {
-      "type": "operation",
-      "input": {
-        "target": "com.cloudflare.flagship#CreateAppRequest"
-      },
-      "output": {
-        "target": "com.cloudflare.flagship#CreateAppResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/accounts/{account_id}/flagship/apps",
-          "code": 200
-        },
-        "smithy.api#documentation": "Creates an app. The returned `id` is used in all subsequent flag, changelog, and evaluation requests."
-      }
-    },
-    "com.cloudflare.flagship#CreateAppRequest": {
-      "type": "structure",
-      "members": {
-        "account_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Cloudflare account ID that owns the Flagship app.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the Flagship app (1–64 letters, numbers, hyphens, or underscores).",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.cloudflare.flagship#CreateAppResponse": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "created_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "updated_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "updated_by": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Email of the actor who last modified the app, or `unknown` when unavailable.",
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {},
-        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
       }
     },
     "com.cloudflare.flagship#CreateAppFlag": {

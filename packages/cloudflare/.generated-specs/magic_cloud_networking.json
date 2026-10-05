@@ -7454,6 +7454,45 @@
         }
       }
     },
+    "com.cloudflare.magic_cloud_networking#ApplyOnRampRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "onramp_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.magic_cloud_networking#ApplyOnRamp": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.magic_cloud_networking#ApplyOnRampRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/apply",
+          "code": 200
+        },
+        "smithy.api#documentation": "Apply an On-ramp (Closed Beta)."
+      }
+    },
     "com.cloudflare.magic_cloud_networking#OnRampsCreateRequestCloudType": {
       "type": "enum",
       "members": {
@@ -50888,45 +50927,6 @@
             "status": 404
           }
         ]
-      }
-    },
-    "com.cloudflare.magic_cloud_networking#ApplyOnRamp": {
-      "type": "operation",
-      "input": {
-        "target": "com.cloudflare.magic_cloud_networking#ApplyOnRampRequest"
-      },
-      "output": {
-        "target": "smithy.api#Unit"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "POST",
-          "uri": "/accounts/{account_id}/magic/cloud/onramps/{onramp_id}/apply",
-          "code": 200
-        },
-        "smithy.api#documentation": "Apply an On-ramp (Closed Beta)."
-      }
-    },
-    "com.cloudflare.magic_cloud_networking#ApplyOnRampRequest": {
-      "type": "structure",
-      "members": {
-        "account_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        },
-        "onramp_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
       }
     },
     "com.cloudflare.magic_cloud_networking#CreateCatalogSync": {
