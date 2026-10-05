@@ -105,7 +105,7 @@ export interface OrganizationTeamMembershipUser {
   /** The display name of the user */
   display_name: string;
   /** The name of the user */
-  name: string;
+  name: string | null;
   /** The email of the user */
   email: string;
   /** The URL source of the user's avatar */
@@ -130,7 +130,7 @@ export const OrganizationTeamMembershipUser = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     display_name: S.String,
-    name: S.String,
+    name: S.NullOr(S.String),
     email: S.String,
     avatar_url: S.String,
     created_at: S.String,
@@ -410,9 +410,7 @@ export const AssignShardConfigurationProfileShardsRequest = /*@__PURE__*/ S.susp
 }) as any as S.Schema<AssignShardConfigurationProfileShardsRequest>;
 
 /** The assignment error */
-export type NekiShardAssignmentErrorMap = {
-  [key: string]: unknown | undefined;
-};
+export type NekiShardAssignmentErrorMap = { [key: string]: unknown | undefined };
 export const NekiShardAssignmentErrorMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -432,9 +430,7 @@ export const NekiShardAssignment = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     error: S.optional(S.NullOr(NekiShardAssignmentErrorMap)),
   }),
-).annotate({
-  identifier: "NekiShardAssignment",
-}) as any as S.Schema<NekiShardAssignment>;
+).annotate({ identifier: "NekiShardAssignment" }) as any as S.Schema<NekiShardAssignment>;
 
 export type AssignShardConfigurationProfileShardsResponseBodyList = Array<NekiShardAssignment>;
 export const AssignShardConfigurationProfileShardsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -598,6 +594,40 @@ export const CancelBranchChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CancelBranchChangeRequestResponse",
 }) as any as S.Schema<CancelBranchChangeRequestResponse>;
+
+export interface CancelBranchConfigChangeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The ID of the config change request */
+  id: string;
+}
+export const CancelBranchConfigChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/config-changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelBranchConfigChangeRequestRequest",
+}) as any as S.Schema<CancelBranchConfigChangeRequestRequest>;
+
+export interface CancelBranchConfigChangeRequestResponse {}
+export const CancelBranchConfigChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelBranchConfigChangeRequestResponse",
+}) as any as S.Schema<CancelBranchConfigChangeRequestResponse>;
 
 export interface CancelDeployRequestRequest {
   /** The name of the deploy request's organization */
@@ -1198,9 +1228,44 @@ export const DatabaseDeployRequest = /*@__PURE__*/ S.suspend(() =>
     closed_at: S.NullOr(S.String),
     deployed_at: S.NullOr(S.String),
   }),
+).annotate({ identifier: "DatabaseDeployRequest" }) as any as S.Schema<DatabaseDeployRequest>;
+
+export interface CancelKeyspaceConfigChangeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The name of the keyspace */
+  keyspace: string;
+  /** The ID of the config change request */
+  id: string;
+}
+export const CancelKeyspaceConfigChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    keyspace: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/config-changes/{id}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "DatabaseDeployRequest",
-}) as any as S.Schema<DatabaseDeployRequest>;
+  identifier: "CancelKeyspaceConfigChangeRequestRequest",
+}) as any as S.Schema<CancelKeyspaceConfigChangeRequestRequest>;
+
+export interface CancelKeyspaceConfigChangeRequestResponse {}
+export const CancelKeyspaceConfigChangeRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelKeyspaceConfigChangeRequestResponse",
+}) as any as S.Schema<CancelKeyspaceConfigChangeRequestResponse>;
 
 export interface CancelKeyspaceResizeRequestRequest {
   /** The name of the organization the branch belongs to */
@@ -1236,6 +1301,40 @@ export const CancelKeyspaceResizeRequestResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelKeyspaceResizeRequestResponse",
 }) as any as S.Schema<CancelKeyspaceResizeRequestResponse>;
 
+export interface CancelMoveTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+}
+export const CancelMoveTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/cancel",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CancelMoveTablesWorkflowRequest",
+}) as any as S.Schema<CancelMoveTablesWorkflowRequest>;
+
+export interface CancelMoveTablesWorkflowResponse {}
+export const CancelMoveTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelMoveTablesWorkflowResponse",
+}) as any as S.Schema<CancelMoveTablesWorkflowResponse>;
+
 export interface CancelNekiChangeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -1265,10 +1364,32 @@ export const CancelNekiChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface CancelNekiChangeRequestResponse {}
 export const CancelNekiChangeRequestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "CancelNekiChangeRequestResponse",
-  },
+  { identifier: "CancelNekiChangeRequestResponse" },
 ) as any as S.Schema<CancelNekiChangeRequestResponse>;
+
+export interface CancelOrganizationInvitationRequest {
+  /** The name of the organization */
+  organization: string;
+  /** The ID of the invitation */
+  id: string;
+}
+export const CancelOrganizationInvitationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/organizations/{organization}/invitations/{id}", code: 200 }),
+  ),
+).annotate({
+  identifier: "CancelOrganizationInvitationRequest",
+}) as any as S.Schema<CancelOrganizationInvitationRequest>;
+
+export interface CancelOrganizationInvitationResponse {}
+export const CancelOrganizationInvitationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CancelOrganizationInvitationResponse",
+}) as any as S.Schema<CancelOrganizationInvitationResponse>;
 
 export interface CancelRouterChangeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -1401,9 +1522,7 @@ export const CancelWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CancelWorkflowRequest",
-}) as any as S.Schema<CancelWorkflowRequest>;
+).annotate({ identifier: "CancelWorkflowRequest" }) as any as S.Schema<CancelWorkflowRequest>;
 
 /** The state of the workflow */
 export type WorkflowState =
@@ -1614,9 +1733,7 @@ export const CompleteRevertRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CompleteRevertRequest",
-}) as any as S.Schema<CompleteRevertRequest>;
+).annotate({ identifier: "CompleteRevertRequest" }) as any as S.Schema<CompleteRevertRequest>;
 
 export interface CompleteWorkflowRequest {
   /** The name of the organization the workflow belongs to */
@@ -1638,9 +1755,7 @@ export const CompleteWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CompleteWorkflowRequest",
-}) as any as S.Schema<CompleteWorkflowRequest>;
+).annotate({ identifier: "CompleteWorkflowRequest" }) as any as S.Schema<CompleteWorkflowRequest>;
 
 export interface ConfigureOrganizationSsoRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -1650,11 +1765,7 @@ export const ConfigureOrganizationSsoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/sso/configure",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{organization}/sso/configure", code: 200 }),
   ),
 ).annotate({
   identifier: "ConfigureOrganizationSsoRequest",
@@ -1708,9 +1819,7 @@ export const CreateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateBackupRequest",
-}) as any as S.Schema<CreateBackupRequest>;
+).annotate({ identifier: "CreateBackupRequest" }) as any as S.Schema<CreateBackupRequest>;
 
 /** The current state of the backup */
 export type BackupState = "pending" | "running" | "success" | "failed" | "canceled" | "ignored";
@@ -1749,7 +1858,7 @@ export interface BackupBackupPolicy {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time: string | null;
+  schedule_time?: string | null;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -1775,7 +1884,7 @@ export const BackupBackupPolicy = /*@__PURE__*/ S.suspend(() =>
     retention_unit: S.String,
     frequency_value: S.Number,
     frequency_unit: S.String,
-    schedule_time: S.NullOr(S.String),
+    schedule_time: S.optional(S.NullOr(S.String)),
     schedule_day: S.NullOr(S.Number),
     schedule_week: S.NullOr(S.Number),
     created_at: S.String,
@@ -1784,9 +1893,7 @@ export const BackupBackupPolicy = /*@__PURE__*/ S.suspend(() =>
     next_run_at: S.NullOr(S.String),
     required: S.Boolean,
   }),
-).annotate({
-  identifier: "BackupBackupPolicy",
-}) as any as S.Schema<BackupBackupPolicy>;
+).annotate({ identifier: "BackupBackupPolicy" }) as any as S.Schema<BackupBackupPolicy>;
 
 export interface BackupSchemaSnapshot {
   /** The ID of the schema snapshot */
@@ -1811,9 +1918,7 @@ export const BackupSchemaSnapshot = /*@__PURE__*/ S.suspend(() =>
     linted_at: S.NullOr(S.String),
     url: S.String,
   }),
-).annotate({
-  identifier: "BackupSchemaSnapshot",
-}) as any as S.Schema<BackupSchemaSnapshot>;
+).annotate({ identifier: "BackupSchemaSnapshot" }) as any as S.Schema<BackupSchemaSnapshot>;
 
 export type BackupDatabaseBranch = OrganizationTeamMembershipUserDefaultOrganization;
 export const BackupDatabaseBranch = OrganizationTeamMembershipUserDefaultOrganization;
@@ -1962,7 +2067,7 @@ export interface BackupPolicy {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time: string;
+  schedule_time?: string | null;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -1988,7 +2093,7 @@ export const BackupPolicy = /*@__PURE__*/ S.suspend(() =>
     retention_unit: S.String,
     frequency_value: S.Number,
     frequency_unit: S.String,
-    schedule_time: S.String,
+    schedule_time: S.optional(S.NullOr(S.String)),
     schedule_day: S.NullOr(S.Number),
     schedule_week: S.NullOr(S.Number),
     created_at: S.String,
@@ -2014,6 +2119,8 @@ export interface CreateBouncerRequest {
   bouncer_size?: string;
   /** The number of replica servers per cell */
   replicas_per_cell?: number;
+  /** The ID of the dedicated read replica where the bouncer should run */
+  dedicated_read_replica_id?: string;
 }
 export const CreateBouncerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2024,6 +2131,7 @@ export const CreateBouncerRequest = /*@__PURE__*/ S.suspend(() =>
     target: S.optional(S.String),
     bouncer_size: S.optional(S.String),
     replicas_per_cell: S.optional(S.Number),
+    dedicated_read_replica_id: S.optional(S.String),
   }).pipe(
     T.Http({
       method: "POST",
@@ -2031,9 +2139,7 @@ export const CreateBouncerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateBouncerRequest",
-}) as any as S.Schema<CreateBouncerRequest>;
+).annotate({ identifier: "CreateBouncerRequest" }) as any as S.Schema<CreateBouncerRequest>;
 
 export interface PostgresBouncerSku {
   /** The name of the Postgres bouncer SKU */
@@ -2055,9 +2161,7 @@ export const PostgresBouncerSku = /*@__PURE__*/ S.suspend(() =>
     ram: S.Number,
     sort_order: S.Number,
   }),
-).annotate({
-  identifier: "PostgresBouncerSku",
-}) as any as S.Schema<PostgresBouncerSku>;
+).annotate({ identifier: "PostgresBouncerSku" }) as any as S.Schema<PostgresBouncerSku>;
 
 /** The instance type the bouncer targets */
 export type PostgresBouncerTarget = "primary" | "replica" | "replica_az_affinity";
@@ -2195,9 +2299,7 @@ export const PostgresBouncer = /*@__PURE__*/ S.suspend(() =>
     branch: OrganizationTeamMembershipUserDefaultOrganization,
     parameters: PostgresBouncerParametersList,
   }),
-).annotate({
-  identifier: "PostgresBouncer",
-}) as any as S.Schema<PostgresBouncer>;
+).annotate({ identifier: "PostgresBouncer" }) as any as S.Schema<PostgresBouncer>;
 
 /** If provided, restores the last successful backup's schema and data to the new branch. Must have `restore_production_branch_backup(s)` or `restore_backup(s)` access to do this, in addition to Data Branching™ being enabled for the branch. */
 export type CreateBranchRequestSeedData = "last_successful_backup";
@@ -2304,9 +2406,7 @@ export const CreateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateBranchRequest",
-}) as any as S.Schema<CreateBranchRequest>;
+).annotate({ identifier: "CreateBranchRequest" }) as any as S.Schema<CreateBranchRequest>;
 
 /** The kind of branch */
 export type DatabaseBranchKind = "mysql" | "postgresql" | "neki";
@@ -2371,14 +2471,10 @@ export const DatabaseBranchRegion = /*@__PURE__*/ S.suspend(() =>
     postgresql_supported: S.Boolean,
     neki_supported: S.Boolean,
   }),
-).annotate({
-  identifier: "DatabaseBranchRegion",
-}) as any as S.Schema<DatabaseBranchRegion>;
+).annotate({ identifier: "DatabaseBranchRegion" }) as any as S.Schema<DatabaseBranchRegion>;
 
 /** VTGate configuration options */
-export type DatabaseBranchVtgateOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatabaseBranchVtgateOptionsMap = { [key: string]: unknown | undefined };
 export const DatabaseBranchVtgateOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -2402,21 +2498,21 @@ export interface DatabaseBranch {
   /** The kind of branch */
   kind: DatabaseBranchKind;
   /** The MySQL address for the branch */
-  mysql_address?: string;
+  mysql_address?: string | null;
   /** The address of the MySQL provider for the branch */
-  mysql_edge_address?: string;
+  mysql_edge_address?: string | null;
   /** The current state of the branch */
   state: DatabaseBranchState;
   /** True if the branch allows passwords to connect directly to a vtgate, bypassing load balancers */
-  direct_vtgate?: boolean;
+  direct_vtgate?: boolean | null;
   /** The size of the vtgate cluster for the branch */
-  vtgate_size?: string;
+  vtgate_size?: string | null;
   /** The public SKU representing the VTGate size */
   vtgate_name?: string | null;
   /** The number of vtgate instances in the branch */
-  vtgate_count?: number;
+  vtgate_count?: number | null;
   /** Whether VTGate autoscaling is enabled */
-  vtgate_autoscaling?: boolean;
+  vtgate_autoscaling?: boolean | null;
   /** The maximum number of VTGate instances when autoscaling is enabled */
   vtgate_max_count?: number | null;
   /** The target CPU utilization for VTGate autoscaling */
@@ -2428,7 +2524,7 @@ export interface DatabaseBranch {
   /** Whether or not the branch is ready to serve queries */
   ready: boolean;
   /** Whether or not the schema is ready for queries */
-  schema_ready?: boolean;
+  schema_ready?: boolean | null;
   /** Whether or not this is a metal database */
   metal: boolean;
   /** Whether or not the branch is a production branch */
@@ -2440,7 +2536,7 @@ export interface DatabaseBranch {
   /** Whether or not the branch is sharded */
   sharded?: boolean;
   /** The number of shards in the branch */
-  shard_count?: number;
+  shard_count?: number | null;
   /** The number of keyspaces in the branch */
   keyspace_count?: number;
   /** Whether or not the branch has a stale schema */
@@ -2451,7 +2547,7 @@ export interface DatabaseBranch {
   private_edge_connectivity: boolean;
   /** True if the branch has replica servers */
   has_replicas: boolean;
-  /** True if the branch has read-only replica servers */
+  /** True if the branch has servers dedicated to read traffic */
   has_read_only_replicas: boolean;
   /** Planetscale app URL for the branch */
   html_url: string;
@@ -2461,7 +2557,7 @@ export interface DatabaseBranch {
   /** The name of the parent branch from which the branch was created */
   parent_branch: string | null;
   /** VTGate configuration options */
-  vtgate_options?: DatabaseBranchVtgateOptionsMap;
+  vtgate_options?: DatabaseBranchVtgateOptionsMap | null;
   cluster_architecture?: string;
 }
 export const DatabaseBranch = /*@__PURE__*/ S.suspend(() =>
@@ -2474,26 +2570,26 @@ export const DatabaseBranch = /*@__PURE__*/ S.suspend(() =>
     restore_checklist_completed_at: S.NullOr(S.String),
     schema_last_updated_at: S.NullOr(S.String),
     kind: DatabaseBranchKind,
-    mysql_address: S.optional(S.String),
-    mysql_edge_address: S.optional(S.String),
+    mysql_address: S.optional(S.NullOr(S.String)),
+    mysql_edge_address: S.optional(S.NullOr(S.String)),
     state: DatabaseBranchState,
-    direct_vtgate: S.optional(S.Boolean),
-    vtgate_size: S.optional(S.String),
+    direct_vtgate: S.optional(S.NullOr(S.Boolean)),
+    vtgate_size: S.optional(S.NullOr(S.String)),
     vtgate_name: S.optional(S.NullOr(S.String)),
-    vtgate_count: S.optional(S.Number),
-    vtgate_autoscaling: S.optional(S.Boolean),
+    vtgate_count: S.optional(S.NullOr(S.Number)),
+    vtgate_autoscaling: S.optional(S.NullOr(S.Boolean)),
     vtgate_max_count: S.optional(S.NullOr(S.Number)),
     vtgate_target_cpu_utilization: S.optional(S.NullOr(S.Number)),
     cluster_name: S.String,
     cluster_iops: S.NullOr(S.Number),
     ready: S.Boolean,
-    schema_ready: S.optional(S.Boolean),
+    schema_ready: S.optional(S.NullOr(S.Boolean)),
     metal: S.Boolean,
     production: S.Boolean,
     safe_migrations: S.Boolean,
     deletion_protected: S.optional(S.Boolean),
     sharded: S.optional(S.Boolean),
-    shard_count: S.optional(S.Number),
+    shard_count: S.optional(S.NullOr(S.Number)),
     keyspace_count: S.optional(S.Number),
     stale_schema: S.Boolean,
     actor: S.NullOr(OrganizationTeamMembershipActor),
@@ -2505,10 +2601,132 @@ export const DatabaseBranch = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     region: DatabaseBranchRegion,
     parent_branch: S.NullOr(S.String),
-    vtgate_options: S.optional(DatabaseBranchVtgateOptionsMap),
+    vtgate_options: S.optional(S.NullOr(DatabaseBranchVtgateOptionsMap)),
     cluster_architecture: S.optional(S.String),
   }),
 ).annotate({ identifier: "DatabaseBranch" }) as any as S.Schema<DatabaseBranch>;
+
+/** The component to configure. Always `vtgate`. */
+export type CreateBranchConfigChangeRequestRequestChangeType = "vtgate";
+export const CreateBranchConfigChangeRequestRequestChangeType = S.String;
+
+/** Parameter names and the values to set them to. Set a value to `null` to reset the parameter to its default. */
+export type CreateBranchConfigChangeRequestRequestOptionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateBranchConfigChangeRequestRequestOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateBranchConfigChangeRequestRequestOptionsMap>;
+
+export interface CreateBranchConfigChangeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The component to configure. Always `vtgate`. */
+  change_type: CreateBranchConfigChangeRequestRequestChangeType | (string & {});
+  /** Parameter names and the values to set them to. Set a value to `null` to reset the parameter to its default. */
+  options: CreateBranchConfigChangeRequestRequestOptionsMap;
+}
+export const CreateBranchConfigChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    change_type: CreateBranchConfigChangeRequestRequestChangeType,
+    options: CreateBranchConfigChangeRequestRequestOptionsMap,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/config-changes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateBranchConfigChangeRequestRequest",
+}) as any as S.Schema<CreateBranchConfigChangeRequestRequest>;
+
+/** The state of the config change request */
+export type BranchConfigChangeRequestState =
+  | "draft"
+  | "pending"
+  | "queued"
+  | "applying"
+  | "completed"
+  | "failed"
+  | "canceled";
+export const BranchConfigChangeRequestState = S.String;
+
+/** The type of configuration being changed */
+export type BranchConfigChangeRequestChangeType = "vtgate";
+export const BranchConfigChangeRequestChangeType = S.String;
+
+/** The previous option values */
+export type BranchConfigChangeRequestPreviousOptionsMap = { [key: string]: unknown | undefined };
+export const BranchConfigChangeRequestPreviousOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<BranchConfigChangeRequestPreviousOptionsMap>;
+
+/** The new option values */
+export type BranchConfigChangeRequestNewOptionsMap = { [key: string]: unknown | undefined };
+export const BranchConfigChangeRequestNewOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<BranchConfigChangeRequestNewOptionsMap>;
+
+export type BranchConfigChangeRequestActor = OrganizationTeamMembershipActor;
+export const BranchConfigChangeRequestActor = OrganizationTeamMembershipActor;
+
+export interface BranchConfigChangeRequest {
+  /** The ID of the config change request */
+  id: string;
+  /** The state of the config change request */
+  state: BranchConfigChangeRequestState;
+  /** The type of configuration being changed */
+  change_type: BranchConfigChangeRequestChangeType;
+  /** The previous option values */
+  previous_options: BranchConfigChangeRequestPreviousOptionsMap;
+  /** The new option values */
+  new_options: BranchConfigChangeRequestNewOptionsMap;
+  /** Error message if the change failed */
+  error_message: string | null;
+  /** When the config change started applying */
+  started_at: string | null;
+  /** When the config change completed */
+  completed_at: string | null;
+  /** When the config change request was created */
+  created_at: string;
+  /** When the config change request was last updated */
+  updated_at: string;
+  /** The keyspace name for keyspace-level config changes */
+  keyspace_name: string | null;
+  /** When the config change is expected to be applied (only set when queued) */
+  queued_until: string | null;
+  actor: OrganizationTeamMembershipActor;
+}
+export const BranchConfigChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: BranchConfigChangeRequestState,
+    change_type: BranchConfigChangeRequestChangeType,
+    previous_options: BranchConfigChangeRequestPreviousOptionsMap,
+    new_options: BranchConfigChangeRequestNewOptionsMap,
+    error_message: S.NullOr(S.String),
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    keyspace_name: S.NullOr(S.String),
+    queued_until: S.NullOr(S.String),
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({
+  identifier: "BranchConfigChangeRequest",
+}) as any as S.Schema<BranchConfigChangeRequest>;
 
 export interface CreateBranchLogSignatureRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -2598,57 +2816,8 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.optional(CreateDatabaseRequestKind),
     major_version: S.optional(S.String),
     storage: S.optional(CreateDatabaseRequestStorage),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/databases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateDatabaseRequest",
-}) as any as S.Schema<CreateDatabaseRequest>;
-
-export interface DatabaseDataImportDataSource {
-  /** Hostname of the data source */
-  hostname: string;
-  /** Port of the data source */
-  port: number;
-  /** Database name of the data source */
-  database: string;
-}
-export const DatabaseDataImportDataSource = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hostname: S.String,
-    port: S.Number,
-    database: S.String,
-  }),
-).annotate({
-  identifier: "DatabaseDataImportDataSource",
-}) as any as S.Schema<DatabaseDataImportDataSource>;
-
-export interface DatabaseDataImport {
-  /** State of the data import */
-  state: string;
-  /** Errors encountered during the import check */
-  import_check_errors: string;
-  /** When the import started */
-  started_at: string | null;
-  /** When the import finished */
-  finished_at: string | null;
-  data_source: DatabaseDataImportDataSource;
-}
-export const DatabaseDataImport = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    state: S.String,
-    import_check_errors: S.String,
-    started_at: S.NullOr(S.String),
-    finished_at: S.NullOr(S.String),
-    data_source: DatabaseDataImportDataSource,
-  }),
-).annotate({
-  identifier: "DatabaseDataImport",
-}) as any as S.Schema<DatabaseDataImport>;
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organization}/databases", code: 200 })),
+).annotate({ identifier: "CreateDatabaseRequest" }) as any as S.Schema<CreateDatabaseRequest>;
 
 /** Public IP addresses for the region */
 export type DatabaseRegionPublicIpAddressesList = Array<string>;
@@ -2724,6 +2893,8 @@ export interface Database {
   open_schema_recommendations_count?: number;
   /** The total number of database development branches */
   development_branches_count?: number;
+  /** The current maximum number of development branches. Change it with development_branches_limit on the database PATCH endpoint, up to 5000. */
+  development_branches_limit?: number;
   /** The total number of database production branches */
   production_branches_count?: number;
   /** The total number of ongoing issues within a database */
@@ -2736,7 +2907,6 @@ export interface Database {
   at_backup_restore_branches_limit?: boolean;
   /** If the database has reached its development branch limit */
   at_development_branch_usage_limit?: boolean;
-  data_import?: DatabaseDataImport | null;
   region: DatabaseRegion;
   /** The URL to see this database's branches in the web UI */
   html_url: string;
@@ -2805,13 +2975,13 @@ export const Database = /*@__PURE__*/ S.suspend(() =>
     branches_count: S.optional(S.Number),
     open_schema_recommendations_count: S.optional(S.Number),
     development_branches_count: S.optional(S.Number),
+    development_branches_limit: S.optional(S.Number),
     production_branches_count: S.optional(S.Number),
     issues_count: S.optional(S.NullOr(S.Number)),
     multiple_admins_required_for_deletion: S.optional(S.Boolean),
     ready: S.Boolean,
     at_backup_restore_branches_limit: S.optional(S.Boolean),
     at_development_branch_usage_limit: S.optional(S.Boolean),
-    data_import: S.optional(S.NullOr(DatabaseDataImport)),
     region: DatabaseRegion,
     html_url: S.String,
     name: S.String,
@@ -2924,9 +3094,301 @@ export const PostgresClusterCidr = /*@__PURE__*/ S.suspend(() =>
     deleted_at: S.NullOr(S.String),
     actor: OrganizationTeamMembershipActor,
   }),
+).annotate({ identifier: "PostgresClusterCidr" }) as any as S.Schema<PostgresClusterCidr>;
+
+export interface CreateDedicatedReadReplicaRequestStorage {
+  /** The minimum storage size in bytes. */
+  minimum_storage_bytes?: number;
+  /** The maximum storage size in bytes for autoscaling. */
+  maximum_storage_bytes?: number;
+  /** Whether storage autoscaling is enabled. */
+  storage_autoscaling?: boolean;
+  /** The storage IOPS. */
+  storage_iops?: number;
+  /** The storage throughput in MiB/s. */
+  storage_throughput_mibs?: number;
+}
+export const CreateDedicatedReadReplicaRequestStorage = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    minimum_storage_bytes: S.optional(S.Number),
+    maximum_storage_bytes: S.optional(S.Number),
+    storage_autoscaling: S.optional(S.Boolean),
+    storage_iops: S.optional(S.Number),
+    storage_throughput_mibs: S.optional(S.Number),
+  }),
 ).annotate({
-  identifier: "PostgresClusterCidr",
-}) as any as S.Schema<PostgresClusterCidr>;
+  identifier: "CreateDedicatedReadReplicaRequestStorage",
+}) as any as S.Schema<CreateDedicatedReadReplicaRequestStorage>;
+
+export interface CreateDedicatedReadReplicaRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The dedicated read replica name */
+  name: string;
+  /** The region slug for the dedicated read replica */
+  region: string;
+  /** The number of instances serving reads. Defaults to 1. */
+  replicas?: number;
+  /** The cluster size SKU name. Defaults to the primary cluster size. */
+  cluster_size?: string;
+  storage?: CreateDedicatedReadReplicaRequestStorage;
+}
+export const CreateDedicatedReadReplicaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    name: S.String,
+    region: S.String,
+    replicas: S.optional(S.Number),
+    cluster_size: S.optional(S.String),
+    storage: S.optional(CreateDedicatedReadReplicaRequestStorage),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/dedicated-read-replicas",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateDedicatedReadReplicaRequest",
+}) as any as S.Schema<CreateDedicatedReadReplicaRequest>;
+
+/** The storage type */
+export type PostgresReadOnlyReplicaStorageType =
+  | "gp3"
+  | "io2"
+  | "pd_ssd"
+  | "hyperdisk_balanced"
+  | "premium_v2_lrs";
+export const PostgresReadOnlyReplicaStorageType = S.String;
+
+export type PostgresReadOnlyReplicaActor = OrganizationTeamMembershipActor;
+export const PostgresReadOnlyReplicaActor = OrganizationTeamMembershipActor;
+
+/** Public IP addresses for the region */
+export type PostgresReadOnlyReplicaRegionPublicIpAddressesList = Array<string>;
+export const PostgresReadOnlyReplicaRegionPublicIpAddressesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PostgresReadOnlyReplicaRegionPublicIpAddressesList>;
+
+export interface PostgresReadOnlyReplicaRegion {
+  /** The ID of the region */
+  id: string;
+  /** Provider for the region (ex. AWS) */
+  provider: string;
+  /** Whether or not the region is currently active */
+  enabled: boolean;
+  /** Public IP addresses for the region */
+  public_ip_addresses: PostgresReadOnlyReplicaRegionPublicIpAddressesList;
+  /** Name of the region */
+  display_name: string;
+  /** Location of the region */
+  location: string;
+  /** The slug of the region */
+  slug: string;
+  /** True if the region is the default for new branch creation */
+  current_default: boolean;
+  /** Whether the region supports MySQL/Vitess databases */
+  mysql_supported: boolean;
+  /** Whether the region supports PostgreSQL databases */
+  postgresql_supported: boolean;
+  /** Whether the region supports Neki databases */
+  neki_supported: boolean;
+}
+export const PostgresReadOnlyReplicaRegion = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    provider: S.String,
+    enabled: S.Boolean,
+    public_ip_addresses: PostgresReadOnlyReplicaRegionPublicIpAddressesList,
+    display_name: S.String,
+    location: S.String,
+    slug: S.String,
+    current_default: S.Boolean,
+    mysql_supported: S.Boolean,
+    postgresql_supported: S.Boolean,
+    neki_supported: S.Boolean,
+  }),
+).annotate({
+  identifier: "PostgresReadOnlyReplicaRegion",
+}) as any as S.Schema<PostgresReadOnlyReplicaRegion>;
+
+/** The namespace of the parameter */
+export type PostgresReadOnlyReplicaParametersItemNamespace = "pgconf";
+export const PostgresReadOnlyReplicaParametersItemNamespace = S.String;
+
+/** The type of the parameter */
+export type PostgresReadOnlyReplicaParametersItemParameterType = "integer" | "time";
+export const PostgresReadOnlyReplicaParametersItemParameterType = S.String;
+
+/** Valid options for the parameter value */
+export type PostgresReadOnlyReplicaParametersItemOptionsList = Array<string>;
+export const PostgresReadOnlyReplicaParametersItemOptionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PostgresReadOnlyReplicaParametersItemOptionsList>;
+
+/** Display units for the parameter value */
+export type PostgresReadOnlyReplicaParametersItemUnitsList = Array<string>;
+export const PostgresReadOnlyReplicaParametersItemUnitsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PostgresReadOnlyReplicaParametersItemUnitsList>;
+
+export type PostgresReadOnlyReplicaParametersItemActor = OrganizationTeamMembershipActor;
+export const PostgresReadOnlyReplicaParametersItemActor = OrganizationTeamMembershipActor;
+
+export interface PostgresReadOnlyReplicaParametersItem {
+  /** The ID of the parameter */
+  id: string;
+  /** The namespace of the parameter */
+  namespace: PostgresReadOnlyReplicaParametersItemNamespace;
+  /** The name of the parameter */
+  name: string;
+  /** The display name of the parameter */
+  display_name: string;
+  /** The category of the parameter */
+  category: string;
+  /** The description of the parameter */
+  description: string;
+  /** Whether the parameter can be changed */
+  immutable: boolean;
+  /** The type of the parameter */
+  parameter_type: PostgresReadOnlyReplicaParametersItemParameterType;
+  /** The default value of the parameter, which is the primary's current value */
+  default_value: string;
+  /** Why the parameter cannot be changed */
+  disabled_reason?: string | null;
+  /** The configured value of the parameter */
+  value: string;
+  /** Whether the parameter is required */
+  required: boolean;
+  /** When the parameter was created */
+  created_at: string | null;
+  /** When the parameter was last updated */
+  updated_at: string | null;
+  /** True if processes require a server restart on change */
+  restart: boolean;
+  /** The maximum value of the parameter */
+  max: number;
+  /** The minimum value of the parameter, floored at the primary's current value */
+  min: number;
+  /** The URL of the parameter */
+  url: string;
+  /** Valid options for the parameter value */
+  options: PostgresReadOnlyReplicaParametersItemOptionsList;
+  /** Display units for the parameter value */
+  units: PostgresReadOnlyReplicaParametersItemUnitsList;
+  actor: OrganizationTeamMembershipActor;
+}
+export const PostgresReadOnlyReplicaParametersItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    namespace: PostgresReadOnlyReplicaParametersItemNamespace,
+    name: S.String,
+    display_name: S.String,
+    category: S.String,
+    description: S.String,
+    immutable: S.Boolean,
+    parameter_type: PostgresReadOnlyReplicaParametersItemParameterType,
+    default_value: S.String,
+    disabled_reason: S.optional(S.NullOr(S.String)),
+    value: S.String,
+    required: S.Boolean,
+    created_at: S.NullOr(S.String),
+    updated_at: S.NullOr(S.String),
+    restart: S.Boolean,
+    max: S.Number,
+    min: S.Number,
+    url: S.String,
+    options: PostgresReadOnlyReplicaParametersItemOptionsList,
+    units: PostgresReadOnlyReplicaParametersItemUnitsList,
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({
+  identifier: "PostgresReadOnlyReplicaParametersItem",
+}) as any as S.Schema<PostgresReadOnlyReplicaParametersItem>;
+
+export type PostgresReadOnlyReplicaParametersList = Array<PostgresReadOnlyReplicaParametersItem>;
+export const PostgresReadOnlyReplicaParametersList = /*@__PURE__*/ S.Array(
+  PostgresReadOnlyReplicaParametersItem,
+) as any as S.Schema<PostgresReadOnlyReplicaParametersList>;
+
+export interface PostgresReadOnlyReplica {
+  /** The ID of the dedicated read replica */
+  id: string;
+  /** The name of the dedicated read replica */
+  name: string;
+  /** The state of the dedicated read replica: pending, ready, or deleting */
+  state: string;
+  /** The number of instances serving reads in this dedicated read replica */
+  replicas: number;
+  /** The SKU representing the cluster size of the dedicated read replica */
+  cluster_name: string;
+  /** The SKU representing the cluster size of the dedicated read replica, for display */
+  cluster_display_name: string;
+  /** The database connection host for the dedicated read replica */
+  access_host_url: string;
+  /** The private database connection host for the dedicated read replica */
+  private_access_host_url: string;
+  /** The service name to set up private connectivity for the dedicated read replica */
+  private_connection_service_name: string | null;
+  /** The minimum storage size in bytes */
+  minimum_storage_bytes: number | null;
+  /** The maximum storage size in bytes */
+  maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling is enabled */
+  storage_autoscaling: boolean | null;
+  /** The storage type */
+  storage_type: PostgresReadOnlyReplicaStorageType | null;
+  /** The storage IOPS */
+  storage_iops: number | null;
+  /** The storage throughput in MiB/s */
+  storage_throughput_mibs: number | null;
+  /** When volume modifications will be allowed again */
+  volume_modifications_blocked_until: string | null;
+  /** When the dedicated read replica was created */
+  created_at: string;
+  /** When the dedicated read replica was last updated */
+  updated_at: string;
+  /** When the dedicated read replica was ready to serve queries */
+  ready_at: string | null;
+  /** Whether or not the dedicated read replica is ready to serve queries */
+  ready: boolean;
+  actor: OrganizationTeamMembershipActor;
+  region: PostgresReadOnlyReplicaRegion;
+  parameters: PostgresReadOnlyReplicaParametersList;
+}
+export const PostgresReadOnlyReplica = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    state: S.String,
+    replicas: S.Number,
+    cluster_name: S.String,
+    cluster_display_name: S.String,
+    access_host_url: S.String,
+    private_access_host_url: S.String,
+    private_connection_service_name: S.NullOr(S.String),
+    minimum_storage_bytes: S.NullOr(S.Number),
+    maximum_storage_bytes: S.NullOr(S.Number),
+    storage_autoscaling: S.NullOr(S.Boolean),
+    storage_type: S.NullOr(PostgresReadOnlyReplicaStorageType),
+    storage_iops: S.NullOr(S.Number),
+    storage_throughput_mibs: S.NullOr(S.Number),
+    volume_modifications_blocked_until: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    ready_at: S.NullOr(S.String),
+    ready: S.Boolean,
+    actor: OrganizationTeamMembershipActor,
+    region: PostgresReadOnlyReplicaRegion,
+    parameters: PostgresReadOnlyReplicaParametersList,
+  }),
+).annotate({ identifier: "PostgresReadOnlyReplica" }) as any as S.Schema<PostgresReadOnlyReplica>;
 
 export interface CreateDeployRequestRequest {
   /** The name of the deploy request's organization */
@@ -2964,6 +3426,164 @@ export const CreateDeployRequestRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDeployRequestRequest",
 }) as any as S.Schema<CreateDeployRequestRequest>;
 
+/** The work the Insights agent should perform */
+export type CreateInsightsAgentRunRequestType =
+  | "review_slow_queries"
+  | "implement_schema_recommendation";
+export const CreateInsightsAgentRunRequestType = S.String;
+
+/** The slow query patterns to review */
+export type CreateInsightsAgentRunRequestQueryPatternsAttributesList = Array<string>;
+export const CreateInsightsAgentRunRequestQueryPatternsAttributesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateInsightsAgentRunRequestQueryPatternsAttributesList>;
+
+/** The schema recommendation numbers to implement */
+export type CreateInsightsAgentRunRequestSchemaNumbersList = Array<string>;
+export const CreateInsightsAgentRunRequestSchemaNumbersList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<CreateInsightsAgentRunRequestSchemaNumbersList>;
+
+export interface CreateInsightsAgentRunRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The work the Insights agent should perform */
+  type: CreateInsightsAgentRunRequestType | (string & {});
+  /** The slow query patterns to review */
+  query_patterns_attributes?: CreateInsightsAgentRunRequestQueryPatternsAttributesList;
+  /** The schema recommendation numbers to implement */
+  schema_numbers?: CreateInsightsAgentRunRequestSchemaNumbersList;
+}
+export const CreateInsightsAgentRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    type: CreateInsightsAgentRunRequestType,
+    query_patterns_attributes: S.optional(CreateInsightsAgentRunRequestQueryPatternsAttributesList),
+    schema_numbers: S.optional(CreateInsightsAgentRunRequestSchemaNumbersList),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/insights/agent/runs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateInsightsAgentRunRequest",
+}) as any as S.Schema<CreateInsightsAgentRunRequest>;
+
+/** The work performed by the run */
+export type InsightsAgentRunType = "review_slow_queries" | "implement_schema_recommendation";
+export const InsightsAgentRunType = S.String;
+
+/** The run state */
+export type InsightsAgentRunState = "queued" | "running" | "succeeded" | "failed" | "cancelled";
+export const InsightsAgentRunState = S.String;
+
+/** The repository snapshot and analyzed commit */
+export type InsightsAgentRunRepositoryMap = { [key: string]: unknown | undefined };
+export const InsightsAgentRunRepositoryMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<InsightsAgentRunRepositoryMap>;
+
+/** The agent execution snapshot */
+export type InsightsAgentRunAgentMap = { [key: string]: unknown | undefined };
+export const InsightsAgentRunAgentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<InsightsAgentRunAgentMap>;
+
+export type InsightsAgentRunSelectedTargetsItemMap = { [key: string]: unknown | undefined };
+export const InsightsAgentRunSelectedTargetsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<InsightsAgentRunSelectedTargetsItemMap>;
+
+/** The query patterns or schema recommendations selected for the run */
+export type InsightsAgentRunSelectedTargetsList = Array<InsightsAgentRunSelectedTargetsItemMap>;
+export const InsightsAgentRunSelectedTargetsList = /*@__PURE__*/ S.Array(
+  InsightsAgentRunSelectedTargetsItemMap,
+) as any as S.Schema<InsightsAgentRunSelectedTargetsList>;
+
+export interface InsightsAgentRun {
+  /** The Insights agent run ID */
+  id: string;
+  /** The number of the Insights agent run */
+  number: number;
+  /** Whether the run was started by a schedule */
+  scheduled: boolean;
+  /** The work performed by the run */
+  type: InsightsAgentRunType;
+  /** The run state */
+  state: InsightsAgentRunState;
+  /** The repository snapshot and analyzed commit */
+  repository: InsightsAgentRunRepositoryMap;
+  /** The agent execution snapshot */
+  agent: InsightsAgentRunAgentMap | null;
+  /** The schedule that created the run */
+  schedule_id: string | null;
+  /** The schedule occurrence claimed by the run */
+  scheduled_for: string | null;
+  /** The query patterns or schema recommendations selected for the run */
+  selected_targets: InsightsAgentRunSelectedTargetsList;
+  /** The run outcome */
+  outcome: string | null;
+  /** The agent result title */
+  title: string | null;
+  /** The agent result summary */
+  summary: string | null;
+  /** The pull request created by the run */
+  pull_request_url: string | null;
+  /** The run failure */
+  failure_message: string | null;
+  /** The run execution duration in milliseconds */
+  execution_duration_ms: number | null;
+  /** How much this run cost, as a stringified decimal to preserve precision */
+  cost: string | null;
+  /** The phase where the run failed */
+  failure_phase: string | null;
+  /** When execution started */
+  started_at: string | null;
+  /** When execution finished */
+  finished_at: string | null;
+  /** When the run was created */
+  created_at: string;
+  /** When the run was last updated */
+  updated_at: string;
+}
+export const InsightsAgentRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    number: S.Number,
+    scheduled: S.Boolean,
+    type: InsightsAgentRunType,
+    state: InsightsAgentRunState,
+    repository: InsightsAgentRunRepositoryMap,
+    agent: S.NullOr(InsightsAgentRunAgentMap),
+    schedule_id: S.NullOr(S.String),
+    scheduled_for: S.NullOr(S.String),
+    selected_targets: InsightsAgentRunSelectedTargetsList,
+    outcome: S.NullOr(S.String),
+    title: S.NullOr(S.String),
+    summary: S.NullOr(S.String),
+    pull_request_url: S.NullOr(S.String),
+    failure_message: S.NullOr(S.String),
+    execution_duration_ms: S.NullOr(S.Number),
+    cost: S.NullOr(S.String),
+    failure_phase: S.NullOr(S.String),
+    started_at: S.NullOr(S.String),
+    finished_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({ identifier: "InsightsAgentRun" }) as any as S.Schema<InsightsAgentRun>;
+
 export interface CreateKeyspaceRequest {
   /** The name of the organization the branch belongs to */
   organization: string;
@@ -2996,9 +3616,7 @@ export const CreateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateKeyspaceRequest",
-}) as any as S.Schema<CreateKeyspaceRequest>;
+).annotate({ identifier: "CreateKeyspaceRequest" }) as any as S.Schema<CreateKeyspaceRequest>;
 
 /** Controls when node TTL drains are allowed */
 export type DatabaseBranchKeyspaceNodeTtlStrategy =
@@ -3007,24 +3625,27 @@ export type DatabaseBranchKeyspaceNodeTtlStrategy =
   | "node_ttl_off";
 export const DatabaseBranchKeyspaceNodeTtlStrategy = S.String;
 
-/** The disk autoscaling strategy */
-export type DatabaseBranchKeyspaceDiskAutoscalingStrategy = "grow" | "disable" | "shrink";
-export const DatabaseBranchKeyspaceDiskAutoscalingStrategy = S.String;
+/** The disk scaling strategy */
+export type DatabaseBranchKeyspaceStorageDiskScalingStrategy = "grow" | "disable" | "shrink";
+export const DatabaseBranchKeyspaceStorageDiskScalingStrategy = S.String;
 
-export interface DatabaseBranchKeyspaceDiskAutoscaling {
-  /** The disk autoscaling strategy */
-  strategy: DatabaseBranchKeyspaceDiskAutoscalingStrategy;
+export interface DatabaseBranchKeyspaceStorage {
+  /** The current provisioned disk size in bytes. Disks grow from and shrink to this size. Custom shards may have staff-set overrides */
+  storage_bytes: number;
   /** The maximum size in bytes disks may autoscale to */
-  storage_limit_bytes: number;
+  max_storage_bytes: number;
+  /** The disk scaling strategy */
+  disk_scaling_strategy: DatabaseBranchKeyspaceStorageDiskScalingStrategy;
 }
-export const DatabaseBranchKeyspaceDiskAutoscaling = /*@__PURE__*/ S.suspend(() =>
+export const DatabaseBranchKeyspaceStorage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    strategy: DatabaseBranchKeyspaceDiskAutoscalingStrategy,
-    storage_limit_bytes: S.Number,
+    storage_bytes: S.Number,
+    max_storage_bytes: S.Number,
+    disk_scaling_strategy: DatabaseBranchKeyspaceStorageDiskScalingStrategy,
   }),
 ).annotate({
-  identifier: "DatabaseBranchKeyspaceDiskAutoscaling",
-}) as any as S.Schema<DatabaseBranchKeyspaceDiskAutoscaling>;
+  identifier: "DatabaseBranchKeyspaceStorage",
+}) as any as S.Schema<DatabaseBranchKeyspaceStorage>;
 
 /** The replication durability strategy */
 export type DatabaseBranchKeyspaceReplicationDurabilityConstraintsStrategy =
@@ -3079,18 +3700,14 @@ export const DatabaseBranchKeyspaceThrottler = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DatabaseBranchKeyspaceThrottler>;
 
 /** MySQL daemon configuration options */
-export type DatabaseBranchKeyspaceMysqldOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatabaseBranchKeyspaceMysqldOptionsMap = { [key: string]: unknown | undefined };
 export const DatabaseBranchKeyspaceMysqldOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<DatabaseBranchKeyspaceMysqldOptionsMap>;
 
 /** VTTablet configuration options */
-export type DatabaseBranchKeyspaceVttabletOptionsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DatabaseBranchKeyspaceVttabletOptionsMap = { [key: string]: unknown | undefined };
 export const DatabaseBranchKeyspaceVttabletOptionsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -3139,7 +3756,7 @@ export interface DatabaseBranchKeyspace {
   vector_pool_allocation: number | null;
   /** Controls when node TTL drains are allowed */
   node_ttl_strategy: DatabaseBranchKeyspaceNodeTtlStrategy;
-  disk_autoscaling: DatabaseBranchKeyspaceDiskAutoscaling;
+  storage: DatabaseBranchKeyspaceStorage;
   /** The maximum number of shards rolled out in parallel. Null uses the infrastructure default of 1. Effective concurrency is capped at 32. */
   max_rollout: number | null;
   replication_durability_constraints: DatabaseBranchKeyspaceReplicationDurabilityConstraints;
@@ -3173,7 +3790,7 @@ export const DatabaseBranchKeyspace = /*@__PURE__*/ S.suspend(() =>
     imported: S.Boolean,
     vector_pool_allocation: S.NullOr(S.Number),
     node_ttl_strategy: DatabaseBranchKeyspaceNodeTtlStrategy,
-    disk_autoscaling: DatabaseBranchKeyspaceDiskAutoscaling,
+    storage: DatabaseBranchKeyspaceStorage,
     max_rollout: S.NullOr(S.Number),
     replication_durability_constraints: DatabaseBranchKeyspaceReplicationDurabilityConstraints,
     vreplication_flags: DatabaseBranchKeyspaceVreplicationFlags,
@@ -3181,9 +3798,163 @@ export const DatabaseBranchKeyspace = /*@__PURE__*/ S.suspend(() =>
     mysqld_options: DatabaseBranchKeyspaceMysqldOptionsMap,
     vttablet_options: DatabaseBranchKeyspaceVttabletOptionsMap,
   }),
+).annotate({ identifier: "DatabaseBranchKeyspace" }) as any as S.Schema<DatabaseBranchKeyspace>;
+
+/** The component to configure: `vttablet` or `mysqld` */
+export type CreateKeyspaceConfigChangeRequestRequestChangeType = "mysqld" | "vttablet";
+export const CreateKeyspaceConfigChangeRequestRequestChangeType = S.String;
+
+/** Parameter names and the values to set them to. Set a value to `null` to reset the parameter to its default. */
+export type CreateKeyspaceConfigChangeRequestRequestOptionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const CreateKeyspaceConfigChangeRequestRequestOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<CreateKeyspaceConfigChangeRequestRequestOptionsMap>;
+
+export interface CreateKeyspaceConfigChangeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The name of the keyspace */
+  keyspace: string;
+  /** The component to configure: `vttablet` or `mysqld` */
+  change_type: CreateKeyspaceConfigChangeRequestRequestChangeType | (string & {});
+  /** Parameter names and the values to set them to. Set a value to `null` to reset the parameter to its default. */
+  options: CreateKeyspaceConfigChangeRequestRequestOptionsMap;
+}
+export const CreateKeyspaceConfigChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    keyspace: S.String.pipe(T.Label()),
+    change_type: CreateKeyspaceConfigChangeRequestRequestChangeType,
+    options: CreateKeyspaceConfigChangeRequestRequestOptionsMap,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/config-changes",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "DatabaseBranchKeyspace",
-}) as any as S.Schema<DatabaseBranchKeyspace>;
+  identifier: "CreateKeyspaceConfigChangeRequestRequest",
+}) as any as S.Schema<CreateKeyspaceConfigChangeRequestRequest>;
+
+/** The state of the config change request */
+export type KeyspaceConfigChangeRequestState =
+  | "draft"
+  | "pending"
+  | "queued"
+  | "applying"
+  | "completed"
+  | "failed"
+  | "canceled";
+export const KeyspaceConfigChangeRequestState = S.String;
+
+/** The type of configuration being changed */
+export type KeyspaceConfigChangeRequestChangeType = "mysqld" | "vttablet";
+export const KeyspaceConfigChangeRequestChangeType = S.String;
+
+/** The previous option values */
+export type KeyspaceConfigChangeRequestPreviousOptionsMap = { [key: string]: unknown | undefined };
+export const KeyspaceConfigChangeRequestPreviousOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<KeyspaceConfigChangeRequestPreviousOptionsMap>;
+
+/** The new option values */
+export type KeyspaceConfigChangeRequestNewOptionsMap = { [key: string]: unknown | undefined };
+export const KeyspaceConfigChangeRequestNewOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<KeyspaceConfigChangeRequestNewOptionsMap>;
+
+export type KeyspaceConfigChangeRequestActor = OrganizationTeamMembershipActor;
+export const KeyspaceConfigChangeRequestActor = OrganizationTeamMembershipActor;
+
+export interface KeyspaceConfigChangeRequest {
+  /** The ID of the config change request */
+  id: string;
+  /** The state of the config change request */
+  state: KeyspaceConfigChangeRequestState;
+  /** The type of configuration being changed */
+  change_type: KeyspaceConfigChangeRequestChangeType;
+  /** The previous option values */
+  previous_options: KeyspaceConfigChangeRequestPreviousOptionsMap;
+  /** The new option values */
+  new_options: KeyspaceConfigChangeRequestNewOptionsMap;
+  /** Error message if the change failed */
+  error_message: string | null;
+  /** When the config change started applying */
+  started_at: string | null;
+  /** When the config change completed */
+  completed_at: string | null;
+  /** When the config change request was created */
+  created_at: string;
+  /** When the config change request was last updated */
+  updated_at: string;
+  /** The keyspace name for keyspace-level config changes */
+  keyspace_name: string | null;
+  /** When the config change is expected to be applied (only set when queued) */
+  queued_until: string | null;
+  actor: OrganizationTeamMembershipActor;
+}
+export const KeyspaceConfigChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: KeyspaceConfigChangeRequestState,
+    change_type: KeyspaceConfigChangeRequestChangeType,
+    previous_options: KeyspaceConfigChangeRequestPreviousOptionsMap,
+    new_options: KeyspaceConfigChangeRequestNewOptionsMap,
+    error_message: S.NullOr(S.String),
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    keyspace_name: S.NullOr(S.String),
+    queued_until: S.NullOr(S.String),
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({
+  identifier: "KeyspaceConfigChangeRequest",
+}) as any as S.Schema<KeyspaceConfigChangeRequest>;
+
+export interface CreateMoveTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+}
+export const CreateMoveTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateMoveTablesWorkflowRequest",
+}) as any as S.Schema<CreateMoveTablesWorkflowRequest>;
+
+export interface CreateMoveTablesWorkflowResponse {}
+export const CreateMoveTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateMoveTablesWorkflowResponse",
+}) as any as S.Schema<CreateMoveTablesWorkflowResponse>;
 
 /** Whether an OAuth grant code or a refresh token is being exchanged for an OAuth token */
 export type CreateOauthTokenRequestGrantType = "authorization_code" | "refresh_token";
@@ -3224,9 +3995,7 @@ export const CreateOauthTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateOauthTokenRequest",
-}) as any as S.Schema<CreateOauthTokenRequest>;
+).annotate({ identifier: "CreateOauthTokenRequest" }) as any as S.Schema<CreateOauthTokenRequest>;
 
 export type ServiceTokenServiceTokenAccessesItemResource =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -3545,6 +4314,80 @@ export const ServiceToken = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ServiceToken" }) as any as S.Schema<ServiceToken>;
 
+/** The role granted when the invitation is accepted. Defaults to member. Service tokens can only invite members; requesting another role returns 422. */
+export type CreateOrganizationInvitationRequestRole = "admin" | "analyst" | "member";
+export const CreateOrganizationInvitationRequestRole = S.String;
+
+export interface CreateOrganizationInvitationRequest {
+  /** The name of the organization */
+  organization: string;
+  /** The email address to send the invitation to */
+  email: string;
+  /** The role granted when the invitation is accepted. Defaults to member. Service tokens can only invite members; requesting another role returns 422. */
+  role?: CreateOrganizationInvitationRequestRole | (string & {});
+}
+export const CreateOrganizationInvitationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    email: S.String,
+    role: S.optional(CreateOrganizationInvitationRequestRole),
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organization}/invitations", code: 200 })),
+).annotate({
+  identifier: "CreateOrganizationInvitationRequest",
+}) as any as S.Schema<CreateOrganizationInvitationRequest>;
+
+/** The role granted when the invitation is accepted. Invitations sent by service tokens are always member. */
+export type OrganizationInvitationRole = "admin" | "analyst" | "member";
+export const OrganizationInvitationRole = S.String;
+
+export type OrganizationInvitationSenderDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+export const OrganizationInvitationSenderDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+
+export type OrganizationInvitationSender = OrganizationTeamMembershipUser;
+export const OrganizationInvitationSender = OrganizationTeamMembershipUser;
+
+export type OrganizationInvitationRecipientDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+export const OrganizationInvitationRecipientDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+
+export type OrganizationInvitationRecipient = OrganizationTeamMembershipUser;
+export const OrganizationInvitationRecipient = OrganizationTeamMembershipUser;
+
+export interface OrganizationInvitation {
+  /** The ID of the invitation */
+  id: string;
+  /** The email address the invitation was sent to */
+  email: string;
+  /** The role granted when the invitation is accepted. Invitations sent by service tokens are always member. */
+  role: OrganizationInvitationRole;
+  sender: OrganizationTeamMembershipUser;
+  recipient: OrganizationTeamMembershipUser | null;
+  /** Whether the invitation has expired */
+  expired: boolean;
+  /** When the invitation expires */
+  expires_at: string;
+  /** When the invitation was created */
+  created_at: string;
+  /** The URL of the avatar shown for the invitation */
+  avatar_url: string;
+}
+export const OrganizationInvitation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    email: S.String,
+    role: OrganizationInvitationRole,
+    sender: OrganizationTeamMembershipUser,
+    recipient: S.NullOr(OrganizationTeamMembershipUser),
+    expired: S.Boolean,
+    expires_at: S.String,
+    created_at: S.String,
+    avatar_url: S.String,
+  }),
+).annotate({ identifier: "OrganizationInvitation" }) as any as S.Schema<OrganizationInvitation>;
+
 export interface CreateOrganizationSsoDomainRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -3552,13 +4395,7 @@ export interface CreateOrganizationSsoDomainRequest {
 export const CreateOrganizationSsoDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/sso/domains",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organization}/sso/domains", code: 200 })),
 ).annotate({
   identifier: "CreateOrganizationSsoDomainRequest",
 }) as any as S.Schema<CreateOrganizationSsoDomainRequest>;
@@ -3588,13 +4425,7 @@ export const CreateOrganizationTeamRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     name: S.String,
     description: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/teams",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organization}/teams", code: 200 })),
 ).annotate({
   identifier: "CreateOrganizationTeamRequest",
 }) as any as S.Schema<CreateOrganizationTeamRequest>;
@@ -3686,9 +4517,7 @@ export const OrganizationTeam = /*@__PURE__*/ S.suspend(() =>
     description: S.NullOr(S.String),
     managed: S.Boolean,
   }),
-).annotate({
-  identifier: "OrganizationTeam",
-}) as any as S.Schema<OrganizationTeam>;
+).annotate({ identifier: "OrganizationTeam" }) as any as S.Schema<OrganizationTeam>;
 
 /** The database role of the password (i.e. admin) */
 export type CreatePasswordRequestRole = "reader" | "writer" | "admin" | "readwriter";
@@ -3738,9 +4567,7 @@ export const CreatePasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreatePasswordRequest",
-}) as any as S.Schema<CreatePasswordRequest>;
+).annotate({ identifier: "CreatePasswordRequest" }) as any as S.Schema<CreatePasswordRequest>;
 
 /** The role for the password */
 export type DatabaseBranchPasswordWithSecretRole = "reader" | "writer" | "admin" | "readwriter";
@@ -3855,7 +4682,7 @@ export interface DatabaseBranchPasswordWithSecret {
   region: DatabaseBranchPasswordWithSecretRegion;
   /** The username for the password */
   username: string;
-  /** The plaintext password. Null except in the response from the create endpoint. */
+  /** The plaintext password returned by create and renew */
   plain_text: Redacted.Redacted<string>;
   /** Whether or not the password is for a read replica */
   replica: boolean;
@@ -3951,305 +4778,7 @@ export const QueryPatternsDownload = /*@__PURE__*/ S.suspend(() =>
     download_url: S.String,
     actor: OrganizationTeamMembershipActor,
   }),
-).annotate({
-  identifier: "QueryPatternsDownload",
-}) as any as S.Schema<QueryPatternsDownload>;
-
-export interface CreateReadOnlyReplicaRequestStorage {
-  /** The minimum storage size in bytes. */
-  minimum_storage_bytes?: number;
-  /** The maximum storage size in bytes for autoscaling. */
-  maximum_storage_bytes?: number;
-  /** Whether storage autoscaling is enabled. */
-  storage_autoscaling?: boolean;
-  /** The storage IOPS. */
-  storage_iops?: number;
-  /** The storage throughput in MiB/s. */
-  storage_throughput_mibs?: number;
-}
-export const CreateReadOnlyReplicaRequestStorage = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    minimum_storage_bytes: S.optional(S.Number),
-    maximum_storage_bytes: S.optional(S.Number),
-    storage_autoscaling: S.optional(S.Boolean),
-    storage_iops: S.optional(S.Number),
-    storage_throughput_mibs: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "CreateReadOnlyReplicaRequestStorage",
-}) as any as S.Schema<CreateReadOnlyReplicaRequestStorage>;
-
-export interface CreateReadOnlyReplicaRequest {
-  /** Organization name slug from `list_organizations`. Example: `acme`. */
-  organization: string;
-  /** Database name slug from `list_databases`. Example: `app-db`. */
-  database: string;
-  /** Branch name from `list_branches`. Example: `main`. */
-  branch: string;
-  /** The read-only replica name */
-  name: string;
-  /** The region slug for the read-only replica */
-  region: string;
-  /** The number of instances serving reads. Defaults to 1. */
-  replicas?: number;
-  /** The cluster size SKU name. Defaults to the primary cluster size. */
-  cluster_size?: string;
-  storage?: CreateReadOnlyReplicaRequestStorage;
-}
-export const CreateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-    name: S.String,
-    region: S.String,
-    replicas: S.optional(S.Number),
-    cluster_size: S.optional(S.String),
-    storage: S.optional(CreateReadOnlyReplicaRequestStorage),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/read-only-replicas",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateReadOnlyReplicaRequest",
-}) as any as S.Schema<CreateReadOnlyReplicaRequest>;
-
-/** The storage type */
-export type PostgresReadOnlyReplicaStorageType =
-  | "gp3"
-  | "io2"
-  | "pd_ssd"
-  | "hyperdisk_balanced"
-  | "premium_v2_lrs";
-export const PostgresReadOnlyReplicaStorageType = S.String;
-
-export type PostgresReadOnlyReplicaActor = OrganizationTeamMembershipActor;
-export const PostgresReadOnlyReplicaActor = OrganizationTeamMembershipActor;
-
-/** Public IP addresses for the region */
-export type PostgresReadOnlyReplicaRegionPublicIpAddressesList = Array<string>;
-export const PostgresReadOnlyReplicaRegionPublicIpAddressesList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<PostgresReadOnlyReplicaRegionPublicIpAddressesList>;
-
-export interface PostgresReadOnlyReplicaRegion {
-  /** The ID of the region */
-  id: string;
-  /** Provider for the region (ex. AWS) */
-  provider: string;
-  /** Whether or not the region is currently active */
-  enabled: boolean;
-  /** Public IP addresses for the region */
-  public_ip_addresses: PostgresReadOnlyReplicaRegionPublicIpAddressesList;
-  /** Name of the region */
-  display_name: string;
-  /** Location of the region */
-  location: string;
-  /** The slug of the region */
-  slug: string;
-  /** True if the region is the default for new branch creation */
-  current_default: boolean;
-  /** Whether the region supports MySQL/Vitess databases */
-  mysql_supported: boolean;
-  /** Whether the region supports PostgreSQL databases */
-  postgresql_supported: boolean;
-  /** Whether the region supports Neki databases */
-  neki_supported: boolean;
-}
-export const PostgresReadOnlyReplicaRegion = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    provider: S.String,
-    enabled: S.Boolean,
-    public_ip_addresses: PostgresReadOnlyReplicaRegionPublicIpAddressesList,
-    display_name: S.String,
-    location: S.String,
-    slug: S.String,
-    current_default: S.Boolean,
-    mysql_supported: S.Boolean,
-    postgresql_supported: S.Boolean,
-    neki_supported: S.Boolean,
-  }),
-).annotate({
-  identifier: "PostgresReadOnlyReplicaRegion",
-}) as any as S.Schema<PostgresReadOnlyReplicaRegion>;
-
-/** The namespace of the parameter */
-export type PostgresReadOnlyReplicaParametersItemNamespace = "pgconf";
-export const PostgresReadOnlyReplicaParametersItemNamespace = S.String;
-
-/** The type of the parameter */
-export type PostgresReadOnlyReplicaParametersItemParameterType = "integer" | "time";
-export const PostgresReadOnlyReplicaParametersItemParameterType = S.String;
-
-/** Valid options for the parameter value */
-export type PostgresReadOnlyReplicaParametersItemOptionsList = Array<string>;
-export const PostgresReadOnlyReplicaParametersItemOptionsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<PostgresReadOnlyReplicaParametersItemOptionsList>;
-
-/** Display units for the parameter value */
-export type PostgresReadOnlyReplicaParametersItemUnitsList = Array<string>;
-export const PostgresReadOnlyReplicaParametersItemUnitsList = /*@__PURE__*/ S.Array(
-  S.String,
-) as any as S.Schema<PostgresReadOnlyReplicaParametersItemUnitsList>;
-
-export type PostgresReadOnlyReplicaParametersItemActor = OrganizationTeamMembershipActor;
-export const PostgresReadOnlyReplicaParametersItemActor = OrganizationTeamMembershipActor;
-
-export interface PostgresReadOnlyReplicaParametersItem {
-  /** The ID of the parameter */
-  id: string;
-  /** The namespace of the parameter */
-  namespace: PostgresReadOnlyReplicaParametersItemNamespace;
-  /** The name of the parameter */
-  name: string;
-  /** The display name of the parameter */
-  display_name: string;
-  /** The category of the parameter */
-  category: string;
-  /** The description of the parameter */
-  description: string;
-  /** Whether the parameter can be changed */
-  immutable: boolean;
-  /** The type of the parameter */
-  parameter_type: PostgresReadOnlyReplicaParametersItemParameterType;
-  /** The default value of the parameter, which is the primary's current value */
-  default_value: string;
-  /** Why the parameter cannot be changed */
-  disabled_reason?: string | null;
-  /** The configured value of the parameter */
-  value: string;
-  /** Whether the parameter is required */
-  required: boolean;
-  /** When the parameter was created */
-  created_at: string | null;
-  /** When the parameter was last updated */
-  updated_at: string | null;
-  /** True if processes require a server restart on change */
-  restart: boolean;
-  /** The maximum value of the parameter */
-  max: number;
-  /** The minimum value of the parameter, floored at the primary's current value */
-  min: number;
-  /** The URL of the parameter */
-  url: string;
-  /** Valid options for the parameter value */
-  options: PostgresReadOnlyReplicaParametersItemOptionsList;
-  /** Display units for the parameter value */
-  units: PostgresReadOnlyReplicaParametersItemUnitsList;
-  actor: OrganizationTeamMembershipActor;
-}
-export const PostgresReadOnlyReplicaParametersItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    namespace: PostgresReadOnlyReplicaParametersItemNamespace,
-    name: S.String,
-    display_name: S.String,
-    category: S.String,
-    description: S.String,
-    immutable: S.Boolean,
-    parameter_type: PostgresReadOnlyReplicaParametersItemParameterType,
-    default_value: S.String,
-    disabled_reason: S.optional(S.NullOr(S.String)),
-    value: S.String,
-    required: S.Boolean,
-    created_at: S.NullOr(S.String),
-    updated_at: S.NullOr(S.String),
-    restart: S.Boolean,
-    max: S.Number,
-    min: S.Number,
-    url: S.String,
-    options: PostgresReadOnlyReplicaParametersItemOptionsList,
-    units: PostgresReadOnlyReplicaParametersItemUnitsList,
-    actor: OrganizationTeamMembershipActor,
-  }),
-).annotate({
-  identifier: "PostgresReadOnlyReplicaParametersItem",
-}) as any as S.Schema<PostgresReadOnlyReplicaParametersItem>;
-
-export type PostgresReadOnlyReplicaParametersList = Array<PostgresReadOnlyReplicaParametersItem>;
-export const PostgresReadOnlyReplicaParametersList = /*@__PURE__*/ S.Array(
-  PostgresReadOnlyReplicaParametersItem,
-) as any as S.Schema<PostgresReadOnlyReplicaParametersList>;
-
-export interface PostgresReadOnlyReplica {
-  /** The ID of the read-only replica */
-  id: string;
-  /** The name of the read-only replica */
-  name: string;
-  /** The state of the read-only replica: pending, ready, or deleting */
-  state: string;
-  /** The number of instances serving reads in this read-only replica */
-  replicas: number;
-  /** The SKU representing the cluster size of the read-only replica */
-  cluster_name: string;
-  /** The SKU representing the cluster size of the read-only replica, for display */
-  cluster_display_name: string;
-  /** The database connection host for the read-only replica */
-  access_host_url: string;
-  /** The private database connection host for the read-only replica */
-  private_access_host_url: string;
-  /** The service name to set up private connectivity for the read-only replica */
-  private_connection_service_name: string | null;
-  /** The minimum storage size in bytes */
-  minimum_storage_bytes: number | null;
-  /** The maximum storage size in bytes */
-  maximum_storage_bytes: number | null;
-  /** Whether storage autoscaling is enabled */
-  storage_autoscaling: boolean | null;
-  /** The storage type */
-  storage_type: PostgresReadOnlyReplicaStorageType | null;
-  /** The storage IOPS */
-  storage_iops: number | null;
-  /** The storage throughput in MiB/s */
-  storage_throughput_mibs: number | null;
-  /** When volume modifications will be allowed again */
-  volume_modifications_blocked_until: string | null;
-  /** When the read-only replica was created */
-  created_at: string;
-  /** When the read-only replica was last updated */
-  updated_at: string;
-  /** When the read-only replica was ready to serve queries */
-  ready_at: string | null;
-  /** Whether or not the read-only replica is ready to serve queries */
-  ready: boolean;
-  actor: OrganizationTeamMembershipActor;
-  region: PostgresReadOnlyReplicaRegion;
-  parameters: PostgresReadOnlyReplicaParametersList;
-}
-export const PostgresReadOnlyReplica = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    name: S.String,
-    state: S.String,
-    replicas: S.Number,
-    cluster_name: S.String,
-    cluster_display_name: S.String,
-    access_host_url: S.String,
-    private_access_host_url: S.String,
-    private_connection_service_name: S.NullOr(S.String),
-    minimum_storage_bytes: S.NullOr(S.Number),
-    maximum_storage_bytes: S.NullOr(S.Number),
-    storage_autoscaling: S.NullOr(S.Boolean),
-    storage_type: S.NullOr(PostgresReadOnlyReplicaStorageType),
-    storage_iops: S.NullOr(S.Number),
-    storage_throughput_mibs: S.NullOr(S.Number),
-    volume_modifications_blocked_until: S.NullOr(S.String),
-    created_at: S.String,
-    updated_at: S.String,
-    ready_at: S.NullOr(S.String),
-    ready: S.Boolean,
-    actor: OrganizationTeamMembershipActor,
-    region: PostgresReadOnlyReplicaRegion,
-    parameters: PostgresReadOnlyReplicaParametersList,
-  }),
-).annotate({
-  identifier: "PostgresReadOnlyReplica",
-}) as any as S.Schema<PostgresReadOnlyReplica>;
+).annotate({ identifier: "QueryPatternsDownload" }) as any as S.Schema<QueryPatternsDownload>;
 
 export type CreateRoleRequestInheritedRolesItem =
   | "pg_checkpoint"
@@ -4314,9 +4843,7 @@ export const CreateRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateRoleRequest",
-}) as any as S.Schema<CreateRoleRequest>;
+).annotate({ identifier: "CreateRoleRequest" }) as any as S.Schema<CreateRoleRequest>;
 
 export type PostgresRoleInheritedRolesItem =
   | "pg_checkpoint"
@@ -4476,9 +5003,7 @@ export const CreateRouterRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateRouterRequest",
-}) as any as S.Schema<CreateRouterRequest>;
+).annotate({ identifier: "CreateRouterRequest" }) as any as S.Schema<CreateRouterRequest>;
 
 export interface NekiRouterSku {
   /** The name of the Neki router SKU */
@@ -4568,11 +5093,7 @@ export const CreateServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     ttl: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/service-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{organization}/service-tokens", code: 200 }),
   ),
 ).annotate({
   identifier: "CreateServiceTokenRequest",
@@ -4598,17 +5119,17 @@ export const CreateShardRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateShardRequest",
-}) as any as S.Schema<CreateShardRequest>;
+).annotate({ identifier: "CreateShardRequest" }) as any as S.Schema<CreateShardRequest>;
 
 export interface CreateShardResponse {}
 export const CreateShardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateShardResponse",
 }) as any as S.Schema<CreateShardResponse>;
 
-export type CreateShardConfigurationProfileRequestStorage = CreateReadOnlyReplicaRequestStorage;
-export const CreateShardConfigurationProfileRequestStorage = CreateReadOnlyReplicaRequestStorage;
+export type CreateShardConfigurationProfileRequestStorage =
+  CreateDedicatedReadReplicaRequestStorage;
+export const CreateShardConfigurationProfileRequestStorage =
+  CreateDedicatedReadReplicaRequestStorage;
 
 export interface CreateShardConfigurationProfileRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -4627,7 +5148,7 @@ export interface CreateShardConfigurationProfileRequest {
   postgres_major_version?: string;
   /** The PostgreSQL minor version for the shard configuration profile. Requires postgres_major_version when specified. */
   postgres_minor_version?: string;
-  storage?: CreateReadOnlyReplicaRequestStorage;
+  storage?: CreateDedicatedReadReplicaRequestStorage;
 }
 export const CreateShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4639,7 +5160,7 @@ export const CreateShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(()
     replicas: S.optional(S.Number),
     postgres_major_version: S.optional(S.String),
     postgres_minor_version: S.optional(S.String),
-    storage: S.optional(CreateReadOnlyReplicaRequestStorage),
+    storage: S.optional(CreateDedicatedReadReplicaRequestStorage),
   }).pipe(
     T.Http({
       method: "POST",
@@ -4822,9 +5343,7 @@ export const CreateSwitchoverRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateSwitchoverRequest",
-}) as any as S.Schema<CreateSwitchoverRequest>;
+).annotate({ identifier: "CreateSwitchoverRequest" }) as any as S.Schema<CreateSwitchoverRequest>;
 
 /** The state of the switchover */
 export type PostgresSwitchoverState = "pending" | "running" | "succeeded" | "failed" | "canceled";
@@ -4868,9 +5387,7 @@ export const PostgresSwitchover = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     actor: OrganizationTeamMembershipActor,
   }),
-).annotate({
-  identifier: "PostgresSwitchover",
-}) as any as S.Schema<PostgresSwitchover>;
+).annotate({ identifier: "PostgresSwitchover" }) as any as S.Schema<PostgresSwitchover>;
 
 /** The mode of the traffic budget */
 export type CreateTrafficBudgetRequestMode = "enforce" | "warn" | "off";
@@ -5004,9 +5521,7 @@ export const TrafficBudgetRulesItem = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "TrafficBudgetRulesItem",
-}) as any as S.Schema<TrafficBudgetRulesItem>;
+).annotate({ identifier: "TrafficBudgetRulesItem" }) as any as S.Schema<TrafficBudgetRulesItem>;
 
 export type TrafficBudgetRulesList = Array<TrafficBudgetRulesItem>;
 export const TrafficBudgetRulesList = /*@__PURE__*/ S.Array(
@@ -5099,9 +5614,7 @@ export const CreateTrafficRuleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateTrafficRuleRequest",
-}) as any as S.Schema<CreateTrafficRuleRequest>;
+).annotate({ identifier: "CreateTrafficRuleRequest" }) as any as S.Schema<CreateTrafficRuleRequest>;
 
 /** The kind of rule */
 export type TrafficRuleKind = "match" | "each";
@@ -5128,9 +5641,7 @@ export const TrafficRuleTagsItem = /*@__PURE__*/ S.suspend(() =>
     value: S.String,
     source: TrafficRuleTagsItemSource,
   }),
-).annotate({
-  identifier: "TrafficRuleTagsItem",
-}) as any as S.Schema<TrafficRuleTagsItem>;
+).annotate({ identifier: "TrafficRuleTagsItem" }) as any as S.Schema<TrafficRuleTagsItem>;
 
 export type TrafficRuleTagsList = Array<TrafficRuleTagsItem>;
 export const TrafficRuleTagsList = /*@__PURE__*/ S.Array(
@@ -5207,9 +5718,7 @@ export const CreateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateWebhookRequest",
-}) as any as S.Schema<CreateWebhookRequest>;
+).annotate({ identifier: "CreateWebhookRequest" }) as any as S.Schema<CreateWebhookRequest>;
 
 export type DatabaseWebhookEventsItem =
   | "branch.ready"
@@ -5280,9 +5789,7 @@ export const DatabaseWebhook = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     events: DatabaseWebhookEventsList,
   }),
-).annotate({
-  identifier: "DatabaseWebhook",
-}) as any as S.Schema<DatabaseWebhook>;
+).annotate({ identifier: "DatabaseWebhook" }) as any as S.Schema<DatabaseWebhook>;
 
 /** The behavior when DDL changes during the workflow */
 export type CreateWorkflowRequestOnDdl = "IGNORE" | "STOP" | "EXEC" | "EXEC_IGNORE";
@@ -5332,9 +5839,7 @@ export const CreateWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "CreateWorkflowRequest",
-}) as any as S.Schema<CreateWorkflowRequest>;
+).annotate({ identifier: "CreateWorkflowRequest" }) as any as S.Schema<CreateWorkflowRequest>;
 
 export interface DeleteBackupRequest {
   /** The name of the organization the branch belongs to */
@@ -5359,9 +5864,7 @@ export const DeleteBackupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBackupRequest",
-}) as any as S.Schema<DeleteBackupRequest>;
+).annotate({ identifier: "DeleteBackupRequest" }) as any as S.Schema<DeleteBackupRequest>;
 
 export interface DeleteBackupResponse {}
 export const DeleteBackupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5420,9 +5923,7 @@ export const DeleteBouncerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBouncerRequest",
-}) as any as S.Schema<DeleteBouncerRequest>;
+).annotate({ identifier: "DeleteBouncerRequest" }) as any as S.Schema<DeleteBouncerRequest>;
 
 export interface DeleteBouncerResponse {}
 export const DeleteBouncerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5452,9 +5953,7 @@ export const DeleteBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteBranchRequest",
-}) as any as S.Schema<DeleteBranchRequest>;
+).annotate({ identifier: "DeleteBranchRequest" }) as any as S.Schema<DeleteBranchRequest>;
 
 export interface DeleteBranchResponse {}
 export const DeleteBranchResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5478,9 +5977,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteDatabaseRequest",
-}) as any as S.Schema<DeleteDatabaseRequest>;
+).annotate({ identifier: "DeleteDatabaseRequest" }) as any as S.Schema<DeleteDatabaseRequest>;
 
 export interface DeleteDatabaseResponse {}
 export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5518,6 +6015,40 @@ export const DeleteDatabasePostgresCidrResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatabasePostgresCidrResponse",
 }) as any as S.Schema<DeleteDatabasePostgresCidrResponse>;
 
+export interface DeleteDedicatedReadReplicaRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The name of the dedicated read replica */
+  dedicated_read_replica: string;
+}
+export const DeleteDedicatedReadReplicaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    dedicated_read_replica: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/dedicated-read-replicas/{dedicated_read_replica}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "DeleteDedicatedReadReplicaRequest",
+}) as any as S.Schema<DeleteDedicatedReadReplicaRequest>;
+
+export interface DeleteDedicatedReadReplicaResponse {}
+export const DeleteDedicatedReadReplicaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteDedicatedReadReplicaResponse",
+}) as any as S.Schema<DeleteDedicatedReadReplicaResponse>;
+
 export interface DeleteKeyspaceRequest {
   /** The name of the organization the branch belongs to */
   organization: string;
@@ -5541,9 +6072,7 @@ export const DeleteKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteKeyspaceRequest",
-}) as any as S.Schema<DeleteKeyspaceRequest>;
+).annotate({ identifier: "DeleteKeyspaceRequest" }) as any as S.Schema<DeleteKeyspaceRequest>;
 
 export interface DeleteKeyspaceResponse {}
 export const DeleteKeyspaceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5570,9 +6099,7 @@ export const DeleteOauthTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteOauthTokenRequest",
-}) as any as S.Schema<DeleteOauthTokenRequest>;
+).annotate({ identifier: "DeleteOauthTokenRequest" }) as any as S.Schema<DeleteOauthTokenRequest>;
 
 export interface DeleteOauthTokenResponse {}
 export const DeleteOauthTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5615,11 +6142,7 @@ export const DeleteOrganizationSsoDomainRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organization}/sso/domains/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{organization}/sso/domains/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOrganizationSsoDomainRequest",
@@ -5643,11 +6166,7 @@ export const DeleteOrganizationTeamRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     team: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organization}/teams/{team}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{organization}/teams/{team}", code: 200 }),
   ),
 ).annotate({
   identifier: "DeleteOrganizationTeamRequest",
@@ -5681,9 +6200,7 @@ export const DeletePasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeletePasswordRequest",
-}) as any as S.Schema<DeletePasswordRequest>;
+).annotate({ identifier: "DeletePasswordRequest" }) as any as S.Schema<DeletePasswordRequest>;
 
 export interface DeletePasswordResponse {}
 export const DeletePasswordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5724,38 +6241,6 @@ export const DeleteQueryPatternsReportResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteQueryPatternsReportResponse",
 }) as any as S.Schema<DeleteQueryPatternsReportResponse>;
 
-export interface DeleteReadOnlyReplicaRequest {
-  /** Organization name slug from `list_organizations`. Example: `acme`. */
-  organization: string;
-  /** Database name slug from `list_databases`. Example: `app-db`. */
-  database: string;
-  /** Branch name from `list_branches`. Example: `main`. */
-  branch: string;
-  /** The name of the read-only replica */
-  read_only_replica: string;
-}
-export const DeleteReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-    read_only_replica: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/read-only-replicas/{read_only_replica}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteReadOnlyReplicaRequest",
-}) as any as S.Schema<DeleteReadOnlyReplicaRequest>;
-
-export interface DeleteReadOnlyReplicaResponse {}
-export const DeleteReadOnlyReplicaResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-  identifier: "DeleteReadOnlyReplicaResponse",
-}) as any as S.Schema<DeleteReadOnlyReplicaResponse>;
-
 export interface DeleteRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -5782,9 +6267,7 @@ export const DeleteRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRoleRequest",
-}) as any as S.Schema<DeleteRoleRequest>;
+).annotate({ identifier: "DeleteRoleRequest" }) as any as S.Schema<DeleteRoleRequest>;
 
 export interface DeleteRoleResponse {}
 export const DeleteRoleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5814,9 +6297,7 @@ export const DeleteRouterRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteRouterRequest",
-}) as any as S.Schema<DeleteRouterRequest>;
+).annotate({ identifier: "DeleteRouterRequest" }) as any as S.Schema<DeleteRouterRequest>;
 
 export interface DeleteRouterResponse {}
 export const DeleteRouterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5872,9 +6353,7 @@ export const DeleteShardRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteShardRequest",
-}) as any as S.Schema<DeleteShardRequest>;
+).annotate({ identifier: "DeleteShardRequest" }) as any as S.Schema<DeleteShardRequest>;
 
 export interface DeleteShardResponse {}
 export const DeleteShardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6052,9 +6531,7 @@ export const DeleteTrafficRuleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteTrafficRuleRequest",
-}) as any as S.Schema<DeleteTrafficRuleRequest>;
+).annotate({ identifier: "DeleteTrafficRuleRequest" }) as any as S.Schema<DeleteTrafficRuleRequest>;
 
 export interface DeleteTrafficRuleResponse {}
 export const DeleteTrafficRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6081,9 +6558,7 @@ export const DeleteWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DeleteWebhookRequest",
-}) as any as S.Schema<DeleteWebhookRequest>;
+).annotate({ identifier: "DeleteWebhookRequest" }) as any as S.Schema<DeleteWebhookRequest>;
 
 export interface DeleteWebhookResponse {}
 export const DeleteWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -6110,9 +6585,7 @@ export const DemoteBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "DemoteBranchRequest",
-}) as any as S.Schema<DemoteBranchRequest>;
+).annotate({ identifier: "DemoteBranchRequest" }) as any as S.Schema<DemoteBranchRequest>;
 
 export interface DeployCheckRequestStorageRequest {
   /** The name of the deploy request's organization */
@@ -6404,9 +6877,7 @@ export const DeployRequestReview = /*@__PURE__*/ S.suspend(() =>
     updated_at: S.String,
     actor: OrganizationTeamMembershipActor,
   }),
-).annotate({
-  identifier: "DeployRequestReview",
-}) as any as S.Schema<DeployRequestReview>;
+).annotate({ identifier: "DeployRequestReview" }) as any as S.Schema<DeployRequestReview>;
 
 export interface DisableOrganizationSsoRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6415,13 +6886,7 @@ export interface DisableOrganizationSsoRequest {
 export const DisableOrganizationSsoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organization}/sso",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "DELETE", uri: "/organizations/{organization}/sso", code: 200 })),
 ).annotate({
   identifier: "DisableOrganizationSsoRequest",
 }) as any as S.Schema<DisableOrganizationSsoRequest>;
@@ -6516,11 +6981,7 @@ export const DisableOrganizationSsoDirectoryRequest = /*@__PURE__*/ S.suspend(()
   S.Struct({
     organization: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organization}/sso/directory",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{organization}/sso/directory", code: 200 }),
   ),
 ).annotate({
   identifier: "DisableOrganizationSsoDirectoryRequest",
@@ -6663,9 +7124,7 @@ export const SchemaRecommendation = /*@__PURE__*/ S.suspend(() =>
     closed_by_deploy_request: S.NullOr(SchemaRecommendationClosedByDeployRequest),
     dismissed_by: S.NullOr(OrganizationTeamMembershipActor),
   }),
-).annotate({
-  identifier: "SchemaRecommendation",
-}) as any as S.Schema<SchemaRecommendation>;
+).annotate({ identifier: "SchemaRecommendation" }) as any as S.Schema<SchemaRecommendation>;
 
 export interface EnableOrganizationSsoRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6674,13 +7133,7 @@ export interface EnableOrganizationSsoRequest {
 export const EnableOrganizationSsoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/sso",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "POST", uri: "/organizations/{organization}/sso", code: 200 })),
 ).annotate({
   identifier: "EnableOrganizationSsoRequest",
 }) as any as S.Schema<EnableOrganizationSsoRequest>;
@@ -6693,11 +7146,7 @@ export const EnableOrganizationSsoDirectoryRequest = /*@__PURE__*/ S.suspend(() 
   S.Struct({
     organization: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/organizations/{organization}/sso/directory",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/organizations/{organization}/sso/directory", code: 200 }),
   ),
 ).annotate({
   identifier: "EnableOrganizationSsoDirectoryRequest",
@@ -6759,9 +7208,7 @@ export const GetAdminRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetAdminRequest",
-}) as any as S.Schema<GetAdminRequest>;
+).annotate({ identifier: "GetAdminRequest" }) as any as S.Schema<GetAdminRequest>;
 
 export interface NekiAdminSku {
   /** The name of the Neki admin SKU */
@@ -6868,9 +7315,7 @@ export const GetBackupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBackupRequest",
-}) as any as S.Schema<GetBackupRequest>;
+).annotate({ identifier: "GetBackupRequest" }) as any as S.Schema<GetBackupRequest>;
 
 export interface GetBackupPolicyRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6892,9 +7337,7 @@ export const GetBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBackupPolicyRequest",
-}) as any as S.Schema<GetBackupPolicyRequest>;
+).annotate({ identifier: "GetBackupPolicyRequest" }) as any as S.Schema<GetBackupPolicyRequest>;
 
 export interface GetBouncerRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6919,9 +7362,7 @@ export const GetBouncerRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBouncerRequest",
-}) as any as S.Schema<GetBouncerRequest>;
+).annotate({ identifier: "GetBouncerRequest" }) as any as S.Schema<GetBouncerRequest>;
 
 export interface GetBranchRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6943,9 +7384,7 @@ export const GetBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchRequest",
-}) as any as S.Schema<GetBranchRequest>;
+).annotate({ identifier: "GetBranchRequest" }) as any as S.Schema<GetBranchRequest>;
 
 export interface GetBranchAnomalyRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -6970,9 +7409,7 @@ export const GetBranchAnomalyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchAnomalyRequest",
-}) as any as S.Schema<GetBranchAnomalyRequest>;
+).annotate({ identifier: "GetBranchAnomalyRequest" }) as any as S.Schema<GetBranchAnomalyRequest>;
 
 /** The tablet type the query ran against */
 export type AnomalyCorrelationsItemTabletType = "primary" | "replica" | "rdonly";
@@ -7004,9 +7441,7 @@ export const AnomalyCorrelationsItem = /*@__PURE__*/ S.suspend(() =>
     syntax_highlighted_sql: S.String,
     tablet_type: AnomalyCorrelationsItemTabletType,
   }),
-).annotate({
-  identifier: "AnomalyCorrelationsItem",
-}) as any as S.Schema<AnomalyCorrelationsItem>;
+).annotate({ identifier: "AnomalyCorrelationsItem" }) as any as S.Schema<AnomalyCorrelationsItem>;
 
 export type AnomalyCorrelationsList = Array<AnomalyCorrelationsItem>;
 export const AnomalyCorrelationsList = /*@__PURE__*/ S.Array(
@@ -7086,9 +7521,7 @@ export type PostgresClusterResizeRequestActor = OrganizationTeamMembershipActor;
 export const PostgresClusterResizeRequestActor = OrganizationTeamMembershipActor;
 
 /** The branch parameters */
-export type PostgresClusterResizeRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostgresClusterResizeRequestParametersMap = { [key: string]: unknown | undefined };
 export const PostgresClusterResizeRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7221,6 +7654,33 @@ export const PostgresClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PostgresClusterResizeRequest",
 }) as any as S.Schema<PostgresClusterResizeRequest>;
+
+export interface GetBranchConfigChangeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The ID of the config change request */
+  id: string;
+}
+export const GetBranchConfigChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/config-changes/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetBranchConfigChangeRequestRequest",
+}) as any as S.Schema<GetBranchConfigChangeRequestRequest>;
 
 export interface GetBranchKeyspaceTableMetricsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -7482,14 +7942,10 @@ export const GetBranchMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchMetricsRequest",
-}) as any as S.Schema<GetBranchMetricsRequest>;
+).annotate({ identifier: "GetBranchMetricsRequest" }) as any as S.Schema<GetBranchMetricsRequest>;
 
 /** Key/value labels, also known as tags, identifying the time series */
-export type MetricSeriesSeriesItemLabelsMap = {
-  [key: string]: unknown | undefined;
-};
+export type MetricSeriesSeriesItemLabelsMap = { [key: string]: unknown | undefined };
 export const MetricSeriesSeriesItemLabelsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7526,9 +7982,7 @@ export const MetricSeriesSeriesItem = /*@__PURE__*/ S.suspend(() =>
     labels: MetricSeriesSeriesItemLabelsMap,
     points: MetricSeriesSeriesItemPointsList,
   }),
-).annotate({
-  identifier: "MetricSeriesSeriesItem",
-}) as any as S.Schema<MetricSeriesSeriesItem>;
+).annotate({ identifier: "MetricSeriesSeriesItem" }) as any as S.Schema<MetricSeriesSeriesItem>;
 
 export type MetricSeriesSeriesList = Array<MetricSeriesSeriesItem>;
 export const MetricSeriesSeriesList = /*@__PURE__*/ S.Array(
@@ -7579,9 +8033,7 @@ export const GetBranchQueryRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchQueryRequest",
-}) as any as S.Schema<GetBranchQueryRequest>;
+).annotate({ identifier: "GetBranchQueryRequest" }) as any as S.Schema<GetBranchQueryRequest>;
 
 /** The database password used for the query */
 export type QueryPasswordMap = { [key: string]: unknown | undefined };
@@ -7635,6 +8087,10 @@ export interface Query {
   rows_affected: number;
   /** The number of rows returned */
   rows_returned: number;
+  /** The number of bytes sent to the client */
+  egress_bytes: number;
+  /** The number of bytes received from the client */
+  ingress_bytes: number;
   /** Total query duration in milliseconds */
   total_duration_millis: number;
   /** Error message if the query failed */
@@ -7668,6 +8124,8 @@ export const Query = /*@__PURE__*/ S.suspend(() =>
     rows_read: S.Number,
     rows_affected: S.Number,
     rows_returned: S.Number,
+    egress_bytes: S.Number,
+    ingress_bytes: S.Number,
     total_duration_millis: S.Number,
     error_message: S.String,
     normalized_sql: S.String,
@@ -7734,17 +8192,13 @@ export const GetBranchQueryErrorRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetBranchQueryErrorRequest>;
 
 /** The database password used for the query */
-export type PaginatedQueryDataItemPasswordMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaginatedQueryDataItemPasswordMap = { [key: string]: unknown | undefined };
 export const PaginatedQueryDataItemPasswordMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<PaginatedQueryDataItemPasswordMap>;
 
-export type PaginatedQueryDataItemTagsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaginatedQueryDataItemTagsItemMap = { [key: string]: unknown | undefined };
 export const PaginatedQueryDataItemTagsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -7791,6 +8245,10 @@ export interface PaginatedQueryDataItem {
   rows_affected: number;
   /** The number of rows returned */
   rows_returned: number;
+  /** The number of bytes sent to the client */
+  egress_bytes: number;
+  /** The number of bytes received from the client */
+  ingress_bytes: number;
   /** Total query duration in milliseconds */
   total_duration_millis: number;
   /** Error message if the query failed */
@@ -7824,6 +8282,8 @@ export const PaginatedQueryDataItem = /*@__PURE__*/ S.suspend(() =>
     rows_read: S.Number,
     rows_affected: S.Number,
     rows_returned: S.Number,
+    egress_bytes: S.Number,
+    ingress_bytes: S.Number,
     total_duration_millis: S.Number,
     error_message: S.String,
     normalized_sql: S.String,
@@ -7833,9 +8293,7 @@ export const PaginatedQueryDataItem = /*@__PURE__*/ S.suspend(() =>
     explainable: S.Boolean,
     truncated: S.Boolean,
   }),
-).annotate({
-  identifier: "PaginatedQueryDataItem",
-}) as any as S.Schema<PaginatedQueryDataItem>;
+).annotate({ identifier: "PaginatedQueryDataItem" }) as any as S.Schema<PaginatedQueryDataItem>;
 
 export type PaginatedQueryDataList = Array<PaginatedQueryDataItem>;
 export const PaginatedQueryDataList = /*@__PURE__*/ S.Array(
@@ -8061,9 +8519,7 @@ export const GetBranchQueryTagRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchQueryTagRequest",
-}) as any as S.Schema<GetBranchQueryTagRequest>;
+).annotate({ identifier: "GetBranchQueryTagRequest" }) as any as S.Schema<GetBranchQueryTagRequest>;
 
 /** The source of the tag */
 export type QueryTagSource = "sql" | "system";
@@ -8087,9 +8543,7 @@ export const QueryTagValuesItem = /*@__PURE__*/ S.suspend(() =>
     query_count: S.Number,
     kind: QueryTagValuesItemKind,
   }),
-).annotate({
-  identifier: "QueryTagValuesItem",
-}) as any as S.Schema<QueryTagValuesItem>;
+).annotate({ identifier: "QueryTagValuesItem" }) as any as S.Schema<QueryTagValuesItem>;
 
 export type QueryTagValuesList = Array<QueryTagValuesItem>;
 export const QueryTagValuesList = /*@__PURE__*/ S.Array(
@@ -8253,9 +8707,7 @@ export const GetBranchSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetBranchSchemaRequest",
-}) as any as S.Schema<GetBranchSchemaRequest>;
+).annotate({ identifier: "GetBranchSchemaRequest" }) as any as S.Schema<GetBranchSchemaRequest>;
 
 export interface GetBranchSchemaResponseDataItem {
   /** Name of the table */
@@ -8287,9 +8739,7 @@ export const GetBranchSchemaResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     data: GetBranchSchemaResponseDataList,
   }),
-).annotate({
-  identifier: "GetBranchSchemaResponse",
-}) as any as S.Schema<GetBranchSchemaResponse>;
+).annotate({ identifier: "GetBranchSchemaResponse" }) as any as S.Schema<GetBranchSchemaResponse>;
 
 export interface GetBranchTableMetricsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -8441,9 +8891,7 @@ export const GetBranchTagMetricsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetCurrentUserRequest {}
 export const GetCurrentUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(T.Http({ method: "GET", uri: "/user", code: 200 })),
-).annotate({
-  identifier: "GetCurrentUserRequest",
-}) as any as S.Schema<GetCurrentUserRequest>;
+).annotate({ identifier: "GetCurrentUserRequest" }) as any as S.Schema<GetCurrentUserRequest>;
 
 export type UserDefaultOrganization = OrganizationTeamMembershipUserDefaultOrganization;
 export const UserDefaultOrganization = OrganizationTeamMembershipUserDefaultOrganization;
@@ -8504,15 +8952,9 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     database: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/databases/{database}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/databases/{database}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetDatabaseRequest",
-}) as any as S.Schema<GetDatabaseRequest>;
+).annotate({ identifier: "GetDatabaseRequest" }) as any as S.Schema<GetDatabaseRequest>;
 
 export interface GetDatabasePostgresCidrRequest {
   /** The name of the organization the database belongs to */
@@ -8602,9 +9044,7 @@ export const ThrottlerConfigurations = /*@__PURE__*/ S.suspend(() =>
     configurable: OrganizationTeamMembershipUserDefaultOrganization,
     configurations: ThrottlerConfigurationsConfigurationsList,
   }),
-).annotate({
-  identifier: "ThrottlerConfigurations",
-}) as any as S.Schema<ThrottlerConfigurations>;
+).annotate({ identifier: "ThrottlerConfigurations" }) as any as S.Schema<ThrottlerConfigurations>;
 
 export interface GetDataTopologyRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -8626,14 +9066,10 @@ export const GetDataTopologyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDataTopologyRequest",
-}) as any as S.Schema<GetDataTopologyRequest>;
+).annotate({ identifier: "GetDataTopologyRequest" }) as any as S.Schema<GetDataTopologyRequest>;
 
 /** The data topology for the branch */
-export type NekiDataTopologyDataTopologyMap = {
-  [key: string]: unknown | undefined;
-};
+export type NekiDataTopologyDataTopologyMap = { [key: string]: unknown | undefined };
 export const NekiDataTopologyDataTopologyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8650,9 +9086,34 @@ export const NekiDataTopology = /*@__PURE__*/ S.suspend(() =>
     data_topology: NekiDataTopologyDataTopologyMap,
     synced_at: S.NullOr(S.String),
   }),
+).annotate({ identifier: "NekiDataTopology" }) as any as S.Schema<NekiDataTopology>;
+
+export interface GetDedicatedReadReplicaRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The name of the dedicated read replica */
+  dedicated_read_replica: string;
+}
+export const GetDedicatedReadReplicaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    dedicated_read_replica: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/dedicated-read-replicas/{dedicated_read_replica}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "NekiDataTopology",
-}) as any as S.Schema<NekiDataTopology>;
+  identifier: "GetDedicatedReadReplicaRequest",
+}) as any as S.Schema<GetDedicatedReadReplicaRequest>;
 
 export interface GetDefaultRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -8674,9 +9135,7 @@ export const GetDefaultRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDefaultRoleRequest",
-}) as any as S.Schema<GetDefaultRoleRequest>;
+).annotate({ identifier: "GetDefaultRoleRequest" }) as any as S.Schema<GetDefaultRoleRequest>;
 
 export interface GetDefaultShardConfigurationProfileRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -8729,9 +9188,7 @@ export const GetDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDeploymentRequest",
-}) as any as S.Schema<GetDeploymentRequest>;
+).annotate({ identifier: "GetDeploymentRequest" }) as any as S.Schema<GetDeploymentRequest>;
 
 /** The state the deployment is in */
 export type DeploymentState =
@@ -8757,9 +9214,7 @@ export type DeploymentState =
   | "error";
 export const DeploymentState = S.String;
 
-export type DeploymentPrecedingDeploymentsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentPrecedingDeploymentsItemMap = { [key: string]: unknown | undefined };
 export const DeploymentPrecedingDeploymentsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -8993,9 +9448,7 @@ export const DeploymentDeployOperationSummariesList = /*@__PURE__*/ S.Array(
   DeploymentDeployOperationSummariesItem,
 ) as any as S.Schema<DeploymentDeployOperationSummariesList>;
 
-export type DeploymentLintErrorsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentLintErrorsItemMap = { [key: string]: unknown | undefined };
 export const DeploymentLintErrorsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9007,9 +9460,7 @@ export const DeploymentLintErrorsList = /*@__PURE__*/ S.Array(
   DeploymentLintErrorsItemMap,
 ) as any as S.Schema<DeploymentLintErrorsList>;
 
-export type DeploymentSequentialDiffDependenciesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentSequentialDiffDependenciesItemMap = { [key: string]: unknown | undefined };
 export const DeploymentSequentialDiffDependenciesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9022,9 +9473,7 @@ export const DeploymentSequentialDiffDependenciesList = /*@__PURE__*/ S.Array(
   DeploymentSequentialDiffDependenciesItemMap,
 ) as any as S.Schema<DeploymentSequentialDiffDependenciesList>;
 
-export type DeploymentLookupVindexOperationsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentLookupVindexOperationsItemMap = { [key: string]: unknown | undefined };
 export const DeploymentLookupVindexOperationsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9037,18 +9486,14 @@ export const DeploymentLookupVindexOperationsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DeploymentLookupVindexOperationsList>;
 
 /** Deployment throttling configurations. */
-export type DeploymentThrottlerConfigurationsMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentThrottlerConfigurationsMap = { [key: string]: unknown | undefined };
 export const DeploymentThrottlerConfigurationsMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<DeploymentThrottlerConfigurationsMap>;
 
 /** The request to revert the schema operations in this deployment */
-export type DeploymentDeploymentRevertRequestMap = {
-  [key: string]: unknown | undefined;
-};
+export type DeploymentDeploymentRevertRequestMap = { [key: string]: unknown | undefined };
 export const DeploymentDeploymentRevertRequestMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9196,9 +9641,7 @@ export const GetDeployQueueRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDeployQueueRequest",
-}) as any as S.Schema<GetDeployQueueRequest>;
+).annotate({ identifier: "GetDeployQueueRequest" }) as any as S.Schema<GetDeployQueueRequest>;
 
 /** The state the deployment is in */
 export type PaginatedDeploymentDataItemState =
@@ -9472,9 +9915,7 @@ export const PaginatedDeploymentDataItemDeployOperationSummariesList = /*@__PURE
   PaginatedDeploymentDataItemDeployOperationSummariesItem,
 ) as any as S.Schema<PaginatedDeploymentDataItemDeployOperationSummariesList>;
 
-export type PaginatedDeploymentDataItemLintErrorsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaginatedDeploymentDataItemLintErrorsItemMap = { [key: string]: unknown | undefined };
 export const PaginatedDeploymentDataItemLintErrorsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -9691,9 +10132,7 @@ export const PaginatedDeployment = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedDeploymentDataList,
   }),
-).annotate({
-  identifier: "PaginatedDeployment",
-}) as any as S.Schema<PaginatedDeployment>;
+).annotate({ identifier: "PaginatedDeployment" }) as any as S.Schema<PaginatedDeployment>;
 
 export interface GetDeployRequestRequest {
   /** The name of the deploy request's organization */
@@ -9715,9 +10154,7 @@ export const GetDeployRequestRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetDeployRequestRequest",
-}) as any as S.Schema<GetDeployRequestRequest>;
+).annotate({ identifier: "GetDeployRequestRequest" }) as any as S.Schema<GetDeployRequestRequest>;
 
 export interface GetDeployRequestThrottlerRequest {
   /** The name of the deploy request's organization */
@@ -9742,6 +10179,33 @@ export const GetDeployRequestThrottlerRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetDeployRequestThrottlerRequest",
 }) as any as S.Schema<GetDeployRequestThrottlerRequest>;
+
+export interface GetInsightsAgentRunRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The Insights agent run ID */
+  id: string;
+}
+export const GetInsightsAgentRunRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/insights/agent/runs/{id}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetInsightsAgentRunRequest",
+}) as any as S.Schema<GetInsightsAgentRunRequest>;
 
 export type GetInstantBranchMetricsRequestMetricsItem =
   | "planetscale_backup_fetch_percent"
@@ -9993,16 +10457,8 @@ export const GetInvoiceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/invoices/{id}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetInvoiceRequest",
-}) as any as S.Schema<GetInvoiceRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/invoices/{id}", code: 200 })),
+).annotate({ identifier: "GetInvoiceRequest" }) as any as S.Schema<GetInvoiceRequest>;
 
 export interface Invoice {
   /** The ID of the invoice */
@@ -10124,9 +10580,7 @@ export const PaginatedLineItem = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedLineItemDataList,
   }),
-).annotate({
-  identifier: "PaginatedLineItem",
-}) as any as S.Schema<PaginatedLineItem>;
+).annotate({ identifier: "PaginatedLineItem" }) as any as S.Schema<PaginatedLineItem>;
 
 export interface GetKeyspaceRequest {
   /** The name of the organization the branch belongs to */
@@ -10151,9 +10605,37 @@ export const GetKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "GetKeyspaceRequest" }) as any as S.Schema<GetKeyspaceRequest>;
+
+export interface GetKeyspaceConfigChangeRequestRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The name of the keyspace */
+  keyspace: string;
+  /** The ID of the config change request */
+  id: string;
+}
+export const GetKeyspaceConfigChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    keyspace: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/config-changes/{id}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "GetKeyspaceRequest",
-}) as any as S.Schema<GetKeyspaceRequest>;
+  identifier: "GetKeyspaceConfigChangeRequestRequest",
+}) as any as S.Schema<GetKeyspaceConfigChangeRequestRequest>;
 
 export interface GetKeyspaceResizeRequestRequest {
   /** The name of the organization the branch belongs to */
@@ -10249,9 +10731,7 @@ export const KeyspaceResizeRequest = /*@__PURE__*/ S.suspend(() =>
     previous_replicas: S.Number,
     actor: OrganizationTeamMembershipActor,
   }),
-).annotate({
-  identifier: "KeyspaceResizeRequest",
-}) as any as S.Schema<KeyspaceResizeRequest>;
+).annotate({ identifier: "KeyspaceResizeRequest" }) as any as S.Schema<KeyspaceResizeRequest>;
 
 export interface GetKeyspaceRolloutStatusRequest {
   /** The name of the organization the branch belongs to */
@@ -10425,13 +10905,13 @@ export interface BranchMaintenanceSchedule {
   /** Whether the maintenance schedule is required */
   required: boolean;
   /** Whether there is a pending Vitess version update */
-  pending_vitess_version_update: boolean;
+  pending_vitess_version_update?: boolean | null;
   /** The pending Vitess version, if any */
-  pending_vitess_version: string | null;
+  pending_vitess_version?: string | null;
   /** Whether there is a pending MySQL version update */
-  pending_mysql_version_update: boolean;
+  pending_mysql_version_update?: boolean | null;
   /** The pending MySQL version, if any */
-  pending_mysql_version: string | null;
+  pending_mysql_version?: string | null;
 }
 export const BranchMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10451,14 +10931,181 @@ export const BranchMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
     expires_at: S.NullOr(S.String),
     deadline_at: S.NullOr(S.String),
     required: S.Boolean,
-    pending_vitess_version_update: S.Boolean,
-    pending_vitess_version: S.NullOr(S.String),
-    pending_mysql_version_update: S.Boolean,
-    pending_mysql_version: S.NullOr(S.String),
+    pending_vitess_version_update: S.optional(S.NullOr(S.Boolean)),
+    pending_vitess_version: S.optional(S.NullOr(S.String)),
+    pending_mysql_version_update: S.optional(S.NullOr(S.Boolean)),
+    pending_mysql_version: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "BranchMaintenanceSchedule",
 }) as any as S.Schema<BranchMaintenanceSchedule>;
+
+export interface GetMoveTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+  /** Target keyspace name */
+  target_keyspace: string;
+}
+export const GetMoveTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+    target_keyspace: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMoveTablesWorkflowRequest",
+}) as any as S.Schema<GetMoveTablesWorkflowRequest>;
+
+export type GetMoveTablesWorkflowResponseDataWorkflowsItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const GetMoveTablesWorkflowResponseDataWorkflowsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetMoveTablesWorkflowResponseDataWorkflowsItemMap>;
+
+/** The workflows Vitess reports for the target keyspace */
+export type GetMoveTablesWorkflowResponseDataWorkflowsList =
+  Array<GetMoveTablesWorkflowResponseDataWorkflowsItemMap>;
+export const GetMoveTablesWorkflowResponseDataWorkflowsList = /*@__PURE__*/ S.Array(
+  GetMoveTablesWorkflowResponseDataWorkflowsItemMap,
+) as any as S.Schema<GetMoveTablesWorkflowResponseDataWorkflowsList>;
+
+export interface GetMoveTablesWorkflowResponseData {
+  /** The workflows Vitess reports for the target keyspace */
+  workflows?: GetMoveTablesWorkflowResponseDataWorkflowsList;
+}
+export const GetMoveTablesWorkflowResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workflows: S.optional(GetMoveTablesWorkflowResponseDataWorkflowsList),
+  }),
+).annotate({
+  identifier: "GetMoveTablesWorkflowResponseData",
+}) as any as S.Schema<GetMoveTablesWorkflowResponseData>;
+
+export interface GetMoveTablesWorkflowResponse {
+  data: GetMoveTablesWorkflowResponseData;
+}
+export const GetMoveTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: GetMoveTablesWorkflowResponseData,
+  }),
+).annotate({
+  identifier: "GetMoveTablesWorkflowResponse",
+}) as any as S.Schema<GetMoveTablesWorkflowResponse>;
+
+export interface GetMoveTablesWorkflowStatusRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+  /** Target keyspace name */
+  target_keyspace: string;
+}
+export const GetMoveTablesWorkflowStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+    target_keyspace: S.String.pipe(T.Query()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/status",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "GetMoveTablesWorkflowStatusRequest",
+}) as any as S.Schema<GetMoveTablesWorkflowStatusRequest>;
+
+export interface GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue {
+  rows_copied?: number;
+  rows_total?: number;
+  rows_percentage?: number;
+  bytes_copied?: number;
+  bytes_total?: number;
+  bytes_percentage?: number;
+}
+export const GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      rows_copied: S.optional(S.Number),
+      rows_total: S.optional(S.Number),
+      rows_percentage: S.optional(S.Number),
+      bytes_copied: S.optional(S.Number),
+      bytes_total: S.optional(S.Number),
+      bytes_percentage: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue",
+}) as any as S.Schema<GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue>;
+
+/** VReplication table copy progress, keyed by table name */
+export type GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap = {
+  [key: string]: GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue | undefined;
+};
+export const GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap = /*@__PURE__*/ S.Record(
+  S.String,
+  GetMoveTablesWorkflowStatusResponseDataTableCopyStateValue,
+) as any as S.Schema<GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap>;
+
+/** VReplication stream status, keyed by Vitess keyspace/shard */
+export type GetMoveTablesWorkflowStatusResponseDataShardStreamsMap = {
+  [key: string]: unknown | undefined;
+};
+export const GetMoveTablesWorkflowStatusResponseDataShardStreamsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetMoveTablesWorkflowStatusResponseDataShardStreamsMap>;
+
+export interface GetMoveTablesWorkflowStatusResponseData {
+  /** Human-readable summary of the workflow's current traffic state */
+  traffic_state?: string;
+  /** VReplication table copy progress, keyed by table name */
+  table_copy_state?: GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap;
+  /** VReplication stream status, keyed by Vitess keyspace/shard */
+  shard_streams?: GetMoveTablesWorkflowStatusResponseDataShardStreamsMap;
+}
+export const GetMoveTablesWorkflowStatusResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    traffic_state: S.optional(S.String),
+    table_copy_state: S.optional(GetMoveTablesWorkflowStatusResponseDataTableCopyStateMap),
+    shard_streams: S.optional(GetMoveTablesWorkflowStatusResponseDataShardStreamsMap),
+  }),
+).annotate({
+  identifier: "GetMoveTablesWorkflowStatusResponseData",
+}) as any as S.Schema<GetMoveTablesWorkflowStatusResponseData>;
+
+export interface GetMoveTablesWorkflowStatusResponse {
+  data: GetMoveTablesWorkflowStatusResponseData;
+}
+export const GetMoveTablesWorkflowStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: GetMoveTablesWorkflowStatusResponseData,
+  }),
+).annotate({
+  identifier: "GetMoveTablesWorkflowStatusResponse",
+}) as any as S.Schema<GetMoveTablesWorkflowStatusResponse>;
 
 export interface GetNekiChangeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -10492,6 +11139,7 @@ export type NekiChangeRequestType =
   | "NekiAdminChangeRequest"
   | "NekiClusterChangeRequest"
   | "NekiConfigurationProfileChangeRequest"
+  | "NekiExternalShardChangeRequest"
   | "NekiRouterChangeRequest"
   | "NekiSidecarChangeRequest";
 export const NekiChangeRequestType = S.String;
@@ -10508,23 +11156,20 @@ export type NekiChangeRequestTargetType =
   | "NekiAdmin"
   | "NekiCluster"
   | "NekiConfigurationProfile"
+  | "NekiExternalShard"
   | "NekiRouter"
   | "NekiSidecar";
 export const NekiChangeRequestTargetType = S.String;
 
 /** The parameters requested for the target resource */
-export type NekiChangeRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type NekiChangeRequestParametersMap = { [key: string]: unknown | undefined };
 export const NekiChangeRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<NekiChangeRequestParametersMap>;
 
 /** The target resource parameters before the change */
-export type NekiChangeRequestPreviousParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type NekiChangeRequestPreviousParametersMap = { [key: string]: unknown | undefined };
 export const NekiChangeRequestPreviousParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10592,6 +11237,18 @@ export interface NekiChangeRequest {
   previous_flags?: NekiChangeRequestPreviousFlagsList | null;
   /** The previous Neki image version */
   previous_neki_image_version?: string | null;
+  /** The number of replicas */
+  replicas?: number | null;
+  /** The previous number of replicas */
+  previous_replicas?: number | null;
+  /** The SKU representing the external sidecar size */
+  cluster_name?: string | null;
+  /** The display name of the cluster size SKU */
+  cluster_display_name?: string | null;
+  /** The SKU representing the previous external sidecar size */
+  previous_cluster_name?: string | null;
+  /** The previous display name of the cluster size SKU */
+  previous_cluster_display_name?: string | null;
   /** The name of the router size SKU */
   router_size?: string | null;
   /** The display name of the router size SKU */
@@ -10622,14 +11279,10 @@ export interface NekiChangeRequest {
   previous_name?: string | null;
   /** The name of the cluster size SKU */
   cluster_size?: string | null;
-  /** The display name of the cluster size SKU */
-  cluster_display_name?: string | null;
   /** Whether the cluster size SKU uses metal instances */
   metal?: boolean | null;
   /** The display order of the cluster size SKU */
   cluster_rank?: number | null;
-  /** The number of replicas */
-  replicas?: number | null;
   /** The number of shards */
   shards?: number | null;
   /** The PostgreSQL image */
@@ -10637,14 +11290,10 @@ export interface NekiChangeRequest {
   storage?: NekiShardConfigurationProfileStorage | null;
   /** The previous name of the cluster size SKU */
   previous_cluster_size?: string | null;
-  /** The previous display name of the cluster size SKU */
-  previous_cluster_display_name?: string | null;
   /** Whether the previous cluster size SKU used metal instances */
   previous_metal?: boolean | null;
   /** The previous display order of the cluster size SKU */
   previous_cluster_rank?: number | null;
-  /** The previous number of replicas */
-  previous_replicas?: number | null;
   /** The previous number of shards */
   previous_shards?: number | null;
   /** The previous PostgreSQL image */
@@ -10675,6 +11324,12 @@ export const NekiChangeRequest = /*@__PURE__*/ S.suspend(() =>
     neki_image_version: S.optional(S.NullOr(S.String)),
     previous_flags: S.optional(S.NullOr(NekiChangeRequestPreviousFlagsList)),
     previous_neki_image_version: S.optional(S.NullOr(S.String)),
+    replicas: S.optional(S.NullOr(S.Number)),
+    previous_replicas: S.optional(S.NullOr(S.Number)),
+    cluster_name: S.optional(S.NullOr(S.String)),
+    cluster_display_name: S.optional(S.NullOr(S.String)),
+    previous_cluster_name: S.optional(S.NullOr(S.String)),
+    previous_cluster_display_name: S.optional(S.NullOr(S.String)),
     router_size: S.optional(S.NullOr(S.String)),
     router_size_display_name: S.optional(S.NullOr(S.String)),
     replicas_per_cell: S.optional(S.NullOr(S.Number)),
@@ -10690,25 +11345,19 @@ export const NekiChangeRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     previous_name: S.optional(S.NullOr(S.String)),
     cluster_size: S.optional(S.NullOr(S.String)),
-    cluster_display_name: S.optional(S.NullOr(S.String)),
     metal: S.optional(S.NullOr(S.Boolean)),
     cluster_rank: S.optional(S.NullOr(S.Number)),
-    replicas: S.optional(S.NullOr(S.Number)),
     shards: S.optional(S.NullOr(S.Number)),
     postgres_image_version: S.optional(S.NullOr(S.String)),
     storage: S.optional(S.NullOr(NekiShardConfigurationProfileStorage)),
     previous_cluster_size: S.optional(S.NullOr(S.String)),
-    previous_cluster_display_name: S.optional(S.NullOr(S.String)),
     previous_metal: S.optional(S.NullOr(S.Boolean)),
     previous_cluster_rank: S.optional(S.NullOr(S.Number)),
-    previous_replicas: S.optional(S.NullOr(S.Number)),
     previous_shards: S.optional(S.NullOr(S.Number)),
     previous_postgres_image_version: S.optional(S.NullOr(S.String)),
     previous_storage: S.optional(S.NullOr(NekiShardConfigurationProfileStorage)),
   }),
-).annotate({
-  identifier: "NekiChangeRequest",
-}) as any as S.Schema<NekiChangeRequest>;
+).annotate({ identifier: "NekiChangeRequest" }) as any as S.Schema<NekiChangeRequest>;
 
 export interface GetOauthApplicationRequest {
   /** The name of the organization the OAuth application belongs to */
@@ -10732,26 +11381,20 @@ export const GetOauthApplicationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetOauthApplicationRequest>;
 
 /** Scopes grouped by resource type (database, organization, branch, user) with scope, description, and admin flag */
-export type OauthApplicationScopesByResourceMap = {
-  [key: string]: unknown | undefined;
-};
+export type OauthApplicationScopesByResourceMap = { [key: string]: unknown | undefined };
 export const OauthApplicationScopesByResourceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OauthApplicationScopesByResourceMap>;
 
 /** All available scopes grouped by resource type with scope, description, selected, and admin flags */
-export type OauthApplicationAllScopesByResourceMap = {
-  [key: string]: unknown | undefined;
-};
+export type OauthApplicationAllScopesByResourceMap = { [key: string]: unknown | undefined };
 export const OauthApplicationAllScopesByResourceMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
 ) as any as S.Schema<OauthApplicationAllScopesByResourceMap>;
 
-export type OauthApplicationMcpToolGroupsItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type OauthApplicationMcpToolGroupsItemMap = { [key: string]: unknown | undefined };
 export const OauthApplicationMcpToolGroupsItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -10816,9 +11459,7 @@ export const OauthApplication = /*@__PURE__*/ S.suspend(() =>
     all_scopes_by_resource: OauthApplicationAllScopesByResourceMap,
     mcp_tool_groups: S.optional(S.NullOr(OauthApplicationMcpToolGroupsList)),
   }),
-).annotate({
-  identifier: "OauthApplication",
-}) as any as S.Schema<OauthApplication>;
+).annotate({ identifier: "OauthApplication" }) as any as S.Schema<OauthApplication>;
 
 export interface GetOauthTokenRequest {
   /** The name of the organization the OAuth application belongs to */
@@ -10840,9 +11481,7 @@ export const GetOauthTokenRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetOauthTokenRequest",
-}) as any as S.Schema<GetOauthTokenRequest>;
+).annotate({ identifier: "GetOauthTokenRequest" }) as any as S.Schema<GetOauthTokenRequest>;
 
 export interface GetOrganizationRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -10852,9 +11491,7 @@ export const GetOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
   }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}", code: 200 })),
-).annotate({
-  identifier: "GetOrganizationRequest",
-}) as any as S.Schema<GetOrganizationRequest>;
+).annotate({ identifier: "GetOrganizationRequest" }) as any as S.Schema<GetOrganizationRequest>;
 
 /** Features that can be enabled on the organization */
 export type OrganizationFeaturesMap = { [key: string]: unknown | undefined };
@@ -10981,9 +11618,7 @@ export const BillingPaymentMethod = /*@__PURE__*/ S.suspend(() =>
     exp_year: S.Number,
     name: S.NullOr(S.String),
   }),
-).annotate({
-  identifier: "BillingPaymentMethod",
-}) as any as S.Schema<BillingPaymentMethod>;
+).annotate({ identifier: "BillingPaymentMethod" }) as any as S.Schema<BillingPaymentMethod>;
 
 export interface GetOrganizationMembershipRequest {
   /** The name of the organization */
@@ -10995,13 +11630,7 @@ export const GetOrganizationMembershipRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/members/{id}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/members/{id}", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationMembershipRequest",
 }) as any as S.Schema<GetOrganizationMembershipRequest>;
@@ -11081,9 +11710,7 @@ export const OrganizationMembership = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "OrganizationMembership",
-}) as any as S.Schema<OrganizationMembership>;
+).annotate({ identifier: "OrganizationMembership" }) as any as S.Schema<OrganizationMembership>;
 
 export interface GetOrganizationSsoRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -11092,13 +11719,7 @@ export interface GetOrganizationSsoRequest {
 export const GetOrganizationSsoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/sso",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/sso", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationSsoRequest",
 }) as any as S.Schema<GetOrganizationSsoRequest>;
@@ -11114,11 +11735,7 @@ export const GetOrganizationSsoDomainRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/sso/domains/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/sso/domains/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "GetOrganizationSsoDomainRequest",
@@ -11161,9 +11778,7 @@ export const OrganizationDomain = /*@__PURE__*/ S.suspend(() =>
     created_at: S.String,
     updated_at: S.String,
   }),
-).annotate({
-  identifier: "OrganizationDomain",
-}) as any as S.Schema<OrganizationDomain>;
+).annotate({ identifier: "OrganizationDomain" }) as any as S.Schema<OrganizationDomain>;
 
 export interface GetOrganizationTeamRequest {
   /** The name of the organization */
@@ -11175,13 +11790,7 @@ export const GetOrganizationTeamRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
     team: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/teams/{team}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/teams/{team}", code: 200 })),
 ).annotate({
   identifier: "GetOrganizationTeamRequest",
 }) as any as S.Schema<GetOrganizationTeamRequest>;
@@ -11233,9 +11842,7 @@ export const GetPasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetPasswordRequest",
-}) as any as S.Schema<GetPasswordRequest>;
+).annotate({ identifier: "GetPasswordRequest" }) as any as S.Schema<GetPasswordRequest>;
 
 /** The role for the password */
 export type DatabaseBranchPasswordRole = "reader" | "writer" | "admin" | "readwriter";
@@ -11386,9 +11993,7 @@ export const DatabaseBranchPassword = /*@__PURE__*/ S.suspend(() =>
     renewable: S.Boolean,
     database_branch: OrganizationTeamMembershipPasswordsItemDatabaseBranch,
   }),
-).annotate({
-  identifier: "DatabaseBranchPassword",
-}) as any as S.Schema<DatabaseBranchPassword>;
+).annotate({ identifier: "DatabaseBranchPassword" }) as any as S.Schema<DatabaseBranchPassword>;
 
 export interface GetPaymentMethodSetupRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -11615,9 +12220,7 @@ export const GetQuerySummaryRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetQuerySummaryRequest",
-}) as any as S.Schema<GetQuerySummaryRequest>;
+).annotate({ identifier: "GetQuerySummaryRequest" }) as any as S.Schema<GetQuerySummaryRequest>;
 
 /** Tables accessed by the query */
 export type QuerySummaryTablesList = Array<string>;
@@ -11637,9 +12240,7 @@ export const QuerySummaryTableKeyspacesList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<QuerySummaryTableKeyspacesList>;
 
-export type QuerySummaryIndexUsagesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type QuerySummaryIndexUsagesItemMap = { [key: string]: unknown | undefined };
 export const QuerySummaryIndexUsagesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11651,9 +12252,7 @@ export const QuerySummaryIndexUsagesList = /*@__PURE__*/ S.Array(
   QuerySummaryIndexUsagesItemMap,
 ) as any as S.Schema<QuerySummaryIndexUsagesList>;
 
-export type QuerySummaryRoutingIndexUsagesItemMap = {
-  [key: string]: unknown | undefined;
-};
+export type QuerySummaryRoutingIndexUsagesItemMap = { [key: string]: unknown | undefined };
 export const QuerySummaryRoutingIndexUsagesItemMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -11822,33 +12421,6 @@ export const QuerySummary = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "QuerySummary" }) as any as S.Schema<QuerySummary>;
 
-export interface GetReadOnlyReplicaRequest {
-  /** Organization name slug from `list_organizations`. Example: `acme`. */
-  organization: string;
-  /** Database name slug from `list_databases`. Example: `app-db`. */
-  database: string;
-  /** Branch name from `list_branches`. Example: `main`. */
-  branch: string;
-  /** The name of the read-only replica */
-  read_only_replica: string;
-}
-export const GetReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-    read_only_replica: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/read-only-replicas/{read_only_replica}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetReadOnlyReplicaRequest",
-}) as any as S.Schema<GetReadOnlyReplicaRequest>;
-
 export interface GetRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -11860,8 +12432,8 @@ export interface GetRoleRequest {
   id: string;
   /** Return connection details for a replica */
   replica?: boolean;
-  /** Return connection details for this read-only replica */
-  read_only_replica?: string;
+  /** Return connection details for this dedicated read replica */
+  dedicated_read_replica?: string;
   /** Return connection details for this bouncer */
   bouncer?: string;
   /** Return connection details for this Neki router group */
@@ -11876,7 +12448,7 @@ export const GetRoleRequest = /*@__PURE__*/ S.suspend(() =>
     branch: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
     replica: S.optional(S.Boolean.pipe(T.Query())),
-    read_only_replica: S.optional(S.String.pipe(T.Query())),
+    dedicated_read_replica: S.optional(S.String.pipe(T.Query())),
     bouncer: S.optional(S.String.pipe(T.Query())),
     router: S.optional(S.String.pipe(T.Query())),
     shard: S.optional(S.String.pipe(T.Query())),
@@ -11912,9 +12484,7 @@ export const GetRouterRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetRouterRequest",
-}) as any as S.Schema<GetRouterRequest>;
+).annotate({ identifier: "GetRouterRequest" }) as any as S.Schema<GetRouterRequest>;
 
 export interface GetRouterChangeRequestRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -11986,15 +12556,9 @@ export const GetServiceTokenRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/service-tokens/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/service-tokens/{id}", code: 200 }),
   ),
-).annotate({
-  identifier: "GetServiceTokenRequest",
-}) as any as S.Schema<GetServiceTokenRequest>;
+).annotate({ identifier: "GetServiceTokenRequest" }) as any as S.Schema<GetServiceTokenRequest>;
 
 export interface GetShardRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12019,9 +12583,7 @@ export const GetShardRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetShardRequest",
-}) as any as S.Schema<GetShardRequest>;
+).annotate({ identifier: "GetShardRequest" }) as any as S.Schema<GetShardRequest>;
 
 export interface GetShardConfigurationProfileRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12140,9 +12702,7 @@ export const GetSidecarRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSidecarRequest",
-}) as any as S.Schema<GetSidecarRequest>;
+).annotate({ identifier: "GetSidecarRequest" }) as any as S.Schema<GetSidecarRequest>;
 
 /** The current state of the sidecar */
 export type NekiSidecarState = "pending" | "applying" | "ready";
@@ -12202,9 +12762,7 @@ export const GetSidecarChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface GetSidecarChangeRequestResponse {}
 export const GetSidecarChangeRequestResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "GetSidecarChangeRequestResponse",
-  },
+  { identifier: "GetSidecarChangeRequestResponse" },
 ) as any as S.Schema<GetSidecarChangeRequestResponse>;
 
 export interface GetSwitchoverRequest {
@@ -12230,9 +12788,7 @@ export const GetSwitchoverRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetSwitchoverRequest",
-}) as any as S.Schema<GetSwitchoverRequest>;
+).annotate({ identifier: "GetSwitchoverRequest" }) as any as S.Schema<GetSwitchoverRequest>;
 
 export type GetTabletMetricsRequestMetricsItem =
   | "replication_lag"
@@ -12319,9 +12875,7 @@ export const GetTabletMetricsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetTabletMetricsRequest",
-}) as any as S.Schema<GetTabletMetricsRequest>;
+).annotate({ identifier: "GetTabletMetricsRequest" }) as any as S.Schema<GetTabletMetricsRequest>;
 
 export interface GetTrafficBudgetRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12346,9 +12900,99 @@ export const GetTrafficBudgetRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "GetTrafficBudgetRequest" }) as any as S.Schema<GetTrafficBudgetRequest>;
+
+export interface GetVtctldOperationRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The vtctld operation UUID */
+  id: string;
+}
+export const GetVtctldOperationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    id: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/vtctld/operations/{id}",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "GetTrafficBudgetRequest",
-}) as any as S.Schema<GetTrafficBudgetRequest>;
+  identifier: "GetVtctldOperationRequest",
+}) as any as S.Schema<GetVtctldOperationRequest>;
+
+/** The current state of the operation */
+export type GetVtctldOperationResponseState =
+  | "pending"
+  | "running"
+  | "completed"
+  | "failed"
+  | "cancelled";
+export const GetVtctldOperationResponseState = S.String;
+
+/** Operation-specific metadata captured when the operation started */
+export type GetVtctldOperationResponseMetadataMap = { [key: string]: unknown | undefined };
+export const GetVtctldOperationResponseMetadataMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetVtctldOperationResponseMetadataMap>;
+
+/** Operation-specific result payload, present once the operation succeeds */
+export type GetVtctldOperationResponseResultMap = { [key: string]: unknown | undefined };
+export const GetVtctldOperationResponseResultMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<GetVtctldOperationResponseResultMap>;
+
+export interface GetVtctldOperationResponse {
+  /** The object type, always VtctldOperation */
+  type: string;
+  /** The UUID of the operation */
+  id: string;
+  /** The vtctld action being executed, such as move_tables_create */
+  action: string;
+  /** Timeout in seconds */
+  timeout: number;
+  /** When the operation was created */
+  created_at: string;
+  /** When the operation completed, or null while it is still running */
+  completed_at: string | null;
+  /** The current state of the operation */
+  state: GetVtctldOperationResponseState;
+  /** Whether the operation has reached a terminal state */
+  completed: string;
+  /** Operation-specific metadata captured when the operation started */
+  metadata?: GetVtctldOperationResponseMetadataMap;
+  /** Operation-specific result payload, present once the operation succeeds */
+  result?: GetVtctldOperationResponseResultMap;
+  /** The error message, present when the operation fails or its status could not be checked */
+  error?: string;
+}
+export const GetVtctldOperationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    id: S.String,
+    action: S.String,
+    timeout: S.Number,
+    created_at: S.String,
+    completed_at: S.NullOr(S.String),
+    state: GetVtctldOperationResponseState,
+    completed: S.String,
+    metadata: S.optional(GetVtctldOperationResponseMetadataMap),
+    result: S.optional(GetVtctldOperationResponseResultMap),
+    error: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetVtctldOperationResponse",
+}) as any as S.Schema<GetVtctldOperationResponse>;
 
 export interface GetWebhookRequest {
   /** The name of the organization */
@@ -12370,9 +13014,7 @@ export const GetWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWebhookRequest",
-}) as any as S.Schema<GetWebhookRequest>;
+).annotate({ identifier: "GetWebhookRequest" }) as any as S.Schema<GetWebhookRequest>;
 
 export interface GetWorkflowRequest {
   /** The name of the organization the workflow belongs to */
@@ -12394,9 +13036,7 @@ export const GetWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "GetWorkflowRequest",
-}) as any as S.Schema<GetWorkflowRequest>;
+).annotate({ identifier: "GetWorkflowRequest" }) as any as S.Schema<GetWorkflowRequest>;
 
 export interface LintBranchSchemaRequest {
   /** The name of the organization the branch belongs to */
@@ -12424,9 +13064,7 @@ export const LintBranchSchemaRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "LintBranchSchemaRequest",
-}) as any as S.Schema<LintBranchSchemaRequest>;
+).annotate({ identifier: "LintBranchSchemaRequest" }) as any as S.Schema<LintBranchSchemaRequest>;
 
 /** The subject for the errors */
 export type PaginatedSchemaLintErrorDataItemSubjectType =
@@ -12542,9 +13180,7 @@ export const PaginatedSchemaLintError = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedSchemaLintErrorDataList,
   }),
-).annotate({
-  identifier: "PaginatedSchemaLintError",
-}) as any as S.Schema<PaginatedSchemaLintError>;
+).annotate({ identifier: "PaginatedSchemaLintError" }) as any as S.Schema<PaginatedSchemaLintError>;
 
 export type ListAdminChangeRequestsRequestPeriod =
   | "15m"
@@ -12596,9 +13232,7 @@ export const ListAdminChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface ListAdminChangeRequestsResponse {}
 export const ListAdminChangeRequestsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
-  {
-    identifier: "ListAdminChangeRequestsResponse",
-  },
+  { identifier: "ListAdminChangeRequestsResponse" },
 ) as any as S.Schema<ListAdminChangeRequestsResponse>;
 
 export interface ListAdminParametersRequest {
@@ -12641,7 +13275,7 @@ export type NekiParameterParameterType =
   | "time";
 export const NekiParameterParameterType = S.String;
 
-/** Valid options for the parameter value */
+/** Valid options for the parameter value. Null represents an unset value */
 export type NekiParameterOptionsList = Array<string>;
 export const NekiParameterOptionsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -12689,7 +13323,7 @@ export interface NekiParameter {
   max?: number | null;
   /** The minimum value of the parameter */
   min?: number | null;
-  /** Valid options for the parameter value */
+  /** Valid options for the parameter value. Null represents an unset value */
   options?: NekiParameterOptionsList | null;
   /** The units of the parameter value */
   units?: NekiParameterUnitsList | null;
@@ -12754,9 +13388,7 @@ export const ListAdminSizeSkusRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListAdminSizeSkusRequest",
-}) as any as S.Schema<ListAdminSizeSkusRequest>;
+).annotate({ identifier: "ListAdminSizeSkusRequest" }) as any as S.Schema<ListAdminSizeSkusRequest>;
 
 export type NekiAdminSizeSku = NekiAdminSku;
 export const NekiAdminSizeSku = NekiAdminSku;
@@ -12789,21 +13421,11 @@ export const ListAuditLogsRequest = /*@__PURE__*/ S.suspend(() =>
     starting_after: S.optional(S.String.pipe(T.Query())),
     ending_before: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/audit-log",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListAuditLogsRequest",
-}) as any as S.Schema<ListAuditLogsRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/audit-log", code: 200 })),
+).annotate({ identifier: "ListAuditLogsRequest" }) as any as S.Schema<ListAuditLogsRequest>;
 
 /** Additional metadata containing details about the change */
-export type PaginatedAuditLogEventDataItemMetadataMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaginatedAuditLogEventDataItemMetadataMap = { [key: string]: unknown | undefined };
 export const PaginatedAuditLogEventDataItemMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -12896,9 +13518,7 @@ export const PaginatedAuditLogEvent = /*@__PURE__*/ S.suspend(() =>
     cursor_end: S.NullOr(S.String),
     data: PaginatedAuditLogEventDataList,
   }),
-).annotate({
-  identifier: "PaginatedAuditLogEvent",
-}) as any as S.Schema<PaginatedAuditLogEvent>;
+).annotate({ identifier: "PaginatedAuditLogEvent" }) as any as S.Schema<PaginatedAuditLogEvent>;
 
 export interface ListBackupPoliciesRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -12949,7 +13569,7 @@ export interface PaginatedBackupPolicyDataItem {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time: string;
+  schedule_time?: string | null;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -12975,7 +13595,7 @@ export const PaginatedBackupPolicyDataItem = /*@__PURE__*/ S.suspend(() =>
     retention_unit: S.String,
     frequency_value: S.Number,
     frequency_unit: S.String,
-    schedule_time: S.String,
+    schedule_time: S.optional(S.NullOr(S.String)),
     schedule_day: S.NullOr(S.Number),
     schedule_week: S.NullOr(S.Number),
     created_at: S.String,
@@ -13021,9 +13641,7 @@ export const PaginatedBackupPolicy = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedBackupPolicyDataList,
   }),
-).annotate({
-  identifier: "PaginatedBackupPolicy",
-}) as any as S.Schema<PaginatedBackupPolicy>;
+).annotate({ identifier: "PaginatedBackupPolicy" }) as any as S.Schema<PaginatedBackupPolicy>;
 
 export type ListBackupsRequestState =
   | "pending"
@@ -13081,9 +13699,7 @@ export const ListBackupsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBackupsRequest",
-}) as any as S.Schema<ListBackupsRequest>;
+).annotate({ identifier: "ListBackupsRequest" }) as any as S.Schema<ListBackupsRequest>;
 
 /** The current state of the backup */
 export type PaginatedBackupDataItemState =
@@ -13131,7 +13747,7 @@ export interface PaginatedBackupDataItemBackupPolicy {
   /** The unit for the frequency of the backup policy */
   frequency_unit: string;
   /** The time of day that the backup is scheduled, in HH:MM format */
-  schedule_time: string | null;
+  schedule_time?: string | null;
   /** Day of the week that the backup is scheduled. 0 is Sunday, 6 is Saturday */
   schedule_day: number | null;
   /** Week of the month that the backup is scheduled. 0 is the first week, 3 is the fourth week */
@@ -13157,7 +13773,7 @@ export const PaginatedBackupDataItemBackupPolicy = /*@__PURE__*/ S.suspend(() =>
     retention_unit: S.String,
     frequency_value: S.Number,
     frequency_unit: S.String,
-    schedule_time: S.NullOr(S.String),
+    schedule_time: S.optional(S.NullOr(S.String)),
     schedule_day: S.NullOr(S.Number),
     schedule_week: S.NullOr(S.Number),
     created_at: S.String,
@@ -13238,9 +13854,7 @@ export const PaginatedBackupDataItem = /*@__PURE__*/ S.suspend(() =>
     schema_snapshot: S.optional(S.NullOr(BackupSchemaSnapshot)),
     database_branch: S.optional(S.NullOr(OrganizationTeamMembershipUserDefaultOrganization)),
   }),
-).annotate({
-  identifier: "PaginatedBackupDataItem",
-}) as any as S.Schema<PaginatedBackupDataItem>;
+).annotate({ identifier: "PaginatedBackupDataItem" }) as any as S.Schema<PaginatedBackupDataItem>;
 
 export type PaginatedBackupDataList = Array<PaginatedBackupDataItem>;
 export const PaginatedBackupDataList = /*@__PURE__*/ S.Array(
@@ -13281,9 +13895,7 @@ export const PaginatedBackup = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.Number,
     data: PaginatedBackupDataList,
   }),
-).annotate({
-  identifier: "PaginatedBackup",
-}) as any as S.Schema<PaginatedBackup>;
+).annotate({ identifier: "PaginatedBackup" }) as any as S.Schema<PaginatedBackup>;
 
 export interface ListBouncerResizeRequestsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -13490,9 +14102,7 @@ export const ListBouncersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBouncersRequest",
-}) as any as S.Schema<ListBouncersRequest>;
+).annotate({ identifier: "ListBouncersRequest" }) as any as S.Schema<ListBouncersRequest>;
 
 export type PaginatedPostgresBouncerDataItemSku = PostgresBouncerSku;
 export const PaginatedPostgresBouncerDataItemSku = PostgresBouncerSku;
@@ -13673,9 +14283,7 @@ export const PaginatedPostgresBouncer = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedPostgresBouncerDataList,
   }),
-).annotate({
-  identifier: "PaginatedPostgresBouncer",
-}) as any as S.Schema<PaginatedPostgresBouncer>;
+).annotate({ identifier: "PaginatedPostgresBouncer" }) as any as S.Schema<PaginatedPostgresBouncer>;
 
 export type ListBranchAnomaliesRequestPeriod =
   | "15m"
@@ -13799,9 +14407,7 @@ export const PaginatedAnomalyDataItem = /*@__PURE__*/ S.suspend(() =>
     metrics_end: S.String,
     correlations: S.optional(S.NullOr(PaginatedAnomalyDataItemCorrelationsList)),
   }),
-).annotate({
-  identifier: "PaginatedAnomalyDataItem",
-}) as any as S.Schema<PaginatedAnomalyDataItem>;
+).annotate({ identifier: "PaginatedAnomalyDataItem" }) as any as S.Schema<PaginatedAnomalyDataItem>;
 
 export type PaginatedAnomalyDataList = Array<PaginatedAnomalyDataItem>;
 export const PaginatedAnomalyDataList = /*@__PURE__*/ S.Array(
@@ -13836,9 +14442,7 @@ export const PaginatedAnomaly = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedAnomalyDataList,
   }),
-).annotate({
-  identifier: "PaginatedAnomaly",
-}) as any as S.Schema<PaginatedAnomaly>;
+).annotate({ identifier: "PaginatedAnomaly" }) as any as S.Schema<PaginatedAnomaly>;
 
 export interface ListBranchBouncerResizeRequestsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -14088,6 +14692,156 @@ export const PaginatedPostgresClusterResizeRequest = /*@__PURE__*/ S.suspend(() 
   identifier: "PaginatedPostgresClusterResizeRequest",
 }) as any as S.Schema<PaginatedPostgresClusterResizeRequest>;
 
+export interface ListBranchConfigChangeRequestsRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+}
+export const ListBranchConfigChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/config-changes",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListBranchConfigChangeRequestsRequest",
+}) as any as S.Schema<ListBranchConfigChangeRequestsRequest>;
+
+/** The state of the config change request */
+export type PaginatedConfigChangeRequestDataItemState =
+  | "draft"
+  | "pending"
+  | "queued"
+  | "applying"
+  | "completed"
+  | "failed"
+  | "canceled";
+export const PaginatedConfigChangeRequestDataItemState = S.String;
+
+/** The type of configuration being changed */
+export type PaginatedConfigChangeRequestDataItemChangeType = "vtgate" | "mysqld" | "vttablet";
+export const PaginatedConfigChangeRequestDataItemChangeType = S.String;
+
+/** The previous option values */
+export type PaginatedConfigChangeRequestDataItemPreviousOptionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedConfigChangeRequestDataItemPreviousOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PaginatedConfigChangeRequestDataItemPreviousOptionsMap>;
+
+/** The new option values */
+export type PaginatedConfigChangeRequestDataItemNewOptionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedConfigChangeRequestDataItemNewOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PaginatedConfigChangeRequestDataItemNewOptionsMap>;
+
+export type PaginatedConfigChangeRequestDataItemActor = OrganizationTeamMembershipActor;
+export const PaginatedConfigChangeRequestDataItemActor = OrganizationTeamMembershipActor;
+
+export interface PaginatedConfigChangeRequestDataItem {
+  /** The ID of the config change request */
+  id: string;
+  /** The state of the config change request */
+  state: PaginatedConfigChangeRequestDataItemState;
+  /** The type of configuration being changed */
+  change_type: PaginatedConfigChangeRequestDataItemChangeType;
+  /** The previous option values */
+  previous_options: PaginatedConfigChangeRequestDataItemPreviousOptionsMap;
+  /** The new option values */
+  new_options: PaginatedConfigChangeRequestDataItemNewOptionsMap;
+  /** Error message if the change failed */
+  error_message: string | null;
+  /** When the config change started applying */
+  started_at: string | null;
+  /** When the config change completed */
+  completed_at: string | null;
+  /** When the config change request was created */
+  created_at: string;
+  /** When the config change request was last updated */
+  updated_at: string;
+  /** The keyspace name for keyspace-level config changes */
+  keyspace_name: string | null;
+  /** When the config change is expected to be applied (only set when queued) */
+  queued_until: string | null;
+  actor: OrganizationTeamMembershipActor;
+}
+export const PaginatedConfigChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: PaginatedConfigChangeRequestDataItemState,
+    change_type: PaginatedConfigChangeRequestDataItemChangeType,
+    previous_options: PaginatedConfigChangeRequestDataItemPreviousOptionsMap,
+    new_options: PaginatedConfigChangeRequestDataItemNewOptionsMap,
+    error_message: S.NullOr(S.String),
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    keyspace_name: S.NullOr(S.String),
+    queued_until: S.NullOr(S.String),
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({
+  identifier: "PaginatedConfigChangeRequestDataItem",
+}) as any as S.Schema<PaginatedConfigChangeRequestDataItem>;
+
+export type PaginatedConfigChangeRequestDataList = Array<PaginatedConfigChangeRequestDataItem>;
+export const PaginatedConfigChangeRequestDataList = /*@__PURE__*/ S.Array(
+  PaginatedConfigChangeRequestDataItem,
+) as any as S.Schema<PaginatedConfigChangeRequestDataList>;
+
+export interface PaginatedConfigChangeRequest {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  data: PaginatedConfigChangeRequestDataList;
+}
+export const PaginatedConfigChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    data: PaginatedConfigChangeRequestDataList,
+  }),
+).annotate({
+  identifier: "PaginatedConfigChangeRequest",
+}) as any as S.Schema<PaginatedConfigChangeRequest>;
+
 export type ListBranchesRequestOrder = "asc" | "desc";
 export const ListBranchesRequestOrder = S.String;
 
@@ -14126,9 +14880,7 @@ export const ListBranchesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBranchesRequest",
-}) as any as S.Schema<ListBranchesRequest>;
+).annotate({ identifier: "ListBranchesRequest" }) as any as S.Schema<ListBranchesRequest>;
 
 /** The kind of branch */
 export type PaginatedDatabaseBranchDataItemKind = "mysql" | "postgresql" | "neki";
@@ -14226,21 +14978,21 @@ export interface PaginatedDatabaseBranchDataItem {
   /** The kind of branch */
   kind: PaginatedDatabaseBranchDataItemKind;
   /** The MySQL address for the branch */
-  mysql_address?: string;
+  mysql_address?: string | null;
   /** The address of the MySQL provider for the branch */
-  mysql_edge_address?: string;
+  mysql_edge_address?: string | null;
   /** The current state of the branch */
   state: PaginatedDatabaseBranchDataItemState;
   /** True if the branch allows passwords to connect directly to a vtgate, bypassing load balancers */
-  direct_vtgate?: boolean;
+  direct_vtgate?: boolean | null;
   /** The size of the vtgate cluster for the branch */
-  vtgate_size?: string;
+  vtgate_size?: string | null;
   /** The public SKU representing the VTGate size */
   vtgate_name?: string | null;
   /** The number of vtgate instances in the branch */
-  vtgate_count?: number;
+  vtgate_count?: number | null;
   /** Whether VTGate autoscaling is enabled */
-  vtgate_autoscaling?: boolean;
+  vtgate_autoscaling?: boolean | null;
   /** The maximum number of VTGate instances when autoscaling is enabled */
   vtgate_max_count?: number | null;
   /** The target CPU utilization for VTGate autoscaling */
@@ -14252,7 +15004,7 @@ export interface PaginatedDatabaseBranchDataItem {
   /** Whether or not the branch is ready to serve queries */
   ready: boolean;
   /** Whether or not the schema is ready for queries */
-  schema_ready?: boolean;
+  schema_ready?: boolean | null;
   /** Whether or not this is a metal database */
   metal: boolean;
   /** Whether or not the branch is a production branch */
@@ -14264,7 +15016,7 @@ export interface PaginatedDatabaseBranchDataItem {
   /** Whether or not the branch is sharded */
   sharded?: boolean;
   /** The number of shards in the branch */
-  shard_count?: number;
+  shard_count?: number | null;
   /** The number of keyspaces in the branch */
   keyspace_count?: number;
   /** Whether or not the branch has a stale schema */
@@ -14275,7 +15027,7 @@ export interface PaginatedDatabaseBranchDataItem {
   private_edge_connectivity: boolean;
   /** True if the branch has replica servers */
   has_replicas: boolean;
-  /** True if the branch has read-only replica servers */
+  /** True if the branch has servers dedicated to read traffic */
   has_read_only_replicas: boolean;
   /** Planetscale app URL for the branch */
   html_url: string;
@@ -14285,7 +15037,7 @@ export interface PaginatedDatabaseBranchDataItem {
   /** The name of the parent branch from which the branch was created */
   parent_branch: string | null;
   /** VTGate configuration options */
-  vtgate_options?: PaginatedDatabaseBranchDataItemVtgateOptionsMap;
+  vtgate_options?: PaginatedDatabaseBranchDataItemVtgateOptionsMap | null;
   cluster_architecture?: string;
 }
 export const PaginatedDatabaseBranchDataItem = /*@__PURE__*/ S.suspend(() =>
@@ -14298,26 +15050,26 @@ export const PaginatedDatabaseBranchDataItem = /*@__PURE__*/ S.suspend(() =>
     restore_checklist_completed_at: S.NullOr(S.String),
     schema_last_updated_at: S.NullOr(S.String),
     kind: PaginatedDatabaseBranchDataItemKind,
-    mysql_address: S.optional(S.String),
-    mysql_edge_address: S.optional(S.String),
+    mysql_address: S.optional(S.NullOr(S.String)),
+    mysql_edge_address: S.optional(S.NullOr(S.String)),
     state: PaginatedDatabaseBranchDataItemState,
-    direct_vtgate: S.optional(S.Boolean),
-    vtgate_size: S.optional(S.String),
+    direct_vtgate: S.optional(S.NullOr(S.Boolean)),
+    vtgate_size: S.optional(S.NullOr(S.String)),
     vtgate_name: S.optional(S.NullOr(S.String)),
-    vtgate_count: S.optional(S.Number),
-    vtgate_autoscaling: S.optional(S.Boolean),
+    vtgate_count: S.optional(S.NullOr(S.Number)),
+    vtgate_autoscaling: S.optional(S.NullOr(S.Boolean)),
     vtgate_max_count: S.optional(S.NullOr(S.Number)),
     vtgate_target_cpu_utilization: S.optional(S.NullOr(S.Number)),
     cluster_name: S.String,
     cluster_iops: S.NullOr(S.Number),
     ready: S.Boolean,
-    schema_ready: S.optional(S.Boolean),
+    schema_ready: S.optional(S.NullOr(S.Boolean)),
     metal: S.Boolean,
     production: S.Boolean,
     safe_migrations: S.Boolean,
     deletion_protected: S.optional(S.Boolean),
     sharded: S.optional(S.Boolean),
-    shard_count: S.optional(S.Number),
+    shard_count: S.optional(S.NullOr(S.Number)),
     keyspace_count: S.optional(S.Number),
     stale_schema: S.Boolean,
     actor: S.NullOr(OrganizationTeamMembershipActor),
@@ -14329,7 +15081,7 @@ export const PaginatedDatabaseBranchDataItem = /*@__PURE__*/ S.suspend(() =>
     url: S.String,
     region: PaginatedDatabaseBranchDataItemRegion,
     parent_branch: S.NullOr(S.String),
-    vtgate_options: S.optional(PaginatedDatabaseBranchDataItemVtgateOptionsMap),
+    vtgate_options: S.optional(S.NullOr(PaginatedDatabaseBranchDataItemVtgateOptionsMap)),
     cluster_architecture: S.optional(S.String),
   }),
 ).annotate({
@@ -14375,9 +15127,7 @@ export const PaginatedDatabaseBranch = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.Number,
     data: PaginatedDatabaseBranchDataList,
   }),
-).annotate({
-  identifier: "PaginatedDatabaseBranch",
-}) as any as S.Schema<PaginatedDatabaseBranch>;
+).annotate({ identifier: "PaginatedDatabaseBranch" }) as any as S.Schema<PaginatedDatabaseBranch>;
 
 export type ListBranchQueriesRequestPeriod =
   | "15m"
@@ -14506,9 +15256,7 @@ export const ListBranchQueriesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListBranchQueriesRequest",
-}) as any as S.Schema<ListBranchQueriesRequest>;
+).annotate({ identifier: "ListBranchQueriesRequest" }) as any as S.Schema<ListBranchQueriesRequest>;
 
 /** Tables accessed by the query */
 export type PaginatedQuerySummaryDataItemTablesList = Array<string>;
@@ -14750,9 +15498,7 @@ export const PaginatedQuerySummary = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedQuerySummaryDataList,
   }),
-).annotate({
-  identifier: "PaginatedQuerySummary",
-}) as any as S.Schema<PaginatedQuerySummary>;
+).annotate({ identifier: "PaginatedQuerySummary" }) as any as S.Schema<PaginatedQuerySummary>;
 
 export type ListBranchQueryErrorsRequestPeriod =
   | "15m"
@@ -14894,9 +15640,7 @@ export const PaginatedErrorSummary = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedErrorSummaryDataList,
   }),
-).annotate({
-  identifier: "PaginatedErrorSummary",
-}) as any as S.Schema<PaginatedErrorSummary>;
+).annotate({ identifier: "PaginatedErrorSummary" }) as any as S.Schema<PaginatedErrorSummary>;
 
 export type ListBranchQueryTagsRequestPeriod =
   | "15m"
@@ -15057,9 +15801,7 @@ export const PaginatedQueryTag = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.optional(S.NullOr(S.String)),
     data: PaginatedQueryTagDataList,
   }),
-).annotate({
-  identifier: "PaginatedQueryTag",
-}) as any as S.Schema<PaginatedQueryTag>;
+).annotate({ identifier: "PaginatedQueryTag" }) as any as S.Schema<PaginatedQueryTag>;
 
 export type ListBranchQueryTagSummariesRequestTagsList = Array<string>;
 export const ListBranchQueryTagSummariesRequestTagsList = /*@__PURE__*/ S.Array(
@@ -15587,6 +16329,144 @@ export const PaginatedMysqlClusterResizeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedMysqlClusterResizeRequest",
 }) as any as S.Schema<PaginatedMysqlClusterResizeRequest>;
 
+export interface ListBranchVitessParametersRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+}
+export const ListBranchVitessParametersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/vitess-parameters",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListBranchVitessParametersRequest",
+}) as any as S.Schema<ListBranchVitessParametersRequest>;
+
+/** The component the parameter configures */
+export type ListBranchVitessParametersResponseVtgateItemComponent =
+  | "vtgate"
+  | "vttablet"
+  | "mysqld";
+export const ListBranchVitessParametersResponseVtgateItemComponent = S.String;
+
+/** The allowed values for `select` parameters */
+export type ListBranchVitessParametersResponseVtgateItemOptionsList = Array<string>;
+export const ListBranchVitessParametersResponseVtgateItemOptionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListBranchVitessParametersResponseVtgateItemOptionsList>;
+
+export interface ListBranchVitessParametersResponseVtgateItem {
+  /** The object type. Always "VitessParameterDefinition". */
+  type: string;
+  /** The name of the parameter */
+  name: string;
+  /** The display name of the parameter */
+  title?: string;
+  /** The component the parameter configures */
+  component: ListBranchVitessParametersResponseVtgateItemComponent;
+  /** The description of the parameter */
+  description: string;
+  /** The category of the parameter */
+  category: string;
+  /** The type of the parameter's value: `boolean`, `bytes`, `duration`, `float`, `integer`, `select`, or `string` */
+  parameter_type: string;
+  /** The default value of the parameter, which can depend on the cluster size */
+  default_value: string | null;
+  /** The current value of the parameter */
+  value: string | null;
+  /** Whether the parameter has been set explicitly instead of using its default */
+  override: boolean;
+  /** The allowed values for `select` parameters */
+  options?: ListBranchVitessParametersResponseVtgateItemOptionsList;
+}
+export const ListBranchVitessParametersResponseVtgateItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    name: S.String,
+    title: S.optional(S.String),
+    component: ListBranchVitessParametersResponseVtgateItemComponent,
+    description: S.String,
+    category: S.String,
+    parameter_type: S.String,
+    default_value: S.NullOr(S.String),
+    value: S.NullOr(S.String),
+    override: S.Boolean,
+    options: S.optional(ListBranchVitessParametersResponseVtgateItemOptionsList),
+  }),
+).annotate({
+  identifier: "ListBranchVitessParametersResponseVtgateItem",
+}) as any as S.Schema<ListBranchVitessParametersResponseVtgateItem>;
+
+export type ListBranchVitessParametersResponseVtgateList =
+  Array<ListBranchVitessParametersResponseVtgateItem>;
+export const ListBranchVitessParametersResponseVtgateList = /*@__PURE__*/ S.Array(
+  ListBranchVitessParametersResponseVtgateItem,
+) as any as S.Schema<ListBranchVitessParametersResponseVtgateList>;
+
+/** The VTTablet parameters for the keyspace */
+export type ListBranchVitessParametersResponseKeyspacesValueVttabletList = Array<unknown>;
+export const ListBranchVitessParametersResponseKeyspacesValueVttabletList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<ListBranchVitessParametersResponseKeyspacesValueVttabletList>;
+
+/** The MySQL parameters for the keyspace */
+export type ListBranchVitessParametersResponseKeyspacesValueMysqldList = Array<unknown>;
+export const ListBranchVitessParametersResponseKeyspacesValueMysqldList = /*@__PURE__*/ S.Array(
+  S.Unknown,
+) as any as S.Schema<ListBranchVitessParametersResponseKeyspacesValueMysqldList>;
+
+export interface ListBranchVitessParametersResponseKeyspacesValue {
+  /** The VTTablet parameters for the keyspace */
+  vttablet?: ListBranchVitessParametersResponseKeyspacesValueVttabletList;
+  /** The MySQL parameters for the keyspace */
+  mysqld?: ListBranchVitessParametersResponseKeyspacesValueMysqldList;
+}
+export const ListBranchVitessParametersResponseKeyspacesValue = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vttablet: S.optional(ListBranchVitessParametersResponseKeyspacesValueVttabletList),
+    mysqld: S.optional(ListBranchVitessParametersResponseKeyspacesValueMysqldList),
+  }),
+).annotate({
+  identifier: "ListBranchVitessParametersResponseKeyspacesValue",
+}) as any as S.Schema<ListBranchVitessParametersResponseKeyspacesValue>;
+
+/** The parameters for each keyspace, keyed by keyspace name. Each value has `vttablet` and `mysqld` arrays of parameters in the same format as `vtgate`. */
+export type ListBranchVitessParametersResponseKeyspacesMap = {
+  [key: string]: ListBranchVitessParametersResponseKeyspacesValue | undefined;
+};
+export const ListBranchVitessParametersResponseKeyspacesMap = /*@__PURE__*/ S.Record(
+  S.String,
+  ListBranchVitessParametersResponseKeyspacesValue,
+) as any as S.Schema<ListBranchVitessParametersResponseKeyspacesMap>;
+
+export interface ListBranchVitessParametersResponse {
+  /** The response type. Always "VitessParameters". */
+  type: string;
+  vtgate: ListBranchVitessParametersResponseVtgateList;
+  /** The parameters for each keyspace, keyed by keyspace name. Each value has `vttablet` and `mysqld` arrays of parameters in the same format as `vtgate`. */
+  keyspaces: ListBranchVitessParametersResponseKeyspacesMap;
+}
+export const ListBranchVitessParametersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    vtgate: ListBranchVitessParametersResponseVtgateList,
+    keyspaces: ListBranchVitessParametersResponseKeyspacesMap,
+  }),
+).annotate({
+  identifier: "ListBranchVitessParametersResponse",
+}) as any as S.Schema<ListBranchVitessParametersResponse>;
+
 export type ListClusterSizeSkusRequestEngine = "mysql" | "postgresql" | "neki";
 export const ListClusterSizeSkusRequestEngine = S.String;
 
@@ -15613,11 +16493,7 @@ export const ListClusterSizeSkusRequest = /*@__PURE__*/ S.suspend(() =>
     database: S.optional(S.String.pipe(T.Query())),
     external: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/cluster-size-skus",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/cluster-size-skus", code: 200 }),
   ),
 ).annotate({
   identifier: "ListClusterSizeSkusRequest",
@@ -15941,22 +16817,8 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/databases",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDatabasesRequest",
-}) as any as S.Schema<ListDatabasesRequest>;
-
-export type PaginatedDatabaseDataItemDataImportDataSource = DatabaseDataImportDataSource;
-export const PaginatedDatabaseDataItemDataImportDataSource = DatabaseDataImportDataSource;
-
-export type PaginatedDatabaseDataItemDataImport = DatabaseDataImport;
-export const PaginatedDatabaseDataItemDataImport = DatabaseDataImport;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/databases", code: 200 })),
+).annotate({ identifier: "ListDatabasesRequest" }) as any as S.Schema<ListDatabasesRequest>;
 
 /** Public IP addresses for the region */
 export type PaginatedDatabaseDataItemRegionPublicIpAddressesList = Array<string>;
@@ -16034,6 +16896,8 @@ export interface PaginatedDatabaseDataItem {
   open_schema_recommendations_count?: number;
   /** The total number of database development branches */
   development_branches_count?: number;
+  /** The current maximum number of development branches. Change it with development_branches_limit on the database PATCH endpoint, up to 5000. */
+  development_branches_limit?: number;
   /** The total number of database production branches */
   production_branches_count?: number;
   /** The total number of ongoing issues within a database */
@@ -16046,7 +16910,6 @@ export interface PaginatedDatabaseDataItem {
   at_backup_restore_branches_limit?: boolean;
   /** If the database has reached its development branch limit */
   at_development_branch_usage_limit?: boolean;
-  data_import?: DatabaseDataImport | null;
   region: PaginatedDatabaseDataItemRegion;
   /** The URL to see this database's branches in the web UI */
   html_url: string;
@@ -16115,13 +16978,13 @@ export const PaginatedDatabaseDataItem = /*@__PURE__*/ S.suspend(() =>
     branches_count: S.optional(S.Number),
     open_schema_recommendations_count: S.optional(S.Number),
     development_branches_count: S.optional(S.Number),
+    development_branches_limit: S.optional(S.Number),
     production_branches_count: S.optional(S.Number),
     issues_count: S.optional(S.NullOr(S.Number)),
     multiple_admins_required_for_deletion: S.optional(S.Boolean),
     ready: S.Boolean,
     at_backup_restore_branches_limit: S.optional(S.Boolean),
     at_development_branch_usage_limit: S.optional(S.Boolean),
-    data_import: S.optional(S.NullOr(DatabaseDataImport)),
     region: PaginatedDatabaseDataItemRegion,
     html_url: S.String,
     name: S.String,
@@ -16196,9 +17059,273 @@ export const PaginatedDatabase = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.Number,
     data: PaginatedDatabaseDataList,
   }),
+).annotate({ identifier: "PaginatedDatabase" }) as any as S.Schema<PaginatedDatabase>;
+
+export type ListDedicatedReadReplicaChangeRequestsRequestPeriod =
+  | "15m"
+  | "1h"
+  | "3h"
+  | "6h"
+  | "12h"
+  | "1d"
+  | "2d"
+  | "7d"
+  | "8d";
+export const ListDedicatedReadReplicaChangeRequestsRequestPeriod = S.String;
+
+export interface ListDedicatedReadReplicaChangeRequestsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+  /** Filter change requests by named period */
+  period?: ListDedicatedReadReplicaChangeRequestsRequestPeriod | (string & {});
+  /** Filter change requests completed between two ISO 8601 timestamps */
+  completed_at?: string;
+}
+export const ListDedicatedReadReplicaChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+    period: S.optional(ListDedicatedReadReplicaChangeRequestsRequestPeriod.pipe(T.Query())),
+    completed_at: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/dedicated-read-replica-changes",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PaginatedDatabase",
-}) as any as S.Schema<PaginatedDatabase>;
+  identifier: "ListDedicatedReadReplicaChangeRequestsRequest",
+}) as any as S.Schema<ListDedicatedReadReplicaChangeRequestsRequest>;
+
+/** The state of the change request */
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState =
+  | "pending"
+  | "resizing"
+  | "canceled"
+  | "completed";
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState = S.String;
+
+/** The new parameters */
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap>;
+
+/** The new storage type */
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType =
+  | "gp3"
+  | "io2"
+  | "pd_ssd"
+  | "hyperdisk_balanced"
+  | "premium_v2_lrs";
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType = S.String;
+
+/** The previous parameters */
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap>;
+
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemActor =
+  OrganizationTeamMembershipActor;
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemActor =
+  OrganizationTeamMembershipActor;
+
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemReplica =
+  OrganizationTeamMembershipUserDefaultOrganization;
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemReplica =
+  OrganizationTeamMembershipUserDefaultOrganization;
+
+export interface PaginatedPostgresReadOnlyReplicaChangeRequestDataItem {
+  /** The ID of the dedicated read replica change request */
+  id: string;
+  /** The state of the change request */
+  state: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState;
+  /** The new cluster size SKU */
+  cluster_name: string;
+  /** The new cluster size for display */
+  cluster_display_name: string;
+  /** The new cluster size sort order */
+  cluster_rank: number;
+  /** The new instance count */
+  replicas: number;
+  /** The new parameters */
+  parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap;
+  /** The new minimum storage size in bytes */
+  minimum_storage_bytes: number | null;
+  /** The new maximum storage size in bytes */
+  maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling is enabled */
+  storage_autoscaling: boolean | null;
+  /** The new storage type */
+  storage_type: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType | null;
+  /** The new storage IOPS */
+  storage_iops: number | null;
+  /** The new storage throughput in MiB/s */
+  storage_throughput_mibs: number | null;
+  /** The previous cluster size SKU */
+  previous_cluster_name: string;
+  /** The previous cluster size for display */
+  previous_cluster_display_name: string;
+  /** The previous cluster size sort order */
+  previous_cluster_rank: number;
+  /** The previous instance count */
+  previous_replicas: number;
+  /** The previous parameters */
+  previous_parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap;
+  /** The previous minimum storage size in bytes */
+  previous_minimum_storage_bytes: number | null;
+  /** The previous maximum storage size in bytes */
+  previous_maximum_storage_bytes: number | null;
+  /** Whether storage autoscaling was previously enabled */
+  previous_storage_autoscaling: boolean | null;
+  /** The previous storage type */
+  previous_storage_type: string | null;
+  /** The previous storage IOPS */
+  previous_storage_iops: number | null;
+  /** The previous storage throughput in MiB/s */
+  previous_storage_throughput_mibs: number | null;
+  /** When the change started */
+  started_at: string | null;
+  /** When the change completed */
+  completed_at: string | null;
+  /** When the change request was created */
+  created_at: string;
+  /** When the change request was last updated */
+  updated_at: string;
+  actor: OrganizationTeamMembershipActor;
+  replica: OrganizationTeamMembershipUserDefaultOrganization;
+}
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState,
+    cluster_name: S.String,
+    cluster_display_name: S.String,
+    cluster_rank: S.Number,
+    replicas: S.Number,
+    parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap,
+    minimum_storage_bytes: S.NullOr(S.Number),
+    maximum_storage_bytes: S.NullOr(S.Number),
+    storage_autoscaling: S.NullOr(S.Boolean),
+    storage_type: S.NullOr(PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType),
+    storage_iops: S.NullOr(S.Number),
+    storage_throughput_mibs: S.NullOr(S.Number),
+    previous_cluster_name: S.String,
+    previous_cluster_display_name: S.String,
+    previous_cluster_rank: S.Number,
+    previous_replicas: S.Number,
+    previous_parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap,
+    previous_minimum_storage_bytes: S.NullOr(S.Number),
+    previous_maximum_storage_bytes: S.NullOr(S.Number),
+    previous_storage_autoscaling: S.NullOr(S.Boolean),
+    previous_storage_type: S.NullOr(S.String),
+    previous_storage_iops: S.NullOr(S.Number),
+    previous_storage_throughput_mibs: S.NullOr(S.Number),
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    actor: OrganizationTeamMembershipActor,
+    replica: OrganizationTeamMembershipUserDefaultOrganization,
+  }),
+).annotate({
+  identifier: "PaginatedPostgresReadOnlyReplicaChangeRequestDataItem",
+}) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItem>;
+
+export type PaginatedPostgresReadOnlyReplicaChangeRequestDataList =
+  Array<PaginatedPostgresReadOnlyReplicaChangeRequestDataItem>;
+export const PaginatedPostgresReadOnlyReplicaChangeRequestDataList = /*@__PURE__*/ S.Array(
+  PaginatedPostgresReadOnlyReplicaChangeRequestDataItem,
+) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataList>;
+
+export interface PaginatedPostgresReadOnlyReplicaChangeRequest {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  data: PaginatedPostgresReadOnlyReplicaChangeRequestDataList;
+}
+export const PaginatedPostgresReadOnlyReplicaChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    data: PaginatedPostgresReadOnlyReplicaChangeRequestDataList,
+  }),
+).annotate({
+  identifier: "PaginatedPostgresReadOnlyReplicaChangeRequest",
+}) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequest>;
+
+export interface ListDedicatedReadReplicasRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListDedicatedReadReplicasRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/dedicated-read-replicas",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListDedicatedReadReplicasRequest",
+}) as any as S.Schema<ListDedicatedReadReplicasRequest>;
+
+export type ListDedicatedReadReplicasResponseBodyList = Array<PostgresReadOnlyReplica>;
+export const ListDedicatedReadReplicasResponseBodyList = /*@__PURE__*/ S.Array(
+  PostgresReadOnlyReplica,
+) as any as S.Schema<ListDedicatedReadReplicasResponseBodyList>;
+
+export type ListDedicatedReadReplicasResponse = ListDedicatedReadReplicasResponseBodyList;
+export const ListDedicatedReadReplicasResponse = /*@__PURE__*/ S.suspend(() =>
+  ListDedicatedReadReplicasResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListDedicatedReadReplicasResponse",
+}) as any as S.Schema<ListDedicatedReadReplicasResponse>;
 
 export interface ListDeployOperationsRequest {
   /** The name of the deploy request's organization */
@@ -16345,9 +17472,7 @@ export const PaginatedDeployOperation = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedDeployOperationDataList,
   }),
-).annotate({
-  identifier: "PaginatedDeployOperation",
-}) as any as S.Schema<PaginatedDeployOperation>;
+).annotate({ identifier: "PaginatedDeployOperation" }) as any as S.Schema<PaginatedDeployOperation>;
 
 export interface ListDeployRequestReviewsRequest {
   /** The name of the organization the deploy request belongs to */
@@ -17163,35 +18288,26 @@ export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListExtensionsRequest",
-}) as any as S.Schema<ListExtensionsRequest>;
+).annotate({ identifier: "ListExtensionsRequest" }) as any as S.Schema<ListExtensionsRequest>;
 
-/** How the extension is loaded */
-export type PostgresClusterExtensionLoader =
-  | "shared_preload_libraries"
-  | "session_preload_libraries"
-  | "create_extension";
-export const PostgresClusterExtensionLoader = S.String;
-
-export interface PostgresClusterExtensionRequirements {
+export interface PostgresExtensionDefinitionRequirements {
   /** The Postgres image version required to use the extension */
   postgres_image_version?: string | null;
 }
-export const PostgresClusterExtensionRequirements = /*@__PURE__*/ S.suspend(() =>
+export const PostgresExtensionDefinitionRequirements = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     postgres_image_version: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
-  identifier: "PostgresClusterExtensionRequirements",
-}) as any as S.Schema<PostgresClusterExtensionRequirements>;
+  identifier: "PostgresExtensionDefinitionRequirements",
+}) as any as S.Schema<PostgresExtensionDefinitionRequirements>;
 
 /** The namespace of the parameter */
-export type PostgresClusterExtensionParametersItemNamespace = "patroni" | "pgconf" | "pgbouncer";
-export const PostgresClusterExtensionParametersItemNamespace = S.String;
+export type PostgresExtensionDefinitionParametersItemNamespace = "patroni" | "pgconf" | "pgbouncer";
+export const PostgresExtensionDefinitionParametersItemNamespace = S.String;
 
 /** The type of the parameter */
-export type PostgresClusterExtensionParametersItemParameterType =
+export type PostgresExtensionDefinitionParametersItemParameterType =
   | "array"
   | "boolean"
   | "bytes"
@@ -17201,24 +18317,24 @@ export type PostgresClusterExtensionParametersItemParameterType =
   | "select"
   | "string"
   | "time";
-export const PostgresClusterExtensionParametersItemParameterType = S.String;
+export const PostgresExtensionDefinitionParametersItemParameterType = S.String;
 
 /** Valid options for the parameter value */
-export type PostgresClusterExtensionParametersItemOptionsList = Array<string>;
-export const PostgresClusterExtensionParametersItemOptionsList = /*@__PURE__*/ S.Array(
+export type PostgresExtensionDefinitionParametersItemOptionsList = Array<string>;
+export const PostgresExtensionDefinitionParametersItemOptionsList = /*@__PURE__*/ S.Array(
   S.String,
-) as any as S.Schema<PostgresClusterExtensionParametersItemOptionsList>;
+) as any as S.Schema<PostgresExtensionDefinitionParametersItemOptionsList>;
 
-export type PostgresClusterExtensionParametersItemActor = OrganizationTeamMembershipActor;
-export const PostgresClusterExtensionParametersItemActor = OrganizationTeamMembershipActor;
+export type PostgresExtensionDefinitionParametersItemActor = OrganizationTeamMembershipActor;
+export const PostgresExtensionDefinitionParametersItemActor = OrganizationTeamMembershipActor;
 
-export interface PostgresClusterExtensionParametersItem {
+export interface PostgresExtensionDefinitionParametersItem {
   /** The name of the parameter */
   name: string;
   /** The display name of the parameter */
   display_name: string;
   /** The namespace of the parameter */
-  namespace: PostgresClusterExtensionParametersItemNamespace;
+  namespace: PostgresExtensionDefinitionParametersItemNamespace;
   /** The category of the parameter */
   category: string;
   /** The description of the parameter */
@@ -17228,7 +18344,7 @@ export interface PostgresClusterExtensionParametersItem {
   /** Whether the parameter can be changed */
   immutable: boolean;
   /** The type of the parameter */
-  parameter_type: PostgresClusterExtensionParametersItemParameterType;
+  parameter_type: PostgresExtensionDefinitionParametersItemParameterType;
   /** The default value of the parameter */
   default_value: string;
   /** The configured value of the parameter */
@@ -17248,19 +18364,19 @@ export interface PostgresClusterExtensionParametersItem {
   /** The URL of the parameter */
   url: string;
   /** Valid options for the parameter value */
-  options: PostgresClusterExtensionParametersItemOptionsList;
+  options: PostgresExtensionDefinitionParametersItemOptionsList;
   actor: OrganizationTeamMembershipActor;
 }
-export const PostgresClusterExtensionParametersItem = /*@__PURE__*/ S.suspend(() =>
+export const PostgresExtensionDefinitionParametersItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     display_name: S.String,
-    namespace: PostgresClusterExtensionParametersItemNamespace,
+    namespace: PostgresExtensionDefinitionParametersItemNamespace,
     category: S.String,
     description: S.String,
     extension: S.Boolean,
     immutable: S.Boolean,
-    parameter_type: PostgresClusterExtensionParametersItemParameterType,
+    parameter_type: PostgresExtensionDefinitionParametersItemParameterType,
     default_value: S.String,
     value: S.String,
     required: S.Boolean,
@@ -17270,60 +18386,59 @@ export const PostgresClusterExtensionParametersItem = /*@__PURE__*/ S.suspend(()
     max: S.Number,
     min: S.Number,
     url: S.String,
-    options: PostgresClusterExtensionParametersItemOptionsList,
+    options: PostgresExtensionDefinitionParametersItemOptionsList,
     actor: OrganizationTeamMembershipActor,
   }),
 ).annotate({
-  identifier: "PostgresClusterExtensionParametersItem",
-}) as any as S.Schema<PostgresClusterExtensionParametersItem>;
+  identifier: "PostgresExtensionDefinitionParametersItem",
+}) as any as S.Schema<PostgresExtensionDefinitionParametersItem>;
 
-export type PostgresClusterExtensionParametersList = Array<PostgresClusterExtensionParametersItem>;
-export const PostgresClusterExtensionParametersList = /*@__PURE__*/ S.Array(
-  PostgresClusterExtensionParametersItem,
-) as any as S.Schema<PostgresClusterExtensionParametersList>;
+export type PostgresExtensionDefinitionParametersList =
+  Array<PostgresExtensionDefinitionParametersItem>;
+export const PostgresExtensionDefinitionParametersList = /*@__PURE__*/ S.Array(
+  PostgresExtensionDefinitionParametersItem,
+) as any as S.Schema<PostgresExtensionDefinitionParametersList>;
 
-export interface PostgresClusterExtension {
-  /** The ID of the extension */
-  id: string;
+export interface PostgresExtensionDefinition {
   /** The name of the extension */
   name: string;
+  /** Whether the extension can be enabled or disabled by the cluster */
+  can_enable: boolean;
   /** The description of the extension */
   description: string;
+  /** Whether the extension is enabled by the cluster */
+  enabled?: boolean | null;
   /** The internal state of the extension */
   internal: boolean;
-  /** How the extension is loaded */
-  loader: PostgresClusterExtensionLoader;
-  requirements: PostgresClusterExtensionRequirements;
+  requirements: PostgresExtensionDefinitionRequirements;
   /** The URL of the extension */
   url: string;
-  parameters: PostgresClusterExtensionParametersList;
+  parameters: PostgresExtensionDefinitionParametersList;
 }
-export const PostgresClusterExtension = /*@__PURE__*/ S.suspend(() =>
+export const PostgresExtensionDefinition = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    id: S.String,
     name: S.String,
+    can_enable: S.Boolean,
     description: S.String,
+    enabled: S.optional(S.NullOr(S.Boolean)),
     internal: S.Boolean,
-    loader: PostgresClusterExtensionLoader,
-    requirements: PostgresClusterExtensionRequirements,
+    requirements: PostgresExtensionDefinitionRequirements,
     url: S.String,
-    parameters: PostgresClusterExtensionParametersList,
+    parameters: PostgresExtensionDefinitionParametersList,
   }),
 ).annotate({
-  identifier: "PostgresClusterExtension",
-}) as any as S.Schema<PostgresClusterExtension>;
+  identifier: "PostgresExtensionDefinition",
+}) as any as S.Schema<PostgresExtensionDefinition>;
 
-export type ListExtensionsResponseBodyList = Array<PostgresClusterExtension>;
+export type ListExtensionsResponseBodyList = Array<PostgresExtensionDefinition>;
 export const ListExtensionsResponseBodyList = /*@__PURE__*/ S.Array(
-  PostgresClusterExtension,
+  PostgresExtensionDefinition,
 ) as any as S.Schema<ListExtensionsResponseBodyList>;
 
 export type ListExtensionsResponse = ListExtensionsResponseBodyList;
 export const ListExtensionsResponse = /*@__PURE__*/ S.suspend(() =>
   ListExtensionsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListExtensionsResponse",
-}) as any as S.Schema<ListExtensionsResponse>;
+).annotate({ identifier: "ListExtensionsResponse" }) as any as S.Schema<ListExtensionsResponse>;
 
 export interface ListGeneratedQueryPatternsReportsRequest {
   /** The name of the organization the branch belongs to */
@@ -17425,6 +18540,272 @@ export const PaginatedQueryPatternsDownload = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedQueryPatternsDownload",
 }) as any as S.Schema<PaginatedQueryPatternsDownload>;
 
+export interface ListInsightsAgentRunsRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+}
+export const ListInsightsAgentRunsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/insights/agent/runs",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListInsightsAgentRunsRequest",
+}) as any as S.Schema<ListInsightsAgentRunsRequest>;
+
+/** The work performed by the run */
+export type PaginatedInsightsAgentRunDataItemType =
+  | "review_slow_queries"
+  | "implement_schema_recommendation";
+export const PaginatedInsightsAgentRunDataItemType = S.String;
+
+/** The run state */
+export type PaginatedInsightsAgentRunDataItemState =
+  | "queued"
+  | "running"
+  | "succeeded"
+  | "failed"
+  | "cancelled";
+export const PaginatedInsightsAgentRunDataItemState = S.String;
+
+/** The repository snapshot and analyzed commit */
+export type PaginatedInsightsAgentRunDataItemRepositoryMap = { [key: string]: unknown | undefined };
+export const PaginatedInsightsAgentRunDataItemRepositoryMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PaginatedInsightsAgentRunDataItemRepositoryMap>;
+
+/** The agent execution snapshot */
+export type PaginatedInsightsAgentRunDataItemAgentMap = { [key: string]: unknown | undefined };
+export const PaginatedInsightsAgentRunDataItemAgentMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PaginatedInsightsAgentRunDataItemAgentMap>;
+
+export type PaginatedInsightsAgentRunDataItemSelectedTargetsItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedInsightsAgentRunDataItemSelectedTargetsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PaginatedInsightsAgentRunDataItemSelectedTargetsItemMap>;
+
+/** The query patterns or schema recommendations selected for the run */
+export type PaginatedInsightsAgentRunDataItemSelectedTargetsList =
+  Array<PaginatedInsightsAgentRunDataItemSelectedTargetsItemMap>;
+export const PaginatedInsightsAgentRunDataItemSelectedTargetsList = /*@__PURE__*/ S.Array(
+  PaginatedInsightsAgentRunDataItemSelectedTargetsItemMap,
+) as any as S.Schema<PaginatedInsightsAgentRunDataItemSelectedTargetsList>;
+
+export interface PaginatedInsightsAgentRunDataItem {
+  /** The Insights agent run ID */
+  id: string;
+  /** The number of the Insights agent run */
+  number: number;
+  /** Whether the run was started by a schedule */
+  scheduled: boolean;
+  /** The work performed by the run */
+  type: PaginatedInsightsAgentRunDataItemType;
+  /** The run state */
+  state: PaginatedInsightsAgentRunDataItemState;
+  /** The repository snapshot and analyzed commit */
+  repository: PaginatedInsightsAgentRunDataItemRepositoryMap;
+  /** The agent execution snapshot */
+  agent: PaginatedInsightsAgentRunDataItemAgentMap | null;
+  /** The schedule that created the run */
+  schedule_id: string | null;
+  /** The schedule occurrence claimed by the run */
+  scheduled_for: string | null;
+  /** The query patterns or schema recommendations selected for the run */
+  selected_targets: PaginatedInsightsAgentRunDataItemSelectedTargetsList;
+  /** The run outcome */
+  outcome: string | null;
+  /** The agent result title */
+  title: string | null;
+  /** The agent result summary */
+  summary: string | null;
+  /** The pull request created by the run */
+  pull_request_url: string | null;
+  /** The run failure */
+  failure_message: string | null;
+  /** The run execution duration in milliseconds */
+  execution_duration_ms: number | null;
+  /** How much this run cost, as a stringified decimal to preserve precision */
+  cost: string | null;
+  /** The phase where the run failed */
+  failure_phase: string | null;
+  /** When execution started */
+  started_at: string | null;
+  /** When execution finished */
+  finished_at: string | null;
+  /** When the run was created */
+  created_at: string;
+  /** When the run was last updated */
+  updated_at: string;
+}
+export const PaginatedInsightsAgentRunDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    number: S.Number,
+    scheduled: S.Boolean,
+    type: PaginatedInsightsAgentRunDataItemType,
+    state: PaginatedInsightsAgentRunDataItemState,
+    repository: PaginatedInsightsAgentRunDataItemRepositoryMap,
+    agent: S.NullOr(PaginatedInsightsAgentRunDataItemAgentMap),
+    schedule_id: S.NullOr(S.String),
+    scheduled_for: S.NullOr(S.String),
+    selected_targets: PaginatedInsightsAgentRunDataItemSelectedTargetsList,
+    outcome: S.NullOr(S.String),
+    title: S.NullOr(S.String),
+    summary: S.NullOr(S.String),
+    pull_request_url: S.NullOr(S.String),
+    failure_message: S.NullOr(S.String),
+    execution_duration_ms: S.NullOr(S.Number),
+    cost: S.NullOr(S.String),
+    failure_phase: S.NullOr(S.String),
+    started_at: S.NullOr(S.String),
+    finished_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+  }),
+).annotate({
+  identifier: "PaginatedInsightsAgentRunDataItem",
+}) as any as S.Schema<PaginatedInsightsAgentRunDataItem>;
+
+export type PaginatedInsightsAgentRunDataList = Array<PaginatedInsightsAgentRunDataItem>;
+export const PaginatedInsightsAgentRunDataList = /*@__PURE__*/ S.Array(
+  PaginatedInsightsAgentRunDataItem,
+) as any as S.Schema<PaginatedInsightsAgentRunDataList>;
+
+export interface PaginatedInsightsAgentRun {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  data: PaginatedInsightsAgentRunDataList;
+}
+export const PaginatedInsightsAgentRun = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    data: PaginatedInsightsAgentRunDataList,
+  }),
+).annotate({
+  identifier: "PaginatedInsightsAgentRun",
+}) as any as S.Schema<PaginatedInsightsAgentRun>;
+
+export interface ListInsightsAgentSchedulesRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+}
+export const ListInsightsAgentSchedulesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/insights/agent/schedules",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListInsightsAgentSchedulesRequest",
+}) as any as S.Schema<ListInsightsAgentSchedulesRequest>;
+
+/** The scheduled run type */
+export type InsightsAgentScheduleRunType =
+  | "review_slow_queries"
+  | "implement_schema_recommendation";
+export const InsightsAgentScheduleRunType = S.String;
+
+/** The cadence unit */
+export type InsightsAgentScheduleFrequencyUnit = "day" | "week" | "month";
+export const InsightsAgentScheduleFrequencyUnit = S.String;
+
+export interface InsightsAgentSchedule {
+  /** The schedule ID */
+  id: string | null;
+  /** The scheduled run type */
+  run_type: InsightsAgentScheduleRunType;
+  /** Whether the schedule is enabled */
+  enabled: boolean;
+  /** The cadence unit */
+  frequency_unit: InsightsAgentScheduleFrequencyUnit;
+  /** The local time of day in HH:MM format */
+  schedule_time: string;
+  /** The IANA time zone */
+  time_zone: string;
+  /** The weekday for weekly schedules */
+  day_of_week: number | null;
+  /** The day of month for monthly schedules */
+  day_of_month: number | null;
+  /** When the schedule will run next */
+  next_run_at: string | null;
+}
+export const InsightsAgentSchedule = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.NullOr(S.String),
+    run_type: InsightsAgentScheduleRunType,
+    enabled: S.Boolean,
+    frequency_unit: InsightsAgentScheduleFrequencyUnit,
+    schedule_time: S.String,
+    time_zone: S.String,
+    day_of_week: S.NullOr(S.Number),
+    day_of_month: S.NullOr(S.Number),
+    next_run_at: S.NullOr(S.String),
+  }),
+).annotate({ identifier: "InsightsAgentSchedule" }) as any as S.Schema<InsightsAgentSchedule>;
+
+export type ListInsightsAgentSchedulesResponseBodyList = Array<InsightsAgentSchedule>;
+export const ListInsightsAgentSchedulesResponseBodyList = /*@__PURE__*/ S.Array(
+  InsightsAgentSchedule,
+) as any as S.Schema<ListInsightsAgentSchedulesResponseBodyList>;
+
+export type ListInsightsAgentSchedulesResponse = ListInsightsAgentSchedulesResponseBodyList;
+export const ListInsightsAgentSchedulesResponse = /*@__PURE__*/ S.suspend(() =>
+  ListInsightsAgentSchedulesResponseBodyList.pipe(T.RawResponseRoot()),
+).annotate({
+  identifier: "ListInsightsAgentSchedulesResponse",
+}) as any as S.Schema<ListInsightsAgentSchedulesResponse>;
+
 export interface ListInvoicesRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -17438,16 +18819,8 @@ export const ListInvoicesRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/invoices",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListInvoicesRequest",
-}) as any as S.Schema<ListInvoicesRequest>;
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/invoices", code: 200 })),
+).annotate({ identifier: "ListInvoicesRequest" }) as any as S.Schema<ListInvoicesRequest>;
 
 export interface PaginatedInvoiceDataItem {
   /** The ID of the invoice */
@@ -17472,9 +18845,7 @@ export const PaginatedInvoiceDataItem = /*@__PURE__*/ S.suspend(() =>
     paid: S.Boolean,
     overdue: S.Boolean,
   }),
-).annotate({
-  identifier: "PaginatedInvoiceDataItem",
-}) as any as S.Schema<PaginatedInvoiceDataItem>;
+).annotate({ identifier: "PaginatedInvoiceDataItem" }) as any as S.Schema<PaginatedInvoiceDataItem>;
 
 export type PaginatedInvoiceDataList = Array<PaginatedInvoiceDataItem>;
 export const PaginatedInvoiceDataList = /*@__PURE__*/ S.Array(
@@ -17509,9 +18880,162 @@ export const PaginatedInvoice = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedInvoiceDataList,
   }),
+).annotate({ identifier: "PaginatedInvoice" }) as any as S.Schema<PaginatedInvoice>;
+
+export interface ListKeyspaceConfigChangeRequestsRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The name of the keyspace */
+  keyspace: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+}
+export const ListKeyspaceConfigChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    keyspace: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/keyspaces/{keyspace}/config-changes",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PaginatedInvoice",
-}) as any as S.Schema<PaginatedInvoice>;
+  identifier: "ListKeyspaceConfigChangeRequestsRequest",
+}) as any as S.Schema<ListKeyspaceConfigChangeRequestsRequest>;
+
+/** The state of the config change request */
+export type PaginatedKeyspaceConfigChangeRequestDataItemState =
+  | "draft"
+  | "pending"
+  | "queued"
+  | "applying"
+  | "completed"
+  | "failed"
+  | "canceled";
+export const PaginatedKeyspaceConfigChangeRequestDataItemState = S.String;
+
+/** The type of configuration being changed */
+export type PaginatedKeyspaceConfigChangeRequestDataItemChangeType = "mysqld" | "vttablet";
+export const PaginatedKeyspaceConfigChangeRequestDataItemChangeType = S.String;
+
+/** The previous option values */
+export type PaginatedKeyspaceConfigChangeRequestDataItemPreviousOptionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedKeyspaceConfigChangeRequestDataItemPreviousOptionsMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<PaginatedKeyspaceConfigChangeRequestDataItemPreviousOptionsMap>;
+
+/** The new option values */
+export type PaginatedKeyspaceConfigChangeRequestDataItemNewOptionsMap = {
+  [key: string]: unknown | undefined;
+};
+export const PaginatedKeyspaceConfigChangeRequestDataItemNewOptionsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<PaginatedKeyspaceConfigChangeRequestDataItemNewOptionsMap>;
+
+export type PaginatedKeyspaceConfigChangeRequestDataItemActor = OrganizationTeamMembershipActor;
+export const PaginatedKeyspaceConfigChangeRequestDataItemActor = OrganizationTeamMembershipActor;
+
+export interface PaginatedKeyspaceConfigChangeRequestDataItem {
+  /** The ID of the config change request */
+  id: string;
+  /** The state of the config change request */
+  state: PaginatedKeyspaceConfigChangeRequestDataItemState;
+  /** The type of configuration being changed */
+  change_type: PaginatedKeyspaceConfigChangeRequestDataItemChangeType;
+  /** The previous option values */
+  previous_options: PaginatedKeyspaceConfigChangeRequestDataItemPreviousOptionsMap;
+  /** The new option values */
+  new_options: PaginatedKeyspaceConfigChangeRequestDataItemNewOptionsMap;
+  /** Error message if the change failed */
+  error_message: string | null;
+  /** When the config change started applying */
+  started_at: string | null;
+  /** When the config change completed */
+  completed_at: string | null;
+  /** When the config change request was created */
+  created_at: string;
+  /** When the config change request was last updated */
+  updated_at: string;
+  /** The keyspace name for keyspace-level config changes */
+  keyspace_name: string | null;
+  /** When the config change is expected to be applied (only set when queued) */
+  queued_until: string | null;
+  actor: OrganizationTeamMembershipActor;
+}
+export const PaginatedKeyspaceConfigChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    state: PaginatedKeyspaceConfigChangeRequestDataItemState,
+    change_type: PaginatedKeyspaceConfigChangeRequestDataItemChangeType,
+    previous_options: PaginatedKeyspaceConfigChangeRequestDataItemPreviousOptionsMap,
+    new_options: PaginatedKeyspaceConfigChangeRequestDataItemNewOptionsMap,
+    error_message: S.NullOr(S.String),
+    started_at: S.NullOr(S.String),
+    completed_at: S.NullOr(S.String),
+    created_at: S.String,
+    updated_at: S.String,
+    keyspace_name: S.NullOr(S.String),
+    queued_until: S.NullOr(S.String),
+    actor: OrganizationTeamMembershipActor,
+  }),
+).annotate({
+  identifier: "PaginatedKeyspaceConfigChangeRequestDataItem",
+}) as any as S.Schema<PaginatedKeyspaceConfigChangeRequestDataItem>;
+
+export type PaginatedKeyspaceConfigChangeRequestDataList =
+  Array<PaginatedKeyspaceConfigChangeRequestDataItem>;
+export const PaginatedKeyspaceConfigChangeRequestDataList = /*@__PURE__*/ S.Array(
+  PaginatedKeyspaceConfigChangeRequestDataItem,
+) as any as S.Schema<PaginatedKeyspaceConfigChangeRequestDataList>;
+
+export interface PaginatedKeyspaceConfigChangeRequest {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  data: PaginatedKeyspaceConfigChangeRequestDataList;
+}
+export const PaginatedKeyspaceConfigChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    data: PaginatedKeyspaceConfigChangeRequestDataList,
+  }),
+).annotate({
+  identifier: "PaginatedKeyspaceConfigChangeRequest",
+}) as any as S.Schema<PaginatedKeyspaceConfigChangeRequest>;
 
 export interface ListKeyspaceResizeRequestsRequest {
   /** The name of the organization the branch belongs to */
@@ -17680,9 +19204,7 @@ export const ListKeyspacesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListKeyspacesRequest",
-}) as any as S.Schema<ListKeyspacesRequest>;
+).annotate({ identifier: "ListKeyspacesRequest" }) as any as S.Schema<ListKeyspacesRequest>;
 
 /** Controls when node TTL drains are allowed */
 export type PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy =
@@ -17691,27 +19213,30 @@ export type PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy =
   | "node_ttl_off";
 export const PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy = S.String;
 
-/** The disk autoscaling strategy */
-export type PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy =
+/** The disk scaling strategy */
+export type PaginatedDatabaseBranchKeyspaceDataItemStorageDiskScalingStrategy =
   | "grow"
   | "disable"
   | "shrink";
-export const PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy = S.String;
+export const PaginatedDatabaseBranchKeyspaceDataItemStorageDiskScalingStrategy = S.String;
 
-export interface PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling {
-  /** The disk autoscaling strategy */
-  strategy: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy;
+export interface PaginatedDatabaseBranchKeyspaceDataItemStorage {
+  /** The current provisioned disk size in bytes. Disks grow from and shrink to this size. Custom shards may have staff-set overrides */
+  storage_bytes: number;
   /** The maximum size in bytes disks may autoscale to */
-  storage_limit_bytes: number;
+  max_storage_bytes: number;
+  /** The disk scaling strategy */
+  disk_scaling_strategy: PaginatedDatabaseBranchKeyspaceDataItemStorageDiskScalingStrategy;
 }
-export const PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling = /*@__PURE__*/ S.suspend(() =>
+export const PaginatedDatabaseBranchKeyspaceDataItemStorage = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    strategy: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscalingStrategy,
-    storage_limit_bytes: S.Number,
+    storage_bytes: S.Number,
+    max_storage_bytes: S.Number,
+    disk_scaling_strategy: PaginatedDatabaseBranchKeyspaceDataItemStorageDiskScalingStrategy,
   }),
 ).annotate({
-  identifier: "PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling",
-}) as any as S.Schema<PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling>;
+  identifier: "PaginatedDatabaseBranchKeyspaceDataItemStorage",
+}) as any as S.Schema<PaginatedDatabaseBranchKeyspaceDataItemStorage>;
 
 /** The replication durability strategy */
 export type PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraintsStrategy =
@@ -17805,7 +19330,7 @@ export interface PaginatedDatabaseBranchKeyspaceDataItem {
   vector_pool_allocation: number | null;
   /** Controls when node TTL drains are allowed */
   node_ttl_strategy: PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy;
-  disk_autoscaling: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling;
+  storage: PaginatedDatabaseBranchKeyspaceDataItemStorage;
   /** The maximum number of shards rolled out in parallel. Null uses the infrastructure default of 1. Effective concurrency is capped at 32. */
   max_rollout: number | null;
   replication_durability_constraints: PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraints;
@@ -17839,7 +19364,7 @@ export const PaginatedDatabaseBranchKeyspaceDataItem = /*@__PURE__*/ S.suspend((
     imported: S.Boolean,
     vector_pool_allocation: S.NullOr(S.Number),
     node_ttl_strategy: PaginatedDatabaseBranchKeyspaceDataItemNodeTtlStrategy,
-    disk_autoscaling: PaginatedDatabaseBranchKeyspaceDataItemDiskAutoscaling,
+    storage: PaginatedDatabaseBranchKeyspaceDataItemStorage,
     max_rollout: S.NullOr(S.Number),
     replication_durability_constraints:
       PaginatedDatabaseBranchKeyspaceDataItemReplicationDurabilityConstraints,
@@ -17959,13 +19484,13 @@ export interface PaginatedBranchMaintenanceScheduleDataItem {
   /** Whether the maintenance schedule is required */
   required: boolean;
   /** Whether there is a pending Vitess version update */
-  pending_vitess_version_update: boolean;
+  pending_vitess_version_update?: boolean | null;
   /** The pending Vitess version, if any */
-  pending_vitess_version: string | null;
+  pending_vitess_version?: string | null;
   /** Whether there is a pending MySQL version update */
-  pending_mysql_version_update: boolean;
+  pending_mysql_version_update?: boolean | null;
   /** The pending MySQL version, if any */
-  pending_mysql_version: string | null;
+  pending_mysql_version?: string | null;
 }
 export const PaginatedBranchMaintenanceScheduleDataItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -17985,10 +19510,10 @@ export const PaginatedBranchMaintenanceScheduleDataItem = /*@__PURE__*/ S.suspen
     expires_at: S.NullOr(S.String),
     deadline_at: S.NullOr(S.String),
     required: S.Boolean,
-    pending_vitess_version_update: S.Boolean,
-    pending_vitess_version: S.NullOr(S.String),
-    pending_mysql_version_update: S.Boolean,
-    pending_mysql_version: S.NullOr(S.String),
+    pending_vitess_version_update: S.optional(S.NullOr(S.Boolean)),
+    pending_vitess_version: S.optional(S.NullOr(S.String)),
+    pending_mysql_version_update: S.optional(S.NullOr(S.Boolean)),
+    pending_mysql_version: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "PaginatedBranchMaintenanceScheduleDataItem",
@@ -18124,6 +19649,71 @@ export const PaginatedBranchMaintenanceWindow = /*@__PURE__*/ S.suspend(() =>
   identifier: "PaginatedBranchMaintenanceWindow",
 }) as any as S.Schema<PaginatedBranchMaintenanceWindow>;
 
+export interface ListMoveTablesWorkflowsRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Filter by target keyspace (returns workflows from all kept keyspaces if omitted) */
+  target_keyspace?: string;
+}
+export const ListMoveTablesWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    target_keyspace: S.optional(S.String.pipe(T.Query())),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "ListMoveTablesWorkflowsRequest",
+}) as any as S.Schema<ListMoveTablesWorkflowsRequest>;
+
+export type ListMoveTablesWorkflowsResponseDataWorkflowsItemMap = {
+  [key: string]: unknown | undefined;
+};
+export const ListMoveTablesWorkflowsResponseDataWorkflowsItemMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<ListMoveTablesWorkflowsResponseDataWorkflowsItemMap>;
+
+/** MoveTables workflows reported by Vitess */
+export type ListMoveTablesWorkflowsResponseDataWorkflowsList =
+  Array<ListMoveTablesWorkflowsResponseDataWorkflowsItemMap>;
+export const ListMoveTablesWorkflowsResponseDataWorkflowsList = /*@__PURE__*/ S.Array(
+  ListMoveTablesWorkflowsResponseDataWorkflowsItemMap,
+) as any as S.Schema<ListMoveTablesWorkflowsResponseDataWorkflowsList>;
+
+export interface ListMoveTablesWorkflowsResponseData {
+  /** MoveTables workflows reported by Vitess */
+  workflows: ListMoveTablesWorkflowsResponseDataWorkflowsList;
+}
+export const ListMoveTablesWorkflowsResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    workflows: ListMoveTablesWorkflowsResponseDataWorkflowsList,
+  }),
+).annotate({
+  identifier: "ListMoveTablesWorkflowsResponseData",
+}) as any as S.Schema<ListMoveTablesWorkflowsResponseData>;
+
+export interface ListMoveTablesWorkflowsResponse {
+  data: ListMoveTablesWorkflowsResponseData;
+}
+export const ListMoveTablesWorkflowsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: ListMoveTablesWorkflowsResponseData,
+  }),
+).annotate({
+  identifier: "ListMoveTablesWorkflowsResponse",
+}) as any as S.Schema<ListMoveTablesWorkflowsResponse>;
+
 export type ListNekiChangeRequestsRequestStateList = Array<string>;
 export const ListNekiChangeRequestsRequestStateList = /*@__PURE__*/ S.Array(
   S.String,
@@ -18159,7 +19749,7 @@ export interface ListNekiChangeRequestsRequest {
   per_page?: number;
   /** Filter change requests by state */
   state?: ListNekiChangeRequestsRequestStateList;
-  /** Filter change requests by target type. Must contain one or more of: NekiAdmin, NekiCluster, NekiConfigurationProfile, NekiRouter, or NekiSidecar */
+  /** Filter change requests by target type. Must contain one or more of: NekiAdmin, NekiCluster, NekiConfigurationProfile, NekiExternalShard, NekiRouter, or NekiSidecar */
   target_types?: ListNekiChangeRequestsRequestTargetTypesList;
   /** Filter change requests by target ID. Requires target_types */
   target_id?: string;
@@ -18196,6 +19786,7 @@ export type PaginatedNekiChangeRequestDataItemType =
   | "NekiAdminChangeRequest"
   | "NekiClusterChangeRequest"
   | "NekiConfigurationProfileChangeRequest"
+  | "NekiExternalShardChangeRequest"
   | "NekiRouterChangeRequest"
   | "NekiSidecarChangeRequest";
 export const PaginatedNekiChangeRequestDataItemType = S.String;
@@ -18217,6 +19808,7 @@ export type PaginatedNekiChangeRequestDataItemTargetType =
   | "NekiAdmin"
   | "NekiCluster"
   | "NekiConfigurationProfile"
+  | "NekiExternalShard"
   | "NekiRouter"
   | "NekiSidecar";
 export const PaginatedNekiChangeRequestDataItemTargetType = S.String;
@@ -18303,6 +19895,18 @@ export interface PaginatedNekiChangeRequestDataItem {
   previous_flags?: PaginatedNekiChangeRequestDataItemPreviousFlagsList | null;
   /** The previous Neki image version */
   previous_neki_image_version?: string | null;
+  /** The number of replicas */
+  replicas?: number | null;
+  /** The previous number of replicas */
+  previous_replicas?: number | null;
+  /** The SKU representing the external sidecar size */
+  cluster_name?: string | null;
+  /** The display name of the cluster size SKU */
+  cluster_display_name?: string | null;
+  /** The SKU representing the previous external sidecar size */
+  previous_cluster_name?: string | null;
+  /** The previous display name of the cluster size SKU */
+  previous_cluster_display_name?: string | null;
   /** The name of the router size SKU */
   router_size?: string | null;
   /** The display name of the router size SKU */
@@ -18333,14 +19937,10 @@ export interface PaginatedNekiChangeRequestDataItem {
   previous_name?: string | null;
   /** The name of the cluster size SKU */
   cluster_size?: string | null;
-  /** The display name of the cluster size SKU */
-  cluster_display_name?: string | null;
   /** Whether the cluster size SKU uses metal instances */
   metal?: boolean | null;
   /** The display order of the cluster size SKU */
   cluster_rank?: number | null;
-  /** The number of replicas */
-  replicas?: number | null;
   /** The number of shards */
   shards?: number | null;
   /** The PostgreSQL image */
@@ -18348,14 +19948,10 @@ export interface PaginatedNekiChangeRequestDataItem {
   storage?: NekiShardConfigurationProfileStorage | null;
   /** The previous name of the cluster size SKU */
   previous_cluster_size?: string | null;
-  /** The previous display name of the cluster size SKU */
-  previous_cluster_display_name?: string | null;
   /** Whether the previous cluster size SKU used metal instances */
   previous_metal?: boolean | null;
   /** The previous display order of the cluster size SKU */
   previous_cluster_rank?: number | null;
-  /** The previous number of replicas */
-  previous_replicas?: number | null;
   /** The previous number of shards */
   previous_shards?: number | null;
   /** The previous PostgreSQL image */
@@ -18388,6 +19984,12 @@ export const PaginatedNekiChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
     neki_image_version: S.optional(S.NullOr(S.String)),
     previous_flags: S.optional(S.NullOr(PaginatedNekiChangeRequestDataItemPreviousFlagsList)),
     previous_neki_image_version: S.optional(S.NullOr(S.String)),
+    replicas: S.optional(S.NullOr(S.Number)),
+    previous_replicas: S.optional(S.NullOr(S.Number)),
+    cluster_name: S.optional(S.NullOr(S.String)),
+    cluster_display_name: S.optional(S.NullOr(S.String)),
+    previous_cluster_name: S.optional(S.NullOr(S.String)),
+    previous_cluster_display_name: S.optional(S.NullOr(S.String)),
     router_size: S.optional(S.NullOr(S.String)),
     router_size_display_name: S.optional(S.NullOr(S.String)),
     replicas_per_cell: S.optional(S.NullOr(S.Number)),
@@ -18403,18 +20005,14 @@ export const PaginatedNekiChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.NullOr(S.String)),
     previous_name: S.optional(S.NullOr(S.String)),
     cluster_size: S.optional(S.NullOr(S.String)),
-    cluster_display_name: S.optional(S.NullOr(S.String)),
     metal: S.optional(S.NullOr(S.Boolean)),
     cluster_rank: S.optional(S.NullOr(S.Number)),
-    replicas: S.optional(S.NullOr(S.Number)),
     shards: S.optional(S.NullOr(S.Number)),
     postgres_image_version: S.optional(S.NullOr(S.String)),
     storage: S.optional(S.NullOr(NekiShardConfigurationProfileStorage)),
     previous_cluster_size: S.optional(S.NullOr(S.String)),
-    previous_cluster_display_name: S.optional(S.NullOr(S.String)),
     previous_metal: S.optional(S.NullOr(S.Boolean)),
     previous_cluster_rank: S.optional(S.NullOr(S.Number)),
-    previous_replicas: S.optional(S.NullOr(S.Number)),
     previous_shards: S.optional(S.NullOr(S.Number)),
     previous_postgres_image_version: S.optional(S.NullOr(S.String)),
     previous_storage: S.optional(S.NullOr(NekiShardConfigurationProfileStorage)),
@@ -18474,11 +20072,7 @@ export const ListOauthApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/oauth-applications",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/oauth-applications", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOauthApplicationsRequest",
@@ -18640,9 +20234,7 @@ export const ListOauthTokensRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListOauthTokensRequest",
-}) as any as S.Schema<ListOauthTokensRequest>;
+).annotate({ identifier: "ListOauthTokensRequest" }) as any as S.Schema<ListOauthTokensRequest>;
 
 export type PaginatedServiceTokenDataItemServiceTokenAccessesItemResource =
   OrganizationTeamMembershipUserDefaultOrganization;
@@ -18925,9 +20517,123 @@ export const PaginatedServiceToken = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.Number,
     data: PaginatedServiceTokenDataList,
   }),
+).annotate({ identifier: "PaginatedServiceToken" }) as any as S.Schema<PaginatedServiceToken>;
+
+export interface ListOrganizationInvitationsRequest {
+  /** The name of the organization */
+  organization: string;
+  /** If provided, specifies the page offset of returned results */
+  page?: number;
+  /** If provided, specifies the number of returned results */
+  per_page?: number;
+}
+export const ListOrganizationInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    page: S.optional(S.Number.pipe(T.Query())),
+    per_page: S.optional(S.Number.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/invitations", code: 200 })),
 ).annotate({
-  identifier: "PaginatedServiceToken",
-}) as any as S.Schema<PaginatedServiceToken>;
+  identifier: "ListOrganizationInvitationsRequest",
+}) as any as S.Schema<ListOrganizationInvitationsRequest>;
+
+/** The role granted when the invitation is accepted. Invitations sent by service tokens are always member. */
+export type PaginatedOrganizationInvitationDataItemRole = "admin" | "analyst" | "member";
+export const PaginatedOrganizationInvitationDataItemRole = S.String;
+
+export type PaginatedOrganizationInvitationDataItemSenderDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+export const PaginatedOrganizationInvitationDataItemSenderDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+
+export type PaginatedOrganizationInvitationDataItemSender = OrganizationTeamMembershipUser;
+export const PaginatedOrganizationInvitationDataItemSender = OrganizationTeamMembershipUser;
+
+export type PaginatedOrganizationInvitationDataItemRecipientDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+export const PaginatedOrganizationInvitationDataItemRecipientDefaultOrganization =
+  OrganizationTeamMembershipUserDefaultOrganization;
+
+export type PaginatedOrganizationInvitationDataItemRecipient = OrganizationTeamMembershipUser;
+export const PaginatedOrganizationInvitationDataItemRecipient = OrganizationTeamMembershipUser;
+
+export interface PaginatedOrganizationInvitationDataItem {
+  /** The ID of the invitation */
+  id: string;
+  /** The email address the invitation was sent to */
+  email: string;
+  /** The role granted when the invitation is accepted. Invitations sent by service tokens are always member. */
+  role: PaginatedOrganizationInvitationDataItemRole;
+  sender: OrganizationTeamMembershipUser;
+  recipient: OrganizationTeamMembershipUser | null;
+  /** Whether the invitation has expired */
+  expired: boolean;
+  /** When the invitation expires */
+  expires_at: string;
+  /** When the invitation was created */
+  created_at: string;
+  /** The URL of the avatar shown for the invitation */
+  avatar_url: string;
+}
+export const PaginatedOrganizationInvitationDataItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    email: S.String,
+    role: PaginatedOrganizationInvitationDataItemRole,
+    sender: OrganizationTeamMembershipUser,
+    recipient: S.NullOr(OrganizationTeamMembershipUser),
+    expired: S.Boolean,
+    expires_at: S.String,
+    created_at: S.String,
+    avatar_url: S.String,
+  }),
+).annotate({
+  identifier: "PaginatedOrganizationInvitationDataItem",
+}) as any as S.Schema<PaginatedOrganizationInvitationDataItem>;
+
+export type PaginatedOrganizationInvitationDataList =
+  Array<PaginatedOrganizationInvitationDataItem>;
+export const PaginatedOrganizationInvitationDataList = /*@__PURE__*/ S.Array(
+  PaginatedOrganizationInvitationDataItem,
+) as any as S.Schema<PaginatedOrganizationInvitationDataList>;
+
+export interface PaginatedOrganizationInvitation {
+  /** The response type. Always "list" for paginated responses. */
+  type: string;
+  /** The current page number */
+  current_page: number;
+  /** The maximum number of results per page */
+  per_page: number;
+  /** The next page number, or null when this is the last page */
+  next_page: number | null;
+  /** The next page of results, or null when this is the last page */
+  next_page_url: string | null;
+  /** The previous page number, or null when this is the first page */
+  prev_page: number | null;
+  /** The previous page of results, or null when this is the first page */
+  prev_page_url: string | null;
+  /** The total number of matching results */
+  total_count: number;
+  /** The total number of pages of matching results */
+  total_pages: number;
+  data: PaginatedOrganizationInvitationDataList;
+}
+export const PaginatedOrganizationInvitation = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.String,
+    current_page: S.Number,
+    per_page: S.Number,
+    next_page: S.NullOr(S.Number),
+    next_page_url: S.NullOr(S.String),
+    prev_page: S.NullOr(S.Number),
+    prev_page_url: S.NullOr(S.String),
+    total_count: S.Number,
+    total_pages: S.Number,
+    data: PaginatedOrganizationInvitationDataList,
+  }),
+).annotate({
+  identifier: "PaginatedOrganizationInvitation",
+}) as any as S.Schema<PaginatedOrganizationInvitation>;
 
 export interface ListOrganizationMembersRequest {
   /** The name of the organization */
@@ -18945,13 +20651,7 @@ export const ListOrganizationMembersRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/members",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/members", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationMembersRequest",
 }) as any as S.Schema<ListOrganizationMembersRequest>;
@@ -19046,14 +20746,10 @@ export const ListOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/organizations", code: 200 })),
-).annotate({
-  identifier: "ListOrganizationsRequest",
-}) as any as S.Schema<ListOrganizationsRequest>;
+).annotate({ identifier: "ListOrganizationsRequest" }) as any as S.Schema<ListOrganizationsRequest>;
 
 /** Features that can be enabled on the organization */
-export type PaginatedOrganizationDataItemFeaturesMap = {
-  [key: string]: unknown | undefined;
-};
+export type PaginatedOrganizationDataItemFeaturesMap = { [key: string]: unknown | undefined };
 export const PaginatedOrganizationDataItemFeaturesMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -19164,9 +20860,7 @@ export const PaginatedOrganization = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedOrganizationDataList,
   }),
-).annotate({
-  identifier: "PaginatedOrganization",
-}) as any as S.Schema<PaginatedOrganization>;
+).annotate({ identifier: "PaginatedOrganization" }) as any as S.Schema<PaginatedOrganization>;
 
 export interface ListOrganizationSsoDomainsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -19175,13 +20869,7 @@ export interface ListOrganizationSsoDomainsRequest {
 export const ListOrganizationSsoDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/sso/domains",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/sso/domains", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationSsoDomainsRequest",
 }) as any as S.Schema<ListOrganizationSsoDomainsRequest>;
@@ -19215,11 +20903,7 @@ export const ListOrganizationTeamMembersRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/teams/{team}/members",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/teams/{team}/members", code: 200 }),
   ),
 ).annotate({
   identifier: "ListOrganizationTeamMembersRequest",
@@ -19497,13 +21181,7 @@ export const ListOrganizationTeamsRequest = /*@__PURE__*/ S.suspend(() =>
     q: S.optional(S.String.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/teams",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/teams", code: 200 })),
 ).annotate({
   identifier: "ListOrganizationTeamsRequest",
 }) as any as S.Schema<ListOrganizationTeamsRequest>;
@@ -19645,9 +21323,7 @@ export const ListParametersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListParametersRequest",
-}) as any as S.Schema<ListParametersRequest>;
+).annotate({ identifier: "ListParametersRequest" }) as any as S.Schema<ListParametersRequest>;
 
 /** The namespace of the parameter */
 export type PostgresClusterParameterNamespace = "patroni" | "pgconf" | "pgbouncer";
@@ -19736,9 +21412,7 @@ export const PostgresClusterParameter = /*@__PURE__*/ S.suspend(() =>
     options: PostgresClusterParameterOptionsList,
     actor: OrganizationTeamMembershipActor,
   }),
-).annotate({
-  identifier: "PostgresClusterParameter",
-}) as any as S.Schema<PostgresClusterParameter>;
+).annotate({ identifier: "PostgresClusterParameter" }) as any as S.Schema<PostgresClusterParameter>;
 
 export type ListParametersResponseBodyList = Array<PostgresClusterParameter>;
 export const ListParametersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -19748,9 +21422,7 @@ export const ListParametersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListParametersResponse = ListParametersResponseBodyList;
 export const ListParametersResponse = /*@__PURE__*/ S.suspend(() =>
   ListParametersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListParametersResponse",
-}) as any as S.Schema<ListParametersResponse>;
+).annotate({ identifier: "ListParametersResponse" }) as any as S.Schema<ListParametersResponse>;
 
 export interface ListPasswordsRequest {
   /** The name of the organization the password belongs to */
@@ -19787,9 +21459,7 @@ export const ListPasswordsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListPasswordsRequest",
-}) as any as S.Schema<ListPasswordsRequest>;
+).annotate({ identifier: "ListPasswordsRequest" }) as any as S.Schema<ListPasswordsRequest>;
 
 /** The role for the password */
 export type PaginatedDatabaseBranchPasswordDataItemRole =
@@ -20030,9 +21700,7 @@ export const NekiPostgresVersion = /*@__PURE__*/ S.suspend(() =>
     version: S.String,
     default: S.Boolean,
   }),
-).annotate({
-  identifier: "NekiPostgresVersion",
-}) as any as S.Schema<NekiPostgresVersion>;
+).annotate({ identifier: "NekiPostgresVersion" }) as any as S.Schema<NekiPostgresVersion>;
 
 export type ListPostgresVersionsResponseBodyList = Array<NekiPostgresVersion>;
 export const ListPostgresVersionsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -20057,9 +21725,7 @@ export const ListPublicRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/regions", code: 200 })),
-).annotate({
-  identifier: "ListPublicRegionsRequest",
-}) as any as S.Schema<ListPublicRegionsRequest>;
+).annotate({ identifier: "ListPublicRegionsRequest" }) as any as S.Schema<ListPublicRegionsRequest>;
 
 /** List of public IP addresses for the region */
 export type PaginatedPublicPlanetscaleRegionSerializerDataItemPublicIpAddressesList = Array<string>;
@@ -20285,272 +21951,6 @@ export const PaginatedDatabaseBranchReadOnlyRegion = /*@__PURE__*/ S.suspend(() 
   identifier: "PaginatedDatabaseBranchReadOnlyRegion",
 }) as any as S.Schema<PaginatedDatabaseBranchReadOnlyRegion>;
 
-export type ListReadOnlyReplicaChangeRequestsRequestPeriod =
-  | "15m"
-  | "1h"
-  | "3h"
-  | "6h"
-  | "12h"
-  | "1d"
-  | "2d"
-  | "7d"
-  | "8d";
-export const ListReadOnlyReplicaChangeRequestsRequestPeriod = S.String;
-
-export interface ListReadOnlyReplicaChangeRequestsRequest {
-  /** Organization name slug from `list_organizations`. Example: `acme`. */
-  organization: string;
-  /** Database name slug from `list_databases`. Example: `app-db`. */
-  database: string;
-  /** Branch name from `list_branches`. Example: `main`. */
-  branch: string;
-  /** If provided, specifies the page offset of returned results */
-  page?: number;
-  /** If provided, specifies the number of returned results */
-  per_page?: number;
-  /** Filter change requests by named period */
-  period?: ListReadOnlyReplicaChangeRequestsRequestPeriod | (string & {});
-  /** Filter change requests completed between two ISO 8601 timestamps */
-  completed_at?: string;
-}
-export const ListReadOnlyReplicaChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-    page: S.optional(S.Number.pipe(T.Query())),
-    per_page: S.optional(S.Number.pipe(T.Query())),
-    period: S.optional(ListReadOnlyReplicaChangeRequestsRequestPeriod.pipe(T.Query())),
-    completed_at: S.optional(S.String.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/read-only-replica-changes",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListReadOnlyReplicaChangeRequestsRequest",
-}) as any as S.Schema<ListReadOnlyReplicaChangeRequestsRequest>;
-
-/** The state of the change request */
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState =
-  | "pending"
-  | "resizing"
-  | "canceled"
-  | "completed";
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState = S.String;
-
-/** The new parameters */
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap = {
-  [key: string]: unknown | undefined;
-};
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.Unknown,
-  ) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap>;
-
-/** The new storage type */
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType =
-  | "gp3"
-  | "io2"
-  | "pd_ssd"
-  | "hyperdisk_balanced"
-  | "premium_v2_lrs";
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType = S.String;
-
-/** The previous parameters */
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap = {
-  [key: string]: unknown | undefined;
-};
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    S.Unknown,
-  ) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap>;
-
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemActor =
-  OrganizationTeamMembershipActor;
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemActor =
-  OrganizationTeamMembershipActor;
-
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataItemReplica =
-  OrganizationTeamMembershipUserDefaultOrganization;
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItemReplica =
-  OrganizationTeamMembershipUserDefaultOrganization;
-
-export interface PaginatedPostgresReadOnlyReplicaChangeRequestDataItem {
-  /** The ID of the read-only replica change request */
-  id: string;
-  /** The state of the change request */
-  state: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState;
-  /** The new cluster size SKU */
-  cluster_name: string;
-  /** The new cluster size for display */
-  cluster_display_name: string;
-  /** The new cluster size sort order */
-  cluster_rank: number;
-  /** The new instance count */
-  replicas: number;
-  /** The new parameters */
-  parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap;
-  /** The new minimum storage size in bytes */
-  minimum_storage_bytes: number | null;
-  /** The new maximum storage size in bytes */
-  maximum_storage_bytes: number | null;
-  /** Whether storage autoscaling is enabled */
-  storage_autoscaling: boolean | null;
-  /** The new storage type */
-  storage_type: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType | null;
-  /** The new storage IOPS */
-  storage_iops: number | null;
-  /** The new storage throughput in MiB/s */
-  storage_throughput_mibs: number | null;
-  /** The previous cluster size SKU */
-  previous_cluster_name: string;
-  /** The previous cluster size for display */
-  previous_cluster_display_name: string;
-  /** The previous cluster size sort order */
-  previous_cluster_rank: number;
-  /** The previous instance count */
-  previous_replicas: number;
-  /** The previous parameters */
-  previous_parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap;
-  /** The previous minimum storage size in bytes */
-  previous_minimum_storage_bytes: number | null;
-  /** The previous maximum storage size in bytes */
-  previous_maximum_storage_bytes: number | null;
-  /** Whether storage autoscaling was previously enabled */
-  previous_storage_autoscaling: boolean | null;
-  /** The previous storage type */
-  previous_storage_type: string | null;
-  /** The previous storage IOPS */
-  previous_storage_iops: number | null;
-  /** The previous storage throughput in MiB/s */
-  previous_storage_throughput_mibs: number | null;
-  /** When the change started */
-  started_at: string | null;
-  /** When the change completed */
-  completed_at: string | null;
-  /** When the change request was created */
-  created_at: string;
-  /** When the change request was last updated */
-  updated_at: string;
-  actor: OrganizationTeamMembershipActor;
-  replica: OrganizationTeamMembershipUserDefaultOrganization;
-}
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    id: S.String,
-    state: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemState,
-    cluster_name: S.String,
-    cluster_display_name: S.String,
-    cluster_rank: S.Number,
-    replicas: S.Number,
-    parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemParametersMap,
-    minimum_storage_bytes: S.NullOr(S.Number),
-    maximum_storage_bytes: S.NullOr(S.Number),
-    storage_autoscaling: S.NullOr(S.Boolean),
-    storage_type: S.NullOr(PaginatedPostgresReadOnlyReplicaChangeRequestDataItemStorageType),
-    storage_iops: S.NullOr(S.Number),
-    storage_throughput_mibs: S.NullOr(S.Number),
-    previous_cluster_name: S.String,
-    previous_cluster_display_name: S.String,
-    previous_cluster_rank: S.Number,
-    previous_replicas: S.Number,
-    previous_parameters: PaginatedPostgresReadOnlyReplicaChangeRequestDataItemPreviousParametersMap,
-    previous_minimum_storage_bytes: S.NullOr(S.Number),
-    previous_maximum_storage_bytes: S.NullOr(S.Number),
-    previous_storage_autoscaling: S.NullOr(S.Boolean),
-    previous_storage_type: S.NullOr(S.String),
-    previous_storage_iops: S.NullOr(S.Number),
-    previous_storage_throughput_mibs: S.NullOr(S.Number),
-    started_at: S.NullOr(S.String),
-    completed_at: S.NullOr(S.String),
-    created_at: S.String,
-    updated_at: S.String,
-    actor: OrganizationTeamMembershipActor,
-    replica: OrganizationTeamMembershipUserDefaultOrganization,
-  }),
-).annotate({
-  identifier: "PaginatedPostgresReadOnlyReplicaChangeRequestDataItem",
-}) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataItem>;
-
-export type PaginatedPostgresReadOnlyReplicaChangeRequestDataList =
-  Array<PaginatedPostgresReadOnlyReplicaChangeRequestDataItem>;
-export const PaginatedPostgresReadOnlyReplicaChangeRequestDataList = /*@__PURE__*/ S.Array(
-  PaginatedPostgresReadOnlyReplicaChangeRequestDataItem,
-) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequestDataList>;
-
-export interface PaginatedPostgresReadOnlyReplicaChangeRequest {
-  /** The response type. Always "list" for paginated responses. */
-  type: string;
-  /** The current page number */
-  current_page: number;
-  /** The maximum number of results per page */
-  per_page: number;
-  /** The next page number, or null when this is the last page */
-  next_page: number | null;
-  /** The next page of results, or null when this is the last page */
-  next_page_url: string | null;
-  /** The previous page number, or null when this is the first page */
-  prev_page: number | null;
-  /** The previous page of results, or null when this is the first page */
-  prev_page_url: string | null;
-  data: PaginatedPostgresReadOnlyReplicaChangeRequestDataList;
-}
-export const PaginatedPostgresReadOnlyReplicaChangeRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    type: S.String,
-    current_page: S.Number,
-    per_page: S.Number,
-    next_page: S.NullOr(S.Number),
-    next_page_url: S.NullOr(S.String),
-    prev_page: S.NullOr(S.Number),
-    prev_page_url: S.NullOr(S.String),
-    data: PaginatedPostgresReadOnlyReplicaChangeRequestDataList,
-  }),
-).annotate({
-  identifier: "PaginatedPostgresReadOnlyReplicaChangeRequest",
-}) as any as S.Schema<PaginatedPostgresReadOnlyReplicaChangeRequest>;
-
-export interface ListReadOnlyReplicasRequest {
-  /** Organization name slug from `list_organizations`. Example: `acme`. */
-  organization: string;
-  /** Database name slug from `list_databases`. Example: `app-db`. */
-  database: string;
-  /** Branch name from `list_branches`. Example: `main`. */
-  branch: string;
-}
-export const ListReadOnlyReplicasRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/read-only-replicas",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListReadOnlyReplicasRequest",
-}) as any as S.Schema<ListReadOnlyReplicasRequest>;
-
-export type ListReadOnlyReplicasResponseBodyList = Array<PostgresReadOnlyReplica>;
-export const ListReadOnlyReplicasResponseBodyList = /*@__PURE__*/ S.Array(
-  PostgresReadOnlyReplica,
-) as any as S.Schema<ListReadOnlyReplicasResponseBodyList>;
-
-export type ListReadOnlyReplicasResponse = ListReadOnlyReplicasResponseBodyList;
-export const ListReadOnlyReplicasResponse = /*@__PURE__*/ S.suspend(() =>
-  ListReadOnlyReplicasResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListReadOnlyReplicasResponse",
-}) as any as S.Schema<ListReadOnlyReplicasResponse>;
-
 export interface ListRegionsForOrganizationRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
   organization: string;
@@ -20564,13 +21964,7 @@ export const ListRegionsForOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     organization: S.String.pipe(T.Label()),
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/regions",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "GET", uri: "/organizations/{organization}/regions", code: 200 })),
 ).annotate({
   identifier: "ListRegionsForOrganizationRequest",
 }) as any as S.Schema<ListRegionsForOrganizationRequest>;
@@ -20607,9 +22001,7 @@ export const ListRolesRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListRolesRequest",
-}) as any as S.Schema<ListRolesRequest>;
+).annotate({ identifier: "ListRolesRequest" }) as any as S.Schema<ListRolesRequest>;
 
 export type PaginatedPostgresRoleDataItemInheritedRolesItem =
   | "pg_checkpoint"
@@ -20789,9 +22181,7 @@ export const PaginatedPostgresRole = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.Number,
     data: PaginatedPostgresRoleDataList,
   }),
-).annotate({
-  identifier: "PaginatedPostgresRole",
-}) as any as S.Schema<PaginatedPostgresRole>;
+).annotate({ identifier: "PaginatedPostgresRole" }) as any as S.Schema<PaginatedPostgresRole>;
 
 export type ListRouterChangeRequestsRequestPeriod =
   | "15m"
@@ -20910,9 +22300,7 @@ export const ListRoutersRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListRoutersRequest",
-}) as any as S.Schema<ListRoutersRequest>;
+).annotate({ identifier: "ListRoutersRequest" }) as any as S.Schema<ListRoutersRequest>;
 
 export type ListRoutersResponseBodyList = Array<NekiRouter>;
 export const ListRoutersResponseBodyList = /*@__PURE__*/ S.Array(
@@ -20922,9 +22310,7 @@ export const ListRoutersResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListRoutersResponse = ListRoutersResponseBodyList;
 export const ListRoutersResponse = /*@__PURE__*/ S.suspend(() =>
   ListRoutersResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListRoutersResponse",
-}) as any as S.Schema<ListRoutersResponse>;
+).annotate({ identifier: "ListRoutersResponse" }) as any as S.Schema<ListRoutersResponse>;
 
 export interface ListRouterSizeSkusRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -21132,15 +22518,9 @@ export const ListServiceTokensRequest = /*@__PURE__*/ S.suspend(() =>
     page: S.optional(S.Number.pipe(T.Query())),
     per_page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "GET",
-      uri: "/organizations/{organization}/service-tokens",
-      code: 200,
-    }),
+    T.Http({ method: "GET", uri: "/organizations/{organization}/service-tokens", code: 200 }),
   ),
-).annotate({
-  identifier: "ListServiceTokensRequest",
-}) as any as S.Schema<ListServiceTokensRequest>;
+).annotate({ identifier: "ListServiceTokensRequest" }) as any as S.Schema<ListServiceTokensRequest>;
 
 export type ListShardConfigurationProfileChangeRequestsRequestPeriod =
   | "15m"
@@ -21248,7 +22628,7 @@ export type NekiExtensionDefinitionParametersItemParameterType =
   | "time";
 export const NekiExtensionDefinitionParametersItemParameterType = S.String;
 
-/** Valid options for the parameter value */
+/** Valid options for the parameter value. Null represents an unset value */
 export type NekiExtensionDefinitionParametersItemOptionsList = Array<string>;
 export const NekiExtensionDefinitionParametersItemOptionsList = /*@__PURE__*/ S.Array(
   S.String,
@@ -21296,7 +22676,7 @@ export interface NekiExtensionDefinitionParametersItem {
   max?: number | null;
   /** The minimum value of the parameter */
   min?: number | null;
-  /** Valid options for the parameter value */
+  /** Valid options for the parameter value. Null represents an unset value */
   options?: NekiExtensionDefinitionParametersItemOptionsList | null;
   /** The units of the parameter value */
   units?: NekiExtensionDefinitionParametersItemUnitsList | null;
@@ -21336,8 +22716,8 @@ export const NekiExtensionDefinitionParametersList = /*@__PURE__*/ S.Array(
   NekiExtensionDefinitionParametersItem,
 ) as any as S.Schema<NekiExtensionDefinitionParametersList>;
 
-export type NekiExtensionDefinitionRequirements = PostgresClusterExtensionRequirements;
-export const NekiExtensionDefinitionRequirements = PostgresClusterExtensionRequirements;
+export type NekiExtensionDefinitionRequirements = PostgresExtensionDefinitionRequirements;
+export const NekiExtensionDefinitionRequirements = PostgresExtensionDefinitionRequirements;
 
 export interface NekiExtensionDefinition {
   /** The name of the extension */
@@ -21351,7 +22731,7 @@ export interface NekiExtensionDefinition {
   /** The internal state of the extension */
   internal: boolean;
   parameters: NekiExtensionDefinitionParametersList;
-  requirements: PostgresClusterExtensionRequirements;
+  requirements: PostgresExtensionDefinitionRequirements;
   /** The URL of the extension */
   url: string;
 }
@@ -21363,12 +22743,10 @@ export const NekiExtensionDefinition = /*@__PURE__*/ S.suspend(() =>
     enabled: S.optional(S.NullOr(S.Boolean)),
     internal: S.Boolean,
     parameters: NekiExtensionDefinitionParametersList,
-    requirements: PostgresClusterExtensionRequirements,
+    requirements: PostgresExtensionDefinitionRequirements,
     url: S.String,
   }),
-).annotate({
-  identifier: "NekiExtensionDefinition",
-}) as any as S.Schema<NekiExtensionDefinition>;
+).annotate({ identifier: "NekiExtensionDefinition" }) as any as S.Schema<NekiExtensionDefinition>;
 
 export type ListShardConfigurationProfileExtensionsResponseBodyList =
   Array<NekiExtensionDefinition>;
@@ -21565,9 +22943,7 @@ export const PaginatedNekiShard = /*@__PURE__*/ S.suspend(() =>
     total_pages: S.Number,
     data: PaginatedNekiShardDataList,
   }),
-).annotate({
-  identifier: "PaginatedNekiShard",
-}) as any as S.Schema<PaginatedNekiShard>;
+).annotate({ identifier: "PaginatedNekiShard" }) as any as S.Schema<PaginatedNekiShard>;
 
 export interface ListShardsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -21601,9 +22977,7 @@ export const ListShardsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListShardsRequest",
-}) as any as S.Schema<ListShardsRequest>;
+).annotate({ identifier: "ListShardsRequest" }) as any as S.Schema<ListShardsRequest>;
 
 export type ListSidecarChangeRequestsRequestPeriod =
   | "15m"
@@ -21722,9 +23096,7 @@ export const ListSidecarsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListSidecarsRequest",
-}) as any as S.Schema<ListSidecarsRequest>;
+).annotate({ identifier: "ListSidecarsRequest" }) as any as S.Schema<ListSidecarsRequest>;
 
 export type ListSidecarsResponseBodyList = Array<NekiSidecar>;
 export const ListSidecarsResponseBodyList = /*@__PURE__*/ S.Array(
@@ -21734,9 +23106,7 @@ export const ListSidecarsResponseBodyList = /*@__PURE__*/ S.Array(
 export type ListSidecarsResponse = ListSidecarsResponseBodyList;
 export const ListSidecarsResponse = /*@__PURE__*/ S.suspend(() =>
   ListSidecarsResponseBodyList.pipe(T.RawResponseRoot()),
-).annotate({
-  identifier: "ListSidecarsResponse",
-}) as any as S.Schema<ListSidecarsResponse>;
+).annotate({ identifier: "ListSidecarsResponse" }) as any as S.Schema<ListSidecarsResponse>;
 
 export interface ListSwitchoversRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -21764,9 +23134,7 @@ export const ListSwitchoversRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListSwitchoversRequest",
-}) as any as S.Schema<ListSwitchoversRequest>;
+).annotate({ identifier: "ListSwitchoversRequest" }) as any as S.Schema<ListSwitchoversRequest>;
 
 /** The state of the switchover */
 export type PaginatedPostgresSwitchoverDataItemState =
@@ -22068,9 +23436,7 @@ export const PaginatedTrafficBudget = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedTrafficBudgetDataList,
   }),
-).annotate({
-  identifier: "PaginatedTrafficBudget",
-}) as any as S.Schema<PaginatedTrafficBudget>;
+).annotate({ identifier: "PaginatedTrafficBudget" }) as any as S.Schema<PaginatedTrafficBudget>;
 
 export interface ListTrafficBudgetsForQueryRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -22131,9 +23497,7 @@ export const ListWebhooksRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListWebhooksRequest",
-}) as any as S.Schema<ListWebhooksRequest>;
+).annotate({ identifier: "ListWebhooksRequest" }) as any as S.Schema<ListWebhooksRequest>;
 
 export type PaginatedDatabaseWebhookDataItemEventsItem =
   | "branch.ready"
@@ -22242,9 +23606,7 @@ export const PaginatedDatabaseWebhook = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedDatabaseWebhookDataList,
   }),
-).annotate({
-  identifier: "PaginatedDatabaseWebhook",
-}) as any as S.Schema<PaginatedDatabaseWebhook>;
+).annotate({ identifier: "PaginatedDatabaseWebhook" }) as any as S.Schema<PaginatedDatabaseWebhook>;
 
 export interface ListWorkflowsRequest {
   /** The name of the organization the workflow belongs to */
@@ -22272,9 +23634,7 @@ export const ListWorkflowsRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ListWorkflowsRequest",
-}) as any as S.Schema<ListWorkflowsRequest>;
+).annotate({ identifier: "ListWorkflowsRequest" }) as any as S.Schema<ListWorkflowsRequest>;
 
 /** The state of the workflow */
 export type PaginatedWorkflowDataItemState =
@@ -22506,9 +23866,109 @@ export const PaginatedWorkflow = /*@__PURE__*/ S.suspend(() =>
     prev_page_url: S.NullOr(S.String),
     data: PaginatedWorkflowDataList,
   }),
+).annotate({ identifier: "PaginatedWorkflow" }) as any as S.Schema<PaginatedWorkflow>;
+
+export interface MoveCompleteTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+}
+export const MoveCompleteTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/complete",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "PaginatedWorkflow",
-}) as any as S.Schema<PaginatedWorkflow>;
+  identifier: "MoveCompleteTablesWorkflowRequest",
+}) as any as S.Schema<MoveCompleteTablesWorkflowRequest>;
+
+export interface MoveCompleteTablesWorkflowResponse {}
+export const MoveCompleteTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "MoveCompleteTablesWorkflowResponse",
+}) as any as S.Schema<MoveCompleteTablesWorkflowResponse>;
+
+export interface MoveReverseTrafficTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+}
+export const MoveReverseTrafficTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/reverse-traffic",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "MoveReverseTrafficTablesWorkflowRequest",
+}) as any as S.Schema<MoveReverseTrafficTablesWorkflowRequest>;
+
+export interface MoveReverseTrafficTablesWorkflowResponse {}
+export const MoveReverseTrafficTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "MoveReverseTrafficTablesWorkflowResponse",
+}) as any as S.Schema<MoveReverseTrafficTablesWorkflowResponse>;
+
+export interface MoveSwitchTrafficTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+}
+export const MoveSwitchTrafficTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/switch-traffic",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "MoveSwitchTrafficTablesWorkflowRequest",
+}) as any as S.Schema<MoveSwitchTrafficTablesWorkflowRequest>;
+
+export interface MoveSwitchTrafficTablesWorkflowResponse {}
+export const MoveSwitchTrafficTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "MoveSwitchTrafficTablesWorkflowResponse",
+}) as any as S.Schema<MoveSwitchTrafficTablesWorkflowResponse>;
 
 export interface PromoteBranchRequest {
   /** The name of the organization the branch belongs to */
@@ -22530,9 +23990,7 @@ export const PromoteBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "PromoteBranchRequest",
-}) as any as S.Schema<PromoteBranchRequest>;
+).annotate({ identifier: "PromoteBranchRequest" }) as any as S.Schema<PromoteBranchRequest>;
 
 export interface ReassignRoleObjectsRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -22586,11 +24044,7 @@ export const RemoveOrganizationMemberRequest = /*@__PURE__*/ S.suspend(() =>
     delete_passwords: S.optional(S.Boolean.pipe(T.Query())),
     delete_service_tokens: S.optional(S.Boolean.pipe(T.Query())),
   }).pipe(
-    T.Http({
-      method: "DELETE",
-      uri: "/organizations/{organization}/members/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "DELETE", uri: "/organizations/{organization}/members/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "RemoveOrganizationMemberRequest",
@@ -22660,9 +24114,7 @@ export const RenewPasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RenewPasswordRequest",
-}) as any as S.Schema<RenewPasswordRequest>;
+).annotate({ identifier: "RenewPasswordRequest" }) as any as S.Schema<RenewPasswordRequest>;
 
 export interface RenewRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -22687,9 +24139,7 @@ export const RenewRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RenewRoleRequest",
-}) as any as S.Schema<RenewRoleRequest>;
+).annotate({ identifier: "RenewRoleRequest" }) as any as S.Schema<RenewRoleRequest>;
 
 export interface ResetDefaultRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -22711,9 +24161,7 @@ export const ResetDefaultRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResetDefaultRoleRequest",
-}) as any as S.Schema<ResetDefaultRoleRequest>;
+).annotate({ identifier: "ResetDefaultRoleRequest" }) as any as S.Schema<ResetDefaultRoleRequest>;
 
 export interface ResetRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -22738,9 +24186,7 @@ export const ResetRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "ResetRoleRequest",
-}) as any as S.Schema<ResetRoleRequest>;
+).annotate({ identifier: "ResetRoleRequest" }) as any as S.Schema<ResetRoleRequest>;
 
 export interface RetryWorkflowRequest {
   /** The name of the organization the workflow belongs to */
@@ -22762,9 +24208,7 @@ export const RetryWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "RetryWorkflowRequest",
-}) as any as S.Schema<RetryWorkflowRequest>;
+).annotate({ identifier: "RetryWorkflowRequest" }) as any as S.Schema<RetryWorkflowRequest>;
 
 export interface RunBranchMaintenanceRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -22922,9 +24366,152 @@ export const SkipRevertPeriodRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
+).annotate({ identifier: "SkipRevertPeriodRequest" }) as any as S.Schema<SkipRevertPeriodRequest>;
+
+export interface StartMoveTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+}
+export const StartMoveTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/start",
+      code: 200,
+    }),
+  ),
 ).annotate({
-  identifier: "SkipRevertPeriodRequest",
-}) as any as S.Schema<SkipRevertPeriodRequest>;
+  identifier: "StartMoveTablesWorkflowRequest",
+}) as any as S.Schema<StartMoveTablesWorkflowRequest>;
+
+export interface StartMoveTablesWorkflowResponseData {
+  /** Human-readable summary of the start result */
+  summary?: string;
+}
+export const StartMoveTablesWorkflowResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    summary: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StartMoveTablesWorkflowResponseData",
+}) as any as S.Schema<StartMoveTablesWorkflowResponseData>;
+
+export interface StartMoveTablesWorkflowResponse {
+  data: StartMoveTablesWorkflowResponseData;
+}
+export const StartMoveTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: StartMoveTablesWorkflowResponseData,
+  }),
+).annotate({
+  identifier: "StartMoveTablesWorkflowResponse",
+}) as any as S.Schema<StartMoveTablesWorkflowResponse>;
+
+export interface StopMoveTablesWorkflowRequest {
+  /** Organization name */
+  organization: string;
+  /** Database name */
+  database: string;
+  /** Branch name */
+  branch: string;
+  /** Workflow name */
+  workflow: string;
+}
+export const StopMoveTablesWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    workflow: S.String.pipe(T.Label()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/move-tables/workflows/{workflow}/stop",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "StopMoveTablesWorkflowRequest",
+}) as any as S.Schema<StopMoveTablesWorkflowRequest>;
+
+export interface StopMoveTablesWorkflowResponseData {
+  /** Human-readable summary of the stop result */
+  summary?: string;
+}
+export const StopMoveTablesWorkflowResponseData = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    summary: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StopMoveTablesWorkflowResponseData",
+}) as any as S.Schema<StopMoveTablesWorkflowResponseData>;
+
+export interface StopMoveTablesWorkflowResponse {
+  data: StopMoveTablesWorkflowResponseData;
+}
+export const StopMoveTablesWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: StopMoveTablesWorkflowResponseData,
+  }),
+).annotate({
+  identifier: "StopMoveTablesWorkflowResponse",
+}) as any as S.Schema<StopMoveTablesWorkflowResponse>;
+
+/** The IDs of the draft config change requests to submit */
+export type SubmitBranchConfigChangeRequestsRequestIdsList = Array<string>;
+export const SubmitBranchConfigChangeRequestsRequestIdsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<SubmitBranchConfigChangeRequestsRequestIdsList>;
+
+export interface SubmitBranchConfigChangeRequestsRequest {
+  /** The name of the organization the branch belongs to */
+  organization: string;
+  /** The name of the database the branch belongs to */
+  database: string;
+  /** The name of the branch */
+  branch: string;
+  /** The IDs of the draft config change requests to submit */
+  ids: SubmitBranchConfigChangeRequestsRequestIdsList;
+}
+export const SubmitBranchConfigChangeRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    ids: SubmitBranchConfigChangeRequestsRequestIdsList,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/config-changes/submit",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "SubmitBranchConfigChangeRequestsRequest",
+}) as any as S.Schema<SubmitBranchConfigChangeRequestsRequest>;
+
+export interface SubmitBranchConfigChangeRequestsResponse {
+  /** The number of config change requests submitted */
+  submitted: number;
+}
+export const SubmitBranchConfigChangeRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    submitted: S.Number,
+  }),
+).annotate({
+  identifier: "SubmitBranchConfigChangeRequestsResponse",
+}) as any as S.Schema<SubmitBranchConfigChangeRequestsResponse>;
 
 export interface TestWebhookRequest {
   /** The name of the organization */
@@ -22946,9 +24533,7 @@ export const TestWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "TestWebhookRequest",
-}) as any as S.Schema<TestWebhookRequest>;
+).annotate({ identifier: "TestWebhookRequest" }) as any as S.Schema<TestWebhookRequest>;
 
 export interface TestWebhookResponse {}
 export const TestWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -22956,9 +24541,7 @@ export const TestWebhookResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).a
 }) as any as S.Schema<TestWebhookResponse>;
 
 /** Admin parameters nested by namespace (e.g., {"admin": {"recovery-poll-interval": "10s"}}) */
-export type UpdateAdminRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateAdminRequestParametersMap = { [key: string]: unknown | undefined };
 export const UpdateAdminRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -22990,9 +24573,7 @@ export const UpdateAdminRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateAdminRequest",
-}) as any as S.Schema<UpdateAdminRequest>;
+).annotate({ identifier: "UpdateAdminRequest" }) as any as S.Schema<UpdateAdminRequest>;
 
 export interface UpdateAutoApplyRequest {
   /** The name of the deploy request's organization */
@@ -23017,9 +24598,7 @@ export const UpdateAutoApplyRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateAutoApplyRequest",
-}) as any as S.Schema<UpdateAutoApplyRequest>;
+).annotate({ identifier: "UpdateAutoApplyRequest" }) as any as S.Schema<UpdateAutoApplyRequest>;
 
 export interface UpdateAutoDeleteBranchRequest {
   /** The name of the deploy request's organization */
@@ -23074,9 +24653,7 @@ export const UpdateBackupRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateBackupRequest",
-}) as any as S.Schema<UpdateBackupRequest>;
+).annotate({ identifier: "UpdateBackupRequest" }) as any as S.Schema<UpdateBackupRequest>;
 
 /** Whether the policy is for production or development branches */
 export type UpdateBackupPolicyRequestTarget = "production" | "development";
@@ -23142,9 +24719,7 @@ export const UpdateBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateBackupPolicyRequest>;
 
 /** Bouncer configuration parameters nested by namespace (e.g., {"pgbouncer": {"default_pool_size": "100"}}). Use the 'List cluster parameters' endpoint to retrieve available parameters. Only parameters with namespace 'pgbouncer' can be updated. */
-export type UpdateBouncerResizeRequestRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateBouncerResizeRequestRequestParametersMap = { [key: string]: unknown | undefined };
 export const UpdateBouncerResizeRequestRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -23198,9 +24773,7 @@ export type PostgresBouncerResizeRequestTarget = "primary" | "replica" | "replic
 export const PostgresBouncerResizeRequestTarget = S.String;
 
 /** The bouncer parameters */
-export type PostgresBouncerResizeRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type PostgresBouncerResizeRequestParametersMap = { [key: string]: unknown | undefined };
 export const PostgresBouncerResizeRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -23314,14 +24887,16 @@ export const UpdateBranchRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateBranchRequest",
-}) as any as S.Schema<UpdateBranchRequest>;
+).annotate({ identifier: "UpdateBranchRequest" }) as any as S.Schema<UpdateBranchRequest>;
+
+/** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
+export type UpdateBranchChangeRequestRequestExtensionsList = Array<string>;
+export const UpdateBranchChangeRequestRequestExtensionsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<UpdateBranchChangeRequestRequestExtensionsList>;
 
 /** Cluster configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "200"}}). Use the 'List cluster parameters' endpoint to retrieve available parameters. Supported namespaces include 'patroni', 'pgconf', and 'pgbouncer'. */
-export type UpdateBranchChangeRequestRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateBranchChangeRequestRequestParametersMap = { [key: string]: unknown | undefined };
 export const UpdateBranchChangeRequestRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -23365,6 +24940,8 @@ export interface UpdateBranchChangeRequestRequest {
   cluster_size?: string;
   /** The total number of replicas */
   replicas?: number;
+  /** Extensions to enable. This replaces the current set; omit it to leave them unchanged. */
+  extensions?: UpdateBranchChangeRequestRequestExtensionsList;
   /** Cluster configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "200"}}). Use the 'List cluster parameters' endpoint to retrieve available parameters. Supported namespaces include 'patroni', 'pgconf', and 'pgbouncer'. */
   parameters?: UpdateBranchChangeRequestRequestParametersMap;
   storage?: UpdateBranchChangeRequestRequestStorage;
@@ -23376,6 +24953,7 @@ export const UpdateBranchChangeRequestRequest = /*@__PURE__*/ S.suspend(() =>
     branch: S.String.pipe(T.Label()),
     cluster_size: S.optional(S.String),
     replicas: S.optional(S.Number),
+    extensions: S.optional(UpdateBranchChangeRequestRequestExtensionsList),
     parameters: S.optional(UpdateBranchChangeRequestRequestParametersMap),
     storage: S.optional(UpdateBranchChangeRequestRequestStorage),
   }).pipe(
@@ -23533,6 +25111,8 @@ export interface UpdateDatabaseSettingsRequest {
   production_branch_web_console?: boolean;
   /** The default branch of the database */
   default_branch?: string;
+  /** The number of development branches this database can have, up to 5000. */
+  development_branches_limit?: number;
 }
 export const UpdateDatabaseSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -23550,6 +25130,7 @@ export const UpdateDatabaseSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     deletion_protected: S.optional(S.Boolean),
     production_branch_web_console: S.optional(S.Boolean),
     default_branch: S.optional(S.String),
+    development_branches_limit: S.optional(S.Number),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -23595,9 +25176,7 @@ export const UpdateDatabaseThrottlerRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateDatabaseThrottlerRequest>;
 
 /** The data topology JSON to set for the branch */
-export type UpdateDataTopologyRequestDataTopologyMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateDataTopologyRequestDataTopologyMap = { [key: string]: unknown | undefined };
 export const UpdateDataTopologyRequestDataTopologyMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -23629,6 +25208,54 @@ export const UpdateDataTopologyRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateDataTopologyRequest",
 }) as any as S.Schema<UpdateDataTopologyRequest>;
+
+/** Configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "300"}}). Values must be greater than or equal to the primary's. */
+export type UpdateDedicatedReadReplicaRequestParametersMap = { [key: string]: unknown | undefined };
+export const UpdateDedicatedReadReplicaRequestParametersMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.Unknown,
+) as any as S.Schema<UpdateDedicatedReadReplicaRequestParametersMap>;
+
+export type UpdateDedicatedReadReplicaRequestStorage = CreateDedicatedReadReplicaRequestStorage;
+export const UpdateDedicatedReadReplicaRequestStorage = CreateDedicatedReadReplicaRequestStorage;
+
+export interface UpdateDedicatedReadReplicaRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The name of the dedicated read replica */
+  dedicated_read_replica: string;
+  /** The number of instances serving reads */
+  replicas?: number;
+  /** The cluster size SKU name */
+  cluster_size?: string;
+  /** Configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "300"}}). Values must be greater than or equal to the primary's. */
+  parameters?: UpdateDedicatedReadReplicaRequestParametersMap;
+  storage?: CreateDedicatedReadReplicaRequestStorage;
+}
+export const UpdateDedicatedReadReplicaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    dedicated_read_replica: S.String.pipe(T.Label()),
+    replicas: S.optional(S.Number),
+    cluster_size: S.optional(S.String),
+    parameters: S.optional(UpdateDedicatedReadReplicaRequestParametersMap),
+    storage: S.optional(CreateDedicatedReadReplicaRequestStorage),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/dedicated-read-replicas/{dedicated_read_replica}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateDedicatedReadReplicaRequest",
+}) as any as S.Schema<UpdateDedicatedReadReplicaRequest>;
 
 /** If specifying throttler ratios per keyspace, an array of { "keyspace_name": "mykeyspace", "ratio": 10 }, one for each eligible keyspace */
 export type UpdateDeployRequestThrottlerRequestConfigurationsList = Array<string>;
@@ -23665,6 +25292,60 @@ export const UpdateDeployRequestThrottlerRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateDeployRequestThrottlerRequest",
 }) as any as S.Schema<UpdateDeployRequestThrottlerRequest>;
+
+export type UpdateInsightsAgentScheduleRequestRunType =
+  | "review_slow_queries"
+  | "implement_schema_recommendation";
+export const UpdateInsightsAgentScheduleRequestRunType = S.String;
+
+/** The cadence unit */
+export type UpdateInsightsAgentScheduleRequestFrequencyUnit = "day" | "week" | "month";
+export const UpdateInsightsAgentScheduleRequestFrequencyUnit = S.String;
+
+export interface UpdateInsightsAgentScheduleRequest {
+  /** Organization name slug from `list_organizations`. Example: `acme`. */
+  organization: string;
+  /** Database name slug from `list_databases`. Example: `app-db`. */
+  database: string;
+  /** Branch name from `list_branches`. Example: `main`. */
+  branch: string;
+  /** The scheduled run type */
+  run_type: UpdateInsightsAgentScheduleRequestRunType | (string & {});
+  /** Whether the schedule is enabled */
+  enabled?: boolean;
+  /** The cadence unit */
+  frequency_unit?: UpdateInsightsAgentScheduleRequestFrequencyUnit | (string & {});
+  /** The local time of day in HH:MM format */
+  schedule_time?: string;
+  /** The IANA time zone */
+  time_zone?: string;
+  /** The weekday for weekly schedules */
+  day_of_week?: number;
+  /** The day of month for monthly schedules */
+  day_of_month?: number;
+}
+export const UpdateInsightsAgentScheduleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    organization: S.String.pipe(T.Label()),
+    database: S.String.pipe(T.Label()),
+    branch: S.String.pipe(T.Label()),
+    run_type: UpdateInsightsAgentScheduleRequestRunType.pipe(T.Label()),
+    enabled: S.optional(S.Boolean),
+    frequency_unit: S.optional(UpdateInsightsAgentScheduleRequestFrequencyUnit),
+    schedule_time: S.optional(S.String),
+    time_zone: S.optional(S.String),
+    day_of_week: S.optional(S.Number),
+    day_of_month: S.optional(S.Number),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/insights/agent/schedules/{run_type}",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "UpdateInsightsAgentScheduleRequest",
+}) as any as S.Schema<UpdateInsightsAgentScheduleRequest>;
 
 export interface UpdateKeyspaceRequestReplicationDurabilityConstraints {
   /** The replication durability strategy */
@@ -23745,9 +25426,7 @@ export const UpdateKeyspaceRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateKeyspaceRequest",
-}) as any as S.Schema<UpdateKeyspaceRequest>;
+).annotate({ identifier: "UpdateKeyspaceRequest" }) as any as S.Schema<UpdateKeyspaceRequest>;
 
 export interface UpdateKeyspaceResizeRequestRequest {
   /** The name of the organization the branch belongs to */
@@ -23843,13 +25522,7 @@ export const UpdateOrganizationRequest = /*@__PURE__*/ S.suspend(() =>
     billing_email: S.optional(S.String),
     idp_managed_roles: S.optional(S.Boolean),
     invoice_budget_amount: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/organizations/{organization}",
-      code: 200,
-    }),
-  ),
+  }).pipe(T.Http({ method: "PATCH", uri: "/organizations/{organization}", code: 200 })),
 ).annotate({
   identifier: "UpdateOrganizationRequest",
 }) as any as S.Schema<UpdateOrganizationRequest>;
@@ -23868,11 +25541,7 @@ export const UpdateOrganizationMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     id: S.String.pipe(T.Label()),
     role: S.String,
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/organizations/{organization}/members/{id}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/organizations/{organization}/members/{id}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateOrganizationMembershipRequest",
@@ -23895,11 +25564,7 @@ export const UpdateOrganizationTeamRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/organizations/{organization}/teams/{team}",
-      code: 200,
-    }),
+    T.Http({ method: "PATCH", uri: "/organizations/{organization}/teams/{team}", code: 200 }),
   ),
 ).annotate({
   identifier: "UpdateOrganizationTeamRequest",
@@ -23940,9 +25605,7 @@ export const UpdatePasswordRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdatePasswordRequest",
-}) as any as S.Schema<UpdatePasswordRequest>;
+).annotate({ identifier: "UpdatePasswordRequest" }) as any as S.Schema<UpdatePasswordRequest>;
 
 export interface UpdatePaymentMethodRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -23961,56 +25624,6 @@ export const UpdatePaymentMethodRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdatePaymentMethodRequest",
 }) as any as S.Schema<UpdatePaymentMethodRequest>;
-
-/** Configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "300"}}). Values must be greater than or equal to the primary's. */
-export type UpdateReadOnlyReplicaRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
-export const UpdateReadOnlyReplicaRequestParametersMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Unknown,
-) as any as S.Schema<UpdateReadOnlyReplicaRequestParametersMap>;
-
-export type UpdateReadOnlyReplicaRequestStorage = CreateReadOnlyReplicaRequestStorage;
-export const UpdateReadOnlyReplicaRequestStorage = CreateReadOnlyReplicaRequestStorage;
-
-export interface UpdateReadOnlyReplicaRequest {
-  /** Organization name slug from `list_organizations`. Example: `acme`. */
-  organization: string;
-  /** Database name slug from `list_databases`. Example: `app-db`. */
-  database: string;
-  /** Branch name from `list_branches`. Example: `main`. */
-  branch: string;
-  /** The name of the read-only replica */
-  read_only_replica: string;
-  /** The number of instances serving reads */
-  replicas?: number;
-  /** The cluster size SKU name */
-  cluster_size?: string;
-  /** Configuration parameters nested by namespace (e.g., {"pgconf": {"max_connections": "300"}}). Values must be greater than or equal to the primary's. */
-  parameters?: UpdateReadOnlyReplicaRequestParametersMap;
-  storage?: CreateReadOnlyReplicaRequestStorage;
-}
-export const UpdateReadOnlyReplicaRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    organization: S.String.pipe(T.Label()),
-    database: S.String.pipe(T.Label()),
-    branch: S.String.pipe(T.Label()),
-    read_only_replica: S.String.pipe(T.Label()),
-    replicas: S.optional(S.Number),
-    cluster_size: S.optional(S.String),
-    parameters: S.optional(UpdateReadOnlyReplicaRequestParametersMap),
-    storage: S.optional(CreateReadOnlyReplicaRequestStorage),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      uri: "/organizations/{organization}/databases/{database}/branches/{branch}/read-only-replicas/{read_only_replica}",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "UpdateReadOnlyReplicaRequest",
-}) as any as S.Schema<UpdateReadOnlyReplicaRequest>;
 
 export interface UpdateRoleRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -24044,14 +25657,10 @@ export const UpdateRoleRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateRoleRequest",
-}) as any as S.Schema<UpdateRoleRequest>;
+).annotate({ identifier: "UpdateRoleRequest" }) as any as S.Schema<UpdateRoleRequest>;
 
 /** Router parameters nested by namespace (e.g., {"router": {"replication-lag-tolerable-max": "15m"}}) */
-export type UpdateRouterRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateRouterRequestParametersMap = { [key: string]: unknown | undefined };
 export const UpdateRouterRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24098,9 +25707,7 @@ export const UpdateRouterRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateRouterRequest",
-}) as any as S.Schema<UpdateRouterRequest>;
+).annotate({ identifier: "UpdateRouterRequest" }) as any as S.Schema<UpdateRouterRequest>;
 
 export interface UpdateSafeMigrationsRequest {
   /** The name of the organization the branch belongs to */
@@ -24152,9 +25759,7 @@ export const UpdateShardRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateShardRequest",
-}) as any as S.Schema<UpdateShardRequest>;
+).annotate({ identifier: "UpdateShardRequest" }) as any as S.Schema<UpdateShardRequest>;
 
 export interface UpdateShardResponse {}
 export const UpdateShardResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -24176,8 +25781,10 @@ export const UpdateShardConfigurationProfileRequestParametersMap = /*@__PURE__*/
   S.Unknown,
 ) as any as S.Schema<UpdateShardConfigurationProfileRequestParametersMap>;
 
-export type UpdateShardConfigurationProfileRequestStorage = CreateReadOnlyReplicaRequestStorage;
-export const UpdateShardConfigurationProfileRequestStorage = CreateReadOnlyReplicaRequestStorage;
+export type UpdateShardConfigurationProfileRequestStorage =
+  CreateDedicatedReadReplicaRequestStorage;
+export const UpdateShardConfigurationProfileRequestStorage =
+  CreateDedicatedReadReplicaRequestStorage;
 
 export interface UpdateShardConfigurationProfileRequest {
   /** Organization name slug from `list_organizations`. Example: `acme`. */
@@ -24202,7 +25809,7 @@ export interface UpdateShardConfigurationProfileRequest {
   postgres_major_version?: string;
   /** The PostgreSQL minor version for the shard configuration profile. Requires postgres_major_version when specified. */
   postgres_minor_version?: string;
-  storage?: CreateReadOnlyReplicaRequestStorage;
+  storage?: CreateDedicatedReadReplicaRequestStorage;
 }
 export const UpdateShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -24217,7 +25824,7 @@ export const UpdateShardConfigurationProfileRequest = /*@__PURE__*/ S.suspend(()
     parameters: S.optional(UpdateShardConfigurationProfileRequestParametersMap),
     postgres_major_version: S.optional(S.String),
     postgres_minor_version: S.optional(S.String),
-    storage: S.optional(CreateReadOnlyReplicaRequestStorage),
+    storage: S.optional(CreateDedicatedReadReplicaRequestStorage),
   }).pipe(
     T.Http({
       method: "PATCH",
@@ -24263,9 +25870,7 @@ export const UpdateShardConfigurationProfileShardRequest = /*@__PURE__*/ S.suspe
 }) as any as S.Schema<UpdateShardConfigurationProfileShardRequest>;
 
 /** Sidecar parameters nested by namespace (e.g., {"sidecar": {"pool-capacity": "100"}}) */
-export type UpdateSidecarRequestParametersMap = {
-  [key: string]: unknown | undefined;
-};
+export type UpdateSidecarRequestParametersMap = { [key: string]: unknown | undefined };
 export const UpdateSidecarRequestParametersMap = /*@__PURE__*/ S.Record(
   S.String,
   S.Unknown,
@@ -24297,9 +25902,7 @@ export const UpdateSidecarRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateSidecarRequest",
-}) as any as S.Schema<UpdateSidecarRequest>;
+).annotate({ identifier: "UpdateSidecarRequest" }) as any as S.Schema<UpdateSidecarRequest>;
 
 /** The mode of the traffic budget */
 export type UpdateTrafficBudgetRequestMode = "enforce" | "warn" | "off";
@@ -24400,9 +26003,7 @@ export const UpdateWebhookRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "UpdateWebhookRequest",
-}) as any as S.Schema<UpdateWebhookRequest>;
+).annotate({ identifier: "UpdateWebhookRequest" }) as any as S.Schema<UpdateWebhookRequest>;
 
 export interface VerifyWorkflowRequest {
   /** The name of the organization the workflow belongs to */
@@ -24424,9 +26025,7 @@ export const VerifyWorkflowRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "VerifyWorkflowRequest",
-}) as any as S.Schema<VerifyWorkflowRequest>;
+).annotate({ identifier: "VerifyWorkflowRequest" }) as any as S.Schema<VerifyWorkflowRequest>;
 
 export interface WorkflowCutoverRequest {
   /** The name of the organization the workflow belongs to */
@@ -24448,9 +26047,7 @@ export const WorkflowCutoverRequest = /*@__PURE__*/ S.suspend(() =>
       code: 200,
     }),
   ),
-).annotate({
-  identifier: "WorkflowCutoverRequest",
-}) as any as S.Schema<WorkflowCutoverRequest>;
+).annotate({ identifier: "WorkflowCutoverRequest" }) as any as S.Schema<WorkflowCutoverRequest>;
 
 export interface WorkflowReverseCutoverRequest {
   /** The name of the organization the workflow belongs to */
@@ -24606,7 +26203,11 @@ export const bulkCreateShardConfigurationProfileShards: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CancelAdminChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelAdminChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a change request for a Neki admin */
 export const cancelAdminChangeRequest: API.OperationMethod<
   CancelAdminChangeRequestRequest,
@@ -24616,12 +26217,16 @@ export const cancelAdminChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelAdminChangeRequestRequest,
   output: CancelAdminChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelBouncerResizeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelBouncerResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a resize request */
 export const cancelBouncerResizeRequest: API.OperationMethod<
   CancelBouncerResizeRequestRequest,
@@ -24631,12 +26236,16 @@ export const cancelBouncerResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelBouncerResizeRequestRequest,
   output: CancelBouncerResizeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelBranchChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelBranchChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a change request */
 export const cancelBranchChangeRequest: API.OperationMethod<
   CancelBranchChangeRequestRequest,
@@ -24646,12 +26255,35 @@ export const cancelBranchChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelBranchChangeRequestRequest,
   output: CancelBranchChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelDeployRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelBranchConfigChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Cancel a draft branch config change request */
+export const cancelBranchConfigChangeRequest: API.OperationMethod<
+  CancelBranchConfigChangeRequestRequest,
+  CancelBranchConfigChangeRequestResponse,
+  CancelBranchConfigChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelBranchConfigChangeRequestRequest,
+  output: CancelBranchConfigChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelDeployRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a queued deploy request */
 export const cancelDeployRequest: API.OperationMethod<
   CancelDeployRequestRequest,
@@ -24661,12 +26293,35 @@ export const cancelDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelDeployRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelKeyspaceResizeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelKeyspaceConfigChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Cancel a draft or pending keyspace config change request */
+export const cancelKeyspaceConfigChangeRequest: API.OperationMethod<
+  CancelKeyspaceConfigChangeRequestRequest,
+  CancelKeyspaceConfigChangeRequestResponse,
+  CancelKeyspaceConfigChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelKeyspaceConfigChangeRequestRequest,
+  output: CancelKeyspaceConfigChangeRequestResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelKeyspaceResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a resize request */
 export const cancelKeyspaceResizeRequest: API.OperationMethod<
   CancelKeyspaceResizeRequestRequest,
@@ -24676,7 +26331,26 @@ export const cancelKeyspaceResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelKeyspaceResizeRequestRequest,
   output: CancelKeyspaceResizeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelMoveTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Cancel a MoveTables workflow */
+export const cancelMoveTablesWorkflow: API.OperationMethod<
+  CancelMoveTablesWorkflowRequest,
+  CancelMoveTablesWorkflowResponse,
+  CancelMoveTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelMoveTablesWorkflowRequest,
+  output: CancelMoveTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -24700,7 +26374,30 @@ export const cancelNekiChangeRequest: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CancelRouterChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelOrganizationInvitationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Cancel an invitation */
+export const cancelOrganizationInvitation: API.OperationMethod<
+  CancelOrganizationInvitationRequest,
+  CancelOrganizationInvitationResponse,
+  CancelOrganizationInvitationError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CancelOrganizationInvitationRequest,
+  output: CancelOrganizationInvitationResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CancelRouterChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a change request for a Neki router */
 export const cancelRouterChangeRequest: API.OperationMethod<
   CancelRouterChangeRequestRequest,
@@ -24710,7 +26407,7 @@ export const cancelRouterChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelRouterChangeRequestRequest,
   output: CancelRouterChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -24718,6 +26415,7 @@ export const cancelRouterChangeRequest: API.OperationMethod<
 export type CancelShardConfigurationProfileChangeRequestError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Cancel a change request for a Neki shard configuration profile */
 export const cancelShardConfigurationProfileChangeRequest: API.OperationMethod<
@@ -24728,12 +26426,16 @@ export const cancelShardConfigurationProfileChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelShardConfigurationProfileChangeRequestRequest,
   output: CancelShardConfigurationProfileChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelSidecarChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelSidecarChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Cancel a change request for a Neki sidecar */
 export const cancelSidecarChangeRequest: API.OperationMethod<
   CancelSidecarChangeRequestRequest,
@@ -24743,12 +26445,12 @@ export const cancelSidecarChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelSidecarChangeRequestRequest,
   output: CancelSidecarChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CancelWorkflowError = Forbidden | NotFound | PlanetScaleOpError;
+export type CancelWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Cancel a workflow */
 export const cancelWorkflow: API.OperationMethod<
   CancelWorkflowRequest,
@@ -24758,12 +26460,12 @@ export const cancelWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelWorkflowRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CompleteRevertError = Forbidden | NotFound | PlanetScaleOpError;
+export type CompleteRevertError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Complete a revert */
 export const completeRevert: API.OperationMethod<
   CompleteRevertRequest,
@@ -24773,12 +26475,12 @@ export const completeRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CompleteRevertRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CompleteWorkflowError = Forbidden | NotFound | PlanetScaleOpError;
+export type CompleteWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Complete a workflow */
 export const completeWorkflow: API.OperationMethod<
   CompleteWorkflowRequest,
@@ -24788,12 +26490,16 @@ export const completeWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CompleteWorkflowRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ConfigureOrganizationSsoError = Forbidden | NotFound | PlanetScaleOpError;
+export type ConfigureOrganizationSsoError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Open the SSO configuration portal Return a URL for configuring the identity provider. Requires at least one verified domain. */
 export const configureOrganizationSso: API.OperationMethod<
   ConfigureOrganizationSsoRequest,
@@ -24803,12 +26509,12 @@ export const configureOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ConfigureOrganizationSsoRequest,
   output: ConfigureOrganizationSsoResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateBackupError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Create a backup */
 export const createBackup: API.OperationMethod<
   CreateBackupRequest,
@@ -24818,7 +26524,7 @@ export const createBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBackupRequest,
   output: Backup,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -24872,7 +26578,30 @@ export const createBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateBranchLogSignatureError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateBranchConfigChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create a branch config change request Creates a draft change to the VTGate parameters of a branch. Nothing is applied until the draft is submitted with the "submit_branch_config_change_requests" endpoint. A branch can have one unfinished VTGate change at a time. Use the "list_branch_vitess_parameters" endpoint to see the parameters you can change. */
+export const createBranchConfigChangeRequest: API.OperationMethod<
+  CreateBranchConfigChangeRequestRequest,
+  BranchConfigChangeRequest,
+  CreateBranchConfigChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateBranchConfigChangeRequestRequest,
+  output: BranchConfigChangeRequest,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateBranchLogSignatureError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a log signature Creates a signed token that can be used to access branch logs. */
 export const createBranchLogSignature: API.OperationMethod<
   CreateBranchLogSignatureRequest,
@@ -24882,7 +26611,7 @@ export const createBranchLogSignature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateBranchLogSignatureRequest,
   output: CreateBranchLogSignatureResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -24921,6 +26650,25 @@ export const createDatabasePostgresCidr: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateDedicatedReadReplicaError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create a dedicated read replica */
+export const createDedicatedReadReplica: API.OperationMethod<
+  CreateDedicatedReadReplicaRequest,
+  PostgresReadOnlyReplica,
+  CreateDedicatedReadReplicaError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDedicatedReadReplicaRequest,
+  output: PostgresReadOnlyReplica,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateDeployRequestError =
   | Forbidden
   | NotFound
@@ -24935,6 +26683,25 @@ export const createDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDeployRequestRequest,
   output: DatabaseDeployRequest,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateInsightsAgentRunError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create an Insights agent run */
+export const createInsightsAgentRun: API.OperationMethod<
+  CreateInsightsAgentRunRequest,
+  InsightsAgentRun,
+  CreateInsightsAgentRunError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateInsightsAgentRunRequest,
+  output: InsightsAgentRun,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
@@ -24955,6 +26722,44 @@ export const createKeyspace: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateKeyspaceConfigChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create a keyspace config change request Creates a draft change to the VTTablet or MySQL parameters of a keyspace. Nothing is applied until the draft is submitted with the "submit_branch_config_change_requests" endpoint. A keyspace can have one unfinished change of each type at a time. Use the "list_branch_vitess_parameters" endpoint to see the parameters you can change. */
+export const createKeyspaceConfigChangeRequest: API.OperationMethod<
+  CreateKeyspaceConfigChangeRequestRequest,
+  KeyspaceConfigChangeRequest,
+  CreateKeyspaceConfigChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateKeyspaceConfigChangeRequestRequest,
+  output: KeyspaceConfigChangeRequest,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateMoveTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Create a MoveTables workflow */
+export const createMoveTablesWorkflow: API.OperationMethod<
+  CreateMoveTablesWorkflowRequest,
+  CreateMoveTablesWorkflowResponse,
+  CreateMoveTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateMoveTablesWorkflowRequest,
+  output: CreateMoveTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateOauthTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Create or renew an OAuth token Create an OAuth token from an authorization grant code, or refresh an OAuth token from a refresh token */
 export const createOauthToken: API.OperationMethod<
@@ -24970,7 +26775,30 @@ export const createOauthToken: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateOrganizationSsoDomainError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateOrganizationInvitationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Send an invitation */
+export const createOrganizationInvitation: API.OperationMethod<
+  CreateOrganizationInvitationRequest,
+  OrganizationInvitation,
+  CreateOrganizationInvitationError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateOrganizationInvitationRequest,
+  output: OrganizationInvitation,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateOrganizationSsoDomainError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Start SSO domain verification Enable SSO if needed and return a URL for verifying an email domain */
 export const createOrganizationSsoDomain: API.OperationMethod<
   CreateOrganizationSsoDomainRequest,
@@ -24980,7 +26808,7 @@ export const createOrganizationSsoDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateOrganizationSsoDomainRequest,
   output: CreateOrganizationSsoDomainResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25020,7 +26848,11 @@ export const createPassword: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateQueryPatternsReportError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateQueryPatternsReportError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a new query patterns report */
 export const createQueryPatternsReport: API.OperationMethod<
   CreateQueryPatternsReportRequest,
@@ -25030,27 +26862,12 @@ export const createQueryPatternsReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateQueryPatternsReportRequest,
   output: QueryPatternsDownload,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateReadOnlyReplicaError = Forbidden | NotFound | PlanetScaleOpError;
-/** Create a read-only replica */
-export const createReadOnlyReplica: API.OperationMethod<
-  CreateReadOnlyReplicaRequest,
-  PostgresReadOnlyReplica,
-  CreateReadOnlyReplicaError,
-  PlanetScaleOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: CreateReadOnlyReplicaRequest,
-  output: PostgresReadOnlyReplica,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-  protocol: PlanetScaleProtocol,
-  retry: Retry.Retry,
-}));
-
-export type CreateRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Create role credentials */
 export const createRole: API.OperationMethod<
   CreateRoleRequest,
@@ -25060,7 +26877,7 @@ export const createRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25080,7 +26897,11 @@ export const createRouter: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateServiceTokenError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateServiceTokenError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a service token Create a new service token for the organization. */
 export const createServiceToken: API.OperationMethod<
   CreateServiceTokenRequest,
@@ -25090,12 +26911,12 @@ export const createServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateServiceTokenRequest,
   output: ServiceToken,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type CreateShardError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Add shards to a Neki branch */
 export const createShard: API.OperationMethod<
   CreateShardRequest,
@@ -25105,7 +26926,7 @@ export const createShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateShardRequest,
   output: CreateShardResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25187,7 +27008,11 @@ export const createTrafficBudget: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateTrafficRuleError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateTrafficRuleError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a traffic rule */
 export const createTrafficRule: API.OperationMethod<
   CreateTrafficRuleRequest,
@@ -25197,7 +27022,7 @@ export const createTrafficRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateTrafficRuleRequest,
   output: TrafficRule,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25217,7 +27042,7 @@ export const createWebhook: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateWorkflowError = Forbidden | NotFound | PlanetScaleOpError;
+export type CreateWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Create a workflow */
 export const createWorkflow: API.OperationMethod<
   CreateWorkflowRequest,
@@ -25227,12 +27052,12 @@ export const createWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateWorkflowRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteBackupError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete a backup */
 export const deleteBackup: API.OperationMethod<
   DeleteBackupRequest,
@@ -25242,12 +27067,16 @@ export const deleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBackupRequest,
   output: DeleteBackupResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteBackupPolicyError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteBackupPolicyError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete a backup policy */
 export const deleteBackupPolicy: API.OperationMethod<
   DeleteBackupPolicyRequest,
@@ -25257,12 +27086,12 @@ export const deleteBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBackupPolicyRequest,
   output: DeleteBackupPolicyResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteBouncerError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteBouncerError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete a bouncer */
 export const deleteBouncer: API.OperationMethod<
   DeleteBouncerRequest,
@@ -25272,7 +27101,7 @@ export const deleteBouncer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteBouncerRequest,
   output: DeleteBouncerResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25292,7 +27121,7 @@ export const deleteBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteDatabaseError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteDatabaseError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete a database */
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
@@ -25302,7 +27131,7 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDatabaseRequest,
   output: DeleteDatabaseResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25326,6 +27155,25 @@ export const deleteDatabasePostgresCidr: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteDedicatedReadReplicaError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Delete a dedicated read replica */
+export const deleteDedicatedReadReplica: API.OperationMethod<
+  DeleteDedicatedReadReplicaRequest,
+  DeleteDedicatedReadReplicaResponse,
+  DeleteDedicatedReadReplicaError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteDedicatedReadReplicaRequest,
+  output: DeleteDedicatedReadReplicaResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteKeyspaceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete a keyspace */
 export const deleteKeyspace: API.OperationMethod<
@@ -25341,7 +27189,7 @@ export const deleteKeyspace: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteOauthTokenError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteOauthTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete an OAuth token */
 export const deleteOauthToken: API.OperationMethod<
   DeleteOauthTokenRequest,
@@ -25351,7 +27199,7 @@ export const deleteOauthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOauthTokenRequest,
   output: DeleteOauthTokenResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25375,7 +27223,11 @@ export const deleteOrganizationBillingPaymentMethod: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteOrganizationSsoDomainError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteOrganizationSsoDomainError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete an SSO domain Delete a verified or pending SSO domain */
 export const deleteOrganizationSsoDomain: API.OperationMethod<
   DeleteOrganizationSsoDomainRequest,
@@ -25385,7 +27237,7 @@ export const deleteOrganizationSsoDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteOrganizationSsoDomainRequest,
   output: DeleteOrganizationSsoDomainResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25410,7 +27262,7 @@ export const deleteOrganizationTeam: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeletePasswordError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeletePasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete a password */
 export const deletePassword: API.OperationMethod<
   DeletePasswordRequest,
@@ -25420,12 +27272,16 @@ export const deletePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePasswordRequest,
   output: DeletePasswordResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteQueryPatternsReportError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteQueryPatternsReportError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete a query patterns report */
 export const deleteQueryPatternsReport: API.OperationMethod<
   DeleteQueryPatternsReportRequest,
@@ -25435,22 +27291,7 @@ export const deleteQueryPatternsReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteQueryPatternsReportRequest,
   output: DeleteQueryPatternsReportResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-  protocol: PlanetScaleProtocol,
-  retry: Retry.Retry,
-}));
-
-export type DeleteReadOnlyReplicaError = Forbidden | NotFound | PlanetScaleOpError;
-/** Delete a read-only replica */
-export const deleteReadOnlyReplica: API.OperationMethod<
-  DeleteReadOnlyReplicaRequest,
-  DeleteReadOnlyReplicaResponse,
-  DeleteReadOnlyReplicaError,
-  PlanetScaleOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: DeleteReadOnlyReplicaRequest,
-  output: DeleteReadOnlyReplicaResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25485,7 +27326,11 @@ export const deleteRouter: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteServiceTokenError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteServiceTokenError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete a service token Delete a service token from the organization. */
 export const deleteServiceToken: API.OperationMethod<
   DeleteServiceTokenRequest,
@@ -25495,12 +27340,12 @@ export const deleteServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteServiceTokenRequest,
   output: DeleteServiceTokenResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteShardError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Remove a shard from a Neki branch */
 export const deleteShard: API.OperationMethod<
   DeleteShardRequest,
@@ -25510,7 +27355,7 @@ export const deleteShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteShardRequest,
   output: DeleteShardResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25572,7 +27417,11 @@ export const deleteShardConfigurationProfileShards: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteTrafficBudgetError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteTrafficBudgetError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete a traffic budget */
 export const deleteTrafficBudget: API.OperationMethod<
   DeleteTrafficBudgetRequest,
@@ -25582,12 +27431,16 @@ export const deleteTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTrafficBudgetRequest,
   output: DeleteTrafficBudgetResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteTrafficRuleError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteTrafficRuleError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Delete a traffic rule */
 export const deleteTrafficRule: API.OperationMethod<
   DeleteTrafficRuleRequest,
@@ -25597,12 +27450,12 @@ export const deleteTrafficRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteTrafficRuleRequest,
   output: DeleteTrafficRuleResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteWebhookError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeleteWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Delete a webhook */
 export const deleteWebhook: API.OperationMethod<
   DeleteWebhookRequest,
@@ -25612,7 +27465,7 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWebhookRequest,
   output: DeleteWebhookResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -25632,7 +27485,11 @@ export const demoteBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeployCheckRequestStorageError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployCheckRequestStorageError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Check deploy request storage Checks whether the deploy request's target branch cluster has enough storage to safely deploy the schema changes. */
 export const deployCheckRequestStorage: API.OperationMethod<
   DeployCheckRequestStorageRequest,
@@ -25642,12 +27499,16 @@ export const deployCheckRequestStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployCheckRequestStorageRequest,
   output: DeployCheckRequestStorageResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeployCloseRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployCloseRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Close a deploy request */
 export const deployCloseRequest: API.OperationMethod<
   DeployCloseRequestRequest,
@@ -25657,12 +27518,16 @@ export const deployCloseRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployCloseRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeployCompleteErroredError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployCompleteErroredError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Complete an errored deploy */
 export const deployCompleteErrored: API.OperationMethod<
   DeployCompleteErroredRequest,
@@ -25672,12 +27537,16 @@ export const deployCompleteErrored: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployCompleteErroredRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeployCompleteGatedRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployCompleteGatedRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Complete a gated deploy request */
 export const deployCompleteGatedRequest: API.OperationMethod<
   DeployCompleteGatedRequestRequest,
@@ -25687,12 +27556,16 @@ export const deployCompleteGatedRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployCompleteGatedRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeployForceCutoverRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployForceCutoverRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Enable force cutover for a deploy request */
 export const deployForceCutoverRequest: API.OperationMethod<
   DeployForceCutoverRequestRequest,
@@ -25702,12 +27575,16 @@ export const deployForceCutoverRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployForceCutoverRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeployQueueRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployQueueRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Queue a deploy request */
 export const deployQueueRequest: API.OperationMethod<
   DeployQueueRequestRequest,
@@ -25717,12 +27594,16 @@ export const deployQueueRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployQueueRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeployReviewRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type DeployReviewRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Review a deploy request Review a deploy request by either approving or commenting on the deploy request */
 export const deployReviewRequest: API.OperationMethod<
   DeployReviewRequestRequest,
@@ -25732,12 +27613,16 @@ export const deployReviewRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeployReviewRequestRequest,
   output: DeployRequestReview,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DisableOrganizationSsoError = Forbidden | NotFound | PlanetScaleOpError;
+export type DisableOrganizationSsoError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Disable organization SSO Disable SSO and directory sync for the organization */
 export const disableOrganizationSso: API.OperationMethod<
   DisableOrganizationSsoRequest,
@@ -25747,12 +27632,16 @@ export const disableOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableOrganizationSsoRequest,
   output: OrganizationSsoSerializer,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DisableOrganizationSsoDirectoryError = Forbidden | NotFound | PlanetScaleOpError;
+export type DisableOrganizationSsoDirectoryError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Disable directory sync Disable directory sync for the organization. Non-admin directory members are removed. */
 export const disableOrganizationSsoDirectory: API.OperationMethod<
   DisableOrganizationSsoDirectoryRequest,
@@ -25762,12 +27651,16 @@ export const disableOrganizationSsoDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableOrganizationSsoDirectoryRequest,
   output: OrganizationSsoSerializer,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DisableSafeMigrationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type DisableSafeMigrationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Disable safe migrations for a branch */
 export const disableSafeMigrations: API.OperationMethod<
   DisableSafeMigrationsRequest,
@@ -25777,12 +27670,16 @@ export const disableSafeMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableSafeMigrationsRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type DismissSchemaRecommendationError = Forbidden | NotFound | PlanetScaleOpError;
+export type DismissSchemaRecommendationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Dismiss a schema recommendation */
 export const dismissSchemaRecommendation: API.OperationMethod<
   DismissSchemaRecommendationRequest,
@@ -25792,12 +27689,16 @@ export const dismissSchemaRecommendation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DismissSchemaRecommendationRequest,
   output: SchemaRecommendation,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type EnableOrganizationSsoError = Forbidden | NotFound | PlanetScaleOpError;
+export type EnableOrganizationSsoError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Enable organization SSO Enable the SSO add-on and return a URL for verifying an email domain */
 export const enableOrganizationSso: API.OperationMethod<
   EnableOrganizationSsoRequest,
@@ -25807,12 +27708,16 @@ export const enableOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableOrganizationSsoRequest,
   output: OrganizationSsoSerializer,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type EnableOrganizationSsoDirectoryError = Forbidden | NotFound | PlanetScaleOpError;
+export type EnableOrganizationSsoDirectoryError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Open the directory sync portal Return a URL for configuring directory sync. Requires SSO to be enabled. */
 export const enableOrganizationSsoDirectory: API.OperationMethod<
   EnableOrganizationSsoDirectoryRequest,
@@ -25822,12 +27727,16 @@ export const enableOrganizationSsoDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableOrganizationSsoDirectoryRequest,
   output: EnableOrganizationSsoDirectoryResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type EnableSafeMigrationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type EnableSafeMigrationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Enable safe migrations for a branch */
 export const enableSafeMigrations: API.OperationMethod<
   EnableSafeMigrationsRequest,
@@ -25837,12 +27746,12 @@ export const enableSafeMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableSafeMigrationsRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAdminError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetAdminError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get the admin for a Neki branch */
 export const getAdmin: API.OperationMethod<
   GetAdminRequest,
@@ -25852,12 +27761,16 @@ export const getAdmin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAdminRequest,
   output: NekiAdmin,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetAdminChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetAdminChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a change request for a Neki admin */
 export const getAdminChangeRequest: API.OperationMethod<
   GetAdminChangeRequestRequest,
@@ -25867,12 +27780,12 @@ export const getAdminChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAdminChangeRequestRequest,
   output: GetAdminChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBackupError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a backup */
 export const getBackup: API.OperationMethod<
   GetBackupRequest,
@@ -25882,12 +27795,12 @@ export const getBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBackupRequest,
   output: Backup,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBackupPolicyError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBackupPolicyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a backup policy */
 export const getBackupPolicy: API.OperationMethod<
   GetBackupPolicyRequest,
@@ -25897,12 +27810,12 @@ export const getBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBackupPolicyRequest,
   output: BackupPolicy,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBouncerError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBouncerError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a bouncer */
 export const getBouncer: API.OperationMethod<
   GetBouncerRequest,
@@ -25912,12 +27825,12 @@ export const getBouncer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBouncerRequest,
   output: PostgresBouncer,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a branch */
 export const getBranch: API.OperationMethod<
   GetBranchRequest,
@@ -25927,12 +27840,12 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchAnomalyError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchAnomalyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Retrieve a branch anomaly */
 export const getBranchAnomaly: API.OperationMethod<
   GetBranchAnomalyRequest,
@@ -25942,12 +27855,16 @@ export const getBranchAnomaly: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchAnomalyRequest,
   output: Anomaly,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a branch change request */
 export const getBranchChangeRequest: API.OperationMethod<
   GetBranchChangeRequestRequest,
@@ -25957,12 +27874,35 @@ export const getBranchChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchChangeRequestRequest,
   output: PostgresClusterResizeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchKeyspaceTableMetricsError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchConfigChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Get a branch config change request */
+export const getBranchConfigChangeRequest: API.OperationMethod<
+  GetBranchConfigChangeRequestRequest,
+  BranchConfigChangeRequest,
+  GetBranchConfigChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetBranchConfigChangeRequestRequest,
+  output: BranchConfigChangeRequest,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetBranchKeyspaceTableMetricsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get table storage metrics by keyspace */
 export const getBranchKeyspaceTableMetrics: API.OperationMethod<
   GetBranchKeyspaceTableMetricsRequest,
@@ -25972,12 +27912,17 @@ export const getBranchKeyspaceTableMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchKeyspaceTableMetricsRequest,
   output: GetBranchKeyspaceTableMetricsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchMetricsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get time-series metrics Retrieve time-series metrics for a database branch. ```sh curl --get \ --header "Authorization: $PLANETSCALE_SERVICE_TOKEN" \ --data-urlencode "metrics=queries" \ --data-urlencode "period=15m" \ "https://api.planetscale.com/v1/organizations/acme/databases/app-db/branches/main/metrics" ``` Each series contains its metric name, display label, identifying labels, and sampled `[Unix timestamp, value]` points: ```json { "type": "MetricSeries", "start_date": "2026-09-09T17:00:00Z", "end_date": "2026-09-09T17:15:00Z", "interval": 60, "series": [ { "type": "TimeSeries", "metric": "queries", "label": "Queries", "labels": { "tablet_type": "primary" }, "points": [[1788973200, 42.0]] } ] } ``` */
 export const getBranchMetrics: API.OperationMethod<
   GetBranchMetricsRequest,
@@ -25987,12 +27932,12 @@ export const getBranchMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchMetricsRequest,
   output: MetricSeries,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchQueryError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchQueryError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Retrieve a branch query */
 export const getBranchQuery: API.OperationMethod<
   GetBranchQueryRequest,
@@ -26002,12 +27947,16 @@ export const getBranchQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchQueryRequest,
   output: Query,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchQueryErrorError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchQueryErrorError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List queries for an error fingerprint */
 export const getBranchQueryError: API.PaginatedOperationMethod<
   GetBranchQueryErrorRequest,
@@ -26019,7 +27968,7 @@ export const getBranchQueryError: API.PaginatedOperationMethod<
   () => ({
     input: GetBranchQueryErrorRequest,
     output: PaginatedQuery,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -26032,7 +27981,12 @@ export const getBranchQueryError: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type GetBranchQueryMetricsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchQueryMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get time-series metrics for SQL queries */
 export const getBranchQueryMetrics: API.OperationMethod<
   GetBranchQueryMetricsRequest,
@@ -26042,12 +27996,17 @@ export const getBranchQueryMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchQueryMetricsRequest,
   output: MetricSeries,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchQueryTagError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchQueryTagError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Retrieve a query tag */
 export const getBranchQueryTag: API.OperationMethod<
   GetBranchQueryTagRequest,
@@ -26057,12 +28016,16 @@ export const getBranchQueryTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchQueryTagRequest,
   output: QueryTag,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchResizeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a branch resize request */
 export const getBranchResizeRequest: API.OperationMethod<
   GetBranchResizeRequestRequest,
@@ -26072,12 +28035,12 @@ export const getBranchResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchResizeRequestRequest,
   output: MysqlClusterResizeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchSchemaError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchSchemaError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a branch schema */
 export const getBranchSchema: API.OperationMethod<
   GetBranchSchemaRequest,
@@ -26087,12 +28050,16 @@ export const getBranchSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchSchemaRequest,
   output: GetBranchSchemaResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchTableMetricsError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchTableMetricsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get table storage metrics */
 export const getBranchTableMetrics: API.OperationMethod<
   GetBranchTableMetricsRequest,
@@ -26102,12 +28069,17 @@ export const getBranchTableMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchTableMetricsRequest,
   output: GetBranchTableMetricsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetBranchTagMetricsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetBranchTagMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get time-series metrics grouped by query tags */
 export const getBranchTagMetrics: API.OperationMethod<
   GetBranchTagMetricsRequest,
@@ -26117,12 +28089,12 @@ export const getBranchTagMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetBranchTagMetricsRequest,
   output: MetricSeries,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetCurrentUserError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetCurrentUserError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get current user Get the user associated with this service token */
 export const getCurrentUser: API.OperationMethod<
   GetCurrentUserRequest,
@@ -26132,12 +28104,12 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCurrentUserRequest,
   output: User,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDatabaseError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDatabaseError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a database */
 export const getDatabase: API.OperationMethod<
   GetDatabaseRequest,
@@ -26147,7 +28119,7 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDatabaseRequest,
   output: Database,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26171,7 +28143,11 @@ export const getDatabasePostgresCidr: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetDatabaseThrottlerError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDatabaseThrottlerError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get database throttler configurations */
 export const getDatabaseThrottler: API.OperationMethod<
   GetDatabaseThrottlerRequest,
@@ -26181,12 +28157,12 @@ export const getDatabaseThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDatabaseThrottlerRequest,
   output: ThrottlerConfigurations,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDataTopologyError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDataTopologyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get the data topology for a Neki branch */
 export const getDataTopology: API.OperationMethod<
   GetDataTopologyRequest,
@@ -26196,12 +28172,31 @@ export const getDataTopology: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataTopologyRequest,
   output: NekiDataTopology,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDefaultRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDedicatedReadReplicaError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Get a dedicated read replica */
+export const getDedicatedReadReplica: API.OperationMethod<
+  GetDedicatedReadReplicaRequest,
+  PostgresReadOnlyReplica,
+  GetDedicatedReadReplicaError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetDedicatedReadReplicaRequest,
+  output: PostgresReadOnlyReplica,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetDefaultRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get the default postgres role */
 export const getDefaultRole: API.OperationMethod<
   GetDefaultRoleRequest,
@@ -26211,12 +28206,16 @@ export const getDefaultRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDefaultRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDefaultShardConfigurationProfileError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDefaultShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get the default shard configuration profile for a Neki branch */
 export const getDefaultShardConfigurationProfile: API.OperationMethod<
   GetDefaultShardConfigurationProfileRequest,
@@ -26226,12 +28225,12 @@ export const getDefaultShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDefaultShardConfigurationProfileRequest,
   output: GetDefaultShardConfigurationProfileResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDeploymentError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDeploymentError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a deployment Get the deployment for a deploy request */
 export const getDeployment: API.OperationMethod<
   GetDeploymentRequest,
@@ -26241,12 +28240,12 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: Deployment,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDeployQueueError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDeployQueueError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get the deploy queue The deploy queue returns the current list of deploy requests in the order they will be deployed. */
 export const getDeployQueue: API.PaginatedOperationMethod<
   GetDeployQueueRequest,
@@ -26258,7 +28257,7 @@ export const getDeployQueue: API.PaginatedOperationMethod<
   () => ({
     input: GetDeployQueueRequest,
     output: PaginatedDeployment,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -26271,7 +28270,7 @@ export const getDeployQueue: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type GetDeployRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDeployRequestError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a deploy request */
 export const getDeployRequest: API.OperationMethod<
   GetDeployRequestRequest,
@@ -26281,12 +28280,16 @@ export const getDeployRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeployRequestRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetDeployRequestThrottlerError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetDeployRequestThrottlerError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get deploy request throttler configurations */
 export const getDeployRequestThrottler: API.OperationMethod<
   GetDeployRequestThrottlerRequest,
@@ -26296,12 +28299,36 @@ export const getDeployRequestThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeployRequestThrottlerRequest,
   output: ThrottlerConfigurations,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInstantBranchMetricsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetInsightsAgentRunError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Get an Insights agent run */
+export const getInsightsAgentRun: API.OperationMethod<
+  GetInsightsAgentRunRequest,
+  InsightsAgentRun,
+  GetInsightsAgentRunError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetInsightsAgentRunRequest,
+  output: InsightsAgentRun,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetInstantBranchMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get current metric values */
 export const getInstantBranchMetrics: API.OperationMethod<
   GetInstantBranchMetricsRequest,
@@ -26311,12 +28338,17 @@ export const getInstantBranchMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInstantBranchMetricsRequest,
   output: GetInstantBranchMetricsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInstantTabletMetricsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetInstantTabletMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get current tablet metrics */
 export const getInstantTabletMetrics: API.OperationMethod<
   GetInstantTabletMetricsRequest,
@@ -26326,12 +28358,12 @@ export const getInstantTabletMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInstantTabletMetricsRequest,
   output: GetInstantTabletMetricsResponse,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInvoiceError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetInvoiceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get an invoice */
 export const getInvoice: API.OperationMethod<
   GetInvoiceRequest,
@@ -26341,12 +28373,16 @@ export const getInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetInvoiceRequest,
   output: Invoice,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetInvoiceLineItemsError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetInvoiceLineItemsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get invoice line items Get the line items for an invoice */
 export const getInvoiceLineItems: API.PaginatedOperationMethod<
   GetInvoiceLineItemsRequest,
@@ -26358,7 +28394,7 @@ export const getInvoiceLineItems: API.PaginatedOperationMethod<
   () => ({
     input: GetInvoiceLineItemsRequest,
     output: PaginatedLineItem,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -26371,7 +28407,7 @@ export const getInvoiceLineItems: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type GetKeyspaceError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetKeyspaceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a keyspace */
 export const getKeyspace: API.OperationMethod<
   GetKeyspaceRequest,
@@ -26381,12 +28417,35 @@ export const getKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKeyspaceRequest,
   output: DatabaseBranchKeyspace,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetKeyspaceResizeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetKeyspaceConfigChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Get a keyspace config change request */
+export const getKeyspaceConfigChangeRequest: API.OperationMethod<
+  GetKeyspaceConfigChangeRequestRequest,
+  KeyspaceConfigChangeRequest,
+  GetKeyspaceConfigChangeRequestError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetKeyspaceConfigChangeRequestRequest,
+  output: KeyspaceConfigChangeRequest,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetKeyspaceResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a keyspace resize request */
 export const getKeyspaceResizeRequest: API.OperationMethod<
   GetKeyspaceResizeRequestRequest,
@@ -26396,12 +28455,16 @@ export const getKeyspaceResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKeyspaceResizeRequestRequest,
   output: KeyspaceResizeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetKeyspaceRolloutStatusError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetKeyspaceRolloutStatusError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get keyspace rollout status */
 export const getKeyspaceRolloutStatus: API.OperationMethod<
   GetKeyspaceRolloutStatusRequest,
@@ -26411,12 +28474,16 @@ export const getKeyspaceRolloutStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKeyspaceRolloutStatusRequest,
   output: GetKeyspaceRolloutStatusResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetKeyspaceVschemaError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetKeyspaceVschemaError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get the VSchema for the keyspace */
 export const getKeyspaceVschema: API.OperationMethod<
   GetKeyspaceVschemaRequest,
@@ -26426,12 +28493,16 @@ export const getKeyspaceVschema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKeyspaceVschemaRequest,
   output: GetKeyspaceVschemaResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetMaintenanceScheduleError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetMaintenanceScheduleError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a maintenance schedule */
 export const getMaintenanceSchedule: API.OperationMethod<
   GetMaintenanceScheduleRequest,
@@ -26441,12 +28512,54 @@ export const getMaintenanceSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMaintenanceScheduleRequest,
   output: BranchMaintenanceSchedule,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetNekiChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetMoveTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Show MoveTables workflow details */
+export const getMoveTablesWorkflow: API.OperationMethod<
+  GetMoveTablesWorkflowRequest,
+  GetMoveTablesWorkflowResponse,
+  GetMoveTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMoveTablesWorkflowRequest,
+  output: GetMoveTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetMoveTablesWorkflowStatusError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Show MoveTables workflow status */
+export const getMoveTablesWorkflowStatus: API.OperationMethod<
+  GetMoveTablesWorkflowStatusRequest,
+  GetMoveTablesWorkflowStatusResponse,
+  GetMoveTablesWorkflowStatusError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetMoveTablesWorkflowStatusRequest,
+  output: GetMoveTablesWorkflowStatusResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetNekiChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a change request for a Neki branch */
 export const getNekiChangeRequest: API.OperationMethod<
   GetNekiChangeRequestRequest,
@@ -26456,12 +28569,16 @@ export const getNekiChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetNekiChangeRequestRequest,
   output: NekiChangeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOauthApplicationError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOauthApplicationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get an OAuth application */
 export const getOauthApplication: API.OperationMethod<
   GetOauthApplicationRequest,
@@ -26471,12 +28588,12 @@ export const getOauthApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOauthApplicationRequest,
   output: OauthApplication,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOauthTokenError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOauthTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get an OAuth token */
 export const getOauthToken: API.OperationMethod<
   GetOauthTokenRequest,
@@ -26486,12 +28603,12 @@ export const getOauthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOauthTokenRequest,
   output: ServiceToken,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOrganizationError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get an organization */
 export const getOrganization: API.OperationMethod<
   GetOrganizationRequest,
@@ -26501,12 +28618,16 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationRequest,
   output: Organization,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationBillingPaymentMethodError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOrganizationBillingPaymentMethodError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get the current billing payment method Get the current payment method for an organization */
 export const getOrganizationBillingPaymentMethod: API.OperationMethod<
   GetOrganizationBillingPaymentMethodRequest,
@@ -26516,12 +28637,16 @@ export const getOrganizationBillingPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationBillingPaymentMethodRequest,
   output: BillingPaymentMethod,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationMembershipError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOrganizationMembershipError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get an organization member */
 export const getOrganizationMembership: API.OperationMethod<
   GetOrganizationMembershipRequest,
@@ -26531,12 +28656,16 @@ export const getOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationMembershipRequest,
   output: OrganizationMembership,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationSsoError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOrganizationSsoError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get organization SSO status Get SSO add-on status, identity provider connection state, directory sync, and verified domains */
 export const getOrganizationSso: API.OperationMethod<
   GetOrganizationSsoRequest,
@@ -26546,12 +28675,16 @@ export const getOrganizationSso: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationSsoRequest,
   output: OrganizationSsoSerializer,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetOrganizationSsoDomainError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetOrganizationSsoDomainError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get an SSO domain Get a registered SSO email domain and its verification state */
 export const getOrganizationSsoDomain: API.OperationMethod<
   GetOrganizationSsoDomainRequest,
@@ -26561,7 +28694,7 @@ export const getOrganizationSsoDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationSsoDomainRequest,
   output: OrganizationDomain,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26606,7 +28739,7 @@ export const getOrganizationTeamMember: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetPasswordError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetPasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a password */
 export const getPassword: API.OperationMethod<
   GetPasswordRequest,
@@ -26616,12 +28749,16 @@ export const getPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPasswordRequest,
   output: DatabaseBranchPassword,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetPaymentMethodSetupError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetPaymentMethodSetupError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a billing payment method setup Get the state of a billing payment method setup */
 export const getPaymentMethodSetup: API.OperationMethod<
   GetPaymentMethodSetupRequest,
@@ -26631,12 +28768,16 @@ export const getPaymentMethodSetup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPaymentMethodSetupRequest,
   output: BillingPaymentMethodSetup,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetQueryPatternsReportError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetQueryPatternsReportError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Download a finished query patterns report */
 export const getQueryPatternsReport: API.OperationMethod<
   GetQueryPatternsReportRequest,
@@ -26646,12 +28787,16 @@ export const getQueryPatternsReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQueryPatternsReportRequest,
   output: GetQueryPatternsReportResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetQueryPatternsReportStatusError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetQueryPatternsReportStatusError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Show the status of a query patterns report */
 export const getQueryPatternsReportStatus: API.OperationMethod<
   GetQueryPatternsReportStatusRequest,
@@ -26661,12 +28806,16 @@ export const getQueryPatternsReportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQueryPatternsReportStatusRequest,
   output: QueryPatternsDownload,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetQueryStatisticsError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetQueryStatisticsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Retrieve query statistics */
 export const getQueryStatistics: API.PaginatedOperationMethod<
   GetQueryStatisticsRequest,
@@ -26678,7 +28827,7 @@ export const getQueryStatistics: API.PaginatedOperationMethod<
   () => ({
     input: GetQueryStatisticsRequest,
     output: PaginatedQuery,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -26691,7 +28840,12 @@ export const getQueryStatistics: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type GetQuerySummaryError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetQuerySummaryError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Retrieve a summary of query statistics */
 export const getQuerySummary: API.OperationMethod<
   GetQuerySummaryRequest,
@@ -26701,27 +28855,12 @@ export const getQuerySummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQuerySummaryRequest,
   output: QuerySummary,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetReadOnlyReplicaError = Forbidden | NotFound | PlanetScaleOpError;
-/** Get a read-only replica */
-export const getReadOnlyReplica: API.OperationMethod<
-  GetReadOnlyReplicaRequest,
-  PostgresReadOnlyReplica,
-  GetReadOnlyReplicaError,
-  PlanetScaleOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetReadOnlyReplicaRequest,
-  output: PostgresReadOnlyReplica,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-  protocol: PlanetScaleProtocol,
-  retry: Retry.Retry,
-}));
-
-export type GetRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a role */
 export const getRole: API.OperationMethod<
   GetRoleRequest,
@@ -26731,12 +28870,12 @@ export const getRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetRouterError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetRouterError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a router for a Neki branch */
 export const getRouter: API.OperationMethod<
   GetRouterRequest,
@@ -26746,12 +28885,16 @@ export const getRouter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRouterRequest,
   output: NekiRouter,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetRouterChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetRouterChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a change request for a Neki router */
 export const getRouterChangeRequest: API.OperationMethod<
   GetRouterChangeRequestRequest,
@@ -26761,12 +28904,16 @@ export const getRouterChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRouterChangeRequestRequest,
   output: GetRouterChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSchemaRecommendationError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetSchemaRecommendationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a schema recommendation */
 export const getSchemaRecommendation: API.OperationMethod<
   GetSchemaRecommendationRequest,
@@ -26776,12 +28923,12 @@ export const getSchemaRecommendation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSchemaRecommendationRequest,
   output: SchemaRecommendation,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetServiceTokenError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetServiceTokenError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a service token Get information about a service token. */
 export const getServiceToken: API.OperationMethod<
   GetServiceTokenRequest,
@@ -26791,12 +28938,12 @@ export const getServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetServiceTokenRequest,
   output: ServiceToken,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetShardError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a shard for a Neki branch */
 export const getShard: API.OperationMethod<
   GetShardRequest,
@@ -26806,12 +28953,16 @@ export const getShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetShardRequest,
   output: NekiShard,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetShardConfigurationProfileError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetShardConfigurationProfileError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a shard configuration profile for a Neki branch */
 export const getShardConfigurationProfile: API.OperationMethod<
   GetShardConfigurationProfileRequest,
@@ -26821,7 +28972,7 @@ export const getShardConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetShardConfigurationProfileRequest,
   output: NekiShardConfigurationProfile,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -26829,6 +28980,7 @@ export const getShardConfigurationProfile: API.OperationMethod<
 export type GetShardConfigurationProfileChangeRequestError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Get a change request for a Neki shard configuration profile */
 export const getShardConfigurationProfileChangeRequest: API.OperationMethod<
@@ -26839,12 +28991,16 @@ export const getShardConfigurationProfileChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetShardConfigurationProfileChangeRequestRequest,
   output: GetShardConfigurationProfileChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetShardConfigurationProfileShardError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetShardConfigurationProfileShardError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a shard in a Neki shard configuration profile */
 export const getShardConfigurationProfileShard: API.OperationMethod<
   GetShardConfigurationProfileShardRequest,
@@ -26854,12 +29010,12 @@ export const getShardConfigurationProfileShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetShardConfigurationProfileShardRequest,
   output: NekiShard,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSidecarError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetSidecarError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a sidecar for a Neki branch */
 export const getSidecar: API.OperationMethod<
   GetSidecarRequest,
@@ -26869,12 +29025,16 @@ export const getSidecar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSidecarRequest,
   output: NekiSidecar,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSidecarChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetSidecarChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get a change request for a Neki sidecar */
 export const getSidecarChangeRequest: API.OperationMethod<
   GetSidecarChangeRequestRequest,
@@ -26884,12 +29044,12 @@ export const getSidecarChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSidecarChangeRequestRequest,
   output: GetSidecarChangeRequestResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetSwitchoverError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetSwitchoverError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a switchover */
 export const getSwitchover: API.OperationMethod<
   GetSwitchoverRequest,
@@ -26899,12 +29059,17 @@ export const getSwitchover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSwitchoverRequest,
   output: PostgresSwitchover,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTabletMetricsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type GetTabletMetricsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get time-series tablet metrics */
 export const getTabletMetrics: API.OperationMethod<
   GetTabletMetricsRequest,
@@ -26914,12 +29079,12 @@ export const getTabletMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTabletMetricsRequest,
   output: MetricSeries,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetTrafficBudgetError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetTrafficBudgetError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a traffic budget */
 export const getTrafficBudget: API.OperationMethod<
   GetTrafficBudgetRequest,
@@ -26929,12 +29094,31 @@ export const getTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTrafficBudgetRequest,
   output: TrafficBudget,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetWebhookError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetVtctldOperationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Get a vtctld operation */
+export const getVtctldOperation: API.OperationMethod<
+  GetVtctldOperationRequest,
+  GetVtctldOperationResponse,
+  GetVtctldOperationError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetVtctldOperationRequest,
+  output: GetVtctldOperationResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a webhook */
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
@@ -26944,12 +29128,12 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWebhookRequest,
   output: DatabaseWebhook,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetWorkflowError = Forbidden | NotFound | PlanetScaleOpError;
+export type GetWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get a workflow */
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
@@ -26959,12 +29143,12 @@ export const getWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetWorkflowRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type LintBranchSchemaError = Forbidden | NotFound | PlanetScaleOpError;
+export type LintBranchSchemaError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Lint a branch schema */
 export const lintBranchSchema: API.PaginatedOperationMethod<
   LintBranchSchemaRequest,
@@ -26976,7 +29160,7 @@ export const lintBranchSchema: API.PaginatedOperationMethod<
   () => ({
     input: LintBranchSchemaRequest,
     output: PaginatedSchemaLintError,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -26989,7 +29173,11 @@ export const lintBranchSchema: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListAdminChangeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListAdminChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List change requests for a Neki admin */
 export const listAdminChangeRequests: API.OperationMethod<
   ListAdminChangeRequestsRequest,
@@ -26999,12 +29187,16 @@ export const listAdminChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAdminChangeRequestsRequest,
   output: ListAdminChangeRequestsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAdminParametersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListAdminParametersError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List parameters for a Neki admin */
 export const listAdminParameters: API.OperationMethod<
   ListAdminParametersRequest,
@@ -27014,12 +29206,16 @@ export const listAdminParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAdminParametersRequest,
   output: ListAdminParametersResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAdminSizeSkusError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListAdminSizeSkusError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List admin size SKUs for a Neki branch */
 export const listAdminSizeSkus: API.OperationMethod<
   ListAdminSizeSkusRequest,
@@ -27029,12 +29225,12 @@ export const listAdminSizeSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAdminSizeSkusRequest,
   output: ListAdminSizeSkusResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListAuditLogsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListAuditLogsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List audit logs */
 export const listAuditLogs: API.OperationMethod<
   ListAuditLogsRequest,
@@ -27044,12 +29240,16 @@ export const listAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAuditLogsRequest,
   output: PaginatedAuditLogEvent,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListBackupPoliciesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBackupPoliciesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List backup policies */
 export const listBackupPolicies: API.PaginatedOperationMethod<
   ListBackupPoliciesRequest,
@@ -27061,7 +29261,7 @@ export const listBackupPolicies: API.PaginatedOperationMethod<
   () => ({
     input: ListBackupPoliciesRequest,
     output: PaginatedBackupPolicy,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27074,7 +29274,7 @@ export const listBackupPolicies: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBackupsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBackupsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List backups */
 export const listBackups: API.PaginatedOperationMethod<
   ListBackupsRequest,
@@ -27086,7 +29286,7 @@ export const listBackups: API.PaginatedOperationMethod<
   () => ({
     input: ListBackupsRequest,
     output: PaginatedBackup,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27099,7 +29299,11 @@ export const listBackups: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBouncerResizeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBouncerResizeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get bouncer resize requests */
 export const listBouncerResizeRequests: API.PaginatedOperationMethod<
   ListBouncerResizeRequestsRequest,
@@ -27111,7 +29315,7 @@ export const listBouncerResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListBouncerResizeRequestsRequest,
     output: PaginatedPostgresBouncerResizeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27124,7 +29328,7 @@ export const listBouncerResizeRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBouncersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBouncersError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List bouncers */
 export const listBouncers: API.PaginatedOperationMethod<
   ListBouncersRequest,
@@ -27136,7 +29340,7 @@ export const listBouncers: API.PaginatedOperationMethod<
   () => ({
     input: ListBouncersRequest,
     output: PaginatedPostgresBouncer,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27149,7 +29353,11 @@ export const listBouncers: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchAnomaliesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchAnomaliesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List branch anomalies */
 export const listBranchAnomalies: API.PaginatedOperationMethod<
   ListBranchAnomaliesRequest,
@@ -27161,7 +29369,7 @@ export const listBranchAnomalies: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchAnomaliesRequest,
     output: PaginatedAnomaly,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27174,7 +29382,11 @@ export const listBranchAnomalies: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchBouncerResizeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchBouncerResizeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get bouncer resize requests */
 export const listBranchBouncerResizeRequests: API.PaginatedOperationMethod<
   ListBranchBouncerResizeRequestsRequest,
@@ -27186,7 +29398,7 @@ export const listBranchBouncerResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchBouncerResizeRequestsRequest,
     output: PaginatedPostgresBouncerResizeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27199,7 +29411,11 @@ export const listBranchBouncerResizeRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchChangeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get branch change requests */
 export const listBranchChangeRequests: API.PaginatedOperationMethod<
   ListBranchChangeRequestsRequest,
@@ -27211,7 +29427,7 @@ export const listBranchChangeRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchChangeRequestsRequest,
     output: PaginatedPostgresClusterResizeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27224,7 +29440,36 @@ export const listBranchChangeRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchConfigChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List branch config change requests Returns the VTGate config change requests for the branch and the VTTablet and MySQL config change requests for its keyspaces, newest first. */
+export const listBranchConfigChangeRequests: API.PaginatedOperationMethod<
+  ListBranchConfigChangeRequestsRequest,
+  PaginatedConfigChangeRequest,
+  ListBranchConfigChangeRequestsError,
+  PlanetScaleOpContext,
+  PaginatedConfigChangeRequestDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListBranchConfigChangeRequestsRequest,
+    output: PaginatedConfigChangeRequest,
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListBranchesError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List branches */
 export const listBranches: API.PaginatedOperationMethod<
   ListBranchesRequest,
@@ -27236,7 +29481,7 @@ export const listBranches: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchesRequest,
     output: PaginatedDatabaseBranch,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27249,7 +29494,12 @@ export const listBranches: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchQueriesError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchQueriesError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List branch queries */
 export const listBranchQueries: API.PaginatedOperationMethod<
   ListBranchQueriesRequest,
@@ -27261,7 +29511,7 @@ export const listBranchQueries: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchQueriesRequest,
     output: PaginatedQuerySummary,
-    errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27274,7 +29524,11 @@ export const listBranchQueries: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchQueryErrorsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchQueryErrorsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List branch query errors */
 export const listBranchQueryErrors: API.PaginatedOperationMethod<
   ListBranchQueryErrorsRequest,
@@ -27286,7 +29540,7 @@ export const listBranchQueryErrors: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchQueryErrorsRequest,
     output: PaginatedErrorSummary,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27299,7 +29553,12 @@ export const listBranchQueryErrors: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchQueryTagsError = BadRequest | Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchQueryTagsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List query tags */
 export const listBranchQueryTags: API.PaginatedOperationMethod<
   ListBranchQueryTagsRequest,
@@ -27311,7 +29570,7 @@ export const listBranchQueryTags: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchQueryTagsRequest,
     output: PaginatedQueryTag,
-    errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27328,6 +29587,7 @@ export type ListBranchQueryTagSummariesError =
   | BadRequest
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** List query statistics grouped by tag */
 export const listBranchQueryTagSummaries: API.PaginatedOperationMethod<
@@ -27340,7 +29600,7 @@ export const listBranchQueryTagSummaries: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchQueryTagSummariesRequest,
     output: PaginatedDimensionsQuerySummary,
-    errors: [BadRequest, Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27353,7 +29613,11 @@ export const listBranchQueryTagSummaries: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListBranchResizeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchResizeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get branch resize requests */
 export const listBranchResizeRequests: API.PaginatedOperationMethod<
   ListBranchResizeRequestsRequest,
@@ -27365,7 +29629,7 @@ export const listBranchResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListBranchResizeRequestsRequest,
     output: PaginatedMysqlClusterResizeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27378,7 +29642,30 @@ export const listBranchResizeRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListClusterSizeSkusError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListBranchVitessParametersError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List Vitess parameters Returns the VTGate parameters for the branch and the VTTablet and MySQL parameters for each of its keyspaces, with their default and current values. To change VTGate parameters, use the "create_branch_config_change_request" endpoint. To change VTTablet or MySQL parameters, use the "create_keyspace_config_change_request" endpoint. */
+export const listBranchVitessParameters: API.OperationMethod<
+  ListBranchVitessParametersRequest,
+  ListBranchVitessParametersResponse,
+  ListBranchVitessParametersError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBranchVitessParametersRequest,
+  output: ListBranchVitessParametersResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListClusterSizeSkusError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List available cluster sizes List available cluster sizes for an organization */
 export const listClusterSizeSkus: API.OperationMethod<
   ListClusterSizeSkusRequest,
@@ -27388,7 +29675,7 @@ export const listClusterSizeSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListClusterSizeSkusRequest,
   output: ListClusterSizeSkusResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -27422,7 +29709,11 @@ export const listDatabasePostgresCidrs: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListDatabaseRegionsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListDatabaseRegionsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List database regions */
 export const listDatabaseRegions: API.PaginatedOperationMethod<
   ListDatabaseRegionsRequest,
@@ -27434,7 +29725,7 @@ export const listDatabaseRegions: API.PaginatedOperationMethod<
   () => ({
     input: ListDatabaseRegionsRequest,
     output: PaginatedPlanetscaleRegion,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27447,7 +29738,7 @@ export const listDatabaseRegions: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListDatabasesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListDatabasesError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List databases */
 export const listDatabases: API.PaginatedOperationMethod<
   ListDatabasesRequest,
@@ -27459,7 +29750,7 @@ export const listDatabases: API.PaginatedOperationMethod<
   () => ({
     input: ListDatabasesRequest,
     output: PaginatedDatabase,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27472,7 +29763,59 @@ export const listDatabases: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListDeployOperationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListDedicatedReadReplicaChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Get dedicated read replica change requests */
+export const listDedicatedReadReplicaChangeRequests: API.PaginatedOperationMethod<
+  ListDedicatedReadReplicaChangeRequestsRequest,
+  PaginatedPostgresReadOnlyReplicaChangeRequest,
+  ListDedicatedReadReplicaChangeRequestsError,
+  PlanetScaleOpContext,
+  PaginatedPostgresReadOnlyReplicaChangeRequestDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListDedicatedReadReplicaChangeRequestsRequest,
+    output: PaginatedPostgresReadOnlyReplicaChangeRequest,
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListDedicatedReadReplicasError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List dedicated read replicas */
+export const listDedicatedReadReplicas: API.OperationMethod<
+  ListDedicatedReadReplicasRequest,
+  ListDedicatedReadReplicasResponse,
+  ListDedicatedReadReplicasError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListDedicatedReadReplicasRequest,
+  output: ListDedicatedReadReplicasResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListDeployOperationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List deploy operations List deploy operations for a deploy request */
 export const listDeployOperations: API.PaginatedOperationMethod<
   ListDeployOperationsRequest,
@@ -27484,7 +29827,7 @@ export const listDeployOperations: API.PaginatedOperationMethod<
   () => ({
     input: ListDeployOperationsRequest,
     output: PaginatedDeployOperation,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27497,7 +29840,11 @@ export const listDeployOperations: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListDeployRequestReviewsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListDeployRequestReviewsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List deploy request reviews */
 export const listDeployRequestReviews: API.PaginatedOperationMethod<
   ListDeployRequestReviewsRequest,
@@ -27509,7 +29856,7 @@ export const listDeployRequestReviews: API.PaginatedOperationMethod<
   () => ({
     input: ListDeployRequestReviewsRequest,
     output: PaginatedDeployRequestReview,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27522,7 +29869,11 @@ export const listDeployRequestReviews: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListDeployRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListDeployRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List deploy requests List deploy requests for a database */
 export const listDeployRequests: API.PaginatedOperationMethod<
   ListDeployRequestsRequest,
@@ -27534,7 +29885,7 @@ export const listDeployRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListDeployRequestsRequest,
     output: PaginatedDatabaseDeployRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27547,7 +29898,7 @@ export const listDeployRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListExtensionsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListExtensionsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List cluster extensions */
 export const listExtensions: API.OperationMethod<
   ListExtensionsRequest,
@@ -27557,12 +29908,16 @@ export const listExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListExtensionsRequest,
   output: ListExtensionsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListGeneratedQueryPatternsReportsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListGeneratedQueryPatternsReportsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List generated query patterns reports */
 export const listGeneratedQueryPatternsReports: API.OperationMethod<
   ListGeneratedQueryPatternsReportsRequest,
@@ -27572,12 +29927,60 @@ export const listGeneratedQueryPatternsReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListGeneratedQueryPatternsReportsRequest,
   output: PaginatedQueryPatternsDownload,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListInvoicesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListInsightsAgentRunsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List Insights agent runs */
+export const listInsightsAgentRuns: API.PaginatedOperationMethod<
+  ListInsightsAgentRunsRequest,
+  PaginatedInsightsAgentRun,
+  ListInsightsAgentRunsError,
+  PlanetScaleOpContext,
+  PaginatedInsightsAgentRunDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListInsightsAgentRunsRequest,
+    output: PaginatedInsightsAgentRun,
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListInsightsAgentSchedulesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List Insights Agent schedules */
+export const listInsightsAgentSchedules: API.OperationMethod<
+  ListInsightsAgentSchedulesRequest,
+  ListInsightsAgentSchedulesResponse,
+  ListInsightsAgentSchedulesError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListInsightsAgentSchedulesRequest,
+  output: ListInsightsAgentSchedulesResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListInvoicesError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get invoices Get the invoices for an organization */
 export const listInvoices: API.PaginatedOperationMethod<
   ListInvoicesRequest,
@@ -27589,7 +29992,7 @@ export const listInvoices: API.PaginatedOperationMethod<
   () => ({
     input: ListInvoicesRequest,
     output: PaginatedInvoice,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27602,7 +30005,40 @@ export const listInvoices: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListKeyspaceResizeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListKeyspaceConfigChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List keyspace config change requests */
+export const listKeyspaceConfigChangeRequests: API.PaginatedOperationMethod<
+  ListKeyspaceConfigChangeRequestsRequest,
+  PaginatedKeyspaceConfigChangeRequest,
+  ListKeyspaceConfigChangeRequestsError,
+  PlanetScaleOpContext,
+  PaginatedKeyspaceConfigChangeRequestDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListKeyspaceConfigChangeRequestsRequest,
+    output: PaginatedKeyspaceConfigChangeRequest,
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListKeyspaceResizeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Get keyspace resize requests */
 export const listKeyspaceResizeRequests: API.PaginatedOperationMethod<
   ListKeyspaceResizeRequestsRequest,
@@ -27614,7 +30050,7 @@ export const listKeyspaceResizeRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListKeyspaceResizeRequestsRequest,
     output: PaginatedKeyspaceResizeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27627,7 +30063,7 @@ export const listKeyspaceResizeRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListKeyspacesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListKeyspacesError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Get keyspaces */
 export const listKeyspaces: API.PaginatedOperationMethod<
   ListKeyspacesRequest,
@@ -27639,7 +30075,7 @@ export const listKeyspaces: API.PaginatedOperationMethod<
   () => ({
     input: ListKeyspacesRequest,
     output: PaginatedDatabaseBranchKeyspace,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27652,7 +30088,11 @@ export const listKeyspaces: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListMaintenanceSchedulesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListMaintenanceSchedulesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List maintenance schedules */
 export const listMaintenanceSchedules: API.PaginatedOperationMethod<
   ListMaintenanceSchedulesRequest,
@@ -27664,7 +30104,7 @@ export const listMaintenanceSchedules: API.PaginatedOperationMethod<
   () => ({
     input: ListMaintenanceSchedulesRequest,
     output: PaginatedBranchMaintenanceSchedule,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27677,7 +30117,11 @@ export const listMaintenanceSchedules: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListMaintenanceWindowsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListMaintenanceWindowsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List maintenance windows */
 export const listMaintenanceWindows: API.PaginatedOperationMethod<
   ListMaintenanceWindowsRequest,
@@ -27689,7 +30133,7 @@ export const listMaintenanceWindows: API.PaginatedOperationMethod<
   () => ({
     input: ListMaintenanceWindowsRequest,
     output: PaginatedBranchMaintenanceWindow,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27702,7 +30146,30 @@ export const listMaintenanceWindows: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListNekiChangeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListMoveTablesWorkflowsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List MoveTables workflows */
+export const listMoveTablesWorkflows: API.OperationMethod<
+  ListMoveTablesWorkflowsRequest,
+  ListMoveTablesWorkflowsResponse,
+  ListMoveTablesWorkflowsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListMoveTablesWorkflowsRequest,
+  output: ListMoveTablesWorkflowsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListNekiChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List change requests for a Neki branch */
 export const listNekiChangeRequests: API.PaginatedOperationMethod<
   ListNekiChangeRequestsRequest,
@@ -27714,7 +30181,7 @@ export const listNekiChangeRequests: API.PaginatedOperationMethod<
   () => ({
     input: ListNekiChangeRequestsRequest,
     output: PaginatedNekiChangeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27727,7 +30194,11 @@ export const listNekiChangeRequests: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListOauthApplicationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListOauthApplicationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List OAuth applications */
 export const listOauthApplications: API.PaginatedOperationMethod<
   ListOauthApplicationsRequest,
@@ -27739,7 +30210,7 @@ export const listOauthApplications: API.PaginatedOperationMethod<
   () => ({
     input: ListOauthApplicationsRequest,
     output: PaginatedOauthApplication,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27752,7 +30223,7 @@ export const listOauthApplications: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListOauthTokensError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListOauthTokensError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List OAuth tokens List OAuth tokens created by an OAuth application */
 export const listOauthTokens: API.PaginatedOperationMethod<
   ListOauthTokensRequest,
@@ -27764,7 +30235,7 @@ export const listOauthTokens: API.PaginatedOperationMethod<
   () => ({
     input: ListOauthTokensRequest,
     output: PaginatedServiceToken,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27777,7 +30248,40 @@ export const listOauthTokens: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListOrganizationMembersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListOrganizationInvitationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** List pending invitations */
+export const listOrganizationInvitations: API.PaginatedOperationMethod<
+  ListOrganizationInvitationsRequest,
+  PaginatedOrganizationInvitation,
+  ListOrganizationInvitationsError,
+  PlanetScaleOpContext,
+  PaginatedOrganizationInvitationDataItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListOrganizationInvitationsRequest,
+    output: PaginatedOrganizationInvitation,
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+    protocol: PlanetScaleProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "page",
+      inputToken: "page",
+      outputToken: "next_page",
+      items: "data",
+    } as const,
+  }),
+  paginatePageNumber,
+) as any;
+
+export type ListOrganizationMembersError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List organization members */
 export const listOrganizationMembers: API.PaginatedOperationMethod<
   ListOrganizationMembersRequest,
@@ -27789,7 +30293,7 @@ export const listOrganizationMembers: API.PaginatedOperationMethod<
   () => ({
     input: ListOrganizationMembersRequest,
     output: PaginatedOrganizationMembership,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27802,7 +30306,11 @@ export const listOrganizationMembers: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListOrganizationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListOrganizationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List organizations When using a service token, returns the list of organizations the service token has access to. When using an OAuth token, returns the list of organizations the user has access to. */
 export const listOrganizations: API.PaginatedOperationMethod<
   ListOrganizationsRequest,
@@ -27814,7 +30322,7 @@ export const listOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: ListOrganizationsRequest,
     output: PaginatedOrganization,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27827,7 +30335,11 @@ export const listOrganizations: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListOrganizationSsoDomainsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListOrganizationSsoDomainsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List organization SSO domains List email domains registered for organization SSO */
 export const listOrganizationSsoDomains: API.OperationMethod<
   ListOrganizationSsoDomainsRequest,
@@ -27837,7 +30349,7 @@ export const listOrganizationSsoDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListOrganizationSsoDomainsRequest,
   output: ListOrganizationSsoDomainsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -27902,7 +30414,7 @@ export const listOrganizationTeams: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListParametersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListParametersError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List cluster parameters Returns the parameters for a branch. To update the parameters, use the "update_branch_change_request" endpoint. */
 export const listParameters: API.OperationMethod<
   ListParametersRequest,
@@ -27912,12 +30424,12 @@ export const listParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListParametersRequest,
   output: ListParametersResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListPasswordsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListPasswordsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List passwords */
 export const listPasswords: API.PaginatedOperationMethod<
   ListPasswordsRequest,
@@ -27929,7 +30441,7 @@ export const listPasswords: API.PaginatedOperationMethod<
   () => ({
     input: ListPasswordsRequest,
     output: PaginatedDatabaseBranchPassword,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27942,7 +30454,11 @@ export const listPasswords: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListPostgresVersionsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListPostgresVersionsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List available Postgres versions List the published Postgres versions available to the requested engine. */
 export const listPostgresVersions: API.OperationMethod<
   ListPostgresVersionsRequest,
@@ -27952,12 +30468,16 @@ export const listPostgresVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPostgresVersionsRequest,
   output: ListPostgresVersionsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListPublicRegionsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListPublicRegionsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List public regions Endpoint is available without authentication. */
 export const listPublicRegions: API.PaginatedOperationMethod<
   ListPublicRegionsRequest,
@@ -27969,7 +30489,7 @@ export const listPublicRegions: API.PaginatedOperationMethod<
   () => ({
     input: ListPublicRegionsRequest,
     output: PaginatedPublicPlanetscaleRegionSerializer,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -27982,7 +30502,11 @@ export const listPublicRegions: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListReadOnlyRegionsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListReadOnlyRegionsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List read-only regions List read-only regions for the database's default branch */
 export const listReadOnlyRegions: API.PaginatedOperationMethod<
   ListReadOnlyRegionsRequest,
@@ -27994,7 +30518,7 @@ export const listReadOnlyRegions: API.PaginatedOperationMethod<
   () => ({
     input: ListReadOnlyRegionsRequest,
     output: PaginatedDatabaseBranchReadOnlyRegion,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28007,47 +30531,11 @@ export const listReadOnlyRegions: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListReadOnlyReplicaChangeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
-/** Get read-only replica change requests */
-export const listReadOnlyReplicaChangeRequests: API.PaginatedOperationMethod<
-  ListReadOnlyReplicaChangeRequestsRequest,
-  PaginatedPostgresReadOnlyReplicaChangeRequest,
-  ListReadOnlyReplicaChangeRequestsError,
-  PlanetScaleOpContext,
-  PaginatedPostgresReadOnlyReplicaChangeRequestDataItem
-> = /*@__PURE__*/ API.makePaginated(
-  () => ({
-    input: ListReadOnlyReplicaChangeRequestsRequest,
-    output: PaginatedPostgresReadOnlyReplicaChangeRequest,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-    protocol: PlanetScaleProtocol,
-    retry: Retry.Retry,
-    pagination: {
-      mode: "page",
-      inputToken: "page",
-      outputToken: "next_page",
-      items: "data",
-    } as const,
-  }),
-  paginatePageNumber,
-) as any;
-
-export type ListReadOnlyReplicasError = Forbidden | NotFound | PlanetScaleOpError;
-/** List read-only replicas */
-export const listReadOnlyReplicas: API.OperationMethod<
-  ListReadOnlyReplicasRequest,
-  ListReadOnlyReplicasResponse,
-  ListReadOnlyReplicasError,
-  PlanetScaleOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListReadOnlyReplicasRequest,
-  output: ListReadOnlyReplicasResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-  protocol: PlanetScaleProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListRegionsForOrganizationError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListRegionsForOrganizationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List regions for an organization */
 export const listRegionsForOrganization: API.PaginatedOperationMethod<
   ListRegionsForOrganizationRequest,
@@ -28059,7 +30547,7 @@ export const listRegionsForOrganization: API.PaginatedOperationMethod<
   () => ({
     input: ListRegionsForOrganizationRequest,
     output: PaginatedPlanetscaleRegion,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28072,7 +30560,7 @@ export const listRegionsForOrganization: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListRolesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListRolesError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List roles */
 export const listRoles: API.PaginatedOperationMethod<
   ListRolesRequest,
@@ -28084,7 +30572,7 @@ export const listRoles: API.PaginatedOperationMethod<
   () => ({
     input: ListRolesRequest,
     output: PaginatedPostgresRole,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28097,7 +30585,11 @@ export const listRoles: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListRouterChangeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListRouterChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List change requests for a Neki router */
 export const listRouterChangeRequests: API.OperationMethod<
   ListRouterChangeRequestsRequest,
@@ -28107,12 +30599,16 @@ export const listRouterChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRouterChangeRequestsRequest,
   output: ListRouterChangeRequestsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListRouterParametersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListRouterParametersError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List parameters for a Neki router */
 export const listRouterParameters: API.OperationMethod<
   ListRouterParametersRequest,
@@ -28122,12 +30618,12 @@ export const listRouterParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRouterParametersRequest,
   output: ListRouterParametersResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListRoutersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListRoutersError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List routers for a Neki branch */
 export const listRouters: API.OperationMethod<
   ListRoutersRequest,
@@ -28137,12 +30633,16 @@ export const listRouters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRoutersRequest,
   output: ListRoutersResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListRouterSizeSkusError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListRouterSizeSkusError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List router size SKUs for a Neki branch */
 export const listRouterSizeSkus: API.OperationMethod<
   ListRouterSizeSkusRequest,
@@ -28152,12 +30652,16 @@ export const listRouterSizeSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRouterSizeSkusRequest,
   output: ListRouterSizeSkusResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListSchemaRecommendationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListSchemaRecommendationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List schema recommendations */
 export const listSchemaRecommendations: API.PaginatedOperationMethod<
   ListSchemaRecommendationsRequest,
@@ -28169,7 +30673,7 @@ export const listSchemaRecommendations: API.PaginatedOperationMethod<
   () => ({
     input: ListSchemaRecommendationsRequest,
     output: PaginatedSchemaRecommendation,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28182,7 +30686,11 @@ export const listSchemaRecommendations: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListServiceTokensError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListServiceTokensError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List service tokens List service tokens for an organization. */
 export const listServiceTokens: API.PaginatedOperationMethod<
   ListServiceTokensRequest,
@@ -28194,7 +30702,7 @@ export const listServiceTokens: API.PaginatedOperationMethod<
   () => ({
     input: ListServiceTokensRequest,
     output: PaginatedServiceToken,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28210,6 +30718,7 @@ export const listServiceTokens: API.PaginatedOperationMethod<
 export type ListShardConfigurationProfileChangeRequestsError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** List change requests for a Neki shard configuration profile */
 export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
@@ -28220,7 +30729,7 @@ export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListShardConfigurationProfileChangeRequestsRequest,
   output: ListShardConfigurationProfileChangeRequestsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28228,6 +30737,7 @@ export const listShardConfigurationProfileChangeRequests: API.OperationMethod<
 export type ListShardConfigurationProfileExtensionsError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** List extensions for a Neki shard configuration profile */
 export const listShardConfigurationProfileExtensions: API.OperationMethod<
@@ -28238,7 +30748,7 @@ export const listShardConfigurationProfileExtensions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListShardConfigurationProfileExtensionsRequest,
   output: ListShardConfigurationProfileExtensionsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28246,6 +30756,7 @@ export const listShardConfigurationProfileExtensions: API.OperationMethod<
 export type ListShardConfigurationProfileParametersError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** List parameters for a Neki shard configuration profile */
 export const listShardConfigurationProfileParameters: API.OperationMethod<
@@ -28256,12 +30767,16 @@ export const listShardConfigurationProfileParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListShardConfigurationProfileParametersRequest,
   output: ListShardConfigurationProfileParametersResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListShardConfigurationProfilesError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListShardConfigurationProfilesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List shard configuration profiles for a Neki branch */
 export const listShardConfigurationProfiles: API.OperationMethod<
   ListShardConfigurationProfilesRequest,
@@ -28271,12 +30786,16 @@ export const listShardConfigurationProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListShardConfigurationProfilesRequest,
   output: ListShardConfigurationProfilesResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListShardConfigurationProfileShardsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListShardConfigurationProfileShardsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List shards for a Neki shard configuration profile */
 export const listShardConfigurationProfileShards: API.PaginatedOperationMethod<
   ListShardConfigurationProfileShardsRequest,
@@ -28288,7 +30807,7 @@ export const listShardConfigurationProfileShards: API.PaginatedOperationMethod<
   () => ({
     input: ListShardConfigurationProfileShardsRequest,
     output: PaginatedNekiShard,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28301,7 +30820,7 @@ export const listShardConfigurationProfileShards: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListShardsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListShardsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List shards for a Neki branch */
 export const listShards: API.PaginatedOperationMethod<
   ListShardsRequest,
@@ -28313,7 +30832,7 @@ export const listShards: API.PaginatedOperationMethod<
   () => ({
     input: ListShardsRequest,
     output: PaginatedNekiShard,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28326,7 +30845,11 @@ export const listShards: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListSidecarChangeRequestsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListSidecarChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List change requests for a Neki sidecar */
 export const listSidecarChangeRequests: API.OperationMethod<
   ListSidecarChangeRequestsRequest,
@@ -28336,12 +30859,16 @@ export const listSidecarChangeRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSidecarChangeRequestsRequest,
   output: ListSidecarChangeRequestsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListSidecarParametersError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListSidecarParametersError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List parameters for a Neki sidecar */
 export const listSidecarParameters: API.OperationMethod<
   ListSidecarParametersRequest,
@@ -28351,12 +30878,12 @@ export const listSidecarParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSidecarParametersRequest,
   output: ListSidecarParametersResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListSidecarsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListSidecarsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List sidecars for a Neki branch */
 export const listSidecars: API.OperationMethod<
   ListSidecarsRequest,
@@ -28366,12 +30893,12 @@ export const listSidecars: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListSidecarsRequest,
   output: ListSidecarsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ListSwitchoversError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListSwitchoversError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List switchovers */
 export const listSwitchovers: API.PaginatedOperationMethod<
   ListSwitchoversRequest,
@@ -28383,7 +30910,7 @@ export const listSwitchovers: API.PaginatedOperationMethod<
   () => ({
     input: ListSwitchoversRequest,
     output: PaginatedPostgresSwitchover,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28396,7 +30923,11 @@ export const listSwitchovers: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListTrafficBudgetsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListTrafficBudgetsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List traffic budgets */
 export const listTrafficBudgets: API.PaginatedOperationMethod<
   ListTrafficBudgetsRequest,
@@ -28408,7 +30939,7 @@ export const listTrafficBudgets: API.PaginatedOperationMethod<
   () => ({
     input: ListTrafficBudgetsRequest,
     output: PaginatedTrafficBudget,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28421,7 +30952,11 @@ export const listTrafficBudgets: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListTrafficBudgetsForQueryError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListTrafficBudgetsForQueryError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** List traffic budgets affecting a query fingerprint */
 export const listTrafficBudgetsForQuery: API.PaginatedOperationMethod<
   ListTrafficBudgetsForQueryRequest,
@@ -28433,7 +30968,7 @@ export const listTrafficBudgetsForQuery: API.PaginatedOperationMethod<
   () => ({
     input: ListTrafficBudgetsForQueryRequest,
     output: PaginatedTrafficBudget,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28446,7 +30981,7 @@ export const listTrafficBudgetsForQuery: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListWebhooksError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListWebhooksError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List webhooks List webhooks for a database */
 export const listWebhooks: API.PaginatedOperationMethod<
   ListWebhooksRequest,
@@ -28458,7 +30993,7 @@ export const listWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: ListWebhooksRequest,
     output: PaginatedDatabaseWebhook,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28471,7 +31006,7 @@ export const listWebhooks: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type ListWorkflowsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ListWorkflowsError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** List workflows */
 export const listWorkflows: API.PaginatedOperationMethod<
   ListWorkflowsRequest,
@@ -28483,7 +31018,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
   () => ({
     input: ListWorkflowsRequest,
     output: PaginatedWorkflow,
-    errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+    errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
     protocol: PlanetScaleProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -28496,7 +31031,64 @@ export const listWorkflows: API.PaginatedOperationMethod<
   paginatePageNumber,
 ) as any;
 
-export type PromoteBranchError = Forbidden | NotFound | PlanetScaleOpError;
+export type MoveCompleteTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Complete a MoveTables workflow */
+export const moveCompleteTablesWorkflow: API.OperationMethod<
+  MoveCompleteTablesWorkflowRequest,
+  MoveCompleteTablesWorkflowResponse,
+  MoveCompleteTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: MoveCompleteTablesWorkflowRequest,
+  output: MoveCompleteTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type MoveReverseTrafficTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Reverse traffic back to the source keyspace */
+export const moveReverseTrafficTablesWorkflow: API.OperationMethod<
+  MoveReverseTrafficTablesWorkflowRequest,
+  MoveReverseTrafficTablesWorkflowResponse,
+  MoveReverseTrafficTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: MoveReverseTrafficTablesWorkflowRequest,
+  output: MoveReverseTrafficTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type MoveSwitchTrafficTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Switch traffic to the target keyspace */
+export const moveSwitchTrafficTablesWorkflow: API.OperationMethod<
+  MoveSwitchTrafficTablesWorkflowRequest,
+  MoveSwitchTrafficTablesWorkflowResponse,
+  MoveSwitchTrafficTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: MoveSwitchTrafficTablesWorkflowRequest,
+  output: MoveSwitchTrafficTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PromoteBranchError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Promote a branch Promotes a branch from development to production */
 export const promoteBranch: API.OperationMethod<
   PromoteBranchRequest,
@@ -28506,12 +31098,16 @@ export const promoteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PromoteBranchRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ReassignRoleObjectsError = Forbidden | NotFound | PlanetScaleOpError;
+export type ReassignRoleObjectsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Reassign objects owned by one role to another role */
 export const reassignRoleObjects: API.OperationMethod<
   ReassignRoleObjectsRequest,
@@ -28521,12 +31117,16 @@ export const reassignRoleObjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReassignRoleObjectsRequest,
   output: ReassignRoleObjectsResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type RemoveOrganizationMemberError = Forbidden | NotFound | PlanetScaleOpError;
+export type RemoveOrganizationMemberError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Remove a member from an organization */
 export const removeOrganizationMember: API.OperationMethod<
   RemoveOrganizationMemberRequest,
@@ -28536,7 +31136,7 @@ export const removeOrganizationMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveOrganizationMemberRequest,
   output: RemoveOrganizationMemberResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28576,7 +31176,7 @@ export const renewPassword: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type RenewRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type RenewRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Renew role expiration */
 export const renewRole: API.OperationMethod<
   RenewRoleRequest,
@@ -28586,12 +31186,12 @@ export const renewRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RenewRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ResetDefaultRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type ResetDefaultRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Reset default credentials */
 export const resetDefaultRole: API.OperationMethod<
   ResetDefaultRoleRequest,
@@ -28601,12 +31201,12 @@ export const resetDefaultRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResetDefaultRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type ResetRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type ResetRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Reset a role's password */
 export const resetRole: API.OperationMethod<
   ResetRoleRequest,
@@ -28616,12 +31216,12 @@ export const resetRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ResetRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type RetryWorkflowError = Forbidden | NotFound | PlanetScaleOpError;
+export type RetryWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Retry a failed workflow */
 export const retryWorkflow: API.OperationMethod<
   RetryWorkflowRequest,
@@ -28631,7 +31231,7 @@ export const retryWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RetryWorkflowRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28658,6 +31258,7 @@ export const runBranchMaintenance: API.OperationMethod<
 export type RunShardConfigurationProfileMaintenanceError =
   | Forbidden
   | NotFound
+  | UnprocessableEntity
   | PlanetScaleOpError;
 /** Run maintenance for a Neki shard configuration profile */
 export const runShardConfigurationProfileMaintenance: API.OperationMethod<
@@ -28668,7 +31269,7 @@ export const runShardConfigurationProfileMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RunShardConfigurationProfileMaintenanceRequest,
   output: RunShardConfigurationProfileMaintenanceResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28711,7 +31312,7 @@ export const setDefaultShardConfigurationProfile: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SkipRevertPeriodError = Forbidden | NotFound | PlanetScaleOpError;
+export type SkipRevertPeriodError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Skip revert period Skips the revert period for a deploy request */
 export const skipRevertPeriod: API.OperationMethod<
   SkipRevertPeriodRequest,
@@ -28721,12 +31322,69 @@ export const skipRevertPeriod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SkipRevertPeriodRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type TestWebhookError = Forbidden | NotFound | PlanetScaleOpError;
+export type StartMoveTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Start a MoveTables workflow */
+export const startMoveTablesWorkflow: API.OperationMethod<
+  StartMoveTablesWorkflowRequest,
+  StartMoveTablesWorkflowResponse,
+  StartMoveTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StartMoveTablesWorkflowRequest,
+  output: StartMoveTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type StopMoveTablesWorkflowError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Stop a MoveTables workflow */
+export const stopMoveTablesWorkflow: API.OperationMethod<
+  StopMoveTablesWorkflowRequest,
+  StopMoveTablesWorkflowResponse,
+  StopMoveTablesWorkflowError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: StopMoveTablesWorkflowRequest,
+  output: StopMoveTablesWorkflowResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type SubmitBranchConfigChangeRequestsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Submit draft config change requests Submits draft config change requests for the branch and its keyspaces together. Each ID must belong to a draft created with the "create_branch_config_change_request" or "create_keyspace_config_change_request" endpoint. If any draft fails validation, none of them are submitted. */
+export const submitBranchConfigChangeRequests: API.OperationMethod<
+  SubmitBranchConfigChangeRequestsRequest,
+  SubmitBranchConfigChangeRequestsResponse,
+  SubmitBranchConfigChangeRequestsError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: SubmitBranchConfigChangeRequestsRequest,
+  output: SubmitBranchConfigChangeRequestsResponse,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type TestWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Test a webhook Sends a test event to the webhook */
 export const testWebhook: API.OperationMethod<
   TestWebhookRequest,
@@ -28736,7 +31394,7 @@ export const testWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TestWebhookRequest,
   output: TestWebhookResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28756,7 +31414,7 @@ export const updateAdmin: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateAutoApplyError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateAutoApplyError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Update auto-apply for deploy request Enables or disabled the auto-apply setting for a deploy request */
 export const updateAutoApply: API.OperationMethod<
   UpdateAutoApplyRequest,
@@ -28766,12 +31424,16 @@ export const updateAutoApply: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAutoApplyRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateAutoDeleteBranchError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateAutoDeleteBranchError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update auto-delete branch for deploy request Enables or disabled the auto-delete branch setting for a deploy request */
 export const updateAutoDeleteBranch: API.OperationMethod<
   UpdateAutoDeleteBranchRequest,
@@ -28781,12 +31443,12 @@ export const updateAutoDeleteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAutoDeleteBranchRequest,
   output: DatabaseDeployRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateBackupError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateBackupError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Update a backup */
 export const updateBackup: API.OperationMethod<
   UpdateBackupRequest,
@@ -28796,12 +31458,16 @@ export const updateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBackupRequest,
   output: Backup,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateBackupPolicyError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateBackupPolicyError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update a backup policy */
 export const updateBackupPolicy: API.OperationMethod<
   UpdateBackupPolicyRequest,
@@ -28811,12 +31477,16 @@ export const updateBackupPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBackupPolicyRequest,
   output: BackupPolicy,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateBouncerResizeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateBouncerResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Upsert a bouncer resize request */
 export const updateBouncerResizeRequest: API.OperationMethod<
   UpdateBouncerResizeRequestRequest,
@@ -28826,7 +31496,7 @@ export const updateBouncerResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBouncerResizeRequestRequest,
   output: PostgresBouncerResizeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28846,7 +31516,11 @@ export const updateBranch: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateBranchChangeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateBranchChangeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Upsert a change request for cluster size, replicas, storage, or parameters */
 export const updateBranchChangeRequest: API.OperationMethod<
   UpdateBranchChangeRequestRequest,
@@ -28856,7 +31530,7 @@ export const updateBranchChangeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBranchChangeRequestRequest,
   output: PostgresClusterResizeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28880,7 +31554,11 @@ export const updateBranchClusterConfig: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateBranchResizeRequestError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateBranchResizeRequestError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Upsert a resize request */
 export const updateBranchResizeRequest: API.OperationMethod<
   UpdateBranchResizeRequestRequest,
@@ -28890,7 +31568,7 @@ export const updateBranchResizeRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateBranchResizeRequestRequest,
   output: MysqlClusterResizeRequest,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28914,7 +31592,11 @@ export const updateDatabasePostgresCidr: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateDatabaseSettingsError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateDatabaseSettingsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update database settings */
 export const updateDatabaseSettings: API.OperationMethod<
   UpdateDatabaseSettingsRequest,
@@ -28924,7 +31606,7 @@ export const updateDatabaseSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDatabaseSettingsRequest,
   output: Database,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -28967,7 +31649,30 @@ export const updateDataTopology: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateDeployRequestThrottlerError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateDedicatedReadReplicaError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update a dedicated read replica */
+export const updateDedicatedReadReplica: API.OperationMethod<
+  UpdateDedicatedReadReplicaRequest,
+  PostgresReadOnlyReplica,
+  UpdateDedicatedReadReplicaError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateDedicatedReadReplicaRequest,
+  output: PostgresReadOnlyReplica,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateDeployRequestThrottlerError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update deploy request throttler configurations */
 export const updateDeployRequestThrottler: API.OperationMethod<
   UpdateDeployRequestThrottlerRequest,
@@ -28977,12 +31682,31 @@ export const updateDeployRequestThrottler: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDeployRequestThrottlerRequest,
   output: ThrottlerConfigurations,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateKeyspaceError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateInsightsAgentScheduleError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
+/** Update an Insights Agent schedule */
+export const updateInsightsAgentSchedule: API.OperationMethod<
+  UpdateInsightsAgentScheduleRequest,
+  InsightsAgentSchedule,
+  UpdateInsightsAgentScheduleError,
+  PlanetScaleOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateInsightsAgentScheduleRequest,
+  output: InsightsAgentSchedule,
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
+  protocol: PlanetScaleProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateKeyspaceError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Configure keyspace settings */
 export const updateKeyspace: API.OperationMethod<
   UpdateKeyspaceRequest,
@@ -28992,7 +31716,7 @@ export const updateKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateKeyspaceRequest,
   output: DatabaseBranchKeyspace,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -29035,7 +31759,11 @@ export const updateKeyspaceVschema: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateOrganizationError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateOrganizationError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update an organization */
 export const updateOrganization: API.OperationMethod<
   UpdateOrganizationRequest,
@@ -29045,12 +31773,16 @@ export const updateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationRequest,
   output: Organization,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateOrganizationMembershipError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateOrganizationMembershipError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update organization member role */
 export const updateOrganizationMembership: API.OperationMethod<
   UpdateOrganizationMembershipRequest,
@@ -29060,7 +31792,7 @@ export const updateOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateOrganizationMembershipRequest,
   output: OrganizationMembership,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -29085,7 +31817,7 @@ export const updateOrganizationTeam: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdatePasswordError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdatePasswordError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Update a password */
 export const updatePassword: API.OperationMethod<
   UpdatePasswordRequest,
@@ -29095,12 +31827,16 @@ export const updatePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdatePasswordRequest,
   output: DatabaseBranchPassword,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdatePaymentMethodError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdatePaymentMethodError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Create a billing payment method setup Create a hosted checkout session for adding or replacing an organization's payment method */
 export const updatePaymentMethod: API.OperationMethod<
   UpdatePaymentMethodRequest,
@@ -29110,27 +31846,12 @@ export const updatePaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdatePaymentMethodRequest,
   output: BillingPaymentMethodSetup,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateReadOnlyReplicaError = Forbidden | NotFound | PlanetScaleOpError;
-/** Update a read-only replica */
-export const updateReadOnlyReplica: API.OperationMethod<
-  UpdateReadOnlyReplicaRequest,
-  PostgresReadOnlyReplica,
-  UpdateReadOnlyReplicaError,
-  PlanetScaleOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: UpdateReadOnlyReplicaRequest,
-  output: PostgresReadOnlyReplica,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
-  protocol: PlanetScaleProtocol,
-  retry: Retry.Retry,
-}));
-
-export type UpdateRoleError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateRoleError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Update role name */
 export const updateRole: API.OperationMethod<
   UpdateRoleRequest,
@@ -29140,7 +31861,7 @@ export const updateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRoleRequest,
   output: PostgresRole,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -29160,7 +31881,11 @@ export const updateRouter: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateSafeMigrationsError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateSafeMigrationsError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update safe migrations for a branch */
 export const updateSafeMigrations: API.OperationMethod<
   UpdateSafeMigrationsRequest,
@@ -29170,12 +31895,12 @@ export const updateSafeMigrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateSafeMigrationsRequest,
   output: DatabaseBranch,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateShardError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateShardError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Update a shard for a Neki branch */
 export const updateShard: API.OperationMethod<
   UpdateShardRequest,
@@ -29185,7 +31910,7 @@ export const updateShard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateShardRequest,
   output: UpdateShardResponse,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -29243,7 +31968,11 @@ export const updateSidecar: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateTrafficBudgetError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateTrafficBudgetError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Update a traffic budget */
 export const updateTrafficBudget: API.OperationMethod<
   UpdateTrafficBudgetRequest,
@@ -29253,12 +31982,12 @@ export const updateTrafficBudget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateTrafficBudgetRequest,
   output: TrafficBudget,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type UpdateWebhookError = Forbidden | NotFound | PlanetScaleOpError;
+export type UpdateWebhookError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Update a webhook */
 export const updateWebhook: API.OperationMethod<
   UpdateWebhookRequest,
@@ -29268,12 +31997,12 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWebhookRequest,
   output: DatabaseWebhook,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type VerifyWorkflowError = Forbidden | NotFound | PlanetScaleOpError;
+export type VerifyWorkflowError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Verify workflow data */
 export const verifyWorkflow: API.OperationMethod<
   VerifyWorkflowRequest,
@@ -29283,12 +32012,12 @@ export const verifyWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: VerifyWorkflowRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type WorkflowCutoverError = Forbidden | NotFound | PlanetScaleOpError;
+export type WorkflowCutoverError = Forbidden | NotFound | UnprocessableEntity | PlanetScaleOpError;
 /** Cutover traffic */
 export const workflowCutover: API.OperationMethod<
   WorkflowCutoverRequest,
@@ -29298,12 +32027,16 @@ export const workflowCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkflowCutoverRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type WorkflowReverseCutoverError = Forbidden | NotFound | PlanetScaleOpError;
+export type WorkflowReverseCutoverError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Reverse traffic cutover */
 export const workflowReverseCutover: API.OperationMethod<
   WorkflowReverseCutoverRequest,
@@ -29313,12 +32046,16 @@ export const workflowReverseCutover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkflowReverseCutoverRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type WorkflowReverseTrafficError = Forbidden | NotFound | PlanetScaleOpError;
+export type WorkflowReverseTrafficError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Reverse traffic */
 export const workflowReverseTraffic: API.OperationMethod<
   WorkflowReverseTrafficRequest,
@@ -29328,12 +32065,16 @@ export const workflowReverseTraffic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkflowReverseTrafficRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type WorkflowSwitchPrimariesError = Forbidden | NotFound | PlanetScaleOpError;
+export type WorkflowSwitchPrimariesError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Switch primary traffic */
 export const workflowSwitchPrimaries: API.OperationMethod<
   WorkflowSwitchPrimariesRequest,
@@ -29343,12 +32084,16 @@ export const workflowSwitchPrimaries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkflowSwitchPrimariesRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
 
-export type WorkflowSwitchReplicasError = Forbidden | NotFound | PlanetScaleOpError;
+export type WorkflowSwitchReplicasError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | PlanetScaleOpError;
 /** Switch replica traffic */
 export const workflowSwitchReplicas: API.OperationMethod<
   WorkflowSwitchReplicasRequest,
@@ -29358,7 +32103,7 @@ export const workflowSwitchReplicas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WorkflowSwitchReplicasRequest,
   output: Workflow,
-  errors: [Forbidden, NotFound, UnknownPlanetScaleError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPlanetScaleError],
   protocol: PlanetScaleProtocol,
   retry: Retry.Retry,
 }));
@@ -29381,12 +32126,20 @@ export type CancelBouncerResizeRequestInput = CancelBouncerResizeRequestRequest;
 export type CancelBouncerResizeRequestOutput = CancelBouncerResizeRequestResponse;
 export type CancelBranchChangeRequestInput = CancelBranchChangeRequestRequest;
 export type CancelBranchChangeRequestOutput = CancelBranchChangeRequestResponse;
+export type CancelBranchConfigChangeRequestInput = CancelBranchConfigChangeRequestRequest;
+export type CancelBranchConfigChangeRequestOutput = CancelBranchConfigChangeRequestResponse;
 export type CancelDeployRequestInput = CancelDeployRequestRequest;
 export type CancelDeployRequestOutput = DatabaseDeployRequest;
+export type CancelKeyspaceConfigChangeRequestInput = CancelKeyspaceConfigChangeRequestRequest;
+export type CancelKeyspaceConfigChangeRequestOutput = CancelKeyspaceConfigChangeRequestResponse;
 export type CancelKeyspaceResizeRequestInput = CancelKeyspaceResizeRequestRequest;
 export type CancelKeyspaceResizeRequestOutput = CancelKeyspaceResizeRequestResponse;
+export type CancelMoveTablesWorkflowInput = CancelMoveTablesWorkflowRequest;
+export type CancelMoveTablesWorkflowOutput = CancelMoveTablesWorkflowResponse;
 export type CancelNekiChangeRequestInput = CancelNekiChangeRequestRequest;
 export type CancelNekiChangeRequestOutput = CancelNekiChangeRequestResponse;
+export type CancelOrganizationInvitationInput = CancelOrganizationInvitationRequest;
+export type CancelOrganizationInvitationOutput = CancelOrganizationInvitationResponse;
 export type CancelRouterChangeRequestInput = CancelRouterChangeRequestRequest;
 export type CancelRouterChangeRequestOutput = CancelRouterChangeRequestResponse;
 export type CancelShardConfigurationProfileChangeRequestInput =
@@ -29411,18 +32164,30 @@ export type CreateBouncerInput = CreateBouncerRequest;
 export type CreateBouncerOutput = PostgresBouncer;
 export type CreateBranchInput = CreateBranchRequest;
 export type CreateBranchOutput = DatabaseBranch;
+export type CreateBranchConfigChangeRequestInput = CreateBranchConfigChangeRequestRequest;
+export type CreateBranchConfigChangeRequestOutput = BranchConfigChangeRequest;
 export type CreateBranchLogSignatureInput = CreateBranchLogSignatureRequest;
 export type CreateBranchLogSignatureOutput = CreateBranchLogSignatureResponse;
 export type CreateDatabaseInput = CreateDatabaseRequest;
 export type CreateDatabaseOutput = Database;
 export type CreateDatabasePostgresCidrInput = CreateDatabasePostgresCidrRequest;
 export type CreateDatabasePostgresCidrOutput = PostgresClusterCidr;
+export type CreateDedicatedReadReplicaInput = CreateDedicatedReadReplicaRequest;
+export type CreateDedicatedReadReplicaOutput = PostgresReadOnlyReplica;
 export type CreateDeployRequestInput = CreateDeployRequestRequest;
 export type CreateDeployRequestOutput = DatabaseDeployRequest;
+export type CreateInsightsAgentRunInput = CreateInsightsAgentRunRequest;
+export type CreateInsightsAgentRunOutput = InsightsAgentRun;
 export type CreateKeyspaceInput = CreateKeyspaceRequest;
 export type CreateKeyspaceOutput = DatabaseBranchKeyspace;
+export type CreateKeyspaceConfigChangeRequestInput = CreateKeyspaceConfigChangeRequestRequest;
+export type CreateKeyspaceConfigChangeRequestOutput = KeyspaceConfigChangeRequest;
+export type CreateMoveTablesWorkflowInput = CreateMoveTablesWorkflowRequest;
+export type CreateMoveTablesWorkflowOutput = CreateMoveTablesWorkflowResponse;
 export type CreateOauthTokenInput = CreateOauthTokenRequest;
 export type CreateOauthTokenOutput = ServiceToken;
+export type CreateOrganizationInvitationInput = CreateOrganizationInvitationRequest;
+export type CreateOrganizationInvitationOutput = OrganizationInvitation;
 export type CreateOrganizationSsoDomainInput = CreateOrganizationSsoDomainRequest;
 export type CreateOrganizationSsoDomainOutput = CreateOrganizationSsoDomainResponse;
 export type CreateOrganizationTeamInput = CreateOrganizationTeamRequest;
@@ -29431,8 +32196,6 @@ export type CreatePasswordInput = CreatePasswordRequest;
 export type CreatePasswordOutput = DatabaseBranchPasswordWithSecret;
 export type CreateQueryPatternsReportInput = CreateQueryPatternsReportRequest;
 export type CreateQueryPatternsReportOutput = QueryPatternsDownload;
-export type CreateReadOnlyReplicaInput = CreateReadOnlyReplicaRequest;
-export type CreateReadOnlyReplicaOutput = PostgresReadOnlyReplica;
 export type CreateRoleInput = CreateRoleRequest;
 export type CreateRoleOutput = PostgresRole;
 export type CreateRouterInput = CreateRouterRequest;
@@ -29467,6 +32230,8 @@ export type DeleteDatabaseInput = DeleteDatabaseRequest;
 export type DeleteDatabaseOutput = DeleteDatabaseResponse;
 export type DeleteDatabasePostgresCidrInput = DeleteDatabasePostgresCidrRequest;
 export type DeleteDatabasePostgresCidrOutput = DeleteDatabasePostgresCidrResponse;
+export type DeleteDedicatedReadReplicaInput = DeleteDedicatedReadReplicaRequest;
+export type DeleteDedicatedReadReplicaOutput = DeleteDedicatedReadReplicaResponse;
 export type DeleteKeyspaceInput = DeleteKeyspaceRequest;
 export type DeleteKeyspaceOutput = DeleteKeyspaceResponse;
 export type DeleteOauthTokenInput = DeleteOauthTokenRequest;
@@ -29483,8 +32248,6 @@ export type DeletePasswordInput = DeletePasswordRequest;
 export type DeletePasswordOutput = DeletePasswordResponse;
 export type DeleteQueryPatternsReportInput = DeleteQueryPatternsReportRequest;
 export type DeleteQueryPatternsReportOutput = DeleteQueryPatternsReportResponse;
-export type DeleteReadOnlyReplicaInput = DeleteReadOnlyReplicaRequest;
-export type DeleteReadOnlyReplicaOutput = DeleteReadOnlyReplicaResponse;
 export type DeleteRoleInput = DeleteRoleRequest;
 export type DeleteRoleOutput = DeleteRoleResponse;
 export type DeleteRouterInput = DeleteRouterRequest;
@@ -29554,6 +32317,8 @@ export type GetBranchAnomalyInput = GetBranchAnomalyRequest;
 export type GetBranchAnomalyOutput = Anomaly;
 export type GetBranchChangeRequestInput = GetBranchChangeRequestRequest;
 export type GetBranchChangeRequestOutput = PostgresClusterResizeRequest;
+export type GetBranchConfigChangeRequestInput = GetBranchConfigChangeRequestRequest;
+export type GetBranchConfigChangeRequestOutput = BranchConfigChangeRequest;
 export type GetBranchKeyspaceTableMetricsInput = GetBranchKeyspaceTableMetricsRequest;
 export type GetBranchKeyspaceTableMetricsOutput = GetBranchKeyspaceTableMetricsResponse;
 export type GetBranchMetricsInput = GetBranchMetricsRequest;
@@ -29584,6 +32349,8 @@ export type GetDatabaseThrottlerInput = GetDatabaseThrottlerRequest;
 export type GetDatabaseThrottlerOutput = ThrottlerConfigurations;
 export type GetDataTopologyInput = GetDataTopologyRequest;
 export type GetDataTopologyOutput = NekiDataTopology;
+export type GetDedicatedReadReplicaInput = GetDedicatedReadReplicaRequest;
+export type GetDedicatedReadReplicaOutput = PostgresReadOnlyReplica;
 export type GetDefaultRoleInput = GetDefaultRoleRequest;
 export type GetDefaultRoleOutput = PostgresRole;
 export type GetDefaultShardConfigurationProfileInput = GetDefaultShardConfigurationProfileRequest;
@@ -29596,6 +32363,8 @@ export type GetDeployRequestInput = GetDeployRequestRequest;
 export type GetDeployRequestOutput = DatabaseDeployRequest;
 export type GetDeployRequestThrottlerInput = GetDeployRequestThrottlerRequest;
 export type GetDeployRequestThrottlerOutput = ThrottlerConfigurations;
+export type GetInsightsAgentRunInput = GetInsightsAgentRunRequest;
+export type GetInsightsAgentRunOutput = InsightsAgentRun;
 export type GetInstantBranchMetricsInput = GetInstantBranchMetricsRequest;
 export type GetInstantBranchMetricsOutput = GetInstantBranchMetricsResponse;
 export type GetInstantTabletMetricsInput = GetInstantTabletMetricsRequest;
@@ -29606,6 +32375,8 @@ export type GetInvoiceLineItemsInput = GetInvoiceLineItemsRequest;
 export type GetInvoiceLineItemsOutput = PaginatedLineItem;
 export type GetKeyspaceInput = GetKeyspaceRequest;
 export type GetKeyspaceOutput = DatabaseBranchKeyspace;
+export type GetKeyspaceConfigChangeRequestInput = GetKeyspaceConfigChangeRequestRequest;
+export type GetKeyspaceConfigChangeRequestOutput = KeyspaceConfigChangeRequest;
 export type GetKeyspaceResizeRequestInput = GetKeyspaceResizeRequestRequest;
 export type GetKeyspaceResizeRequestOutput = KeyspaceResizeRequest;
 export type GetKeyspaceRolloutStatusInput = GetKeyspaceRolloutStatusRequest;
@@ -29614,6 +32385,10 @@ export type GetKeyspaceVschemaInput = GetKeyspaceVschemaRequest;
 export type GetKeyspaceVschemaOutput = GetKeyspaceVschemaResponse;
 export type GetMaintenanceScheduleInput = GetMaintenanceScheduleRequest;
 export type GetMaintenanceScheduleOutput = BranchMaintenanceSchedule;
+export type GetMoveTablesWorkflowInput = GetMoveTablesWorkflowRequest;
+export type GetMoveTablesWorkflowOutput = GetMoveTablesWorkflowResponse;
+export type GetMoveTablesWorkflowStatusInput = GetMoveTablesWorkflowStatusRequest;
+export type GetMoveTablesWorkflowStatusOutput = GetMoveTablesWorkflowStatusResponse;
 export type GetNekiChangeRequestInput = GetNekiChangeRequestRequest;
 export type GetNekiChangeRequestOutput = NekiChangeRequest;
 export type GetOauthApplicationInput = GetOauthApplicationRequest;
@@ -29646,8 +32421,6 @@ export type GetQueryStatisticsInput = GetQueryStatisticsRequest;
 export type GetQueryStatisticsOutput = PaginatedQuery;
 export type GetQuerySummaryInput = GetQuerySummaryRequest;
 export type GetQuerySummaryOutput = QuerySummary;
-export type GetReadOnlyReplicaInput = GetReadOnlyReplicaRequest;
-export type GetReadOnlyReplicaOutput = PostgresReadOnlyReplica;
 export type GetRoleInput = GetRoleRequest;
 export type GetRoleOutput = PostgresRole;
 export type GetRouterInput = GetRouterRequest;
@@ -29678,6 +32451,8 @@ export type GetTabletMetricsInput = GetTabletMetricsRequest;
 export type GetTabletMetricsOutput = MetricSeries;
 export type GetTrafficBudgetInput = GetTrafficBudgetRequest;
 export type GetTrafficBudgetOutput = TrafficBudget;
+export type GetVtctldOperationInput = GetVtctldOperationRequest;
+export type GetVtctldOperationOutput = GetVtctldOperationResponse;
 export type GetWebhookInput = GetWebhookRequest;
 export type GetWebhookOutput = DatabaseWebhook;
 export type GetWorkflowInput = GetWorkflowRequest;
@@ -29706,6 +32481,8 @@ export type ListBranchBouncerResizeRequestsInput = ListBranchBouncerResizeReques
 export type ListBranchBouncerResizeRequestsOutput = PaginatedPostgresBouncerResizeRequest;
 export type ListBranchChangeRequestsInput = ListBranchChangeRequestsRequest;
 export type ListBranchChangeRequestsOutput = PaginatedPostgresClusterResizeRequest;
+export type ListBranchConfigChangeRequestsInput = ListBranchConfigChangeRequestsRequest;
+export type ListBranchConfigChangeRequestsOutput = PaginatedConfigChangeRequest;
 export type ListBranchesInput = ListBranchesRequest;
 export type ListBranchesOutput = PaginatedDatabaseBranch;
 export type ListBranchQueriesInput = ListBranchQueriesRequest;
@@ -29718,6 +32495,8 @@ export type ListBranchQueryTagSummariesInput = ListBranchQueryTagSummariesReques
 export type ListBranchQueryTagSummariesOutput = PaginatedDimensionsQuerySummary;
 export type ListBranchResizeRequestsInput = ListBranchResizeRequestsRequest;
 export type ListBranchResizeRequestsOutput = PaginatedMysqlClusterResizeRequest;
+export type ListBranchVitessParametersInput = ListBranchVitessParametersRequest;
+export type ListBranchVitessParametersOutput = ListBranchVitessParametersResponse;
 export type ListClusterSizeSkusInput = ListClusterSizeSkusRequest;
 export type ListClusterSizeSkusOutput = ListClusterSizeSkusResponse;
 export type ListDatabasePostgresCidrsInput = ListDatabasePostgresCidrsRequest;
@@ -29726,6 +32505,12 @@ export type ListDatabaseRegionsInput = ListDatabaseRegionsRequest;
 export type ListDatabaseRegionsOutput = PaginatedPlanetscaleRegion;
 export type ListDatabasesInput = ListDatabasesRequest;
 export type ListDatabasesOutput = PaginatedDatabase;
+export type ListDedicatedReadReplicaChangeRequestsInput =
+  ListDedicatedReadReplicaChangeRequestsRequest;
+export type ListDedicatedReadReplicaChangeRequestsOutput =
+  PaginatedPostgresReadOnlyReplicaChangeRequest;
+export type ListDedicatedReadReplicasInput = ListDedicatedReadReplicasRequest;
+export type ListDedicatedReadReplicasOutput = ListDedicatedReadReplicasResponse;
 export type ListDeployOperationsInput = ListDeployOperationsRequest;
 export type ListDeployOperationsOutput = PaginatedDeployOperation;
 export type ListDeployRequestReviewsInput = ListDeployRequestReviewsRequest;
@@ -29736,8 +32521,14 @@ export type ListExtensionsInput = ListExtensionsRequest;
 export type ListExtensionsOutput = ListExtensionsResponse;
 export type ListGeneratedQueryPatternsReportsInput = ListGeneratedQueryPatternsReportsRequest;
 export type ListGeneratedQueryPatternsReportsOutput = PaginatedQueryPatternsDownload;
+export type ListInsightsAgentRunsInput = ListInsightsAgentRunsRequest;
+export type ListInsightsAgentRunsOutput = PaginatedInsightsAgentRun;
+export type ListInsightsAgentSchedulesInput = ListInsightsAgentSchedulesRequest;
+export type ListInsightsAgentSchedulesOutput = ListInsightsAgentSchedulesResponse;
 export type ListInvoicesInput = ListInvoicesRequest;
 export type ListInvoicesOutput = PaginatedInvoice;
+export type ListKeyspaceConfigChangeRequestsInput = ListKeyspaceConfigChangeRequestsRequest;
+export type ListKeyspaceConfigChangeRequestsOutput = PaginatedKeyspaceConfigChangeRequest;
 export type ListKeyspaceResizeRequestsInput = ListKeyspaceResizeRequestsRequest;
 export type ListKeyspaceResizeRequestsOutput = PaginatedKeyspaceResizeRequest;
 export type ListKeyspacesInput = ListKeyspacesRequest;
@@ -29746,12 +32537,16 @@ export type ListMaintenanceSchedulesInput = ListMaintenanceSchedulesRequest;
 export type ListMaintenanceSchedulesOutput = PaginatedBranchMaintenanceSchedule;
 export type ListMaintenanceWindowsInput = ListMaintenanceWindowsRequest;
 export type ListMaintenanceWindowsOutput = PaginatedBranchMaintenanceWindow;
+export type ListMoveTablesWorkflowsInput = ListMoveTablesWorkflowsRequest;
+export type ListMoveTablesWorkflowsOutput = ListMoveTablesWorkflowsResponse;
 export type ListNekiChangeRequestsInput = ListNekiChangeRequestsRequest;
 export type ListNekiChangeRequestsOutput = PaginatedNekiChangeRequest;
 export type ListOauthApplicationsInput = ListOauthApplicationsRequest;
 export type ListOauthApplicationsOutput = PaginatedOauthApplication;
 export type ListOauthTokensInput = ListOauthTokensRequest;
 export type ListOauthTokensOutput = PaginatedServiceToken;
+export type ListOrganizationInvitationsInput = ListOrganizationInvitationsRequest;
+export type ListOrganizationInvitationsOutput = PaginatedOrganizationInvitation;
 export type ListOrganizationMembersInput = ListOrganizationMembersRequest;
 export type ListOrganizationMembersOutput = PaginatedOrganizationMembership;
 export type ListOrganizationsInput = ListOrganizationsRequest;
@@ -29772,10 +32567,6 @@ export type ListPublicRegionsInput = ListPublicRegionsRequest;
 export type ListPublicRegionsOutput = PaginatedPublicPlanetscaleRegionSerializer;
 export type ListReadOnlyRegionsInput = ListReadOnlyRegionsRequest;
 export type ListReadOnlyRegionsOutput = PaginatedDatabaseBranchReadOnlyRegion;
-export type ListReadOnlyReplicaChangeRequestsInput = ListReadOnlyReplicaChangeRequestsRequest;
-export type ListReadOnlyReplicaChangeRequestsOutput = PaginatedPostgresReadOnlyReplicaChangeRequest;
-export type ListReadOnlyReplicasInput = ListReadOnlyReplicasRequest;
-export type ListReadOnlyReplicasOutput = ListReadOnlyReplicasResponse;
 export type ListRegionsForOrganizationInput = ListRegionsForOrganizationRequest;
 export type ListRegionsForOrganizationOutput = PaginatedPlanetscaleRegion;
 export type ListRolesInput = ListRolesRequest;
@@ -29826,6 +32617,12 @@ export type ListWebhooksInput = ListWebhooksRequest;
 export type ListWebhooksOutput = PaginatedDatabaseWebhook;
 export type ListWorkflowsInput = ListWorkflowsRequest;
 export type ListWorkflowsOutput = PaginatedWorkflow;
+export type MoveCompleteTablesWorkflowInput = MoveCompleteTablesWorkflowRequest;
+export type MoveCompleteTablesWorkflowOutput = MoveCompleteTablesWorkflowResponse;
+export type MoveReverseTrafficTablesWorkflowInput = MoveReverseTrafficTablesWorkflowRequest;
+export type MoveReverseTrafficTablesWorkflowOutput = MoveReverseTrafficTablesWorkflowResponse;
+export type MoveSwitchTrafficTablesWorkflowInput = MoveSwitchTrafficTablesWorkflowRequest;
+export type MoveSwitchTrafficTablesWorkflowOutput = MoveSwitchTrafficTablesWorkflowResponse;
 export type PromoteBranchInput = PromoteBranchRequest;
 export type PromoteBranchOutput = DatabaseBranch;
 export type ReassignRoleObjectsInput = ReassignRoleObjectsRequest;
@@ -29858,6 +32655,12 @@ export type SetDefaultShardConfigurationProfileInput = SetDefaultShardConfigurat
 export type SetDefaultShardConfigurationProfileOutput = NekiShardConfigurationProfile;
 export type SkipRevertPeriodInput = SkipRevertPeriodRequest;
 export type SkipRevertPeriodOutput = DatabaseDeployRequest;
+export type StartMoveTablesWorkflowInput = StartMoveTablesWorkflowRequest;
+export type StartMoveTablesWorkflowOutput = StartMoveTablesWorkflowResponse;
+export type StopMoveTablesWorkflowInput = StopMoveTablesWorkflowRequest;
+export type StopMoveTablesWorkflowOutput = StopMoveTablesWorkflowResponse;
+export type SubmitBranchConfigChangeRequestsInput = SubmitBranchConfigChangeRequestsRequest;
+export type SubmitBranchConfigChangeRequestsOutput = SubmitBranchConfigChangeRequestsResponse;
 export type TestWebhookInput = TestWebhookRequest;
 export type TestWebhookOutput = TestWebhookResponse;
 export type UpdateAdminInput = UpdateAdminRequest;
@@ -29888,8 +32691,12 @@ export type UpdateDatabaseThrottlerInput = UpdateDatabaseThrottlerRequest;
 export type UpdateDatabaseThrottlerOutput = ThrottlerConfigurations;
 export type UpdateDataTopologyInput = UpdateDataTopologyRequest;
 export type UpdateDataTopologyOutput = NekiDataTopology;
+export type UpdateDedicatedReadReplicaInput = UpdateDedicatedReadReplicaRequest;
+export type UpdateDedicatedReadReplicaOutput = PostgresReadOnlyReplica;
 export type UpdateDeployRequestThrottlerInput = UpdateDeployRequestThrottlerRequest;
 export type UpdateDeployRequestThrottlerOutput = ThrottlerConfigurations;
+export type UpdateInsightsAgentScheduleInput = UpdateInsightsAgentScheduleRequest;
+export type UpdateInsightsAgentScheduleOutput = InsightsAgentSchedule;
 export type UpdateKeyspaceInput = UpdateKeyspaceRequest;
 export type UpdateKeyspaceOutput = DatabaseBranchKeyspace;
 export type UpdateKeyspaceResizeRequestInput = UpdateKeyspaceResizeRequestRequest;
@@ -29906,8 +32713,6 @@ export type UpdatePasswordInput = UpdatePasswordRequest;
 export type UpdatePasswordOutput = DatabaseBranchPassword;
 export type UpdatePaymentMethodInput = UpdatePaymentMethodRequest;
 export type UpdatePaymentMethodOutput = BillingPaymentMethodSetup;
-export type UpdateReadOnlyReplicaInput = UpdateReadOnlyReplicaRequest;
-export type UpdateReadOnlyReplicaOutput = PostgresReadOnlyReplica;
 export type UpdateRoleInput = UpdateRoleRequest;
 export type UpdateRoleOutput = PostgresRole;
 export type UpdateRouterInput = UpdateRouterRequest;
