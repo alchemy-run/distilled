@@ -18,16 +18,8 @@ export const ClearQueueRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.optional(S.String),
     partitionKey: S.optional(S.String),
     allPartitions: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueClear",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ClearQueueRequest",
-}) as any as S.Schema<ClearQueueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueClear", code: 200 })),
+).annotate({ identifier: "ClearQueueRequest" }) as any as S.Schema<ClearQueueRequest>;
 
 export interface ClearQueueResponse {}
 export const ClearQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -40,16 +32,8 @@ export interface DeleteQueueRequest {
 export const DeleteQueueRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     queueId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueDelete",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "DeleteQueueRequest",
-}) as any as S.Schema<DeleteQueueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueDelete", code: 200 })),
+).annotate({ identifier: "DeleteQueueRequest" }) as any as S.Schema<DeleteQueueRequest>;
 
 export interface DeleteQueueResponse {}
 export const DeleteQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -68,16 +52,8 @@ export const GetQueueRequest = /*@__PURE__*/ S.suspend(() =>
     timeout: S.optional(S.Number),
     nValues: S.optional(S.Number),
     partitionKey: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueGet",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetQueueRequest",
-}) as any as S.Schema<GetQueueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGet", code: 200 })),
+).annotate({ identifier: "GetQueueRequest" }) as any as S.Schema<GetQueueRequest>;
 
 export type BlobList = Array<string>;
 export const BlobList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<BlobList>;
@@ -89,9 +65,7 @@ export const GetQueueResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     values: S.optional(BlobList),
   }),
-).annotate({
-  identifier: "GetQueueResponse",
-}) as any as S.Schema<GetQueueResponse>;
+).annotate({ identifier: "GetQueueResponse" }) as any as S.Schema<GetQueueResponse>;
 
 export interface ListPagination {
   maxObjects?: number;
@@ -115,16 +89,8 @@ export const ListQueueRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     totalSizeLimit: S.optional(S.Number),
     pagination: S.optional(ListPagination),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListQueueRequest",
-}) as any as S.Schema<ListQueueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueList", code: 200 })),
+).annotate({ identifier: "ListQueueRequest" }) as any as S.Schema<ListQueueRequest>;
 
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
@@ -186,9 +152,7 @@ export const ListQueueResponse = /*@__PURE__*/ S.suspend(() =>
     queues: S.optional(ListQueueResponseQueueInfoList),
     environmentName: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ListQueueResponse",
-}) as any as S.Schema<ListQueueResponse>;
+).annotate({ identifier: "ListQueueResponse" }) as any as S.Schema<ListQueueResponse>;
 
 export interface PutQueueRequest {
   queueId?: string;
@@ -202,16 +166,8 @@ export const PutQueueRequest = /*@__PURE__*/ S.suspend(() =>
     values: S.optional(BlobList),
     partitionKey: S.optional(S.String),
     partitionTtlSeconds: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueuePut",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "PutQueueRequest",
-}) as any as S.Schema<PutQueueRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueuePut", code: 200 })),
+).annotate({ identifier: "PutQueueRequest" }) as any as S.Schema<PutQueueRequest>;
 
 export interface PutQueueResponse {}
 export const PutQueueResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -224,16 +180,8 @@ export interface QueueGetByIdRequest {
 export const QueueGetByIdRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     queueId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueGetById",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueueGetByIdRequest",
-}) as any as S.Schema<QueueGetByIdRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGetById", code: 200 })),
+).annotate({ identifier: "QueueGetByIdRequest" }) as any as S.Schema<QueueGetByIdRequest>;
 
 export interface QueueGetByIdResponse {
   queueId?: string;
@@ -244,9 +192,7 @@ export const QueueGetByIdResponse = /*@__PURE__*/ S.suspend(() =>
     queueId: S.optional(S.String),
     metadata: S.optional(QueueMetadata),
   }),
-).annotate({
-  identifier: "QueueGetByIdResponse",
-}) as any as S.Schema<QueueGetByIdResponse>;
+).annotate({ identifier: "QueueGetByIdResponse" }) as any as S.Schema<QueueGetByIdResponse>;
 
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -268,16 +214,8 @@ export const QueueGetOrCreateRequest = /*@__PURE__*/ S.suspend(() =>
     deploymentName: S.optional(S.String),
     environmentName: S.optional(S.String),
     objectCreationType: S.optional(ObjectCreationType),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueGetOrCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueueGetOrCreateRequest",
-}) as any as S.Schema<QueueGetOrCreateRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueGetOrCreate", code: 200 })),
+).annotate({ identifier: "QueueGetOrCreateRequest" }) as any as S.Schema<QueueGetOrCreateRequest>;
 
 export interface QueueGetOrCreateResponse {
   queueId?: string;
@@ -288,9 +226,7 @@ export const QueueGetOrCreateResponse = /*@__PURE__*/ S.suspend(() =>
     queueId: S.optional(S.String),
     metadata: S.optional(QueueMetadata),
   }),
-).annotate({
-  identifier: "QueueGetOrCreateResponse",
-}) as any as S.Schema<QueueGetOrCreateResponse>;
+).annotate({ identifier: "QueueGetOrCreateResponse" }) as any as S.Schema<QueueGetOrCreateResponse>;
 
 export interface QueueHeartbeatRequest {
   queueId?: string;
@@ -298,16 +234,8 @@ export interface QueueHeartbeatRequest {
 export const QueueHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     queueId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueHeartbeat",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueueHeartbeatRequest",
-}) as any as S.Schema<QueueHeartbeatRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueHeartbeat", code: 200 })),
+).annotate({ identifier: "QueueHeartbeatRequest" }) as any as S.Schema<QueueHeartbeatRequest>;
 
 export interface QueueHeartbeatResponse {}
 export const QueueHeartbeatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -324,16 +252,8 @@ export const QueueLenRequest = /*@__PURE__*/ S.suspend(() =>
     queueId: S.optional(S.String),
     partitionKey: S.optional(S.String),
     total: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueLen",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueueLenRequest",
-}) as any as S.Schema<QueueLenRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueLen", code: 200 })),
+).annotate({ identifier: "QueueLenRequest" }) as any as S.Schema<QueueLenRequest>;
 
 export interface QueueLenResponse {
   len?: number;
@@ -342,9 +262,7 @@ export const QueueLenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     len: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "QueueLenResponse",
-}) as any as S.Schema<QueueLenResponse>;
+).annotate({ identifier: "QueueLenResponse" }) as any as S.Schema<QueueLenResponse>;
 
 export interface QueueNextItemsRequest {
   queueId?: string;
@@ -358,16 +276,8 @@ export const QueueNextItemsRequest = /*@__PURE__*/ S.suspend(() =>
     partitionKey: S.optional(S.String),
     lastEntryId: S.optional(S.String),
     itemPollTimeout: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/QueueNextItems",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "QueueNextItemsRequest",
-}) as any as S.Schema<QueueNextItemsRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/QueueNextItems", code: 200 })),
+).annotate({ identifier: "QueueNextItemsRequest" }) as any as S.Schema<QueueNextItemsRequest>;
 
 export interface QueueItem {
   value?: string;
@@ -390,9 +300,7 @@ export const QueueNextItemsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(QueueItemList),
   }),
-).annotate({
-  identifier: "QueueNextItemsResponse",
-}) as any as S.Schema<QueueNextItemsResponse>;
+).annotate({ identifier: "QueueNextItemsResponse" }) as any as S.Schema<QueueNextItemsResponse>;
 
 export type ClearQueueError = ModalOpError;
 /** Queues */

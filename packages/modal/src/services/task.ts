@@ -16,16 +16,8 @@ export const ListTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
     appId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TaskList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListTaskRequest",
-}) as any as S.Schema<ListTaskRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TaskList", code: 200 })),
+).annotate({ identifier: "ListTaskRequest" }) as any as S.Schema<ListTaskRequest>;
 
 export interface TaskStats {
   taskId?: string;
@@ -54,9 +46,7 @@ export const ListTaskResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     tasks: S.optional(TaskStatsList),
   }),
-).annotate({
-  identifier: "ListTaskResponse",
-}) as any as S.Schema<ListTaskResponse>;
+).annotate({ identifier: "ListTaskResponse" }) as any as S.Schema<ListTaskResponse>;
 
 export interface TaskClusterHelloRequest {
   taskId?: string;
@@ -68,16 +58,8 @@ export const TaskClusterHelloRequest = /*@__PURE__*/ S.suspend(() =>
     taskId: S.optional(S.String),
     containerIp: S.optional(S.String),
     imexHostIp: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TaskClusterHello",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TaskClusterHelloRequest",
-}) as any as S.Schema<TaskClusterHelloRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TaskClusterHello", code: 200 })),
+).annotate({ identifier: "TaskClusterHelloRequest" }) as any as S.Schema<TaskClusterHelloRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -102,22 +84,14 @@ export const TaskClusterHelloResponse = /*@__PURE__*/ S.suspend(() =>
     imexPeerIps: S.optional(StringList),
     fabricIds: S.optional(StringList),
   }),
-).annotate({
-  identifier: "TaskClusterHelloResponse",
-}) as any as S.Schema<TaskClusterHelloResponse>;
+).annotate({ identifier: "TaskClusterHelloResponse" }) as any as S.Schema<TaskClusterHelloResponse>;
 
 export interface TaskCurrentInputsRequest {}
 export const TaskCurrentInputsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TaskCurrentInputs",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/TaskCurrentInputs", code: 200 }),
   ),
-).annotate({
-  identifier: "TaskCurrentInputsRequest",
-}) as any as S.Schema<TaskCurrentInputsRequest>;
+).annotate({ identifier: "TaskCurrentInputsRequest" }) as any as S.Schema<TaskCurrentInputsRequest>;
 
 export interface TaskCurrentInputsResponse {
   inputIds?: StringList;
@@ -166,16 +140,8 @@ export interface TaskGetInfoRequest {
 export const TaskGetInfoRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TaskGetInfo",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TaskGetInfoRequest",
-}) as any as S.Schema<TaskGetInfoRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TaskGetInfo", code: 200 })),
+).annotate({ identifier: "TaskGetInfoRequest" }) as any as S.Schema<TaskGetInfoRequest>;
 
 /** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
@@ -294,9 +260,7 @@ export const TaskGetInfoResponse = /*@__PURE__*/ S.suspend(() =>
     appId: S.optional(S.String),
     info: S.optional(TaskInfo),
   }),
-).annotate({
-  identifier: "TaskGetInfoResponse",
-}) as any as S.Schema<TaskGetInfoResponse>;
+).annotate({ identifier: "TaskGetInfoResponse" }) as any as S.Schema<TaskGetInfoResponse>;
 
 export interface TaskResultRequest {
   result?: GenericResult;
@@ -304,16 +268,8 @@ export interface TaskResultRequest {
 export const TaskResultRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     result: S.optional(GenericResult),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TaskResult",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "TaskResultRequest",
-}) as any as S.Schema<TaskResultRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/TaskResult", code: 200 })),
+).annotate({ identifier: "TaskResultRequest" }) as any as S.Schema<TaskResultRequest>;
 
 export interface TaskResultResponse {}
 export const TaskResultResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

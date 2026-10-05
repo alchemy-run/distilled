@@ -11,15 +11,9 @@ export type { ModalOpError, ModalOpContext };
 export interface ClientHelloRequest {}
 export const ClientHelloRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ClientHello",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ClientHello", code: 200 }),
   ),
-).annotate({
-  identifier: "ClientHelloRequest",
-}) as any as S.Schema<ClientHelloRequest>;
+).annotate({ identifier: "ClientHelloRequest" }) as any as S.Schema<ClientHelloRequest>;
 
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -54,9 +48,7 @@ export const ClientHelloResponse = /*@__PURE__*/ S.suspend(() =>
     imageBuilderVersion: S.optional(S.String),
     serverWarnings: S.optional(WarningList),
   }),
-).annotate({
-  identifier: "ClientHelloResponse",
-}) as any as S.Schema<ClientHelloResponse>;
+).annotate({ identifier: "ClientHelloResponse" }) as any as S.Schema<ClientHelloResponse>;
 
 export type ClientHelloError = ModalOpError;
 /** Clients */

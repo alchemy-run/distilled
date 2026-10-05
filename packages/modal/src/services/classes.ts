@@ -47,9 +47,7 @@ export const GenericPayloadType = /*@__PURE__*/ S.suspend(() =>
     baseType: S.optional(ParameterType),
     subTypes: S.optional(GenericPayloadTypeList),
   }),
-).annotate({
-  identifier: "GenericPayloadType",
-}) as any as S.Schema<GenericPayloadType>;
+).annotate({ identifier: "GenericPayloadType" }) as any as S.Schema<GenericPayloadType>;
 
 export interface ClassParameterSpec {
   /** TODO: rename into NamedPayloadType or similar */
@@ -77,9 +75,7 @@ export const ClassParameterSpec = /*@__PURE__*/ S.suspend(() =>
     boolDefault: S.optional(S.Boolean),
     fullType: S.optional(GenericPayloadType),
   }),
-).annotate({
-  identifier: "ClassParameterSpec",
-}) as any as S.Schema<ClassParameterSpec>;
+).annotate({ identifier: "ClassParameterSpec" }) as any as S.Schema<ClassParameterSpec>;
 
 export type ClassParameterSpecList = Array<ClassParameterSpec>;
 export const ClassParameterSpecList = /*@__PURE__*/ S.Array(
@@ -96,13 +92,9 @@ export const ClassParameterInfo = /*@__PURE__*/ S.suspend(() =>
     format: S.optional(ClassParameterInfoParameterSerializationFormat),
     schema: S.optional(ClassParameterSpecList),
   }),
-).annotate({
-  identifier: "ClassParameterInfo",
-}) as any as S.Schema<ClassParameterInfo>;
+).annotate({ identifier: "ClassParameterInfo" }) as any as S.Schema<ClassParameterInfo>;
 
-export type FunctionHandleMetadataMap = {
-  [key: string]: FunctionHandleMetadata | undefined;
-};
+export type FunctionHandleMetadataMap = { [key: string]: FunctionHandleMetadata | undefined };
 export const FunctionHandleMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
   S.suspend(() => FunctionHandleMetadata),
@@ -146,8 +138,7 @@ export interface FunctionHandleMetadata {
   functionType?: FunctionFunctionType | (string & {});
   webUrl?: string;
   isMethod?: boolean;
-  useFunctionId?: string;
-  /** used for methods */
+  /** use_function_id, pre-0.67 class method placeholders */
   useMethodName?: string;
   /** used for methods */
   definitionId?: string;
@@ -165,6 +156,8 @@ export interface FunctionHandleMetadata {
   supportedInputFormats?: DataFormatList;
   supportedOutputFormats?: DataFormatList;
   appId?: string;
+  /** The base Function ID for a variant, or the Function's own ID otherwise. */
+  baseFunctionId?: string;
 }
 export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -172,7 +165,6 @@ export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     functionType: S.optional(FunctionFunctionType),
     webUrl: S.optional(S.String),
     isMethod: S.optional(S.Boolean),
-    useFunctionId: S.optional(S.String),
     useMethodName: S.optional(S.String),
     definitionId: S.optional(S.String),
     classParameterInfo: S.optional(ClassParameterInfo),
@@ -186,10 +178,9 @@ export const FunctionHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     supportedInputFormats: S.optional(DataFormatList),
     supportedOutputFormats: S.optional(DataFormatList),
     appId: S.optional(S.String),
+    baseFunctionId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "FunctionHandleMetadata",
-}) as any as S.Schema<FunctionHandleMetadata>;
+).annotate({ identifier: "FunctionHandleMetadata" }) as any as S.Schema<FunctionHandleMetadata>;
 
 export interface ClassMethod {
   functionName?: string;
@@ -223,16 +214,8 @@ export const CreateClassRequest = /*@__PURE__*/ S.suspend(() =>
     existingClassId: S.optional(S.String),
     methods: S.optional(ClassMethodList),
     onlyClassFunction: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ClassCreate",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateClassRequest",
-}) as any as S.Schema<CreateClassRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ClassCreate", code: 200 })),
+).annotate({ identifier: "CreateClassRequest" }) as any as S.Schema<CreateClassRequest>;
 
 export interface ClassHandleMetadata {
   methods?: ClassMethodList;
@@ -245,9 +228,7 @@ export const ClassHandleMetadata = /*@__PURE__*/ S.suspend(() =>
     classFunctionId: S.optional(S.String),
     classFunctionMetadata: S.optional(FunctionHandleMetadata),
   }),
-).annotate({
-  identifier: "ClassHandleMetadata",
-}) as any as S.Schema<ClassHandleMetadata>;
+).annotate({ identifier: "ClassHandleMetadata" }) as any as S.Schema<ClassHandleMetadata>;
 
 export interface CreateClassResponse {
   classId?: string;
@@ -258,9 +239,7 @@ export const CreateClassResponse = /*@__PURE__*/ S.suspend(() =>
     classId: S.optional(S.String),
     handleMetadata: S.optional(ClassHandleMetadata),
   }),
-).annotate({
-  identifier: "CreateClassResponse",
-}) as any as S.Schema<CreateClassResponse>;
+).annotate({ identifier: "CreateClassResponse" }) as any as S.Schema<CreateClassResponse>;
 
 export interface GetClassRequest {
   appName?: string;
@@ -279,16 +258,8 @@ export const GetClassRequest = /*@__PURE__*/ S.suspend(() =>
     environmentName: S.optional(S.String),
     onlyClassFunction: S.optional(S.Boolean),
     appVersion: S.optional(S.Number),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ClassGet",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetClassRequest",
-}) as any as S.Schema<GetClassRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ClassGet", code: 200 })),
+).annotate({ identifier: "GetClassRequest" }) as any as S.Schema<GetClassRequest>;
 
 export type WarningWarningType =
   | "WARNING_TYPE_UNSPECIFIED"
@@ -322,9 +293,7 @@ export const GetClassResponse = /*@__PURE__*/ S.suspend(() =>
     handleMetadata: S.optional(ClassHandleMetadata),
     serverWarnings: S.optional(WarningList),
   }),
-).annotate({
-  identifier: "GetClassResponse",
-}) as any as S.Schema<GetClassResponse>;
+).annotate({ identifier: "GetClassResponse" }) as any as S.Schema<GetClassResponse>;
 
 export type CreateClassError = ModalOpError;
 /** Classes */

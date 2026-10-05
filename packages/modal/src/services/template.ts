@@ -11,15 +11,9 @@ export type { ModalOpError, ModalOpContext };
 export interface ListTemplateRequest {}
 export const ListTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/TemplateList",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/TemplateList", code: 200 }),
   ),
-).annotate({
-  identifier: "ListTemplateRequest",
-}) as any as S.Schema<ListTemplateRequest>;
+).annotate({ identifier: "ListTemplateRequest" }) as any as S.Schema<ListTemplateRequest>;
 
 export interface ListTemplateResponseTemplateListItem {
   name?: string;
@@ -48,9 +42,7 @@ export const ListTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListTemplateResponseTemplateListItemList),
   }),
-).annotate({
-  identifier: "ListTemplateResponse",
-}) as any as S.Schema<ListTemplateResponse>;
+).annotate({ identifier: "ListTemplateResponse" }) as any as S.Schema<ListTemplateResponse>;
 
 export type ListTemplateError = ModalOpError;
 /** Templates */

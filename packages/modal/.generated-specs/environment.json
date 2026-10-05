@@ -62,7 +62,7 @@
         "meteredCostBreakdown": {
           "target": "com.modal.environment#StringMap",
           "traits": {
-            "smithy.api#documentation": "keyed by deployed, ephemeral, volume, notebook"
+            "smithy.api#documentation": "keyed by app type (deployed, ephemeral, notebook, endpoint, ...), volume, tokens, network egress"
           }
         }
       },
@@ -101,6 +101,12 @@
         },
         "maxConcurrentTasks": {
           "target": "smithy.api#Integer"
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, new unauthenticated web functions, Servers, tunnels, and Endpoints in this environment are rejected. Unset inherits the workspace default."
+          }
         }
       },
       "traits": {
@@ -643,6 +649,12 @@
         },
         "defaultMemberRole": {
           "target": "com.modal.environment#EnvironmentRole"
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean"
+        },
+        "effectiveRole": {
+          "target": "com.modal.environment#EnvironmentRole"
         }
       }
     },
@@ -814,6 +826,38 @@
         }
       }
     },
+    "com.modal.environment#EnvironmentBlockUnauthenticatedResources": {
+      "type": "enum",
+      "members": {
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_UNSPECIFIED"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_INHERIT"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_BLOCK"
+          }
+        },
+        "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENVIRONMENT_BLOCK_UNAUTHENTICATED_RESOURCES_ALLOW"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Partial-update signal for EnvironmentUpdateRequest. Omitted means no-op. INHERIT clears the environment override so the workspace default applies."
+      }
+    },
     "com.modal.environment#UpdateEnvironmentRequest": {
       "type": "structure",
       "members": {
@@ -831,6 +875,9 @@
         },
         "maxConcurrentGpus": {
           "target": "smithy.api#Integer"
+        },
+        "blockUnauthenticatedResources": {
+          "target": "com.modal.environment#EnvironmentBlockUnauthenticatedResources"
         }
       },
       "traits": {
@@ -889,6 +936,12 @@
           "target": "com.modal.environment#EnvironmentType"
         },
         "defaultMemberRole": {
+          "target": "com.modal.environment#EnvironmentRole"
+        },
+        "blockUnauthenticatedResources": {
+          "target": "smithy.api#Boolean"
+        },
+        "effectiveRole": {
           "target": "com.modal.environment#EnvironmentRole"
         }
       },

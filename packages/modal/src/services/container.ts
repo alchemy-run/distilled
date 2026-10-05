@@ -15,11 +15,7 @@ export const ContainerCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     checkpointId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerCheckpoint",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerCheckpoint", code: 200 }),
   ),
 ).annotate({
   identifier: "ContainerCheckpointRequest",
@@ -42,9 +38,7 @@ export const RuntimeInputMessage = /*@__PURE__*/ S.suspend(() =>
     messageIndex: S.optional(S.String),
     eof: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "RuntimeInputMessage",
-}) as any as S.Schema<RuntimeInputMessage>;
+).annotate({ identifier: "RuntimeInputMessage" }) as any as S.Schema<RuntimeInputMessage>;
 
 export interface ContainerExecPutInputRequest {
   execId?: string;
@@ -55,11 +49,7 @@ export const ContainerExecPutInputRequest = /*@__PURE__*/ S.suspend(() =>
     execId: S.optional(S.String),
     input: S.optional(RuntimeInputMessage),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerExecPutInput",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerExecPutInput", code: 200 }),
   ),
 ).annotate({
   identifier: "ContainerExecPutInputRequest",
@@ -79,15 +69,9 @@ export const ContainerExecWaitRequest = /*@__PURE__*/ S.suspend(() =>
     execId: S.optional(S.String),
     timeout: S.optional(S.Number),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerExecWait",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerExecWait", code: 200 }),
   ),
-).annotate({
-  identifier: "ContainerExecWaitRequest",
-}) as any as S.Schema<ContainerExecWaitRequest>;
+).annotate({ identifier: "ContainerExecWaitRequest" }) as any as S.Schema<ContainerExecWaitRequest>;
 
 export interface ContainerExecWaitResponse {
   exitCode?: number;
@@ -112,11 +96,7 @@ export const ContainerHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
     canceledInputsReturnOutputs: S.optional(S.Boolean),
     canceledInputsReturnOutputsV2: S.optional(S.Boolean),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerHeartbeat",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerHeartbeat", code: 200 }),
   ),
 ).annotate({
   identifier: "ContainerHeartbeatRequest",
@@ -136,9 +116,7 @@ export const CancelInputEvent = /*@__PURE__*/ S.suspend(() =>
     terminateContainers: S.optional(S.Boolean),
     cancellationReason: S.optional(S.String),
   }),
-).annotate({
-  identifier: "CancelInputEvent",
-}) as any as S.Schema<CancelInputEvent>;
+).annotate({ identifier: "CancelInputEvent" }) as any as S.Schema<CancelInputEvent>;
 
 export interface ContainerHeartbeatResponse {
   cancelInputEvent?: CancelInputEvent;
@@ -154,15 +132,9 @@ export const ContainerHeartbeatResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ContainerHelloRequest {}
 export const ContainerHelloRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerHello",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerHello", code: 200 }),
   ),
-).annotate({
-  identifier: "ContainerHelloRequest",
-}) as any as S.Schema<ContainerHelloRequest>;
+).annotate({ identifier: "ContainerHelloRequest" }) as any as S.Schema<ContainerHelloRequest>;
 
 export interface ContainerHelloResponse {}
 export const ContainerHelloResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -245,16 +217,8 @@ export interface ContainerLogRequest {
 export const ContainerLogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     logs: S.optional(TaskLogsList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerLog",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ContainerLogRequest",
-}) as any as S.Schema<ContainerLogRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerLog", code: 200 })),
+).annotate({ identifier: "ContainerLogRequest" }) as any as S.Schema<ContainerLogRequest>;
 
 export interface ContainerLogResponse {}
 export const ContainerLogResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -268,11 +232,7 @@ export const ContainerReloadVolumesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerReloadVolumes",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerReloadVolumes", code: 200 }),
   ),
 ).annotate({
   identifier: "ContainerReloadVolumesRequest",
@@ -365,16 +325,8 @@ export const ExecContainerRequest = /*@__PURE__*/ S.suspend(() =>
     timeoutSecs: S.optional(S.Number),
     workdir: S.optional(S.String),
     secretIds: S.optional(StringList),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerExec",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ExecContainerRequest",
-}) as any as S.Schema<ExecContainerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerExec", code: 200 })),
+).annotate({ identifier: "ExecContainerRequest" }) as any as S.Schema<ExecContainerRequest>;
 
 export interface ExecContainerResponse {
   execId?: string;
@@ -383,9 +335,7 @@ export const ExecContainerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     execId: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ExecContainerResponse",
-}) as any as S.Schema<ExecContainerResponse>;
+).annotate({ identifier: "ExecContainerResponse" }) as any as S.Schema<ExecContainerResponse>;
 
 export interface ContainerFileOpenRequest {
   /** file descriptor is hydrated when sent from server -> worker */
@@ -399,9 +349,7 @@ export const ContainerFileOpenRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     mode: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContainerFileOpenRequest",
-}) as any as S.Schema<ContainerFileOpenRequest>;
+).annotate({ identifier: "ContainerFileOpenRequest" }) as any as S.Schema<ContainerFileOpenRequest>;
 
 export interface ContainerFileWriteRequest {
   fileDescriptor?: string;
@@ -425,9 +373,7 @@ export const ContainerFileReadRequest = /*@__PURE__*/ S.suspend(() =>
     fileDescriptor: S.optional(S.String),
     n: S.optional(S.Number),
   }),
-).annotate({
-  identifier: "ContainerFileReadRequest",
-}) as any as S.Schema<ContainerFileReadRequest>;
+).annotate({ identifier: "ContainerFileReadRequest" }) as any as S.Schema<ContainerFileReadRequest>;
 
 export interface ContainerFileFlushRequest {
   fileDescriptor?: string;
@@ -457,9 +403,7 @@ export const ContainerFileSeekRequest = /*@__PURE__*/ S.suspend(() =>
     offset: S.optional(S.Number),
     whence: S.optional(SeekWhence),
   }),
-).annotate({
-  identifier: "ContainerFileSeekRequest",
-}) as any as S.Schema<ContainerFileSeekRequest>;
+).annotate({ identifier: "ContainerFileSeekRequest" }) as any as S.Schema<ContainerFileSeekRequest>;
 
 export interface ContainerFileDeleteBytesRequest {
   fileDescriptor?: string;
@@ -503,9 +447,7 @@ export const ContainerFileLsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     path: S.optional(S.String),
   }),
-).annotate({
-  identifier: "ContainerFileLsRequest",
-}) as any as S.Schema<ContainerFileLsRequest>;
+).annotate({ identifier: "ContainerFileLsRequest" }) as any as S.Schema<ContainerFileLsRequest>;
 
 export interface ContainerFileMkdirRequest {
   path?: string;
@@ -529,9 +471,7 @@ export const ContainerFileRmRequest = /*@__PURE__*/ S.suspend(() =>
     path: S.optional(S.String),
     recursive: S.optional(S.Boolean),
   }),
-).annotate({
-  identifier: "ContainerFileRmRequest",
-}) as any as S.Schema<ContainerFileRmRequest>;
+).annotate({ identifier: "ContainerFileRmRequest" }) as any as S.Schema<ContainerFileRmRequest>;
 
 export interface ContainerFileWatchRequest {
   path?: string;
@@ -581,11 +521,7 @@ export const ExecContainerFilesystemRequest = /*@__PURE__*/ S.suspend(() =>
     fileWatchRequest: S.optional(ContainerFileWatchRequest),
     taskId: S.optional(S.String),
   }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerFilesystemExec",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerFilesystemExec", code: 200 }),
   ),
 ).annotate({
   identifier: "ExecContainerFilesystemRequest",
@@ -613,16 +549,8 @@ export const StopContainerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
     graceful: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ContainerStop",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "StopContainerRequest",
-}) as any as S.Schema<StopContainerRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ContainerStop", code: 200 })),
+).annotate({ identifier: "StopContainerRequest" }) as any as S.Schema<StopContainerRequest>;
 
 export interface StopContainerResponse {}
 export const StopContainerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({

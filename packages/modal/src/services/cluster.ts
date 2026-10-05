@@ -14,16 +14,8 @@ export interface GetClusterRequest {
 export const GetClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterId: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ClusterGet",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "GetClusterRequest",
-}) as any as S.Schema<GetClusterRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ClusterGet", code: 200 })),
+).annotate({ identifier: "GetClusterRequest" }) as any as S.Schema<GetClusterRequest>;
 
 export type StringList = Array<string>;
 export const StringList = /*@__PURE__*/ S.Array(S.String) as any as S.Schema<StringList>;
@@ -50,9 +42,7 @@ export const GetClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     cluster: S.optional(ClusterStats),
   }),
-).annotate({
-  identifier: "GetClusterResponse",
-}) as any as S.Schema<GetClusterResponse>;
+).annotate({ identifier: "GetClusterResponse" }) as any as S.Schema<GetClusterResponse>;
 
 export interface ListClusterRequest {
   environmentName?: string;
@@ -60,16 +50,8 @@ export interface ListClusterRequest {
 export const ListClusterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentName: S.optional(S.String),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/ClusterList",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListClusterRequest",
-}) as any as S.Schema<ListClusterRequest>;
+  }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/ClusterList", code: 200 })),
+).annotate({ identifier: "ListClusterRequest" }) as any as S.Schema<ListClusterRequest>;
 
 export type ClusterStatsList = Array<ClusterStats>;
 export const ClusterStatsList = /*@__PURE__*/ S.Array(
@@ -83,9 +65,7 @@ export const ListClusterResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusters: S.optional(ClusterStatsList),
   }),
-).annotate({
-  identifier: "ListClusterResponse",
-}) as any as S.Schema<ListClusterResponse>;
+).annotate({ identifier: "ListClusterResponse" }) as any as S.Schema<ListClusterResponse>;
 
 export type GetClusterError = ModalOpError;
 /** Clusters */

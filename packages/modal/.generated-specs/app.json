@@ -154,6 +154,12 @@
         },
         "source": {
           "target": "com.modal.app#FileDescriptor"
+        },
+        "parametrizedFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restrict logs to this exact Function ID, including when it is the base Function."
+          }
         }
       },
       "traits": {
@@ -627,6 +633,12 @@
         },
         "searchText": {
           "target": "smithy.api#String"
+        },
+        "parametrizedFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restrict logs to this exact Function ID, including when it is the base Function."
+          }
         }
       },
       "traits": {
@@ -674,6 +686,9 @@
         },
         "ttlDays": {
           "target": "smithy.api#Integer"
+        },
+        "sandboxId": {
+          "target": "smithy.api#String"
         }
       }
     },
@@ -1009,11 +1024,186 @@
         }
       }
     },
+    "com.modal.app#AppGetInfoResponseFunctionInfoSummary": {
+      "type": "structure",
+      "members": {
+        "gpuConfig": {
+          "target": "com.modal.app#GPUConfigList"
+        },
+        "schedule": {
+          "target": "com.modal.app#Schedule"
+        },
+        "webFunction": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True for Web Functions and classes with web methods; false for Servers."
+          }
+        },
+        "requiresProxyAuth": {
+          "target": "smithy.api#Boolean"
+        },
+        "isSessioned": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "True for Sessioned Servers."
+          }
+        }
+      }
+    },
+    "com.modal.app#GPUConfig": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "com.modal.app#GPUType"
+        },
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Deprecated, at some point"
+          }
+        },
+        "gpuType": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#GPUType": {
+      "type": "enum",
+      "members": {
+        "GPU_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_UNSPECIFIED",
+            "smithy.api#documentation": "Note: this enum is no longer used by current clients - don't add new types Old clients still send it, so we use it server-side for compatibility"
+          }
+        },
+        "GPU_TYPE_T4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_T4"
+          }
+        },
+        "GPU_TYPE_A100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100"
+          }
+        },
+        "GPU_TYPE_A10G": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A10G"
+          }
+        },
+        "GPU_TYPE_ANY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_ANY"
+          }
+        },
+        "GPU_TYPE_A100_80GB": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_A100_80GB"
+          }
+        },
+        "GPU_TYPE_L4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L4"
+          }
+        },
+        "GPU_TYPE_H100": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H100"
+          }
+        },
+        "GPU_TYPE_L40S": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_L40S"
+          }
+        },
+        "GPU_TYPE_H200": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GPU_TYPE_H200"
+          }
+        }
+      }
+    },
+    "com.modal.app#GPUConfigList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.app#GPUConfig"
+      }
+    },
+    "com.modal.app#Schedule": {
+      "type": "structure",
+      "members": {
+        "cron": {
+          "target": "com.modal.app#ScheduleCron"
+        },
+        "period": {
+          "target": "com.modal.app#SchedulePeriod"
+        }
+      }
+    },
+    "com.modal.app#ScheduleCron": {
+      "type": "structure",
+      "members": {
+        "cronString": {
+          "target": "smithy.api#String"
+        },
+        "timezone": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.app#SchedulePeriod": {
+      "type": "structure",
+      "members": {
+        "years": {
+          "target": "smithy.api#Integer"
+        },
+        "months": {
+          "target": "smithy.api#Integer"
+        },
+        "weeks": {
+          "target": "smithy.api#Integer"
+        },
+        "days": {
+          "target": "smithy.api#Integer"
+        },
+        "hours": {
+          "target": "smithy.api#Integer"
+        },
+        "minutes": {
+          "target": "smithy.api#Integer"
+        },
+        "seconds": {
+          "target": "smithy.api#Float"
+        }
+      }
+    },
+    "com.modal.app#AppGetInfoResponseFunctionInfoSummaryMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.app#AppGetInfoResponseFunctionInfoSummary"
+      }
+    },
     "com.modal.app#AppGetInfoResponse": {
       "type": "structure",
       "members": {
         "info": {
           "target": "com.modal.app#AppHandleMetadata"
+        },
+        "functionInfoSummaries": {
+          "target": "com.modal.app#AppGetInfoResponseFunctionInfoSummaryMap"
         }
       },
       "traits": {
@@ -1105,13 +1295,10 @@
         "isMethod": {
           "target": "smithy.api#Boolean"
         },
-        "useFunctionId": {
-          "target": "smithy.api#String"
-        },
         "useMethodName": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "used for methods"
+            "smithy.api#documentation": "use_function_id, pre-0.67 class method placeholders"
           }
         },
         "definitionId": {
@@ -1161,6 +1348,12 @@
         },
         "appId": {
           "target": "smithy.api#String"
+        },
+        "baseFunctionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The base Function ID for a variant, or the Function's own ID otherwise."
+          }
         }
       }
     },
@@ -2011,6 +2204,9 @@
         },
         "name": {
           "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "com.modal.app#AppHandleMetadata"
         }
       }
     },

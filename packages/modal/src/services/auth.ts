@@ -11,15 +11,9 @@ export type { ModalOpError, ModalOpContext };
 export interface GetAuthTokenRequest {}
 export const GetAuthTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/modal.client.ModalClient/AuthTokenGet",
-      code: 200,
-    }),
+    T.Http({ method: "POST", uri: "/modal.client.ModalClient/AuthTokenGet", code: 200 }),
   ),
-).annotate({
-  identifier: "GetAuthTokenRequest",
-}) as any as S.Schema<GetAuthTokenRequest>;
+).annotate({ identifier: "GetAuthTokenRequest" }) as any as S.Schema<GetAuthTokenRequest>;
 
 export interface GetAuthTokenResponse {
   token?: string;
@@ -28,9 +22,7 @@ export const GetAuthTokenResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     token: S.optional(S.String),
   }),
-).annotate({
-  identifier: "GetAuthTokenResponse",
-}) as any as S.Schema<GetAuthTokenResponse>;
+).annotate({ identifier: "GetAuthTokenResponse" }) as any as S.Schema<GetAuthTokenResponse>;
 
 export type GetAuthTokenError = ModalOpError;
 /** Auth Token */

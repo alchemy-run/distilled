@@ -1,0 +1,371 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.modal.server#ServerGetTimeRangeStatsRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "since": {
+          "target": "smithy.api#Timestamp"
+        },
+        "until": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "Inclusive."
+          }
+        },
+        "containerId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive. Filter stats for a specific container"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCount": {
+      "type": "structure",
+      "members": {
+        "statusCode": {
+          "target": "smithy.api#Integer"
+        },
+        "count": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCountList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCount"
+      }
+    },
+    "com.modal.server#StatsPercentileDistribution": {
+      "type": "structure",
+      "members": {
+        "unit": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unit identifier such as \"seconds\", \"cores\", \"gibibytes\", or \"fraction\"."
+          }
+        },
+        "percentiles": {
+          "target": "com.modal.server#StatsPercentileList"
+        }
+      }
+    },
+    "com.modal.server#StatsPercentile": {
+      "type": "structure",
+      "members": {
+        "percentileBasisPoints": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9."
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.modal.server#StatsPercentileList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.server#StatsPercentile"
+      }
+    },
+    "com.modal.server#StatsPercentileDistributionMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.modal.server#StatsPercentileDistribution"
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponseServerInferenceStats": {
+      "type": "structure",
+      "members": {
+        "engine": {
+          "target": "com.modal.server#LLMEngine"
+        },
+        "status": {
+          "target": "com.modal.server#ServerInferenceStatsStatus"
+        },
+        "percentileStats": {
+          "target": "com.modal.server#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include time_to_first_token, inter_token_latency, and end_to_end_latency, subject to change as requirements evolve."
+          }
+        },
+        "scalarStats": {
+          "target": "com.modal.server#DoubleMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include input_tokens_per_second, cached_input_tokens_per_second, and output_tokens_per_second, subject to change as requirements evolve."
+          }
+        }
+      }
+    },
+    "com.modal.server#LLMEngine": {
+      "type": "enum",
+      "members": {
+        "LLM_ENGINE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LLM_ENGINE_UNSPECIFIED"
+          }
+        },
+        "LLM_ENGINE_SGLANG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LLM_ENGINE_SGLANG"
+          }
+        },
+        "LLM_ENGINE_VLLM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "LLM_ENGINE_VLLM"
+          }
+        }
+      }
+    },
+    "com.modal.server#ServerInferenceStatsStatus": {
+      "type": "enum",
+      "members": {
+        "SERVER_INFERENCE_STATS_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_UNSPECIFIED"
+          }
+        },
+        "SERVER_INFERENCE_STATS_STATUS_AVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_AVAILABLE"
+          }
+        },
+        "SERVER_INFERENCE_STATS_STATUS_NO_DATA": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_NO_DATA"
+          }
+        },
+        "SERVER_INFERENCE_STATS_STATUS_UNAVAILABLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SERVER_INFERENCE_STATS_STATUS_UNAVAILABLE"
+          }
+        }
+      }
+    },
+    "com.modal.server#DoubleMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStatsResponse": {
+      "type": "structure",
+      "members": {
+        "since": {
+          "target": "smithy.api#Timestamp"
+        },
+        "until": {
+          "target": "smithy.api#Timestamp",
+          "traits": {
+            "smithy.api#documentation": "Inclusive."
+          }
+        },
+        "requestCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Exclusive."
+          }
+        },
+        "requestCountByStatusCode": {
+          "target": "com.modal.server#ServerGetTimeRangeStatsResponseServerStatusCodeCountList"
+        },
+        "requestRatePerSecond": {
+          "target": "smithy.api#Double"
+        },
+        "requestPercentileStats": {
+          "target": "com.modal.server#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include request_latency, subject to change as requirements evolve."
+          }
+        },
+        "containerPercentileStats": {
+          "target": "com.modal.server#StatsPercentileDistributionMap",
+          "traits": {
+            "smithy.api#documentation": "Metrics include startup_time, cpu_usage, memory_usage, and gpu_utilization, subject to change as requirements evolve."
+          }
+        },
+        "inference": {
+          "target": "com.modal.server#ServerGetTimeRangeStatsResponseServerInferenceStats",
+          "traits": {
+            "smithy.api#documentation": "Absent when the image does not contain a supported inference engine."
+          }
+        },
+        "containerStartedCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range."
+          }
+        },
+        "containerErrorCount": {
+          "target": "smithy.api#String"
+        },
+        "containerCreatingAtEndCount": {
+          "target": "smithy.api#String"
+        },
+        "containerTotalCount": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Number of containers that were active (published heartbeats) in the time range."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.server#ServerGetTimeRangeStats": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.server#ServerGetTimeRangeStatsRequest"
+      },
+      "output": {
+        "target": "com.modal.server#ServerGetTimeRangeStatsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ServerGetTimeRangeStats",
+          "code": 200
+        },
+        "smithy.api#documentation": "Servers"
+      }
+    },
+    "com.modal.server#FetchServerRequestRequestTail": {
+      "type": "structure",
+      "members": {
+        "count": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of most recent requests to return. Must be between 1 and 1000."
+          }
+        }
+      }
+    },
+    "com.modal.server#FetchServerRequestRequest": {
+      "type": "structure",
+      "members": {
+        "functionId": {
+          "target": "smithy.api#String"
+        },
+        "tail": {
+          "target": "com.modal.server#FetchServerRequestRequestTail"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.modal.server#ServerRequestInfo": {
+      "type": "structure",
+      "members": {
+        "route": {
+          "target": "smithy.api#String"
+        },
+        "timestamp": {
+          "target": "smithy.api#Timestamp"
+        },
+        "containerId": {
+          "target": "smithy.api#String"
+        },
+        "durationSeconds": {
+          "target": "smithy.api#Double"
+        },
+        "status": {
+          "target": "smithy.api#Integer"
+        }
+      }
+    },
+    "com.modal.server#ServerRequestInfoList": {
+      "type": "list",
+      "member": {
+        "target": "com.modal.server#ServerRequestInfo"
+      }
+    },
+    "com.modal.server#FetchServerRequestResponse": {
+      "type": "structure",
+      "members": {
+        "requests": {
+          "target": "com.modal.server#ServerRequestInfoList",
+          "traits": {
+            "smithy.api#documentation": "The requested number of most recent requests from the last seven days, ordered from newest to oldest."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.modal.server#FetchServerRequest": {
+      "type": "operation",
+      "input": {
+        "target": "com.modal.server#FetchServerRequestRequest"
+      },
+      "output": {
+        "target": "com.modal.server#FetchServerRequestResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/modal.client.ModalClient/ServerRequestFetch",
+          "code": 200
+        }
+      }
+    },
+    "com.modal.server#ServerService": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.modal.server#ServerGetTimeRangeStats"
+        },
+        {
+          "target": "com.modal.server#FetchServerRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Modal Server",
+        "smithy.api#documentation": "modal.client.ModalClient RPCs whose names start with `Server`. Each operation is POST /modal.client.ModalClient/<Method> with a proto3 JSON body."
+      }
+    }
+  }
+}

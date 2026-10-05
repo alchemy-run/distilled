@@ -22,6 +22,7 @@ export * as proxy from "./proxy.ts";
 export * as queue from "./queue.ts";
 export * as sandbox from "./sandbox.ts";
 export * as secret from "./secret.ts";
+export * as server from "./server.ts";
 export * as service from "./service.ts";
 export * as shared from "./shared.ts";
 export * as taskCommandRouter from "./task_command_router.ts";
