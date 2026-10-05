@@ -121,6 +121,17 @@ describe("parseRatelimit", () => {
   test("is absent while quota remains", () => {
     expect(parseRatelimit({ ratelimit: "r=5, t=30" })).toBeUndefined();
     expect(parseRatelimit({ ratelimit: "limit=100, remaining=1, reset=30" })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: '"default";r=2;t=30' })).toBeUndefined();
+  });
+
+  test("is absent unless remaining is present and exactly zero", () => {
+    expect(parseRatelimit({ ratelimit: "t=30" })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: "limit=100, reset=30" })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: '"default";t=30' })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: "r=-1, t=30" })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: "remaining=-1, reset=30" })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: "r=0.5, t=30" })).toBeUndefined();
+    expect(parseRatelimit({ ratelimit: "r=none, t=30" })).toBeUndefined();
   });
 
   test("is absent without a usable reset", () => {
@@ -152,6 +163,7 @@ describe("parseServerRetryHint", () => {
 
   test("is absent when neither header yields a value", () => {
     expect(parseServerRetryHint({ ratelimit: "r=3, t=30" })).toBeUndefined();
+    expect(parseServerRetryHint({ ratelimit: "t=30" })).toBeUndefined();
     expect(parseServerRetryHint(undefined)).toBeUndefined();
   });
 });

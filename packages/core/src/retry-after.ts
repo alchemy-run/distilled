@@ -95,7 +95,7 @@ export const parseRatelimit = (headers: Headers): Duration.Duration | undefined 
     else if (key === "t" || key === "reset") reset = num;
   }
 
-  if (remaining !== undefined && remaining > 0) return undefined;
+  if (remaining !== 0) return undefined;
   if (reset === undefined || reset < 0) return undefined;
   return Duration.seconds(reset);
 };
