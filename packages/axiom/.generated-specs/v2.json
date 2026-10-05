@@ -850,6 +850,78 @@
         "smithy.api#documentation": "Delete dataset\n\nDelete dataset"
       }
     },
+    "com.axiom.api#DeleteDatasetFieldsRequestFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.axiom.api#DeleteDatasetFieldsRequest": {
+      "type": "structure",
+      "members": {
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "fields": {
+          "target": "com.axiom.api#DeleteDatasetFieldsRequestFieldsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.axiom.api#DeleteDatasetFieldsResult": {
+      "type": "structure",
+      "members": {
+        "fields": {
+          "target": "com.axiom.api#DeleteDatasetFieldsResultFieldsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.axiom.api#DeleteDatasetFieldsResultFieldsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {}
+    },
+    "com.axiom.api#DeleteDatasetFields": {
+      "type": "operation",
+      "input": {
+        "target": "com.axiom.api#DeleteDatasetFieldsRequest"
+      },
+      "output": {
+        "target": "com.axiom.api#DeleteDatasetFieldsResult"
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#Forbidden"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v2/datasets/{dataset_id}/delete-fields",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete fields from a dataset\n\nDeletes fields asynchronously. The field disappears from listings once the deletion pipeline finishes. Re-ingesting data with that field recreates it."
+      }
+    },
     "com.axiom.api#TrimDatasetRequest": {
       "type": "structure",
       "members": {
@@ -1145,6 +1217,56 @@
           "uri": "/v2/datasets/{dataset_id}/fields/{field_id}",
           "code": 200
         }
+      }
+    },
+    "com.axiom.api#DeleteFieldForDatasetRequest": {
+      "type": "structure",
+      "members": {
+        "dataset_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "field_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.axiom.api#DeleteFieldForDataset": {
+      "type": "operation",
+      "input": {
+        "target": "com.axiom.api#DeleteFieldForDatasetRequest"
+      },
+      "output": {
+        "target": "com.axiom.api#DeleteDatasetFieldsResult"
+      },
+      "errors": [
+        {
+          "target": "com.axiom.api#BadRequest"
+        },
+        {
+          "target": "com.axiom.api#Forbidden"
+        },
+        {
+          "target": "com.axiom.api#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v2/datasets/{dataset_id}/fields/{field_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a field from a dataset\n\nDeletes the field asynchronously. The field disappears from listings once the deletion pipeline finishes. Re-ingesting data with that field recreates it."
       }
     },
     "com.axiom.api#GetMapFieldsRequest": {
@@ -11986,6 +12108,9 @@
           "target": "com.axiom.api#DeleteDataset"
         },
         {
+          "target": "com.axiom.api#DeleteDatasetFields"
+        },
+        {
           "target": "com.axiom.api#TrimDataset"
         },
         {
@@ -11999,6 +12124,9 @@
         },
         {
           "target": "com.axiom.api#UpdateFieldForDataset"
+        },
+        {
+          "target": "com.axiom.api#DeleteFieldForDataset"
         },
         {
           "target": "com.axiom.api#GetMapFields"
